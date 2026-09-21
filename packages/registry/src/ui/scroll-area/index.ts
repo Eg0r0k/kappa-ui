@@ -1,3 +1,5 @@
+export { default as ScrollArea, type ScrollAreaProps } from "./ScrollArea.vue";
+
 export type ScrollAreaAxis = "vertical" | "horizontal";
 
 export type ScrollAreaScrollInfo = {
