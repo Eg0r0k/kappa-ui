@@ -32,6 +32,8 @@ const unusedColors = [
   'border',
 ]
 
+const variants = ['default', 'secondary', 'destructive', 'outline', 'ghost', 'link'] as const
+
 const resolved = ref<Record<string, string>>({})
 
 // Read from the live document rather than hardcoded, so the values shown are
@@ -124,12 +126,54 @@ const run = (mode: 'adjacent' | 'replace') => {
       </div>
     </div>
 
-    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Variants</h2>
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Colour variants</h2>
+    <p class="mb-4 max-w-prose text-sm text-muted-foreground">
+      Every variant in every state it can be in. Hover and focus are the two you have to produce
+      yourself - tab through the row to see the focus ring.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-3xl border-collapse text-left">
+        <thead>
+          <tr class="border-b border-input">
+            <th class="p-2 text-xs font-medium text-muted-foreground">variant</th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">normal</th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">disabled</th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">loading</th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">loading, replace</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="v in variants" :key="v" class="border-b border-input/60">
+            <td class="p-2 font-mono text-xs">{{ v }}</td>
+            <td class="p-2"><Button :variant="v">Button</Button></td>
+            <td class="p-2"><Button :variant="v" disabled>Button</Button></td>
+            <td class="p-2"><Button :variant="v" loading>Button</Button></td>
+            <td class="p-2"><Button :variant="v" loading loading-mode="replace">Button</Button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Custom spinner</h2>
+    <p class="mb-3 max-w-prose text-sm text-muted-foreground">
+      The <code>#spinner</code> slot replaces the built-in one entirely. It cannot be combined with
+      <code>as-child</code> - Slot takes exactly one child - so that pairing falls back to the
+      built-in.
+    </p>
     <div class="flex flex-wrap items-center gap-3">
-      <Button>Default</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
-      <Button variant="link">Link</Button>
+      <Button loading>Built-in</Button>
+      <Button loading>
+        <template #spinner>
+          <span class="animate-pulse">...</span>
+        </template>
+        Custom, adjacent
+      </Button>
+      <Button variant="outline" loading loading-mode="replace">
+        <template #spinner>
+          <span class="animate-pulse text-xs tracking-widest">WAIT</span>
+        </template>
+        Custom, replace
+      </Button>
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Sizes</h2>

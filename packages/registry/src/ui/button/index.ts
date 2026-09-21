@@ -27,6 +27,13 @@ export const buttonVariants = cva(
           "bg-primary text-primary-foreground hover:bg-primary/90 [--spinner-color:var(--primary-foreground)]",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 [--spinner-color:var(--secondary-foreground)]",
+        // There is no --destructive-foreground; shadcn removed it, so the
+        // label is plain white. Our --destructive values differ from theirs
+        // precisely so that white clears 4.5:1 in both themes without help.
+        destructive:
+          "bg-destructive text-white hover:bg-destructive/90 [--spinner-color:white]",
         ghost:
           "hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
         link: "text-primary underline-offset-4 hover:underline [--spinner-color:var(--primary)]",
@@ -62,7 +69,13 @@ export const buttonVariants = cva(
       // click is ever synthesised.
       loading: {
         false: "",
-        true: `pointer-events-none ${spinner}`,
+        true: "pointer-events-none",
+      },
+      // Separate from `loading` so a caller can supply their own indicator
+      // through the #spinner slot and get none of the built-in one.
+      spinner: {
+        none: "",
+        builtin: spinner,
       },
       // adjacent: the spinner sits in flex flow, next to the label, and the
       // button grows by its width plus the gap.
@@ -89,11 +102,14 @@ export const buttonVariants = cva(
       // selection also keeps it out of a page-wide copy.
       // Find-in-page can still locate and highlight it — that one is not
       // reachable from CSS.
+      { loading: true, loadingMode: "replace", class: "select-none text-transparent" },
+      // Centring applies to the built-in spinner only. A custom one is a real
+      // element, so Button.vue positions its wrapper instead.
       {
-        loading: true,
+        spinner: "builtin",
         loadingMode: "replace",
         class:
-          "select-none text-transparent before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2",
+          "before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2",
       },
     ],
     defaultVariants: {
@@ -102,6 +118,7 @@ export const buttonVariants = cva(
       touchTarget: "none",
       loading: false,
       loadingMode: "adjacent",
+      spinner: "none",
     },
   },
 );

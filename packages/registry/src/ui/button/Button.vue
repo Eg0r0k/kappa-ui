@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Primitive, type PrimitiveProps } from "reka-ui";
-import type { HTMLAttributes } from "vue";
+import { computed, type HTMLAttributes, useSlots } from "vue";
 
 import { cn } from "@/lib/utils";
 import { type ButtonVariants, buttonVariants } from ".";
@@ -19,6 +19,26 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false,
   loadingMode: "adjacent",
 });
+
+const slots = useSlots();
+
+// A custom spinner is a real element, and Slot accepts exactly one child, so
+// it cannot coexist with as-child. In that combination the built-in pseudo
+// element is used instead of silently rendering nothing.
+const useCustomSpinner = computed(() => Boolean(slots.spinner) && !props.asChild);
+
+const spinnerKind = computed<ButtonVariants["spinner"]>(() =>
+  props.loading && !useCustomSpinner.value ? "builtin" : "none",
+);
+
+// The built-in spinner is centred by cva through ::before. A custom one needs
+// its wrapper positioned instead, which is only possible because as-child is
+// already excluded above.
+const spinnerWrapperClass = computed(() =>
+  props.loadingMode === "replace"
+    ? "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+    : "contents",
+);
 
 // Deliberately not the native `disabled` attribute. Disabling a focused
 // button drops it out of the tab order, so the browser moves focus to <body>
@@ -56,6 +76,7 @@ const onKeydown = (event: KeyboardEvent) => {
           touchTarget: props.touchTarget,
           loading: props.loading,
           loadingMode: props.loadingMode,
+          spinner: spinnerKind,
         }),
         props.class,
       )
@@ -63,6 +84,9 @@ const onKeydown = (event: KeyboardEvent) => {
     @click.capture="onClick"
     @keydown.capture="onKeydown"
   >
+    <span v-if="props.loading && useCustomSpinner" :class="spinnerWrapperClass" aria-hidden="true">
+      <slot name="spinner" />
+    </span>
     <slot />
   </Primitive>
 </template>
