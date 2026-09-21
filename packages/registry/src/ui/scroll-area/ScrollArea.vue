@@ -487,7 +487,7 @@ onBeforeUnmount(() => {
     ref="rootRef"
     data-slot="scroll-area"
     :data-active="active ? '' : undefined"
-    :class="cn('relative flow-root overflow-clip contain-[size]', props.class)"
+    :class="cn('relative flow-root overflow-clip [contain:size]', props.class)"
     @mouseenter="onMouseenter"
     @mouseleave="onMouseleave"
   >
