@@ -267,14 +267,19 @@ scroller. The API follows Quasar's `QScrollArea`.
 ```
 
 The root is `contain: size`, so it takes no height from its content — give it
-one, or it collapses. That is Quasar's behaviour too.
+one, or it collapses. That is Quasar's behaviour too. Put padding on
+`content-class` rather than the root: the bars are positioned against the
+root while the geometry that drives them is measured from the scrolling
+viewport inside it, so padding on the root shifts the bars out of alignment
+with the content they represent. A border on the root is fine — only padding
+shifts them.
 
 Style the parts with `content-class`, `bar-class` and `thumb-class`, all merged
 through `cn()`. Each bar and thumb carries `data-axis`, so one class string can
 cover both axes:
 
 ```vue
-<ScrollArea thumb-class="data-[axis=vertical]:w-3 data-[axis=horizontal]:h-3" />
+<ScrollArea thumb-class="data-[axis=vertical]:bg-destructive data-[axis=horizontal]:bg-primary" />
 ```
 
 `visible` forces the bars on or off and overrides hover; `delay` is how long
@@ -292,6 +297,11 @@ Right-to-left is handled: positions are kept in a logical form internally, so
 `getScrollPosition().left` counts up from the right edge under `dir="rtl"`,
 and the thumbs mirror through CSS logical properties.
 
+`tabindex` lands on the viewport, since that is the element that actually
+scrolls and receives focus — but fallthrough attributes, `aria-label`
+included, land on the root. Passing `aria-label` to the component labels the
+wrapper, not the focusable element.
+
 ## Repo layout
 
 - `packages/registry` — source of truth for every component (`src/`) and the
@@ -308,3 +318,5 @@ Run from the repo root:
 - `pnpm typecheck` — typecheck the whole workspace.
 - `pnpm registry:build` — regenerate `apps/docs/public/r/*.json` from
   `packages/registry/registry.json` without building the docs site.
+- `pnpm test` — run the component test suite in real Chromium through
+  Playwright.

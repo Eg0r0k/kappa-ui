@@ -110,6 +110,7 @@
       "type": "registry:ui",
       "title": "Scroll Area",
       "description": "Scrollable region that hides the native scrollbar and draws its own, with thumb offsets and an imperative scroll API.",
+      "docs": "The root is contain: size, so it takes no height from its content by default. Give it an explicit height (h-72, or any other value) or it collapses to nothing.\n\nPut padding on content-class, not on the root's class. The bars are positioned against the root while the geometry that drives them is measured from the scrolling viewport inside it, so padding on the root shifts the bars out of alignment with the content they represent. A border on the root is fine — only padding shifts them.",
       "registryDependencies": ["utils", "scroll"],
       "files": [
         {
