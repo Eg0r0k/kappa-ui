@@ -37,6 +37,7 @@ F:\delta-ui\
 ├─ tsconfig.json                 база, пакеты наследуются через extends
 ├─ components.json               конфиг shadcn-vue CLI (алиасы)
 ├─ .gitignore
+├─ .gitattributes                нормализация переводов строк
 ├─ docs/superpowers/specs/       спеки
 ├─ packages/
 │  └─ registry/                  источник правды
@@ -168,9 +169,19 @@ CSS-переменных `--background` / `--foreground` / `--radius` не об�
 чтобы CLI дописывал переменные в проект потребителя. Структура и сборка не
 затрагиваются.
 
+### Переводы строк
+
+`.gitattributes` с правилом `* text=auto eol=lf` и `*.png binary`; `*.svg`
+остаётся текстом. Репозиторий разрабатывается на
+Windows, но содержимое компонентов попадает в `files[].content` публикуемых JSON
+дословно. Без нормализации в опубликованный registry утекут `CRLF`, и файлы,
+которые CLI запишет в проект потребителя, будут отличаться от исходных на каждой
+строке — это ломает и диффы, и любые проверки хешей.
+
 ## Состав работ
 
-1. `git init`, `.gitignore` (включая `apps/docs/public/r/`), первый коммит.
+1. `git init`, `.gitignore` (включая `apps/docs/public/r/`), `.gitattributes`,
+   первый коммит.
 2. `pnpm-workspace.yaml`, корневой `package.json` со скриптами `dev`, `build`,
    `typecheck`, `registry:build`.
 3. Перенос текущего приложения в `apps/docs`: `index.html`, `src/`, `public/`,
