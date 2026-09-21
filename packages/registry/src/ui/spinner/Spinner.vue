@@ -7,11 +7,6 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 </script>
 
 <template>
-  <!--
-    data-icon tells a surrounding Button which side to tighten. inline-start
-    is the default because a leading spinner is the ordinary case; pass
-    data-icon="inline-end" to override it, and the caller's value wins.
-  -->
   <svg
     data-slot="spinner"
     data-icon="inline-start"

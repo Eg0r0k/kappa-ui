@@ -1,44 +1,22 @@
 @import "tailwindcss";
 
-/* packages/registry sits outside the Vite root, so automatic source
-   detection never reaches it. */
 @source "../../../../packages/registry/src";
 
-/* Class-based dark mode, as shadcn does it. Tailwind's own `dark:` defaults
-   to prefers-color-scheme; this switches it to an ancestor .dark class so a
-   toggle can drive it. Components do not rely on it — they read semantic
-   colour tokens, which flip on their own — but the showcase does. */
 @custom-variant dark (&:is(.dark *));
 
-/* The single knob for the radius scale. Everything else derives from it. */
 :root {
   --radius: 0.75rem;
 
-  /* Press feedback knobs. Plain :root rather than @theme — these are read by
-     the press-scale utility, not by any generated class, and @theme variables
-     are dropped when no utility references them. */
   --press-scale: 0.97;
   --press-duration: 120ms;
 
-  /* Colour tokens, taken from shadcn's current neutral theme. Chart and
-     sidebar tokens are deliberately left out — nothing here needs them yet.
-     Note there is no --destructive-foreground: shadcn dropped it, and their
-     destructive button sets text-white directly. */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  /* Brand blue, hue 262. Lightness is measured, not picked: this token has
-     to satisfy two different contrast requirements at once — the label on a
-     filled button, and variant="link" rendering text-primary straight onto
-     the page background. At L 0.58 both fail (4.24 and 4.43); 0.52 gives
-     5.49 and 5.74. */
   --primary: oklch(0.52 0.2 262);
-  /* Plain white. White on this blue measures 5.74 in light and 5.71 in dark,
-     so the same pairing works in both themes and the button looks identical
-     either way. */
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -46,10 +24,6 @@
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
-  /* Not shadcn's value. Theirs is 0.577, which clears white text in light
-     mode but only reaches 2.89 in dark; they hide that behind
-     dark:bg-destructive/60 on the button, and we removed every dark:
-     utility on purpose. These two clear 4.5 on their own: 5.43 and 5.18. */
   --destructive: oklch(0.55 0.22 27);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -63,14 +37,6 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  /* The dark theme flips the pairing rather than the hue: a lighter blue
-     carrying a dark label. Keeping white text on a mid blue does not work
-     here — at L 0.55 link text lands on 3.93 against the dark page — and
-     going lighter than 0.66 pushes the colour out of the sRGB gamut. */
-  /* Same blue as the light theme, not a lighter one. White text is the fixed
-     requirement, and white needs a dark enough fill: at L 0.62 it drops to
-     3.74 and at 0.66 to 3.22. Holding 0.52 keeps it at 5.71.
-     The cost is the link variant — see the note in the README. */
   --primary: oklch(0.52 0.2 262);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.269 0 0);
@@ -85,9 +51,6 @@
   --ring: oklch(0.556 0 0);
 }
 
-/* Native buttons lost their default pointer cursor in Tailwind v4. This is
-   the same base rule shadcn adds with `init --pointer`. It covers anything
-   button-shaped, including elements that only carry role="button". */
 @layer base {
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -95,19 +58,12 @@
   }
 }
 
-/* The --radius-* namespace generates the rounded-* utilities.
-   `inline` matters: without it the utility would reference var(--radius-lg),
-   so overriding --radius in a nested scope would never reach it. */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Maps the raw tokens into the --color-* namespace, which is what turns
-     them into bg-*, text-*, border-* utilities. `inline` is required here,
-     not optional: these reference other variables, and without it every
-     utility would point at a fixed snapshot instead of following .dark. */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -128,23 +84,11 @@
   --color-ring: var(--ring);
 }
 
-/* Transition curves. The --ease-* namespace generates the ease-* utilities.
-   Plain @theme here rather than inline: these values are self-contained and
-   reference nothing, and without `inline` the variables reach the output CSS,
-   where hand-written rules can use var(--ease-smooth) directly. */
 @theme {
-  /* Ordinary UI transitions: hover, focus, colour changes. */
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  /* Reveals and entrances: fast start, long settle. */
   --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
-  /* Position changes: sliders, reordering. Symmetric. */
   --ease-gentle: cubic-bezier(0.65, 0, 0.35, 1);
-  /* Playful micro-interactions. Overshoots past 0..1 at both ends. */
   --ease-bouncy: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  /* Spring-like entrances. Damped oscillator, damping ratio 0.5, natural
-     frequency 10: overshoots to 1.162 at 37.5%, dips to 0.973, settles at 1.
-     A cubic bezier cannot express this shape, hence linear() with sampled
-     points. Retune by changing those two parameters, not the points. */
   --ease-elastic: linear(
     0, 0.044, 0.155, 0.307, 0.476, 0.643, 0.795, 0.923, 1.023, 1.095, 1.139,
     1.16, 1.162, 1.15, 1.129, 1.102, 1.075, 1.048, 1.025, 1.006, 0.991, 0.981,
@@ -152,10 +96,6 @@
   );
 }
 
-/*
-  Ripple. Geometry per press is written by the v-ripple directive as inline
-  custom properties; everything below is static.
-*/
 .delta-ripple {
   position: absolute;
   inset: 0;
@@ -177,11 +117,6 @@
   height: var(--ripple-size);
   border-radius: 50%;
   opacity: var(--ripple-opacity);
-  /*
-    The soft edge is what separates this from a plain expanding circle: the
-    colour holds out to 65% of the radius and then feathers to nothing, so
-    the wave reads as a spreading surface rather than a disc with a rim.
-  */
   background: radial-gradient(
     closest-side,
     var(--ripple-color) max(calc(100% - 70px), 65%),
@@ -196,7 +131,6 @@
   opacity: 0;
 }
 
-/* Grows and drifts to the centre at the same time. */
 @keyframes delta-ripple-grow {
   from {
     transform: var(--ripple-from) scale(1);
@@ -206,16 +140,12 @@
   }
 }
 
-/* Material hides the ripple here, because a state layer cannot be expressed
-   in a forced palette and would paint over the control. */
 @media (forced-colors: active) {
   .delta-ripple {
     display: none;
   }
 }
 
-/* Feedback without travel: the wave appears already expanded and still fades
-   on release, so the press is acknowledged without anything moving. */
 @media (prefers-reduced-motion: reduce) {
   .delta-ripple__wave {
     animation: none;
@@ -223,11 +153,6 @@
   }
 }
 
-/* Press feedback: the element dips slightly while held.
-   --ease-smooth carries a literal fallback on purpose. It is a @theme
-   variable, and Tailwind only emits those that some utility references. It
-   survives today because Button uses the ease-smooth class, but that is a
-   coupling this utility should not depend on silently. */
 @utility press-scale {
   transition: transform var(--press-duration) var(--ease-smooth, cubic-bezier(0.4, 0, 0.2, 1));
   transform: scale(1);
@@ -236,10 +161,6 @@
     transform: scale(var(--press-scale));
   }
 
-  /* Mobile path: scale3d keeps the animation on the compositor, and
-     --transform-extra lets a caller compose its own transform without
-     this rule overwriting it. Nothing in delta-ui sets .is-mobile — that
-     is the host application's job. */
   :where(.is-mobile) & {
     transform: var(--transform-extra, none) scale3d(1, 1, 1);
   }

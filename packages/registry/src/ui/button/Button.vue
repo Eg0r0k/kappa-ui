@@ -9,11 +9,7 @@ interface Props extends PrimitiveProps {
   variant?: ButtonVariants["variant"];
   size?: ButtonVariants["size"];
   touchTarget?: ButtonVariants["touchTarget"];
-  /**
-   * `inward` draws the focus ring inside the button instead of around it.
-   * Use it when a parent clips overflow, where an outward ring would be
-   * painted outside the clip and never seen.
-   */
+  /** `inward` draws the focus ring inside, for hosts that clip overflow. */
   focusRing?: ButtonVariants["focusRing"];
   class?: HTMLAttributes["class"];
 }
@@ -24,13 +20,6 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <!--
-    data-slot names the part so other components can select it without
-    knowing our class names, and data-variant / data-size expose the cva
-    choice to CSS and to test selectors. Under as-child these land on the
-    caller's own element, which is what we want — the marker follows the
-    thing that is actually the button.
-  -->
   <Primitive
     data-slot="button"
     :data-variant="props.variant"

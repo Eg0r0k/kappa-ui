@@ -4,14 +4,11 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-// Placeholder. Deploying the showcase changes this one line and nothing else.
 const HOMEPAGE = 'https://delta-ui.dev'
 
 const REGISTRY_SCHEMA = 'https://shadcn-vue.com/schema/registry.json'
 const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 
-// The `/r` path is hardcoded and must stay in step with the default `--out`
-// (`apps/docs/public/r`) — that is the same tree, served over HTTP.
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
 const ITEM_TYPES = new Set([
@@ -32,17 +29,12 @@ type RegistryFile = {
   target?: string
 }
 
-// The consumer's CLI routes each group to a different place in their CSS:
-// theme → @theme inline, light → :root, dark → .dark.
 type CssVars = {
   theme?: Record<string, string>
   light?: Record<string, string>
   dark?: Record<string, string>
 }
 
-// Arbitrarily nested: keys are at-rules or selectors, leaves are declarations.
-// The consumer's CLI walks this recursively, so `&:active` and nested @media
-// blocks both survive the trip.
 type CssRules = { [key: string]: string | CssRules }
 
 type RegistryItem = {
@@ -83,9 +75,6 @@ const toDependencyUrl = (dependency: string) =>
     ? dependency
     : `${REGISTRY_BASE}/${dependency}.json`
 
-// The `: never` annotation has to stay on the arrow. Without it TypeScript
-// stops treating a call to abort() as terminal, and every use site below
-// would need an unreachable return added by hand.
 const abort = (messages: string[]): never => {
   console.error(`build-registry: ${messages.length} error(s)`)
   for (const message of messages) {
@@ -119,8 +108,6 @@ for (const item of registry.items) {
     )
   }
 
-  // The CLI adds the "--" prefix itself. A key of "--radius" would silently
-  // become "----radius".
   const cssVars: CssVars = item.cssVars ?? {}
   for (const group of Object.keys(cssVars) as (keyof CssVars)[]) {
     for (const key of Object.keys(cssVars[group] ?? {})) {
@@ -145,7 +132,6 @@ for (const item of registry.items) {
   }
 }
 
-// A separate pass: an item may reference another declared later in the list.
 for (const item of registry.items) {
   for (const dependency of item.registryDependencies ?? []) {
     if (dependency.startsWith('http://') || dependency.startsWith('https://')) {
@@ -167,8 +153,6 @@ if (outDir === repoRoot || dirname(outDir) === outDir) {
   abort([`--out points at a root (${outDir}); refusing to delete it`])
 }
 
-// The directory is wiped wholesale, otherwise an item removed from the
-// manifest would stay published.
 await rm(outDir, { recursive: true, force: true })
 await mkdir(outDir, { recursive: true })
 
