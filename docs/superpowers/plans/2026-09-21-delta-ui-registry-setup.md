@@ -14,6 +14,7 @@
 
 - **Никаких дизайн-токенов.** В `globals.css` нет ни `@theme`, ни `--background` / `--foreground` / `--radius`. Компоненты стилизуются утилитами палитры Tailwind напрямую. Единственное, что там есть помимо `@import "tailwindcss"` — директива `@source` на каталог registry: это конфигурация сканера классов, без неё компоненты отрисуются без стилей. Она добавляется в Task 4, Step 4, когда каталог уже существует, — не раньше.
 - **Алиас `@` указывает на `packages/registry/src`**, а не на исходники витрины. Это сделано намеренно: внутри компонента путь `@/lib/utils` резолвится одинаково и у нас, и в проекте потребителя после копирования. Собственные файлы витрины импортируются через алиас `~` или относительно.
+- **Ни в одном `tsconfig.json` нет `baseUrl`.** В проекте TypeScript 6, где эта опция — ошибка `TS5101`, а не предупреждение. Шаблоны в `paths` резолвятся относительно каталога своего конфига, и записаны они именно так. `ignoreDeprecations` не добавлять: это отсрочка, а не решение.
 - **Пути в `files[].path` — относительно каталога манифеста** (`packages/registry/`), не относительно корня репозитория.
 - **`scripts/build-registry.ts` запускается как `node scripts/build-registry.ts`**, без транспайлера. Node 24 стирает типы штатно, поэтому в скрипте допустим только стираемый синтаксис: никаких `enum`, `namespace`, параметров-свойств конструктора и `const enum`. Тип-алиасы и `interface` — можно.
 - **Домен-плейсхолдер `https://delta-ui.dev`** живёт единственной константой `HOMEPAGE` в `scripts/build-registry.ts`. Манифест `registry.json` поле `homepage` **не содержит** — скрипт подставляет его сам. (Это уточнение к примеру JSON в спеке, где `homepage` показан внутри манифеста: единственный источник правды — константа.)
@@ -323,6 +324,8 @@ export default defineConfig({
 
 Пути обязаны совпадать с алиасами Vite, иначе `vue-tsc` и дев-сервер разойдутся во мнениях.
 
+`baseUrl` здесь нет намеренно. В проекте стоит TypeScript 6, где эта опция — ошибка (`TS5101`), а не предупреждение. Она и не нужна: начиная с TS 4.x при отсутствующем `baseUrl` шаблоны в `paths` резолвятся относительно каталога самого `tsconfig.json`, а записаны они уже именно так. `ignoreDeprecations` добавлять не надо — это отсрочка, а не решение.
+
 `apps/docs/tsconfig.app.json`:
 ```json
 {
@@ -331,7 +334,6 @@ export default defineConfig({
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["../../packages/registry/src/*"],
       "~/*": ["./src/*"]
@@ -462,6 +464,8 @@ git -C F:\delta-ui commit -m "feat(docs): wire up Tailwind v4 and registry alias
 
 Внутри пакета `@/*` указывает на его собственный `src` — ровно так, как этот же путь будет резолвиться у потребителя.
 
+`baseUrl` не указан по той же причине, что и в `apps/docs/tsconfig.app.json`: в TypeScript 6 это ошибка `TS5101`, а шаблоны `paths` и без неё резолвятся относительно каталога конфига.
+
 `packages/registry/tsconfig.json`:
 ```json
 {
@@ -469,7 +473,6 @@ git -C F:\delta-ui commit -m "feat(docs): wire up Tailwind v4 and registry alias
   "compilerOptions": {
     "types": [],
     "allowArbitraryExtensions": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
