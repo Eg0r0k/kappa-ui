@@ -115,3 +115,20 @@ it("positions the horizontal thumb from the inline start under rtl", async () =>
 
   wrapper.unmount();
 });
+
+it("positions the horizontal thumb from the inline start under rtl with a non-zero horizontalOffset", async () => {
+  const wrapper = mountArea({
+    props: { horizontalOffset: [10, 30] },
+    attrs: { style: "height: 300px; width: 400px", dir: "rtl" },
+    content: { height: "100px", width: "1200px" },
+  });
+  const { viewport, horizontalThumb } = partsOf(wrapper.element);
+
+  await vi.waitFor(() => expect(horizontalThumb.style.width).toBe("108px"));
+  expect(horizontalThumb.style.insetInlineStart).toBe("30px");
+
+  viewport.scrollLeft = -400;
+  await vi.waitFor(() => expect(horizontalThumb.style.insetInlineStart).toBe("156px"));
+
+  wrapper.unmount();
+});
