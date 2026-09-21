@@ -7,6 +7,22 @@
 /* The single knob for the radius scale. Everything else derives from it. */
 :root {
   --radius: 0.75rem;
+
+  /* Press feedback knobs. Plain :root rather than @theme — these are read by
+     the press-scale utility, not by any generated class, and @theme variables
+     are dropped when no utility references them. */
+  --press-scale: 0.97;
+  --press-duration: 120ms;
+}
+
+/* Native buttons lost their default pointer cursor in Tailwind v4. This is
+   the same base rule shadcn adds with `init --pointer`. It covers anything
+   button-shaped, including elements that only carry role="button". */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 /* The --radius-* namespace generates the rounded-* utilities.
@@ -41,4 +57,39 @@
     1.16, 1.162, 1.15, 1.129, 1.102, 1.075, 1.048, 1.025, 1.006, 0.991, 0.981,
     0.976, 0.973, 0.974, 0.977, 0.981, 0.985, 0.99, 0.994, 0.997, 1
   );
+}
+
+/* Press feedback: the element dips slightly while held.
+   --ease-smooth carries a literal fallback on purpose. It is a @theme
+   variable, and Tailwind only emits those that some utility references. It
+   survives today because Button uses the ease-smooth class, but that is a
+   coupling this utility should not depend on silently. */
+@utility press-scale {
+  transition: transform var(--press-duration) var(--ease-smooth, cubic-bezier(0.4, 0, 0.2, 1));
+  transform: scale(1);
+
+  &:active {
+    transform: scale(var(--press-scale));
+  }
+
+  /* Mobile path: scale3d keeps the animation on the compositor, and
+     --transform-extra lets a caller compose its own transform without
+     this rule overwriting it. Nothing in delta-ui sets .is-mobile — that
+     is the host application's job. */
+  :where(.is-mobile) & {
+    transform: var(--transform-extra, none) scale3d(1, 1, 1);
+  }
+
+  :where(.is-mobile) &:active {
+    transform: var(--transform-extra, none)
+      scale3d(var(--press-scale), var(--press-scale), 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    &:active {
+      transition: none;
+      transform: none;
+    }
+  }
 }

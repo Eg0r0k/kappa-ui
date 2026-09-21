@@ -40,6 +40,11 @@ type CssVars = {
   dark?: Record<string, string>
 }
 
+// Arbitrarily nested: keys are at-rules or selectors, leaves are declarations.
+// The consumer's CLI walks this recursively, so `&:active` and nested @media
+// blocks both survive the trip.
+type CssRules = { [key: string]: string | CssRules }
+
 type RegistryItem = {
   name: string
   type: string
@@ -50,6 +55,7 @@ type RegistryItem = {
   dependencies?: string[]
   registryDependencies?: string[]
   cssVars?: CssVars
+  css?: CssRules
   categories?: string[]
   docs?: string
 }

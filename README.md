@@ -39,6 +39,36 @@ unused curves to be absent from your compiled CSS until you reference them.
 Colour tokens are not implemented yet; components still use raw Tailwind
 palette utilities rather than themeable CSS variables.
 
+## Press feedback
+
+Adding the button also installs a `press-scale` utility. It is a utility
+rather than a prop, so it composes with anything:
+
+```vue
+<Button class="press-scale">Press me</Button>
+```
+
+The element dips to `--press-scale` (0.97 by default) over `--press-duration`
+while held. On `.is-mobile` it switches to `scale3d` so the animation stays on
+the compositor, and honours `--transform-extra` if you are already applying a
+transform. Nothing here sets `.is-mobile` — that is your application's job.
+Under `prefers-reduced-motion: reduce` both the transition and the transform
+are dropped entirely.
+
+**It also adds a base rule**, the same one `shadcn-vue init --pointer`
+installs:
+
+```css
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) { cursor: pointer; }
+}
+```
+
+Tailwind v4 removed the default pointer cursor on buttons. This restores it
+for every button in your project, not only delta-ui's — another project-wide
+effect to be aware of before installing.
+
 ## Touch targets
 
 `Button` can grow its pressable area to at least 48px without changing how it

@@ -36,6 +36,20 @@ import { Button } from '@/ui/button'
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">
+      Press feedback
+    </h2>
+    <p class="mb-3 max-w-prose text-sm text-neutral-500 dark:text-neutral-400">
+      <code>press-scale</code> is a utility, not a prop — pass it through <code>class</code>. Hold
+      the second button to see it dip. It respects
+      <code>prefers-reduced-motion</code>.
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button>No press feedback</Button>
+      <Button class="press-scale">Press and hold me</Button>
+      <Button variant="outline" class="press-scale">Outline, same utility</Button>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">
       Touch target
     </h2>
     <p class="mb-3 max-w-prose text-sm text-neutral-500 dark:text-neutral-400">

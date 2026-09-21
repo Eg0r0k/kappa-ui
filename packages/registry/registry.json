@@ -22,9 +22,41 @@
       "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
       "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils"],
+      "css": {
+        "@layer base": {
+          "button:not(:disabled), [role=\"button\"]:not(:disabled)": {
+            "cursor": "pointer"
+          }
+        },
+        "@utility press-scale": {
+          "transition": "transform var(--press-duration) var(--ease-smooth, cubic-bezier(0.4, 0, 0.2, 1))",
+          "transform": "scale(1)",
+          "&:active": {
+            "transform": "scale(var(--press-scale))"
+          },
+          ":where(.is-mobile) &": {
+            "transform": "var(--transform-extra, none) scale3d(1, 1, 1)"
+          },
+          ":where(.is-mobile) &:active": {
+            "transform": "var(--transform-extra, none) scale3d(var(--press-scale), var(--press-scale), 1)"
+          },
+          "@media (prefers-reduced-motion: reduce)": {
+            "&": {
+              "transition": "none",
+              "transform": "none"
+            },
+            "&:active": {
+              "transition": "none",
+              "transform": "none"
+            }
+          }
+        }
+      },
       "cssVars": {
         "light": {
-          "radius": "0.75rem"
+          "radius": "0.75rem",
+          "press-scale": "0.97",
+          "press-duration": "120ms"
         },
         "theme": {
           "radius-sm": "calc(var(--radius) - 4px)",
