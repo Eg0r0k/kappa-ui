@@ -105,9 +105,8 @@ Expected: пустой вывод.
 - Create: `pnpm-workspace.yaml`
 - Create: `apps/docs/package.json`
 - Create: `apps/docs/tsconfig.json`
-- Create: `scripts/build-registry.ts` (заглушка, реализация в Task 6)
 - Modify: корневой `package.json` (полностью переписывается)
-- Modify: корневой `tsconfig.json` (полностью переписывается)
+- Delete: корневой `tsconfig.json` (новый появится в Task 6)
 - Modify: `.gitignore` (добавляется одна строка)
 - Move: `index.html`, `vite.config.ts`, `tsconfig.app.json`, `tsconfig.node.json`, `src/`, `public/` → `apps/docs/`
 
@@ -158,7 +157,7 @@ packages:
     "dev": "pnpm --filter @delta-ui/docs dev",
     "build": "pnpm --filter @delta-ui/docs build",
     "preview": "pnpm --filter @delta-ui/docs preview",
-    "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
+    "typecheck": "pnpm -r typecheck",
     "registry:build": "node scripts/build-registry.ts"
   },
   "devDependencies": {
@@ -168,7 +167,7 @@ packages:
 }
 ```
 
-`&&` здесь корректен: npm-скрипты на Windows исполняет `cmd.exe`, где `&&` — штатный оператор. Ограничение на `&&` из Global Constraints касается только команд, которые ты набираешь в PowerShell вручную.
+`typecheck` пока обходит только пакеты. В Task 6, когда появится `scripts/`, он расширится до `tsc -p tsconfig.json && pnpm -r typecheck`. `registry:build` объявлен заранее, но до Task 6 работать не будет — это нормально, в критерии проверки этой задачи он не входит.
 
 - [ ] **Step 5: Создать `apps/docs/package.json`**
 
@@ -217,41 +216,13 @@ packages:
 }
 ```
 
-- [ ] **Step 7: Переписать корневой `tsconfig.json`**
+- [ ] **Step 7: Удалить корневой `tsconfig.json`**
 
-Раньше это был solution-файл стартера со ссылками на `tsconfig.app.json` / `tsconfig.node.json` — они уехали в `apps/docs`. Теперь корневой конфиг отвечает только за `scripts/`.
+Это solution-файл стартера, ссылающийся на `tsconfig.app.json` и `tsconfig.node.json` — оба уехали в `apps/docs`, так что ссылки битые. Новый корневой конфиг, покрывающий `scripts/`, создаётся в Task 6, когда появится сам каталог: TypeScript падает с `TS18003: No inputs were found`, если `include` не находит ни одного файла, поэтому создавать его раньше нельзя.
 
-Отклонение от формулировки спеки («пакеты наследуются через extends»): пакеты наследуются от `@vue/tsconfig`, а не от корня, потому что им нужны DOM-библиотеки и поддержка `.vue`. Корневой конфиг покрывает `scripts/` — единственный код вне пакетов.
-
-`tsconfig.json`:
-```json
-{
-  "compilerOptions": {
-    "target": "ES2023",
-    "lib": ["ES2023"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "types": ["node"],
-    "strict": true,
-    "noEmit": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["scripts/**/*.ts"]
-}
-```
-
-`include` указывает на каталог, которого пока нет. TypeScript на пустой `include` выдаёт ошибку `TS18003: No inputs were found`, поэтому до появления `scripts/` (Task 6) `pnpm typecheck` работать не будет. Чтобы каждая задача оставалась проверяемой, создаём заглушку прямо сейчас — в Task 6 она будет заменена настоящим скриптом.
-
-Create `scripts/build-registry.ts`:
-```ts
-// Заглушка: настоящая реализация появляется в Task 6.
-export {}
+Run:
+```powershell
+git -C F:\delta-ui rm -q tsconfig.json
 ```
 
 - [ ] **Step 8: Добавить генерируемый каталог в `.gitignore`**
@@ -776,8 +747,10 @@ git -C F:\delta-ui commit -m "feat(registry): add Button component with cva vari
 
 **Files:**
 - Create: `packages/registry/registry.json`
+- Create: `scripts/build-registry.ts`
 - Create: `components.json`
-- Modify: `scripts/build-registry.ts` (заглушка из Task 2 заменяется реализацией)
+- Create: корневой `tsconfig.json` (покрывает `scripts/`)
+- Modify: корневой `package.json` (расширяется скрипт `typecheck`)
 
 **Interfaces:**
 - Consumes: файлы `packages/registry/src/lib/utils.ts`, `packages/registry/src/ui/button/Button.vue`, `packages/registry/src/ui/button/index.ts`
@@ -830,7 +803,7 @@ git -C F:\delta-ui commit -m "feat(registry): add Button component with cva vari
 
 - [ ] **Step 2: Написать `scripts/build-registry.ts`**
 
-Заменяет заглушку из Task 2 целиком. Только стираемый синтаксис — Node исполняет файл напрямую.
+Только стираемый синтаксис — Node исполняет файл напрямую, без транспайлера.
 
 `scripts/build-registry.ts`:
 ```ts
@@ -1024,7 +997,43 @@ for (const item of registry.items) {
 }
 ```
 
-- [ ] **Step 4: Проверить typecheck**
+- [ ] **Step 4: Подключить `scripts/` к typecheck**
+
+Корневой `tsconfig.json` был удалён в Task 2 вместе с уехавшими ссылками. Создаём заново — теперь он покрывает единственный код вне пакетов, каталог `scripts/`. Раньше этого шага его создать было нельзя: TypeScript падает с `TS18003`, если `include` не находит ни одного файла.
+
+Пакеты по-прежнему наследуются от `@vue/tsconfig`, а не от этого файла: им нужны DOM-библиотеки и поддержка `.vue`.
+
+`tsconfig.json`:
+```json
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["scripts/**/*.ts"]
+}
+```
+
+В корневом `package.json` расширить скрипт `typecheck`:
+```json
+    "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
+```
+
+`&&` здесь корректен: npm-скрипты на Windows исполняет `cmd.exe`, где `&&` — штатный оператор. Ограничение из Global Constraints касается только команд, набираемых в PowerShell вручную.
+
+- [ ] **Step 5: Проверить typecheck**
 
 Скрипт теперь покрыт корневым `tsconfig.json`.
 
@@ -1034,7 +1043,7 @@ pnpm -C F:\delta-ui typecheck
 ```
 Expected: 0 ошибок. Ошибка вида «`enum` is not allowed» означала бы нарушение `erasableSyntaxOnly` — в приведённом коде его нет.
 
-- [ ] **Step 5: Запустить сборку registry**
+- [ ] **Step 6: Запустить сборку registry**
 
 Run:
 ```powershell
@@ -1047,7 +1056,7 @@ build-registry: записано items — 2 → apps/docs/public/r
   • button (2 файл(ов))
 ```
 
-- [ ] **Step 6: Проверить состав выходного каталога**
+- [ ] **Step 7: Проверить состав выходного каталога**
 
 Run:
 ```powershell
@@ -1055,7 +1064,7 @@ Get-ChildItem F:\delta-ui\apps\docs\public\r | Select-Object Name, Length
 ```
 Expected: три файла — `button.json`, `registry.json`, `utils.json`.
 
-- [ ] **Step 7: Проверить, что содержимое файлов заинлайнено**
+- [ ] **Step 8: Проверить, что содержимое файлов заинлайнено**
 
 Run:
 ```powershell
@@ -1071,7 +1080,7 @@ Expected:
 - обе строки с ненулевой длиной содержимого (сотни символов)
 - последняя строка — `False`: в содержимом нет `CR`, то есть нормализация из Task 1 работает
 
-- [ ] **Step 8: Проверить индекс**
+- [ ] **Step 9: Проверить индекс**
 
 Run:
 ```powershell
@@ -1082,7 +1091,7 @@ $index.items.name
 ```
 Expected: `delta-ui`, `https://delta-ui.dev`, затем `utils` и `button`.
 
-- [ ] **Step 9: Проверить, что битый манифест роняет сборку**
+- [ ] **Step 10: Проверить, что битый манифест роняет сборку**
 
 Проверка на копии манифеста — рабочий файл не трогаем.
 
@@ -1107,14 +1116,14 @@ exit code: 1
 
 Каталог `$scratch\out` создаваться не должен — валидация падает до записи.
 
-- [ ] **Step 10: Убрать временные файлы проверки**
+- [ ] **Step 11: Убрать временные файлы проверки**
 
 Run:
 ```powershell
 Remove-Item -Recurse -Force "$env:TEMP\delta-ui-broken"
 ```
 
-- [ ] **Step 11: Убедиться, что сгенерированное не попадает в git**
+- [ ] **Step 12: Убедиться, что сгенерированное не попадает в git**
 
 Run:
 ```powershell
@@ -1122,7 +1131,7 @@ git -C F:\delta-ui status --short
 ```
 Expected: в списке есть `?? components.json`, `?? packages/registry/registry.json` и изменение `scripts/build-registry.ts`, но **нет** ничего из `apps/docs/public/r/`.
 
-- [ ] **Step 12: Commit**
+- [ ] **Step 13: Commit**
 
 ```powershell
 git -C F:\delta-ui add -A
