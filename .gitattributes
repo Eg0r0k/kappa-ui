@@ -1,0 +1,8 @@
+# Единый перевод строки во всём репозитории: содержимое компонентов
+# попадает в публикуемый registry дословно.
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
+*.woff binary
+*.woff2 binary
