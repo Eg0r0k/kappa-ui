@@ -29,6 +29,13 @@ is a project-wide effect, so decide before you install rather than after. To
 opt out, edit `--radius` back in your own CSS after adding the component; the
 component itself only uses `rounded-lg`.
 
+Components also ship a set of easing curves — `--ease-smooth`, `--ease-snappy`,
+`--ease-gentle`, `--ease-bouncy` and `--ease-elastic` — usable as the Tailwind
+utilities `ease-smooth`, `ease-snappy` and so on. These are delta-ui-specific
+names, so unlike `--radius` they cannot collide with anything shadcn defines.
+Tailwind only emits a theme variable once something uses it, so expect the
+unused curves to be absent from your compiled CSS until you reference them.
+
 Colour tokens are not implemented yet; components still use raw Tailwind
 palette utilities rather than themeable CSS variables.
 
