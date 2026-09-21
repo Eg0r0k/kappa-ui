@@ -70,11 +70,18 @@ export const buttonVariants = cva(
       { size: "default", touchTarget: "wrapper", class: "my-1.5" },
       { size: "lg", touchTarget: "wrapper", class: "my-1" },
       { size: "icon", touchTarget: "wrapper", class: "mx-1.5 my-1.5" },
+      // select-none is not polish, it closes a hole. text-transparent only
+      // makes the glyphs invisible; the text is still there, and a selection
+      // dragged across the button repaints it in the selection colour, so the
+      // label everyone assumed was hidden comes back. Excluding it from
+      // selection also keeps it out of a page-wide copy.
+      // Find-in-page can still locate and highlight it — that one is not
+      // reachable from CSS.
       {
         loading: true,
         loadingMode: "replace",
         class:
-          "text-transparent before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2",
+          "select-none text-transparent before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2",
       },
     ],
     defaultVariants: {

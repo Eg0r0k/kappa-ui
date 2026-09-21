@@ -5,7 +5,7 @@ import { Button } from '@/ui/button'
 
 const dark = ref(false)
 
-function toggleTheme() {
+const toggleTheme = () => {
   dark.value = !dark.value
   document.documentElement.classList.toggle('dark', dark.value)
 }
@@ -15,7 +15,7 @@ const clicks = ref(0)
 
 // The counter is the test: it proves a consumer's own @click really is
 // blocked while the button is busy, rather than merely looking blocked.
-function run(mode: 'adjacent' | 'replace') {
+const run = (mode: 'adjacent' | 'replace') => {
   clicks.value += 1
   busy.value = mode
   setTimeout(() => (busy.value = null), 2000)

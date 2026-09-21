@@ -26,20 +26,20 @@ const props = withDefaults(defineProps<Props>(), {
 // quiet. aria-disabled keeps the element focusable and announced; the two
 // handlers below take away its behaviour instead.
 // https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls
-function onClick(event: MouseEvent) {
+const onClick = (event: MouseEvent) => {
   if (!props.loading) return;
   event.stopImmediatePropagation();
   event.preventDefault();
-}
+};
 
 // Preventing the default on Enter/Space stops the click from being synthesised
 // at all, which makes keyboard blocking independent of listener order.
-function onKeydown(event: KeyboardEvent) {
+const onKeydown = (event: KeyboardEvent) => {
   if (!props.loading) return;
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
   }
-}
+};
 </script>
 
 <template>

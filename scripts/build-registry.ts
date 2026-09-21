@@ -78,13 +78,15 @@ const manifestPath = resolve(repoRoot, values.manifest as string)
 const outDir = resolve(repoRoot, values.out as string)
 const manifestDir = dirname(manifestPath)
 
-function toDependencyUrl(dependency: string) {
-  return dependency.startsWith('http://') || dependency.startsWith('https://')
+const toDependencyUrl = (dependency: string) =>
+  dependency.startsWith('http://') || dependency.startsWith('https://')
     ? dependency
     : `${REGISTRY_BASE}/${dependency}.json`
-}
 
-function abort(messages: string[]): never {
+// The `: never` annotation has to stay on the arrow. Without it TypeScript
+// stops treating a call to abort() as terminal, and every use site below
+// would need an unreachable return added by hand.
+const abort = (messages: string[]): never => {
   console.error(`build-registry: ${messages.length} error(s)`)
   for (const message of messages) {
     console.error(`  • ${message}`)
