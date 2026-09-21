@@ -18,7 +18,9 @@ export type ScrollAreaProps = {
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from "vue";
 
 import { cn } from "@/lib/utils";
-import ScrollAreaControls, { type ScrollAreaStore } from "./ScrollAreaControls.vue";
+import ScrollAreaControls, {
+  type ScrollAreaStore,
+} from "./ScrollAreaControls.vue";
 import {
   getHorizontalPosition,
   getPercentage,
@@ -45,18 +47,34 @@ const positionVertical = ref(0);
 const positionHorizontal = ref(0);
 const isRtl = ref(false);
 
+const hover = ref(false);
+const tempShowing = ref(false);
+const panning = ref(false);
+
 const trackVertical = computed(
-  () => containerVertical.value - props.verticalOffset[0] - props.verticalOffset[1],
+  () =>
+    containerVertical.value - props.verticalOffset[0] - props.verticalOffset[1],
 );
 const trackHorizontal = computed(
-  () => containerHorizontal.value - props.horizontalOffset[0] - props.horizontalOffset[1],
+  () =>
+    containerHorizontal.value -
+    props.horizontalOffset[0] -
+    props.horizontalOffset[1],
 );
 
 const percentageVertical = computed(() =>
-  getPercentage(positionVertical.value, sizeVertical.value, containerVertical.value),
+  getPercentage(
+    positionVertical.value,
+    sizeVertical.value,
+    containerVertical.value,
+  ),
 );
 const percentageHorizontal = computed(() =>
-  getPercentage(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value),
+  getPercentage(
+    positionHorizontal.value,
+    sizeHorizontal.value,
+    containerHorizontal.value,
+  ),
 );
 
 const thumbSizeVertical = computed(() =>
@@ -83,11 +101,32 @@ const thumbStartHorizontal = computed(() =>
   ),
 );
 
+const resolvedVisible = computed(() =>
+  props.visible === null ? hover.value : props.visible,
+);
+
+const barsIdle = computed(
+  () => !resolvedVisible.value && !tempShowing.value && !panning.value,
+);
+
 const thumbHiddenVertical = computed(
-  () => sizeVertical.value <= containerVertical.value + 1,
+  () => barsIdle.value || sizeVertical.value <= containerVertical.value + 1,
 );
 const thumbHiddenHorizontal = computed(
-  () => sizeHorizontal.value <= containerHorizontal.value + 1,
+  () => barsIdle.value || sizeHorizontal.value <= containerHorizontal.value + 1,
+);
+
+const active = computed(
+  () => !thumbHiddenVertical.value || !thumbHiddenHorizontal.value,
+);
+
+const tabindex = computed(() =>
+  props.tabindex !== undefined
+    ? props.tabindex
+    : sizeVertical.value > containerVertical.value + 1 ||
+        sizeHorizontal.value > containerHorizontal.value + 1
+      ? 0
+      : undefined,
 );
 
 const thumbStyleVertical = computed(() => ({
@@ -102,8 +141,44 @@ const thumbStyleHorizontal = computed(() => ({
 }));
 
 const store: ScrollAreaStore = {
-  vertical: { thumbHidden: thumbHiddenVertical, thumbStyle: thumbStyleVertical },
-  horizontal: { thumbHidden: thumbHiddenHorizontal, thumbStyle: thumbStyleHorizontal },
+  vertical: {
+    thumbHidden: thumbHiddenVertical,
+    thumbStyle: thumbStyleVertical,
+  },
+  horizontal: {
+    thumbHidden: thumbHiddenHorizontal,
+    thumbStyle: thumbStyleHorizontal,
+  },
+};
+
+let showTimer: ReturnType<typeof setTimeout> | null = null;
+let hoverTimer: ReturnType<typeof setTimeout> | null = null;
+
+const startTimer = () => {
+  tempShowing.value = true;
+
+  if (showTimer !== null) clearTimeout(showTimer);
+  showTimer = setTimeout(() => {
+    showTimer = null;
+    tempShowing.value = false;
+  }, Number(props.delay));
+};
+
+// Safari drops the click after a mouseenter handler that mutates the DOM (quasar#16210)
+const onMouseenter = () => {
+  if (hoverTimer !== null) clearTimeout(hoverTimer);
+  hoverTimer = setTimeout(() => {
+    hoverTimer = null;
+    hover.value = true;
+  }, 50);
+};
+
+const onMouseleave = () => {
+  if (hoverTimer !== null) {
+    clearTimeout(hoverTimer);
+    hoverTimer = null;
+  }
+  hover.value = false;
 };
 
 const updateDirection = () => {
@@ -116,16 +191,27 @@ const updateDirection = () => {
 
   const previous = positionHorizontal.value;
   isRtl.value = rtl;
-  if (viewport !== null) viewport.scrollLeft = getHorizontalPosition(previous, rtl);
+  if (viewport !== null)
+    viewport.scrollLeft = getHorizontalPosition(previous, rtl);
 };
 
 const updateContainer = () => {
   const el = viewportRef.value;
   if (el === null) return;
 
-  containerVertical.value = el.clientHeight;
-  containerHorizontal.value = el.clientWidth;
+  let changed = false;
+
+  if (containerVertical.value !== el.clientHeight) {
+    containerVertical.value = el.clientHeight;
+    changed = true;
+  }
+  if (containerHorizontal.value !== el.clientWidth) {
+    containerHorizontal.value = el.clientWidth;
+    changed = true;
+  }
+
   updateDirection();
+  if (changed) startTimer();
 };
 
 const updateScrollSize = () => {
@@ -133,16 +219,34 @@ const updateScrollSize = () => {
   if (el === null) return;
 
   const rect = el.getBoundingClientRect();
-  sizeVertical.value = rect.height;
-  sizeHorizontal.value = rect.width;
+
+  if (sizeVertical.value !== rect.height) {
+    sizeVertical.value = rect.height;
+    startTimer();
+  }
+  if (sizeHorizontal.value !== rect.width) {
+    sizeHorizontal.value = rect.width;
+    startTimer();
+  }
 };
 
 const updateScroll = () => {
   const el = viewportRef.value;
   if (el === null) return;
 
-  positionVertical.value = el.scrollTop;
-  positionHorizontal.value = getHorizontalPosition(el.scrollLeft, isRtl.value);
+  let changed = false;
+  const logical = getHorizontalPosition(el.scrollLeft, isRtl.value);
+
+  if (positionVertical.value !== el.scrollTop) {
+    positionVertical.value = el.scrollTop;
+    changed = true;
+  }
+  if (positionHorizontal.value !== logical) {
+    positionHorizontal.value = logical;
+    changed = true;
+  }
+
+  if (changed) startTimer();
 };
 
 let containerObserver: ResizeObserver | null = null;
@@ -171,6 +275,8 @@ onBeforeUnmount(() => {
   containerObserver?.disconnect();
   contentObserver?.disconnect();
   directionObserver?.disconnect();
+  if (showTimer !== null) clearTimeout(showTimer);
+  if (hoverTimer !== null) clearTimeout(hoverTimer);
 });
 </script>
 
@@ -178,17 +284,22 @@ onBeforeUnmount(() => {
   <div
     ref="rootRef"
     data-slot="scroll-area"
-    :class="cn('relative flow-root overflow-clip [contain:size]', props.class)"
+    :data-active="active ? '' : undefined"
+    :class="cn('relative flow-root overflow-clip contain-[size]', props.class)"
+    @mouseenter="onMouseenter"
+    @mouseleave="onMouseleave"
   >
     <div
       ref="viewportRef"
       data-slot="scroll-area-viewport"
       class="scrollbar-hidden relative size-full overflow-auto"
+      :tabindex="tabindex"
       @scroll.passive="updateScroll"
     >
       <div
         ref="contentRef"
         data-slot="scroll-area-content"
+        :data-active="active ? '' : undefined"
         :class="cn('absolute min-h-full min-w-full', props.contentClass)"
       >
         <slot />
