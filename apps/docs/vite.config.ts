@@ -7,6 +7,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   resolve: {
+    dedupe: ['vue'],
     alias: {
       // Намеренно указывает на registry, а не на src витрины: внутри
       // компонента путь `@/lib/utils` должен резолвиться так же, как он
