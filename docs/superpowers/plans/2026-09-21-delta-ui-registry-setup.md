@@ -1110,16 +1110,23 @@ Expected: `delta-ui`, `https://delta-ui.dev`, затем `utils` и `button`.
 
 Проверка на копии манифеста — рабочий файл не трогаем.
 
+Битый манифест кладётся **рядом с настоящим**, в `packages/registry/`, а не во временный каталог. Причина принципиальная: пути в `files[].path` резолвятся относительно каталога манифеста. Манифест, унесённый в `$env:TEMP`, «потеряет» вообще все файлы, и скрипт выдаст лишние ошибки — проверка перестанет проверять то, ради чего написана. Выходной каталог при этом временный: писать в `apps/docs/public/r/` заведомо битый результат незачем.
+
+Файл пишется через `[System.IO.File]::WriteAllText` намеренно: `Set-Content -Encoding utf8` в PowerShell 5.1 добавляет BOM, а `JSON.parse` в Node на BOM падает — скрипт свалился бы с ошибкой разбора вместо ожидаемых ошибок валидации.
+
 Run:
 ```powershell
-$scratch = "$env:TEMP\delta-ui-broken"
-New-Item -ItemType Directory -Force $scratch | Out-Null
+$out = "$env:TEMP\delta-ui-broken-out"
+if (Test-Path $out) { Remove-Item -Recurse -Force $out }
 $broken = Get-Content F:\delta-ui\packages\registry\registry.json -Raw | ConvertFrom-Json
 $broken.items[1].files[0].path = "src/ui/button/Nope.vue"
 $broken.items[1].registryDependencies = @("does-not-exist")
-$broken | ConvertTo-Json -Depth 10 | Set-Content "$scratch\registry.json" -Encoding utf8
-node F:\delta-ui\scripts\build-registry.ts --manifest "$scratch\registry.json" --out "$scratch\out"
+$path = "F:\delta-ui\packages\registry\registry.broken.json"
+[System.IO.File]::WriteAllText($path, ($broken | ConvertTo-Json -Depth 10))
+Set-Location F:\delta-ui
+node scripts/build-registry.ts --manifest packages/registry/registry.broken.json --out $out
 "exit code: $LASTEXITCODE"
+"out dir created: " + (Test-Path $out)
 ```
 Expected:
 ```
@@ -1128,15 +1135,21 @@ build-registry: ошибок — 2
   • item "button": registryDependencies ссылается на "does-not-exist", которого нет в манифесте
 exit code: 1
 ```
+и `out dir created: False` — валидация падает до записи, каталог не создаётся.
 
-Каталог `$scratch\out` создаваться не должен — валидация падает до записи.
+Если ошибок оказалось больше двух, проверка сломана, а не скрипт: почти наверняка манифест уехал из `packages/registry/` и потерял относительные пути.
 
 - [ ] **Step 11: Убрать временные файлы проверки**
 
+Битый манифест лежит в рабочем дереве и обязан быть удалён — иначе он попадёт в коммит.
+
 Run:
 ```powershell
-Remove-Item -Recurse -Force "$env:TEMP\delta-ui-broken"
+Remove-Item -Force F:\delta-ui\packages\registry\registry.broken.json
+Remove-Item -Recurse -Force "$env:TEMP\delta-ui-broken-out" -ErrorAction SilentlyContinue
+git -C F:\delta-ui status --short
 ```
+Expected: пустой вывод `git status` — временного манифеста в дереве не осталось.
 
 - [ ] **Step 12: Убедиться, что сгенерированное не попадает в git**
 
