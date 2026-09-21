@@ -1,13 +1,38 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils'
+import { Button } from '@/ui/button'
 </script>
 
 <template>
   <main class="min-h-svh bg-white p-10 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50">
-    <!-- Два конфликтующих класса: tailwind-merge обязан оставить text-2xl -->
-    <h1 :class="cn('text-base font-semibold tracking-tight', 'text-2xl')">delta-ui</h1>
+    <h1 class="text-2xl font-semibold tracking-tight">delta-ui</h1>
     <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
       Витрина разработки. Компоненты живут в packages/registry.
     </p>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">Варианты</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button>Default</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="link">Link</Button>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">Размеры</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button size="sm">Small</Button>
+      <Button size="default">Default</Button>
+      <Button size="lg">Large</Button>
+      <Button size="icon" aria-label="Добавить">+</Button>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">Состояния</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button disabled>Disabled</Button>
+      <Button as="a" href="https://vuejs.org">as=&quot;a&quot;</Button>
+      <Button as-child>
+        <a href="https://vuejs.org">as-child</a>
+      </Button>
+      <Button class="rounded-full">class переопределяет радиус</Button>
+    </div>
   </main>
 </template>
