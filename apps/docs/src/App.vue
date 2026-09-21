@@ -9,6 +9,17 @@ function toggleTheme() {
   dark.value = !dark.value
   document.documentElement.classList.toggle('dark', dark.value)
 }
+
+const busy = ref<'adjacent' | 'replace' | null>(null)
+const clicks = ref(0)
+
+// The counter is the test: it proves a consumer's own @click really is
+// blocked while the button is busy, rather than merely looking blocked.
+function run(mode: 'adjacent' | 'replace') {
+  clicks.value += 1
+  busy.value = mode
+  setTimeout(() => (busy.value = null), 2000)
+}
 </script>
 
 <template>
@@ -49,6 +60,26 @@ function toggleTheme() {
         <a href="https://vuejs.org">as-child</a>
       </Button>
       <Button class="rounded-full">class overrides the radius</Button>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Loading</h2>
+    <p class="mb-3 max-w-prose text-sm text-muted-foreground">
+      Press either button: it stays busy for two seconds. Tab to it first and watch the focus ring
+      survive the whole time - that is the point of aria-disabled over the native attribute. Clicks
+      counted so far: <strong>{{ clicks }}</strong> - it must not move while a button is busy.
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button :loading="busy === 'adjacent'" @click="run('adjacent')">Save (adjacent)</Button>
+      <Button
+        variant="outline"
+        loading-mode="replace"
+        :loading="busy === 'replace'"
+        @click="run('replace')"
+      >
+        Save (replace, width held)
+      </Button>
+      <Button variant="ghost" loading>Ghost, stuck busy</Button>
+      <Button variant="link" loading loading-mode="replace">Link, stuck busy</Button>
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Press feedback</h2>

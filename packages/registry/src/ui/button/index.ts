@@ -5,6 +5,19 @@ export { default as Button } from "./Button.vue";
 const touchTargetArea =
   "after:absolute after:top-1/2 after:left-1/2 after:h-[max(48px,100%)] after:w-[max(48px,100%)] after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']";
 
+// The spinner is a ::before pseudo element, for the same reason the touch
+// target is ::after: reka-ui's Slot clones exactly one child, so a real
+// element would break <Button as-child>. Being a pseudo element also keeps it
+// out of the accessibility tree, which is what we want — aria-busy carries
+// the meaning, not a stray decorative node.
+//
+// It cannot use border-current: `replace` mode sets the text transparent, and
+// currentColor would take the spinner with it. Each variant declares its own
+// --spinner-color instead, pointing at a raw token rather than a --color-*
+// one, since @theme inline does not emit those as variables.
+const spinner =
+  "before:size-4 before:shrink-0 before:animate-spin before:rounded-full before:border-2 before:border-(--spinner-color) before:border-t-transparent before:content-['']";
+
 export const buttonVariants = cva(
   "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ease-smooth outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
   {
@@ -12,11 +25,13 @@ export const buttonVariants = cva(
       // No dark: utilities anywhere below. The semantic tokens change value
       // under .dark, so every variant follows the theme on its own.
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default:
+          "bg-primary text-primary-foreground hover:bg-primary/90 [--spinner-color:var(--primary-foreground)]",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
+        link: "text-primary underline-offset-4 hover:underline [--spinner-color:var(--primary)]",
       },
       size: {
         sm: "h-8 px-3 text-xs",
@@ -30,17 +45,44 @@ export const buttonVariants = cva(
         expand: touchTargetArea,
         wrapper: touchTargetArea,
       },
+      // pointer-events-none is what actually blocks the mouse. The click
+      // handler alone is not enough: at the target element, capture and
+      // bubble listeners fire in registration order, and a consumer's own
+      // @click is registered before ours, so stopImmediatePropagation cannot
+      // be relied on to beat it. Keyboard activation is blocked separately,
+      // in Button.vue, by preventing the default on Enter and Space so no
+      // click is ever synthesised.
+      loading: {
+        false: "",
+        true: `pointer-events-none ${spinner}`,
+      },
+      // adjacent: the spinner sits in flex flow, next to the label, and the
+      // button grows by its width plus the gap.
+      // replace: the spinner is centred on top and the label goes
+      // transparent, so the label keeps defining the width and nothing moves.
+      loadingMode: {
+        adjacent: "",
+        replace: "",
+      },
     },
     compoundVariants: [
       { size: "sm", touchTarget: "wrapper", class: "my-2" },
       { size: "default", touchTarget: "wrapper", class: "my-1.5" },
       { size: "lg", touchTarget: "wrapper", class: "my-1" },
       { size: "icon", touchTarget: "wrapper", class: "mx-1.5 my-1.5" },
+      {
+        loading: true,
+        loadingMode: "replace",
+        class:
+          "text-transparent before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2",
+      },
     ],
     defaultVariants: {
       variant: "default",
       size: "default",
       touchTarget: "none",
+      loading: false,
+      loadingMode: "adjacent",
     },
   },
 );

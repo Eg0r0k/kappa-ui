@@ -88,6 +88,34 @@ Tailwind v4 removed the default pointer cursor on buttons. This restores it
 for every button in your project, not only delta-ui's — another project-wide
 effect to be aware of before installing.
 
+## Loading
+
+```vue
+<Button :loading="saving">Save</Button>
+<Button :loading="saving" loading-mode="replace">Save</Button>
+```
+
+`adjacent` (the default) puts the spinner beside the label, so the button
+grows by the spinner's width. `replace` centres the spinner and makes the
+label transparent, so the label keeps defining the width and nothing in the
+row shifts.
+
+**A busy button is never given the native `disabled` attribute.** Disabling a
+focused button drops it from the tab order, the browser moves focus to
+`<body>`, and a keyboard user loses their place mid-action while a screen
+reader falls silent — exactly when feedback matters most. Instead the button
+gets `aria-disabled` and `aria-busy`, stays focusable and announced, and has
+its behaviour removed: `pointer-events: none` for the mouse, and a prevented
+default on Enter and Space so no click is ever synthesised. This follows
+[W3C's guidance on disabled controls][w3c-disabled], the same reasoning
+behind Material's `soft-disabled`.
+
+One consequence worth knowing: because the element is inert to pointer
+events, the cursor does not change to `wait` while busy. That is the price of
+blocking the mouse deterministically rather than relying on event ordering.
+
+[w3c-disabled]: https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls
+
 ## Touch targets
 
 `Button` can grow its pressable area to at least 48px without changing how it
