@@ -19,11 +19,17 @@ export const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
+      // Padding tightens only on the side the icon is on. The previous
+      // has-[>svg] rule pulled in both sides at once, which cramped the label
+      // against the far edge when only one side had an icon. The cost is that
+      // an icon has to say where it sits — Spinner marks itself, so the
+      // common case still needs nothing from the caller.
       size: {
-        sm: "h-8 gap-1.5 px-3 text-xs has-[>svg]:px-2.5",
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        lg: "h-10 px-6 has-[>svg]:px-4",
-        xl: "h-12 px-8 text-base has-[>svg]:px-6",
+        sm: "h-8 gap-1.5 px-3 text-xs has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
+        default:
+          "h-9 px-4 py-2 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
+        lg: "h-10 px-6 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4",
+        xl: "h-12 px-8 text-base has-data-[icon=inline-start]:pl-6 has-data-[icon=inline-end]:pr-6",
         "icon-sm": "size-8",
         icon: "size-9",
         "icon-lg": "size-10",

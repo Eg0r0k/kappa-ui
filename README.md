@@ -204,6 +204,28 @@ behind Material's `soft-disabled`.
 
 [w3c-disabled]: https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls
 
+## Icons and padding
+
+An icon inside a button should say which side it sits on:
+
+```vue
+<Button>
+  <MyIcon data-icon="inline-start" />
+  Save
+</Button>
+```
+
+The button then tightens padding on that side only. A rule keyed on `svg`
+would pull in both sides at once and cramp the label against the far edge.
+`Spinner` sets `data-icon="inline-start"` itself, so the ordinary case needs
+nothing from you.
+
+Every component root also carries `data-slot` — `button`, `spinner`,
+`ripple` — and Button adds `data-variant` and `data-size`. These are selector
+hooks: they let another component target a part without depending on class
+names, and they survive restyling. Under `as-child` they land on your own
+element, which is where they belong.
+
 ## Touch targets
 
 `Button` can grow its pressable area to at least 48px without changing how it

@@ -24,7 +24,17 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
+  <!--
+    data-slot names the part so other components can select it without
+    knowing our class names, and data-variant / data-size expose the cva
+    choice to CSS and to test selectors. Under as-child these land on the
+    caller's own element, which is what we want — the marker follows the
+    thing that is actually the button.
+  -->
   <Primitive
+    data-slot="button"
+    :data-variant="props.variant"
+    :data-size="props.size"
     :as="as"
     :as-child="asChild"
     :class="

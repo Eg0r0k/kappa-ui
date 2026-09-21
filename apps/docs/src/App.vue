@@ -219,27 +219,29 @@ const run = () => {
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Icon padding</h2>
     <p class="mb-3 max-w-prose text-sm text-muted-foreground">
-      <code>has-[&gt;svg]</code> tightens the horizontal padding when the content is an icon rather
-      than a label. Nothing is passed in - the button detects it from its own content.
+      Padding tightens only on the side the icon is on, through
+      <code>has-data-[icon=inline-start]</code>. Compare the last two: with a leading marker the
+      right side keeps its full padding, and the other way round. A rule keyed on
+      <code>svg</code> could not do that - it pulls in both sides at once.
+      <code>Spinner</code> marks itself, so the ordinary case needs nothing from you.
     </p>
     <div class="flex flex-wrap items-center gap-3">
-      <Button size="sm">Label</Button>
-      <Button size="sm">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5v14" />
-        </svg>
-      </Button>
-      <Button>Label</Button>
+      <Button>Label only</Button>
       <Button>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5v14" />
-        </svg>
+        <Spinner />
+        Leading (Spinner marks itself)
       </Button>
       <Button>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M5 12h14M12 5v14" />
         </svg>
-        Icon and label
+        Leading icon
+      </Button>
+      <Button>
+        Trailing icon
+        <svg data-icon="inline-end" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5v14" />
+        </svg>
       </Button>
     </div>
 

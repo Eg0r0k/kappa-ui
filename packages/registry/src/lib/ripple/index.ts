@@ -90,6 +90,7 @@ const ensureContainer = (el: RippleElement): HTMLElement => {
 
   const container = document.createElement("span");
   container.className = "delta-ripple";
+  container.setAttribute("data-slot", "ripple");
   container.setAttribute("aria-hidden", "true");
   el.appendChild(container);
   state.container = container;
