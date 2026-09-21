@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 
 import { Button } from "@/ui/button";
 import { Spinner } from "@/ui/spinner";
+import vRipple from "@/directives/ripple";
 
 // Paired the way the button actually consumes them: a fill and the text that
 // sits on it. Showing them apart would hide the only thing that matters about
@@ -323,6 +324,24 @@ const run = () => {
         <Spinner v-if="busy" />
         {{ busy ? "Saving" : "Save, width held" }}
       </Button>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Ripple</h2>
+    <p class="mb-3 max-w-prose text-sm text-muted-foreground">
+      A directive, not a prop: <code>v-ripple</code>. Press near a corner and watch it - the wave
+      starts small at the press point and drifts to the centre as it grows, which is what makes it
+      read as Material rather than as a circle expanding in place. Press and hold: it will not fade
+      until you let go.
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button v-ripple>Press near an edge</Button>
+      <Button v-ripple variant="outline">Outline</Button>
+      <Button v-ripple variant="secondary" size="xl">Extra large, more travel</Button>
+      <Button v-ripple size="icon-xl" aria-label="Add">+</Button>
+      <Button v-ripple="{ color: 'red', opacity: 0.3 }" variant="ghost">
+        Custom colour and opacity
+      </Button>
+      <Button v-ripple="false" variant="outline">Disabled ripple</Button>
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">

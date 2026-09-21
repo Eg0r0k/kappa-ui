@@ -74,6 +74,37 @@ working; only the `.dark` class activates delta-ui's dark values. If you want
 @custom-variant dark (&:is(.dark *));
 ```
 
+## Ripple
+
+```
+npx shadcn-vue add https://delta-ui.dev/r/ripple.json
+```
+
+A directive rather than a prop, so it attaches to anything:
+
+```vue
+<Button v-ripple>Press me</Button>
+<Button v-ripple="{ color: 'red', opacity: 0.3 }">Tinted</Button>
+<Button v-ripple="false">Off</Button>
+```
+
+The motion is Material's — a wave that starts at a fifth of the element's
+size under the press point and drifts to the centre while it expands, with a
+radial-gradient soft edge instead of a hard rim. The implementation is not
+Material's: no custom element and no Web Animations API. The directive writes
+each press's geometry onto the wave as inline custom properties and a plain
+CSS animation does the rest.
+
+A tap shorter than 225ms still shows the ripple for that long, so a quick
+click is not a flash you cannot resolve. Holding the press keeps the wave up
+until release. Under `forced-colors` it is hidden entirely — a state layer
+cannot survive a forced palette and would paint over the control — and under
+`prefers-reduced-motion` the wave appears already expanded and only fades, so
+the press is still acknowledged without anything travelling.
+
+It needs a positioned host: the directive sets `position: relative` on the
+element only if it is still `static`.
+
 ## Press feedback
 
 Adding the button also installs a `press-scale` utility. It is a utility

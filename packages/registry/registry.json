@@ -16,6 +16,66 @@
       ]
     },
     {
+      "name": "ripple",
+      "type": "registry:lib",
+      "title": "Ripple",
+      "description": "Vue directive for a Material-style press ripple that grows from the press point and drifts to the centre.",
+      "files": [
+        {
+          "path": "src/directives/ripple/index.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "css": {
+        ".delta-ripple": {
+          "position": "absolute",
+          "inset": "0",
+          "overflow": "hidden",
+          "border-radius": "inherit",
+          "pointer-events": "none",
+          "--ripple-color": "currentColor",
+          "--ripple-opacity": "0.12",
+          "--ripple-grow-duration": "450ms",
+          "--ripple-fade-duration": "375ms"
+        },
+        ".delta-ripple__wave": {
+          "position": "absolute",
+          "top": "0",
+          "left": "0",
+          "width": "var(--ripple-size)",
+          "height": "var(--ripple-size)",
+          "border-radius": "50%",
+          "opacity": "var(--ripple-opacity)",
+          "background": "radial-gradient(closest-side, var(--ripple-color) max(calc(100% - 70px), 65%), transparent 100%)",
+          "transform": "var(--ripple-from) scale(1)",
+          "animation": "delta-ripple-grow var(--ripple-grow-duration) cubic-bezier(0.2, 0, 0, 1) forwards",
+          "transition": "opacity var(--ripple-fade-duration) linear"
+        },
+        ".delta-ripple__wave[data-hiding]": {
+          "opacity": "0"
+        },
+        "@keyframes delta-ripple-grow": {
+          "from": {
+            "transform": "var(--ripple-from) scale(1)"
+          },
+          "to": {
+            "transform": "var(--ripple-to) scale(var(--ripple-scale))"
+          }
+        },
+        "@media (forced-colors: active)": {
+          ".delta-ripple": {
+            "display": "none"
+          }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".delta-ripple__wave": {
+            "animation": "none",
+            "transform": "var(--ripple-to) scale(var(--ripple-scale))"
+          }
+        }
+      }
+    },
+    {
       "name": "spinner",
       "type": "registry:ui",
       "title": "Spinner",

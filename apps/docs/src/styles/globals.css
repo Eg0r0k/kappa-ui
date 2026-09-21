@@ -152,6 +152,77 @@
   );
 }
 
+/*
+  Ripple. Geometry per press is written by the v-ripple directive as inline
+  custom properties; everything below is static.
+*/
+.delta-ripple {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+
+  --ripple-color: currentColor;
+  --ripple-opacity: 0.12;
+  --ripple-grow-duration: 450ms;
+  --ripple-fade-duration: 375ms;
+}
+
+.delta-ripple__wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--ripple-size);
+  height: var(--ripple-size);
+  border-radius: 50%;
+  opacity: var(--ripple-opacity);
+  /*
+    The soft edge is what separates this from a plain expanding circle: the
+    colour holds out to 65% of the radius and then feathers to nothing, so
+    the wave reads as a spreading surface rather than a disc with a rim.
+  */
+  background: radial-gradient(
+    closest-side,
+    var(--ripple-color) max(calc(100% - 70px), 65%),
+    transparent 100%
+  );
+  transform: var(--ripple-from) scale(1);
+  animation: delta-ripple-grow var(--ripple-grow-duration) cubic-bezier(0.2, 0, 0, 1) forwards;
+  transition: opacity var(--ripple-fade-duration) linear;
+}
+
+.delta-ripple__wave[data-hiding] {
+  opacity: 0;
+}
+
+/* Grows and drifts to the centre at the same time. */
+@keyframes delta-ripple-grow {
+  from {
+    transform: var(--ripple-from) scale(1);
+  }
+  to {
+    transform: var(--ripple-to) scale(var(--ripple-scale));
+  }
+}
+
+/* Material hides the ripple here, because a state layer cannot be expressed
+   in a forced palette and would paint over the control. */
+@media (forced-colors: active) {
+  .delta-ripple {
+    display: none;
+  }
+}
+
+/* Feedback without travel: the wave appears already expanded and still fades
+   on release, so the press is acknowledged without anything moving. */
+@media (prefers-reduced-motion: reduce) {
+  .delta-ripple__wave {
+    animation: none;
+    transform: var(--ripple-to) scale(var(--ripple-scale));
+  }
+}
+
 /* Press feedback: the element dips slightly while held.
    --ease-smooth carries a literal fallback on purpose. It is a @theme
    variable, and Tailwind only emits those that some utility references. It
