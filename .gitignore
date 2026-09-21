@@ -26,6 +26,9 @@ dist-ssr
 # Generated registry
 apps/docs/public/r/
 
+# Vitest browser-mode cache and failure screenshots
+packages/registry/.vitest/
+
 # Project documentation — kept locally, outside the repository.
 # The leading slash is required: a bare `docs` would also match `apps/docs`.
 /docs/

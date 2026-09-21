@@ -38,6 +38,7 @@ it("does not change the DOM synchronously on mouse enter", async () => {
   const wrapper = mountArea({ delay: 50 });
   const thumb = thumbOf(wrapper.element);
 
+  await vi.waitFor(() => expect(thumb.className).not.toContain("opacity-0"));
   await vi.waitFor(() => expect(thumb.className).toContain("opacity-0"));
 
   await wrapper.trigger("mouseenter");
