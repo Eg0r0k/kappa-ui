@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* packages/registry лежит вне корня Vite — автоопределение его не видит. */
+@source "../../../../packages/registry/src";
