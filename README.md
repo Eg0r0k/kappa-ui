@@ -39,6 +39,21 @@ unused curves to be absent from your compiled CSS until you reference them.
 Colour tokens are not implemented yet; components still use raw Tailwind
 palette utilities rather than themeable CSS variables.
 
+## Touch targets
+
+`Button` can grow its pressable area to at least 48px without changing how it
+looks — adapted from Material Web's `touch-target`:
+
+```vue
+<Button touch-target="expand" />   <!-- bigger hit area, may overlap neighbours -->
+<Button touch-target="wrapper" />  <!-- bigger hit area, space reserved in layout -->
+```
+
+It is off by default. A hit area larger than the visible control is a
+deliberate choice — turned on everywhere, adjacent buttons in a dense row
+silently overlap and a press can land on the wrong one. Use `wrapper` when
+buttons sit close together, `expand` when the button stands alone.
+
 ## Repo layout
 
 - `packages/registry` — source of truth for every component (`src/`) and the

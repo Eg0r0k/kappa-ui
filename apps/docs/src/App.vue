@@ -34,5 +34,19 @@ import { Button } from '@/ui/button'
       </Button>
       <Button class="rounded-full">class overrides the radius</Button>
     </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">
+      Touch target
+    </h2>
+    <p class="mb-3 max-w-prose text-sm text-neutral-500 dark:text-neutral-400">
+      All three look identical. The outlines below are drawn by the showcase, not by the
+      component — they reveal where each button actually accepts a press.
+    </p>
+    <div class="flex flex-wrap items-center gap-6 [&_button::after]:outline [&_button::after]:outline-dashed [&_button::after]:outline-pink-500/70">
+      <Button size="sm">none — 32px</Button>
+      <Button size="sm" touch-target="expand">expand — 48px, may overlap</Button>
+      <Button size="sm" touch-target="wrapper">wrapper — 48px, reserved</Button>
+      <Button size="icon" touch-target="expand" aria-label="Add">+</Button>
+    </div>
   </main>
 </template>

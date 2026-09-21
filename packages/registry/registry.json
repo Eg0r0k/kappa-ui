@@ -19,7 +19,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Button with style and size variants; supports as and as-child.",
+      "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
       "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils"],
       "cssVars": {
