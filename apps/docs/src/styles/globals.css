@@ -30,8 +30,13 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Brand blue, hue 262. Lightness is measured, not picked: this token has
+     to satisfy two different contrast requirements at once — the label on a
+     filled button, and variant="link" rendering text-primary straight onto
+     the page background. At L 0.58 both fail (4.24 and 4.43); 0.52 gives
+     5.49 and 5.74. */
+  --primary: oklch(0.52 0.2 262);
+  --primary-foreground: oklch(0.985 0.01 262);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -51,8 +56,12 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  /* The dark theme flips the pairing rather than the hue: a lighter blue
+     carrying a dark label. Keeping white text on a mid blue does not work
+     here — at L 0.55 link text lands on 3.93 against the dark page — and
+     going lighter than 0.66 pushes the colour out of the sRGB gamut. */
+  --primary: oklch(0.66 0.17 262);
+  --primary-foreground: oklch(0.21 0.04 262);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);

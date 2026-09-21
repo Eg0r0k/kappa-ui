@@ -49,6 +49,7 @@ const run = (mode: 'adjacent' | 'replace') => {
       <Button size="sm">Small</Button>
       <Button size="default">Default</Button>
       <Button size="lg">Large</Button>
+      <Button size="xl">Extra large</Button>
     </div>
     <p class="mt-3 mb-3 text-sm text-muted-foreground">
       Icon sizes are square and match those heights, so they line up with a text button of the same
@@ -61,7 +62,13 @@ const run = (mode: 'adjacent' | 'replace') => {
       <Button size="icon" aria-label="Add">+</Button>
       <Button size="lg">Large</Button>
       <Button size="icon-lg" aria-label="Add">+</Button>
+      <Button size="xl">Extra large</Button>
+      <Button size="icon-xl" aria-label="Add">+</Button>
     </div>
+    <p class="mt-3 max-w-prose text-sm text-muted-foreground">
+      <code>xl</code> is 48px, which is exactly the touch-target minimum - so
+      <code>touch-target</code> has nothing left to add on that size.
+    </p>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">States</h2>
     <div class="flex flex-wrap items-center gap-3">
