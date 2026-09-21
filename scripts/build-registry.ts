@@ -32,6 +32,14 @@ type RegistryFile = {
   target?: string
 }
 
+// CLI потребителя раскладывает группы по разным местам его CSS:
+// theme → @theme inline, light → :root, dark → .dark.
+type CssVars = {
+  theme?: Record<string, string>
+  light?: Record<string, string>
+  dark?: Record<string, string>
+}
+
 type RegistryItem = {
   name: string
   type: string
@@ -41,6 +49,7 @@ type RegistryItem = {
   author?: string
   dependencies?: string[]
   registryDependencies?: string[]
+  cssVars?: CssVars
   categories?: string[]
   docs?: string
 }
@@ -98,6 +107,18 @@ for (const item of registry.items) {
 
   if (!/^[a-z0-9-]+$/.test(item.name)) {
     errors.push(`item "${item.name}": имя должно состоять из строчных латинских букв, цифр и дефисов`)
+  }
+
+  // Префикс "--" добавляет CLI. Ключ "--radius" стал бы "----radius" молча.
+  const cssVars: CssVars = item.cssVars ?? {}
+  for (const group of Object.keys(cssVars) as (keyof CssVars)[]) {
+    for (const key of Object.keys(cssVars[group] ?? {})) {
+      if (key.startsWith('--')) {
+        errors.push(
+          `item "${item.name}", cssVars.${group}: ключ "${key}" не должен начинаться с "--"`,
+        )
+      }
+    }
   }
 
   for (const file of item.files) {

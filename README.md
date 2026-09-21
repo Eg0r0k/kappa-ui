@@ -20,8 +20,17 @@ exist or do not behave the same way on Tailwind v3. The registry-item schema
 has no field to declare this, so this README is the authoritative place it's
 documented — verify your project is on Tailwind v4 before adding components.
 
-Design tokens are not implemented yet; components use raw Tailwind palette
-utilities directly rather than themeable CSS variables.
+**Adding a component sets `--radius` in your project.** delta-ui ships its own
+border-radius scale (`--radius: 0.75rem`, with `--radius-sm/md/lg/xl` derived
+from it). Because `--radius` is the same variable shadcn components read, if
+your project already uses shadcn, their corners will change to match delta-ui's
+too. That is intentional — delta-ui is a design system, not an add-on — but it
+is a project-wide effect, so decide before you install rather than after. To
+opt out, edit `--radius` back in your own CSS after adding the component; the
+component itself only uses `rounded-lg`.
+
+Colour tokens are not implemented yet; components still use raw Tailwind
+palette utilities rather than themeable CSS variables.
 
 ## Repo layout
 

@@ -2,3 +2,18 @@
 
 /* packages/registry лежит вне корня Vite — автоопределение его не видит. */
 @source "../../../../packages/registry/src";
+
+/* Единственная ручка шкалы скругления. Остальное считается от неё. */
+:root {
+  --radius: 0.75rem;
+}
+
+/* Namespace --radius-* порождает утилиты rounded-*.
+   Именно `inline`: без него утилита ссылалась бы на var(--radius-lg), и
+   переопределение --radius в локальной области до неё бы не дошло. */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
