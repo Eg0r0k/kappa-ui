@@ -4,6 +4,12 @@
    detection never reaches it. */
 @source "../../../../packages/registry/src";
 
+/* Class-based dark mode, as shadcn does it. Tailwind's own `dark:` defaults
+   to prefers-color-scheme; this switches it to an ancestor .dark class so a
+   toggle can drive it. Components do not rely on it — they read semantic
+   colour tokens, which flip on their own — but the showcase does. */
+@custom-variant dark (&:is(.dark *));
+
 /* The single knob for the radius scale. Everything else derives from it. */
 :root {
   --radius: 0.75rem;
@@ -13,6 +19,50 @@
      are dropped when no utility references them. */
   --press-scale: 0.97;
   --press-duration: 120ms;
+
+  /* Colour tokens, taken from shadcn's current neutral theme. Chart and
+     sidebar tokens are deliberately left out — nothing here needs them yet.
+     Note there is no --destructive-foreground: shadcn dropped it, and their
+     destructive button sets text-white directly. */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
 }
 
 /* Native buttons lost their default pointer cursor in Tailwind v4. This is
@@ -33,6 +83,29 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Maps the raw tokens into the --color-* namespace, which is what turns
+     them into bg-*, text-*, border-* utilities. `inline` is required here,
+     not optional: these reference other variables, and without it every
+     utility would point at a fixed snapshot instead of following .dark. */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 /* Transition curves. The --ease-* namespace generates the ease-* utilities.

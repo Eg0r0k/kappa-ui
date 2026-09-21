@@ -36,8 +36,27 @@ names, so unlike `--radius` they cannot collide with anything shadcn defines.
 Tailwind only emits a theme variable once something uses it, so expect the
 unused curves to be absent from your compiled CSS until you reference them.
 
-Colour tokens are not implemented yet; components still use raw Tailwind
-palette utilities rather than themeable CSS variables.
+## Colour tokens
+
+Components use shadcn's semantic colour tokens — `--background`,
+`--foreground`, `--primary`, `--muted`, `--accent`, `--border`, `--input`,
+`--ring` and friends, in OKLCH. Chart and sidebar tokens are deliberately not
+included. Note there is no `--destructive-foreground`; shadcn dropped it.
+
+Installing the button writes both the light values into `:root` and the dark
+values into `.dark`. **Dark mode is class-based**: add `dark` to your `<html>`
+element to switch. The components themselves contain no `dark:` utilities at
+all — the tokens change value under `.dark`, so every variant follows the
+theme on its own.
+
+That means delta-ui does not impose a dark-mode mechanism on you. If your
+project drives `dark:` utilities from `prefers-color-scheme`, that keeps
+working; only the `.dark` class activates delta-ui's dark values. If you want
+`dark:` utilities to follow the class instead, add shadcn's variant yourself:
+
+```css
+@custom-variant dark (&:is(.dark *));
+```
 
 ## Press feedback
 
