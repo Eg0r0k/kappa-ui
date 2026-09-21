@@ -1,0 +1,37 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry.json",
+  "name": "delta-ui",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "Хелпер cn() для склейки классов Tailwind без конфликтов.",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Кнопка с вариантами оформления и размеров, поддерживает as и as-child.",
+      "dependencies": ["class-variance-authority", "reka-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "src/ui/button/Button.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/button/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}
