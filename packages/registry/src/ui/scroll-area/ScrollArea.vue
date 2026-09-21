@@ -15,8 +15,17 @@ export type ScrollAreaProps = {
 </script>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from "vue";
+import {
+  computed,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  ref,
+  shallowRef,
+} from "vue";
 
+import { setHorizontalScrollPosition, setVerticalScrollPosition } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import ScrollAreaControls, {
   type ScrollAreaStore,
@@ -28,7 +37,9 @@ import {
   getPercentage,
   getThumbSize,
   getThumbStart,
+  type ScrollAreaApi,
   type ScrollAreaAxis,
+  type ScrollAreaScrollInfo,
 } from ".";
 
 const props = withDefaults(defineProps<ScrollAreaProps>(), {
@@ -37,6 +48,10 @@ const props = withDefaults(defineProps<ScrollAreaProps>(), {
   verticalOffset: () => [0, 0],
   horizontalOffset: () => [0, 0],
 });
+
+const emit = defineEmits<{
+  scroll: [info: ScrollAreaScrollInfo & { ref: ScrollAreaApi }];
+}>();
 
 const rootRef = shallowRef<HTMLElement | null>(null);
 const viewportRef = shallowRef<HTMLElement | null>(null);
@@ -253,6 +268,66 @@ const onPointerup = (event: PointerEvent) => {
   panning.value = false;
 };
 
+const getScroll = (): ScrollAreaScrollInfo => ({
+  verticalPosition: positionVertical.value,
+  verticalPercentage: percentageVertical.value,
+  verticalSize: sizeVertical.value,
+  verticalContainerSize: containerVertical.value,
+  verticalContainerInnerSize: trackVertical.value,
+  horizontalPosition: positionHorizontal.value,
+  horizontalPercentage: percentageHorizontal.value,
+  horizontalSize: sizeHorizontal.value,
+  horizontalContainerSize: containerHorizontal.value,
+  horizontalContainerInnerSize: trackHorizontal.value,
+});
+
+const setScrollPosition = (
+  axis: ScrollAreaAxis,
+  offset: number,
+  duration?: number,
+) => {
+  const el = viewportRef.value;
+  if (el === null) return;
+
+  if (axis === "vertical") setVerticalScrollPosition(el, offset, duration);
+  else
+    setHorizontalScrollPosition(
+      el,
+      getHorizontalPosition(offset, isRtl.value),
+      duration,
+    );
+};
+
+const api: ScrollAreaApi = {
+  getScrollTarget: () => viewportRef.value,
+  getScroll,
+  getScrollPosition: () => ({
+    top: positionVertical.value,
+    left: positionHorizontal.value,
+  }),
+  getScrollPercentage: () => ({
+    top: percentageVertical.value,
+    left: percentageHorizontal.value,
+  }),
+  setScrollPosition,
+  setScrollPercentage: (axis, percentage, duration) => {
+    const state = axisState(axis);
+    setScrollPosition(axis, percentage * (state.size - state.container), duration);
+  },
+};
+
+defineExpose(api);
+
+let emitTimer: ReturnType<typeof setTimeout> | null = null;
+
+const queueScrollEmit = () => {
+  if (emitTimer !== null) return;
+  emitTimer = setTimeout(() => {
+    emitTimer = null;
+    emit("scroll", { ...getScroll(), ref: api });
+  }, 0);
+};
+
 const store: ScrollAreaStore = {
   vertical: { thumbHidden: thumbHiddenVertical, thumbStyle: thumbStyleVertical },
   horizontal: { thumbHidden: thumbHiddenHorizontal, thumbStyle: thumbStyleHorizontal },
@@ -270,6 +345,8 @@ const startTimer = () => {
     showTimer = null;
     tempShowing.value = false;
   }, Number(props.delay));
+
+  queueScrollEmit();
 };
 
 // Safari drops the click after a mouseenter handler that mutates the DOM (quasar#16210)
@@ -379,12 +456,29 @@ onMounted(() => {
   });
 });
 
+let keptPosition: { top: number; left: number } | null = null;
+
+onDeactivated(() => {
+  keptPosition = { top: positionVertical.value, left: positionHorizontal.value };
+});
+
+onActivated(() => {
+  if (keptPosition === null) return;
+
+  const el = viewportRef.value;
+  if (el === null) return;
+
+  el.scrollTop = keptPosition.top;
+  el.scrollLeft = getHorizontalPosition(keptPosition.left, isRtl.value);
+});
+
 onBeforeUnmount(() => {
   containerObserver?.disconnect();
   contentObserver?.disconnect();
   directionObserver?.disconnect();
   if (showTimer !== null) clearTimeout(showTimer);
   if (hoverTimer !== null) clearTimeout(hoverTimer);
+  if (emitTimer !== null) clearTimeout(emitTimer);
 });
 </script>
 
