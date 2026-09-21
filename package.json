@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "pnpm --filter @delta-ui/docs dev",
-    "build": "pnpm --filter @delta-ui/docs build",
+    "build": "pnpm registry:build && pnpm --filter @delta-ui/docs build",
     "preview": "pnpm --filter @delta-ui/docs preview",
     "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
     "registry:build": "node scripts/build-registry.ts"

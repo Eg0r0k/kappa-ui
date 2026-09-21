@@ -13,7 +13,10 @@
     "erasableSyntaxOnly": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["./packages/registry/src/*"]
+    }
   },
   "include": ["scripts/**/*.ts"]
 }

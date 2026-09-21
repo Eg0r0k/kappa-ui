@@ -10,6 +10,10 @@ const HOMEPAGE = 'https://delta-ui.dev'
 const REGISTRY_SCHEMA = 'https://shadcn-vue.com/schema/registry.json'
 const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 
+// Захардкожен путь `/r`; должен совпадать со значением `--out` по умолчанию
+// (`apps/docs/public/r`) — это то же самое дерево, опубликованное по HTTP.
+const REGISTRY_BASE = `${HOMEPAGE}/r`
+
 const ITEM_TYPES = new Set([
   'registry:block',
   'registry:component',
@@ -59,6 +63,12 @@ const manifestPath = resolve(repoRoot, values.manifest as string)
 const outDir = resolve(repoRoot, values.out as string)
 const manifestDir = dirname(manifestPath)
 
+function toDependencyUrl(dependency: string) {
+  return dependency.startsWith('http://') || dependency.startsWith('https://')
+    ? dependency
+    : `${REGISTRY_BASE}/${dependency}.json`
+}
+
 function abort(messages: string[]): never {
   console.error(`build-registry: ошибок — ${messages.length}`)
   for (const message of messages) {
@@ -84,6 +94,10 @@ for (const item of registry.items) {
 
   if (!ITEM_TYPES.has(item.type)) {
     errors.push(`item "${item.name}": недопустимый type "${item.type}"`)
+  }
+
+  if (!/^[a-z0-9-]+$/.test(item.name)) {
+    errors.push(`item "${item.name}": имя должно состоять из строчных латинских букв, цифр и дефисов`)
   }
 
   for (const file of item.files) {
@@ -119,6 +133,10 @@ if (errors.length > 0) {
   abort(errors)
 }
 
+if (outDir === repoRoot || dirname(outDir) === outDir) {
+  abort([`--out указывает на корень (${outDir}); отказываюсь удалять`])
+}
+
 // Каталог очищается целиком, иначе удалённый из манифеста item остался бы
 // опубликованным.
 await rm(outDir, { recursive: true, force: true })
@@ -133,9 +151,15 @@ for (const item of registry.items) {
     })
   }
 
+  const registryDependencies = item.registryDependencies?.map(toDependencyUrl)
+
   await writeFile(
     join(outDir, `${item.name}.json`),
-    `${JSON.stringify({ $schema: ITEM_SCHEMA, ...item, files }, null, 2)}\n`,
+    `${JSON.stringify(
+      { $schema: ITEM_SCHEMA, ...item, ...(registryDependencies ? { registryDependencies } : {}), files },
+      null,
+      2,
+    )}\n`,
     'utf8',
   )
 }
