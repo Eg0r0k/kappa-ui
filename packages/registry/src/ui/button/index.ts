@@ -33,11 +33,16 @@ export const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
         link: "text-primary underline-offset-4 hover:underline [--spinner-color:var(--primary)]",
       },
+      // The icon sizes are square and match the heights of the text sizes, so
+      // an icon button sits flush with a text button of the same size in a
+      // row: 32px, 36px, 40px.
       size: {
         sm: "h-8 px-3 text-xs",
         default: "h-9 px-4 py-2",
         lg: "h-10 px-6",
+        "icon-sm": "size-8",
         icon: "size-9",
+        "icon-lg": "size-10",
       },
 
       touchTarget: {
@@ -69,7 +74,11 @@ export const buttonVariants = cva(
       { size: "sm", touchTarget: "wrapper", class: "my-2" },
       { size: "default", touchTarget: "wrapper", class: "my-1.5" },
       { size: "lg", touchTarget: "wrapper", class: "my-1" },
+      // Square sizes reserve on both axes, since neither dimension reaches
+      // 48px on its own.
+      { size: "icon-sm", touchTarget: "wrapper", class: "mx-2 my-2" },
       { size: "icon", touchTarget: "wrapper", class: "mx-1.5 my-1.5" },
+      { size: "icon-lg", touchTarget: "wrapper", class: "mx-1 my-1" },
       // select-none is not polish, it closes a hole. text-transparent only
       // makes the glyphs invisible; the text is still there, and a selection
       // dragged across the button repaints it in the selection colour, so the
