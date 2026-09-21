@@ -62,3 +62,13 @@ it("animates horizontally too", async () => {
 
   await vi.waitFor(() => expect(host.scrollLeft).toBe(400), { timeout: 2000 });
 });
+
+it("animates window scrolling vertically", async () => {
+  document.body.style.height = "2000px";
+
+  setVerticalScrollPosition(window, 500, 200);
+  expect(window.scrollY).toBe(0);
+
+  await vi.waitFor(() => expect(window.scrollY).toBeGreaterThan(0));
+  await vi.waitFor(() => expect(window.scrollY).toBe(500), { timeout: 2000 });
+});

@@ -24,74 +24,72 @@ const writeHorizontal = (target: ScrollTarget, offset: number) => {
   target.scrollLeft = offset;
 };
 
-export const animVerticalScrollTo = (
-  target: ScrollTarget,
-  to: number,
-  duration = 0,
-  prevTime?: number,
-) => {
-  const startTime = prevTime ?? performance.now();
-  const position = getVerticalScrollPosition(target);
+const createAnimScrollTo = (
+  get: (target: ScrollTarget) => number,
+  write: (target: ScrollTarget, offset: number) => void,
+): ((target: ScrollTarget, to: number, duration?: number, prevTime?: number) => void) => {
+  const anim = (
+    target: ScrollTarget,
+    to: number,
+    duration = 0,
+    prevTime?: number,
+  ): void => {
+    const startTime = prevTime ?? performance.now();
+    const position = get(target);
 
-  if (duration <= 0) {
-    if (position !== to) writeVertical(target, to);
-    return;
-  }
+    if (duration <= 0) {
+      if (position !== to) write(target, to);
+      return;
+    }
 
-  requestAnimationFrame((nowTime) => {
-    const frameTime = nowTime - startTime;
-    const next =
-      position + ((to - position) / Math.max(frameTime, duration)) * frameTime;
+    requestAnimationFrame((nowTime) => {
+      const frameTime = nowTime - startTime;
+      const next =
+        position + ((to - position) / Math.max(frameTime, duration)) * frameTime;
 
-    writeVertical(target, next);
-    if (next !== to) animVerticalScrollTo(target, to, duration - frameTime, nowTime);
-  });
+      write(target, next);
+      if (next !== to) anim(target, to, duration - frameTime, nowTime);
+    });
+  };
+
+  return anim;
 };
 
-export const animHorizontalScrollTo = (
-  target: ScrollTarget,
-  to: number,
-  duration = 0,
-  prevTime?: number,
-) => {
-  const startTime = prevTime ?? performance.now();
-  const position = getHorizontalScrollPosition(target);
-
-  if (duration <= 0) {
-    if (position !== to) writeHorizontal(target, to);
-    return;
-  }
-
-  requestAnimationFrame((nowTime) => {
-    const frameTime = nowTime - startTime;
-    const next =
-      position + ((to - position) / Math.max(frameTime, duration)) * frameTime;
-
-    writeHorizontal(target, next);
-    if (next !== to) animHorizontalScrollTo(target, to, duration - frameTime, nowTime);
-  });
+const createSetScrollPosition = (
+  anim: (target: ScrollTarget, to: number, duration?: number, prevTime?: number) => void,
+  write: (target: ScrollTarget, offset: number) => void,
+): ((target: ScrollTarget, offset: number, duration?: number) => void) => {
+  return (target: ScrollTarget, offset: number, duration?: number): void => {
+    if (duration) {
+      anim(target, offset, duration);
+      return;
+    }
+    write(target, offset);
+  };
 };
 
-export const setVerticalScrollPosition = (
+export const animVerticalScrollTo: (
+  target: ScrollTarget,
+  to: number,
+  duration?: number,
+  prevTime?: number,
+) => void = createAnimScrollTo(getVerticalScrollPosition, writeVertical);
+
+export const animHorizontalScrollTo: (
+  target: ScrollTarget,
+  to: number,
+  duration?: number,
+  prevTime?: number,
+) => void = createAnimScrollTo(getHorizontalScrollPosition, writeHorizontal);
+
+export const setVerticalScrollPosition: (
   target: ScrollTarget,
   offset: number,
   duration?: number,
-) => {
-  if (duration) {
-    animVerticalScrollTo(target, offset, duration);
-    return;
-  }
-  writeVertical(target, offset);
-};
+) => void = createSetScrollPosition(animVerticalScrollTo, writeVertical);
 
-export const setHorizontalScrollPosition = (
+export const setHorizontalScrollPosition: (
   target: ScrollTarget,
   offset: number,
   duration?: number,
-) => {
-  if (duration) {
-    animHorizontalScrollTo(target, offset, duration);
-    return;
-  }
-  writeHorizontal(target, offset);
-};
+) => void = createSetScrollPosition(animHorizontalScrollTo, writeHorizontal);
