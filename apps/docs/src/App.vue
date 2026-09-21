@@ -47,6 +47,12 @@ import { Button } from '@/ui/button'
       <Button size="sm" touch-target="expand">expand — 48px, may overlap</Button>
       <Button size="sm" touch-target="wrapper">wrapper — 48px, reserved</Button>
       <Button size="icon" touch-target="expand" aria-label="Add">+</Button>
+      <Button size="sm" touch-target="expand">Ok</Button>
     </div>
+    <p class="mt-3 max-w-prose text-sm text-neutral-500 dark:text-neutral-400">
+      The last one is the case width expansion exists for: “Ok” renders about 40px wide, so its
+      target grows sideways too. On the wider buttons above, max(48px, 100%) resolves to 100% and
+      changes nothing.
+    </p>
   </main>
 </template>
