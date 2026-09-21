@@ -255,6 +255,43 @@ wrapper that owns the height and an inner box absolutely positioned over it.
 Attributes you pass — `class` included — land on the inner box, so background,
 radius and overflow apply there, not to the element that reserves the space.
 
+## Scroll area
+
+`ScrollArea` hides the native scrollbar and draws its own, over a real native
+scroller. The API follows Quasar's `QScrollArea`.
+
+```vue
+<ScrollArea class="h-72 rounded-lg border" :vertical-offset="[8, 8]">
+  <p v-for="line in lines" :key="line">{{ line }}</p>
+</ScrollArea>
+```
+
+The root is `contain: size`, so it takes no height from its content — give it
+one, or it collapses. That is Quasar's behaviour too.
+
+Style the parts with `content-class`, `bar-class` and `thumb-class`, all merged
+through `cn()`. Each bar and thumb carries `data-axis`, so one class string can
+cover both axes:
+
+```vue
+<ScrollArea thumb-class="data-[axis=vertical]:w-3 data-[axis=horizontal]:h-3" />
+```
+
+`visible` forces the bars on or off and overrides hover; `delay` is how long
+they linger after the content or the position last changed. `data-active` is
+present on the root and the content while they show.
+
+Six methods are exposed, and the `@scroll` payload carries the same object as
+`ref`, so a single handler can serve many areas:
+
+```vue
+<ScrollArea @scroll="(info) => info.ref.setScrollPosition('vertical', 0)" />
+```
+
+Right-to-left is handled: positions are kept in a logical form internally, so
+`getScrollPosition().left` counts up from the right edge under `dir="rtl"`,
+and the thumbs mirror through CSS logical properties.
+
 ## Repo layout
 
 - `packages/registry` — source of truth for every component (`src/`) and the

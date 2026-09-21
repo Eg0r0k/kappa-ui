@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 
 import { AspectRatio } from "@/ui/aspect-ratio";
 import { Button } from "@/ui/button";
+import { ScrollArea } from "@/ui/scroll-area";
 import { Spinner } from "@/ui/spinner";
 import vRipple from "@/lib/ripple";
 
@@ -415,6 +416,71 @@ const run = () => {
       >
         3 / 4
       </AspectRatio>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Scroll area
+    </h2>
+    <p class="mb-3 max-w-prose text-sm text-muted-foreground">
+      The native scrollbar is hidden and the bars are drawn by the component.
+      The root is size-contained, so it takes no height from its content - give
+      it one.
+    </p>
+    <div class="grid max-w-3xl gap-4 sm:grid-cols-2">
+      <ScrollArea class="h-48 rounded-lg border p-4">
+        <p v-for="index in 20" :key="index" class="text-sm leading-7">
+          Hover to reveal the bar. Line {{ index }}.
+        </p>
+      </ScrollArea>
+
+      <ScrollArea :visible="true" class="h-48 rounded-lg border p-4">
+        <p v-for="index in 20" :key="index" class="text-sm leading-7">
+          visible is forced on. Line {{ index }}.
+        </p>
+      </ScrollArea>
+
+      <ScrollArea
+        :vertical-offset="[12, 12]"
+        :horizontal-offset="[12, 12]"
+        class="h-48 rounded-lg border p-4"
+      >
+        <p v-for="index in 20" :key="index" class="text-sm leading-7">
+          Offsets inset the bar from every edge. Line {{ index }}.
+        </p>
+      </ScrollArea>
+
+      <ScrollArea
+        thumb-class="bg-primary/40 data-[axis=vertical]:w-1.5 hover:bg-primary/60"
+        class="h-48 rounded-lg border p-4"
+      >
+        <p v-for="index in 20" :key="index" class="text-sm leading-7">
+          Styled through thumb-class. Line {{ index }}.
+        </p>
+      </ScrollArea>
+
+      <ScrollArea class="h-48 rounded-lg border p-4">
+        <div class="flex w-[900px] gap-3">
+          <div
+            v-for="index in 12"
+            :key="index"
+            class="grid h-32 w-32 shrink-0 place-items-center rounded-lg bg-accent text-sm"
+          >
+            {{ index }}
+          </div>
+        </div>
+      </ScrollArea>
+
+      <ScrollArea dir="rtl" class="h-48 rounded-lg border p-4">
+        <div class="flex w-[900px] gap-3">
+          <div
+            v-for="index in 12"
+            :key="index"
+            class="grid h-32 w-32 shrink-0 place-items-center rounded-lg bg-accent text-sm"
+          >
+            rtl {{ index }}
+          </div>
+        </div>
+      </ScrollArea>
     </div>
   </main>
 </template>
