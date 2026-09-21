@@ -19,40 +19,47 @@ const spinner =
   "before:size-4 before:shrink-0 before:animate-spin before:rounded-full before:border-2 before:border-(--spinner-color) before:border-t-transparent before:content-['']";
 
 export const buttonVariants = cva(
-  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ease-smooth outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+  // The svg rules make an icon behave without the caller doing anything: no
+  // pointer target of its own, no shrinking when the label is long, and a
+  // default size that a caller's own size-* class still overrides.
+  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ease-smooth outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary/90 [--spinner-color:var(--primary-foreground)]",
+          "bg-primary hover:bg-primary/90 [--spinner-color:var(--foreground)]",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 [--spinner-color:var(--secondary-foreground)]",
-        // There is no --destructive-foreground; shadcn removed it, so the
-        // label is plain white. Our --destructive values differ from theirs
-        // precisely so that white clears 4.5:1 in both themes without help.
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 [--spinner-color:white]",
         ghost:
           "hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
         link: "text-primary underline-offset-4 hover:underline [--spinner-color:var(--primary)]",
       },
-      // The icon sizes are square and match the heights of the text sizes, so
-      // an icon button sits flush with a text button of the same size in a
-      // row: 32px, 36px, 40px, 48px.
+      // has-[>svg] tightens the horizontal padding when the content is an
+      // icon rather than a label, declaratively — no slot inspection, no
+      // reflected attribute. An icon needs less breathing room than text at
+      // the same height, and the icon-* sizes have no horizontal padding to
+      // adjust in the first place.
       size: {
-        sm: "h-8 px-3 text-xs",
-        default: "h-9 px-4 py-2",
-        lg: "h-10 px-6",
-        // 48px is exactly the touch-target minimum, so xl needs no expansion
-        // at all: max(48px, 100%) resolves to 100% on both axes, and the
-        // wrapper margins below work out to zero. No compound variant needed.
-        xl: "h-12 px-8 text-base",
+        sm: "h-8 gap-1.5 px-3 text-xs has-[>svg]:px-2.5",
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        lg: "h-10 px-6 has-[>svg]:px-4",
+        xl: "h-12 px-8 text-base has-[>svg]:px-6",
         "icon-sm": "size-8",
         icon: "size-9",
         "icon-lg": "size-10",
         "icon-xl": "size-12",
+      },
+      // Material's focus ring has the same two modes. `inward` exists for an
+      // element whose container clips it — an outward ring would be drawn
+      // outside the clip and simply never seen, leaving keyboard users with
+      // no focus indicator at all.
+      focusRing: {
+        outward: "focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        inward: "focus-visible:inset-ring-[3px] focus-visible:inset-ring-ring/50",
       },
 
       touchTarget: {
@@ -60,27 +67,14 @@ export const buttonVariants = cva(
         expand: touchTargetArea,
         wrapper: touchTargetArea,
       },
-      // pointer-events-none is what actually blocks the mouse. The click
-      // handler alone is not enough: at the target element, capture and
-      // bubble listeners fire in registration order, and a consumer's own
-      // @click is registered before ours, so stopImmediatePropagation cannot
-      // be relied on to beat it. Keyboard activation is blocked separately,
-      // in Button.vue, by preventing the default on Enter and Space so no
-      // click is ever synthesised.
       loading: {
         false: "",
         true: "pointer-events-none",
       },
-      // Separate from `loading` so a caller can supply their own indicator
-      // through the #spinner slot and get none of the built-in one.
       spinner: {
         none: "",
         builtin: spinner,
       },
-      // adjacent: the spinner sits in flex flow, next to the label, and the
-      // button grows by its width plus the gap.
-      // replace: the spinner is centred on top and the label goes
-      // transparent, so the label keeps defining the width and nothing moves.
       loadingMode: {
         adjacent: "",
         replace: "",
@@ -90,21 +84,14 @@ export const buttonVariants = cva(
       { size: "sm", touchTarget: "wrapper", class: "my-2" },
       { size: "default", touchTarget: "wrapper", class: "my-1.5" },
       { size: "lg", touchTarget: "wrapper", class: "my-1" },
-      // Square sizes reserve on both axes, since neither dimension reaches
-      // 48px on its own.
       { size: "icon-sm", touchTarget: "wrapper", class: "mx-2 my-2" },
       { size: "icon", touchTarget: "wrapper", class: "mx-1.5 my-1.5" },
       { size: "icon-lg", touchTarget: "wrapper", class: "mx-1 my-1" },
-      // select-none is not polish, it closes a hole. text-transparent only
-      // makes the glyphs invisible; the text is still there, and a selection
-      // dragged across the button repaints it in the selection colour, so the
-      // label everyone assumed was hidden comes back. Excluding it from
-      // selection also keeps it out of a page-wide copy.
-      // Find-in-page can still locate and highlight it — that one is not
-      // reachable from CSS.
-      { loading: true, loadingMode: "replace", class: "select-none text-transparent" },
-      // Centring applies to the built-in spinner only. A custom one is a real
-      // element, so Button.vue positions its wrapper instead.
+      {
+        loading: true,
+        loadingMode: "replace",
+        class: "select-none text-transparent",
+      },
       {
         spinner: "builtin",
         loadingMode: "replace",
@@ -119,6 +106,7 @@ export const buttonVariants = cva(
       loading: false,
       loadingMode: "adjacent",
       spinner: "none",
+      focusRing: "outward",
     },
   },
 );

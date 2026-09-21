@@ -88,6 +88,28 @@ Tailwind v4 removed the default pointer cursor on buttons. This restores it
 for every button in your project, not only delta-ui's — another project-wide
 effect to be aware of before installing.
 
+## Spinner
+
+```
+npx shadcn-vue add https://delta-ui.dev/r/spinner.json
+```
+
+A standalone loading indicator. It carries no size and no colour of its own —
+it inherits `currentColor` and whatever size you give it, which is what makes
+it drop straight into a button:
+
+```vue
+<Button loading>
+  <template #spinner><Spinner /></template>
+  Save
+</Button>
+```
+
+It is `aria-hidden`. A spinner on its own announces nothing useful, so the
+state belongs on the control that is busy — `aria-busy` on a Button, or a
+live region you own. Under `prefers-reduced-motion: reduce` it freezes at its
+widest frame rather than disappearing, so it still reads as "loading".
+
 ## Loading
 
 ```vue

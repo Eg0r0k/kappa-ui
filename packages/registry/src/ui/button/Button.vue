@@ -11,6 +11,12 @@ interface Props extends PrimitiveProps {
   touchTarget?: ButtonVariants["touchTarget"];
   loading?: boolean;
   loadingMode?: ButtonVariants["loadingMode"];
+  /**
+   * `inward` draws the focus ring inside the button instead of around it.
+   * Use it when a parent clips overflow, where an outward ring would be
+   * painted outside the clip and never seen.
+   */
+  focusRing?: ButtonVariants["focusRing"];
   class?: HTMLAttributes["class"];
 }
 
@@ -77,6 +83,7 @@ const onKeydown = (event: KeyboardEvent) => {
           loading: props.loading,
           loadingMode: props.loadingMode,
           spinner: spinnerKind,
+          focusRing: props.focusRing,
         }),
         props.class,
       )

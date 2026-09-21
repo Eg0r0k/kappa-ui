@@ -1,74 +1,90 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from "vue";
 
-import { Button } from '@/ui/button'
+import { Button } from "@/ui/button";
+import { Spinner } from "@/ui/spinner";
 
 // Paired the way the button actually consumes them: a fill and the text that
 // sits on it. Showing them apart would hide the only thing that matters about
 // a foreground token, which is whether it is readable on its partner.
 const buttonColors = [
   {
-    bg: 'primary',
-    fg: 'primary-foreground',
+    bg: "primary",
+    fg: "primary-foreground",
     role: 'variant="default" fill and label; link text; spinner',
   },
-  { bg: 'accent', fg: 'accent-foreground', role: 'hover fill for outline and ghost' },
-  { bg: 'background', fg: 'foreground', role: 'outline fill; inherited label colour' },
-  { bg: 'input', fg: null, role: 'outline border' },
-  { bg: 'ring', fg: null, role: 'focus ring, drawn at 50% opacity' },
-]
+  {
+    bg: "accent",
+    fg: "accent-foreground",
+    role: "hover fill for outline and ghost",
+  },
+  {
+    bg: "background",
+    fg: "foreground",
+    role: "outline fill; inherited label colour",
+  },
+  { bg: "input", fg: null, role: "outline border" },
+  { bg: "ring", fg: null, role: "focus ring, drawn at 50% opacity" },
+];
 
 // Theme tokens that exist but nothing in Button reads yet.
 const unusedColors = [
-  'secondary',
-  'secondary-foreground',
-  'muted',
-  'muted-foreground',
-  'card',
-  'card-foreground',
-  'popover',
-  'popover-foreground',
-  'destructive',
-  'border',
-]
+  "secondary",
+  "secondary-foreground",
+  "muted",
+  "muted-foreground",
+  "card",
+  "card-foreground",
+  "popover",
+  "popover-foreground",
+  "destructive",
+  "border",
+];
 
-const variants = ['default', 'secondary', 'destructive', 'outline', 'ghost', 'link'] as const
+const variants = [
+  "default",
+  "secondary",
+  "destructive",
+  "outline",
+  "ghost",
+  "link",
+] as const;
 
-const resolved = ref<Record<string, string>>({})
+const resolved = ref<Record<string, string>>({});
 
 // Read from the live document rather than hardcoded, so the values shown are
 // the ones actually in force and follow the theme toggle.
 const readTokens = () => {
-  const style = getComputedStyle(document.documentElement)
+  const style = getComputedStyle(document.documentElement);
   const names = [
     ...buttonColors.flatMap((c) => (c.fg ? [c.bg, c.fg] : [c.bg])),
     ...unusedColors,
-  ]
+  ];
   resolved.value = Object.fromEntries(
     names.map((name) => [name, style.getPropertyValue(`--${name}`).trim()]),
-  )
-}
+  );
+};
 
-onMounted(readTokens)
+onMounted(readTokens);
 
-const dark = ref(false)
+const dark = ref(false);
 
 const toggleTheme = () => {
-  dark.value = !dark.value
-  document.documentElement.classList.toggle('dark', dark.value)
-  readTokens()
-}
+  dark.value = !dark.value;
+  document.documentElement.classList.toggle("dark", dark.value);
+  readTokens();
+};
 
-const busy = ref<'adjacent' | 'replace' | null>(null)
-const clicks = ref(0)
+const busy = ref<"adjacent" | "replace" | null>(null);
+const clicks = ref(0);
 
 // The counter is the test: it proves a consumer's own @click really is
 // blocked while the button is busy, rather than merely looking blocked.
-const run = (mode: 'adjacent' | 'replace') => {
-  clicks.value += 1
-  busy.value = mode
-  setTimeout(() => (busy.value = null), 2000)
-}
+const run = (mode: "adjacent" | "replace") => {
+  clicks.value += 1;
+  busy.value = mode;
+  setTimeout(() => (busy.value = null), 2000);
+};
 </script>
 
 <template>
@@ -80,18 +96,30 @@ const run = (mode: 'adjacent' | 'replace') => {
           Development showcase. Components live in packages/registry.
         </p>
       </div>
-      <Button variant="outline" size="sm" class="press-scale" @click="toggleTheme">
-        {{ dark ? 'Light' : 'Dark' }}
+      <Button
+        variant="outline"
+        size="sm"
+        class="press-scale"
+        @click="toggleTheme"
+      >
+        {{ dark ? "Light" : "Dark" }}
       </Button>
     </div>
 
-    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Button colours</h2>
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Button colours
+    </h2>
     <p class="mb-4 max-w-prose text-sm text-muted-foreground">
-      Every colour token the button reads, paired the way it uses them. Values are read from the
-      live document, so the theme toggle changes what is shown here too.
+      Every colour token the button reads, paired the way it uses them. Values
+      are read from the live document, so the theme toggle changes what is shown
+      here too.
     </p>
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div v-for="c in buttonColors" :key="c.bg" class="rounded-lg border border-input p-3">
+      <div
+        v-for="c in buttonColors"
+        :key="c.bg"
+        class="rounded-lg border border-input p-3"
+      >
         <div
           class="mb-3 flex h-20 items-center justify-center rounded-md text-sm font-medium"
           :style="{
@@ -102,18 +130,22 @@ const run = (mode: 'adjacent' | 'replace') => {
           <span v-if="c.fg">Label on {{ c.bg }}</span>
         </div>
         <p class="font-mono text-xs">--{{ c.bg }}</p>
-        <p class="font-mono text-xs text-muted-foreground">{{ resolved[c.bg] }}</p>
+        <p class="font-mono text-xs text-muted-foreground">
+          {{ resolved[c.bg] }}
+        </p>
         <template v-if="c.fg">
           <p class="mt-1 font-mono text-xs">--{{ c.fg }}</p>
-          <p class="font-mono text-xs text-muted-foreground">{{ resolved[c.fg] }}</p>
+          <p class="font-mono text-xs text-muted-foreground">
+            {{ resolved[c.fg] }}
+          </p>
         </template>
         <p class="mt-2 text-xs text-muted-foreground">{{ c.role }}</p>
       </div>
     </div>
 
     <p class="mt-6 mb-3 max-w-prose text-sm text-muted-foreground">
-      Defined in the theme but not read by the button yet - they are here so the palette is
-      complete, not because the button uses them:
+      Defined in the theme but not read by the button yet - they are here so the
+      palette is complete, not because the button uses them:
     </p>
     <div class="flex flex-wrap gap-3">
       <div v-for="name in unusedColors" :key="name" class="w-40">
@@ -122,24 +154,38 @@ const run = (mode: 'adjacent' | 'replace') => {
           :style="{ background: `var(--${name})` }"
         ></div>
         <p class="mt-1 font-mono text-xs">--{{ name }}</p>
-        <p class="font-mono text-xs text-muted-foreground">{{ resolved[name] }}</p>
+        <p class="font-mono text-xs text-muted-foreground">
+          {{ resolved[name] }}
+        </p>
       </div>
     </div>
 
-    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Colour variants</h2>
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Colour variants
+    </h2>
     <p class="mb-4 max-w-prose text-sm text-muted-foreground">
-      Every variant in every state it can be in. Hover and focus are the two you have to produce
-      yourself - tab through the row to see the focus ring.
+      Every variant in every state it can be in. Hover and focus are the two you
+      have to produce yourself - tab through the row to see the focus ring.
     </p>
     <div class="overflow-x-auto">
       <table class="w-full min-w-3xl border-collapse text-left">
         <thead>
           <tr class="border-b border-input">
-            <th class="p-2 text-xs font-medium text-muted-foreground">variant</th>
-            <th class="p-2 text-xs font-medium text-muted-foreground">normal</th>
-            <th class="p-2 text-xs font-medium text-muted-foreground">disabled</th>
-            <th class="p-2 text-xs font-medium text-muted-foreground">loading</th>
-            <th class="p-2 text-xs font-medium text-muted-foreground">loading, replace</th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">
+              variant
+            </th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">
+              normal
+            </th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">
+              disabled
+            </th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">
+              loading
+            </th>
+            <th class="p-2 text-xs font-medium text-muted-foreground">
+              loading, replace
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -148,31 +194,80 @@ const run = (mode: 'adjacent' | 'replace') => {
             <td class="p-2"><Button :variant="v">Button</Button></td>
             <td class="p-2"><Button :variant="v" disabled>Button</Button></td>
             <td class="p-2"><Button :variant="v" loading>Button</Button></td>
-            <td class="p-2"><Button :variant="v" loading loading-mode="replace">Button</Button></td>
+            <td class="p-2">
+              <Button :variant="v" loading loading-mode="replace"
+                >Button</Button
+              >
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Custom spinner</h2>
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Focus ring, inward</h2>
     <p class="mb-3 max-w-prose text-sm text-muted-foreground">
-      The <code>#spinner</code> slot replaces the built-in one entirely. It cannot be combined with
-      <code>as-child</code> - Slot takes exactly one child - so that pairing falls back to the
-      built-in.
+      Tab through both boxes. The container clips its overflow, so the outward ring on the left is
+      painted outside the clip and never appears - the keyboard user gets no indicator at all. The
+      inward one stays visible.
+    </p>
+    <div class="flex flex-wrap gap-6">
+      <div class="overflow-hidden rounded-lg border border-input">
+        <Button class="rounded-none">outward (clipped away)</Button>
+      </div>
+      <div class="overflow-hidden rounded-lg border border-input">
+        <Button focus-ring="inward" class="rounded-none">inward (survives)</Button>
+      </div>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Icon padding</h2>
+    <p class="mb-3 max-w-prose text-sm text-muted-foreground">
+      <code>has-[&gt;svg]</code> tightens the horizontal padding when the content is an icon rather
+      than a label. Nothing is passed in - the button detects it from its own content.
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button size="sm">Label</Button>
+      <Button size="sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5v14" />
+        </svg>
+      </Button>
+      <Button>Label</Button>
+      <Button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5v14" />
+        </svg>
+      </Button>
+      <Button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5v14" />
+        </svg>
+        Icon and label
+      </Button>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Custom spinner
+    </h2>
+    <p class="mb-3 max-w-prose text-sm text-muted-foreground">
+      The <code>#spinner</code> slot replaces the built-in one entirely. It
+      cannot be combined with <code>as-child</code> - Slot takes exactly one
+      child - so that pairing falls back to the built-in.
     </p>
     <div class="flex flex-wrap items-center gap-3">
       <Button loading>Built-in</Button>
       <Button loading>
-        <template #spinner>
-          <span class="animate-pulse">...</span>
-        </template>
-        Custom, adjacent
+        <template #spinner><Spinner /></template>
+        Spinner component, adjacent
       </Button>
       <Button variant="outline" loading loading-mode="replace">
+        <template #spinner><Spinner /></template>
+        Spinner component, replace
+      </Button>
+      <Button variant="secondary" loading>
         <template #spinner>
           <span class="animate-pulse text-xs tracking-widest">WAIT</span>
         </template>
-        Custom, replace
+        Anything you like
       </Button>
     </div>
 
@@ -184,8 +279,8 @@ const run = (mode: 'adjacent' | 'replace') => {
       <Button size="xl">Extra large</Button>
     </div>
     <p class="mt-3 mb-3 text-sm text-muted-foreground">
-      Icon sizes are square and match those heights, so they line up with a text button of the same
-      size:
+      Icon sizes are square and match those heights, so they line up with a text
+      button of the same size:
     </p>
     <div class="flex flex-wrap items-center gap-3">
       <Button size="sm">Small</Button>
@@ -212,14 +307,19 @@ const run = (mode: 'adjacent' | 'replace') => {
       <Button class="rounded-full">class overrides the radius</Button>
     </div>
 
-    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Loading</h2>
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Loading
+    </h2>
     <p class="mb-3 max-w-prose text-sm text-muted-foreground">
-      Press either button: it stays busy for two seconds. Tab to it first and watch the focus ring
-      survive the whole time - that is the point of aria-disabled over the native attribute. Clicks
-      counted so far: <strong>{{ clicks }}</strong> - it must not move while a button is busy.
+      Press either button: it stays busy for two seconds. Tab to it first and
+      watch the focus ring survive the whole time - that is the point of
+      aria-disabled over the native attribute. Clicks counted so far:
+      <strong>{{ clicks }}</strong> - it must not move while a button is busy.
     </p>
     <div class="flex flex-wrap items-center gap-3">
-      <Button :loading="busy === 'adjacent'" @click="run('adjacent')">Save (adjacent)</Button>
+      <Button :loading="busy === 'adjacent'" @click="run('adjacent')"
+        >Save (adjacent)</Button
+      >
       <Button
         variant="outline"
         loading-mode="replace"
@@ -229,38 +329,50 @@ const run = (mode: 'adjacent' | 'replace') => {
         Save (replace, width held)
       </Button>
       <Button variant="ghost" loading>Ghost, stuck busy</Button>
-      <Button variant="link" loading loading-mode="replace">Link, stuck busy</Button>
+      <Button variant="link" loading loading-mode="replace"
+        >Link, stuck busy</Button
+      >
     </div>
 
-    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Press feedback</h2>
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Press feedback
+    </h2>
     <p class="mb-3 max-w-prose text-sm text-muted-foreground">
-      <code>press-scale</code> is a utility, not a prop - pass it through <code>class</code>. Hold
-      the second button to see it dip. It respects <code>prefers-reduced-motion</code>.
+      <code>press-scale</code> is a utility, not a prop - pass it through
+      <code>class</code>. Hold the second button to see it dip. It respects
+      <code>prefers-reduced-motion</code>.
     </p>
     <div class="flex flex-wrap items-center gap-3">
       <Button>No press feedback</Button>
       <Button class="press-scale">Press and hold me</Button>
-      <Button variant="outline" class="press-scale">Outline, same utility</Button>
+      <Button variant="outline" class="press-scale"
+        >Outline, same utility</Button
+      >
     </div>
 
-    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Touch target</h2>
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Touch target
+    </h2>
     <p class="mb-3 max-w-prose text-sm text-muted-foreground">
-      All three look identical. The outlines below are drawn by the showcase, not by the component -
-      they reveal where each button actually accepts a press.
+      All three look identical. The outlines below are drawn by the showcase,
+      not by the component - they reveal where each button actually accepts a
+      press.
     </p>
     <div
       class="flex flex-wrap items-center gap-6 [&_button::after]:outline [&_button::after]:outline-dashed [&_button::after]:outline-pink-500/70"
     >
       <Button size="sm">none - 32px</Button>
-      <Button size="sm" touch-target="expand">expand - 48px, may overlap</Button>
+      <Button size="sm" touch-target="expand"
+        >expand - 48px, may overlap</Button
+      >
       <Button size="sm" touch-target="wrapper">wrapper - 48px, reserved</Button>
       <Button size="icon" touch-target="expand" aria-label="Add">+</Button>
       <Button size="sm" touch-target="expand">Ok</Button>
     </div>
     <p class="mt-3 max-w-prose text-sm text-muted-foreground">
-      The last one is the case width expansion exists for: "Ok" renders about 40px wide, so its
-      target grows sideways too. On the wider buttons above, max(48px, 100%) resolves to 100% and
-      changes nothing.
+      The last one is the case width expansion exists for: "Ok" renders about
+      40px wide, so its target grows sideways too. On the wider buttons above,
+      max(48px, 100%) resolves to 100% and changes nothing.
     </p>
   </main>
 </template>

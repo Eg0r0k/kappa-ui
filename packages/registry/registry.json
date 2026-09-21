@@ -16,6 +16,23 @@
       ]
     },
     {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Loading indicator driven by clip-path, inheriting colour from currentColor.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "src/ui/spinner/Spinner.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/spinner/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
