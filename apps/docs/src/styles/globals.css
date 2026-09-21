@@ -36,7 +36,10 @@
      the page background. At L 0.58 both fail (4.24 and 4.43); 0.52 gives
      5.49 and 5.74. */
   --primary: oklch(0.52 0.2 262);
-  --primary-foreground: oklch(0.985 0.01 262);
+  /* Plain white. White on this blue measures 5.74 in light and 5.71 in dark,
+     so the same pairing works in both themes and the button looks identical
+     either way. */
+  --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -64,8 +67,12 @@
      carrying a dark label. Keeping white text on a mid blue does not work
      here — at L 0.55 link text lands on 3.93 against the dark page — and
      going lighter than 0.66 pushes the colour out of the sRGB gamut. */
-  --primary: oklch(0.66 0.17 262);
-  --primary-foreground: oklch(0.21 0.04 262);
+  /* Same blue as the light theme, not a lighter one. White text is the fixed
+     requirement, and white needs a dark enough fill: at L 0.62 it drops to
+     3.74 and at 0.66 to 3.22. Holding 0.52 keeps it at 5.71.
+     The cost is the link variant — see the note in the README. */
+  --primary: oklch(0.52 0.2 262);
+  --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);

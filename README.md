@@ -36,6 +36,22 @@ names, so unlike `--radius` they cannot collide with anything shadcn defines.
 Tailwind only emits a theme variable once something uses it, so expect the
 unused curves to be absent from your compiled CSS until you reference them.
 
+## A known contrast trade-off
+
+`--primary` is a blue dark enough that white sits on it at 5.74 in light and
+5.71 in dark. That is deliberate: the filled button carries white text, and
+white needs a dark fill.
+
+The same token is also what `variant="link"` paints text with, straight onto
+the page background — and there the requirement inverts. On the dark
+background this blue measures **3.46**, below the 4.5 threshold. No single
+blue satisfies both: the two requirements cross at roughly L 0.58, where both
+land near 4.45 and fail together.
+
+If you rely on `variant="link"` in dark mode, split the roles — keep
+`--primary` as the fill and add a lighter token for brand-coloured text, for
+example `oklch(0.66 0.17 262)`, which measures 6.14 against the dark page.
+
 ## Colour tokens
 
 Components use shadcn's semantic colour tokens — `--background`,

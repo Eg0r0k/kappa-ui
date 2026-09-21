@@ -27,7 +27,7 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary hover:bg-primary/90 [--spinner-color:var(--foreground)]",
+          "bg-primary text-primary-foreground hover:bg-primary/90 [--spinner-color:var(--primary-foreground)]",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
         secondary:
@@ -59,7 +59,8 @@ export const buttonVariants = cva(
       // no focus indicator at all.
       focusRing: {
         outward: "focus-visible:ring-[3px] focus-visible:ring-ring/50",
-        inward: "focus-visible:inset-ring-[3px] focus-visible:inset-ring-ring/50",
+        inward:
+          "focus-visible:inset-ring-[3px] focus-visible:inset-ring-ring/50",
       },
 
       touchTarget: {
