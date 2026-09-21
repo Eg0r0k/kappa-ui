@@ -45,7 +45,7 @@ type RippleState = {
   waves: Set<Wave>;
   current: Wave | null;
   options: RippleOptions;
-  handlers: Record<string, (event: PointerEvent) => void>;
+  handlers: Record<string, EventListener>;
 };
 
 type RippleElement = HTMLElement & { _ripple?: RippleState };
@@ -124,6 +124,35 @@ const releaseWave = (state: RippleState, wave: Wave) => {
   }, holdFor + FADE_OUT_MS);
 };
 
+/** Creates a wave centred on (x, y), in element coordinates. */
+const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number): Wave => {
+  const rect = el.getBoundingClientRect();
+  const geometry = computeGeometry(rect, x, y);
+
+  const element = document.createElement("span");
+  element.className = "delta-ripple__wave";
+  element.style.setProperty("--ripple-size", `${geometry.initialSize}px`);
+  element.style.setProperty("--ripple-scale", `${geometry.scale}`);
+  element.style.setProperty("--ripple-from", `translate(${geometry.from.x}px, ${geometry.from.y}px)`);
+  element.style.setProperty("--ripple-to", `translate(${geometry.to.x}px, ${geometry.to.y}px)`);
+  if (state.options.color) element.style.setProperty("--ripple-color", state.options.color);
+  if (state.options.opacity !== undefined) {
+    element.style.setProperty("--ripple-opacity", `${state.options.opacity}`);
+  }
+
+  ensureContainer(el).appendChild(element);
+
+  const wave: Wave = { element, startTime: performance.now(), released: false };
+  state.waves.add(wave);
+  return wave;
+};
+
+/** A press that belongs to a nested control is that control's, not ours. */
+const belongsToNestedControl = (el: HTMLElement, target: EventTarget | null) => {
+  const interactive = (target as HTMLElement | null)?.closest(INTERACTIVE_SELECTOR);
+  return Boolean(interactive) && interactive !== el;
+};
+
 const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
   if (el._ripple) return;
 
@@ -134,6 +163,33 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
 
   const releasePrimary = (event: PointerEvent) => {
     if (event.isPrimary) releaseCurrent();
+  };
+
+  /**
+   * Keyboard activation. MouseEvent.detail is the click count for anything a
+   * pointer produced, and exactly 0 otherwise — Enter or Space on a button,
+   * activation through a associated <label>, or a programmatic .click().
+   * Material reaches the same cases by tracking a state machine and inferring
+   * "no pointer press preceded this click"; this is the same test asked
+   * directly, so it needs no state.
+   *
+   * The wave is centred, because there is no press point, and released at
+   * once since no pointerup will follow. MINIMUM_PRESS_MS is what keeps it on
+   * screen long enough to be seen.
+   */
+  const onClick = (event: MouseEvent) => {
+    if (event.detail !== 0) return;
+
+    const state = el._ripple;
+    if (!state || state.options.disabled) return;
+    if (belongsToNestedControl(el, event.target)) return;
+
+    releaseCurrent();
+
+    const rect = el.getBoundingClientRect();
+    const wave = spawnWave(el, state, rect.width / 2, rect.height / 2);
+    state.current = wave;
+    releaseWave(state, wave);
   };
 
   const onPointerdown = (event: PointerEvent) => {
@@ -151,30 +207,10 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
     // cancelled gesture — must not outlive the next press.
     releaseCurrent();
 
-    // A press that belongs to a nested control is that control's, not ours.
-    const target = event.target as HTMLElement;
-    const interactive = target.closest(INTERACTIVE_SELECTOR);
-    if (interactive && interactive !== el) return;
+    if (belongsToNestedControl(el, event.target)) return;
 
     const rect = el.getBoundingClientRect();
-    const geometry = computeGeometry(rect, event.clientX - rect.left, event.clientY - rect.top);
-
-    const element = document.createElement("span");
-    element.className = "delta-ripple__wave";
-    element.style.setProperty("--ripple-size", `${geometry.initialSize}px`);
-    element.style.setProperty("--ripple-scale", `${geometry.scale}`);
-    element.style.setProperty("--ripple-from", `translate(${geometry.from.x}px, ${geometry.from.y}px)`);
-    element.style.setProperty("--ripple-to", `translate(${geometry.to.x}px, ${geometry.to.y}px)`);
-    if (state.options.color) element.style.setProperty("--ripple-color", state.options.color);
-    if (state.options.opacity !== undefined) {
-      element.style.setProperty("--ripple-opacity", `${state.options.opacity}`);
-    }
-
-    ensureContainer(el).appendChild(element);
-
-    const wave: Wave = { element, startTime: performance.now(), released: false };
-    state.waves.add(wave);
-    state.current = wave;
+    state.current = spawnWave(el, state, event.clientX - rect.left, event.clientY - rect.top);
   };
 
   const handlers = {
@@ -182,6 +218,7 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
     pointerup: releasePrimary,
     pointercancel: releasePrimary,
     pointerleave: releasePrimary,
+    click: onClick,
   };
 
   el._ripple = {
@@ -189,11 +226,11 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
     waves: new Set(),
     current: null,
     options: parseBinding(binding),
-    handlers,
+    handlers: handlers as unknown as Record<string, EventListener>,
   };
 
-  for (const [event, handler] of Object.entries(handlers)) {
-    el.addEventListener(event, handler as EventListener);
+  for (const [event, handler] of Object.entries(el._ripple.handlers)) {
+    el.addEventListener(event, handler);
   }
 };
 
@@ -207,7 +244,7 @@ const cleanupRipple = (el: RippleElement) => {
   }
 
   for (const [event, handler] of Object.entries(state.handlers)) {
-    el.removeEventListener(event, handler as EventListener);
+    el.removeEventListener(event, handler);
   }
 
   state.container?.remove();

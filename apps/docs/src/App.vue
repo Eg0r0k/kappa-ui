@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 
 import { Button } from "@/ui/button";
 import { Spinner } from "@/ui/spinner";
-import vRipple from "@/directives/ripple";
+import vRipple from "@/lib/ripple";
 
 // Paired the way the button actually consumes them: a fill and the text that
 // sits on it. Showing them apart would hide the only thing that matters about

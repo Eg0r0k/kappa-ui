@@ -20,9 +20,10 @@
       "type": "registry:lib",
       "title": "Ripple",
       "description": "Vue directive for a Material-style press ripple that grows from the press point and drifts to the centre.",
+      "docs": "This is a Vue directive, so it does nothing until you register it. Add it once in your app entry:\n\n  import vRipple from '@/lib/ripple'\n  app.directive('ripple', vRipple)\n\nThen use it anywhere: <Button v-ripple>Press me</Button>. Pass false to disable it, or an object to tint it: v-ripple=\"{ color: 'red', opacity: 0.3 }\".\n\nThe host element must establish a containing block; the directive sets position: relative on it only if it is still static.",
       "files": [
         {
-          "path": "src/directives/ripple/index.ts",
+          "path": "src/lib/ripple/index.ts",
           "type": "registry:lib"
         }
       ],

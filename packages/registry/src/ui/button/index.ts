@@ -6,9 +6,6 @@ const touchTargetArea =
   "after:absolute after:top-1/2 after:left-1/2 after:h-[max(48px,100%)] after:w-[max(48px,100%)] after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']";
 
 export const buttonVariants = cva(
-  // The svg rules make an icon behave without the caller doing anything: no
-  // pointer target of its own, no shrinking when the label is long, and a
-  // default size that a caller's own size-* class still overrides.
   "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ease-smooth outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
@@ -22,11 +19,6 @@ export const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
-      // has-[>svg] tightens the horizontal padding when the content is an
-      // icon rather than a label, declaratively — no slot inspection, no
-      // reflected attribute. An icon needs less breathing room than text at
-      // the same height, and the icon-* sizes have no horizontal padding to
-      // adjust in the first place.
       size: {
         sm: "h-8 gap-1.5 px-3 text-xs has-[>svg]:px-2.5",
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -37,10 +29,6 @@ export const buttonVariants = cva(
         "icon-lg": "size-10",
         "icon-xl": "size-12",
       },
-      // Material's focus ring has the same two modes. `inward` exists for an
-      // element whose container clips it — an outward ring would be drawn
-      // outside the clip and simply never seen, leaving keyboard users with
-      // no focus indicator at all.
       focusRing: {
         outward: "focus-visible:ring-[3px] focus-visible:ring-ring/50",
         inward:

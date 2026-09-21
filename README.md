@@ -80,13 +80,25 @@ working; only the `.dark` class activates delta-ui's dark values. If you want
 npx shadcn-vue add https://delta-ui.dev/r/ripple.json
 ```
 
-A directive rather than a prop, so it attaches to anything:
+A directive rather than a prop, so it attaches to anything. **Register it once
+before use** — a directive does nothing until you do:
+
+```ts
+import vRipple from "@/lib/ripple"
+app.directive("ripple", vRipple)
+```
 
 ```vue
 <Button v-ripple>Press me</Button>
 <Button v-ripple="{ color: 'red', opacity: 0.3 }">Tinted</Button>
 <Button v-ripple="false">Off</Button>
 ```
+
+Keyboard activation ripples too, from the centre, since there is no press
+point. That works without listening for keys at all: `MouseEvent.detail` is
+the click count for anything a pointer produced and exactly `0` otherwise, so
+Enter, Space, a `<label>` activation and a programmatic `.click()` are all
+caught by the same test.
 
 The motion is Material's — a wave that starts at a fifth of the element's
 size under the press point and drifts to the centre while it expands, with a
