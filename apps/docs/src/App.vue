@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
+import { AspectRatio } from "@/ui/aspect-ratio";
 import { Button } from "@/ui/button";
 import { Spinner } from "@/ui/spinner";
 import vRipple from "@/lib/ripple";
@@ -386,5 +387,34 @@ const run = () => {
       40px wide, so its target grows sideways too. On the wider buttons above,
       max(48px, 100%) resolves to 100% and changes nothing.
     </p>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
+      Aspect ratio
+    </h2>
+    <p class="mb-3 max-w-prose text-sm text-muted-foreground">
+      The wrapper fills the width it is given and derives its height from
+      <code>ratio</code>. Attributes such as <code>class</code> land on the
+      inner box, which is absolutely positioned over that area.
+    </p>
+    <div class="grid max-w-2xl grid-cols-3 gap-4">
+      <AspectRatio
+        :ratio="16 / 9"
+        class="grid place-items-center rounded-lg bg-accent text-sm text-accent-foreground"
+      >
+        16 / 9
+      </AspectRatio>
+      <AspectRatio
+        :ratio="1"
+        class="grid place-items-center rounded-lg bg-accent text-sm text-accent-foreground"
+      >
+        1 / 1
+      </AspectRatio>
+      <AspectRatio
+        :ratio="3 / 4"
+        class="grid place-items-center rounded-lg bg-accent text-sm text-accent-foreground"
+      >
+        3 / 4
+      </AspectRatio>
+    </div>
   </main>
 </template>

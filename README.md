@@ -241,6 +241,20 @@ deliberate choice — turned on everywhere, adjacent buttons in a dense row
 silently overlap and a press can land on the wrong one. Use `wrapper` when
 buttons sit close together, `expand` when the button stands alone.
 
+## Aspect ratio
+
+`AspectRatio` is shadcn-vue's component copied as-is: a thin wrapper over
+reka-ui that adds `data-slot="aspect-ratio"`.
+
+```vue
+<AspectRatio :ratio="16 / 9" class="rounded-lg bg-accent" />
+```
+
+One thing the markup does not show: reka-ui renders two elements, an outer
+wrapper that owns the height and an inner box absolutely positioned over it.
+Attributes you pass — `class` included — land on the inner box, so background,
+radius and overflow apply there, not to the element that reserves the space.
+
 ## Repo layout
 
 - `packages/registry` — source of truth for every component (`src/`) and the
