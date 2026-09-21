@@ -4,14 +4,14 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-// Плейсхолдер. При деплое витрины меняется только эта строка.
+// Placeholder. Deploying the showcase changes this one line and nothing else.
 const HOMEPAGE = 'https://delta-ui.dev'
 
 const REGISTRY_SCHEMA = 'https://shadcn-vue.com/schema/registry.json'
 const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 
-// Захардкожен путь `/r`; должен совпадать со значением `--out` по умолчанию
-// (`apps/docs/public/r`) — это то же самое дерево, опубликованное по HTTP.
+// The `/r` path is hardcoded and must stay in step with the default `--out`
+// (`apps/docs/public/r`) — that is the same tree, served over HTTP.
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
 const ITEM_TYPES = new Set([
@@ -32,7 +32,7 @@ type RegistryFile = {
   target?: string
 }
 
-// CLI потребителя раскладывает группы по разным местам его CSS:
+// The consumer's CLI routes each group to a different place in their CSS:
 // theme → @theme inline, light → :root, dark → .dark.
 type CssVars = {
   theme?: Record<string, string>
@@ -79,7 +79,7 @@ function toDependencyUrl(dependency: string) {
 }
 
 function abort(messages: string[]): never {
-  console.error(`build-registry: ошибок — ${messages.length}`)
+  console.error(`build-registry: ${messages.length} error(s)`)
   for (const message of messages) {
     console.error(`  • ${message}`)
   }
@@ -87,7 +87,7 @@ function abort(messages: string[]): never {
 }
 
 if (!existsSync(manifestPath)) {
-  abort([`манифест не найден: ${values.manifest}`])
+  abort([`manifest not found: ${values.manifest}`])
 }
 
 const registry = JSON.parse(await readFile(manifestPath, 'utf8')) as Registry
@@ -97,46 +97,47 @@ const names = new Set<string>()
 
 for (const item of registry.items) {
   if (names.has(item.name)) {
-    errors.push(`item "${item.name}": имя повторяется в манифесте`)
+    errors.push(`item "${item.name}": duplicate name in the manifest`)
   }
   names.add(item.name)
 
   if (!ITEM_TYPES.has(item.type)) {
-    errors.push(`item "${item.name}": недопустимый type "${item.type}"`)
+    errors.push(`item "${item.name}": invalid type "${item.type}"`)
   }
 
   if (!/^[a-z0-9-]+$/.test(item.name)) {
-    errors.push(`item "${item.name}": имя должно состоять из строчных латинских букв, цифр и дефисов`)
+    errors.push(
+      `item "${item.name}": name must contain only lowercase letters, digits and hyphens`,
+    )
   }
 
-  // Префикс "--" добавляет CLI. Ключ "--radius" стал бы "----radius" молча.
+  // The CLI adds the "--" prefix itself. A key of "--radius" would silently
+  // become "----radius".
   const cssVars: CssVars = item.cssVars ?? {}
   for (const group of Object.keys(cssVars) as (keyof CssVars)[]) {
     for (const key of Object.keys(cssVars[group] ?? {})) {
       if (key.startsWith('--')) {
-        errors.push(
-          `item "${item.name}", cssVars.${group}: ключ "${key}" не должен начинаться с "--"`,
-        )
+        errors.push(`item "${item.name}", cssVars.${group}: key "${key}" must not start with "--"`)
       }
     }
   }
 
   for (const file of item.files) {
     if (!ITEM_TYPES.has(file.type)) {
-      errors.push(`item "${item.name}", файл "${file.path}": недопустимый type "${file.type}"`)
+      errors.push(`item "${item.name}", file "${file.path}": invalid type "${file.type}"`)
     }
     if (TARGET_REQUIRED.has(file.type) && !file.target) {
       errors.push(
-        `item "${item.name}", файл "${file.path}": для type "${file.type}" обязательно поле target`,
+        `item "${item.name}", file "${file.path}": type "${file.type}" requires a target field`,
       )
     }
     if (!existsSync(resolve(manifestDir, file.path))) {
-      errors.push(`item "${item.name}": файл не найден — ${file.path}`)
+      errors.push(`item "${item.name}": file not found — ${file.path}`)
     }
   }
 }
 
-// Отдельным проходом: ссылаться можно и на item, объявленный ниже по списку.
+// A separate pass: an item may reference another declared later in the list.
 for (const item of registry.items) {
   for (const dependency of item.registryDependencies ?? []) {
     if (dependency.startsWith('http://') || dependency.startsWith('https://')) {
@@ -144,7 +145,7 @@ for (const item of registry.items) {
     }
     if (!names.has(dependency)) {
       errors.push(
-        `item "${item.name}": registryDependencies ссылается на "${dependency}", которого нет в манифесте`,
+        `item "${item.name}": registryDependencies references "${dependency}", which is not in the manifest`,
       )
     }
   }
@@ -155,11 +156,11 @@ if (errors.length > 0) {
 }
 
 if (outDir === repoRoot || dirname(outDir) === outDir) {
-  abort([`--out указывает на корень (${outDir}); отказываюсь удалять`])
+  abort([`--out points at a root (${outDir}); refusing to delete it`])
 }
 
-// Каталог очищается целиком, иначе удалённый из манифеста item остался бы
-// опубликованным.
+// The directory is wiped wholesale, otherwise an item removed from the
+// manifest would stay published.
 await rm(outDir, { recursive: true, force: true })
 await mkdir(outDir, { recursive: true })
 
@@ -200,7 +201,7 @@ await writeFile(
   'utf8',
 )
 
-console.log(`build-registry: записано items — ${registry.items.length} → ${values.out}`)
+console.log(`build-registry: wrote ${registry.items.length} item(s) → ${values.out}`)
 for (const item of registry.items) {
-  console.log(`  • ${item.name} (${item.files.length} файл(ов))`)
+  console.log(`  • ${item.name} (${item.files.length} file(s))`)
 }

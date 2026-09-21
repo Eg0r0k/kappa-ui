@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
-/* packages/registry лежит вне корня Vite — автоопределение его не видит. */
+/* packages/registry sits outside the Vite root, so automatic source
+   detection never reaches it. */
 @source "../../../../packages/registry/src";
 
-/* Единственная ручка шкалы скругления. Остальное считается от неё. */
+/* The single knob for the radius scale. Everything else derives from it. */
 :root {
   --radius: 0.75rem;
 }
 
-/* Namespace --radius-* порождает утилиты rounded-*.
-   Именно `inline`: без него утилита ссылалась бы на var(--radius-lg), и
-   переопределение --radius в локальной области до неё бы не дошло. */
+/* The --radius-* namespace generates the rounded-* utilities.
+   `inline` matters: without it the utility would reference var(--radius-lg),
+   so overriding --radius in a nested scope would never reach it. */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -18,23 +19,23 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* Кривые перехода. Namespace --ease-* порождает утилиты ease-*.
-   Здесь обычный @theme, а не inline: значения самодостаточны и ни на что не
-   ссылаются, а без `inline` переменные попадают в вывод и доступны
-   произвольному CSS через var(--ease-smooth). */
+/* Transition curves. The --ease-* namespace generates the ease-* utilities.
+   Plain @theme here rather than inline: these values are self-contained and
+   reference nothing, and without `inline` the variables reach the output CSS,
+   where hand-written rules can use var(--ease-smooth) directly. */
 @theme {
-  /* Обычные переходы интерфейса: наведение, фокус, смена цвета. */
+  /* Ordinary UI transitions: hover, focus, colour changes. */
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  /* Появления и раскрытия: быстрый старт, долгое затухание. */
+  /* Reveals and entrances: fast start, long settle. */
   --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
-  /* Смена положения: слайдеры, перестановки. Симметрична. */
+  /* Position changes: sliders, reordering. Symmetric. */
   --ease-gentle: cubic-bezier(0.65, 0, 0.35, 1);
-  /* Игровые микровзаимодействия. Выходит за пределы 0..1 в обе стороны. */
+  /* Playful micro-interactions. Overshoots past 0..1 at both ends. */
   --ease-bouncy: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  /* Пружинные появления. Затухающий осциллятор, коэффициент затухания 0.5,
-     собственная частота 10: перелёт до 1.162 на 37.5%, откат до 0.973,
-     затухание в 1. Кубическая кривая такую форму задать не может — отсюда
-     linear() с опорными точками. */
+  /* Spring-like entrances. Damped oscillator, damping ratio 0.5, natural
+     frequency 10: overshoots to 1.162 at 37.5%, dips to 0.973, settles at 1.
+     A cubic bezier cannot express this shape, hence linear() with sampled
+     points. Retune by changing those two parameters, not the points. */
   --ease-elastic: linear(
     0, 0.044, 0.155, 0.307, 0.476, 0.643, 0.795, 0.923, 1.023, 1.095, 1.139,
     1.16, 1.162, 1.15, 1.129, 1.102, 1.075, 1.048, 1.025, 1.006, 0.991, 0.981,

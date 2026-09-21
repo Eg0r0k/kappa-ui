@@ -23,9 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# Сгенерированный registry
+# Generated registry
 apps/docs/public/r/
 
-# Проектная документация — ведётся локально, вне репозитория.
-# Слеш в начале обязателен: голый `docs` совпал бы и с `apps/docs`.
+# Project documentation — kept locally, outside the repository.
+# The leading slash is required: a bare `docs` would also match `apps/docs`.
 /docs/

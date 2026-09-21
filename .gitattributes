@@ -1,5 +1,5 @@
-# Единый перевод строки во всём репозитории: содержимое компонентов
-# попадает в публикуемый registry дословно.
+# One line ending across the whole repository: component sources are inlined
+# into the published registry verbatim.
 * text=auto eol=lf
 
 *.png binary
