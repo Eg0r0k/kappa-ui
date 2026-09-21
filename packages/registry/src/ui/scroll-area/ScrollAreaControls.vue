@@ -30,8 +30,8 @@ const props = defineProps<{
 }>();
 
 const axes = [
-  { axis: "vertical" as const, bar: "inset-y-0 end-0 w-2.5" },
-  { axis: "horizontal" as const, bar: "inset-x-0 bottom-0 h-2.5" },
+  { axis: "vertical" as const, bar: "inset-y-0 end-0 w-2.5", thumb: "w-2.5" },
+  { axis: "horizontal" as const, bar: "inset-x-0 bottom-0 h-2.5", thumb: "h-2.5" },
 ];
 
 const barBase = "absolute cursor-grab transition duration-300";
@@ -70,6 +70,7 @@ const hiddenBase = "pointer-events-none opacity-0";
     :class="
       cn(
         thumbBase,
+        entry.thumb,
         props.store[entry.axis].thumbHidden.value && hiddenBase,
         props.thumbClass,
       )
