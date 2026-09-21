@@ -22,8 +22,6 @@ export const buttonVariants = cva(
   "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ease-smooth outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
-      // No dark: utilities anywhere below. The semantic tokens change value
-      // under .dark, so every variant follows the theme on its own.
       variant: {
         default:
           "bg-primary text-primary-foreground hover:bg-primary/90 [--spinner-color:var(--primary-foreground)]",
@@ -35,7 +33,7 @@ export const buttonVariants = cva(
       },
       // The icon sizes are square and match the heights of the text sizes, so
       // an icon button sits flush with a text button of the same size in a
-      // row: 32px, 36px, 40px.
+      // row: 32px, 36px, 40px, 48px.
       size: {
         sm: "h-8 px-3 text-xs",
         default: "h-9 px-4 py-2",

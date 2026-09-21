@@ -1,13 +1,60 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import { Button } from '@/ui/button'
+
+// Paired the way the button actually consumes them: a fill and the text that
+// sits on it. Showing them apart would hide the only thing that matters about
+// a foreground token, which is whether it is readable on its partner.
+const buttonColors = [
+  {
+    bg: 'primary',
+    fg: 'primary-foreground',
+    role: 'variant="default" fill and label; link text; spinner',
+  },
+  { bg: 'accent', fg: 'accent-foreground', role: 'hover fill for outline and ghost' },
+  { bg: 'background', fg: 'foreground', role: 'outline fill; inherited label colour' },
+  { bg: 'input', fg: null, role: 'outline border' },
+  { bg: 'ring', fg: null, role: 'focus ring, drawn at 50% opacity' },
+]
+
+// Theme tokens that exist but nothing in Button reads yet.
+const unusedColors = [
+  'secondary',
+  'secondary-foreground',
+  'muted',
+  'muted-foreground',
+  'card',
+  'card-foreground',
+  'popover',
+  'popover-foreground',
+  'destructive',
+  'border',
+]
+
+const resolved = ref<Record<string, string>>({})
+
+// Read from the live document rather than hardcoded, so the values shown are
+// the ones actually in force and follow the theme toggle.
+const readTokens = () => {
+  const style = getComputedStyle(document.documentElement)
+  const names = [
+    ...buttonColors.flatMap((c) => (c.fg ? [c.bg, c.fg] : [c.bg])),
+    ...unusedColors,
+  ]
+  resolved.value = Object.fromEntries(
+    names.map((name) => [name, style.getPropertyValue(`--${name}`).trim()]),
+  )
+}
+
+onMounted(readTokens)
 
 const dark = ref(false)
 
 const toggleTheme = () => {
   dark.value = !dark.value
   document.documentElement.classList.toggle('dark', dark.value)
+  readTokens()
 }
 
 const busy = ref<'adjacent' | 'replace' | null>(null)
@@ -34,6 +81,47 @@ const run = (mode: 'adjacent' | 'replace') => {
       <Button variant="outline" size="sm" class="press-scale" @click="toggleTheme">
         {{ dark ? 'Light' : 'Dark' }}
       </Button>
+    </div>
+
+    <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Button colours</h2>
+    <p class="mb-4 max-w-prose text-sm text-muted-foreground">
+      Every colour token the button reads, paired the way it uses them. Values are read from the
+      live document, so the theme toggle changes what is shown here too.
+    </p>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div v-for="c in buttonColors" :key="c.bg" class="rounded-lg border border-input p-3">
+        <div
+          class="mb-3 flex h-20 items-center justify-center rounded-md text-sm font-medium"
+          :style="{
+            background: `var(--${c.bg})`,
+            color: c.fg ? `var(--${c.fg})` : undefined,
+          }"
+        >
+          <span v-if="c.fg">Label on {{ c.bg }}</span>
+        </div>
+        <p class="font-mono text-xs">--{{ c.bg }}</p>
+        <p class="font-mono text-xs text-muted-foreground">{{ resolved[c.bg] }}</p>
+        <template v-if="c.fg">
+          <p class="mt-1 font-mono text-xs">--{{ c.fg }}</p>
+          <p class="font-mono text-xs text-muted-foreground">{{ resolved[c.fg] }}</p>
+        </template>
+        <p class="mt-2 text-xs text-muted-foreground">{{ c.role }}</p>
+      </div>
+    </div>
+
+    <p class="mt-6 mb-3 max-w-prose text-sm text-muted-foreground">
+      Defined in the theme but not read by the button yet - they are here so the palette is
+      complete, not because the button uses them:
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <div v-for="name in unusedColors" :key="name" class="w-40">
+        <div
+          class="h-10 rounded-md border border-input"
+          :style="{ background: `var(--${name})` }"
+        ></div>
+        <p class="mt-1 font-mono text-xs">--{{ name }}</p>
+        <p class="font-mono text-xs text-muted-foreground">{{ resolved[name] }}</p>
+      </div>
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">Variants</h2>
