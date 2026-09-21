@@ -34,9 +34,9 @@ const axes = [
   { axis: "horizontal" as const, bar: "inset-x-0 bottom-0 h-2.5", thumb: "h-2.5" },
 ];
 
-const barBase = "absolute cursor-grab transition duration-300";
+const barBase = "absolute select-none cursor-grab z-10 transition duration-300";
 const thumbBase =
-  "absolute cursor-grab rounded-sm bg-foreground/20 transition duration-300 will-change-[opacity] hover:bg-foreground/30 active:bg-foreground/50";
+  "absolute select-none cursor-grab z-10 rounded-sm bg-foreground/20 transition duration-300 will-change-[opacity] hover:bg-foreground/30 active:bg-foreground/50";
 const hiddenBase = "pointer-events-none opacity-0";
 </script>
 
