@@ -77,6 +77,18 @@
       }
     },
     {
+      "name": "scroll",
+      "type": "registry:lib",
+      "title": "Scroll",
+      "description": "Read and write the scroll position of an element or the window, optionally animated.",
+      "files": [
+        {
+          "path": "src/lib/scroll/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "aspect-ratio",
       "type": "registry:ui",
       "title": "Aspect Ratio",
@@ -92,6 +104,36 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Scrollable region that hides the native scrollbar and draws its own, with thumb offsets and an imperative scroll API.",
+      "registryDependencies": ["utils", "scroll"],
+      "files": [
+        {
+          "path": "src/ui/scroll-area/ScrollArea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/scroll-area/ScrollAreaControls.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/scroll-area/index.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "css": {
+        "@utility scrollbar-hidden": {
+          "scrollbar-width": "none",
+          "-ms-overflow-style": "none",
+          "&::-webkit-scrollbar": {
+            "display": "none"
+          }
+        }
+      }
     },
     {
       "name": "spinner",
