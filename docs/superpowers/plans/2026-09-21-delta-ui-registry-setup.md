@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- **Никаких дизайн-токенов.** В `globals.css` нет ни `@theme`, ни `--background` / `--foreground` / `--radius`. Компоненты стилизуются утилитами палитры Tailwind напрямую. Единственное, что там есть помимо `@import "tailwindcss"` — директива `@source` на каталог registry: это конфигурация сканера классов, без неё компоненты отрисуются без стилей (см. Task 3, Step 4).
+- **Никаких дизайн-токенов.** В `globals.css` нет ни `@theme`, ни `--background` / `--foreground` / `--radius`. Компоненты стилизуются утилитами палитры Tailwind напрямую. Единственное, что там есть помимо `@import "tailwindcss"` — директива `@source` на каталог registry: это конфигурация сканера классов, без неё компоненты отрисуются без стилей. Она добавляется в Task 4, Step 4, когда каталог уже существует, — не раньше.
 - **Алиас `@` указывает на `packages/registry/src`**, а не на исходники витрины. Это сделано намеренно: внутри компонента путь `@/lib/utils` резолвится одинаково и у нас, и в проекте потребителя после копирования. Собственные файлы витрины импортируются через алиас `~` или относительно.
 - **Пути в `files[].path` — относительно каталога манифеста** (`packages/registry/`), не относительно корня репозитория.
 - **`scripts/build-registry.ts` запускается как `node scripts/build-registry.ts`**, без транспайлера. Node 24 стирает типы штатно, поэтому в скрипте допустим только стираемый синтаксис: никаких `enum`, `namespace`, параметров-свойств конструктора и `const enum`. Тип-алиасы и `interface` — можно.
@@ -349,19 +349,14 @@ export default defineConfig({
 
 - [ ] **Step 4: Создать `apps/docs/src/styles/globals.css`**
 
-Никаких `@theme` и CSS-переменных — токены в эту итерацию не входят. Но одна директива сверх `@import` обязательна.
-
-Tailwind 4 сам находит исходники для сканирования, отталкиваясь от каталога CSS-файла и не выходя за пределы проекта. `packages/registry` лежит выше корня Vite (`apps/docs`), поэтому автоматически он туда не заглянет — и классы из `Button.vue` просто не попадут в сборку: компонент отрисуется без стилей. `@source` указывает каталог явно. Это конфигурация сканера, а не токены.
-
-Путь считается от каталога самого CSS-файла: `styles` → `src` → `docs` → `apps` → корень репозитория, то есть четыре уровня вверх.
+Никаких `@theme` и CSS-переменных — токены в эту итерацию не входят.
 
 `apps/docs/src/styles/globals.css`:
 ```css
 @import "tailwindcss";
-
-/* packages/registry лежит вне корня Vite, автоопределение его не видит. */
-@source "../../../../packages/registry/src";
 ```
+
+Позже сюда добавится директива `@source` на `packages/registry/src` — без неё Tailwind не найдёт классы компонентов. Сейчас её добавить нельзя: каталога ещё не существует, а `@source` на несуществующий путь Tailwind не обязан переваривать молча. Директива появится в Task 4, вместе с самим каталогом.
 
 - [ ] **Step 5: Переписать `apps/docs/src/main.ts`**
 
@@ -425,6 +420,7 @@ git -C F:\delta-ui commit -m "feat(docs): wire up Tailwind v4 and registry alias
 - Create: `packages/registry/tsconfig.json`
 - Create: `packages/registry/src/lib/utils.ts`
 - Modify: `apps/docs/package.json` (добавляется зависимость)
+- Modify: `apps/docs/src/styles/globals.css` (добавляется `@source`)
 - Modify: `apps/docs/src/App.vue` (временное использование `cn`)
 
 **Interfaces:**
@@ -498,7 +494,23 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
-- [ ] **Step 4: Подключить пакет к витрине**
+- [ ] **Step 4: Указать Tailwind, где искать классы компонентов**
+
+Каталог `packages/registry/src` теперь существует, поэтому директиву можно добавить — в Task 3 это было преждевременно.
+
+Tailwind 4 определяет, какие файлы сканировать, отталкиваясь от расположения CSS-файла и не выходя за пределы проекта. `packages/registry` лежит выше корня Vite (`apps/docs`), поэтому автоматически он туда не заглянет, и классы из компонентов не попадут в собранный CSS — Button в Task 5 отрисовался бы без стилей. Это конфигурация сканера, к дизайн-токенам отношения не имеющая.
+
+Путь считается от каталога самого CSS-файла: `styles` → `src` → `docs` → `apps` → корень репозитория, то есть четыре уровня вверх.
+
+`apps/docs/src/styles/globals.css` целиком после правки:
+```css
+@import "tailwindcss";
+
+/* packages/registry лежит вне корня Vite — автоопределение его не видит. */
+@source "../../../../packages/registry/src";
+```
+
+- [ ] **Step 5: Подключить пакет к витрине**
 
 В `apps/docs/package.json` добавить в `dependencies` (сохраняя алфавитный порядок, перед `@vueuse/core`):
 ```json
@@ -514,7 +526,7 @@ export function cn(...inputs: ClassValue[]) {
   },
 ```
 
-- [ ] **Step 5: Установить зависимости**
+- [ ] **Step 6: Установить зависимости**
 
 Run:
 ```powershell
@@ -522,7 +534,7 @@ pnpm -C F:\delta-ui install
 ```
 Expected: pnpm сообщает о трёх проектах, создаёт симлинк `apps/docs/node_modules/@delta-ui/registry` → `packages/registry`.
 
-- [ ] **Step 6: Задействовать `cn` в витрине**
+- [ ] **Step 7: Задействовать `cn` в витрине**
 
 Без реального использования алиас не проверен. Заменить `<script setup>` и класс заголовка в `apps/docs/src/App.vue`.
 
@@ -543,7 +555,7 @@ import { cn } from '@/lib/utils'
 </template>
 ```
 
-- [ ] **Step 7: Проверить typecheck**
+- [ ] **Step 8: Проверить typecheck**
 
 Run:
 ```powershell
@@ -551,7 +563,7 @@ pnpm -C F:\delta-ui typecheck
 ```
 Expected: 0 ошибок. Если TypeScript не находит `@/lib/utils` — разошлись `paths` в `apps/docs/tsconfig.app.json` и алиас в `vite.config.ts`.
 
-- [ ] **Step 8: Проверить, что `cn` схлопывает конфликт классов**
+- [ ] **Step 9: Проверить, что `cn` схлопывает конфликт классов**
 
 Run:
 ```powershell
@@ -566,7 +578,7 @@ Expected: заголовок отрисован крупно (`text-2xl`), а н
   },
 ```
 
-- [ ] **Step 9: Commit**
+- [ ] **Step 10: Commit**
 
 ```powershell
 git -C F:\delta-ui add -A
