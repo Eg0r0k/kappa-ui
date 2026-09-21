@@ -1,6 +1,8 @@
 <script lang="ts">
 import type { ComputedRef, CSSProperties } from "vue";
 
+import type { ScrollAreaAxis } from ".";
+
 export type ScrollAreaAxisState = {
   thumbHidden: ComputedRef<boolean>;
   thumbStyle: ComputedRef<CSSProperties>;
@@ -9,6 +11,10 @@ export type ScrollAreaAxisState = {
 export type ScrollAreaStore = {
   vertical: ScrollAreaAxisState;
   horizontal: ScrollAreaAxisState;
+  onBarPointerdown: (event: PointerEvent, axis: ScrollAreaAxis) => void;
+  onThumbPointerdown: (event: PointerEvent, axis: ScrollAreaAxis) => void;
+  onPointermove: (event: PointerEvent) => void;
+  onPointerup: (event: PointerEvent) => void;
 };
 </script>
 
@@ -49,6 +55,10 @@ const hiddenBase = "pointer-events-none opacity-0";
         props.barClass,
       )
     "
+    @pointerdown="props.store.onBarPointerdown($event, entry.axis)"
+    @pointermove="props.store.onPointermove"
+    @pointerup="props.store.onPointerup"
+    @pointercancel="props.store.onPointerup"
   />
   <div
     v-for="entry in axes"
@@ -64,5 +74,9 @@ const hiddenBase = "pointer-events-none opacity-0";
         props.thumbClass,
       )
     "
+    @pointerdown="props.store.onThumbPointerdown($event, entry.axis)"
+    @pointermove="props.store.onPointermove"
+    @pointerup="props.store.onPointerup"
+    @pointercancel="props.store.onPointerup"
   />
 </template>

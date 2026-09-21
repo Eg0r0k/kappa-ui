@@ -22,10 +22,13 @@ import ScrollAreaControls, {
   type ScrollAreaStore,
 } from "./ScrollAreaControls.vue";
 import {
+  clamp,
+  getDragMultiplier,
   getHorizontalPosition,
   getPercentage,
   getThumbSize,
   getThumbStart,
+  type ScrollAreaAxis,
 } from ".";
 
 const props = withDefaults(defineProps<ScrollAreaProps>(), {
@@ -140,19 +143,124 @@ const thumbStyleHorizontal = computed(() => ({
   bottom: `${props.verticalOffset[1]}px`,
 }));
 
-const store: ScrollAreaStore = {
-  vertical: {
-    thumbHidden: thumbHiddenVertical,
-    thumbStyle: thumbStyleVertical,
-  },
-  horizontal: {
-    thumbHidden: thumbHiddenHorizontal,
-    thumbStyle: thumbStyleHorizontal,
-  },
-};
-
 let showTimer: ReturnType<typeof setTimeout> | null = null;
 let hoverTimer: ReturnType<typeof setTimeout> | null = null;
+let dragAxis: ScrollAreaAxis | null = null;
+let dragStartCoord = 0;
+let dragStartPosition = 0;
+
+const axisState = (axis: ScrollAreaAxis) =>
+  axis === "vertical"
+    ? {
+        container: containerVertical.value,
+        size: sizeVertical.value,
+        track: trackVertical.value,
+        thumbSize: thumbSizeVertical.value,
+        thumbStart: thumbStartVertical.value,
+        position: positionVertical.value,
+        hidden: thumbHiddenVertical.value,
+      }
+    : {
+        container: containerHorizontal.value,
+        size: sizeHorizontal.value,
+        track: trackHorizontal.value,
+        thumbSize: thumbSizeHorizontal.value,
+        thumbStart: thumbStartHorizontal.value,
+        position: positionHorizontal.value,
+        hidden: thumbHiddenHorizontal.value,
+      };
+
+const writePosition = (axis: ScrollAreaAxis, logical: number) => {
+  const el = viewportRef.value;
+  if (el === null) return;
+
+  if (axis === "vertical") el.scrollTop = logical;
+  else el.scrollLeft = getHorizontalPosition(logical, isRtl.value);
+};
+
+const beginDrag = (event: PointerEvent, axis: ScrollAreaAxis, from: number) => {
+  dragAxis = axis;
+  dragStartCoord = axis === "vertical" ? event.clientY : event.clientX;
+  dragStartPosition = from;
+  panning.value = true;
+
+  try {
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+  } catch {
+    // a pointer that is no longer active cannot be captured; the drag still tracks on the element
+  }
+};
+
+const onThumbPointerdown = (event: PointerEvent, axis: ScrollAreaAxis) => {
+  if (axisState(axis).hidden) return;
+  beginDrag(event, axis, axisState(axis).position);
+};
+
+const onBarPointerdown = (event: PointerEvent, axis: ScrollAreaAxis) => {
+  const state = axisState(axis);
+  if (state.hidden) return;
+
+  const mirrored = axis === "horizontal" && isRtl.value;
+  const startOffset =
+    axis === "vertical"
+      ? props.verticalOffset[0]
+      : props.horizontalOffset[mirrored ? 1 : 0];
+
+  const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+  const alongBar =
+    axis === "vertical" ? event.clientY - rect.top : event.clientX - rect.left;
+  const pointerOffset = mirrored ? containerHorizontal.value - alongBar : alongBar;
+
+  const offset = pointerOffset - startOffset;
+  const thumbOffset = state.thumbStart - startOffset;
+  const travel = state.track - state.thumbSize;
+
+  let from = state.position;
+
+  if (travel > 0 && (offset < thumbOffset || offset > thumbOffset + state.thumbSize)) {
+    const percentage = clamp((offset - state.thumbSize / 2) / travel, 0, 1);
+    from = percentage * Math.max(0, state.size - state.container);
+    writePosition(axis, from);
+  }
+
+  beginDrag(event, axis, from);
+};
+
+const onPointermove = (event: PointerEvent) => {
+  if (dragAxis === null) return;
+
+  const state = axisState(dragAxis);
+  const delta =
+    (dragAxis === "vertical" ? event.clientY : event.clientX) - dragStartCoord;
+  const logicalDelta = dragAxis === "horizontal" && isRtl.value ? -delta : delta;
+  const multiplier = getDragMultiplier(
+    state.size,
+    state.container,
+    state.track,
+    state.thumbSize,
+  );
+
+  writePosition(dragAxis, dragStartPosition + logicalDelta * multiplier);
+};
+
+const onPointerup = (event: PointerEvent) => {
+  if (dragAxis === null) return;
+
+  const el = event.currentTarget as HTMLElement;
+  if (el.hasPointerCapture(event.pointerId)) el.releasePointerCapture(event.pointerId);
+
+  dragAxis = null;
+  panning.value = false;
+};
+
+const store: ScrollAreaStore = {
+  vertical: { thumbHidden: thumbHiddenVertical, thumbStyle: thumbStyleVertical },
+  horizontal: { thumbHidden: thumbHiddenHorizontal, thumbStyle: thumbStyleHorizontal },
+  onBarPointerdown,
+  onThumbPointerdown,
+  onPointermove,
+  onPointerup,
+};
 
 const startTimer = () => {
   tempShowing.value = true;
