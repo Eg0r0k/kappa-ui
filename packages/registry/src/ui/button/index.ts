@@ -5,19 +5,6 @@ export { default as Button } from "./Button.vue";
 const touchTargetArea =
   "after:absolute after:top-1/2 after:left-1/2 after:h-[max(48px,100%)] after:w-[max(48px,100%)] after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']";
 
-// The spinner is a ::before pseudo element, for the same reason the touch
-// target is ::after: reka-ui's Slot clones exactly one child, so a real
-// element would break <Button as-child>. Being a pseudo element also keeps it
-// out of the accessibility tree, which is what we want — aria-busy carries
-// the meaning, not a stray decorative node.
-//
-// It cannot use border-current: `replace` mode sets the text transparent, and
-// currentColor would take the spinner with it. Each variant declares its own
-// --spinner-color instead, pointing at a raw token rather than a --color-*
-// one, since @theme inline does not emit those as variables.
-const spinner =
-  "before:size-4 before:shrink-0 before:animate-spin before:rounded-full before:border-2 before:border-(--spinner-color) before:border-t-transparent before:content-['']";
-
 export const buttonVariants = cva(
   // The svg rules make an icon behave without the caller doing anything: no
   // pointer target of its own, no shrinking when the label is long, and a
@@ -26,17 +13,14 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground hover:bg-primary/90 [--spinner-color:var(--primary-foreground)]",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 [--spinner-color:var(--secondary-foreground)]",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 [--spinner-color:white]",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground [--spinner-color:var(--foreground)]",
-        link: "text-primary underline-offset-4 hover:underline [--spinner-color:var(--primary)]",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive: "bg-destructive text-white hover:bg-destructive/90",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       // has-[>svg] tightens the horizontal padding when the content is an
       // icon rather than a label, declaratively — no slot inspection, no
@@ -68,18 +52,6 @@ export const buttonVariants = cva(
         expand: touchTargetArea,
         wrapper: touchTargetArea,
       },
-      loading: {
-        false: "",
-        true: "pointer-events-none",
-      },
-      spinner: {
-        none: "",
-        builtin: spinner,
-      },
-      loadingMode: {
-        adjacent: "",
-        replace: "",
-      },
     },
     compoundVariants: [
       { size: "sm", touchTarget: "wrapper", class: "my-2" },
@@ -88,25 +60,11 @@ export const buttonVariants = cva(
       { size: "icon-sm", touchTarget: "wrapper", class: "mx-2 my-2" },
       { size: "icon", touchTarget: "wrapper", class: "mx-1.5 my-1.5" },
       { size: "icon-lg", touchTarget: "wrapper", class: "mx-1 my-1" },
-      {
-        loading: true,
-        loadingMode: "replace",
-        class: "select-none text-transparent",
-      },
-      {
-        spinner: "builtin",
-        loadingMode: "replace",
-        class:
-          "before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2",
-      },
     ],
     defaultVariants: {
       variant: "default",
       size: "default",
       touchTarget: "none",
-      loading: false,
-      loadingMode: "adjacent",
-      spinner: "none",
       focusRing: "outward",
     },
   },

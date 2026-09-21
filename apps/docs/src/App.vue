@@ -75,15 +75,15 @@ const toggleTheme = () => {
   readTokens();
 };
 
-const busy = ref<"adjacent" | "replace" | null>(null);
+const busy = ref(false);
 const clicks = ref(0);
 
-// The counter is the test: it proves a consumer's own @click really is
-// blocked while the button is busy, rather than merely looking blocked.
-const run = (mode: "adjacent" | "replace") => {
+// The counter is the test: it shows that clicks really stop while the button
+// is disabled, rather than merely looking stopped.
+const run = () => {
   clicks.value += 1;
-  busy.value = mode;
-  setTimeout(() => (busy.value = null), 2000);
+  busy.value = true;
+  setTimeout(() => (busy.value = false), 2000);
 };
 </script>
 
@@ -181,10 +181,7 @@ const run = (mode: "adjacent" | "replace") => {
               disabled
             </th>
             <th class="p-2 text-xs font-medium text-muted-foreground">
-              loading
-            </th>
-            <th class="p-2 text-xs font-medium text-muted-foreground">
-              loading, replace
+              loading (composed)
             </th>
           </tr>
         </thead>
@@ -193,11 +190,11 @@ const run = (mode: "adjacent" | "replace") => {
             <td class="p-2 font-mono text-xs">{{ v }}</td>
             <td class="p-2"><Button :variant="v">Button</Button></td>
             <td class="p-2"><Button :variant="v" disabled>Button</Button></td>
-            <td class="p-2"><Button :variant="v" loading>Button</Button></td>
             <td class="p-2">
-              <Button :variant="v" loading loading-mode="replace"
-                >Button</Button
-              >
+              <Button :variant="v" disabled>
+                <Spinner />
+                Button
+              </Button>
             </td>
           </tr>
         </tbody>
@@ -246,28 +243,28 @@ const run = (mode: "adjacent" | "replace") => {
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
-      Custom spinner
+      Loading is composition
     </h2>
     <p class="mb-3 max-w-prose text-sm text-muted-foreground">
-      The <code>#spinner</code> slot replaces the built-in one entirely. It
-      cannot be combined with <code>as-child</code> - Slot takes exactly one
-      child - so that pairing falls back to the built-in.
+      The button has no loading prop and no spinner of its own. You put one in the slot. The base
+      styles already give any svg a 16px size and a gap, so nothing needs configuring - and any
+      indicator works, not just ours.
     </p>
     <div class="flex flex-wrap items-center gap-3">
-      <Button loading>Built-in</Button>
-      <Button loading>
-        <template #spinner><Spinner /></template>
-        Spinner component, adjacent
+      <Button disabled>
+        <Spinner />
+        Saving
       </Button>
-      <Button variant="outline" loading loading-mode="replace">
-        <template #spinner><Spinner /></template>
-        Spinner component, replace
+      <Button variant="outline" disabled>
+        <Spinner />
+        Downloading
       </Button>
-      <Button variant="secondary" loading>
-        <template #spinner>
-          <span class="animate-pulse text-xs tracking-widest">WAIT</span>
-        </template>
+      <Button variant="secondary" disabled>
+        <span class="animate-pulse text-xs tracking-widest">WAIT</span>
         Anything you like
+      </Button>
+      <Button size="icon" disabled aria-label="Saving">
+        <Spinner />
       </Button>
     </div>
 
@@ -308,30 +305,24 @@ const run = (mode: "adjacent" | "replace") => {
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">
-      Loading
+      Loading, live
     </h2>
     <p class="mb-3 max-w-prose text-sm text-muted-foreground">
-      Press either button: it stays busy for two seconds. Tab to it first and
-      watch the focus ring survive the whole time - that is the point of
-      aria-disabled over the native attribute. Clicks counted so far:
-      <strong>{{ clicks }}</strong> - it must not move while a button is busy.
+      Press it: busy for two seconds. Clicks counted so far:
+      <strong>{{ clicks }}</strong> - it must not move while the button is disabled. Note what
+      native <code>disabled</code> costs: tab to the button, press Enter, and the focus ring
+      disappears, because the browser drops a disabled control from the tab order and moves focus
+      to the body.
     </p>
     <div class="flex flex-wrap items-center gap-3">
-      <Button :loading="busy === 'adjacent'" @click="run('adjacent')"
-        >Save (adjacent)</Button
-      >
-      <Button
-        variant="outline"
-        loading-mode="replace"
-        :loading="busy === 'replace'"
-        @click="run('replace')"
-      >
-        Save (replace, width held)
+      <Button :disabled="busy" @click="run">
+        <Spinner v-if="busy" />
+        {{ busy ? "Saving" : "Save" }}
       </Button>
-      <Button variant="ghost" loading>Ghost, stuck busy</Button>
-      <Button variant="link" loading loading-mode="replace"
-        >Link, stuck busy</Button
-      >
+      <Button variant="outline" :disabled="busy" class="min-w-32" @click="run">
+        <Spinner v-if="busy" />
+        {{ busy ? "Saving" : "Save, width held" }}
+      </Button>
     </div>
 
     <h2 class="mt-10 mb-3 text-sm font-medium text-muted-foreground">

@@ -115,42 +115,49 @@ it inherits `currentColor` and whatever size you give it, which is what makes
 it drop straight into a button:
 
 ```vue
-<Button loading>
-  <template #spinner><Spinner /></template>
+<Button :disabled="saving">
+  <Spinner v-if="saving" />
   Save
 </Button>
 ```
 
 It is `aria-hidden`. A spinner on its own announces nothing useful, so the
-state belongs on the control that is busy — `aria-busy` on a Button, or a
-live region you own. Under `prefers-reduced-motion: reduce` it freezes at its
-widest frame rather than disappearing, so it still reads as "loading".
+state belongs on the control that is busy — a live region you own, or
+`aria-disabled` / `aria-busy` you add yourself. Under
+`prefers-reduced-motion: reduce` it freezes at its widest frame rather than
+disappearing, so it still reads as "loading".
 
-## Loading
+## Loading is composition, not a prop
+
+The button has no `loading` prop and no spinner of its own. You render one
+inside it, the way shadcn does:
 
 ```vue
-<Button :loading="saving">Save</Button>
-<Button :loading="saving" loading-mode="replace">Save</Button>
+<Button :disabled="saving">
+  <Spinner v-if="saving" />
+  {{ saving ? 'Saving' : 'Save' }}
+</Button>
 ```
 
-`adjacent` (the default) puts the spinner beside the label, so the button
-grows by the spinner's width. `replace` centres the spinner and makes the
-label transparent, so the label keeps defining the width and nothing in the
-row shifts.
+Nothing needs configuring: the base styles give any `svg` a 16px size and a
+gap, so the spinner lands correctly on its own — and any indicator works, not
+only ours. If you want the width to stay put while the label changes, add
+`min-w-32` yourself.
 
-**A busy button is never given the native `disabled` attribute.** Disabling a
-focused button drops it from the tab order, the browser moves focus to
-`<body>`, and a keyboard user loses their place mid-action while a screen
-reader falls silent — exactly when feedback matters most. Instead the button
-gets `aria-disabled` and `aria-busy`, stays focusable and announced, and has
-its behaviour removed: `pointer-events: none` for the mouse, and a prevented
-default on Enter and Space so no click is ever synthesised. This follows
+Be aware of what native `disabled` costs, because it is a real trade and not
+an oversight. A disabled control leaves the tab order, so if it had focus the
+browser moves focus to `<body>` — a keyboard user loses their place at the
+moment they act, and a screen reader goes quiet. The accessible alternative is
+`aria-disabled` plus blocking the behaviour yourself. This component does not
+do that for you: it is your copy of the source, so if your app needs it, add
+it there.
+
+If you do add `aria-disabled`, note that it only changes what is announced —
+the control stays operable, so you also have to remove the behaviour:
+`pointer-events: none` for the mouse, and a prevented default on Enter and
+Space so no click is ever synthesised. See
 [W3C's guidance on disabled controls][w3c-disabled], the same reasoning
 behind Material's `soft-disabled`.
-
-One consequence worth knowing: because the element is inert to pointer
-events, the cursor does not change to `wait` while busy. That is the price of
-blocking the mouse deterministically rather than relying on event ordering.
 
 [w3c-disabled]: https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls
 
