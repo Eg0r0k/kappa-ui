@@ -159,8 +159,13 @@ Namespace плоский: уровня «стилей» вроде `new-york` у
 
 ### Отсутствие токенов
 
-`globals.css` содержит ровно `@import "tailwindcss";`. Ни `@theme`, ни
-CSS-переменных `--background` / `--foreground` / `--radius` не объявляем.
+В `globals.css` не объявляем ни `@theme`, ни CSS-переменных
+`--background` / `--foreground` / `--radius`. Помимо `@import "tailwindcss"`
+файл содержит только директиву `@source` на `packages/registry/src`:
+автоопределение исходников в Tailwind 4 не выходит за корень Vite, а registry
+лежит выше него, поэтому без явного указания классы компонентов не попадут в
+сборку и они отрисуются без стилей. Это конфигурация сканера классов, к токенам
+отношения не имеющая.
 `Button` стилизуется утилитами из палитры Tailwind напрямую
 (`bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900`).
 
@@ -187,8 +192,14 @@ Windows, но содержимое компонентов попадает в `f
 3. Перенос текущего приложения в `apps/docs`: `index.html`, `src/`, `public/`,
    `vite.config.ts`, tsconfig-файлы. Удаление `src/style.css` и
    `src/components/HelloWorld.vue`.
-4. Подключение `@tailwindcss/vite` и алиасов `@` → `apps/docs/src`,
-   `@delta-ui/registry` → `packages/registry/src` в Vite и tsconfig.
+4. Подключение `@tailwindcss/vite` и алиасов в Vite и tsconfig: `@` →
+   `packages/registry/src`, `~` → `apps/docs/src`.
+
+   Алиас `@` указывает на registry, а не на исходники витрины. Это обязательное
+   условие переносимости: внутри компонента путь `@/lib/utils` должен
+   резолвиться одинаково и у нас, и в проекте потребителя после копирования —
+   там `@` по соглашению shadcn указывает на корень исходников проекта.
+   Собственные файлы витрины (их два) импортируются через `~` или относительно.
 5. `packages/registry`: `package.json`, `src/lib/utils.ts` с `cn()`.
 6. `Button.vue` на `cva` + `reka-ui/Primitive` с поддержкой `as` / `as-child`,
    `index.ts` с re-export компонента и `buttonVariants`.
