@@ -85,3 +85,60 @@ it("ignores the unoriented axis for activity and focusability", async () => {
 
   wrapper.unmount();
 });
+
+it("reads sizing from the virtualize options object", async () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: {
+      virtualize: { estimateSize: 40, overscan: 2 },
+      items: Array.from({ length: 100 }, (_, index) => `Row ${index}`),
+    },
+    attrs: { style: "height: 300px; width: 400px" },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "height: 40px" }, String(scope.item)),
+    },
+  });
+  const root = wrapper.element as Element;
+  const virtual = root.querySelector<HTMLElement>(
+    "[data-slot=scroll-area-virtual]",
+  )!;
+
+  await vi.waitFor(() => expect(virtual.style.height).toBe(`${100 * 40}px`));
+
+  const rendered = root.querySelectorAll("[data-slot=scroll-area-item]").length;
+  expect(rendered).toBeGreaterThan(7);
+  expect(rendered).toBeLessThan(16);
+
+  wrapper.unmount();
+});
+
+it("calls estimateSize per index when given a function", async () => {
+  const seen: number[] = [];
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: {
+      virtualize: {
+        estimateSize: (index: number) => {
+          seen.push(index);
+          return index % 2 === 0 ? 20 : 60;
+        },
+      },
+      items: Array.from({ length: 100 }, (_, index) => index),
+    },
+    attrs: { style: "height: 300px; width: 400px" },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "height: 20px" }, String(scope.item)),
+    },
+  });
+  const virtual = (wrapper.element as Element).querySelector<HTMLElement>(
+    "[data-slot=scroll-area-virtual]",
+  )!;
+
+  // 50 items at 20 and 50 at 60 => 4000, not 100 x one constant
+  await vi.waitFor(() => expect(virtual.style.height).toBe("4000px"));
+  expect(seen.length).toBeGreaterThan(0);
+
+  wrapper.unmount();
+});

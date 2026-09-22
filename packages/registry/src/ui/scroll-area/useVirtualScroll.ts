@@ -14,6 +14,7 @@ import {
   getVirtualItemStyle,
   getVirtualWindow,
   getVisibleIndex,
+  type ResolvedVirtualizeOptions,
   type ScrollAreaVirtualEdge,
   type ScrollAreaVirtualInfo,
   toVirtualDirection,
@@ -23,9 +24,8 @@ import {
 export type UseVirtualScrollOptions = {
   scrollEl: ShallowRef<HTMLElement | null>;
   count: ComputedRef<number>;
-  itemSize: ComputedRef<number>;
+  options: ComputedRef<ResolvedVirtualizeOptions>;
   horizontal: ComputedRef<boolean>;
-  overscan: ComputedRef<number>;
   crossSize: ComputedRef<number>;
   isRtl: Ref<boolean>;
   onScroll: (info: ScrollAreaVirtualInfo) => void;
@@ -49,10 +49,10 @@ export const useVirtualScroll = (
     computed(() => ({
       count: options.count.value,
       horizontal: options.horizontal.value,
-      overscan: options.overscan.value,
+      overscan: options.options.value.overscan,
       isRtl: options.isRtl.value,
       enabled: options.count.value > 0,
-      estimateSize: () => options.itemSize.value,
+      estimateSize: (index: number) => options.options.value.estimateSize(index),
       getScrollElement: () => options.scrollEl.value,
     })),
   );
@@ -78,7 +78,8 @@ export const useVirtualScroll = (
   });
 
   watch(
-    () => [options.itemSize.value, options.horizontal.value] as const,
+    () =>
+      [options.options.value.estimateSize, options.horizontal.value] as const,
     () => {
       virtualizer.value.measure();
     },

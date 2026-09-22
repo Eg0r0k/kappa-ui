@@ -7,6 +7,44 @@ export type ScrollAreaAxis = "vertical" | "horizontal";
 
 export type ScrollAreaOrientation = "vertical" | "horizontal";
 
+export type ScrollAreaVirtualizeOptions = {
+  estimateSize?: number | ((index: number) => number);
+  overscan?: number;
+  lanes?: number;
+  gap?: number;
+  scrollMargin?: number;
+  getScrollElement?: () => HTMLElement | null;
+};
+
+export type ResolvedVirtualizeOptions = {
+  estimateSize: (index: number) => number;
+  overscan: number;
+  lanes: number;
+  gap: number;
+  scrollMargin: number;
+  getScrollElement?: () => HTMLElement | null;
+};
+
+export const resolveVirtualizeOptions = (
+  virtualize: boolean | ScrollAreaVirtualizeOptions | undefined,
+): ResolvedVirtualizeOptions => {
+  const given =
+    virtualize === true || virtualize === false || virtualize === undefined
+      ? {}
+      : virtualize;
+  const estimate = given.estimateSize ?? 24;
+
+  return {
+    estimateSize:
+      typeof estimate === "function" ? estimate : () => estimate,
+    overscan: given.overscan ?? 4,
+    lanes: given.lanes ?? 1,
+    gap: given.gap ?? 0,
+    scrollMargin: given.scrollMargin ?? 0,
+    getScrollElement: given.getScrollElement,
+  };
+};
+
 export type ScrollAreaScrollInfo = {
   verticalPosition: number;
   verticalPercentage: number;

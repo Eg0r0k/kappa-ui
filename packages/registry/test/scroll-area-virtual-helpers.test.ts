@@ -6,6 +6,7 @@ import {
   getVirtualWindow,
   getVisibleIndex,
   resolveVirtualCount,
+  resolveVirtualizeOptions,
   toVirtualDirection,
 } from "@/ui/scroll-area";
 
@@ -76,4 +77,35 @@ it("positions vertical items by transform and horizontal ones logically", () => 
     insetInlineStart: "240px",
     height: "100%",
   });
+});
+
+it("resolves virtualize options with Quasar-flavoured defaults", () => {
+  const fromBoolean = resolveVirtualizeOptions(true);
+  expect(fromBoolean.estimateSize(0)).toBe(24);
+  expect(fromBoolean.overscan).toBe(4);
+  expect(fromBoolean.lanes).toBe(1);
+  expect(fromBoolean.gap).toBe(0);
+  expect(fromBoolean.scrollMargin).toBe(0);
+  expect(fromBoolean.getScrollElement).toBeUndefined();
+
+  const fromObject = resolveVirtualizeOptions({
+    estimateSize: 48,
+    overscan: 10,
+    lanes: 3,
+    gap: 16,
+    scrollMargin: 120,
+  });
+  expect(fromObject.estimateSize(7)).toBe(48);
+  expect(fromObject.overscan).toBe(10);
+  expect(fromObject.lanes).toBe(3);
+  expect(fromObject.gap).toBe(16);
+  expect(fromObject.scrollMargin).toBe(120);
+
+  const fromFunction = resolveVirtualizeOptions({
+    estimateSize: (index) => index * 2,
+  });
+  expect(fromFunction.estimateSize(5)).toBe(10);
+
+  expect(resolveVirtualizeOptions(false).estimateSize(0)).toBe(24);
+  expect(resolveVirtualizeOptions(undefined).overscan).toBe(4);
 });

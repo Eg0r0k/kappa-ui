@@ -19,7 +19,7 @@ const mountVirtual = ({
 }: MountOptions = {}) =>
   mount(ScrollArea, {
     attachTo: document.body,
-    props: { virtualize: true, items: rows, virtualScrollItemSize: 24, ...props },
+    props: { virtualize: { estimateSize: 24 }, items: rows, ...props },
     attrs: { style: "height: 300px; width: 400px", ...attrs },
     slots: {
       default: (scope: { item: unknown; index: number }) =>
@@ -115,7 +115,7 @@ it("renders the plain slot untouched when virtualize is off", async () => {
 
 it("lays a horizontal list out along the inline axis", async () => {
   const wrapper = mountVirtual({
-    props: { virtualScrollHorizontal: true, virtualScrollItemSize: 100 },
+    props: { orientation: "horizontal", virtualize: { estimateSize: 100 } },
     itemStyle: "width: 100px; height: 100%",
   });
   const parts = partsOf(wrapper.element as Element);
@@ -141,7 +141,7 @@ it("lays a horizontal list out along the inline axis", async () => {
 
 it("places the first horizontal item at the right edge under rtl", async () => {
   const wrapper = mountVirtual({
-    props: { virtualScrollHorizontal: true, virtualScrollItemSize: 100 },
+    props: { orientation: "horizontal", virtualize: { estimateSize: 100 } },
     attrs: { style: "height: 300px; width: 400px", dir: "rtl" },
     itemStyle: "width: 100px; height: 100%",
   });
@@ -167,7 +167,7 @@ it("places the first horizontal item at the right edge under rtl", async () => {
 
 it("scrolls an rtl horizontal list leftwards from the right edge", async () => {
   const wrapper = mountVirtual({
-    props: { virtualScrollHorizontal: true, virtualScrollItemSize: 100 },
+    props: { orientation: "horizontal", virtualize: { estimateSize: 100 } },
     attrs: { style: "height: 300px; width: 400px", dir: "rtl" },
     itemStyle: "width: 100px; height: 100%",
   });

@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { HTMLAttributes } from "vue";
 
-import type { ScrollAreaOrientation } from ".";
+import type { ScrollAreaOrientation, ScrollAreaVirtualizeOptions } from ".";
 
 export type ScrollAreaProps<T = unknown> = {
   visible?: boolean | null;
@@ -11,13 +11,10 @@ export type ScrollAreaProps<T = unknown> = {
   verticalOffset?: [number, number];
   horizontalOffset?: [number, number];
   class?: HTMLAttributes["class"];
-  virtualize?: boolean;
+  virtualize?: boolean | ScrollAreaVirtualizeOptions;
   items?: readonly T[];
   itemsSize?: number;
   itemsFn?: (from: number, size: number) => T[];
-  virtualScrollItemSize?: number;
-  virtualScrollHorizontal?: boolean;
-  virtualScrollOverscan?: number;
 };
 </script>
 
@@ -45,7 +42,9 @@ import {
   getThumbSize,
   getThumbStart,
   resolveVirtualCount,
+  resolveVirtualizeOptions,
   scrollAreaInjectionKey,
+  type ResolvedVirtualizeOptions,
   type ScrollAreaApi,
   type ScrollAreaAxis,
   type ScrollAreaScrollInfo,
@@ -61,9 +60,6 @@ const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
   horizontalOffset: () => [0, 0],
   virtualize: false,
   items: () => [],
-  virtualScrollItemSize: 24,
-  virtualScrollHorizontal: false,
-  virtualScrollOverscan: 4,
 });
 
 const isHorizontal = computed(() => props.orientation === "horizontal");
@@ -381,12 +377,15 @@ const virtualCount = computed(() =>
     : 0,
 );
 
+const virtualOptions = computed<ResolvedVirtualizeOptions>(() =>
+  resolveVirtualizeOptions(props.virtualize),
+);
+
 const virtual = useVirtualScroll({
   scrollEl: viewportRef,
   count: virtualCount,
-  itemSize: computed(() => Number(props.virtualScrollItemSize)),
-  horizontal: computed(() => props.virtualScrollHorizontal),
-  overscan: computed(() => Number(props.virtualScrollOverscan)),
+  options: virtualOptions,
+  horizontal: isHorizontal,
   crossSize: computed(() => containerVertical.value),
   isRtl,
   onScroll: (info: ScrollAreaVirtualInfo) => {
