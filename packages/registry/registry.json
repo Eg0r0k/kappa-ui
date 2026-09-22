@@ -290,6 +290,248 @@
       "files": [
         { "path": "src/examples/button/ButtonDemo.vue", "type": "registry:component" }
       ]
+    },
+    {
+      "name": "button-variants",
+      "type": "registry:block",
+      "title": "Button variants",
+      "description": "Every button variant.",
+      "categories": ["example"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "src/examples/button/ButtonVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-sizes",
+      "type": "registry:block",
+      "title": "Button sizes",
+      "description": "Text and icon sizes side by side.",
+      "categories": ["example"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "src/examples/button/ButtonSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-icon",
+      "type": "registry:block",
+      "title": "Button with icons",
+      "description": "Padding that tightens on the icon's side.",
+      "categories": ["example"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "src/examples/button/ButtonIcon.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-loading",
+      "type": "registry:block",
+      "title": "Button loading",
+      "description": "A spinner composed into a disabled button.",
+      "categories": ["example"],
+      "registryDependencies": ["button", "spinner"],
+      "files": [
+        { "path": "src/examples/button/ButtonLoading.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-as-child",
+      "type": "registry:block",
+      "title": "Button as a link",
+      "description": "Rendering as another element.",
+      "categories": ["example"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "src/examples/button/ButtonAsChild.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-focus-ring",
+      "type": "registry:block",
+      "title": "Button focus ring",
+      "description": "Outward and inward focus rings in a clipping host.",
+      "categories": ["example"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "src/examples/button/ButtonFocusRing.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-touch-target",
+      "type": "registry:block",
+      "title": "Button touch target",
+      "description": "Expanded hit areas, outlined.",
+      "categories": ["example"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "src/examples/button/ButtonTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "spinner-demo",
+      "type": "registry:block",
+      "title": "Spinner demo",
+      "description": "Spinners taking size and colour from classes.",
+      "categories": ["example"],
+      "registryDependencies": ["spinner"],
+      "files": [
+        { "path": "src/examples/spinner/SpinnerDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "spinner-button",
+      "type": "registry:block",
+      "title": "Spinner in a button",
+      "description": "Spinners inside disabled buttons.",
+      "categories": ["example"],
+      "registryDependencies": ["spinner", "button"],
+      "files": [
+        { "path": "src/examples/spinner/SpinnerButton.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "aspect-ratio-demo",
+      "type": "registry:block",
+      "title": "Aspect ratio demo",
+      "description": "Three ratios at the same width.",
+      "categories": ["example"],
+      "registryDependencies": ["aspect-ratio"],
+      "files": [
+        { "path": "src/examples/aspect-ratio/AspectRatioDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-demo",
+      "type": "registry:block",
+      "title": "Scroll area demo",
+      "description": "A vertical scroll area.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-visible",
+      "type": "registry:block",
+      "title": "Scroll area, always visible",
+      "description": "Bars forced on.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaVisible.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-offsets",
+      "type": "registry:block",
+      "title": "Scroll area offsets",
+      "description": "A bar inset from both ends.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaOffsets.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-styled",
+      "type": "registry:block",
+      "title": "Scroll area styling",
+      "description": "The thumb restyled through a data-slot selector.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaStyled.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-horizontal",
+      "type": "registry:block",
+      "title": "Horizontal scroll area",
+      "description": "A horizontal scroll area.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaHorizontal.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-virtualize",
+      "type": "registry:block",
+      "title": "Virtualized scroll area",
+      "description": "Ten thousand rows, virtualized.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaVirtualize.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-virtualize-horizontal",
+      "type": "registry:block",
+      "title": "Horizontal virtualized scroll area",
+      "description": "Ten thousand columns, virtualized.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaVirtualizeHorizontal.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-masonry",
+      "type": "registry:block",
+      "title": "Masonry scroll area",
+      "description": "Three lanes of items with differing heights.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaMasonry.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-area-scroll-to",
+      "type": "registry:block",
+      "title": "Scroll area, programmatic scroll",
+      "description": "Jumping to an item through the exposed API.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-area", "button"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaScrollTo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "ripple-demo",
+      "type": "registry:block",
+      "title": "Ripple demo",
+      "description": "The ripple directive on buttons.",
+      "categories": ["example"],
+      "registryDependencies": ["ripple", "button"],
+      "files": [
+        { "path": "src/examples/ripple/RippleDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "press-scale-demo",
+      "type": "registry:block",
+      "title": "Press scale demo",
+      "description": "The press-scale utility on buttons.",
+      "categories": ["example"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "src/examples/press-scale/PressScaleDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-demo",
+      "type": "registry:block",
+      "title": "Scroll helpers demo",
+      "description": "Animated and instant scrolling of an element.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll", "button"],
+      "files": [
+        { "path": "src/examples/scroll/ScrollDemo.vue", "type": "registry:component" }
+      ]
     }
   ]
 }
