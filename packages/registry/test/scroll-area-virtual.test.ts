@@ -126,6 +126,11 @@ it("lays a horizontal list out along the inline axis", async () => {
   expect(first.style.transform).toBe("");
   expect(first.getBoundingClientRect().height).toBeGreaterThan(0);
 
+  const ltrItems = parts.items();
+  const ltrFirst = ltrItems[0].getBoundingClientRect();
+  const ltrSecond = ltrItems[1].getBoundingClientRect();
+  expect(Math.round(ltrSecond.left - ltrFirst.left)).toBe(100);
+
   wrapper.unmount();
 });
 
@@ -145,6 +150,12 @@ it("places the first horizontal item at the right edge under rtl", async () => {
   const itemRect = first.getBoundingClientRect();
   const viewportRect = parts.viewport.getBoundingClientRect();
   expect(Math.round(itemRect.right)).toBe(Math.round(viewportRect.right));
+
+  const rtlItems = parts.items();
+  const rtlFirst = rtlItems[0].getBoundingClientRect();
+  const rtlSecond = rtlItems[1].getBoundingClientRect();
+  expect(Math.round(rtlFirst.right - rtlSecond.right)).toBe(100);
+  expect(rtlSecond.right).toBeLessThan(rtlFirst.right);
 
   wrapper.unmount();
 });
