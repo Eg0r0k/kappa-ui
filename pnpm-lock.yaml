@@ -45,6 +45,9 @@ importers:
 
   packages/registry:
     dependencies:
+      '@tanstack/vue-virtual':
+        specifier: ^3.13.39
+        version: 3.13.39(vue@3.5.43(typescript@6.0.3))
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1

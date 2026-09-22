@@ -83,3 +83,73 @@ export const getDragMultiplier = (
 
 export const getHorizontalPosition = (position: number, isRtl: boolean) =>
   isRtl ? -position : position;
+
+export type VirtualSlice = { index: number; start: number; end: number };
+
+export type ScrollAreaVirtualEdge = "start" | "center" | "end";
+
+export type ScrollAreaVirtualDirection = "increase" | "decrease";
+
+export type ScrollAreaVirtualInfo = {
+  index: number;
+  from: number;
+  to: number;
+  direction: ScrollAreaVirtualDirection;
+};
+
+export const resolveVirtualCount = (
+  itemsLength: number,
+  itemsSize: number | undefined,
+  hasItemsFn: boolean,
+) =>
+  hasItemsFn && itemsSize !== undefined && itemsSize >= 0
+    ? itemsSize
+    : itemsLength;
+
+export const getVirtualWindow = (slices: readonly VirtualSlice[]) => {
+  if (slices.length === 0) return { from: 0, size: 0 };
+
+  const from = slices[0].index;
+  return { from, size: slices[slices.length - 1].index - from + 1 };
+};
+
+export const getVisibleIndex = (
+  slices: readonly VirtualSlice[],
+  offset: number,
+) => {
+  const hit = slices.find((slice) => slice.end > offset);
+  if (hit !== undefined) return hit.index;
+  return slices.length === 0 ? 0 : slices[slices.length - 1].index;
+};
+
+export const toVirtualDirection = (
+  direction: string | null,
+): ScrollAreaVirtualDirection =>
+  direction === "backward" ? "decrease" : "increase";
+
+export const getVirtualContainerStyle = (
+  totalSize: number,
+  horizontal: boolean,
+): CSSProperties =>
+  horizontal
+    ? { position: "relative", width: `${totalSize}px`, height: "100%" }
+    : { position: "relative", width: "100%", height: `${totalSize}px` };
+
+export const getVirtualItemStyle = (
+  start: number,
+  horizontal: boolean,
+): CSSProperties =>
+  horizontal
+    ? {
+        position: "absolute",
+        top: "0px",
+        insetInlineStart: `${start}px`,
+        height: "100%",
+      }
+    : {
+        position: "absolute",
+        top: "0px",
+        insetInlineStart: "0px",
+        width: "100%",
+        transform: `translateY(${start}px)`,
+      };

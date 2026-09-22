@@ -8,6 +8,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@tanstack/vue-virtual": "^3.13.39",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "reka-ui": "^2.10.4",
