@@ -320,6 +320,42 @@ it("leaves room for siblings after it in external mode", async () => {
   outer.remove();
 });
 
+it("exposes the virtualizer instance the component is using", async () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: {
+      virtualize: { estimateSize: 30 },
+      items: Array.from({ length: 1000 }, (_, index) => index),
+    },
+    attrs: { style: "height: 300px; width: 400px" },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "height: 30px" }, String(scope.item)),
+    },
+  });
+  const root = wrapper.element as Element;
+  const api = wrapper.vm as unknown as {
+    virtualizer: { scrollToIndex: (i: number, o?: unknown) => void };
+  };
+
+  await vi.waitFor(() =>
+    expect(
+      root.querySelectorAll("[data-slot=scroll-area-item]").length,
+    ).toBeGreaterThan(0),
+  );
+
+  api.virtualizer.scrollToIndex(400, { align: "start" });
+
+  await vi.waitFor(() => {
+    const indices = Array.from(
+      root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]"),
+    ).map((el) => Number(el.dataset.index));
+    expect(indices).toContain(400);
+  });
+
+  wrapper.unmount();
+});
+
 it("gives horizontal items a real height in external mode", async () => {
   const outer = document.createElement("div");
   outer.setAttribute("style", "height: 200px; width: 400px; overflow-x: auto");

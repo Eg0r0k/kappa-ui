@@ -1,5 +1,7 @@
 import type { ComputedRef, CSSProperties, InjectionKey } from "vue";
 
+import type { Virtualizer } from "./useVirtualScroll";
+
 export { default as ScrollArea, type ScrollAreaProps } from "./ScrollArea.vue";
 export { default as ScrollBar, type ScrollBarProps } from "./ScrollBar.vue";
 
@@ -68,6 +70,7 @@ export type ScrollAreaApi = {
   scrollTo: (index: number, edge?: ScrollAreaVirtualEdge) => void;
   reset: () => void;
   refresh: (index?: number) => void;
+  virtualizer: Virtualizer<HTMLElement, Element>;
 };
 
 export type ScrollAreaAxisState = {

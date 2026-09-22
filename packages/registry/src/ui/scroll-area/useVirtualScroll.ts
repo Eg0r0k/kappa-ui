@@ -1,4 +1,4 @@
-import { useVirtualizer } from "@tanstack/vue-virtual";
+import { useVirtualizer, type Virtualizer } from "@tanstack/vue-virtual";
 import {
   computed,
   type ComponentPublicInstance,
@@ -8,6 +8,8 @@ import {
   type ShallowRef,
   watch,
 } from "vue";
+
+export type { Virtualizer } from "@tanstack/vue-virtual";
 
 import {
   getVirtualContainerStyle,
@@ -40,6 +42,7 @@ export type UseVirtualScrollReturn = {
   scrollTo: (index: number, edge?: ScrollAreaVirtualEdge) => void;
   reset: () => void;
   refresh: (index?: number) => void;
+  virtualizer: Ref<Virtualizer<HTMLElement, Element>>;
 };
 
 export const useVirtualScroll = (
@@ -131,5 +134,6 @@ export const useVirtualScroll = (
         virtualizer.value.scrollToIndex(index, { align: "auto" });
       }
     },
+    virtualizer,
   };
 };

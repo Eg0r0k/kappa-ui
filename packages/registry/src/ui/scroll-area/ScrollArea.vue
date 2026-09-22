@@ -344,6 +344,9 @@ const api: ScrollAreaApi = {
   scrollTo: (index, edge) => virtual.scrollTo(index, edge),
   reset: () => virtual.reset(),
   refresh: (index) => virtual.refresh(index),
+  get virtualizer() {
+    return virtual.virtualizer.value;
+  },
 };
 
 defineExpose(api);
