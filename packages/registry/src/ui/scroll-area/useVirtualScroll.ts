@@ -64,13 +64,15 @@ export const useVirtualScroll = (
   );
 
   watch(visibleIndex, (index) => {
-    const range = virtualizer.value.range;
-    if (range === null) return;
+    const current = slices.value;
+    if (current.length === 0) return;
+
+    const { from, size } = getVirtualWindow(current);
 
     options.onScroll({
       index,
-      from: range.startIndex,
-      to: range.endIndex,
+      from,
+      to: from + size - 1,
       direction: toVirtualDirection(virtualizer.value.scrollDirection),
     });
   });

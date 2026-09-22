@@ -300,10 +300,15 @@ it("emits virtual-scroll with the rendered window and a usable ref", async () =>
   };
 
   expect(payload.index).toBeGreaterThan(950);
-  expect(payload.from).toBeLessThanOrEqual(payload.index);
-  expect(payload.to).toBeGreaterThanOrEqual(payload.index);
+  expect(payload.from).toBeLessThan(payload.index);
+  expect(payload.to).toBeGreaterThan(payload.index);
   expect(payload.direction).toBe("increase");
-  expect(typeof payload.ref.scrollTo).toBe("function");
+
+  payload.ref.scrollTo(4000, "start");
+  await vi.waitFor(() => {
+    const indices = parts.items().map((el) => Number(el.dataset.index));
+    expect(indices).toContain(4000);
+  });
 
   wrapper.unmount();
 });
