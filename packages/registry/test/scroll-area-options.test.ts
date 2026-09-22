@@ -147,7 +147,7 @@ it("lays items out across lanes", async () => {
   const wrapper = mount(ScrollArea, {
     attachTo: document.body,
     props: {
-      virtualize: { estimateSize: 50, lanes: 3, gap: 0 },
+      virtualize: { estimateSize: 50, lanes: 3, gap: 10 },
       items: Array.from({ length: 60 }, (_, index) => index),
     },
     attrs: { style: "height: 300px; width: 300px" },
@@ -167,14 +167,16 @@ it("lays items out across lanes", async () => {
   const items = Array.from(
     root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]"),
   );
-  const lefts = items.slice(0, 4).map((el) =>
-    Math.round(el.getBoundingClientRect().left),
-  );
+  const lefts = items.slice(0, 4).map((el) => el.getBoundingClientRect().left);
 
-  // three distinct lanes 100px wide, then back to the first
-  expect(new Set(lefts.slice(0, 3)).size).toBe(3);
-  expect(lefts[3]).toBe(lefts[0]);
-  expect(Math.round(items[0].getBoundingClientRect().width)).toBe(100);
+  // viewport 300 wide, 3 lanes, 10px gap => each lane (300 - 20) / 3
+  const laneWidth = items[0].getBoundingClientRect().width;
+  expect(laneWidth).toBeCloseTo((300 - 2 * 10) / 3, 1);
+
+  expect(new Set(lefts.slice(0, 3).map(Math.round)).size).toBe(3);
+  expect(lefts[1] - lefts[0]).toBeCloseTo(laneWidth + 10, 1);
+  expect(lefts[2] - lefts[1]).toBeCloseTo(laneWidth + 10, 1);
+  expect(Math.round(lefts[3])).toBe(Math.round(lefts[0]));
 
   wrapper.unmount();
 });
