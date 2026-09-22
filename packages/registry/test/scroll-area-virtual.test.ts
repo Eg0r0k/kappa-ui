@@ -337,3 +337,43 @@ it("reports decrease when scrolling back", async () => {
 
   wrapper.unmount();
 });
+
+it("sizes the custom thumb from the whole list, not the rendered window", async () => {
+  const wrapper = mountVirtual({ props: { items: rows.slice(0, 500) } });
+  const root = wrapper.element as Element;
+  const parts = partsOf(root);
+  const thumb = root.querySelector<HTMLElement>(
+    "[data-slot=scroll-area-thumb][data-axis=vertical]",
+  )!;
+
+  await vi.waitFor(() =>
+    expect(parts.virtual.style.height).toBe(`${500 * 24}px`),
+  );
+
+  // track 300, scrollSize 12000 -> 300*300/12000 = 7.5, below the
+  // minimum thumb for a track under 250... track is 300, so the floor
+  // is 50 and the thumb clamps to it.
+  await vi.waitFor(() => expect(thumb.style.height).toBe("50px"));
+
+  expect(thumb.getBoundingClientRect().width).toBeGreaterThan(0);
+
+  wrapper.unmount();
+});
+
+it("keeps the thumb proportional for a short virtual list", async () => {
+  const wrapper = mountVirtual({ props: { items: rows.slice(0, 25) } });
+  const root = wrapper.element as Element;
+  const parts = partsOf(root);
+  const thumb = root.querySelector<HTMLElement>(
+    "[data-slot=scroll-area-thumb][data-axis=vertical]",
+  )!;
+
+  await vi.waitFor(() =>
+    expect(parts.virtual.style.height).toBe(`${25 * 24}px`),
+  );
+
+  // track 300, scrollSize 600 -> 300*300/600 = 150
+  await vi.waitFor(() => expect(thumb.style.height).toBe("150px"));
+
+  wrapper.unmount();
+});
