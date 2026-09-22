@@ -142,3 +142,39 @@ it("calls estimateSize per index when given a function", async () => {
 
   wrapper.unmount();
 });
+
+it("lays items out across lanes", async () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: {
+      virtualize: { estimateSize: 50, lanes: 3, gap: 0 },
+      items: Array.from({ length: 60 }, (_, index) => index),
+    },
+    attrs: { style: "height: 300px; width: 300px" },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "height: 50px" }, String(scope.item)),
+    },
+  });
+  const root = wrapper.element as Element;
+
+  await vi.waitFor(() =>
+    expect(
+      root.querySelectorAll("[data-slot=scroll-area-item]").length,
+    ).toBeGreaterThan(3),
+  );
+
+  const items = Array.from(
+    root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]"),
+  );
+  const lefts = items.slice(0, 4).map((el) =>
+    Math.round(el.getBoundingClientRect().left),
+  );
+
+  // three distinct lanes 100px wide, then back to the first
+  expect(new Set(lefts.slice(0, 3)).size).toBe(3);
+  expect(lefts[3]).toBe(lefts[0]);
+  expect(Math.round(items[0].getBoundingClientRect().width)).toBe(100);
+
+  wrapper.unmount();
+});

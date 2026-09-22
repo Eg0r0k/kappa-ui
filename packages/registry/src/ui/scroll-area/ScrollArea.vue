@@ -587,7 +587,7 @@ onBeforeUnmount(() => {
             :ref="virtual.measureRef"
             data-slot="scroll-area-item"
             :data-index="slice.index"
-            :style="virtual.itemStyle(slice.start)"
+            :style="virtual.itemStyle(slice)"
           >
             <slot
               :item="(virtualData[slice.index - virtual.window.value.from] as T)"

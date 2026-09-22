@@ -127,7 +127,12 @@ export const getDragMultiplier = (
 export const getHorizontalPosition = (position: number, isRtl: boolean) =>
   isRtl ? -position : position;
 
-export type VirtualSlice = { index: number; start: number; end: number };
+export type VirtualSlice = {
+  index: number;
+  start: number;
+  end: number;
+  lane?: number;
+};
 
 export type ScrollAreaVirtualEdge = "start" | "center" | "end";
 
@@ -179,21 +184,38 @@ export const getVirtualContainerStyle = (
     ? { position: "relative", width: `${totalSize}px`, height: `${crossSize}px` }
     : { position: "relative", width: "100%", height: `${totalSize}px` };
 
+export type VirtualItemGeometry = {
+  start: number;
+  lane: number;
+  horizontal: boolean;
+  lanes: number;
+  gap: number;
+  scrollMargin: number;
+};
+
 export const getVirtualItemStyle = (
-  start: number,
-  horizontal: boolean,
-): CSSProperties =>
-  horizontal
+  geometry: VirtualItemGeometry,
+): CSSProperties => {
+  const offset = geometry.start - geometry.scrollMargin;
+  const hasLanes = geometry.lanes > 1;
+  const track = `(100% - ${(geometry.lanes - 1) * geometry.gap}px)`;
+  const laneSize = hasLanes ? `calc(${track} / ${geometry.lanes})` : "100%";
+  const lanePosition = hasLanes
+    ? `calc(${geometry.lane} * (${track} / ${geometry.lanes} + ${geometry.gap}px))`
+    : "0px";
+
+  return geometry.horizontal
     ? {
         position: "absolute",
-        top: "0px",
-        insetInlineStart: `${start}px`,
-        height: "100%",
+        insetBlockStart: lanePosition,
+        insetInlineStart: `${offset}px`,
+        height: laneSize,
       }
     : {
         position: "absolute",
         top: "0px",
-        insetInlineStart: "0px",
-        width: "100%",
-        transform: `translateY(${start}px)`,
+        insetInlineStart: lanePosition,
+        width: laneSize,
+        transform: `translateY(${offset}px)`,
       };
+};

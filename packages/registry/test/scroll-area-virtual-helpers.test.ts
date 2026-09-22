@@ -63,20 +63,69 @@ it("sizes the container on the virtualized axis only", () => {
   });
 });
 
-it("positions vertical items by transform and horizontal ones logically", () => {
-  expect(getVirtualItemStyle(240, false)).toEqual({
+it("positions a single-lane item exactly as before", () => {
+  const base = { lane: 0, lanes: 1, gap: 0, scrollMargin: 0 };
+
+  expect(getVirtualItemStyle({ ...base, start: 240, horizontal: false })).toEqual({
     position: "absolute",
     top: "0px",
     insetInlineStart: "0px",
     width: "100%",
     transform: "translateY(240px)",
   });
-  expect(getVirtualItemStyle(240, true)).toEqual({
+
+  expect(getVirtualItemStyle({ ...base, start: 240, horizontal: true })).toEqual({
     position: "absolute",
-    top: "0px",
+    insetBlockStart: "0px",
     insetInlineStart: "240px",
     height: "100%",
   });
+});
+
+it("splits the cross axis into lanes and subtracts the gap", () => {
+  // 3 lanes, 16px gap: each lane is (100% - 32px) / 3,
+  // lane 2 sits at 2 * ((100% - 32px) / 3 + 16px)
+  const style = getVirtualItemStyle({
+    start: 300,
+    lane: 2,
+    horizontal: false,
+    lanes: 3,
+    gap: 16,
+    scrollMargin: 0,
+  });
+
+  expect(style.width).toBe("calc((100% - 32px) / 3)");
+  expect(style.insetInlineStart).toBe("calc(2 * ((100% - 32px) / 3 + 16px))");
+  expect(style.transform).toBe("translateY(300px)");
+});
+
+it("puts a horizontal list's lanes on the block axis", () => {
+  const style = getVirtualItemStyle({
+    start: 300,
+    lane: 1,
+    horizontal: true,
+    lanes: 2,
+    gap: 10,
+    scrollMargin: 0,
+  });
+
+  expect(style.height).toBe("calc((100% - 10px) / 2)");
+  expect(style.insetBlockStart).toBe("calc(1 * ((100% - 10px) / 2 + 10px))");
+  expect(style.insetInlineStart).toBe("300px");
+  expect(style.top).toBeUndefined();
+});
+
+it("subtracts the scroll margin the engine folded into start", () => {
+  const style = getVirtualItemStyle({
+    start: 500,
+    lane: 0,
+    horizontal: false,
+    lanes: 1,
+    gap: 0,
+    scrollMargin: 120,
+  });
+
+  expect(style.transform).toBe("translateY(380px)");
 });
 
 it("resolves virtualize options with Quasar-flavoured defaults", () => {

@@ -35,7 +35,7 @@ export type UseVirtualScrollReturn = {
   slices: ComputedRef<VirtualSlice[]>;
   window: ComputedRef<{ from: number; size: number }>;
   containerStyle: ComputedRef<CSSProperties>;
-  itemStyle: (start: number) => CSSProperties;
+  itemStyle: (slice: VirtualSlice) => CSSProperties;
   measureRef: (el: Element | ComponentPublicInstance | null) => void;
   scrollTo: (index: number, edge?: ScrollAreaVirtualEdge) => void;
   reset: () => void;
@@ -50,6 +50,9 @@ export const useVirtualScroll = (
       count: options.count.value,
       horizontal: options.horizontal.value,
       overscan: options.options.value.overscan,
+      lanes: options.options.value.lanes,
+      gap: options.options.value.gap,
+      scrollMargin: options.options.value.scrollMargin,
       isRtl: options.isRtl.value,
       enabled: options.count.value > 0,
       estimateSize: (index: number) => options.options.value.estimateSize(index),
@@ -79,7 +82,12 @@ export const useVirtualScroll = (
 
   watch(
     () =>
-      [options.options.value.estimateSize, options.horizontal.value] as const,
+      [
+        options.options.value.estimateSize,
+        options.horizontal.value,
+        options.options.value.lanes,
+        options.options.value.gap,
+      ] as const,
     () => {
       virtualizer.value.measure();
     },
@@ -95,8 +103,15 @@ export const useVirtualScroll = (
         options.crossSize.value,
       ),
     ),
-    itemStyle: (start: number) =>
-      getVirtualItemStyle(start, options.horizontal.value),
+    itemStyle: (slice: VirtualSlice) =>
+      getVirtualItemStyle({
+        start: slice.start,
+        lane: slice.lane ?? 0,
+        horizontal: options.horizontal.value,
+        lanes: options.options.value.lanes,
+        gap: options.options.value.gap,
+        scrollMargin: options.options.value.scrollMargin,
+      }),
     measureRef: (el) => {
       const node =
         el instanceof Element ? el : ((el?.$el as Element | null) ?? null);
