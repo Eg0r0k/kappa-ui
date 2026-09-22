@@ -427,25 +427,28 @@ const run = () => {
       it one.
     </p>
     <div class="grid max-w-3xl gap-4 sm:grid-cols-2">
-      <ScrollArea class="h-48 rounded-lg border" content-class="p-4">
-        <p v-for="index in 20" :key="index" class="text-sm leading-7">
-          Hover to reveal the bar. Line {{ index }}.
-        </p>
+      <ScrollArea class="h-48 rounded-lg border">
+        <div class="p-4">
+          <p v-for="index in 20" :key="index" class="text-sm leading-7">
+            Hover to reveal the bar. Line {{ index }}.
+          </p>
+        </div>
       </ScrollArea>
 
-      <ScrollArea :visible="true" class="h-48 rounded-lg border" content-class="p-4">
-        <p v-for="index in 20" :key="index" class="text-sm leading-7">
-          visible is forced on. Line {{ index }}.
-        </p>
+      <ScrollArea :visible="true" class="h-48 rounded-lg border">
+        <div class="p-4">
+          <p v-for="index in 20" :key="index" class="text-sm leading-7">
+            visible is forced on. Line {{ index }}.
+          </p>
+        </div>
       </ScrollArea>
 
       <ScrollArea
         :vertical-offset="[12, 12]"
         :horizontal-offset="[12, 12]"
         class="h-48 rounded-lg border"
-        content-class="p-4"
       >
-        <div class="w-[900px]">
+        <div class="w-[900px] p-4">
           <p v-for="index in 20" :key="index" class="text-sm leading-7">
             Offsets inset the bar from every edge. Line {{ index }}.
           </p>
@@ -453,17 +456,17 @@ const run = () => {
       </ScrollArea>
 
       <ScrollArea
-        thumb-class="bg-primary/40 hover:bg-primary/60 data-[axis=vertical]:bg-destructive/60"
-        class="h-48 rounded-lg border"
-        content-class="p-4"
+        class="h-48 rounded-lg border [&_[data-slot=scroll-area-thumb]]:bg-primary/40 [&_[data-slot=scroll-area-thumb][data-axis=vertical]]:bg-destructive/60"
       >
-        <p v-for="index in 20" :key="index" class="text-sm leading-7">
-          Styled through thumb-class. Line {{ index }}.
-        </p>
+        <div class="p-4">
+          <p v-for="index in 20" :key="index" class="text-sm leading-7">
+            Restyled through a data-slot selector. Line {{ index }}.
+          </p>
+        </div>
       </ScrollArea>
 
-      <ScrollArea class="h-48 rounded-lg border" content-class="p-4">
-        <div class="flex w-[900px] gap-3">
+      <ScrollArea class="h-48 rounded-lg border">
+        <div class="flex w-[900px] gap-3 p-4">
           <div
             v-for="index in 12"
             :key="index"
@@ -474,8 +477,8 @@ const run = () => {
         </div>
       </ScrollArea>
 
-      <ScrollArea dir="rtl" class="h-48 rounded-lg border" content-class="p-4">
-        <div class="flex w-[900px] gap-3">
+      <ScrollArea dir="rtl" class="h-48 rounded-lg border">
+        <div class="flex w-[900px] gap-3 p-4">
           <div
             v-for="index in 12"
             :key="index"

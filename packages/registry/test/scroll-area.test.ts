@@ -30,6 +30,7 @@ const partsOf = (root: Element) => ({
   verticalThumb: root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=vertical]")!,
   horizontalThumb: root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=horizontal]")!,
   verticalBar: root.querySelector<HTMLElement>("[data-slot=scroll-area-bar][data-axis=vertical]")!,
+  horizontalBar: root.querySelector<HTMLElement>("[data-slot=scroll-area-bar][data-axis=horizontal]")!,
 });
 
 afterEach(() => {
@@ -46,6 +47,25 @@ it("renders every slot of the structure", () => {
   expect(parts.verticalThumb).not.toBeNull();
   expect(parts.horizontalThumb).not.toBeNull();
   expect(parts.verticalBar.getAttribute("aria-hidden")).toBe("true");
+
+  wrapper.unmount();
+});
+
+it("gives every bar and thumb a cross-axis size that fits inside its bar", async () => {
+  const wrapper = mountArea();
+  const parts = partsOf(wrapper.element);
+
+  await vi.waitFor(() => expect(parts.verticalThumb.style.height).toBe("75px"));
+
+  const verticalBar = parts.verticalBar.getBoundingClientRect().width;
+  const verticalThumb = parts.verticalThumb.getBoundingClientRect().width;
+  const horizontalBar = parts.horizontalBar.getBoundingClientRect().height;
+  const horizontalThumb = parts.horizontalThumb.getBoundingClientRect().height;
+
+  expect(verticalThumb).toBeGreaterThan(0);
+  expect(horizontalThumb).toBeGreaterThan(0);
+  expect(verticalThumb).toBeLessThanOrEqual(verticalBar);
+  expect(horizontalThumb).toBeLessThanOrEqual(horizontalBar);
 
   wrapper.unmount();
 });

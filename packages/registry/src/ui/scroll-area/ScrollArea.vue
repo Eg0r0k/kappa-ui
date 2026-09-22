@@ -8,9 +8,6 @@ export type ScrollAreaProps = {
   verticalOffset?: [number, number];
   horizontalOffset?: [number, number];
   class?: HTMLAttributes["class"];
-  contentClass?: HTMLAttributes["class"];
-  barClass?: HTMLAttributes["class"];
-  thumbClass?: HTMLAttributes["class"];
 };
 </script>
 
@@ -21,15 +18,14 @@ import {
   onBeforeUnmount,
   onDeactivated,
   onMounted,
+  provide,
   ref,
   shallowRef,
 } from "vue";
 
 import { setHorizontalScrollPosition, setVerticalScrollPosition } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
-import ScrollAreaControls, {
-  type ScrollAreaStore,
-} from "./ScrollAreaControls.vue";
+import ScrollBar from "./ScrollBar.vue";
 import {
   clamp,
   getDragMultiplier,
@@ -37,9 +33,11 @@ import {
   getPercentage,
   getThumbSize,
   getThumbStart,
+  scrollAreaInjectionKey,
   type ScrollAreaApi,
   type ScrollAreaAxis,
   type ScrollAreaScrollInfo,
+  type ScrollAreaStore,
 } from ".";
 
 const props = withDefaults(defineProps<ScrollAreaProps>(), {
@@ -337,6 +335,8 @@ const store: ScrollAreaStore = {
   onPointerup,
 };
 
+provide(scrollAreaInjectionKey, store);
+
 const startTimer = () => {
   tempShowing.value = true;
 
@@ -502,16 +502,13 @@ onBeforeUnmount(() => {
         ref="contentRef"
         data-slot="scroll-area-content"
         :data-active="active ? '' : undefined"
-        :class="cn('absolute min-h-full min-w-full', props.contentClass)"
+        class="absolute min-h-full min-w-full"
       >
         <slot />
       </div>
     </div>
 
-    <ScrollAreaControls
-      :store="store"
-      :bar-class="props.barClass"
-      :thumb-class="props.thumbClass"
-    />
+    <ScrollBar axis="vertical" />
+    <ScrollBar axis="horizontal" />
   </div>
 </template>

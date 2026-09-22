@@ -262,24 +262,36 @@ scroller. The API follows Quasar's `QScrollArea`.
 
 ```vue
 <ScrollArea class="h-72 rounded-lg border" :vertical-offset="[8, 8]">
-  <p v-for="line in lines" :key="line">{{ line }}</p>
+  <div class="p-4">
+    <p v-for="line in lines" :key="line">{{ line }}</p>
+  </div>
 </ScrollArea>
 ```
 
 The root is `contain: size`, so it takes no height from its content — give it
-one, or it collapses. That is Quasar's behaviour too. Put padding on
-`content-class` rather than the root: the bars are positioned against the
-root while the geometry that drives them is measured from the scrolling
-viewport inside it, so padding on the root shifts the bars out of alignment
-with the content they represent. A border on the root is fine — only padding
-shifts them.
+one, or it collapses. That is Quasar's behaviour too. Put padding on a wrapper
+inside the slot rather than on the root, as above: the bars are positioned
+against the root while the geometry that drives them is measured from the
+scrolling viewport inside it, so padding on the root shifts the bars out of
+alignment with the content they represent. A border on the root is fine — only
+padding shifts them.
 
-Style the parts with `content-class`, `bar-class` and `thumb-class`, all merged
-through `cn()`. Each bar and thumb carries `data-axis`, so one class string can
-cover both axes:
+There is one `class` prop per component, the way shadcn-vue does it. The bars
+are their own component, `ScrollBar`, which takes an `axis` and its own
+`class`; `ScrollArea.vue` renders one per axis. To change how a bar looks,
+edit your copy:
 
 ```vue
-<ScrollArea thumb-class="data-[axis=vertical]:bg-destructive data-[axis=horizontal]:bg-primary" />
+<ScrollBar axis="horizontal" class="h-3" />
+```
+
+The thumb's appearance is hardcoded inside `ScrollBar.vue` for the same
+reason. If you would rather not touch the file, every part carries `data-slot`
+and every bar and thumb carries `data-axis`, so the root's own `class` can
+still reach them:
+
+```vue
+<ScrollArea class="[&_[data-slot=scroll-area-thumb]]:bg-primary/40" />
 ```
 
 `visible` forces the bars on or off and overrides hover; `delay` is how long

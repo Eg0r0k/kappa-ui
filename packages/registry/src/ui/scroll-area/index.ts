@@ -1,4 +1,7 @@
+import type { ComputedRef, CSSProperties, InjectionKey } from "vue";
+
 export { default as ScrollArea, type ScrollAreaProps } from "./ScrollArea.vue";
+export { default as ScrollBar, type ScrollBarProps } from "./ScrollBar.vue";
 
 export type ScrollAreaAxis = "vertical" | "horizontal";
 
@@ -23,6 +26,23 @@ export type ScrollAreaApi = {
   setScrollPosition: (axis: ScrollAreaAxis, offset: number, duration?: number) => void;
   setScrollPercentage: (axis: ScrollAreaAxis, percentage: number, duration?: number) => void;
 };
+
+export type ScrollAreaAxisState = {
+  thumbHidden: ComputedRef<boolean>;
+  thumbStyle: ComputedRef<CSSProperties>;
+};
+
+export type ScrollAreaStore = {
+  vertical: ScrollAreaAxisState;
+  horizontal: ScrollAreaAxisState;
+  onBarPointerdown: (event: PointerEvent, axis: ScrollAreaAxis) => void;
+  onThumbPointerdown: (event: PointerEvent, axis: ScrollAreaAxis) => void;
+  onPointermove: (event: PointerEvent) => void;
+  onPointerup: (event: PointerEvent) => void;
+};
+
+export const scrollAreaInjectionKey: InjectionKey<ScrollAreaStore> =
+  Symbol("scroll-area");
 
 export const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));
