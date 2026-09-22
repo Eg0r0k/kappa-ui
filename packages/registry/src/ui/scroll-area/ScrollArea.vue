@@ -1,17 +1,24 @@
 <script lang="ts">
 import type { HTMLAttributes } from "vue";
 
-export type ScrollAreaProps = {
+export type ScrollAreaProps<T = unknown> = {
   visible?: boolean | null;
   delay?: number | string;
   tabindex?: number | string;
   verticalOffset?: [number, number];
   horizontalOffset?: [number, number];
   class?: HTMLAttributes["class"];
+  virtualize?: boolean;
+  items?: readonly T[];
+  itemsSize?: number;
+  itemsFn?: (from: number, size: number) => T[];
+  virtualScrollItemSize?: number;
+  virtualScrollHorizontal?: boolean;
+  virtualScrollOverscan?: number;
 };
 </script>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import {
   computed,
   onActivated,
@@ -26,6 +33,7 @@ import {
 import { setHorizontalScrollPosition, setVerticalScrollPosition } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import ScrollBar from "./ScrollBar.vue";
+import { useVirtualScroll } from "./useVirtualScroll";
 import {
   clamp,
   getDragMultiplier,
@@ -33,22 +41,34 @@ import {
   getPercentage,
   getThumbSize,
   getThumbStart,
+  resolveVirtualCount,
   scrollAreaInjectionKey,
   type ScrollAreaApi,
   type ScrollAreaAxis,
   type ScrollAreaScrollInfo,
   type ScrollAreaStore,
+  type ScrollAreaVirtualInfo,
 } from ".";
 
-const props = withDefaults(defineProps<ScrollAreaProps>(), {
+const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
   visible: null,
   delay: 1000,
   verticalOffset: () => [0, 0],
   horizontalOffset: () => [0, 0],
+  virtualize: false,
+  items: () => [],
+  virtualScrollItemSize: 24,
+  virtualScrollHorizontal: false,
+  virtualScrollOverscan: 4,
 });
 
 const emit = defineEmits<{
   scroll: [info: ScrollAreaScrollInfo & { ref: ScrollAreaApi }];
+  virtualScroll: [info: ScrollAreaVirtualInfo & { ref: ScrollAreaApi }];
+}>();
+
+defineSlots<{
+  default: (scope: { item: T; index: number }) => unknown;
 }>();
 
 const rootRef = shallowRef<HTMLElement | null>(null);
@@ -337,6 +357,34 @@ const store: ScrollAreaStore = {
 
 provide(scrollAreaInjectionKey, store);
 
+const virtualCount = computed(() =>
+  resolveVirtualCount(
+    props.items.length,
+    props.itemsSize,
+    props.itemsFn !== undefined,
+  ),
+);
+
+const virtual = useVirtualScroll({
+  scrollEl: viewportRef,
+  count: virtualCount,
+  itemSize: computed(() => Number(props.virtualScrollItemSize)),
+  horizontal: computed(() => props.virtualScrollHorizontal),
+  overscan: computed(() => Number(props.virtualScrollOverscan)),
+  isRtl,
+  onScroll: (info: ScrollAreaVirtualInfo) => {
+    emit("virtualScroll", { ...info, ref: api });
+  },
+});
+
+const virtualData = computed(() => {
+  const { from, size } = virtual.window.value;
+  if (size === 0) return [];
+  return props.itemsFn !== undefined
+    ? props.itemsFn(from, size)
+    : props.items.slice(from, from + size);
+});
+
 const startTimer = () => {
   tempShowing.value = true;
 
@@ -504,7 +552,26 @@ onBeforeUnmount(() => {
         :data-active="active ? '' : undefined"
         class="absolute min-h-full min-w-full"
       >
-        <slot />
+        <div
+          v-if="props.virtualize"
+          data-slot="scroll-area-virtual"
+          :style="virtual.containerStyle.value"
+        >
+          <div
+            v-for="slice in virtual.slices.value"
+            :key="slice.index"
+            :ref="virtual.measureRef"
+            data-slot="scroll-area-item"
+            :data-index="slice.index"
+            :style="virtual.itemStyle(slice.start)"
+          >
+            <slot
+              :item="(virtualData[slice.index - virtual.window.value.from] as T)"
+              :index="slice.index"
+            />
+          </div>
+        </div>
+        <slot v-else :item="({} as T)" :index="0" />
       </div>
     </div>
 
