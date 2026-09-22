@@ -4,7 +4,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-const HOMEPAGE = 'https://delta-ui.dev'
+const HOMEPAGE = (process.env.DELTA_UI_URL ?? 'https://delta-ui.dev').replace(/\/+$/, '')
 
 const REGISTRY_SCHEMA = 'https://shadcn-vue.com/schema/registry.json'
 const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
@@ -117,6 +117,18 @@ for (const item of registry.items) {
     }
   }
 
+  const isExample = item.categories?.includes('example') ?? false
+  if (isExample) {
+    if (item.type !== 'registry:block') {
+      errors.push(`item "${item.name}": an example must be of type registry:block`)
+    }
+    if ((item.registryDependencies ?? []).length === 0) {
+      errors.push(
+        `item "${item.name}": an example must list the item it demonstrates in registryDependencies`,
+      )
+    }
+  }
+
   for (const file of item.files) {
     if (!ITEM_TYPES.has(file.type)) {
       errors.push(`item "${item.name}", file "${file.path}": invalid type "${file.type}"`)
@@ -124,6 +136,11 @@ for (const item of registry.items) {
     if (TARGET_REQUIRED.has(file.type) && !file.target) {
       errors.push(
         `item "${item.name}", file "${file.path}": type "${file.type}" requires a target field`,
+      )
+    }
+    if (isExample && !file.path.startsWith('src/examples/')) {
+      errors.push(
+        `item "${item.name}", file "${file.path}": example files must live under src/examples/`,
       )
     }
     if (!existsSync(resolve(manifestDir, file.path))) {

@@ -5,11 +5,11 @@
   "type": "module",
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "dev": "pnpm --filter @delta-ui/docs dev",
+    "dev": "pnpm registry:build && pnpm --filter @delta-ui/docs dev",
     "build": "pnpm registry:build && pnpm --filter @delta-ui/docs build",
     "preview": "pnpm --filter @delta-ui/docs preview",
     "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
-    "test": "pnpm -r test",
+    "test": "node --test scripts/build-registry.test.ts && pnpm -r test",
     "registry:build": "node scripts/build-registry.ts"
   },
   "devDependencies": {
