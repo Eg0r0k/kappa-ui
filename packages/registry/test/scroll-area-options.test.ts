@@ -180,3 +180,101 @@ it("lays items out across lanes", async () => {
 
   wrapper.unmount();
 });
+
+it("virtualizes against an external scroll element", async () => {
+  const outer = document.createElement("div");
+  outer.setAttribute("style", "height: 300px; width: 400px; overflow-y: auto");
+  document.body.append(outer);
+
+  const wrapper = mount(ScrollArea, {
+    attachTo: outer,
+    props: {
+      virtualize: { estimateSize: 30, getScrollElement: () => outer },
+      items: Array.from({ length: 500 }, (_, index) => index),
+    },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "height: 30px" }, String(scope.item)),
+    },
+  });
+  const root = wrapper.element as Element;
+
+  await vi.waitFor(() =>
+    expect(
+      root.querySelectorAll("[data-slot=scroll-area-item]").length,
+    ).toBeGreaterThan(0),
+  );
+
+  expect(root.querySelectorAll("[data-slot=scroll-area-bar]").length).toBe(0);
+  expect(getComputedStyle(root as HTMLElement).overflow).toBe("visible");
+
+  expect(
+    Number(
+      root
+        .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
+        .dataset.index,
+    ),
+  ).toBe(0);
+
+  outer.scrollTop = 6000;
+
+  await vi.waitFor(() =>
+    expect(
+      Number(
+        root
+          .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
+          .dataset.index,
+      ),
+    ).toBeGreaterThan(180),
+  );
+
+  wrapper.unmount();
+  outer.remove();
+});
+
+it("offsets the window by the scroll margin", async () => {
+  const outer = document.createElement("div");
+  outer.setAttribute("style", "height: 300px; width: 400px; overflow-y: auto");
+  const header = document.createElement("div");
+  header.setAttribute("style", "height: 600px");
+  outer.append(header);
+  document.body.append(outer);
+
+  const wrapper = mount(ScrollArea, {
+    attachTo: outer,
+    props: {
+      virtualize: {
+        estimateSize: 30,
+        scrollMargin: 600,
+        getScrollElement: () => outer,
+      },
+      items: Array.from({ length: 500 }, (_, index) => index),
+    },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "height: 30px" }, String(scope.item)),
+    },
+  });
+  const root = wrapper.element as Element;
+
+  await vi.waitFor(() =>
+    expect(
+      root.querySelectorAll("[data-slot=scroll-area-item]").length,
+    ).toBeGreaterThan(0),
+  );
+
+  // Scrolling only as far as the header should leave the list at its start.
+  outer.scrollTop = 600;
+  await vi.waitFor(() =>
+    expect(
+      Number(
+        root
+          .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
+          .dataset.index,
+      ),
+    ).toBeLessThan(5),
+  );
+
+  wrapper.unmount();
+  outer.remove();
+});

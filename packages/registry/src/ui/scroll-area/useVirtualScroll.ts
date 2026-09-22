@@ -56,7 +56,8 @@ export const useVirtualScroll = (
       isRtl: options.isRtl.value,
       enabled: options.count.value > 0,
       estimateSize: (index: number) => options.options.value.estimateSize(index),
-      getScrollElement: () => options.scrollEl.value,
+      getScrollElement: () =>
+        options.options.value.getScrollElement?.() ?? options.scrollEl.value,
     })),
   );
 
@@ -115,6 +116,7 @@ export const useVirtualScroll = (
     measureRef: (el) => {
       const node =
         el instanceof Element ? el : ((el?.$el as Element | null) ?? null);
+      if (node !== null && !node.isConnected) return;
       virtualizer.value.measureElement(node);
     },
     scrollTo: (index, edge) => {

@@ -381,6 +381,10 @@ const virtualOptions = computed<ResolvedVirtualizeOptions>(() =>
   resolveVirtualizeOptions(props.virtualize),
 );
 
+const isExternalScroll = computed(
+  () => virtualOptions.value.getScrollElement !== undefined,
+);
+
 const virtual = useVirtualScroll({
   scrollEl: viewportRef,
   count: virtualCount,
@@ -552,7 +556,13 @@ onBeforeUnmount(() => {
     data-slot="scroll-area"
     :data-active="active ? '' : undefined"
     :data-orientation="props.orientation"
-    :class="cn('relative flow-root overflow-clip [contain:size]', props.class)"
+    :class="
+      cn(
+        'relative flow-root',
+        isExternalScroll ? 'overflow-visible' : 'overflow-clip [contain:size]',
+        props.class,
+      )
+    "
     @mouseenter="onMouseenter"
     @mouseleave="onMouseleave"
   >
@@ -562,9 +572,11 @@ onBeforeUnmount(() => {
       :class="
         cn(
           'scrollbar-hidden relative size-full',
-          isHorizontal
-            ? 'overflow-x-auto overflow-y-hidden'
-            : 'overflow-y-auto overflow-x-hidden',
+          isExternalScroll
+            ? 'overflow-visible'
+            : isHorizontal
+              ? 'overflow-x-auto overflow-y-hidden'
+              : 'overflow-y-auto overflow-x-hidden',
         )
       "
       :tabindex="tabindex"
@@ -599,6 +611,6 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <ScrollBar :axis="props.orientation" />
+    <ScrollBar v-if="!isExternalScroll" :axis="props.orientation" />
   </div>
 </template>
