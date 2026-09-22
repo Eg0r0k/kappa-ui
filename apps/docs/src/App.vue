@@ -93,6 +93,11 @@ const virtualRows = Array.from(
   { length: 10_000 },
   (_, index) => `Row ${index}`,
 );
+
+const masonryRows = Array.from(
+  { length: 300 },
+  (_, index) => 60 + ((index * 37) % 90),
+);
 </script>
 
 <template>
@@ -453,9 +458,9 @@ const virtualRows = Array.from(
         :horizontal-offset="[12, 12]"
         class="h-48 rounded-lg border"
       >
-        <div class="w-[900px] p-4">
+        <div class="p-4">
           <p v-for="index in 20" :key="index" class="text-sm leading-7">
-            Offsets inset the bar from every edge. Line {{ index }}.
+            Offsets inset the bar from both ends and the edge. Line {{ index }}.
           </p>
         </div>
       </ScrollArea>
@@ -470,7 +475,7 @@ const virtualRows = Array.from(
         </div>
       </ScrollArea>
 
-      <ScrollArea class="h-48 rounded-lg border">
+      <ScrollArea orientation="horizontal" class="h-48 rounded-lg border">
         <div class="flex w-[900px] gap-3 p-4">
           <div
             v-for="index in 12"
@@ -482,7 +487,11 @@ const virtualRows = Array.from(
         </div>
       </ScrollArea>
 
-      <ScrollArea dir="rtl" class="h-48 rounded-lg border">
+      <ScrollArea
+        dir="rtl"
+        orientation="horizontal"
+        class="h-48 rounded-lg border"
+      >
         <div class="flex w-[900px] gap-3 p-4">
           <div
             v-for="index in 12"
@@ -495,9 +504,8 @@ const virtualRows = Array.from(
       </ScrollArea>
 
       <ScrollArea
-        virtualize
+        :virtualize="{ estimateSize: 32 }"
         :items="virtualRows"
-        :virtual-scroll-item-size="32"
         class="h-48 rounded-lg border"
         v-slot="{ item, index }"
       >
@@ -505,15 +513,28 @@ const virtualRows = Array.from(
       </ScrollArea>
 
       <ScrollArea
-        virtualize
-        virtual-scroll-horizontal
+        orientation="horizontal"
+        :virtualize="{ estimateSize: 140 }"
         :items="virtualRows"
-        :virtual-scroll-item-size="140"
         class="h-48 rounded-lg border"
         v-slot="{ item }"
       >
         <div class="grid h-full w-[140px] place-items-center text-sm">
           {{ item }}
+        </div>
+      </ScrollArea>
+
+      <ScrollArea
+        :virtualize="{ estimateSize: 90, lanes: 3, gap: 8 }"
+        :items="masonryRows"
+        class="h-48 rounded-lg border"
+        v-slot="{ item, index }"
+      >
+        <div
+          class="grid place-items-center rounded-md bg-accent text-xs"
+          :style="{ height: `${item}px` }"
+        >
+          {{ index }}
         </div>
       </ScrollArea>
     </div>

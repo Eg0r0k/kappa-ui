@@ -323,9 +323,8 @@ row in the rendered window — the visible rows plus the overscan buffer — wit
 
 ```vue
 <ScrollArea
-  virtualize
+  :virtualize="{ estimateSize: 32 }"
   :items="rows"
-  :virtual-scroll-item-size="32"
   class="h-72 rounded-lg border"
   v-slot="{ item, index }"
 >
@@ -340,11 +339,29 @@ rather than hand-writing one, and since you own the copied source, a
 maintained dependency is worth more here than a thousand lines of scroll
 math you would never update.
 
-`virtual-scroll-item-size` is only an estimate; real item sizes are measured
-after render, so items of differing height work. `virtual-scroll-horizontal`
-virtualizes the inline axis instead, and mirrors correctly under `dir="rtl"`.
-`virtual-scroll-overscan` is how many extra items are rendered on each side,
-4 by default.
+`estimateSize` is only an estimate; real item sizes are measured after render,
+so items of differing height work. It takes a number or a function of the
+index, 24 by default. `overscan` is how many extra items are rendered on each
+side, 4 by default. `lanes` and `gap` turn the list into a masonry grid.
+
+`orientation` picks the axis, `vertical` by default. It sets the viewport's
+overflow, chooses the virtualized axis, and decides which scrollbar renders —
+so a vertical area does not scroll sideways, and content that must scroll
+horizontally needs `orientation="horizontal"`, virtualized or not.
+Right-to-left is mirrored correctly either way.
+
+`virtualize` also accepts `getScrollElement` and `scrollMargin`, which
+virtualize the list against an ancestor scroller instead of the component's
+own viewport. In that mode the component grows to the list's full size, its
+viewport stops scrolling and no scrollbar is drawn, because the ancestor owns
+the scrolling. `scrollMargin` is the list's offset from the top of that
+scroller. The getter must return the element at mount: one that returns
+`null` then and resolves later leaves the list attached to neither scroller.
+
+The exposed `virtualizer` is the raw TanStack instance, an escape hatch for
+anything `scrollTo`, `reset` and `refresh` do not cover. It is not covered by
+this component's API stability — if the engine changes, code built on it
+changes with it.
 
 For a list whose data you do not want to hold in memory, pass `items-size`
 and `items-fn` instead of `items`; the function is called with `(from, size)`
