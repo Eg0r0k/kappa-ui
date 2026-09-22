@@ -332,6 +332,9 @@ const api: ScrollAreaApi = {
     const state = axisState(axis);
     setScrollPosition(axis, percentage * (state.size - state.container), duration);
   },
+  scrollTo: (index, edge) => virtual.scrollTo(index, edge),
+  reset: () => virtual.reset(),
+  refresh: (index) => virtual.refresh(index),
 };
 
 defineExpose(api);

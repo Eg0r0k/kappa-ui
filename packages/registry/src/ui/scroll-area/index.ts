@@ -25,6 +25,9 @@ export type ScrollAreaApi = {
   getScrollPercentage: () => { top: number; left: number };
   setScrollPosition: (axis: ScrollAreaAxis, offset: number, duration?: number) => void;
   setScrollPercentage: (axis: ScrollAreaAxis, percentage: number, duration?: number) => void;
+  scrollTo: (index: number, edge?: ScrollAreaVirtualEdge) => void;
+  reset: () => void;
+  refresh: (index?: number) => void;
 };
 
 export type ScrollAreaAxisState = {

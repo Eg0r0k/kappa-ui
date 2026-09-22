@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
 import { h } from "vue";
 
-import { ScrollArea } from "@/ui/scroll-area";
+import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
 
 const rows = Array.from({ length: 10_000 }, (_, index) => `Row ${index}`);
 
@@ -33,6 +33,11 @@ const partsOf = (root: Element) => ({
   items: () =>
     Array.from(root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]")),
 });
+
+const nextFrame = () =>
+  new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -175,6 +180,81 @@ it("scrolls an rtl horizontal list leftwards from the right edge", async () => {
   await vi.waitFor(() =>
     expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(400),
   );
+
+  wrapper.unmount();
+});
+
+it("scrolls to an index and aligns it when asked", async () => {
+  const wrapper = mountVirtual();
+  const parts = partsOf(wrapper.element as Element);
+  const api = wrapper.vm as unknown as ScrollAreaApi;
+
+  await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
+
+  api.scrollTo(5000);
+  await vi.waitFor(() => {
+    const indices = parts.items().map((el) => Number(el.dataset.index));
+    expect(indices).toContain(5000);
+  });
+
+  api.scrollTo(2000, "start");
+  await vi.waitFor(() => {
+    const target = parts
+      .items()
+      .find((el) => el.dataset.index === "2000");
+    expect(target).toBeDefined();
+    expect(Math.round(target!.getBoundingClientRect().top)).toBe(
+      Math.round(parts.viewport.getBoundingClientRect().top),
+    );
+  });
+
+  wrapper.unmount();
+});
+
+it("drops measured sizes on reset", async () => {
+  const wrapper = mountVirtual({
+    props: { items: rows.slice(0, 600) },
+    itemStyle: "height: 48px",
+  });
+  const parts = partsOf(wrapper.element as Element);
+  const api = wrapper.vm as unknown as ScrollAreaApi;
+
+  await vi.waitFor(() =>
+    expect(Number.parseFloat(parts.virtual.style.height)).toBeGreaterThan(
+      600 * 24,
+    ),
+  );
+
+  for (let top = 0; top <= 24_000; top += 1_200) {
+    parts.viewport.scrollTop = top;
+    await nextFrame();
+  }
+
+  const measured = Number.parseFloat(parts.virtual.style.height);
+  expect(measured).toBeGreaterThan(600 * 40);
+
+  api.reset();
+
+  await vi.waitFor(() =>
+    expect(Number.parseFloat(parts.virtual.style.height)).toBeLessThan(
+      measured,
+    ),
+  );
+  wrapper.unmount();
+});
+
+it("refreshes and optionally scrolls to an index", async () => {
+  const wrapper = mountVirtual();
+  const parts = partsOf(wrapper.element as Element);
+  const api = wrapper.vm as unknown as ScrollAreaApi;
+
+  await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
+
+  api.refresh(3000);
+  await vi.waitFor(() => {
+    const indices = parts.items().map((el) => Number(el.dataset.index));
+    expect(indices).toContain(3000);
+  });
 
   wrapper.unmount();
 });
