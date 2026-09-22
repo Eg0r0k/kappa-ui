@@ -88,6 +88,11 @@ const run = () => {
   busy.value = true;
   setTimeout(() => (busy.value = false), 2000);
 };
+
+const virtualRows = Array.from(
+  { length: 10_000 },
+  (_, index) => `Row ${index}`,
+);
 </script>
 
 <template>
@@ -486,6 +491,29 @@ const run = () => {
           >
             rtl {{ index }}
           </div>
+        </div>
+      </ScrollArea>
+
+      <ScrollArea
+        virtualize
+        :items="virtualRows"
+        :virtual-scroll-item-size="32"
+        class="h-48 rounded-lg border"
+        v-slot="{ item, index }"
+      >
+        <div class="px-4 text-sm leading-8">{{ index }} — {{ item }}</div>
+      </ScrollArea>
+
+      <ScrollArea
+        virtualize
+        virtual-scroll-horizontal
+        :items="virtualRows"
+        :virtual-scroll-item-size="140"
+        class="h-48 rounded-lg border"
+        v-slot="{ item }"
+      >
+        <div class="grid h-full w-[140px] place-items-center text-sm">
+          {{ item }}
         </div>
       </ScrollArea>
     </div>

@@ -314,6 +314,48 @@ scrolls and receives focus — but fallthrough attributes, `aria-label`
 included, land on the root. Passing `aria-label` to the component labels the
 wrapper, not the focusable element.
 
+### Virtualizing a long list
+
+Set `virtualize` and pass `items`. The default slot is then rendered once per
+visible item with `{ item, index }`:
+
+```vue
+<ScrollArea
+  virtualize
+  :items="rows"
+  :virtual-scroll-item-size="32"
+  class="h-72 rounded-lg border"
+  v-slot="{ item, index }"
+>
+  <div class="px-4 leading-8">{{ index }} — {{ item }}</div>
+</ScrollArea>
+```
+
+The engine is [TanStack Virtual][tanstack-virtual], which is why adding this
+component installs `@tanstack/vue-virtual`. Every comparable Vue library —
+Nuxt UI, and Reka UI which shadcn-vue is built on — uses the same engine
+rather than hand-writing one, and since you own the copied source, a
+maintained dependency is worth more here than a thousand lines of scroll
+math you would never update.
+
+`virtual-scroll-item-size` is only an estimate; real item sizes are measured
+after render, so items of differing height work. `virtual-scroll-horizontal`
+virtualizes the inline axis instead, and mirrors correctly under `dir="rtl"`.
+`virtual-scroll-overscan` is how many extra items are rendered on each side,
+4 by default.
+
+For a list whose data you do not want to hold in memory, pass `items-size`
+and `items-fn` instead of `items`; the function is called with `(from, size)`
+for the visible window only.
+
+Three methods join the exposed API — `scrollTo(index, edge?)`, `reset()` and
+`refresh(index?)` — and `@virtual-scroll` fires with
+`{ index, from, to, direction, ref }` whenever the item at the scroll
+position changes. `edge` is `'start'`, `'center'` or `'end'` and always
+aligns; omit it to leave an already-visible item where it is.
+
+[tanstack-virtual]: https://tanstack.com/virtual/latest
+
 ## Repo layout
 
 - `packages/registry` — source of truth for every component (`src/`) and the
