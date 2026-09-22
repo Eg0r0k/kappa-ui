@@ -1,0 +1,20 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "types": ["node", "vite/client"],
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "paths": {
+      "~/*": ["./app/*"],
+      "~~/*": ["./*"],
+      "@/*": ["../../packages/registry/src/*"],
+      "#registry/*": ["../../packages/registry/*"]
+    },
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["scripts/**/*.ts", "test/**/*.ts", "vitest.config.ts"]
+}

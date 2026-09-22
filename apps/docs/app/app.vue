@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { Button } from '@/ui/button'
+useHead({
+  titleTemplate: (title) => (title && title !== 'delta-ui' ? `${title} · delta-ui` : 'delta-ui'),
+})
 </script>
 
 <template>
-  <main class="grid min-h-svh place-items-center bg-background text-foreground">
-    <Button>delta-ui</Button>
-  </main>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>

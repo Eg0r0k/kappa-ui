@@ -5,6 +5,26 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-22',
   devtools: { enabled: false },
+  modules: ['@nuxt/content'],
+  content: {
+    experimental: { sqliteConnector: 'native' },
+    build: {
+      markdown: {
+        toc: { depth: 3, searchDepth: 3 },
+        highlight: {
+          theme: { default: 'github-light', dark: 'github-dark' },
+          langs: ['vue', 'ts', 'bash', 'css', 'json'],
+        },
+      },
+    },
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      failOnError: true,
+      routes: ['/'],
+    },
+  },
   alias: {
     '@': fileURLToPath(new URL('../../packages/registry/src', import.meta.url)),
     '#registry': fileURLToPath(new URL('../../packages/registry', import.meta.url)),
