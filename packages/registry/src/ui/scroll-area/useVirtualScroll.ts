@@ -50,6 +50,7 @@ export const useVirtualScroll = (
       horizontal: options.horizontal.value,
       overscan: options.overscan.value,
       isRtl: options.isRtl.value,
+      enabled: options.count.value > 0,
       estimateSize: () => options.itemSize.value,
       getScrollElement: () => options.scrollEl.value,
     })),
@@ -72,6 +73,13 @@ export const useVirtualScroll = (
       direction: toVirtualDirection(virtualizer.value.scrollDirection),
     });
   });
+
+  watch(
+    () => [options.itemSize.value, options.horizontal.value] as const,
+    () => {
+      virtualizer.value.measure();
+    },
+  );
 
   return {
     slices,

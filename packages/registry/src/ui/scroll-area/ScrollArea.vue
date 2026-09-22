@@ -358,11 +358,13 @@ const store: ScrollAreaStore = {
 provide(scrollAreaInjectionKey, store);
 
 const virtualCount = computed(() =>
-  resolveVirtualCount(
-    props.items.length,
-    props.itemsSize,
-    props.itemsFn !== undefined,
-  ),
+  props.virtualize
+    ? resolveVirtualCount(
+        props.items.length,
+        props.itemsSize,
+        props.itemsFn !== undefined,
+      )
+    : 0,
 );
 
 const virtual = useVirtualScroll({
