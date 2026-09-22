@@ -1,0 +1,5 @@
+component: ScrollBar
+file: ui/scroll-area/ScrollBar.vue
+props:
+  axis:
+    description: Which bar this is. `ScrollArea` renders one for its `orientation`.

@@ -1,0 +1,49 @@
+component: ScrollArea
+file: ui/scroll-area/ScrollArea.vue
+exposedType:
+  file: ui/scroll-area/index.ts
+  name: ScrollAreaApi
+props:
+  visible:
+    description: Forces the bar on (`true`) or off (`false`). `null` shows it on hover and while scrolling.
+  delay:
+    description: Milliseconds the bar lingers after the content or position last changed.
+  tabindex:
+    description: Lands on the viewport, the element that scrolls and receives focus.
+  orientation:
+    description: The axis the area scrolls on. Sets the viewport's overflow, the virtualized axis and which bar renders.
+  verticalOffset:
+    description: Space in pixels kept free at the start and end of the vertical bar's track.
+  horizontalOffset:
+    description: Space in pixels kept free at the start and end of the horizontal bar's track.
+  virtualize:
+    description: Render only the items in and near the view. `true` uses the defaults; an object sets them.
+    fields:
+      estimateSize: Estimated size of an item in pixels, or a function of its index. Real sizes are measured after render. 24 by default.
+      overscan: Extra items rendered on each side of the view. 4 by default.
+      lanes: Number of lanes, for a masonry layout. 1 by default.
+      gap: Space between items and between lanes, in pixels. 0 by default.
+      scrollMargin: The list's offset from the start of an external scroll element.
+      getScrollElement: Returns an ancestor to scroll instead of the component's own viewport. Must return the element at mount.
+  items:
+    description: The list to virtualize. The default slot renders once per item in the rendered window.
+  itemsSize:
+    description: Total item count, for use with `itemsFn` instead of `items`.
+  itemsFn:
+    description: Called with `(from, size)` for the rendered window only, for data you do not want to hold in memory.
+emits:
+  scroll: Fires on scroll with positions, percentages and sizes for both axes, and `ref`, the exposed API.
+  virtualScroll: Fires when the item at the scroll position changes, with `{ index, from, to, direction, ref }`.
+slots:
+  default: The content. When virtualized, rendered once per item with `{ item, index }`.
+exposed:
+  getScrollTarget: Returns the element that scrolls.
+  getScroll: Returns the same information as the `scroll` event.
+  getScrollPosition: Returns `{ top, left }` in pixels. `left` counts from the right edge under `dir="rtl"`.
+  getScrollPercentage: Returns `{ top, left }` as fractions from 0 to 1.
+  setScrollPosition: Scrolls an axis to an offset in pixels, animated over `duration` milliseconds when given.
+  setScrollPercentage: Scrolls an axis to a fraction from 0 to 1, animated over `duration` milliseconds when given.
+  scrollTo: Scrolls a virtualized list to an item. `edge` is `start`, `center` or `end`; omit it to leave a visible item where it is.
+  reset: Drops every measured item size and measures again.
+  refresh: Re-measures from an index onward, or everything; the scroll position is kept.
+  virtualizer: The raw TanStack Virtual instance. An escape hatch outside this component's API stability.

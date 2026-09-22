@@ -1,0 +1,24 @@
+<script setup lang="ts">
+const props = defineProps<{ rows: { slot: string; attributes?: string; description: string }[] }>()
+</script>
+
+<template>
+  <div class="not-prose my-6 overflow-x-auto rounded-lg border">
+    <table class="w-full text-left text-sm">
+      <thead class="border-b bg-muted/40 text-xs text-muted-foreground">
+        <tr>
+          <th class="px-4 py-2 font-medium">data-slot</th>
+          <th class="px-4 py-2 font-medium">Attributes</th>
+          <th class="px-4 py-2 font-medium">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in props.rows" :key="row.slot" class="border-b align-top last:border-0">
+          <td class="px-4 py-3 font-mono text-xs whitespace-nowrap">{{ row.slot }}</td>
+          <td class="px-4 py-3 font-mono text-xs">{{ row.attributes ?? '—' }}</td>
+          <td class="px-4 py-3 text-muted-foreground">{{ row.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

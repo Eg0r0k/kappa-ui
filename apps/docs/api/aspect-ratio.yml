@@ -1,0 +1,12 @@
+component: AspectRatio
+file: ui/aspect-ratio/AspectRatio.vue
+props:
+  ratio:
+    description: Width divided by height, such as `16 / 9`.
+    default: '1'
+  as:
+    description: The element or component to render as the inner box.
+  asChild:
+    description: Render the single child as the inner box instead of a wrapper.
+slots:
+  default: Content of the inner box. Receives `aspect`, the height as a percentage of the width.

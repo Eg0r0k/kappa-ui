@@ -1,0 +1,21 @@
+component: Button
+file: ui/button/Button.vue
+props:
+  variant:
+    description: Visual style.
+    default: '"default"'
+  size:
+    description: Height, padding and text size. The `icon` sizes are square and match the text sizes' heights.
+    default: '"default"'
+  touchTarget:
+    description: Grows the pressable area to at least 48px without changing how the button looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
+    default: '"none"'
+  focusRing:
+    description: Where the focus ring is drawn. `inward` stays visible inside a host that clips overflow.
+    default: '"outward"'
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the button's attributes and classes onto it.
+slots:
+  default: Label and icons. Mark an icon with `data-icon="inline-start"` or `"inline-end"` to tighten padding on that side.

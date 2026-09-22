@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "postinstall": "nuxt prepare",
-    "dev": "nuxt dev",
-    "build": "nuxt generate && node scripts/check-output.ts",
+    "api:build": "node scripts/build-api.ts",
+    "dev": "pnpm api:build && nuxt dev",
+    "build": "pnpm api:build && nuxt generate && node scripts/check-output.ts",
     "preview": "nuxt preview",
-    "typecheck": "nuxt typecheck && vue-tsc --noEmit -p tsconfig.scripts.json",
+    "typecheck": "pnpm api:build && nuxt typecheck && vue-tsc --noEmit -p tsconfig.scripts.json",
     "test": "vitest run"
   },
   "dependencies": {
@@ -30,11 +31,13 @@
     "@vitest/browser-playwright": "^5.0.1",
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
+    "nuxt-component-meta": "^0.18.0",
     "playwright": "^1.63.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vitest": "^5.0.1",
-    "vue-tsc": "^3.3.11"
+    "vue-tsc": "^3.3.11",
+    "yaml": "^2.9.1"
   }
 }

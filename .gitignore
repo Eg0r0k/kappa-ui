@@ -37,3 +37,6 @@ packages/registry/.vitest/
 .nuxt
 .output
 .data
+
+# Generated API tables
+apps/docs/app/generated/
