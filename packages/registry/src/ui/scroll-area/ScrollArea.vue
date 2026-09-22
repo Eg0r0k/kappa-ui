@@ -28,6 +28,7 @@ import {
   provide,
   ref,
   shallowRef,
+  watch,
 } from "vue";
 
 import { setHorizontalScrollPosition, setVerticalScrollPosition } from "@/lib/scroll";
@@ -160,17 +161,18 @@ const active = computed(() =>
     : !thumbHiddenVertical.value,
 );
 
-const tabindex = computed(() =>
-  props.tabindex !== undefined
-    ? props.tabindex
-    : (
-          isHorizontal.value
-            ? sizeHorizontal.value > containerHorizontal.value + 1
-            : sizeVertical.value > containerVertical.value + 1
-        )
-      ? 0
-      : undefined,
-);
+const tabindex = computed(() => {
+  if (props.tabindex !== undefined) return props.tabindex;
+  if (isExternalScroll.value) return undefined;
+
+  return (
+    isHorizontal.value
+      ? sizeHorizontal.value > containerHorizontal.value + 1
+      : sizeVertical.value > containerVertical.value + 1
+  )
+    ? 0
+    : undefined;
+});
 
 const thumbStyleVertical = computed(() => ({
   top: `${thumbStartVertical.value}px`,
@@ -385,12 +387,22 @@ const isExternalScroll = computed(
   () => virtualOptions.value.getScrollElement !== undefined,
 );
 
+const externalEl = shallowRef<HTMLElement | null>(null);
+
+const syncExternalEl = () => {
+  externalEl.value = virtualOptions.value.getScrollElement?.() ?? null;
+};
+
 const virtual = useVirtualScroll({
   scrollEl: viewportRef,
   count: virtualCount,
   options: virtualOptions,
   horizontal: isHorizontal,
-  crossSize: computed(() => containerVertical.value),
+  crossSize: computed(() =>
+    isExternalScroll.value
+      ? (externalEl.value?.clientHeight ?? 0)
+      : containerVertical.value,
+  ),
   isRtl,
   onScroll: (info: ScrollAreaVirtualInfo) => {
     emit("virtualScroll", { ...info, ref: api });
@@ -511,6 +523,7 @@ onMounted(() => {
   updateContainer();
   updateScrollSize();
   updateScroll();
+  syncExternalEl();
 
   containerObserver = new ResizeObserver(updateContainer);
   contentObserver = new ResizeObserver(updateScrollSize);
@@ -523,6 +536,8 @@ onMounted(() => {
     subtree: true,
   });
 });
+
+watch(virtualOptions, syncExternalEl);
 
 let keptPosition: { top: number; left: number } | null = null;
 
@@ -586,7 +601,12 @@ onBeforeUnmount(() => {
         ref="contentRef"
         data-slot="scroll-area-content"
         :data-active="active ? '' : undefined"
-        class="absolute min-h-full min-w-full"
+        :class="
+          cn(
+            'min-h-full min-w-full',
+            isExternalScroll ? 'relative' : 'absolute',
+          )
+        "
       >
         <div
           v-if="props.virtualize"

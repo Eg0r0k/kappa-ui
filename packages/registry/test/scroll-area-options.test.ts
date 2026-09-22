@@ -275,6 +275,79 @@ it("offsets the window by the scroll margin", async () => {
     ).toBeLessThan(5),
   );
 
+  outer.scrollTop = 1500;
+  await vi.waitFor(() =>
+    expect(
+      Number(
+        root
+          .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
+          .dataset.index,
+      ),
+    ).toBeGreaterThan(20),
+  );
+
+  wrapper.unmount();
+  outer.remove();
+});
+
+it("leaves room for siblings after it in external mode", async () => {
+  const outer = document.createElement("div");
+  outer.setAttribute("style", "height: 300px; width: 400px; overflow-y: auto");
+  document.body.append(outer);
+
+  const wrapper = mount(ScrollArea, {
+    attachTo: outer,
+    props: {
+      virtualize: { estimateSize: 30, getScrollElement: () => outer },
+      items: Array.from({ length: 500 }, (_, index) => index),
+    },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "height: 30px" }, String(scope.item)),
+    },
+  });
+  const root = wrapper.element as Element;
+
+  await vi.waitFor(() =>
+    expect(
+      root.querySelectorAll("[data-slot=scroll-area-item]").length,
+    ).toBeGreaterThan(0),
+  );
+
+  expect(root.getBoundingClientRect().height).toBeGreaterThan(1000);
+
+  wrapper.unmount();
+  outer.remove();
+});
+
+it("gives horizontal items a real height in external mode", async () => {
+  const outer = document.createElement("div");
+  outer.setAttribute("style", "height: 200px; width: 400px; overflow-x: auto");
+  document.body.append(outer);
+
+  const wrapper = mount(ScrollArea, {
+    attachTo: outer,
+    props: {
+      orientation: "horizontal",
+      virtualize: { estimateSize: 100, getScrollElement: () => outer },
+      items: Array.from({ length: 500 }, (_, index) => index),
+    },
+    slots: {
+      default: (scope: { item: unknown; index: number }) =>
+        h("div", { style: "width: 100px; height: 100%" }, String(scope.item)),
+    },
+  });
+  const root = wrapper.element as Element;
+
+  await vi.waitFor(() =>
+    expect(
+      root.querySelectorAll("[data-slot=scroll-area-item]").length,
+    ).toBeGreaterThan(0),
+  );
+
+  const item = root.querySelector<HTMLElement>("[data-slot=scroll-area-item]")!;
+  expect(item.getBoundingClientRect().height).toBeGreaterThan(0);
+
   wrapper.unmount();
   outer.remove();
 });
