@@ -4,10 +4,14 @@ import { h } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
 
-const mountArea = (attrs: Record<string, unknown> = {}, contentStyle = "height: 1200px; width: 400px") =>
+const mountArea = (
+  attrs: Record<string, unknown> = {},
+  contentStyle = "height: 1200px; width: 400px",
+  props: Record<string, unknown> = {},
+) =>
   mount(ScrollArea, {
     attachTo: document.body,
-    props: { visible: true },
+    props: { visible: true, ...props },
     attrs: { style: "height: 300px; width: 400px", ...attrs },
     slots: { default: () => h("div", { style: contentStyle }) },
   });
@@ -120,7 +124,9 @@ it("does not jump when the press lands on the thumb", async () => {
 });
 
 it("inverts the horizontal drag direction under rtl", async () => {
-  const wrapper = mountArea({ dir: "rtl" }, "height: 100px; width: 1200px");
+  const wrapper = mountArea({ dir: "rtl" }, "height: 100px; width: 1200px", {
+    orientation: "horizontal",
+  });
   const { viewport, horizontalThumb } = partsOf(wrapper.element);
 
   await vi.waitFor(() => expect(horizontalThumb.style.width).toBe("133px"));

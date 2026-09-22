@@ -1,10 +1,13 @@
 <script lang="ts">
 import type { HTMLAttributes } from "vue";
 
+import type { ScrollAreaOrientation } from ".";
+
 export type ScrollAreaProps<T = unknown> = {
   visible?: boolean | null;
   delay?: number | string;
   tabindex?: number | string;
+  orientation?: ScrollAreaOrientation;
   verticalOffset?: [number, number];
   horizontalOffset?: [number, number];
   class?: HTMLAttributes["class"];
@@ -53,6 +56,7 @@ import {
 const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
   visible: null,
   delay: 1000,
+  orientation: "vertical",
   verticalOffset: () => [0, 0],
   horizontalOffset: () => [0, 0],
   virtualize: false,
@@ -61,6 +65,8 @@ const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
   virtualScrollHorizontal: false,
   virtualScrollOverscan: 4,
 });
+
+const isHorizontal = computed(() => props.orientation === "horizontal");
 
 const emit = defineEmits<{
   scroll: [info: ScrollAreaScrollInfo & { ref: ScrollAreaApi }];
@@ -541,6 +547,7 @@ onBeforeUnmount(() => {
     ref="rootRef"
     data-slot="scroll-area"
     :data-active="active ? '' : undefined"
+    :data-orientation="props.orientation"
     :class="cn('relative flow-root overflow-clip [contain:size]', props.class)"
     @mouseenter="onMouseenter"
     @mouseleave="onMouseleave"
@@ -548,7 +555,14 @@ onBeforeUnmount(() => {
     <div
       ref="viewportRef"
       data-slot="scroll-area-viewport"
-      class="scrollbar-hidden relative size-full overflow-auto"
+      :class="
+        cn(
+          'scrollbar-hidden relative size-full',
+          isHorizontal
+            ? 'overflow-x-auto overflow-y-hidden'
+            : 'overflow-y-auto overflow-x-hidden',
+        )
+      "
       :tabindex="tabindex"
       @scroll.passive="updateScroll"
     >
@@ -581,7 +595,6 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <ScrollBar axis="vertical" />
-    <ScrollBar axis="horizontal" />
+    <ScrollBar :axis="props.orientation" />
   </div>
 </template>

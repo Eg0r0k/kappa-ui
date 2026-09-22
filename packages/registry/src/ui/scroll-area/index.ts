@@ -5,6 +5,8 @@ export { default as ScrollBar, type ScrollBarProps } from "./ScrollBar.vue";
 
 export type ScrollAreaAxis = "vertical" | "horizontal";
 
+export type ScrollAreaOrientation = "vertical" | "horizontal";
+
 export type ScrollAreaScrollInfo = {
   verticalPosition: number;
   verticalPercentage: number;
