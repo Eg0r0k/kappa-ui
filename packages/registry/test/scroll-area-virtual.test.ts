@@ -258,3 +258,25 @@ it("refreshes and optionally scrolls to an index", async () => {
 
   wrapper.unmount();
 });
+
+it("refreshes without moving the scroll position when no index is given", async () => {
+  const wrapper = mountVirtual();
+  const parts = partsOf(wrapper.element as Element);
+  const api = wrapper.vm as unknown as ScrollAreaApi;
+
+  await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
+
+  parts.viewport.scrollTop = 12_000;
+  await vi.waitFor(() =>
+    expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(450),
+  );
+
+  const before = parts.viewport.scrollTop;
+  api.refresh();
+  await nextFrame();
+
+  expect(parts.viewport.scrollTop).toBe(before);
+  expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(450);
+
+  wrapper.unmount();
+});
