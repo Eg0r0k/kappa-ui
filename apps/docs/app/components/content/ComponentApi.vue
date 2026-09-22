@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import InlineText from '~/components/content/InlineText.vue'
 import api from '~/generated/api.json'
 import type { ApiRow, ComponentApi } from '~~/scripts/lib/api-meta'
 
@@ -17,10 +18,10 @@ const rows: ApiRow[] = component[props.section]
 if (rows.length === 0) fail(`${props.name} has no ${props.section}; remove this ::component-api block.`)
 
 const headers: Record<Section, [string, string]> = {
-  props: ['Prop', 'Type'],
-  emits: ['Event', 'Payload'],
-  slots: ['Slot', 'Scope'],
-  exposed: ['Member', 'Type'],
+  props: ['Prop', 'Type and description'],
+  emits: ['Event', 'Payload and description'],
+  slots: ['Slot', 'Scope and description'],
+  exposed: ['Member', 'Type and description'],
 }
 
 const flat = rows.flatMap((row) => [
@@ -35,9 +36,8 @@ const flat = rows.flatMap((row) => [
       <thead class="border-b bg-muted/40 text-xs text-muted-foreground">
         <tr>
           <th class="px-4 py-2 font-medium">{{ headers[section][0] }}</th>
-          <th class="px-4 py-2 font-medium">{{ headers[section][1] }}</th>
           <th v-if="section === 'props'" class="px-4 py-2 font-medium">Default</th>
-          <th class="px-4 py-2 font-medium">Description</th>
+          <th class="px-4 py-2 font-medium">{{ headers[section][1] }}</th>
         </tr>
       </thead>
       <tbody>
@@ -45,12 +45,14 @@ const flat = rows.flatMap((row) => [
           <td class="px-4 py-3 font-mono text-xs whitespace-nowrap" :class="row.nested && 'ps-8 text-muted-foreground'">
             {{ row.label }}<span v-if="row.required" class="text-destructive" aria-label="required">*</span>
           </td>
-          <td class="px-4 py-3"><code class="font-mono text-xs break-words">{{ row.type }}</code></td>
           <td v-if="section === 'props'" class="px-4 py-3">
             <code v-if="row.default" class="font-mono text-xs">{{ row.default }}</code>
             <span v-else class="text-muted-foreground">—</span>
           </td>
-          <td class="px-4 py-3 text-muted-foreground">{{ row.description }}</td>
+          <td class="min-w-64 px-4 py-3">
+            <code class="font-mono text-xs break-words">{{ row.type }}</code>
+            <p class="mt-1.5 text-muted-foreground"><InlineText :text="row.description" /></p>
+          </td>
         </tr>
       </tbody>
     </table>

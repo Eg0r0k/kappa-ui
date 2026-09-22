@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import InlineText from '~/components/content/InlineText.vue'
+
 const props = defineProps<{ rows: { name: string; default: string; description: string }[] }>()
 </script>
 
@@ -16,7 +18,7 @@ const props = defineProps<{ rows: { name: string; default: string; description: 
         <tr v-for="row in props.rows" :key="row.name" class="border-b align-top last:border-0">
           <td class="px-4 py-3 font-mono text-xs whitespace-nowrap">{{ row.name }}</td>
           <td class="px-4 py-3 font-mono text-xs">{{ row.default }}</td>
-          <td class="px-4 py-3 text-muted-foreground">{{ row.description }}</td>
+          <td class="min-w-64 px-4 py-3 text-muted-foreground"><InlineText :text="row.description" /></td>
         </tr>
       </tbody>
     </table>
