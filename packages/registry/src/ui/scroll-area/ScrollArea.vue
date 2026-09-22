@@ -158,15 +158,20 @@ const thumbHiddenHorizontal = computed(
   () => barsIdle.value || sizeHorizontal.value <= containerHorizontal.value + 1,
 );
 
-const active = computed(
-  () => !thumbHiddenVertical.value || !thumbHiddenHorizontal.value,
+const active = computed(() =>
+  isHorizontal.value
+    ? !thumbHiddenHorizontal.value
+    : !thumbHiddenVertical.value,
 );
 
 const tabindex = computed(() =>
   props.tabindex !== undefined
     ? props.tabindex
-    : sizeVertical.value > containerVertical.value + 1 ||
-        sizeHorizontal.value > containerHorizontal.value + 1
+    : (
+          isHorizontal.value
+            ? sizeHorizontal.value > containerHorizontal.value + 1
+            : sizeVertical.value > containerVertical.value + 1
+        )
       ? 0
       : undefined,
 );

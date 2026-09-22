@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
@@ -61,4 +61,27 @@ it("constrains the viewport's overflow to the oriented axis", () => {
 
   vertical.unmount();
   horizontal.unmount();
+});
+
+it("ignores the unoriented axis for activity and focusability", async () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    attrs: { style: "height: 300px; width: 400px" },
+    slots: { default: () => h("div", { style: "height: 100px; width: 1200px" }) },
+  });
+  const root = wrapper.element as Element;
+  const viewport = root.querySelector<HTMLElement>(
+    "[data-slot=scroll-area-viewport]",
+  )!;
+
+  await vi.waitFor(() =>
+    expect(
+      root.querySelector("[data-slot=scroll-area-bar]"),
+    ).not.toBeNull(),
+  );
+
+  expect(root.hasAttribute("data-active")).toBe(false);
+  expect(viewport.hasAttribute("tabindex")).toBe(false);
+
+  wrapper.unmount();
 });
