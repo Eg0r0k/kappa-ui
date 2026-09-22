@@ -32,3 +32,8 @@ packages/registry/.vitest/
 # Project documentation — kept locally, outside the repository.
 # The leading slash is required: a bare `docs` would also match `apps/docs`.
 /docs/
+
+# Nuxt
+.nuxt
+.output
+.data

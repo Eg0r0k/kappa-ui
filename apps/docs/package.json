@@ -4,13 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview",
-    "typecheck": "vue-tsc -b"
+    "postinstall": "nuxt prepare",
+    "dev": "nuxt dev",
+    "build": "nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@delta-ui/registry": "workspace:*",
+    "nuxt": "^4.5.2",
     "vue": "^3.5.42"
   },
   "devDependencies": {
@@ -18,6 +20,7 @@
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/tsconfig": "^0.9.1",
     "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vue-tsc": "^3.3.11"
   }
