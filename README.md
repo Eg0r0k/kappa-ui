@@ -346,7 +346,8 @@ virtualizes the inline axis instead, and mirrors correctly under `dir="rtl"`.
 
 For a list whose data you do not want to hold in memory, pass `items-size`
 and `items-fn` instead of `items`; the function is called with `(from, size)`
-for the visible window only.
+for the rendered window only, which is the visible rows plus the overscan
+buffer on either side.
 
 Three methods join the exposed API — `scrollTo(index, edge?)`, `reset()` and
 `refresh(index?)` — and `@virtual-scroll` fires with
