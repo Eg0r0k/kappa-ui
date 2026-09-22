@@ -2,6 +2,8 @@ import { fileURLToPath } from 'node:url'
 
 import tailwindcss from '@tailwindcss/vite'
 
+const siteUrl = (process.env.DELTA_UI_URL ?? 'https://delta-ui.dev').replace(/\/+$/, '')
+
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-22',
   devtools: { enabled: false },
@@ -36,6 +38,9 @@ export default defineNuxtConfig({
     '#registry': fileURLToPath(new URL('../../packages/registry', import.meta.url)),
   },
   css: ['~/assets/css/globals.css'],
+  runtimeConfig: {
+    public: { siteUrl },
+  },
   app: {
     head: {
       htmlAttrs: { lang: 'en' },

@@ -5,7 +5,9 @@ import { defineAsyncComponent, ref, watch, type HTMLAttributes } from 'vue'
 
 import { Button } from '@/ui/button'
 import CodeBlock from '~/components/CodeBlock.vue'
+import CommandLine from '~/components/CommandLine.vue'
 import PreviewFrame from '~/components/content/PreviewFrame.vue'
+import { addCommand, registryItemUrl } from '~/lib/install'
 import { registryItems, resolveExample } from '~/lib/registry'
 import { exampleModules, loadSource } from '~/lib/sources'
 
@@ -22,6 +24,7 @@ const resolve = () => {
 const { item, key } = resolve()
 const file = item.files[0]!
 const Example = defineAsyncComponent(exampleModules[key]!)
+const exampleCommand = addCommand('npm', registryItemUrl(useRuntimeConfig().public.siteUrl, item.name))
 
 const { data: code } = useAsyncData(`example-code:${props.name}`, async () => {
   const source = await loadSource(file.path)
@@ -95,6 +98,10 @@ const trigger =
           :html="code.html"
           :source="code.source"
         />
+        <div class="mt-3 grid gap-2">
+          <p class="text-xs text-muted-foreground">Add this example to your project:</p>
+          <CommandLine :command="exampleCommand" />
+        </div>
       </TabsContent>
     </TabsRoot>
   </div>
