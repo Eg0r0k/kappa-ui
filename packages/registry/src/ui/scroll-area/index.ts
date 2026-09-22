@@ -158,10 +158,11 @@ export const resolveVirtualCount = (
     : itemsLength;
 
 export const getVirtualWindow = (slices: readonly VirtualSlice[]) => {
-  if (slices.length === 0) return { from: 0, size: 0 };
+  const first = slices[0];
+  const last = slices[slices.length - 1];
+  if (first === undefined || last === undefined) return { from: 0, size: 0 };
 
-  const from = slices[0].index;
-  return { from, size: slices[slices.length - 1].index - from + 1 };
+  return { from: first.index, size: last.index - first.index + 1 };
 };
 
 export const getVisibleIndex = (
@@ -170,7 +171,7 @@ export const getVisibleIndex = (
 ) => {
   const hit = slices.find((slice) => slice.end > offset);
   if (hit !== undefined) return hit.index;
-  return slices.length === 0 ? 0 : slices[slices.length - 1].index;
+  return slices[slices.length - 1]?.index ?? 0;
 };
 
 export const toVirtualDirection = (
