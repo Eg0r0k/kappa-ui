@@ -1,5 +1,13 @@
 @plugin "@tailwindcss/typography";
 
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+  }
+}
+
 :root {
   --link: var(--primary);
 }

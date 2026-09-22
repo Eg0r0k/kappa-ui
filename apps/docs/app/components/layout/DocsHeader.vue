@@ -1,0 +1,23 @@
+<script setup lang="ts">
+import MobileNav from '~/components/layout/MobileNav.vue'
+import ThemeToggle from '~/components/layout/ThemeToggle.vue'
+</script>
+
+<template>
+  <header class="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
+    <div class="mx-auto flex h-14 max-w-screen-2xl items-center gap-4 px-4 lg:px-6">
+      <MobileNav />
+      <NuxtLink to="/" class="font-semibold tracking-tight">delta-ui</NuxtLink>
+      <nav aria-label="Main" class="hidden text-sm md:block">
+        <NuxtLink
+          to="/docs/getting-started/introduction"
+          class="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Docs
+        </NuxtLink>
+      </nav>
+      <div class="flex-1" />
+      <ThemeToggle />
+    </div>
+  </header>
+</template>

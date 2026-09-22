@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DocsToc from '~/components/layout/DocsToc.vue'
+
 definePageMeta({ layout: 'docs' })
 
 const route = useRoute()
@@ -26,5 +28,8 @@ useSeoMeta({
       </header>
       <ContentRenderer :value="page" class="prose max-w-none" />
     </article>
+    <aside class="sticky top-14 hidden h-fit w-56 shrink-0 py-2 xl:block">
+      <DocsToc :links="page.body?.toc?.links ?? []" />
+    </aside>
   </div>
 </template>

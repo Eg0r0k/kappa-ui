@@ -5,7 +5,13 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-22',
   devtools: { enabled: false },
-  modules: ['@nuxt/content'],
+  modules: ['@nuxt/content', '@nuxtjs/color-mode'],
+  colorMode: {
+    classSuffix: '',
+    preference: 'system',
+    fallback: 'light',
+    storageKey: 'delta-ui-color-mode',
+  },
   content: {
     experimental: { sqliteConnector: 'native' },
     build: {
