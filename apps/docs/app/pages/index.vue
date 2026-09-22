@@ -5,6 +5,11 @@ useSeoMeta({
   title: 'delta-ui',
   description: 'A shadcn-style component registry for Vue.',
 })
+
+defineOgImage('DeltaDocs', {
+  title: 'Components you copy, not install.',
+  description: 'A shadcn-style component registry for Vue.',
+})
 </script>
 
 <template>

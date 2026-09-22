@@ -7,7 +7,14 @@ const siteUrl = (process.env.DELTA_UI_URL ?? 'https://delta-ui.dev').replace(/\/
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-22',
   devtools: { enabled: false },
-  modules: ['@nuxt/content', '@nuxtjs/color-mode'],
+  modules: ['@nuxt/content', '@nuxtjs/color-mode', 'nuxt-og-image'],
+  site: {
+    url: siteUrl,
+    name: 'delta-ui',
+  },
+  ogImage: {
+    zeroRuntime: true,
+  },
   colorMode: {
     classSuffix: '',
     preference: 'system',

@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { readdir } from 'node:fs/promises'
+import { readdir, readFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -11,11 +11,23 @@ const registryDir = join(docsRoot, 'public/r')
 const outDir = join(docsRoot, '.output/public')
 
 const missing: string[] = []
+const ogImage = /<meta[^>]+property="og:image"[^>]+content="([^"]+)"/
 
 const pages = (await readdir(contentDir, { recursive: true })).filter((file) => file.endsWith('.md'))
 for (const file of pages) {
   const route = contentFileToRoute(file)
-  if (!existsSync(join(outDir, route, 'index.html'))) missing.push(`page ${route} (from ${file})`)
+  const html = join(outDir, route, 'index.html')
+  if (!existsSync(html)) {
+    missing.push(`page ${route} (from ${file})`)
+    continue
+  }
+  const image = (await readFile(html, 'utf8')).match(ogImage)?.[1]
+  if (!image) {
+    missing.push(`og:image on ${route}`)
+    continue
+  }
+  const path = decodeURIComponent(new URL(image).pathname)
+  if (!existsSync(join(outDir, path))) missing.push(`og:image file ${path} for ${route}`)
 }
 
 const registryFiles = existsSync(registryDir)
