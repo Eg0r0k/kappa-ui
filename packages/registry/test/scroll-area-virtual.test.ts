@@ -107,3 +107,63 @@ it("renders the plain slot untouched when virtualize is off", async () => {
 
   wrapper.unmount();
 });
+
+it("lays a horizontal list out along the inline axis", async () => {
+  const wrapper = mountVirtual({
+    props: { virtualScrollHorizontal: true, virtualScrollItemSize: 100 },
+    itemStyle: "width: 100px; height: 100%",
+  });
+  const parts = partsOf(wrapper.element as Element);
+
+  await vi.waitFor(() =>
+    expect(Number.parseFloat(parts.virtual.style.width)).toBe(10_000 * 100),
+  );
+  expect(parts.virtual.style.height).toBe("300px");
+  expect(parts.virtual.getBoundingClientRect().height).toBeGreaterThan(0);
+
+  const first = parts.items()[0];
+  expect(first.style.insetInlineStart).toBe("0px");
+  expect(first.style.transform).toBe("");
+  expect(first.getBoundingClientRect().height).toBeGreaterThan(0);
+
+  wrapper.unmount();
+});
+
+it("places the first horizontal item at the right edge under rtl", async () => {
+  const wrapper = mountVirtual({
+    props: { virtualScrollHorizontal: true, virtualScrollItemSize: 100 },
+    attrs: { style: "height: 300px; width: 400px", dir: "rtl" },
+    itemStyle: "width: 100px; height: 100%",
+  });
+  const parts = partsOf(wrapper.element as Element);
+
+  await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
+
+  const first = parts.items()[0];
+  expect(first.dataset.index).toBe("0");
+
+  const itemRect = first.getBoundingClientRect();
+  const viewportRect = parts.viewport.getBoundingClientRect();
+  expect(Math.round(itemRect.right)).toBe(Math.round(viewportRect.right));
+
+  wrapper.unmount();
+});
+
+it("scrolls an rtl horizontal list leftwards from the right edge", async () => {
+  const wrapper = mountVirtual({
+    props: { virtualScrollHorizontal: true, virtualScrollItemSize: 100 },
+    attrs: { style: "height: 300px; width: 400px", dir: "rtl" },
+    itemStyle: "width: 100px; height: 100%",
+  });
+  const parts = partsOf(wrapper.element as Element);
+
+  await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
+
+  parts.viewport.scrollLeft = -50_000;
+
+  await vi.waitFor(() =>
+    expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(400),
+  );
+
+  wrapper.unmount();
+});

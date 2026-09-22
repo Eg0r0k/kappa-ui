@@ -26,6 +26,7 @@ export type UseVirtualScrollOptions = {
   itemSize: ComputedRef<number>;
   horizontal: ComputedRef<boolean>;
   overscan: ComputedRef<number>;
+  crossSize: ComputedRef<number>;
   isRtl: Ref<boolean>;
   onScroll: (info: ScrollAreaVirtualInfo) => void;
 };
@@ -88,6 +89,7 @@ export const useVirtualScroll = (
       getVirtualContainerStyle(
         virtualizer.value.getTotalSize(),
         options.horizontal.value,
+        options.crossSize.value,
       ),
     ),
     itemStyle: (start: number) =>

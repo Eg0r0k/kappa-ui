@@ -130,9 +130,10 @@ export const toVirtualDirection = (
 export const getVirtualContainerStyle = (
   totalSize: number,
   horizontal: boolean,
+  crossSize: number,
 ): CSSProperties =>
   horizontal
-    ? { position: "relative", width: `${totalSize}px`, height: "100%" }
+    ? { position: "relative", width: `${totalSize}px`, height: `${crossSize}px` }
     : { position: "relative", width: "100%", height: `${totalSize}px` };
 
 export const getVirtualItemStyle = (

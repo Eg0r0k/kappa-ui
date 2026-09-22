@@ -50,15 +50,15 @@ it("maps the engine's scroll direction onto Quasar's names", () => {
 });
 
 it("sizes the container on the virtualized axis only", () => {
-  expect(getVirtualContainerStyle(4800, false)).toEqual({
+  expect(getVirtualContainerStyle(4800, false, 300)).toEqual({
     position: "relative",
     width: "100%",
     height: "4800px",
   });
-  expect(getVirtualContainerStyle(4800, true)).toEqual({
+  expect(getVirtualContainerStyle(4800, true, 300)).toEqual({
     position: "relative",
     width: "4800px",
-    height: "100%",
+    height: "300px",
   });
 });
 

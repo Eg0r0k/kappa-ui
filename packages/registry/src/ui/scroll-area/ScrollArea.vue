@@ -373,6 +373,7 @@ const virtual = useVirtualScroll({
   itemSize: computed(() => Number(props.virtualScrollItemSize)),
   horizontal: computed(() => props.virtualScrollHorizontal),
   overscan: computed(() => Number(props.virtualScrollOverscan)),
+  crossSize: computed(() => containerVertical.value),
   isRtl,
   onScroll: (info: ScrollAreaVirtualInfo) => {
     emit("virtualScroll", { ...info, ref: api });
