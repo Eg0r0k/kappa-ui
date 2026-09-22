@@ -97,9 +97,9 @@ export const useVirtualScroll = (
     itemStyle: (start: number) =>
       getVirtualItemStyle(start, options.horizontal.value),
     measureRef: (el) => {
-      if (el === null) return;
-      const node = el instanceof Element ? el : (el.$el as Element | null);
-      if (node instanceof Element) virtualizer.value.measureElement(node);
+      const node =
+        el instanceof Element ? el : ((el?.$el as Element | null) ?? null);
+      virtualizer.value.measureElement(node);
     },
     scrollTo: (index, edge) => {
       virtualizer.value.scrollToIndex(index, { align: edge ?? "auto" });

@@ -298,8 +298,9 @@ still reach them:
 they linger after the content or the position last changed. `data-active` is
 present on the root and the content while they show.
 
-Six methods are exposed, and the `@scroll` payload carries the same object as
-`ref`, so a single handler can serve many areas:
+Nine methods are exposed — six for scrolling, and three more that only do
+anything when `virtualize` is on — and the `@scroll` payload carries the same
+object as `ref`, so a single handler can serve many areas:
 
 ```vue
 <ScrollArea @scroll="(info) => info.ref.setScrollPosition('vertical', 0)" />
@@ -317,7 +318,8 @@ wrapper, not the focusable element.
 ### Virtualizing a long list
 
 Set `virtualize` and pass `items`. The default slot is then rendered once per
-visible item with `{ item, index }`:
+row in the rendered window — the visible rows plus the overscan buffer — with
+`{ item, index }`:
 
 ```vue
 <ScrollArea

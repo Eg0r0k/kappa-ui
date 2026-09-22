@@ -17,7 +17,10 @@ import { scrollAreaInjectionKey } from ".";
 
 const props = defineProps<ScrollBarProps>();
 
-const store = inject(scrollAreaInjectionKey)!;
+const store = inject(scrollAreaInjectionKey);
+if (store === undefined) {
+  throw new Error("ScrollBar must be used inside a ScrollArea");
+}
 
 const thumbHidden = computed(() => store[props.axis].thumbHidden.value);
 const thumbStyle = computed(() => store[props.axis].thumbStyle.value);
@@ -29,7 +32,7 @@ const barAxis: Record<ScrollAreaAxis, string> = {
 };
 
 const thumbBase =
-  "absolute select-none cursor-grab z-10 rounded-sm bg-foreground/20 transition duration-300 will-change-[opacity] hover:bg-foreground/30 active:bg-foreground/50";
+  "absolute select-none cursor-grab z-20 rounded-sm bg-foreground/20 transition duration-300 will-change-[opacity] hover:bg-foreground/30 active:bg-foreground/50";
 const thumbAxis: Record<ScrollAreaAxis, string> = {
   vertical: "w-1.5",
   horizontal: "h-1.5",
