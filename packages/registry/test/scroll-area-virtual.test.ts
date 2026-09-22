@@ -280,3 +280,55 @@ it("refreshes without moving the scroll position when no index is given", async 
 
   wrapper.unmount();
 });
+
+it("emits virtual-scroll with the rendered window and a usable ref", async () => {
+  const wrapper = mountVirtual();
+  const parts = partsOf(wrapper.element as Element);
+
+  await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
+
+  parts.viewport.scrollTop = 24_000;
+
+  await vi.waitFor(() => expect(wrapper.emitted("virtualScroll")).toBeTruthy());
+
+  const payload = wrapper.emitted("virtualScroll")!.at(-1)![0] as {
+    index: number;
+    from: number;
+    to: number;
+    direction: string;
+    ref: ScrollAreaApi;
+  };
+
+  expect(payload.index).toBeGreaterThan(950);
+  expect(payload.from).toBeLessThanOrEqual(payload.index);
+  expect(payload.to).toBeGreaterThanOrEqual(payload.index);
+  expect(payload.direction).toBe("increase");
+  expect(typeof payload.ref.scrollTo).toBe("function");
+
+  wrapper.unmount();
+});
+
+it("reports decrease when scrolling back", async () => {
+  const wrapper = mountVirtual();
+  const parts = partsOf(wrapper.element as Element);
+
+  await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
+
+  parts.viewport.scrollTop = 24_000;
+  await vi.waitFor(() =>
+    expect(
+      (wrapper.emitted("virtualScroll")?.at(-1)?.[0] as { index: number })
+        ?.index,
+    ).toBeGreaterThan(950),
+  );
+
+  parts.viewport.scrollTop = 1_200;
+  await vi.waitFor(() =>
+    expect(
+      (wrapper.emitted("virtualScroll")!.at(-1)![0] as { direction: string })
+        .direction,
+    ).toBe("decrease"),
+  );
+
+  wrapper.unmount();
+});
