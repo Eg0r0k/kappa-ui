@@ -14,8 +14,13 @@ useSeoMeta({
       delta-ui is a shadcn-style registry for Vue. The CLI copies each component's source into your
       project, built on Reka UI and Tailwind CSS v4.
     </p>
-    <Button as-child size="lg">
-      <NuxtLink to="/docs/getting-started/introduction">Get started</NuxtLink>
-    </Button>
+    <div class="flex flex-wrap gap-3">
+      <Button as-child size="lg">
+        <NuxtLink to="/docs/getting-started/introduction">Get started</NuxtLink>
+      </Button>
+      <Button as-child size="lg" variant="outline">
+        <NuxtLink to="/docs/components/button">Components</NuxtLink>
+      </Button>
+    </div>
   </main>
 </template>
