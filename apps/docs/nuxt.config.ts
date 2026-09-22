@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       failOnError: true,
-      routes: ['/'],
+      routes: ['/', '/search.json'],
     },
   },
   alias: {

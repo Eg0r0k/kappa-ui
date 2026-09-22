@@ -25,6 +25,8 @@ for (const file of registryFiles) {
   if (!existsSync(join(outDir, 'r', file))) missing.push(`registry file /r/${file}`)
 }
 
+if (!existsSync(join(outDir, 'search.json'))) missing.push('search index /search.json')
+
 if (missing.length > 0) {
   console.error(`check-output: ${missing.length} missing`)
   for (const entry of missing) console.error(`  • ${entry}`)

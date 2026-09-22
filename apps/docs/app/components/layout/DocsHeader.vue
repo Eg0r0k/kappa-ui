@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MobileNav from '~/components/layout/MobileNav.vue'
+import SearchDialog from '~/components/layout/SearchDialog.vue'
 import ThemeToggle from '~/components/layout/ThemeToggle.vue'
 </script>
 
@@ -16,7 +17,9 @@ import ThemeToggle from '~/components/layout/ThemeToggle.vue'
           Docs
         </NuxtLink>
       </nav>
-      <div class="flex-1" />
+      <div class="flex flex-1 justify-end">
+        <SearchDialog />
+      </div>
       <ThemeToggle />
     </div>
   </header>
