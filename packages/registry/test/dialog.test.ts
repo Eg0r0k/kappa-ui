@@ -54,6 +54,22 @@ describe("Dialog", () => {
     wrapper.unmount();
   });
 
+  it("focuses the first field when it opens, not the close button", async () => {
+    const { wrapper } = mountDialog({}, { body: () => [h("input", { "data-test": "first" }), h("input", { "data-test": "second" })] });
+    await settle();
+
+    expect(document.activeElement).toBe(document.querySelector("[data-test=first]"));
+    wrapper.unmount();
+  });
+
+  it("falls back to the close button when nothing else can take focus", async () => {
+    const { wrapper } = mountDialog({}, { body: () => h("p", "Nothing to focus.") });
+    await settle();
+
+    expect(document.activeElement?.getAttribute("data-slot")).toBe("dialog-close");
+    wrapper.unmount();
+  });
+
   it("closes on Escape and on the overlay unless it is not dismissible", async () => {
     const dismissible = mountDialog();
     await settle();

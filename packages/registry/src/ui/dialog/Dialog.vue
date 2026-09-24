@@ -89,6 +89,22 @@ const onPointerDownOutside = (event: CustomEvent<{ originalEvent: PointerEvent }
 const onFocusOutside = (event: Event) => {
   if (!props.dismissible) event.preventDefault();
 };
+
+const focusable =
+  "input:not([disabled]):not([type=hidden]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), a[href], [tabindex]:not([tabindex='-1']), [contenteditable=true]";
+
+const onOpenAutoFocus = (event: Event) => {
+  const content = event.target as HTMLElement;
+  const first = [...content.querySelectorAll<HTMLElement>(focusable)].find(
+    (element) =>
+      !element.closest("[data-slot=dialog-close]") &&
+      !element.matches("[data-slot=scroll-area-viewport]") &&
+      element.checkVisibility(),
+  );
+  if (!first) return;
+  event.preventDefault();
+  first.focus();
+};
 </script>
 
 <template>
@@ -138,6 +154,7 @@ const onFocusOutside = (event: Event) => {
               @escape-key-down="onEscapeKeyDown"
               @pointer-down-outside="onPointerDownOutside"
               @focus-outside="onFocusOutside"
+              @open-auto-focus="onOpenAutoFocus"
             >
               <VisuallyHidden v-if="!slots.content && (!hasTitle || !hasDescription)">
                 <DialogTitle v-if="!hasTitle" />
