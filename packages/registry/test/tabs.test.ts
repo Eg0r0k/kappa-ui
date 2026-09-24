@@ -15,7 +15,11 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const renderTabs = (root: Record<string, unknown> = {}, list: Record<string, unknown> = {}) => {
+const renderTabs = (
+  root: Record<string, unknown> = {},
+  list: Record<string, unknown> = {},
+  panelOneContent: unknown = h("p", { "data-test": "panel-one" }, "Panel one"),
+) => {
   const wrapper = mount(
     defineComponent({
       setup: () => () =>
@@ -25,7 +29,7 @@ const renderTabs = (root: Record<string, unknown> = {}, list: Record<string, unk
             h(TabsTrigger, { value: "two" }, () => "Second tab"),
             h(TabsTrigger, { value: "three", disabled: true }, () => "Three"),
           ]),
-          h(TabsContent, { value: "one" }, () => h("p", { "data-test": "panel-one" }, "Panel one")),
+          h(TabsContent, { value: "one" }, () => panelOneContent),
           h(TabsContent, { value: "two" }, () => h("p", { "data-test": "panel-two" }, "Panel two")),
         ]),
     }),
@@ -88,7 +92,7 @@ it("moves the indicator along the vertical axis when vertical", async () => {
   expect(near(bar.top, second.top) && near(bar.height, second.height)).toBe(true);
 });
 
-it("sizes triggers from the list and defaults to a medium pill", async () => {
+it("sizes triggers from the list and defaults to a medium pill", () => {
   renderTabs();
   expect(list().dataset.variant).toBe("pill");
   expect(list().dataset.size).toBe("md");
@@ -102,6 +106,17 @@ it("sizes triggers from the list and defaults to a medium pill", async () => {
   }
 });
 
+it("keeps vertical triggers at their size beside a tall panel", () => {
+  renderTabs({ orientation: "vertical" }, {}, h("div", { style: "height: 300px" }));
+  expect(triggers()[0]!.offsetHeight).toBe(36);
+  expect(list().getBoundingClientRect().height).toBeLessThan(300);
+});
+
+it("keeps the triggers' stacking context inside the list", () => {
+  renderTabs();
+  expect(getComputedStyle(list()).isolation).toBe("isolate");
+});
+
 it("draws a line along the list's edge for the line variant", async () => {
   renderTabs({}, { variant: "line" });
   await settle();
@@ -109,4 +124,56 @@ it("draws a line along the list's edge for the line variant", async () => {
   expect(list().dataset.variant).toBe("line");
   expect(bar.height).toBe(2);
   expect(near(bar.bottom, list().getBoundingClientRect().bottom)).toBe(true);
+});
+
+it("keeps the pill thumb concentric with its track", async () => {
+  for (const size of ["xs", "md", "xl"] as const) {
+    renderTabs({}, { size });
+    await settle();
+    const trackRadius = Number.parseFloat(getComputedStyle(list()).borderTopLeftRadius);
+    const thumbRadius = Number.parseFloat(getComputedStyle(indicator()).borderTopLeftRadius);
+    const triggerRadius = Number.parseFloat(getComputedStyle(triggers()[0]!).borderTopLeftRadius);
+    expect(Math.abs(thumbRadius - (trackRadius - 4)), size).toBeLessThan(0.1);
+    expect(Math.abs(triggerRadius - thumbRadius), size).toBeLessThan(0.1);
+    unmount?.();
+    unmount = undefined;
+  }
+});
+
+it("squares the pill when --radius is zero", async () => {
+  document.documentElement.style.setProperty("--radius", "0px");
+  try {
+    renderTabs();
+    await settle();
+    expect(getComputedStyle(list()).borderTopLeftRadius).toBe("0px");
+    expect(getComputedStyle(indicator()).borderTopLeftRadius).toBe("0px");
+    expect(getComputedStyle(triggers()[0]!).borderTopLeftRadius).toBe("0px");
+  } finally {
+    document.documentElement.style.removeProperty("--radius");
+  }
+});
+
+it("gives the pill indicator a hairline border, and the line indicator none", async () => {
+  renderTabs();
+  await settle();
+  expect(getComputedStyle(indicator()).borderTopWidth).toBe("1px");
+  unmount?.();
+
+  renderTabs({}, { variant: "line" });
+  await settle();
+  expect(getComputedStyle(indicator()).borderTopWidth).toBe("0px");
+});
+
+it("slides the indicator under the active trigger in right-to-left", async () => {
+  renderTabs({ dir: "rtl" });
+  await settle();
+  const first = triggers()[0]!.getBoundingClientRect();
+  let bar = indicator().getBoundingClientRect();
+  expect(near(bar.left, first.left) && near(bar.width, first.width)).toBe(true);
+
+  await userEvent.click(triggers()[1]!);
+  await settle();
+  const second = triggers()[1]!.getBoundingClientRect();
+  bar = indicator().getBoundingClientRect();
+  expect(near(bar.left, second.left) && near(bar.width, second.width)).toBe(true);
 });

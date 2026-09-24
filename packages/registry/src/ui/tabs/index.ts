@@ -13,8 +13,12 @@ const sizes = {
   xl: "text-label-lg [--tabs-trigger-height:--spacing(12)] [--tabs-trigger-px:--spacing(4)] [--tabs-trigger-gap:--spacing(2.5)] [--tabs-icon:--spacing(5)]",
 };
 
+const pillMdRadius = "rounded-[max(0px,calc(var(--radius-md)-var(--spacing)))]";
+const pillLgRadius = "rounded-[max(0px,calc(var(--radius-lg)-var(--spacing)))]";
+const pillXlRadius = "rounded-[max(0px,calc(var(--radius-xl)-var(--spacing)))]";
+
 export const tabsListVariants = cva(
-  "group/tabs-list relative inline-flex w-fit shrink-0 items-center aria-[orientation=vertical]:flex-col aria-[orientation=vertical]:items-stretch",
+  "group/tabs-list relative isolate inline-flex w-fit shrink-0 items-center aria-[orientation=vertical]:flex-col aria-[orientation=vertical]:items-stretch aria-[orientation=vertical]:self-start",
   {
     variants: {
       variant: {
@@ -37,22 +41,22 @@ export const tabsIndicatorVariants = cva(
   {
     variants: {
       variant: {
-        pill: "bg-background shadow-sm group-aria-[orientation=horizontal]/tabs-list:top-1 group-aria-[orientation=horizontal]/tabs-list:h-(--reka-tabs-indicator-thickness) group-aria-[orientation=vertical]/tabs-list:left-1 group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)",
+        pill: "border bg-background shadow-sm group-aria-[orientation=horizontal]/tabs-list:top-1 group-aria-[orientation=horizontal]/tabs-list:h-(--reka-tabs-indicator-thickness) group-aria-[orientation=vertical]/tabs-list:left-1 group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)",
         line: "rounded-full bg-primary group-aria-[orientation=horizontal]/tabs-list:-bottom-px group-aria-[orientation=horizontal]/tabs-list:h-0.5 group-aria-[orientation=vertical]/tabs-list:-end-px group-aria-[orientation=vertical]/tabs-list:w-0.5",
       },
       size: { xs: "", sm: "", md: "", lg: "", xl: "" },
     },
     compoundVariants: [
-      { variant: "pill", size: "xs", class: "rounded-sm" },
-      { variant: "pill", size: ["sm", "md"], class: "rounded-md" },
-      { variant: "pill", size: ["lg", "xl"], class: "rounded-lg" },
+      { variant: "pill", size: "xs", class: pillMdRadius },
+      { variant: "pill", size: ["sm", "md"], class: pillLgRadius },
+      { variant: "pill", size: ["lg", "xl"], class: pillXlRadius },
     ],
     defaultVariants: { variant: "pill", size: "md" },
   },
 );
 
 export const tabsTrigger =
-  "relative z-1 inline-flex h-(--tabs-trigger-height) shrink-0 items-center justify-center gap-(--tabs-trigger-gap) rounded-md px-(--tabs-trigger-px) whitespace-nowrap text-muted-foreground outline-none transition-colors duration-short-4 ease-standard hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=active]:text-foreground data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity) data-[orientation=vertical]:justify-start group-data-[variant=pill]/tabs-list:flex-1 group-data-[size=xs]/tabs-list:rounded-sm group-data-[size=lg]/tabs-list:rounded-lg group-data-[size=xl]/tabs-list:rounded-lg [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-(--tabs-icon)";
+  "relative z-1 inline-flex h-(--tabs-trigger-height) shrink-0 items-center justify-center gap-(--tabs-trigger-gap) rounded-md px-(--tabs-trigger-px) whitespace-nowrap text-muted-foreground outline-none transition-colors duration-short-4 ease-standard hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=active]:text-foreground data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity) data-[orientation=vertical]:justify-start data-[orientation=horizontal]:group-data-[variant=pill]/tabs-list:flex-1 group-data-[variant=pill]/tabs-list:rounded-[max(0px,calc(var(--radius-lg)-var(--spacing)))] group-data-[variant=pill]/tabs-list:group-data-[size=xs]/tabs-list:rounded-[max(0px,calc(var(--radius-md)-var(--spacing)))] group-data-[variant=pill]/tabs-list:group-data-[size=lg]/tabs-list:rounded-[max(0px,calc(var(--radius-xl)-var(--spacing)))] group-data-[variant=pill]/tabs-list:group-data-[size=xl]/tabs-list:rounded-[max(0px,calc(var(--radius-xl)-var(--spacing)))] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-(--tabs-icon)";
 
 export const tabsContent = "flex-1 rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50";
 
