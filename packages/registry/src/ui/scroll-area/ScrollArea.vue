@@ -39,6 +39,7 @@ import {
   clamp,
   getDragMultiplier,
   getHorizontalPosition,
+  getOverflowEdges,
   getPercentage,
   getThumbSize,
   getThumbStart,
@@ -390,23 +391,25 @@ const isExternalScroll = computed(
   () => virtualOptions.value.getScrollElement !== undefined,
 );
 
-const overflowEdges = (position: number, size: number, container: number) => {
-  const scrollable = size > container + 1;
-  return { start: scrollable && position > 1, end: scrollable && position < size - container - 1 };
-};
+const horizontalEdges = computed(() =>
+  getOverflowEdges(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value),
+);
+const verticalEdges = computed(() =>
+  getOverflowEdges(positionVertical.value, sizeVertical.value, containerVertical.value),
+);
 
-const overflowAttributes = computed(() => {
-  if (isExternalScroll.value) return {};
-  const edges = isHorizontal.value
-    ? overflowEdges(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value)
-    : overflowEdges(positionVertical.value, sizeVertical.value, containerVertical.value);
-  return {
-    "data-overflow-x-start": isHorizontal.value && edges.start ? "" : undefined,
-    "data-overflow-x-end": isHorizontal.value && edges.end ? "" : undefined,
-    "data-overflow-y-start": !isHorizontal.value && edges.start ? "" : undefined,
-    "data-overflow-y-end": !isHorizontal.value && edges.end ? "" : undefined,
-  };
-});
+const overflowXStart = computed(
+  () => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.start,
+);
+const overflowXEnd = computed(
+  () => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.end,
+);
+const overflowYStart = computed(
+  () => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.start,
+);
+const overflowYEnd = computed(
+  () => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.end,
+);
 
 const externalEl = shallowRef<HTMLElement | null>(null);
 
@@ -589,7 +592,10 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="rootRef"
-    v-bind="overflowAttributes"
+    :data-overflow-x-start="overflowXStart ? '' : undefined"
+    :data-overflow-x-end="overflowXEnd ? '' : undefined"
+    :data-overflow-y-start="overflowYStart ? '' : undefined"
+    :data-overflow-y-end="overflowYEnd ? '' : undefined"
     data-slot="scroll-area"
     :data-active="active ? '' : undefined"
     :data-orientation="props.orientation"

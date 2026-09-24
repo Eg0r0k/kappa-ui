@@ -130,6 +130,18 @@ export const getDragMultiplier = (
 export const getHorizontalPosition = (position: number, isRtl: boolean) =>
   isRtl ? -position : position;
 
+export const getOverflowEdges = (
+  position: number,
+  size: number,
+  container: number,
+) => {
+  const scrollable = size > container + 1;
+  return {
+    start: scrollable && position > 1,
+    end: scrollable && position < size - container - 1,
+  };
+};
+
 export type VirtualSlice = {
   index: number;
   start: number;
