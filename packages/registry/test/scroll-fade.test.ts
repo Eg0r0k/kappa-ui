@@ -1,7 +1,9 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
+import ScrollAreaEdgeFade from "@/examples/scroll-area/ScrollAreaEdgeFade.vue";
 import { ScrollArea } from "@/ui/scroll-area";
 
 afterEach(() => {
@@ -47,4 +49,18 @@ it("hides both overlays with scroll-fade-overlay-none", () => {
 
   expect(getComputedStyle(element, "::before").display).toBe("none");
   expect(getComputedStyle(element, "::after").display).toBe("none");
+});
+
+it("shows each step button only when its direction can scroll", async () => {
+  const wrapper = mount(ScrollAreaEdgeFade, { attachTo: document.body });
+  const button = (name: string) => document.querySelector<HTMLElement>(`[data-test=${name}]`)!;
+
+  await vi.waitFor(() => {
+    expect(getComputedStyle(button("forward")).display).not.toBe("none");
+    expect(getComputedStyle(button("back")).display).toBe("none");
+  });
+
+  await userEvent.click(button("forward"));
+  await vi.waitFor(() => expect(getComputedStyle(button("back")).display).not.toBe("none"));
+  wrapper.unmount();
 });

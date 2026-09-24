@@ -1623,6 +1623,18 @@
       ]
     },
     {
+      "name": "scroll-area-edge-fade",
+      "type": "registry:block",
+      "title": "Scroll area edge fade",
+      "description": "A row of chips with faded edges and buttons that scroll it a step at a time.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["scroll-area", "scroll-fade", "button"],
+      "files": [
+        { "path": "src/examples/scroll-area/ScrollAreaEdgeFade.vue", "type": "registry:component" }
+      ]
+    },
+    {
       "name": "scroll-area-virtualize",
       "type": "registry:block",
       "title": "Virtualized scroll area",
@@ -1675,6 +1687,28 @@
       "registryDependencies": ["ripple", "button"],
       "files": [
         { "path": "src/examples/ripple/RippleDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-fade-mask",
+      "type": "registry:block",
+      "title": "Scroll fade mask",
+      "description": "A scrolling list whose edges fade by mask.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-fade"],
+      "files": [
+        { "path": "src/examples/scroll-fade/ScrollFadeMask.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-fade-overlay",
+      "type": "registry:block",
+      "title": "Scroll fade overlay",
+      "description": "A scrolling list whose edges fade by overlay gradients.",
+      "categories": ["example"],
+      "registryDependencies": ["scroll-fade"],
+      "files": [
+        { "path": "src/examples/scroll-fade/ScrollFadeOverlay.vue", "type": "registry:component" }
       ]
     },
     {
