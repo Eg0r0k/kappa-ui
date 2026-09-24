@@ -11,7 +11,6 @@ const mechanics = { position: "fixed", inset: "0", pointerEvents: "auto" } as co
     v-if="scrim.scrimVisible.value"
     aria-hidden="true"
     :style="mechanics"
-    v-bind="$attrs"
     @pointerdown="scrim.onScrimPointerdown"
     @contextmenu.prevent
   />

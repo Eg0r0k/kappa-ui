@@ -27,7 +27,7 @@ dist-ssr
 apps/docs/public/r/
 
 # Vitest browser-mode cache and failure screenshots
-packages/registry/.vitest/
+packages/*/.vitest/
 
 # Project documentation — kept locally, outside the repository.
 # The leading slash is required: a bare `docs` would also match `apps/docs`.
