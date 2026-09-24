@@ -19,10 +19,10 @@ describe("Checkbox", () => {
     wrapper.unmount();
   });
 
-  it("rounds the box with the xs radius token, which the theme radius does not scale", () => {
+  it("rounds the box with the xs radius token at every size", () => {
     for (const size of ["xs", "md", "xl"] as const) {
       const wrapper = mount(Checkbox, { props: { size }, attachTo: document.body });
-      expect(getComputedStyle(wrapper.get("[data-slot=checkbox]").element).borderRadius, size).toBe("2px");
+      expect(getComputedStyle(wrapper.get("[data-slot=checkbox]").element).borderRadius, size).toBe("2.4px");
       wrapper.unmount();
     }
   });
