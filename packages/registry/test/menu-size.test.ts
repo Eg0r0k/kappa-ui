@@ -105,7 +105,7 @@ describe("menu sizes", () => {
   });
 
   it("rounds items with the radius tokens: md for xs, lg for every other size", async () => {
-    for (const [size, radius] of [["xs", "6px"], ["sm", "8px"], ["md", "8px"], ["xl", "8px"]] as const) {
+    for (const [size, radius] of [["xs", "10px"], ["sm", "12px"], ["md", "12px"], ["xl", "12px"]] as const) {
       await openDropdown(size);
       expect(getComputedStyle(query("[data-slot=dropdown-menu-item]")).borderRadius, size).toBe(radius);
       unmount?.();
