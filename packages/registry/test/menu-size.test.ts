@@ -103,4 +103,13 @@ describe("menu sizes", () => {
     expect(query("[data-slot=menu]").dataset.size).toBe("lg");
     expect(minHeight("[data-slot=menu-item]")).toBe("40px");
   });
+
+  it("rounds items with the radius tokens: md for xs, lg for every other size", async () => {
+    for (const [size, radius] of [["xs", "6px"], ["sm", "8px"], ["md", "8px"], ["xl", "8px"]] as const) {
+      await openDropdown(size);
+      expect(getComputedStyle(query("[data-slot=dropdown-menu-item]")).borderRadius, size).toBe(radius);
+      unmount?.();
+      document.body.innerHTML = "";
+    }
+  });
 });
