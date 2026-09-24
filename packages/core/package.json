@@ -13,6 +13,7 @@
     "./label": "./src/primitives/label.ts",
     "./listbox": "./src/primitives/listbox.ts",
     "./menu": "./src/primitives/menu.ts",
+    "./overlay": "./src/overlay/index.ts",
     "./popover": "./src/primitives/popover.ts",
     "./primitive": "./src/primitives/primitive.ts",
     "./radio-group": "./src/primitives/radio-group.ts",
