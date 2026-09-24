@@ -18,7 +18,9 @@ const template = (source: string) => source.match(/<template>([\s\S]*)<\/templat
 
 it.each(files)("src/%s uses no classes", (file) => {
   const source = readFileSync(join(src, file), "utf8");
-  expect(template(source)).not.toMatch(/\s(:|v-bind:)?class=/);
+  expect(template(source)).not.toMatch(/\s(:|v-bind:)?class(\.\w+)*=/);
   expect(source).not.toMatch(/\bclass(Name|List)\b/);
   expect(source).not.toMatch(/\bclass\s*:/);
+  expect(source).not.toMatch(/["']class["']\s*:/);
+  expect(source).not.toMatch(/setAttribute\(\s*["']class["']/);
 });

@@ -382,7 +382,8 @@
       "css": {
         "@layer base": {
           ":root": {
-            "--delta-ripple-opacity": "var(--state-pressed, 12%)"
+            "--delta-ripple-opacity": "var(--state-pressed, 12%)",
+            "--delta-ripple-easing": "var(--ease-standard, cubic-bezier(0.2, 0, 0, 1))"
           }
         }
       }
