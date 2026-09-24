@@ -21,6 +21,7 @@ type Wave = {
   element: HTMLElement;
   startTime: number;
   released: boolean;
+  animations: Animation[];
   hideTimer?: ReturnType<typeof setTimeout>;
   removeTimer?: ReturnType<typeof setTimeout>;
 };
@@ -93,9 +94,14 @@ const ensureContainer = (el: RippleElement): HTMLElement => {
   return container;
 };
 
-const removeWave = (state: RippleState, wave: Wave) => {
+const stopWave = (wave: Wave) => {
   clearTimeout(wave.hideTimer);
   clearTimeout(wave.removeTimer);
+  for (const animation of wave.animations) animation.cancel();
+};
+
+const removeWave = (state: RippleState, wave: Wave) => {
+  stopWave(wave);
   wave.element.remove();
   state.waves.delete(wave);
   if (state.current === wave) state.current = null;
@@ -111,7 +117,7 @@ const releaseWave = (el: RippleElement, state: RippleState, wave: Wave) => {
 
   wave.hideTimer = setTimeout(() => {
     wave.element.dataset.hiding = "";
-    wave.element.animate([{ opacity: 0 }], { duration: fadeFor, easing: "linear", fill: "forwards" });
+    wave.animations.push(wave.element.animate([{ opacity: 0 }], { duration: fadeFor, easing: "linear", fill: "forwards" }));
   }, holdFor);
 
   wave.removeTimer = setTimeout(() => {
@@ -145,17 +151,20 @@ const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number):
 
   ensureContainer(el).appendChild(element);
 
+  const wave: Wave = { element, startTime: performance.now(), released: false, animations: [] };
+
   if (matches("(prefers-reduced-motion: reduce)")) {
     element.style.transform = to;
   } else {
-    element.animate([{ transform: from }, { transform: to }], {
-      duration: readTime(style, "--delta-ripple-grow-duration", PRESS_GROW_MS),
-      easing: readEasing(style),
-      fill: "forwards",
-    });
+    wave.animations.push(
+      element.animate([{ transform: from }, { transform: to }], {
+        duration: readTime(style, "--delta-ripple-grow-duration", PRESS_GROW_MS),
+        easing: readEasing(style),
+        fill: "forwards",
+      }),
+    );
   }
 
-  const wave: Wave = { element, startTime: performance.now(), released: false };
   state.waves.add(wave);
   return wave;
 };
@@ -237,8 +246,7 @@ const cleanupRipple = (el: RippleElement) => {
   if (!state) return;
 
   for (const wave of state.waves) {
-    clearTimeout(wave.hideTimer);
-    clearTimeout(wave.removeTimer);
+    stopWave(wave);
   }
 
   for (const [event, handler] of Object.entries(state.handlers)) {

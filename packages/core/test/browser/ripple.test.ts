@@ -150,3 +150,15 @@ it("removes its container on unmount", () => {
   wrapper.unmount();
   expect(box.isConnected).toBe(false);
 });
+
+it("stops a wave's animation when the host unmounts mid-grow", () => {
+  const wrapper = host();
+  press(element("host"), 50, 50);
+  const wave = waves()[0]!;
+  const [grow] = wave.getAnimations();
+  expect(grow!.playState).not.toBe("idle");
+
+  wrapper.unmount();
+  expect(wave.isConnected).toBe(false);
+  expect(grow!.playState).toBe("idle");
+});
