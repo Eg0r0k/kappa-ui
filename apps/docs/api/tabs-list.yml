@@ -10,6 +10,6 @@ props:
   as:
     description: The element or component to render.
   asChild:
-    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+    description: "Not useful here: the list always adds the indicator after its content, so it never has a single child to merge onto."
 slots:
   default: "The triggers. The indicator is added after them."

@@ -2608,73 +2608,6 @@
       ]
     },
     {
-      "name": "tabs-demo",
-      "type": "registry:block",
-      "title": "Tabs demo",
-      "description": "Account and password forms in a pill tabs.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs", "button", "field", "input"],
-      "files": [
-        { "path": "src/examples/tabs/TabsDemo.vue", "type": "registry:component" }
-      ]
-    },
-    {
-      "name": "tabs-line",
-      "type": "registry:block",
-      "title": "Tabs line",
-      "description": "The line variant with a disabled tab.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs"],
-      "files": [
-        { "path": "src/examples/tabs/TabsLine.vue", "type": "registry:component" }
-      ]
-    },
-    {
-      "name": "tabs-sizes",
-      "type": "registry:block",
-      "title": "Tabs sizes",
-      "description": "Tabs in the five sizes.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs"],
-      "files": [
-        { "path": "src/examples/tabs/TabsSizes.vue", "type": "registry:component" }
-      ]
-    },
-    {
-      "name": "tabs-vertical",
-      "type": "registry:block",
-      "title": "Tabs vertical",
-      "description": "Vertical tabs in both variants.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs"],
-      "files": [
-        { "path": "src/examples/tabs/TabsVertical.vue", "type": "registry:component" }
-      ]
-    },
-    {
-      "name": "tabs-icons",
-      "type": "registry:block",
-      "title": "Tabs with icons",
-      "description": "Tabs with an icon before each label.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["tabs"],
-      "files": [
-        { "path": "src/examples/tabs/TabsIcons.vue", "type": "registry:component" }
-      ]
-    },
-    {
-      "name": "tabs-keep-mounted",
-      "type": "registry:block",
-      "title": "Tabs keeping panels mounted",
-      "description": "Panels that keep their state while hidden.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs", "textarea"],
-      "files": [
-        { "path": "src/examples/tabs/TabsKeepMounted.vue", "type": "registry:component" }
-      ]
-    },
-    {
       "name": "switch-sizes",
       "type": "registry:block",
       "title": "Switch sizes",
@@ -2739,6 +2672,73 @@
       "registryDependencies": ["switch", "field"],
       "files": [
         { "path": "src/examples/switch/SwitchTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "tabs-demo",
+      "type": "registry:block",
+      "title": "Tabs demo",
+      "description": "Account and password forms in pill tabs.",
+      "categories": ["example"],
+      "registryDependencies": ["tabs", "button", "field", "input"],
+      "files": [
+        { "path": "src/examples/tabs/TabsDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "tabs-line",
+      "type": "registry:block",
+      "title": "Tabs line",
+      "description": "The line variant with a disabled tab.",
+      "categories": ["example"],
+      "registryDependencies": ["tabs"],
+      "files": [
+        { "path": "src/examples/tabs/TabsLine.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "tabs-sizes",
+      "type": "registry:block",
+      "title": "Tabs sizes",
+      "description": "Tabs in the five sizes.",
+      "categories": ["example"],
+      "registryDependencies": ["tabs"],
+      "files": [
+        { "path": "src/examples/tabs/TabsSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "tabs-vertical",
+      "type": "registry:block",
+      "title": "Tabs vertical",
+      "description": "Vertical tabs in both variants.",
+      "categories": ["example"],
+      "registryDependencies": ["tabs"],
+      "files": [
+        { "path": "src/examples/tabs/TabsVertical.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "tabs-icons",
+      "type": "registry:block",
+      "title": "Tabs with icons",
+      "description": "Tabs with an icon before each label.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["tabs"],
+      "files": [
+        { "path": "src/examples/tabs/TabsIcons.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "tabs-keep-mounted",
+      "type": "registry:block",
+      "title": "Tabs keeping panels mounted",
+      "description": "Panels that keep their state while hidden.",
+      "categories": ["example"],
+      "registryDependencies": ["tabs", "textarea"],
+      "files": [
+        { "path": "src/examples/tabs/TabsKeepMounted.vue", "type": "registry:component" }
       ]
     },
     {

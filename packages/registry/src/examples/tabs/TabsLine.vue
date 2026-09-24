@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 
 <template>
   <Tabs default-value="overview" class="w-full max-w-md">
-    <TabsList variant="line">
+    <TabsList variant="line" class="w-full">
       <TabsTrigger value="overview">Overview</TabsTrigger>
       <TabsTrigger value="analytics">Analytics</TabsTrigger>
       <TabsTrigger value="reports">Reports</TabsTrigger>

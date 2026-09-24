@@ -8,7 +8,7 @@ props:
   orientation:
     description: "`horizontal` lays the list out in a row above the panels, `vertical` in a column beside them. Arrow keys follow the orientation."
   dir:
-    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set."
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`."
   activationMode:
     description: "`automatic` selects a tab as soon as it gets focus; `manual` waits for Enter or Space."
   unmountOnHide:
