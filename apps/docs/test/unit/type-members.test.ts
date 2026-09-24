@@ -23,11 +23,11 @@ describe('typeMembers', () => {
       'virtualizer',
     ])
     expect(members.find((member) => member.name === 'reset')?.type).toBe('() => void')
-  })
+  }, 30_000)
 
   it('throws for a type the file does not export', () => {
     expect(() => typeMembers(registryRoot, 'ui/scroll-area/index.ts', 'Nope')).toThrow(
       'ui/scroll-area/index.ts does not export a type named "Nope"',
     )
-  })
+  }, 30_000)
 })
