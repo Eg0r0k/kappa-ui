@@ -1,0 +1,23 @@
+component: Tabs
+file: ui/tabs/Tabs.vue
+props:
+  defaultValue:
+    description: "The tab selected at first when `v-model` is not used."
+  modelValue:
+    description: "The selected tab's value, bound with `v-model`."
+  orientation:
+    description: "`horizontal` lays the list out in a row above the panels, `vertical` in a column beside them. Arrow keys follow the orientation."
+  dir:
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set."
+  activationMode:
+    description: "`automatic` selects a tab as soon as it gets focus; `manual` waits for Enter or Space."
+  unmountOnHide:
+    description: "Removes a panel's content from the DOM while its tab is not selected. Turn it off to keep panels mounted, and their state, while hidden."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  update:modelValue: "Fires when another tab is selected."
+slots:
+  default: "The list and the panels. Receives `modelValue`."

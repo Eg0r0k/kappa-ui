@@ -22,6 +22,7 @@
     "./separator": "./src/primitives/separator.ts",
     "./slider": "./src/primitives/slider.ts",
     "./switch": "./src/primitives/switch.ts",
+    "./tabs": "./src/primitives/tabs.ts",
     "./utils": "./src/primitives/utils.ts",
     "./visually-hidden": "./src/primitives/visually-hidden.ts"
   },

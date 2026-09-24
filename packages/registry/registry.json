@@ -1151,6 +1151,36 @@
       ]
     },
     {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Panels switched by a row or column of tabs, in pill and line variants and five sizes, with an indicator that slides to the active tab.",
+      "dependencies": ["@delta-ui/core", "class-variance-authority"],
+      "registryDependencies": ["utils", "tokens"],
+      "files": [
+        {
+          "path": "src/ui/tabs/Tabs.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tabs/TabsContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tabs/TabsList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tabs/TabsTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tabs/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "radio-group",
       "type": "registry:ui",
       "title": "Radio Group",

@@ -1,0 +1,13 @@
+component: TabsTrigger
+file: ui/tabs/TabsTrigger.vue
+props:
+  value:
+    description: "The value that selects this tab and its panel."
+  disabled:
+    description: "Skips the tab for arrow keys and ignores clicks."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The label, optionally with an icon."
