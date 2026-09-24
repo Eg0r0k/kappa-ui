@@ -62,6 +62,6 @@ describe('resolveExample', () => {
 
 describe('registryItems', () => {
   it('reads the real manifest', () => {
-    expect(registryItems.filter(isExample).length).toBe(137)
+    expect(registryItems.filter(isExample).length).toBe(143)
   })
 })
