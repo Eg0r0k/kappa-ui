@@ -1,0 +1,9 @@
+component: SelectGroup
+file: ui/select/SelectGroup.vue
+props:
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "A `SelectLabel` and the options in the group."

@@ -13,6 +13,14 @@ export const highlight = async (code: string, lang: HighlightLang) => {
     lang,
     themes: { default: 'github-light', dark: 'github-dark' },
     defaultColor: false,
+    transformers: [
+      {
+        pre(node) {
+          const style = node.properties.style
+          if (typeof style === 'string') node.properties.style = style.replace(/--shiki-[a-z]+-bg:[^;]*;?/g, '')
+        },
+      },
+    ],
   })
 }
 

@@ -1,0 +1,21 @@
+component: Input
+file: ui/input/Input.vue
+props:
+  modelValue:
+    description: The value, bound with `v-model`.
+  label:
+    description: Floating label drawn inside the input and tied to it as its `<label>`. Makes every variant but `outline` taller.
+  defaultValue:
+    description: The starting value when `v-model` is not used.
+  variant:
+    description: "`outline` draws a border, `soft` a tinted surface without one, `filled` a tinted surface with a line underneath, `ghost` nothing until hovered or focused, and `subtle` a tinted surface with a border."
+  size:
+    description: Height, from 28px for `xs` to 48px for `xl`. `sm`, `lg` and `xl` match the button sizes of the same name and `md` the default button.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  disabled:
+    description: Disables the input. Also set by a disabled field.
+  required:
+    description: Marks the input required. Also set by a required field.
+emits:
+  update:modelValue: Fires as the value changes.

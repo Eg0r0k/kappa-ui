@@ -1,0 +1,19 @@
+component: SelectTrigger
+file: ui/select/SelectTrigger.vue
+props:
+  disabled:
+    description: "Disables the trigger. A disabled field or select sets it too."
+  reference:
+    description: "A virtual element to position the content against instead of the trigger."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+  id:
+    description: "Overrides the `id` taken from a surrounding field."
+  variant:
+    description: "The same five variants as the input."
+  size:
+    description: "Height, matching the input sizes of the same name."
+slots:
+  default: "A `SelectValue`, and anything else to show before the chevron."

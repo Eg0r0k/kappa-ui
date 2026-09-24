@@ -22,3 +22,42 @@
     display: none;
   }
 }
+
+@keyframes delta-skeleton-wave {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@utility animate-skeleton-wave {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--foreground) var(--state-hover, 8%), transparent),
+      transparent
+    );
+    animation: delta-skeleton-wave 1.5s linear 0.5s infinite;
+  }
+
+  &:dir(rtl)::after {
+    animation-direction: reverse;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+    }
+  }
+}

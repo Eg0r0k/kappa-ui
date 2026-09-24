@@ -7,6 +7,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
+  optimizeDeps: {
+    include: ["reka-ui", "reka-ui/internal"],
+  },
   resolve: {
     dedupe: ["vue"],
     alias: {

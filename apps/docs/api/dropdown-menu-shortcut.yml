@@ -1,0 +1,4 @@
+component: DropdownMenuShortcut
+file: ui/dropdown-menu/DropdownMenuShortcut.vue
+slots:
+  default: "The key combination, for display only. It does not register the shortcut."

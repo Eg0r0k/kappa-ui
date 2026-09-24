@@ -20,6 +20,7 @@ export default defineConfig({
       },
       {
         plugins: [vue(), tailwindcss()],
+        optimizeDeps: { include: ['reka-ui', 'reka-ui/internal'] },
         resolve: { alias, dedupe: ['vue'] },
         test: {
           name: 'browser',

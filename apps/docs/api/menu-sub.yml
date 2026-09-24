@@ -1,0 +1,9 @@
+component: MenuSub
+file: ui/menu/MenuSub.vue
+props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+emits:
+  update:open: "Fires when it opens or closes."
+slots:
+  default: "A `MenuSubTrigger` and a `MenuSubContent`."

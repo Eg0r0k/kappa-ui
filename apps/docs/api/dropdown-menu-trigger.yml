@@ -1,0 +1,11 @@
+component: DropdownMenuTrigger
+file: ui/dropdown-menu/DropdownMenuTrigger.vue
+props:
+  disabled:
+    description: "Keeps the menu from opening."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The button that opens the menu, usually a `Button` with `as-child`."

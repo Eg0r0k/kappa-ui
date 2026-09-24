@@ -1,0 +1,7 @@
+component: FieldLabel
+file: ui/field/FieldLabel.vue
+props:
+  for:
+    description: Overrides the control `id` taken from the field.
+slots:
+  default: The label text.

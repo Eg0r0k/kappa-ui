@@ -24,7 +24,7 @@ onBeforeUnmount(() => clearTimeout(timer));
         <Spinner v-if="saving" />
         {{ saving ? "Saving" : "Save" }}
       </Button>
-      <Button variant="outline" :disabled="saving" class="min-w-32" @click="save">
+      <Button variant="outline" color="neutral" :disabled="saving" class="min-w-32" @click="save">
         <Spinner v-if="saving" />
         {{ saving ? "Saving" : "Width held" }}
       </Button>

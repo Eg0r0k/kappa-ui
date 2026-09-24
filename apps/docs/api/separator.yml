@@ -1,0 +1,17 @@
+component: Separator
+file: ui/separator/Separator.vue
+props:
+  orientation:
+    description: "`horizontal` spans the width of its parent, `vertical` its height."
+  decorative:
+    description: "Hides the separator from assistive technology with `role=\"none\"`. On by default; turn it off when the separation carries meaning."
+  label:
+    description: "Text shown in the middle of the line."
+  size:
+    description: "Thickness, from 1px for `xs` to 5px for `xl`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the separator's attributes and classes onto it.
+slots:
+  default: "Content for the label, in place of `label`."

@@ -1,0 +1,19 @@
+component: MenuCheckboxItem
+file: ui/menu/MenuCheckboxItem.vue
+props:
+  modelValue:
+    description: "Whether it is checked, bound with `v-model`."
+  disabled:
+    description: "Disables the item: it is skipped by the keyboard and cannot be chosen."
+  textValue:
+    description: "Text used for typeahead instead of the item's text content."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  select: "Fires when the item is chosen by click or keyboard. Call `event.preventDefault()` to keep the menu open."
+  update:modelValue: "Fires when the item is toggled."
+slots:
+  indicator-icon: "The icon shown while checked, a check by default."
+  default: "The label."

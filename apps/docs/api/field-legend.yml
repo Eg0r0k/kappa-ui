@@ -1,0 +1,4 @@
+component: FieldLegend
+file: ui/field/FieldLegend.vue
+slots:
+  default: The name of the set.

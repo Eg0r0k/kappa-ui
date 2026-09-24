@@ -1,0 +1,23 @@
+component: Radio
+file: ui/radio-group/Radio.vue
+props:
+  value:
+    description: The value the group's `v-model` takes when this radio is selected.
+  size:
+    description: Circle size, from 14px for `xs` to 24px for `xl`, the same scale as the checkbox.
+  touchTarget:
+    description: Grows the pressable area to 48px without changing how the circle looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  disabled:
+    description: Disables this radio. Also set by a disabled field, group or fieldset.
+  name:
+    description: Set on the group instead; the group submits the selected value.
+  required:
+    description: Set on the group, or on a surrounding fieldset, instead.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the radio's attributes and classes onto it.
+emits:
+  select: Fires when this radio is selected, with an event whose default can be prevented to keep the selection unchanged.

@@ -16,6 +16,357 @@
       ]
     },
     {
+      "name": "field-context",
+      "type": "registry:lib",
+      "title": "Field context",
+      "description": "The context a Field provides so the control inside it can wire its id, description and error.",
+      "dependencies": ["reka-ui"],
+      "files": [
+        {
+          "path": "src/lib/field-context.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "choice-group",
+      "type": "registry:lib",
+      "title": "Choice group",
+      "description": "Sizes, touch targets and the state layer shared by checkboxes and radios, and the card, list and table layouts of their groups.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "src/lib/choice-group.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "text-control",
+      "type": "registry:lib",
+      "title": "Text control",
+      "description": "Variants, sizes and focus and invalid states shared by the input and the textarea.",
+      "files": [
+        {
+          "path": "src/lib/text-control.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "overlay",
+      "type": "registry:lib",
+      "title": "Overlay",
+      "description": "The scrim that keeps a modal overlay's first outside click from reaching the page, the popover surface and its enter and exit motion, and a stable scrollbar gutter.",
+      "dependencies": ["reka-ui"],
+      "css": {
+        "@layer base": {
+          "html": {
+            "scrollbar-gutter": "stable"
+          }
+        },
+        "@keyframes delta-overlay-in": {
+          "from": {
+            "opacity": "0",
+            "transform": "translate(var(--overlay-x, 0), var(--overlay-y, 0)) scale(var(--overlay-scale, 0.96))"
+          }
+        },
+        "@keyframes delta-overlay-out": {
+          "to": {
+            "opacity": "0",
+            "transform": "scale(var(--overlay-scale, 0.96))"
+          }
+        },
+        "@utility animate-overlay": {
+          "&[data-side=\"top\"]": {
+            "--overlay-y": "0.25rem"
+          },
+          "&[data-side=\"bottom\"]": {
+            "--overlay-y": "-0.25rem"
+          },
+          "&[data-side=\"left\"]": {
+            "--overlay-x": "0.25rem"
+          },
+          "&[data-side=\"right\"]": {
+            "--overlay-x": "-0.25rem"
+          },
+          "&[data-state=\"open\"]": {
+            "animation": "delta-overlay-in var(--transition-duration-short-4, 200ms) var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1))"
+          },
+          "&[data-state=\"closed\"]": {
+            "animation": "delta-overlay-out var(--transition-duration-short-2, 100ms) var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards"
+          },
+          "@media (prefers-reduced-motion: reduce)": {
+            "&, &[data-side]": {
+              "--overlay-x": "0",
+              "--overlay-y": "0",
+              "--overlay-scale": "1"
+            }
+          }
+        }
+      },
+      "files": [
+        {
+          "path": "src/lib/overlay.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "menu-styles",
+      "type": "registry:lib",
+      "title": "Menu",
+      "description": "Item, label, separator and shortcut styles shared by the dropdown menu, context menu and select.",
+      "files": [
+        {
+          "path": "src/lib/menu.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "tokens",
+      "type": "registry:lib",
+      "title": "Tokens",
+      "description": "The status colours, state, motion and typescale tokens components read, and the destructive foreground shadcn dropped.",
+      "cssVars": {
+        "light": {
+          "state-hover": "8%",
+          "state-pressed": "12%",
+          "disabled-opacity": "38%",
+          "disabled-container-opacity": "12%",
+          "destructive-foreground": "oklch(1 0 0)",
+          "success": "oklch(0.72 0.17 150)",
+          "success-foreground": "oklch(0.25 0.07 150)",
+          "success-text": "oklch(0.5 0.13 152)",
+          "warning": "oklch(0.8 0.16 78)",
+          "warning-foreground": "oklch(0.3 0.07 60)",
+          "warning-text": "oklch(0.54 0.14 58)",
+          "typescale-display-lg-size": "3.5625rem",
+          "typescale-display-lg-line-height": "4rem",
+          "typescale-display-lg-weight": "400",
+          "typescale-display-md-size": "2.8125rem",
+          "typescale-display-md-line-height": "3.25rem",
+          "typescale-display-md-weight": "400",
+          "typescale-display-sm-size": "2.25rem",
+          "typescale-display-sm-line-height": "2.75rem",
+          "typescale-display-sm-weight": "400",
+          "typescale-headline-lg-size": "2rem",
+          "typescale-headline-lg-line-height": "2.5rem",
+          "typescale-headline-lg-weight": "400",
+          "typescale-headline-md-size": "1.75rem",
+          "typescale-headline-md-line-height": "2.25rem",
+          "typescale-headline-md-weight": "400",
+          "typescale-headline-sm-size": "1.5rem",
+          "typescale-headline-sm-line-height": "2rem",
+          "typescale-headline-sm-weight": "400",
+          "typescale-title-lg-size": "1.375rem",
+          "typescale-title-lg-line-height": "1.75rem",
+          "typescale-title-lg-weight": "400",
+          "typescale-title-md-size": "1rem",
+          "typescale-title-md-line-height": "1.5rem",
+          "typescale-title-md-weight": "500",
+          "typescale-title-sm-size": "0.875rem",
+          "typescale-title-sm-line-height": "1.25rem",
+          "typescale-title-sm-weight": "500",
+          "typescale-body-lg-size": "1rem",
+          "typescale-body-lg-line-height": "1.5rem",
+          "typescale-body-lg-weight": "400",
+          "typescale-body-md-size": "0.875rem",
+          "typescale-body-md-line-height": "1.25rem",
+          "typescale-body-md-weight": "400",
+          "typescale-body-sm-size": "0.75rem",
+          "typescale-body-sm-line-height": "1rem",
+          "typescale-body-sm-weight": "400",
+          "typescale-label-lg-size": "0.875rem",
+          "typescale-label-lg-line-height": "1.25rem",
+          "typescale-label-lg-weight": "500",
+          "typescale-label-md-size": "0.75rem",
+          "typescale-label-md-line-height": "1rem",
+          "typescale-label-md-weight": "500",
+          "typescale-label-sm-size": "0.6875rem",
+          "typescale-label-sm-line-height": "1rem",
+          "typescale-label-sm-weight": "500"
+        },
+        "dark": {
+          "destructive-foreground": "oklch(0.25 0.08 25)",
+          "success": "oklch(0.78 0.13 155)",
+          "success-foreground": "oklch(0.25 0.06 155)",
+          "success-text": "oklch(0.78 0.13 155)",
+          "warning": "oklch(0.82 0.14 80)",
+          "warning-foreground": "oklch(0.27 0.06 70)",
+          "warning-text": "oklch(0.82 0.14 80)"
+        },
+        "theme": {
+          "color-destructive-foreground": "var(--destructive-foreground)",
+          "color-success": "var(--success)",
+          "color-success-foreground": "var(--success-foreground)",
+          "color-success-text": "var(--success-text)",
+          "color-warning": "var(--warning)",
+          "color-warning-foreground": "var(--warning-foreground)",
+          "color-warning-text": "var(--warning-text)",
+          "ease-standard": "cubic-bezier(0.2, 0, 0, 1)",
+          "ease-standard-accelerate": "cubic-bezier(0.3, 0, 1, 1)",
+          "ease-standard-decelerate": "cubic-bezier(0, 0, 0, 1)",
+          "ease-emphasized-accelerate": "cubic-bezier(0.3, 0, 0.8, 0.15)",
+          "ease-emphasized-decelerate": "cubic-bezier(0.05, 0.7, 0.1, 1)",
+          "transition-duration-short-1": "50ms",
+          "transition-duration-short-2": "100ms",
+          "transition-duration-short-3": "150ms",
+          "transition-duration-short-4": "200ms",
+          "transition-duration-medium-1": "250ms",
+          "transition-duration-medium-2": "300ms",
+          "transition-duration-medium-3": "350ms",
+          "transition-duration-medium-4": "400ms",
+          "transition-duration-long-1": "450ms",
+          "transition-duration-long-2": "500ms",
+          "transition-duration-long-3": "550ms",
+          "transition-duration-long-4": "600ms",
+          "transition-duration-extra-long-1": "700ms",
+          "transition-duration-extra-long-2": "800ms",
+          "transition-duration-extra-long-3": "900ms",
+          "transition-duration-extra-long-4": "1000ms",
+          "text-display-lg": "var(--typescale-display-lg-size)",
+          "text-display-lg--line-height": "var(--typescale-display-lg-line-height)",
+          "text-display-lg--font-weight": "var(--typescale-display-lg-weight)",
+          "text-display-md": "var(--typescale-display-md-size)",
+          "text-display-md--line-height": "var(--typescale-display-md-line-height)",
+          "text-display-md--font-weight": "var(--typescale-display-md-weight)",
+          "text-display-sm": "var(--typescale-display-sm-size)",
+          "text-display-sm--line-height": "var(--typescale-display-sm-line-height)",
+          "text-display-sm--font-weight": "var(--typescale-display-sm-weight)",
+          "text-headline-lg": "var(--typescale-headline-lg-size)",
+          "text-headline-lg--line-height": "var(--typescale-headline-lg-line-height)",
+          "text-headline-lg--font-weight": "var(--typescale-headline-lg-weight)",
+          "text-headline-md": "var(--typescale-headline-md-size)",
+          "text-headline-md--line-height": "var(--typescale-headline-md-line-height)",
+          "text-headline-md--font-weight": "var(--typescale-headline-md-weight)",
+          "text-headline-sm": "var(--typescale-headline-sm-size)",
+          "text-headline-sm--line-height": "var(--typescale-headline-sm-line-height)",
+          "text-headline-sm--font-weight": "var(--typescale-headline-sm-weight)",
+          "text-title-lg": "var(--typescale-title-lg-size)",
+          "text-title-lg--line-height": "var(--typescale-title-lg-line-height)",
+          "text-title-lg--font-weight": "var(--typescale-title-lg-weight)",
+          "text-title-md": "var(--typescale-title-md-size)",
+          "text-title-md--line-height": "var(--typescale-title-md-line-height)",
+          "text-title-md--font-weight": "var(--typescale-title-md-weight)",
+          "text-title-sm": "var(--typescale-title-sm-size)",
+          "text-title-sm--line-height": "var(--typescale-title-sm-line-height)",
+          "text-title-sm--font-weight": "var(--typescale-title-sm-weight)",
+          "text-body-lg": "var(--typescale-body-lg-size)",
+          "text-body-lg--line-height": "var(--typescale-body-lg-line-height)",
+          "text-body-lg--font-weight": "var(--typescale-body-lg-weight)",
+          "text-body-md": "var(--typescale-body-md-size)",
+          "text-body-md--line-height": "var(--typescale-body-md-line-height)",
+          "text-body-md--font-weight": "var(--typescale-body-md-weight)",
+          "text-body-sm": "var(--typescale-body-sm-size)",
+          "text-body-sm--line-height": "var(--typescale-body-sm-line-height)",
+          "text-body-sm--font-weight": "var(--typescale-body-sm-weight)",
+          "text-label-lg": "var(--typescale-label-lg-size)",
+          "text-label-lg--line-height": "var(--typescale-label-lg-line-height)",
+          "text-label-lg--font-weight": "var(--typescale-label-lg-weight)",
+          "text-label-md": "var(--typescale-label-md-size)",
+          "text-label-md--line-height": "var(--typescale-label-md-line-height)",
+          "text-label-md--font-weight": "var(--typescale-label-md-weight)",
+          "text-label-sm": "var(--typescale-label-sm-size)",
+          "text-label-sm--line-height": "var(--typescale-label-sm-line-height)",
+          "text-label-sm--font-weight": "var(--typescale-label-sm-weight)"
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Theme",
+      "description": "delta-ui colours, derived from one brand colour, and its corner radius.",
+      "css": {
+        ".dark": {
+          "color-scheme": "dark"
+        },
+        "@supports (color: oklch(from red l c h))": {
+          ":root": {
+            "--primary": "oklch(from var(--brand) 0.48 c h)",
+            "--ring": "oklch(from var(--brand) 0.7 calc(c * 0.6) h)"
+          },
+          ".dark": {
+            "--primary": "oklch(from var(--brand) 0.78 calc(c * 0.5) h)",
+            "--primary-foreground": "oklch(from var(--brand) 0.25 calc(c * 0.4) h)",
+            "--ring": "oklch(from var(--brand) 0.6 calc(c * 0.6) h)"
+          }
+        }
+      },
+      "cssVars": {
+        "light": {
+          "radius": "0.75rem",
+          "brand": "oklch(0.48 0.2 262)",
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.48 0.2 262)",
+          "primary-foreground": "oklch(1 0 0)",
+          "secondary": "oklch(0.97 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.556 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.55 0.22 27)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.62 0 0)",
+          "ring": "oklch(0.7 0.12 262)"
+        },
+        "dark": {
+          "background": "oklch(0.145 0 0)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.78 0.1 262)",
+          "primary-foreground": "oklch(0.25 0.08 262)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.72 0.14 25)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 40%)",
+          "ring": "oklch(0.6 0.12 262)"
+        },
+        "theme": {
+          "radius-sm": "calc(var(--radius) - 4px)",
+          "radius-md": "calc(var(--radius) - 2px)",
+          "radius-lg": "var(--radius)",
+          "radius-xl": "calc(var(--radius) + 4px)",
+          "color-background": "var(--background)",
+          "color-foreground": "var(--foreground)",
+          "color-card": "var(--card)",
+          "color-card-foreground": "var(--card-foreground)",
+          "color-popover": "var(--popover)",
+          "color-popover-foreground": "var(--popover-foreground)",
+          "color-primary": "var(--primary)",
+          "color-primary-foreground": "var(--primary-foreground)",
+          "color-secondary": "var(--secondary)",
+          "color-secondary-foreground": "var(--secondary-foreground)",
+          "color-muted": "var(--muted)",
+          "color-muted-foreground": "var(--muted-foreground)",
+          "color-accent": "var(--accent)",
+          "color-accent-foreground": "var(--accent-foreground)",
+          "color-destructive": "var(--destructive)",
+          "color-border": "var(--border)",
+          "color-input": "var(--input)",
+          "color-ring": "var(--ring)"
+        }
+      },
+      "files": []
+    },
+    {
       "name": "ripple",
       "type": "registry:lib",
       "title": "Ripple",
@@ -35,7 +386,7 @@
           "border-radius": "inherit",
           "pointer-events": "none",
           "--ripple-color": "currentColor",
-          "--ripple-opacity": "0.12",
+          "--ripple-opacity": "var(--state-pressed, 12%)",
           "--ripple-grow-duration": "450ms",
           "--ripple-fade-duration": "375ms"
         },
@@ -49,7 +400,7 @@
           "opacity": "var(--ripple-opacity)",
           "background": "radial-gradient(closest-side, var(--ripple-color) max(calc(100% - 70px), 65%), transparent 100%)",
           "transform": "var(--ripple-from) scale(1)",
-          "animation": "delta-ripple-grow var(--ripple-grow-duration) cubic-bezier(0.2, 0, 0, 1) forwards",
+          "animation": "delta-ripple-grow var(--ripple-grow-duration) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) forwards",
           "transition": "opacity var(--ripple-fade-duration) linear"
         },
         ".delta-ripple__wave[data-hiding]": {
@@ -164,7 +515,7 @@
       "title": "Button",
       "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
       "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": ["utils", "tokens"],
       "css": {
         "@layer base": {
           "button:not(:disabled), [role=\"button\"]:not(:disabled)": {
@@ -172,7 +523,7 @@
           }
         },
         "@utility press-scale": {
-          "transition": "transform var(--press-duration) var(--ease-smooth, cubic-bezier(0.4, 0, 0.2, 1))",
+          "transition": "transform var(--press-duration) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1))",
           "transform": "scale(1)",
           "&:active": {
             "transform": "scale(var(--press-scale))"
@@ -193,80 +544,37 @@
               "transform": "none"
             }
           }
+        },
+        "@utility state-layer": {
+          "&::before": {
+            "content": "\"\"",
+            "position": "absolute",
+            "inset": "0",
+            "border-radius": "inherit",
+            "background-color": "currentColor",
+            "opacity": "0",
+            "pointer-events": "none",
+            "transition": "opacity var(--transition-duration-short-1, 50ms) linear"
+          },
+          "@media (hover: hover)": {
+            "&:hover::before": {
+              "opacity": "var(--state-hover)"
+            }
+          },
+          "&:active:not(:has(> .delta-ripple))::before": {
+            "opacity": "var(--state-pressed)"
+          },
+          "@media (forced-colors: active)": {
+            "&::before": {
+              "display": "none"
+            }
+          }
         }
       },
       "cssVars": {
         "light": {
-          "radius": "0.75rem",
           "press-scale": "0.97",
-          "press-duration": "120ms",
-          "background": "oklch(1 0 0)",
-          "foreground": "oklch(0.145 0 0)",
-          "card": "oklch(1 0 0)",
-          "card-foreground": "oklch(0.145 0 0)",
-          "popover": "oklch(1 0 0)",
-          "popover-foreground": "oklch(0.145 0 0)",
-          "primary": "oklch(0.52 0.2 262)",
-          "primary-foreground": "oklch(1 0 0)",
-          "secondary": "oklch(0.97 0 0)",
-          "secondary-foreground": "oklch(0.205 0 0)",
-          "muted": "oklch(0.97 0 0)",
-          "muted-foreground": "oklch(0.556 0 0)",
-          "accent": "oklch(0.97 0 0)",
-          "accent-foreground": "oklch(0.205 0 0)",
-          "destructive": "oklch(0.55 0.22 27)",
-          "border": "oklch(0.922 0 0)",
-          "input": "oklch(0.922 0 0)",
-          "ring": "oklch(0.708 0 0)"
-        },
-        "dark": {
-          "background": "oklch(0.145 0 0)",
-          "foreground": "oklch(0.985 0 0)",
-          "card": "oklch(0.205 0 0)",
-          "card-foreground": "oklch(0.985 0 0)",
-          "popover": "oklch(0.205 0 0)",
-          "popover-foreground": "oklch(0.985 0 0)",
-          "primary": "oklch(0.52 0.2 262)",
-          "primary-foreground": "oklch(1 0 0)",
-          "secondary": "oklch(0.269 0 0)",
-          "secondary-foreground": "oklch(0.985 0 0)",
-          "muted": "oklch(0.269 0 0)",
-          "muted-foreground": "oklch(0.708 0 0)",
-          "accent": "oklch(0.269 0 0)",
-          "accent-foreground": "oklch(0.985 0 0)",
-          "destructive": "oklch(0.56 0.21 27)",
-          "border": "oklch(1 0 0 / 10%)",
-          "input": "oklch(1 0 0 / 15%)",
-          "ring": "oklch(0.556 0 0)"
-        },
-        "theme": {
-          "radius-sm": "calc(var(--radius) - 4px)",
-          "radius-md": "calc(var(--radius) - 2px)",
-          "radius-lg": "var(--radius)",
-          "radius-xl": "calc(var(--radius) + 4px)",
-          "ease-smooth": "cubic-bezier(0.4, 0, 0.2, 1)",
-          "ease-snappy": "cubic-bezier(0.16, 1, 0.3, 1)",
-          "ease-gentle": "cubic-bezier(0.65, 0, 0.35, 1)",
-          "ease-bouncy": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-          "ease-elastic": "linear(0, 0.044, 0.155, 0.307, 0.476, 0.643, 0.795, 0.923, 1.023, 1.095, 1.139, 1.16, 1.162, 1.15, 1.129, 1.102, 1.075, 1.048, 1.025, 1.006, 0.991, 0.981, 0.976, 0.973, 0.974, 0.977, 0.981, 0.985, 0.99, 0.994, 0.997, 1)",
-          "color-background": "var(--background)",
-          "color-foreground": "var(--foreground)",
-          "color-card": "var(--card)",
-          "color-card-foreground": "var(--card-foreground)",
-          "color-popover": "var(--popover)",
-          "color-popover-foreground": "var(--popover-foreground)",
-          "color-primary": "var(--primary)",
-          "color-primary-foreground": "var(--primary-foreground)",
-          "color-secondary": "var(--secondary)",
-          "color-secondary-foreground": "var(--secondary-foreground)",
-          "color-muted": "var(--muted)",
-          "color-muted-foreground": "var(--muted-foreground)",
-          "color-accent": "var(--accent)",
-          "color-accent-foreground": "var(--accent-foreground)",
-          "color-destructive": "var(--destructive)",
-          "color-border": "var(--border)",
-          "color-input": "var(--input)",
-          "color-ring": "var(--ring)"
+          "press-duration": "120ms"
         }
       },
       "files": [
@@ -276,6 +584,701 @@
         },
         {
           "path": "src/ui/button/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Surface that groups related content, with header, title, description, content and footer parts.",
+      "dependencies": ["reka-ui"],
+      "registryDependencies": ["utils", "tokens"],
+      "files": [
+        {
+          "path": "src/ui/card/Card.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/card/CardHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/card/CardTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/card/CardDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/card/CardContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/card/CardFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/card/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A keyboard key, and a group of keys for a shortcut. Takes on a button's colour when placed inside one.",
+      "registryDependencies": ["utils", "tokens"],
+      "files": [
+        {
+          "path": "src/ui/kbd/Kbd.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/kbd/KbdGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/kbd/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Accessible label for a form control.",
+      "dependencies": ["reka-ui"],
+      "registryDependencies": ["utils", "tokens"],
+      "files": [
+        {
+          "path": "src/ui/label/Label.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/label/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "A horizontal or vertical line between content, in five thicknesses, with an optional label in the middle.",
+      "dependencies": ["reka-ui", "class-variance-authority"],
+      "registryDependencies": ["utils", "tokens"],
+      "files": [
+        {
+          "path": "src/ui/separator/Separator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/separator/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A placeholder for content that is loading: a block, a line of text or a circle, with a pulse, a wave or no animation.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "tokens"],
+      "css": {
+        "@keyframes delta-skeleton-wave": {
+          "from": {
+            "transform": "translateX(-100%)"
+          },
+          "to": {
+            "transform": "translateX(100%)"
+          }
+        },
+        "@utility animate-skeleton-wave": {
+          "position": "relative",
+          "overflow": "hidden",
+          "&::after": {
+            "content": "\"\"",
+            "position": "absolute",
+            "inset": "0",
+            "transform": "translateX(-100%)",
+            "background": "linear-gradient(90deg, transparent, color-mix(in oklab, var(--foreground) var(--state-hover, 8%), transparent), transparent)",
+            "animation": "delta-skeleton-wave 1.5s linear 0.5s infinite"
+          },
+          "&:dir(rtl)::after": {
+            "animation-direction": "reverse"
+          },
+          "@media (prefers-reduced-motion: reduce)": {
+            "&::after": {
+              "animation": "none"
+            }
+          }
+        }
+      },
+      "files": [
+        {
+          "path": "src/ui/skeleton/Skeleton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/skeleton/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
+      "dependencies": ["reka-ui"],
+      "registryDependencies": ["utils", "tokens", "overlay"],
+      "files": [
+        {
+          "path": "src/ui/popover/Popover.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/popover/PopoverAnchor.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/popover/PopoverContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/popover/PopoverTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/popover/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "listbox",
+      "type": "registry:ui",
+      "title": "Listbox",
+      "description": "A list to pick one or more options from, with icons, titles, descriptions, groups and a replaceable check, built on Reka UI.",
+      "dependencies": ["class-variance-authority", "reka-ui", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "field-context"],
+      "files": [
+        {
+          "path": "src/ui/listbox/Listbox.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxGroupLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxIcon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/ListboxTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/listbox/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "type": "registry:ui",
+      "title": "Menu",
+      "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
+      "dependencies": ["reka-ui", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "files": [
+        {
+          "path": "src/ui/menu/Menu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuCheckboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuRadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuRadioItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuShortcut.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuSub.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuSubContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/MenuSubTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/position.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Label, description and error for one form control, wired to it automatically, plus group and fieldset layout.",
+      "dependencies": ["class-variance-authority", "reka-ui"],
+      "registryDependencies": ["utils", "tokens", "label", "field-context"],
+      "files": [
+        {
+          "path": "src/ui/field/Field.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/FieldLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/FieldContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/FieldDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/FieldError.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/FieldGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/FieldSet.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/FieldLegend.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/field/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, with an optional floating label, that picks up its id, description, error and state from a surrounding Field.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "tokens", "field-context", "text-control"],
+      "files": [
+        {
+          "path": "src/ui/input/Input.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text field with the input's variants and sizes, a row count and optional auto-resize, that picks up its state from a surrounding Field.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "tokens", "field-context", "text-control"],
+      "files": [
+        {
+          "path": "src/ui/textarea/Textarea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/textarea/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
+      "dependencies": ["class-variance-authority", "reka-ui"],
+      "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
+      "files": [
+        {
+          "path": "src/ui/checkbox/Checkbox.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/checkbox/CheckboxGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/checkbox/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal window with a title, a body that scrolls in a scroll area, and a footer, with an API close to Nuxt UI's modal, built on Reka UI.",
+      "dependencies": ["reka-ui", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "overlay", "button", "scroll-area"],
+      "files": [
+        {
+          "path": "src/ui/dialog/Dialog.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogBody.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogClose.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
+      "dependencies": ["reka-ui", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "files": [
+        {
+          "path": "src/ui/context-menu/ContextMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuCheckboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuRadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuRadioItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuShortcut.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuSub.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuSubContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuSubTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/ContextMenuTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/context-menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
+      "dependencies": ["reka-ui", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "files": [
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuCheckboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuRadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuRadioItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuShortcut.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuSub.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuSubContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuSubTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/DropdownMenuTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dropdown-menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Material-style switch with five sizes, an optional touch target and custom icons in the handle, built on Reka UI.",
+      "dependencies": ["class-variance-authority", "reka-ui"],
+      "registryDependencies": ["utils", "tokens", "field-context"],
+      "files": [
+        {
+          "path": "src/ui/switch/Switch.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/switch/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
+      "dependencies": ["class-variance-authority", "reka-ui"],
+      "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
+      "files": [
+        {
+          "path": "src/ui/radio-group/Radio.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/radio-group/RadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/radio-group/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
+      "dependencies": ["class-variance-authority", "reka-ui", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "field-context", "text-control", "overlay", "menu-styles"],
+      "files": [
+        {
+          "path": "src/ui/select/Select.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectItemText.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectScrollDownButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectScrollUpButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/SelectValue.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/select/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Slider with one or more thumbs, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
+      "dependencies": ["class-variance-authority", "reka-ui"],
+      "registryDependencies": ["utils", "tokens", "field-context"],
+      "files": [
+        {
+          "path": "src/ui/slider/Slider.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/slider/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -308,6 +1311,7 @@
       "title": "Button sizes",
       "description": "Text and icon sizes side by side.",
       "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
       "registryDependencies": ["button"],
       "files": [
         { "path": "src/examples/button/ButtonSizes.vue", "type": "registry:component" }
@@ -319,6 +1323,7 @@
       "title": "Button with icons",
       "description": "Padding that tightens on the icon's side.",
       "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
       "registryDependencies": ["button"],
       "files": [
         { "path": "src/examples/button/ButtonIcon.vue", "type": "registry:component" }
@@ -509,6 +1514,1279 @@
       "registryDependencies": ["ripple", "button"],
       "files": [
         { "path": "src/examples/ripple/RippleDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "card-demo",
+      "type": "registry:block",
+      "title": "Card demo",
+      "description": "A card with every part.",
+      "categories": ["example"],
+      "registryDependencies": ["card", "button"],
+      "files": [
+        { "path": "src/examples/card/CardDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "card-divided",
+      "type": "registry:block",
+      "title": "Card divided",
+      "description": "A card whose header and footer are set off by borders.",
+      "categories": ["example"],
+      "registryDependencies": ["card", "button"],
+      "files": [
+        { "path": "src/examples/card/CardDivided.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "card-size",
+      "type": "registry:block",
+      "title": "Card size",
+      "description": "The default card next to the small one.",
+      "categories": ["example"],
+      "registryDependencies": ["card", "button"],
+      "files": [
+        { "path": "src/examples/card/CardSize.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "kbd-demo",
+      "type": "registry:block",
+      "title": "Kbd demo",
+      "description": "Single keys, shortcut groups and keys in running text.",
+      "categories": ["example"],
+      "registryDependencies": ["kbd"],
+      "files": [
+        { "path": "src/examples/kbd/KbdDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "kbd-button",
+      "type": "registry:block",
+      "title": "Kbd in a button",
+      "description": "Shortcuts inside buttons of several variants.",
+      "categories": ["example"],
+      "registryDependencies": ["kbd", "button"],
+      "files": [
+        { "path": "src/examples/kbd/KbdButton.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-demo",
+      "type": "registry:block",
+      "title": "Input demo",
+      "description": "A single input.",
+      "categories": ["example"],
+      "registryDependencies": ["input"],
+      "files": [
+        { "path": "src/examples/input/InputDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-variants",
+      "type": "registry:block",
+      "title": "Input variants",
+      "description": "Outline and filled inputs.",
+      "categories": ["example"],
+      "registryDependencies": ["input", "field"],
+      "files": [
+        { "path": "src/examples/input/InputVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-floating",
+      "type": "registry:block",
+      "title": "Input floating label",
+      "description": "Floating labels in both variants: empty, filled in, invalid and on a date.",
+      "categories": ["example"],
+      "registryDependencies": ["input", "field"],
+      "files": [
+        { "path": "src/examples/input/InputFloating.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-sizes",
+      "type": "registry:block",
+      "title": "Input sizes",
+      "description": "Inputs at each size next to a button of the same size.",
+      "categories": ["example"],
+      "registryDependencies": ["input", "button"],
+      "files": [
+        { "path": "src/examples/input/InputSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-file",
+      "type": "registry:block",
+      "title": "Input file",
+      "description": "A file input with a label and description.",
+      "categories": ["example"],
+      "registryDependencies": ["input", "field"],
+      "files": [
+        { "path": "src/examples/input/InputFile.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-states",
+      "type": "registry:block",
+      "title": "Input states",
+      "description": "Disabled and invalid inputs in both variants.",
+      "categories": ["example"],
+      "registryDependencies": ["input", "field"],
+      "files": [
+        { "path": "src/examples/input/InputStates.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "textarea-demo",
+      "type": "registry:block",
+      "title": "Textarea demo",
+      "description": "A textarea with a placeholder.",
+      "categories": ["example"],
+      "registryDependencies": ["textarea"],
+      "files": [
+        { "path": "src/examples/textarea/TextareaDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "textarea-variants",
+      "type": "registry:block",
+      "title": "Textarea variants",
+      "description": "The five variants side by side.",
+      "categories": ["example"],
+      "registryDependencies": ["textarea", "field"],
+      "files": [
+        { "path": "src/examples/textarea/TextareaVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "textarea-sizes",
+      "type": "registry:block",
+      "title": "Textarea sizes",
+      "description": "The five sizes, two rows each.",
+      "categories": ["example"],
+      "registryDependencies": ["textarea"],
+      "files": [
+        { "path": "src/examples/textarea/TextareaSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "textarea-rows",
+      "type": "registry:block",
+      "title": "Textarea rows",
+      "description": "Textareas one, three and six rows tall.",
+      "categories": ["example"],
+      "registryDependencies": ["textarea", "field"],
+      "files": [
+        { "path": "src/examples/textarea/TextareaRows.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "textarea-autoresize",
+      "type": "registry:block",
+      "title": "Textarea autoresize",
+      "description": "A textarea that grows from two to six rows as it fills.",
+      "categories": ["example"],
+      "registryDependencies": ["textarea", "field"],
+      "files": [
+        { "path": "src/examples/textarea/TextareaAutoresize.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "textarea-states",
+      "type": "registry:block",
+      "title": "Textarea states",
+      "description": "Textareas with a description, disabled and invalid.",
+      "categories": ["example"],
+      "registryDependencies": ["textarea", "field"],
+      "files": [
+        { "path": "src/examples/textarea/TextareaStates.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "textarea-scroll-area",
+      "type": "registry:block",
+      "title": "Textarea in a scroll area",
+      "description": "An auto-resizing textarea scrolled by a scroll area instead of the browser.",
+      "categories": ["example"],
+      "registryDependencies": ["textarea", "scroll-area", "field"],
+      "files": [
+        { "path": "src/examples/textarea/TextareaScrollArea.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-demo",
+      "type": "registry:block",
+      "title": "Slider demo",
+      "description": "A slider with a starting value.",
+      "categories": ["example"],
+      "registryDependencies": ["slider"],
+      "files": [
+        { "path": "src/examples/slider/SliderDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-min-max",
+      "type": "registry:block",
+      "title": "Slider min and max",
+      "description": "A labelled slider with its own range and step.",
+      "categories": ["example"],
+      "registryDependencies": ["slider", "field"],
+      "files": [
+        { "path": "src/examples/slider/SliderMinMax.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-multiple",
+      "type": "registry:block",
+      "title": "Slider multiple",
+      "description": "A range picked with two thumbs.",
+      "categories": ["example"],
+      "registryDependencies": ["slider", "field"],
+      "files": [
+        { "path": "src/examples/slider/SliderMultiple.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-min-steps",
+      "type": "registry:block",
+      "title": "Slider min steps",
+      "description": "Two thumbs kept at least four steps apart.",
+      "categories": ["example"],
+      "registryDependencies": ["slider", "field"],
+      "files": [
+        { "path": "src/examples/slider/SliderMinSteps.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-orientation",
+      "type": "registry:block",
+      "title": "Slider orientation",
+      "description": "Vertical sliders in an equaliser.",
+      "categories": ["example"],
+      "registryDependencies": ["slider"],
+      "files": [
+        { "path": "src/examples/slider/SliderOrientation.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-sizes",
+      "type": "registry:block",
+      "title": "Slider sizes",
+      "description": "The five sizes.",
+      "categories": ["example"],
+      "registryDependencies": ["slider"],
+      "files": [
+        { "path": "src/examples/slider/SliderSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-inverted",
+      "type": "registry:block",
+      "title": "Slider inverted",
+      "description": "A slider filled from the other end.",
+      "categories": ["example"],
+      "registryDependencies": ["slider", "field"],
+      "files": [
+        { "path": "src/examples/slider/SliderInverted.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-states",
+      "type": "registry:block",
+      "title": "Slider states",
+      "description": "Disabled and invalid sliders in fields.",
+      "categories": ["example"],
+      "registryDependencies": ["slider", "field"],
+      "files": [
+        { "path": "src/examples/slider/SliderStates.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-touch-target",
+      "type": "registry:block",
+      "title": "Slider touch target",
+      "description": "The pressable area of each touch target option, outlined.",
+      "categories": ["example"],
+      "registryDependencies": ["slider"],
+      "files": [
+        { "path": "src/examples/slider/SliderTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "label-demo",
+      "type": "registry:block",
+      "title": "Label demo",
+      "description": "A label tied to an input by id.",
+      "categories": ["example"],
+      "registryDependencies": ["label", "input"],
+      "files": [
+        { "path": "src/examples/label/LabelDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-demo",
+      "type": "registry:block",
+      "title": "Listbox demo",
+      "description": "A listbox with one selected option.",
+      "categories": ["example"],
+      "registryDependencies": ["listbox"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-icons",
+      "type": "registry:block",
+      "title": "Listbox icons",
+      "description": "Options with an icon, a title and a description.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["listbox"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxIcons.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-indicator",
+      "type": "registry:block",
+      "title": "Listbox indicator",
+      "description": "A custom check icon for the selected option.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["listbox"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxIndicator.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-multiple",
+      "type": "registry:block",
+      "title": "Listbox multiple",
+      "description": "A listbox with several selected options.",
+      "categories": ["example"],
+      "registryDependencies": ["listbox"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxMultiple.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-groups",
+      "type": "registry:block",
+      "title": "Listbox groups",
+      "description": "Options in labelled groups with a separator.",
+      "categories": ["example"],
+      "registryDependencies": ["listbox"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxGroups.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-disabled",
+      "type": "registry:block",
+      "title": "Listbox disabled",
+      "description": "A disabled option and a disabled listbox.",
+      "categories": ["example"],
+      "registryDependencies": ["listbox"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxDisabled.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-select",
+      "type": "registry:block",
+      "title": "Listbox select",
+      "description": "Options that run an action on select instead of staying selected.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["listbox"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxSelect.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-scroll-area",
+      "type": "registry:block",
+      "title": "Listbox in a scroll area",
+      "description": "A long listbox scrolled by a scroll area.",
+      "categories": ["example"],
+      "registryDependencies": ["listbox", "scroll-area"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxScrollArea.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "listbox-field",
+      "type": "registry:block",
+      "title": "Listbox field",
+      "description": "A required listbox in a field that shows its error once the form is submitted.",
+      "categories": ["example"],
+      "registryDependencies": ["listbox", "field", "button"],
+      "files": [
+        { "path": "src/examples/listbox/ListboxField.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-demo",
+      "type": "registry:block",
+      "title": "Dialog demo",
+      "description": "A dialog with a title, a form and a footer.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button", "field", "input"],
+      "files": [
+        { "path": "src/examples/dialog/DialogDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-scroll-area",
+      "type": "registry:block",
+      "title": "Dialog scroll area",
+      "description": "A long body that scrolls between a fixed header and footer.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogScrollArea.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-scrollable",
+      "type": "registry:block",
+      "title": "Dialog scrollable",
+      "description": "A dialog that scrolls as a whole inside the overlay.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogScrollable.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-fullscreen",
+      "type": "registry:block",
+      "title": "Dialog fullscreen",
+      "description": "A dialog that fills the window.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogFullscreen.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-dismissible",
+      "type": "registry:block",
+      "title": "Dialog dismissible",
+      "description": "A dialog that ignores Escape and outside clicks.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogDismissible.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-no-overlay",
+      "type": "registry:block",
+      "title": "Dialog without overlay",
+      "description": "A dialog that leaves the page undimmed.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogNoOverlay.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-nested",
+      "type": "registry:block",
+      "title": "Dialog nested",
+      "description": "A confirmation dialog opened from inside another dialog.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogNested.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-custom",
+      "type": "registry:block",
+      "title": "Dialog custom",
+      "description": "A confirmation laid out from the dialog's parts.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogCustom.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-controlled",
+      "type": "registry:block",
+      "title": "Dialog controlled",
+      "description": "A dialog opened with v-model from a menu item.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button", "field", "input", "menu"],
+      "files": [
+        { "path": "src/examples/dialog/DialogControlled.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "formisch-demo",
+      "type": "registry:block",
+      "title": "Formisch demo",
+      "description": "A bug report form validated with a Valibot schema through Formisch.",
+      "categories": ["example"],
+      "dependencies": ["@formisch/vue", "valibot"],
+      "registryDependencies": ["button", "card", "field", "input", "textarea"],
+      "files": [
+        { "path": "src/examples/forms/FormischDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "formisch-select",
+      "type": "registry:block",
+      "title": "Formisch select",
+      "description": "A required select bound to a Formisch field.",
+      "categories": ["example"],
+      "dependencies": ["@formisch/vue", "valibot"],
+      "registryDependencies": ["button", "field", "select"],
+      "files": [
+        { "path": "src/examples/forms/FormischSelect.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "formisch-choices",
+      "type": "registry:block",
+      "title": "Formisch choices",
+      "description": "A checkbox group, a radio group and a switch bound to Formisch fields.",
+      "categories": ["example"],
+      "dependencies": ["@formisch/vue", "valibot"],
+      "registryDependencies": ["button", "checkbox", "field", "radio-group", "switch"],
+      "files": [
+        { "path": "src/examples/forms/FormischChoices.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "formisch-array",
+      "type": "registry:block",
+      "title": "Formisch array",
+      "description": "A list of email fields added and removed with Formisch's field arrays.",
+      "categories": ["example"],
+      "dependencies": ["@formisch/vue", "valibot", "@lucide/vue"],
+      "registryDependencies": ["button", "field", "input"],
+      "files": [
+        { "path": "src/examples/forms/FormischArray.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-demo",
+      "type": "registry:block",
+      "title": "Menu demo",
+      "description": "A menu placed inside a button, with shortcuts, a submenu and a destructive item.",
+      "categories": ["example"],
+      "registryDependencies": ["menu", "button"],
+      "files": [
+        { "path": "src/examples/menu/MenuDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-touch-position",
+      "type": "registry:block",
+      "title": "Menu touch position",
+      "description": "A menu that opens where its target is clicked.",
+      "categories": ["example"],
+      "registryDependencies": ["menu"],
+      "files": [
+        { "path": "src/examples/menu/MenuTouchPosition.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-sizing",
+      "type": "registry:block",
+      "title": "Menu sizing",
+      "description": "Menus that fit their target, cap their height or cover their target.",
+      "categories": ["example"],
+      "registryDependencies": ["menu", "button"],
+      "files": [
+        { "path": "src/examples/menu/MenuSizing.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-sizes",
+      "type": "registry:block",
+      "title": "Menu sizes",
+      "description": "The same menu in every size, from xs to xl.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["menu", "button"],
+      "files": [
+        { "path": "src/examples/menu/MenuSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-open-state",
+      "type": "registry:block",
+      "title": "Menu open state",
+      "description": "List rows that stay highlighted while their context menu is open.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["menu"],
+      "files": [
+        { "path": "src/examples/menu/MenuOpenState.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-context-menu",
+      "type": "registry:block",
+      "title": "Menu context menu",
+      "description": "A menu that opens on right-click or long-press.",
+      "categories": ["example"],
+      "registryDependencies": ["menu"],
+      "files": [
+        { "path": "src/examples/menu/MenuContextMenu.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-shared",
+      "type": "registry:block",
+      "title": "Menu shared",
+      "description": "A click menu and a right-click menu on one element, written as one list.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["menu"],
+      "files": [
+        { "path": "src/examples/menu/MenuShared.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-target",
+      "type": "registry:block",
+      "title": "Menu target",
+      "description": "One context menu for every row of a virtualized list of ten thousand.",
+      "categories": ["example"],
+      "registryDependencies": ["menu", "scroll-area"],
+      "files": [
+        { "path": "src/examples/menu/MenuTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-virtual",
+      "type": "registry:block",
+      "title": "Menu virtual",
+      "description": "A menu listing five thousand items in a virtualized scroll area.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["menu", "button", "scroll-area"],
+      "files": [
+        { "path": "src/examples/menu/MenuVirtual.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "menu-positioning",
+      "type": "registry:block",
+      "title": "Menu positioning",
+      "description": "A playground for the anchor, self, offset and cover props.",
+      "categories": ["example"],
+      "registryDependencies": ["menu", "button", "field", "select", "slider", "switch"],
+      "files": [
+        { "path": "src/examples/menu/MenuPositioning.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "select-demo",
+      "type": "registry:block",
+      "title": "Select demo",
+      "description": "A select with a placeholder.",
+      "categories": ["example"],
+      "registryDependencies": ["select"],
+      "files": [
+        { "path": "src/examples/select/SelectDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "select-variants",
+      "type": "registry:block",
+      "title": "Select variants",
+      "description": "The five trigger variants side by side.",
+      "categories": ["example"],
+      "registryDependencies": ["select", "field"],
+      "files": [
+        { "path": "src/examples/select/SelectVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "select-sizes",
+      "type": "registry:block",
+      "title": "Select sizes",
+      "description": "The five trigger sizes.",
+      "categories": ["example"],
+      "registryDependencies": ["select"],
+      "files": [
+        { "path": "src/examples/select/SelectSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "select-groups",
+      "type": "registry:block",
+      "title": "Select groups",
+      "description": "Options in labelled groups, long enough to scroll.",
+      "categories": ["example"],
+      "registryDependencies": ["select"],
+      "files": [
+        { "path": "src/examples/select/SelectGroups.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "select-item-aligned",
+      "type": "registry:block",
+      "title": "Select item aligned",
+      "description": "A list that opens over the trigger with the selected option in its place.",
+      "categories": ["example"],
+      "registryDependencies": ["select"],
+      "files": [
+        { "path": "src/examples/select/SelectItemAligned.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "select-icons",
+      "type": "registry:block",
+      "title": "Select icons",
+      "description": "Options with icons, repeated in the trigger through the value slot.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["select"],
+      "files": [
+        { "path": "src/examples/select/SelectIcons.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "select-field",
+      "type": "registry:block",
+      "title": "Select field",
+      "description": "A required select in a field that shows its error once the form is submitted.",
+      "categories": ["example"],
+      "registryDependencies": ["select", "field", "button"],
+      "files": [
+        { "path": "src/examples/select/SelectField.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dropdown-menu-demo",
+      "type": "registry:block",
+      "title": "Dropdown menu demo",
+      "description": "An account menu with a label, groups, shortcuts, a submenu and a destructive item.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["dropdown-menu", "button"],
+      "files": [
+        { "path": "src/examples/dropdown-menu/DropdownMenuDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dropdown-menu-checkboxes",
+      "type": "registry:block",
+      "title": "Dropdown menu checkboxes",
+      "description": "Checkbox items that toggle settings.",
+      "categories": ["example"],
+      "registryDependencies": ["dropdown-menu", "button"],
+      "files": [
+        { "path": "src/examples/dropdown-menu/DropdownMenuCheckboxes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dropdown-menu-radio-group",
+      "type": "registry:block",
+      "title": "Dropdown menu radio group",
+      "description": "Radio items that pick one of several options.",
+      "categories": ["example"],
+      "registryDependencies": ["dropdown-menu", "button"],
+      "files": [
+        { "path": "src/examples/dropdown-menu/DropdownMenuRadioGroup.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dropdown-menu-sizes",
+      "type": "registry:block",
+      "title": "Dropdown menu sizes",
+      "description": "The same menu in every size, from xs to xl; submenus follow their parent.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["dropdown-menu", "button"],
+      "files": [
+        { "path": "src/examples/dropdown-menu/DropdownMenuSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dropdown-menu-open-state",
+      "type": "registry:block",
+      "title": "Dropdown menu open state",
+      "description": "A row that stays highlighted while its actions menu is open, styled from the trigger's data-state.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["dropdown-menu", "button"],
+      "files": [
+        { "path": "src/examples/dropdown-menu/DropdownMenuOpenState.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "context-menu-demo",
+      "type": "registry:block",
+      "title": "Context menu demo",
+      "description": "A browser-style context menu with shortcuts, a submenu, checkbox and radio items.",
+      "categories": ["example"],
+      "registryDependencies": ["context-menu"],
+      "files": [
+        { "path": "src/examples/context-menu/ContextMenuDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "context-menu-sizes",
+      "type": "registry:block",
+      "title": "Context menu sizes",
+      "description": "The same context menu in every size, from xs to xl.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["context-menu"],
+      "files": [
+        { "path": "src/examples/context-menu/ContextMenuSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "context-menu-open-state",
+      "type": "registry:block",
+      "title": "Context menu open state",
+      "description": "File tiles that stay highlighted while their context menu is open.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["context-menu"],
+      "files": [
+        { "path": "src/examples/context-menu/ContextMenuOpenState.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "separator-demo",
+      "type": "registry:block",
+      "title": "Separator demo",
+      "description": "Horizontal and vertical separators between text.",
+      "categories": ["example"],
+      "registryDependencies": ["separator"],
+      "files": [
+        { "path": "src/examples/separator/SeparatorDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "separator-label",
+      "type": "registry:block",
+      "title": "Separator label",
+      "description": "Separators with a label in the middle, horizontal and vertical.",
+      "categories": ["example"],
+      "registryDependencies": ["separator", "button"],
+      "files": [
+        { "path": "src/examples/separator/SeparatorLabel.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "separator-sizes",
+      "type": "registry:block",
+      "title": "Separator sizes",
+      "description": "Separators from 1px for xs to 5px for xl.",
+      "categories": ["example"],
+      "registryDependencies": ["separator"],
+      "files": [
+        { "path": "src/examples/separator/SeparatorSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "skeleton-demo",
+      "type": "registry:block",
+      "title": "Skeleton demo",
+      "description": "An avatar and two lines of text while they load.",
+      "categories": ["example"],
+      "registryDependencies": ["skeleton"],
+      "files": [
+        { "path": "src/examples/skeleton/SkeletonDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "skeleton-animations",
+      "type": "registry:block",
+      "title": "Skeleton animations",
+      "description": "The pulse, wave and still animations side by side.",
+      "categories": ["example"],
+      "registryDependencies": ["skeleton"],
+      "files": [
+        { "path": "src/examples/skeleton/SkeletonAnimations.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "skeleton-text",
+      "type": "registry:block",
+      "title": "Skeleton text",
+      "description": "Text skeletons that take the height of the text they stand in for.",
+      "categories": ["example"],
+      "registryDependencies": ["skeleton", "switch", "label"],
+      "files": [
+        { "path": "src/examples/skeleton/SkeletonText.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "skeleton-card",
+      "type": "registry:block",
+      "title": "Skeleton card",
+      "description": "A loading card built from skeletons with the wave animation.",
+      "categories": ["example"],
+      "registryDependencies": ["skeleton", "card"],
+      "files": [
+        { "path": "src/examples/skeleton/SkeletonCard.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "popover-demo",
+      "type": "registry:block",
+      "title": "Popover demo",
+      "description": "A popover with a small form.",
+      "categories": ["example"],
+      "registryDependencies": ["popover", "button", "field", "input"],
+      "files": [
+        { "path": "src/examples/popover/PopoverDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "popover-modal",
+      "type": "registry:block",
+      "title": "Popover modal",
+      "description": "A non-modal and a modal popover side by side.",
+      "categories": ["example"],
+      "registryDependencies": ["popover", "button"],
+      "files": [
+        { "path": "src/examples/popover/PopoverModal.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "overlay-scrim",
+      "type": "registry:block",
+      "title": "Overlay scrim",
+      "description": "A select and a menu next to a button that stays clickable through a pointer-events-none layer.",
+      "categories": ["example"],
+      "registryDependencies": ["select", "dropdown-menu", "button"],
+      "files": [
+        { "path": "src/examples/overlay/OverlayScrim.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "field-demo",
+      "type": "registry:block",
+      "title": "Field demo",
+      "description": "A fieldset of fields with labels and a description.",
+      "categories": ["example"],
+      "registryDependencies": ["field", "input", "button"],
+      "files": [
+        { "path": "src/examples/field/FieldDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "field-validation",
+      "type": "registry:block",
+      "title": "Field validation",
+      "description": "A field validated on blur without a form library.",
+      "categories": ["example"],
+      "registryDependencies": ["field", "input"],
+      "files": [
+        { "path": "src/examples/field/FieldValidation.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "field-horizontal",
+      "type": "registry:block",
+      "title": "Field horizontal",
+      "description": "Fields with the label beside the input.",
+      "categories": ["example"],
+      "registryDependencies": ["field", "input"],
+      "files": [
+        { "path": "src/examples/field/FieldHorizontal.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-demo",
+      "type": "registry:block",
+      "title": "Checkbox demo",
+      "description": "A checkbox with a label.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-states",
+      "type": "registry:block",
+      "title": "Checkbox states",
+      "description": "A select-all checkbox that turns indeterminate when some items are selected.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxStates.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-sizes",
+      "type": "registry:block",
+      "title": "Checkbox sizes",
+      "description": "Every checkbox size.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-touch-target",
+      "type": "registry:block",
+      "title": "Checkbox touch target",
+      "description": "The three touch-target modes, with the touch area outlined.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-description",
+      "type": "registry:block",
+      "title": "Checkbox description",
+      "description": "A checkbox with a label and a description.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxDescription.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-disabled",
+      "type": "registry:block",
+      "title": "Checkbox disabled",
+      "description": "Disabled checkboxes in every state.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxDisabled.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-group",
+      "type": "registry:block",
+      "title": "Checkbox group",
+      "description": "A group of checkboxes bound to one array.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxGroupDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-group-variants",
+      "type": "registry:block",
+      "title": "Checkbox group variants",
+      "description": "The same group as plain options, cards, a list and a table, in both orientations.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field", "button"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxGroupVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "checkbox-invalid",
+      "type": "registry:block",
+      "title": "Checkbox invalid",
+      "description": "A required checkbox with an error.",
+      "categories": ["example"],
+      "registryDependencies": ["checkbox", "field"],
+      "files": [
+        { "path": "src/examples/checkbox/CheckboxInvalid.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "switch-demo",
+      "type": "registry:block",
+      "title": "Switch demo",
+      "description": "A switch with a label.",
+      "categories": ["example"],
+      "registryDependencies": ["switch", "field"],
+      "files": [
+        { "path": "src/examples/switch/SwitchDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "switch-sizes",
+      "type": "registry:block",
+      "title": "Switch sizes",
+      "description": "Every switch size, off and on.",
+      "categories": ["example"],
+      "registryDependencies": ["switch", "field"],
+      "files": [
+        { "path": "src/examples/switch/SwitchSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "switch-icons",
+      "type": "registry:block",
+      "title": "Switch icons",
+      "description": "Icons in the handle: for the on state only, for both states, and custom ones.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["switch", "field"],
+      "files": [
+        { "path": "src/examples/switch/SwitchIcons.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "switch-description",
+      "type": "registry:block",
+      "title": "Switch description",
+      "description": "A settings row with the label and description before the switch.",
+      "categories": ["example"],
+      "registryDependencies": ["switch", "field"],
+      "files": [
+        { "path": "src/examples/switch/SwitchDescription.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "switch-disabled",
+      "type": "registry:block",
+      "title": "Switch disabled",
+      "description": "Disabled switches, off and on.",
+      "categories": ["example"],
+      "registryDependencies": ["switch", "field"],
+      "files": [
+        { "path": "src/examples/switch/SwitchDisabled.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "switch-invalid",
+      "type": "registry:block",
+      "title": "Switch invalid",
+      "description": "A required switch with an error.",
+      "categories": ["example"],
+      "registryDependencies": ["switch", "field"],
+      "files": [
+        { "path": "src/examples/switch/SwitchInvalid.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "switch-touch-target",
+      "type": "registry:block",
+      "title": "Switch touch target",
+      "description": "The three touch-target modes, with the touch area outlined.",
+      "categories": ["example"],
+      "registryDependencies": ["switch", "field"],
+      "files": [
+        { "path": "src/examples/switch/SwitchTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "radio-demo",
+      "type": "registry:block",
+      "title": "Radio demo",
+      "description": "A group of radios with labels.",
+      "categories": ["example"],
+      "registryDependencies": ["radio-group", "field"],
+      "files": [
+        { "path": "src/examples/radio/RadioDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "radio-sizes",
+      "type": "registry:block",
+      "title": "Radio sizes",
+      "description": "Every radio size.",
+      "categories": ["example"],
+      "registryDependencies": ["radio-group"],
+      "files": [
+        { "path": "src/examples/radio/RadioSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "radio-touch-target",
+      "type": "registry:block",
+      "title": "Radio touch target",
+      "description": "The three touch-target modes, with the touch area outlined.",
+      "categories": ["example"],
+      "registryDependencies": ["radio-group", "field"],
+      "files": [
+        { "path": "src/examples/radio/RadioTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "radio-description",
+      "type": "registry:block",
+      "title": "Radio description",
+      "description": "Radios with a label and a description, named by a fieldset.",
+      "categories": ["example"],
+      "registryDependencies": ["radio-group", "field"],
+      "files": [
+        { "path": "src/examples/radio/RadioDescription.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "radio-disabled",
+      "type": "registry:block",
+      "title": "Radio disabled",
+      "description": "One disabled option, and a whole disabled group.",
+      "categories": ["example"],
+      "registryDependencies": ["radio-group", "field"],
+      "files": [
+        { "path": "src/examples/radio/RadioDisabled.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "radio-group-variants",
+      "type": "registry:block",
+      "title": "Radio group variants",
+      "description": "The same group as plain options, cards, a list and a table, in both orientations.",
+      "categories": ["example"],
+      "registryDependencies": ["radio-group", "field", "button"],
+      "files": [
+        { "path": "src/examples/radio/RadioGroupVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "radio-invalid",
+      "type": "registry:block",
+      "title": "Radio invalid",
+      "description": "A required group that shows its error once the form is submitted.",
+      "categories": ["example"],
+      "registryDependencies": ["radio-group", "field", "button"],
+      "files": [
+        { "path": "src/examples/radio/RadioInvalid.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "typography-demo",
+      "type": "registry:block",
+      "title": "Typography demo",
+      "description": "Typescale roles in a card.",
+      "categories": ["example"],
+      "registryDependencies": ["tokens", "button"],
+      "files": [
+        { "path": "src/examples/typography/TypographyDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "motion-easing",
+      "type": "registry:block",
+      "title": "Motion easing",
+      "description": "Every easing curve over the same distance and duration.",
+      "categories": ["example"],
+      "registryDependencies": ["tokens", "button"],
+      "files": [
+        { "path": "src/examples/motion/MotionEasing.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "motion-enter-exit",
+      "type": "registry:block",
+      "title": "Motion enter and exit",
+      "description": "A notification that enters with a decelerating curve and leaves faster with an accelerating one.",
+      "categories": ["example"],
+      "registryDependencies": ["tokens", "button"],
+      "files": [
+        { "path": "src/examples/motion/MotionEnterExit.vue", "type": "registry:component" }
       ]
     },
     {

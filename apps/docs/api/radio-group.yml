@@ -1,0 +1,29 @@
+component: RadioGroup
+file: ui/radio-group/RadioGroup.vue
+props:
+  modelValue:
+    description: The `value` of the selected radio, bound with `v-model`.
+  defaultValue:
+    description: The starting value when `v-model` is not used.
+  variant:
+    description: "`card`, `list` or `table` restyle every option in the group, making each whole card or row clickable."
+  orientation:
+    description: "`horizontal` lays the options out in a row, and makes left and right arrows move between them."
+  disabled:
+    description: Disables every radio. Also set by a disabled fieldset.
+  required:
+    description: Marks the group required. Also set by a required fieldset.
+  name:
+    description: Submits the selected value with its form under this name.
+  loop:
+    description: Wraps arrow-key focus from the last radio to the first.
+  dir:
+    description: Reading direction for arrow keys.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the group's attributes and classes onto it.
+emits:
+  update:modelValue: Fires when another radio is selected.
+slots:
+  default: The radios, usually each in a horizontal `Field` with its label.

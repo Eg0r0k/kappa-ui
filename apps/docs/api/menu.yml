@@ -1,0 +1,43 @@
+component: Menu
+file: ui/menu/Menu.vue
+props:
+  contextMenu:
+    description: "Opens the menu at the pointer on right-click, and on touch screens after a long press, instead of on click."
+  target:
+    description: "The element the menu attaches to: `true` for the element it is placed in, a CSS selector or an element for another one, `false` for none, when it is opened only from code."
+  noParentEvent:
+    description: "Leaves the target without listeners, so only `v-model` and the exposed methods open the menu. The target still positions it."
+  anchor:
+    description: "The point on the target the menu is placed against, as a vertical part (`top`, `center`, `bottom`) and a horizontal one (`left`, `middle`, `right`, `start`, `end`). `bottom start` by default, `center middle` with `cover`."
+  self:
+    description: "The point on the menu that meets the anchor, in the same form as `anchor`. `top start` by default. Ignored with `cover`, which uses the anchor."
+  offset:
+    description: "Pixels `[x, y]` added around the target before placing the menu, pushing it away. By default 4px on the axis where the menu sits beside its target, and `[0, 0]` when it opens at the pointer. Ignored with `cover`."
+  cover:
+    description: "Places the menu over its target and makes it at least the target's size."
+  fit:
+    description: "Makes the menu at least as wide as its target."
+  touchPosition:
+    description: "Opens the menu where the target was clicked instead of at its edge."
+  autoClose:
+    description: "Closes the menu on any click inside it, not only on an item. For menus with buttons or other content that is not an item."
+  persistent:
+    description: "Keeps the menu open on Escape and on outside clicks. Only an item, `v-model` or `hide()` closes it."
+  modal:
+    description: "Shuts the page while the menu is open: an outside click only closes it, and the page does not scroll. A scrim takes the first outside click so nothing under it is activated."
+  maxHeight:
+    description: "The menu's maximum height as a CSS length. Past it the menu scrolls."
+  maxWidth:
+    description: "The menu's maximum width as a CSS length."
+  modelValue:
+    description: "Whether the menu is open, bound with `v-model`."
+  size:
+    description: "Item size, from 28px for `xs` to 48px for `xl`, with text, icons and padding to match. Submenus follow it."
+emits:
+  update:modelValue: "Fires when the menu opens or closes."
+slots:
+  default: "The items, labels, separators and submenus, or any other content."
+exposed:
+  show: "Opens the menu. Given a mouse event and `touch-position` or `context-menu`, opens it at the event's position."
+  hide: "Closes the menu."
+  toggle: "Opens the menu if it is closed, closes it otherwise."

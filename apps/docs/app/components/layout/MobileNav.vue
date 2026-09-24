@@ -20,7 +20,7 @@ const open = ref(false)
 <template>
   <DialogRoot v-model:open="open">
     <DialogTrigger as-child>
-      <Button variant="ghost" size="icon" class="md:hidden" aria-label="Open navigation">
+      <Button variant="ghost" color="neutral" size="icon" class="md:hidden" aria-label="Open navigation">
         <Menu />
       </Button>
     </DialogTrigger>
@@ -33,11 +33,17 @@ const open = ref(false)
         <div class="flex h-14 items-center justify-between border-b px-4">
           <DialogTitle class="font-semibold">delta-ui</DialogTitle>
           <DialogClose as-child>
-            <Button variant="ghost" size="icon" aria-label="Close navigation">
+            <Button variant="ghost" color="neutral" size="icon" aria-label="Close navigation">
               <X />
             </Button>
           </DialogClose>
         </div>
+        <nav aria-label="Main" class="flex gap-4 border-b px-4 py-3 text-sm">
+          <NuxtLink to="/docs/getting-started/introduction" class="text-muted-foreground hover:text-foreground" @click="open = false">
+            Docs
+          </NuxtLink>
+          <NuxtLink to="/themes" class="text-muted-foreground hover:text-foreground" @click="open = false">Themes</NuxtLink>
+        </nav>
         <div class="min-h-0 flex-1">
           <DocsSidebar @navigate="open = false" />
         </div>

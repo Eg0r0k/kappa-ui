@@ -1,0 +1,11 @@
+component: DropdownMenuSub
+file: ui/dropdown-menu/DropdownMenuSub.vue
+props:
+  defaultOpen:
+    description: "Whether it starts open when `v-model:open` is not used."
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+emits:
+  update:open: "Fires when it opens or closes."
+slots:
+  default: "A `DropdownMenuSubTrigger` and a `DropdownMenuSubContent`."

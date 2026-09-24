@@ -1,0 +1,13 @@
+component: ContextMenu
+file: ui/context-menu/ContextMenu.vue
+props:
+  pressOpenDelay:
+    description: "Milliseconds a touch press has to last to open the menu."
+  dir:
+    description: "Reading direction. Mirrors the layout and arrow keys in `rtl`."
+  modal:
+    description: "Shuts the page while open: outside clicks only close it, the page does not scroll and screen readers see only the panel. A scrim takes the first outside click so nothing under it is activated."
+emits:
+  update:open: "Fires when it opens or closes."
+slots:
+  default: "The trigger and the content."

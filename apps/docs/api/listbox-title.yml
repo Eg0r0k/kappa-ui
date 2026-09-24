@@ -1,0 +1,4 @@
+component: ListboxTitle
+file: ui/listbox/ListboxTitle.vue
+slots:
+  default: The option's name, cut to one line.

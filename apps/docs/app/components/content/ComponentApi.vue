@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ScrollBox from '~/components/ScrollBox.vue'
 import InlineText from '~/components/content/InlineText.vue'
 import api from '~/generated/api.json'
 import type { ApiRow, ComponentApi } from '~~/scripts/lib/api-meta'
@@ -31,7 +32,8 @@ const flat = rows.flatMap((row) => [
 </script>
 
 <template>
-  <div class="not-prose my-6 overflow-x-auto rounded-lg border">
+  <div class="not-prose my-6 overflow-hidden rounded-lg border">
+    <ScrollBox>
     <table class="w-full text-left text-sm">
       <thead class="border-b bg-muted/40 text-xs text-muted-foreground">
         <tr>
@@ -56,5 +58,6 @@ const flat = rows.flatMap((row) => [
         </tr>
       </tbody>
     </table>
+    </ScrollBox>
   </div>
 </template>

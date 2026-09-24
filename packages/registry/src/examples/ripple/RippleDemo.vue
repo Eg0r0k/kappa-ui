@@ -6,8 +6,8 @@ import { Button } from "@/ui/button";
 <template>
   <div class="flex flex-wrap items-center gap-3">
     <Button v-ripple>Press near an edge</Button>
-    <Button v-ripple variant="outline" size="xl">More travel</Button>
-    <Button v-ripple="{ color: 'red', opacity: 0.3 }" variant="ghost">Tinted</Button>
-    <Button v-ripple="false" variant="outline">Off</Button>
+    <Button v-ripple variant="outline" color="neutral" size="xl">More travel</Button>
+    <Button v-ripple="{ color: 'red', opacity: 0.3 }" variant="ghost" color="neutral">Tinted</Button>
+    <Button v-ripple="false" variant="outline" color="neutral">Off</Button>
   </div>
 </template>

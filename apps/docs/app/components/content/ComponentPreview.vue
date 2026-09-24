@@ -65,7 +65,7 @@ const trigger =
           <TabsTrigger value="code" :class="trigger">Code</TabsTrigger>
         </TabsList>
         <div class="flex items-center gap-1 pb-1">
-          <Button variant="ghost" size="icon-sm" aria-label="Toggle the example's theme" @click="toggleTheme">
+          <Button variant="ghost" color="neutral" size="icon-sm" aria-label="Toggle the example's theme" @click="toggleTheme">
             <template v-if="theme">
               <Moon v-if="theme === 'dark'" />
               <Sun v-else />
@@ -76,7 +76,7 @@ const trigger =
             </template>
           </Button>
           <Button
-            variant="ghost"
+            variant="ghost" color="neutral"
             size="sm"
             :aria-pressed="dir === 'rtl'"
             aria-label="Toggle right-to-left"

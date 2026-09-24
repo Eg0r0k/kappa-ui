@@ -49,6 +49,19 @@ test('accepts an example that depends on the component it shows', async () => {
   assert.equal(status, 0, stderr)
 })
 
+test('accepts a theme with no files', async () => {
+  const theme = {
+    name: 'theme',
+    type: 'registry:theme',
+    title: 'Theme',
+    description: 'A theme.',
+    cssVars: { light: { primary: 'blue' } },
+    files: [],
+  }
+  const { status, stderr } = await run([component, example, theme])
+  assert.equal(status, 0, stderr)
+})
+
 test('rejects an example without registryDependencies', async () => {
   const { status, stderr } = await run([component, { ...example, registryDependencies: [] }])
   assert.equal(status, 1)

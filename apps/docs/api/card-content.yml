@@ -1,0 +1,4 @@
+component: CardContent
+file: ui/card/CardContent.vue
+slots:
+  default: The card's main content.

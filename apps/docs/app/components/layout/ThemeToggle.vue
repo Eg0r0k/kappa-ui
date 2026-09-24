@@ -11,7 +11,7 @@ const toggle = () => {
 </script>
 
 <template>
-  <Button variant="ghost" size="icon" aria-label="Toggle theme" @click="toggle">
+  <Button variant="ghost" color="neutral" size="icon" aria-label="Toggle theme" @click="toggle">
     <Sun class="dark:hidden" />
     <Moon class="hidden dark:block" />
   </Button>

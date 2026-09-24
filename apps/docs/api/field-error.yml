@@ -1,0 +1,7 @@
+component: FieldError
+file: ui/field/FieldError.vue
+props:
+  errors:
+    description: A message, or a list of strings or `{ message }` objects as form libraries report them. Duplicates are dropped; nothing renders when it is empty.
+slots:
+  default: Custom content, shown instead of `errors`.

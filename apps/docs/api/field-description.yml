@@ -1,0 +1,4 @@
+component: FieldDescription
+file: ui/field/FieldDescription.vue
+slots:
+  default: Help text, added to the control's `aria-describedby`.

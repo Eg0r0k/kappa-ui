@@ -1,0 +1,7 @@
+component: Card
+file: ui/card/Card.vue
+props:
+  size:
+    description: "`sm` tightens the spacing and steps the title and description down one size: `title-sm` and `body-sm`."
+slots:
+  default: The surface. Holds the other parts, or any content of your own.

@@ -1,0 +1,32 @@
+component: Select
+file: ui/select/Select.vue
+props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether it starts open when `v-model:open` is not used."
+  defaultValue:
+    description: "The starting value when `v-model` is not used."
+  modelValue:
+    description: "The selected value, or an array with `multiple`, bound with `v-model`."
+  nullableValue:
+    description: "The value that means nothing is selected. Choosing it shows the placeholder."
+  by:
+    description: "Compares object values by this key, or with this function, instead of by reference."
+  dir:
+    description: "Reading direction. Mirrors the layout and arrow keys in `rtl`."
+  multiple:
+    description: "Lets several options be selected. The trigger shows them joined by commas."
+  autocomplete:
+    description: "The `autocomplete` hint for the hidden native select."
+  disabled:
+    description: "Disables the select. Also set by a disabled field."
+  name:
+    description: "Submits the value with its form under this name through a hidden native select."
+  required:
+    description: "Marks the select required. Also set by a required field."
+emits:
+  update:modelValue: "Fires when the value changes."
+  update:open: "Fires when it opens or closes."
+slots:
+  default: "The trigger and the content."

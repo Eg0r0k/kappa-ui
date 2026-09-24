@@ -1,0 +1,13 @@
+component: FieldSet
+file: ui/field/FieldSet.vue
+props:
+  id:
+    description: The `id` of the group control inside, such as a radio or checkbox group. Generated when omitted.
+  invalid:
+    description: Marks the group control inside `aria-invalid`, which turns every option in it and the legend red. For errors that belong to the group, such as nothing being selected.
+  disabled:
+    description: Disables every control inside, as a native disabled fieldset does, and dims the legend.
+  required:
+    description: Marks the group control inside required.
+slots:
+  default: A legend, the controls it names, and optionally a description and an error for the whole set.

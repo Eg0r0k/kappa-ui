@@ -1,0 +1,11 @@
+component: PopoverAnchor
+file: ui/popover/PopoverAnchor.vue
+props:
+  reference:
+    description: "A virtual element to position the content against."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The element the content is positioned against instead of the trigger."

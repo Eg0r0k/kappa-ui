@@ -1,0 +1,42 @@
+component: Slider
+file: ui/slider/Slider.vue
+props:
+  modelValue:
+    description: The value, bound with `v-model`. A number for one thumb, an array for one thumb per item.
+  defaultValue:
+    description: The starting value when `v-model` is not used. Falls back to `min`.
+  min:
+    description: The lowest value.
+  max:
+    description: The highest value.
+  step:
+    description: The interval values snap to.
+  minStepsBetweenThumbs:
+    description: How many steps apart neighbouring thumbs must stay.
+  orientation:
+    description: "`vertical` runs the slider from bottom to top and fills the height of its container."
+  inverted:
+    description: Runs the slider from the other end, right to left or top to bottom.
+  size:
+    description: Thumb diameter, from 12px for `xs` to 24px for `xl`; the track thickness scales with it.
+  touchTarget:
+    description: Grows the pressable area of the track and each thumb to at least 48px without changing how the slider looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
+  thumbAlignment:
+    description: "`contain` keeps the thumbs inside the track at both ends; `overflow` centres them on the ends."
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  name:
+    description: Submits the value with its form under this name, one field per thumb.
+  disabled:
+    description: Disables the slider. Also set by a disabled field.
+  required:
+    description: Marks the slider required. Also set by a required field.
+  dir:
+    description: Reading direction. In `rtl` a horizontal slider runs right to left.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the slider's attributes and classes onto it.
+emits:
+  update:modelValue: Fires as a thumb moves.
+  valueCommit: Fires once when a drag or key press ends, with the final value in the same shape as `v-model`.

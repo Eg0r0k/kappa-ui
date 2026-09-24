@@ -1,0 +1,4 @@
+component: CardDescription
+file: ui/card/CardDescription.vue
+slots:
+  default: Supporting text for the title.

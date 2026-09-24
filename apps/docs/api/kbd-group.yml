@@ -1,0 +1,4 @@
+component: KbdGroup
+file: ui/kbd/KbdGroup.vue
+slots:
+  default: The keys of one shortcut, and any separators between them.

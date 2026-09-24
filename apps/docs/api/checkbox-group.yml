@@ -1,0 +1,31 @@
+component: CheckboxGroup
+file: ui/checkbox/CheckboxGroup.vue
+props:
+  modelValue:
+    description: The `value`s of the checked checkboxes, bound with `v-model`.
+  defaultValue:
+    description: The starting array when `v-model` is not used.
+  disabled:
+    description: Disables every checkbox in the group.
+  name:
+    description: Submits the checked values with their form under this name.
+  required:
+    description: Marks the group required.
+  variant:
+    description: "`card`, `list` or `table` restyle every option in the group, making each whole card or row clickable."
+  orientation:
+    description: "`horizontal` lays the options out in a row: wrapping for `default`, a grid of cards for `card`, side-by-side cells for `list` and `table`."
+  rovingFocus:
+    description: Makes the group one tab stop that arrow keys move within. Off by default, so each checkbox is a tab stop of its own, as users expect of checkboxes.
+  loop:
+    description: With `rovingFocus`, wraps arrow-key focus from the last checkbox to the first.
+  dir:
+    description: Reading direction for arrow keys with `rovingFocus`.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the group's attributes and classes onto it.
+emits:
+  update:modelValue: Fires when a checkbox in the group changes.
+slots:
+  default: The checkboxes, usually each in a horizontal `Field` with its label.

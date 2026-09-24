@@ -1,0 +1,40 @@
+component: Listbox
+file: ui/listbox/Listbox.vue
+props:
+  modelValue:
+    description: The selected value, or an array of them with `multiple`, bound with `v-model`.
+  defaultValue:
+    description: The starting selection when `v-model` is not used.
+  multiple:
+    description: Lets more than one option be selected.
+  selectionBehavior:
+    description: "`toggle` selects and clears an option on each click, so clicking the selected option clears it. `replace` keeps a single-select listbox from ever emptying, and in a multiple one makes a click replace the selection unless Ctrl or Shift is held."
+  highlightOnHover:
+    description: Moves the keyboard highlight with the pointer, as in a menu.
+  variant:
+    description: "`outline` draws a card-like frame around the options; `ghost` draws none, for a listbox inside another surface."
+  orientation:
+    description: "`horizontal` lays the options out in a row and moves between them with left and right."
+  by:
+    description: Compares object values by this key, or with this function, instead of by reference.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  name:
+    description: Submits the selection with its form under this name.
+  disabled:
+    description: Disables every option. Also set by a disabled field.
+  required:
+    description: Marks the listbox required. Also set by a required field.
+  dir:
+    description: Reading direction for arrow keys.
+  as:
+    description: The element or component to render for the root.
+  asChild:
+    description: Render the single child instead of the root, merging the root's attributes onto it.
+emits:
+  update:modelValue: Fires when the selection changes.
+  highlight: Fires when the highlighted option changes, with `{ ref, value }`.
+  entryFocus: Fires when focus enters the listbox. Call `preventDefault()` to keep the first option from being highlighted.
+  leave: Fires when the pointer leaves the listbox.
+slots:
+  default: The options, groups and separators.

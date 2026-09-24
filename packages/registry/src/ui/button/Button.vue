@@ -7,6 +7,7 @@ import { type ButtonVariants, buttonVariants } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: ButtonVariants["variant"];
+  color?: ButtonVariants["color"];
   size?: ButtonVariants["size"];
   touchTarget?: ButtonVariants["touchTarget"];
   /** `inward` draws the focus ring inside, for hosts that clip overflow. */
@@ -23,6 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
   <Primitive
     data-slot="button"
     :data-variant="props.variant"
+    :data-color="props.color"
     :data-size="props.size"
     :as="as"
     :as-child="asChild"
@@ -30,6 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
       cn(
         buttonVariants({
           variant: props.variant,
+          color: props.color,
           size: props.size,
           touchTarget: props.touchTarget,
           focusRing: props.focusRing,

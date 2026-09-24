@@ -1,0 +1,15 @@
+component: Field
+file: ui/field/Field.vue
+props:
+  id:
+    description: The control's `id`. Generated when omitted; set it here rather than on the control, so the label follows.
+  invalid:
+    description: Marks the control `aria-invalid` and colours the label. Pass whatever your form library reports.
+  disabled:
+    description: Disables the control and dims the label and description.
+  required:
+    description: Makes the control `required` and adds an asterisk, hidden from screen readers, to the label.
+  orientation:
+    description: "`horizontal` puts the label beside the control; `responsive` does so once the surrounding `FieldGroup` is at least 28rem wide."
+slots:
+  default: A label, a control, and optionally a description and an error.

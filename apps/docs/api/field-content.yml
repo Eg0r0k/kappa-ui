@@ -1,0 +1,4 @@
+component: FieldContent
+file: ui/field/FieldContent.vue
+slots:
+  default: A label and its description or error, stacked beside a checkbox in a horizontal field.

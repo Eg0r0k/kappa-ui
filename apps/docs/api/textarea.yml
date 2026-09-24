@@ -1,0 +1,27 @@
+component: Textarea
+file: ui/textarea/Textarea.vue
+props:
+  modelValue:
+    description: The value, bound with `v-model`.
+  defaultValue:
+    description: The starting value when `v-model` is not used.
+  variant:
+    description: The same five variants as the input.
+  size:
+    description: Padding and text size, matching the input sizes of the same name.
+  rows:
+    description: Height in lines of text. With `autoresize`, the height it never shrinks below.
+  maxrows:
+    description: With `autoresize`, the height in lines past which it stops growing and scrolls. `0` means no limit.
+  autoresize:
+    description: Grows the textarea to fit its text instead of scrolling, and removes the resize handle.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  disabled:
+    description: Disables the textarea. Also set by a disabled field.
+  required:
+    description: Marks the textarea required. Also set by a required field.
+emits:
+  update:modelValue: Fires as the value changes.
+exposed:
+  resize: Fits the height to the text again, for when the width changes without the text changing. Does nothing without `autoresize`.

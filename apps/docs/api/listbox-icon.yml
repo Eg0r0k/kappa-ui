@@ -1,0 +1,4 @@
+component: ListboxIcon
+file: ui/listbox/ListboxIcon.vue
+slots:
+  default: An icon at the start of the option. Hidden from screen readers.

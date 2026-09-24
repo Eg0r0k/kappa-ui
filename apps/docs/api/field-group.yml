@@ -1,0 +1,4 @@
+component: FieldGroup
+file: ui/field/FieldGroup.vue
+slots:
+  default: Fields, spaced evenly. Also the container that `orientation="responsive"` measures.

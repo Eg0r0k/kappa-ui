@@ -1,0 +1,38 @@
+component: Dialog
+file: ui/dialog/Dialog.vue
+props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether the dialog starts open when `v-model:open` is not used."
+  modal:
+    description: "Shuts the page while open: focus stays in the window, the page does not scroll, and the overlay takes outside clicks. Off, the page stays live and has no overlay."
+  unmountOnHide:
+    description: "Removes the window from the DOM while closed. Turn it off to keep its state between openings."
+  title:
+    description: "The title in the header. Names the dialog for screen readers."
+  description:
+    description: "The text under the title. Describes the dialog for screen readers."
+  close:
+    description: "Shows a close button in the header."
+  dismissible:
+    description: "Lets Escape and outside clicks close the dialog. Off, they fire `close:prevent` instead."
+  overlay:
+    description: "Dims the page behind the window. Off, the overlay is transparent but still takes outside clicks."
+  fullscreen:
+    description: "Makes the window fill the screen."
+  scrollable:
+    description: "Lets the window grow to its full height and scrolls the overlay instead of the body."
+emits:
+  update:open: "Fires when the dialog opens or closes."
+  close:prevent: "Fires when Escape or an outside click is ignored because the dialog is not dismissible."
+slots:
+  title: "The title, in place of the `title` prop."
+  description: "The description, in place of the `description` prop."
+  header: "Replaces the whole header: title, description, actions and close button. Receives `close`."
+  actions: "Buttons in the header, between the title and the close button."
+  default: "The trigger that opens the dialog, usually a `Button`. Receives `open`."
+  content: "Replaces the header, body and footer, for a window built from the dialog's parts. Receives `close`."
+  close: "Replaces the close button. Whatever is in it closes the dialog."
+  body: "The content, which scrolls when it is taller than the window allows. Receives `close`."
+  footer: "The buttons at the bottom. Receives `close`."

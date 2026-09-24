@@ -20,7 +20,7 @@ onBeforeUnmount(() => clearTimeout(timer))
 </script>
 
 <template>
-  <Button variant="ghost" size="icon-sm" :aria-label="copied ? 'Copied' : 'Copy to clipboard'" @click="copy">
+  <Button variant="ghost" color="neutral" size="icon-sm" :aria-label="copied ? 'Copied' : 'Copy to clipboard'" @click="copy">
     <Check v-if="copied" />
     <Copy v-else />
   </Button>

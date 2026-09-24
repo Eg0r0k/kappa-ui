@@ -5,26 +5,76 @@ export { default as Button } from "./Button.vue";
 const touchTargetArea =
   "after:absolute after:top-1/2 after:left-1/2 after:h-[max(48px,100%)] after:w-[max(48px,100%)] after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']";
 
+const colors = {
+  primary: {
+    solid: "bg-primary text-primary-foreground",
+    soft: "bg-primary/12 text-primary",
+    outline: "border-primary text-primary",
+    ghost: "text-primary",
+    link: "text-primary",
+  },
+  neutral: {
+    solid: "bg-foreground text-background",
+    soft: "bg-secondary text-secondary-foreground",
+    outline: "border-input text-foreground",
+    ghost: "text-foreground",
+    link: "text-foreground",
+  },
+  destructive: {
+    solid: "bg-destructive text-destructive-foreground",
+    soft: "bg-destructive/12 text-destructive",
+    outline: "border-destructive text-destructive",
+    ghost: "text-destructive",
+    link: "text-destructive",
+  },
+  success: {
+    solid: "bg-success text-success-foreground",
+    soft: "bg-success/12 text-success-text",
+    outline: "border-success-text text-success-text",
+    ghost: "text-success-text",
+    link: "text-success-text",
+  },
+  warning: {
+    solid: "bg-warning text-warning-foreground",
+    soft: "bg-warning/12 text-warning-text",
+    outline: "border-warning-text text-warning-text",
+    ghost: "text-warning-text",
+    link: "text-warning-text",
+  },
+} as const;
+
+const colorVariants = Object.entries(colors).flatMap(([color, variants]) =>
+  Object.entries(variants).map(([variant, className]) => ({
+    color: color as keyof typeof colors,
+    variant: variant as keyof (typeof colors)[keyof typeof colors],
+    class: className,
+  })),
+);
+
 export const buttonVariants = cva(
-  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ease-smooth outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors ease-standard outline-none disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive: "bg-destructive text-white hover:bg-destructive/90",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        solid: "state-layer disabled:bg-foreground/(--disabled-container-opacity)",
+        soft: "state-layer disabled:bg-foreground/(--disabled-container-opacity)",
+        outline: "state-layer border bg-background disabled:border-foreground/(--disabled-container-opacity)",
+        ghost: "state-layer",
+        link: "underline-offset-4 hover:underline",
+      },
+      color: {
+        primary: "",
+        neutral: "",
+        destructive: "",
+        success: "",
+        warning: "",
       },
       size: {
-        sm: "h-8 gap-1.5 px-3 text-xs has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
+        sm: "h-8 gap-1.5 px-3 text-label-md has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
         default:
           "h-9 px-4 py-2 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
         lg: "h-10 px-6 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4",
-        xl: "h-12 px-8 text-base has-data-[icon=inline-start]:pl-6 has-data-[icon=inline-end]:pr-6",
+        xl: "h-12 px-8 text-title-md has-data-[icon=inline-start]:pl-6 has-data-[icon=inline-end]:pr-6",
         "icon-sm": "size-8",
         icon: "size-9",
         "icon-lg": "size-10",
@@ -43,6 +93,7 @@ export const buttonVariants = cva(
       },
     },
     compoundVariants: [
+      ...colorVariants,
       { size: "sm", touchTarget: "wrapper", class: "my-2" },
       { size: "default", touchTarget: "wrapper", class: "my-1.5" },
       { size: "lg", touchTarget: "wrapper", class: "my-1" },
@@ -51,7 +102,8 @@ export const buttonVariants = cva(
       { size: "icon-lg", touchTarget: "wrapper", class: "mx-1 my-1" },
     ],
     defaultVariants: {
-      variant: "default",
+      variant: "solid",
+      color: "primary",
       size: "default",
       touchTarget: "none",
       focusRing: "outward",

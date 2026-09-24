@@ -1,0 +1,9 @@
+component: CardTitle
+file: ui/card/CardTitle.vue
+props:
+  as:
+    description: The element to render. Pick the heading level that fits the page's outline.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the title's attributes and classes onto it.
+slots:
+  default: The title text.

@@ -1,0 +1,11 @@
+component: SelectValue
+file: ui/select/SelectValue.vue
+props:
+  placeholder:
+    description: "Text shown while nothing is selected."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "Custom content for the selected value, in place of the option's text. Receives `modelValue` and `selectedLabel`."

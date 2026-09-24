@@ -9,7 +9,7 @@ import { Spinner } from "@/ui/spinner";
       <Spinner />
       Saving
     </Button>
-    <Button variant="outline" disabled>
+    <Button variant="outline" color="neutral" disabled>
       <Spinner />
       Downloading
     </Button>

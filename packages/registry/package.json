@@ -8,11 +8,14 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@formisch/vue": "^1.1.0",
+    "@lucide/vue": "^1.47.0",
     "@tanstack/vue-virtual": "^3.13.39",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "reka-ui": "^2.10.4",
     "tailwind-merge": "^3.7.0",
+    "valibot": "^1.5.0",
     "vue": "^3.5.42"
   },
   "devDependencies": {

@@ -1,0 +1,4 @@
+component: CardFooter
+file: ui/card/CardFooter.vue
+slots:
+  default: Actions, laid out in a row.

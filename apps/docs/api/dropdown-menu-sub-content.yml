@@ -1,0 +1,57 @@
+component: DropdownMenuSubContent
+file: ui/dropdown-menu/DropdownMenuSubContent.vue
+props:
+  forceMount:
+    description: "Keeps the panel mounted while closed, for animating it with a JavaScript library."
+  memoDependencies:
+    description: "Values that should re-run the position update when they change."
+  sideOffset:
+    description: "Distance in pixels from the trigger."
+  sideFlip:
+    description: "Flips to the opposite side when the preferred one would overflow."
+  alignOffset:
+    description: "Offset in pixels from the `align` position."
+  alignFlip:
+    description: "Flips the alignment when it would overflow."
+  avoidCollisions:
+    description: "Keeps the panel inside the collision boundary by flipping and shifting it."
+  collisionBoundary:
+    description: "The element or elements used as the collision boundary. The viewport by default."
+  collisionPadding:
+    description: "Distance in pixels from the boundary edges where collisions start."
+  arrowPadding:
+    description: "Padding between an arrow and the panel's corners."
+  hideShiftedArrow:
+    description: "Hides an arrow when the panel is shifted so far that the arrow would not point at the trigger."
+  sticky:
+    description: "`partial` keeps the panel attached to the trigger while scrolling; `always` also lets it detach from the trigger to stay in the boundary."
+  hideWhenDetached:
+    description: "Hides the panel when the trigger is scrolled out of view."
+  positionStrategy:
+    description: "The CSS position used to place the panel."
+  updatePositionStrategy:
+    description: "`always` recomputes the position on every animation frame instead of only on layout changes."
+  disableUpdateOnLayoutShift:
+    description: "Stops recomputing the position when the layout shifts."
+  prioritizePosition:
+    description: "Keeps the preferred side and alignment and lets the panel overflow instead of flipping."
+  reference:
+    description: "A virtual element to position against instead of the trigger."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+  loop:
+    description: "Wraps keyboard navigation from the last item to the first."
+  size:
+    description: "Item size, from `xs` to `xl`. Defaults to the size of the menu the submenu opens from."
+emits:
+  entryFocus: "Fires when focus enters the menu. Call `preventDefault()` to keep the first item from being highlighted."
+  escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. Call `preventDefault()` to keep it open."
+  focusOutside: "Fires when focus moves outside. Call `preventDefault()` to keep it open."
+  interactOutside: "Fires on any press or focus outside. Call `preventDefault()` to keep it open."
+  openAutoFocus: "Fires when focus moves into the panel on open. Call `preventDefault()` to keep focus where it is."
+  closeAutoFocus: "Fires when focus returns to the trigger on close. Call `preventDefault()` to keep focus where it is."
+slots:
+  default: "The submenu's items."

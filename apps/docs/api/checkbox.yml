@@ -1,0 +1,31 @@
+component: Checkbox
+file: ui/checkbox/Checkbox.vue
+props:
+  modelValue:
+    description: "The state, bound with `v-model`: `true`, `false` or `'indeterminate'`."
+  defaultValue:
+    description: The starting state when `v-model` is not used.
+  size:
+    description: Box size, from 14px for `xs` to 24px for `xl`. `md` is Material's 18px.
+  touchTarget:
+    description: Grows the pressable area to 48px without changing how the box looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
+  value:
+    description: The value this checkbox adds to a `CheckboxGroup`'s array, and submits with a form.
+  trueValue:
+    description: The value `v-model` takes when checked, instead of `true`.
+  falseValue:
+    description: The value `v-model` takes when unchecked, instead of `false`.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  name:
+    description: Submits the checkbox with its form under this name.
+  disabled:
+    description: Disables the checkbox. Also set by a disabled field or group.
+  required:
+    description: Marks the checkbox required. Also set by a required field.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the checkbox's attributes and classes onto it.
+emits:
+  update:modelValue: Fires when the state changes.

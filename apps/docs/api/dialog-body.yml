@@ -1,0 +1,4 @@
+component: DialogBody
+file: ui/dialog/DialogBody.vue
+slots:
+  default: "The content. Scrolls in a scroll area once the window reaches its maximum height."

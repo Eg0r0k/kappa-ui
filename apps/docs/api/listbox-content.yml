@@ -1,0 +1,4 @@
+component: ListboxContent
+file: ui/listbox/ListboxContent.vue
+slots:
+  default: A title and its description, stacked.

@@ -1,13 +1,24 @@
 import { fileURLToPath } from 'node:url'
 
 import tailwindcss from '@tailwindcss/vite'
+import type { Nuxt } from 'nuxt/schema'
 
 const siteUrl = (process.env.DELTA_UI_URL ?? 'https://delta-ui.dev').replace(/\/+$/, '')
+
+const resolveMdcDepsThroughContent = (_options: unknown, nuxt: Nuxt) => {
+  nuxt.hook('vite:extendConfig', (config) => {
+    const include = config.optimizeDeps?.include
+    if (!include) return
+    config.optimizeDeps!.include = include.map((entry) =>
+      entry.startsWith('@nuxtjs/mdc > ') ? `@nuxt/content > ${entry}` : entry,
+    )
+  })
+}
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-22',
   devtools: { enabled: false },
-  modules: ['@nuxt/content', '@nuxtjs/color-mode', 'nuxt-og-image'],
+  modules: ['@nuxt/content', '@nuxtjs/color-mode', 'nuxt-og-image', resolveMdcDepsThroughContent],
   site: {
     url: siteUrl,
     name: 'delta-ui',

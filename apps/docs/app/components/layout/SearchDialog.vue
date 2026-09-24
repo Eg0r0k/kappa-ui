@@ -16,6 +16,7 @@ import {
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 
 import { Button } from '@/ui/button'
+import { Kbd } from '@/ui/kbd'
 import { searchSections, type SearchSection } from '~/lib/search'
 
 const open = ref(false)
@@ -52,10 +53,16 @@ const select = async (value: unknown) => {
 <template>
   <DialogRoot v-model:open="open">
     <DialogTrigger as-child>
-      <Button variant="outline" size="sm" class="w-40 justify-start text-muted-foreground sm:w-56">
+      <Button
+        variant="outline"
+        color="neutral"
+        size="sm"
+        aria-keyshortcuts="Meta+K Control+K"
+        class="w-40 justify-start text-muted-foreground sm:w-56"
+      >
         <Search data-icon="inline-start" />
         Search docs
-        <kbd class="ms-auto rounded border bg-muted px-1.5 font-mono text-[10px]">⌘K</kbd>
+        <Kbd class="ms-auto" aria-hidden="true">⌘K</Kbd>
       </Button>
     </DialogTrigger>
     <DialogPortal>

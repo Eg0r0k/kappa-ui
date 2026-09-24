@@ -1,0 +1,18 @@
+component: SelectItem
+file: ui/select/SelectItem.vue
+props:
+  value:
+    description: "The value this option puts in `v-model`."
+  disabled:
+    description: "Disables the option: it is skipped by the keyboard and cannot be chosen."
+  textValue:
+    description: "Text used for typeahead instead of the item's text content."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  select: "Fires when the option is chosen. Call `event.preventDefault()` to keep the list open without selecting it."
+slots:
+  indicator-icon: "The icon shown at the end of the selected option, a check by default."
+  default: "The option's text, which the trigger repeats once it is selected."

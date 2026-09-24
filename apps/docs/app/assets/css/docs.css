@@ -8,19 +8,11 @@
   }
 }
 
-:root {
-  --link: var(--primary);
-}
-
-.dark {
-  --link: oklch(0.66 0.17 262);
-}
-
 .prose {
   --tw-prose-body: var(--foreground);
   --tw-prose-headings: var(--foreground);
   --tw-prose-lead: var(--muted-foreground);
-  --tw-prose-links: var(--link);
+  --tw-prose-links: var(--primary);
   --tw-prose-bold: var(--foreground);
   --tw-prose-counters: var(--muted-foreground);
   --tw-prose-bullets: var(--muted-foreground);

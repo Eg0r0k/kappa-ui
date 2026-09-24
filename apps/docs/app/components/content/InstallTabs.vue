@@ -81,7 +81,8 @@ const trigger =
           v-for="manager in packageManagers"
           :key="manager"
           size="sm"
-          :variant="pm === manager ? 'secondary' : 'ghost'"
+          :variant="pm === manager ? 'soft' : 'ghost'"
+          color="neutral"
           :aria-pressed="pm === manager"
           @click="pm = manager"
         >
@@ -104,7 +105,7 @@ const trigger =
                 <NuxtLink
                   v-if="dependency.to"
                   :to="dependency.to"
-                  class="font-mono text-[var(--link)] underline-offset-4 hover:underline"
+                  class="font-mono text-primary underline-offset-4 hover:underline"
                 >
                   {{ dependency.name }}
                 </NuxtLink>

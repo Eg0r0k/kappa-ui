@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Plus } from "@lucide/vue";
+
 import { Button } from "@/ui/button";
 
 const sizes = [
@@ -13,10 +15,8 @@ const sizes = [
   <div class="flex flex-wrap items-center gap-3">
     <template v-for="size in sizes" :key="size.text">
       <Button :size="size.text">{{ size.label }}</Button>
-      <Button :size="size.icon" variant="outline" aria-label="Add">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5v14" />
-        </svg>
+      <Button :size="size.icon" variant="outline" color="neutral" aria-label="Add">
+        <Plus />
       </Button>
     </template>
   </div>

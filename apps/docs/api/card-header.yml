@@ -1,0 +1,4 @@
+component: CardHeader
+file: ui/card/CardHeader.vue
+slots:
+  default: Title and description.

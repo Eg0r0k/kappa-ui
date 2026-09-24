@@ -2,16 +2,21 @@
 import { nextTick, onMounted, ref, watch } from 'vue'
 
 const pairs = [
-  { bg: 'primary', fg: 'primary-foreground', role: 'Button default fill and label; link text; spinner' },
-  { bg: 'accent', fg: 'accent-foreground', role: 'Hover fill for outline and ghost' },
-  { bg: 'background', fg: 'foreground', role: 'Page and outline fill; inherited text colour' },
-  { bg: 'secondary', fg: 'secondary-foreground', role: 'Button secondary' },
-  { bg: 'destructive', fg: null, role: 'Button destructive fill (white label)' },
+  { bg: 'brand', fg: null, role: 'Seed colour; --primary and --ring take its hue and chroma' },
+  { bg: 'primary', fg: 'primary-foreground', role: 'Brand fill and label; brand-coloured text on the page' },
+  { bg: 'background', fg: 'foreground', role: 'Page and outline fill; inherited text colour; disabled colour' },
+  { bg: 'secondary', fg: 'secondary-foreground', role: 'Soft neutral fill' },
+  { bg: 'destructive', fg: 'destructive-foreground', role: 'Destructive actions and errors' },
+  { bg: 'success', fg: 'success-foreground', role: 'Fill for confirming actions and success states' },
+  { bg: 'success-text', fg: null, role: 'Success-coloured text, borders and tints on the page' },
+  { bg: 'warning', fg: 'warning-foreground', role: 'Fill for actions and states that need care' },
+  { bg: 'warning-text', fg: null, role: 'Warning-coloured text, borders and tints on the page' },
   { bg: 'muted', fg: 'muted-foreground', role: 'Subdued surfaces and text' },
-  { bg: 'card', fg: 'card-foreground', role: 'Defined, not read by any component yet' },
-  { bg: 'popover', fg: 'popover-foreground', role: 'Defined, not read by any component yet' },
-  { bg: 'input', fg: null, role: 'Outline button border' },
-  { bg: 'border', fg: null, role: 'Default border colour' },
+  { bg: 'accent', fg: 'accent-foreground', role: 'Highlighted surfaces; not read by any component' },
+  { bg: 'card', fg: 'card-foreground', role: 'Card surface and text' },
+  { bg: 'popover', fg: 'popover-foreground', role: 'Not read by any component yet' },
+  { bg: 'input', fg: null, role: 'Borders of controls; 3:1 against the page' },
+  { bg: 'border', fg: null, role: 'Decorative borders and dividers' },
   { bg: 'ring', fg: null, role: 'Focus ring, drawn at 50% opacity' },
 ] as const
 
@@ -19,9 +24,17 @@ const resolved = ref<Record<string, string>>({})
 const colorMode = useColorMode()
 
 const read = () => {
-  const style = getComputedStyle(document.documentElement)
+  const probe = document.createElement('span')
+  probe.hidden = true
+  document.body.append(probe)
   const names = pairs.flatMap((pair) => (pair.fg ? [pair.bg, pair.fg] : [pair.bg]))
-  resolved.value = Object.fromEntries(names.map((name) => [name, style.getPropertyValue(`--${name}`).trim()]))
+  resolved.value = Object.fromEntries(
+    names.map((name) => {
+      probe.style.color = `var(--${name})`
+      return [name, getComputedStyle(probe).color]
+    }),
+  )
+  probe.remove()
 }
 
 onMounted(read)

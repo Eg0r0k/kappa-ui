@@ -1,0 +1,4 @@
+component: Kbd
+file: ui/kbd/Kbd.vue
+slots:
+  default: "The key: a label such as `Ctrl`, a symbol such as `⌘`, or an icon."

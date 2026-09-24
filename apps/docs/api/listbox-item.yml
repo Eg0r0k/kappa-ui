@@ -1,0 +1,16 @@
+component: ListboxItem
+file: ui/listbox/ListboxItem.vue
+props:
+  value:
+    description: The value this option puts in `v-model`.
+  disabled:
+    description: Keeps the option from being selected or highlighted.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the option's attributes and classes onto it.
+emits:
+  select: Fires when the option is clicked or chosen with the keyboard, with the value in `event.detail.value`. Call `event.preventDefault()` to run an action without selecting it.
+slots:
+  default: The label, or a `ListboxIcon` and a `ListboxContent`.
+  indicator-icon: The icon shown at the end of a selected option, a check by default.

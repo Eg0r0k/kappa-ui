@@ -1,0 +1,7 @@
+component: Skeleton
+file: ui/skeleton/Skeleton.vue
+props:
+  variant:
+    description: "`rect`, a block with rounded corners; `text`, a line as tall as the font; `circle`, a round square."
+  animation:
+    description: "`pulse` fades in and out, as in shadcn; `wave` sweeps a band of light across; `none` stays still."

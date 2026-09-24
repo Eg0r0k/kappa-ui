@@ -1,0 +1,4 @@
+component: ListboxDescription
+file: ui/listbox/ListboxDescription.vue
+slots:
+  default: Supporting text under the title.

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
+import { ConfigProvider } from 'reka-ui'
+import { type HTMLAttributes, ref } from 'vue'
 
+import { provideOverlayPortalTarget } from '@/lib/overlay'
 import { cn } from '@/lib/utils'
 
 const props = defineProps<{
@@ -8,6 +10,9 @@ const props = defineProps<{
   dir: 'ltr' | 'rtl'
   class?: HTMLAttributes['class']
 }>()
+
+const portalTarget = ref<HTMLElement>()
+provideOverlayPortalTarget(portalTarget)
 </script>
 
 <template>
@@ -21,8 +26,11 @@ const props = defineProps<{
       )
     "
   >
-    <div :key="props.dir" class="flex w-full justify-center">
-      <slot />
-    </div>
+    <ConfigProvider :dir="props.dir" :scroll-body="false">
+      <div :key="props.dir" class="flex w-full justify-center">
+        <slot />
+      </div>
+    </ConfigProvider>
+    <div ref="portalTarget" data-slot="preview-portal" :dir="props.dir" :class="cn('contents text-foreground', props.theme)" />
   </div>
 </template>

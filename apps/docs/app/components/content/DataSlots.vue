@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import ScrollBox from '~/components/ScrollBox.vue'
 import InlineText from '~/components/content/InlineText.vue'
 
 const props = defineProps<{ rows: { slot: string; attributes?: string; description: string }[] }>()
 </script>
 
 <template>
-  <div class="not-prose my-6 overflow-x-auto rounded-lg border">
+  <div class="not-prose my-6 overflow-hidden rounded-lg border">
+    <ScrollBox>
     <table class="w-full text-left text-sm">
       <thead class="border-b bg-muted/40 text-xs text-muted-foreground">
         <tr>
@@ -22,5 +24,6 @@ const props = defineProps<{ rows: { slot: string; attributes?: string; descripti
         </tr>
       </tbody>
     </table>
+    </ScrollBox>
   </div>
 </template>

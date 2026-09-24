@@ -9,7 +9,7 @@ const ratios = [
 </script>
 
 <template>
-  <div class="grid w-full max-w-lg grid-cols-3 gap-4">
+  <div class="grid w-full max-w-lg grid-cols-3 items-start gap-4">
     <AspectRatio
       v-for="ratio in ratios"
       :key="ratio.label"

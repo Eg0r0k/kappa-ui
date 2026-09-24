@@ -11,9 +11,9 @@ const area = shallowRef<ScrollAreaApi | null>(null);
 <template>
   <div class="grid w-full max-w-sm gap-3">
     <div class="flex flex-wrap gap-2">
-      <Button size="sm" variant="outline" @click="area?.scrollTo(0, 'start')">First</Button>
-      <Button size="sm" variant="outline" @click="area?.scrollTo(5000, 'center')">Row 5000</Button>
-      <Button size="sm" variant="outline" @click="area?.scrollTo(rows.length - 1, 'end')">Last</Button>
+      <Button size="sm" variant="outline" color="neutral" @click="area?.scrollTo(0, 'start')">First</Button>
+      <Button size="sm" variant="outline" color="neutral" @click="area?.scrollTo(5000, 'center')">Row 5000</Button>
+      <Button size="sm" variant="outline" color="neutral" @click="area?.scrollTo(rows.length - 1, 'end')">Last</Button>
     </div>
     <ScrollArea
       ref="area"

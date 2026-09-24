@@ -1,0 +1,4 @@
+component: MenuShortcut
+file: ui/menu/MenuShortcut.vue
+slots:
+  default: "The key combination, for display only. It does not register the shortcut."

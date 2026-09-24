@@ -1,0 +1,34 @@
+component: Switch
+file: ui/switch/Switch.vue
+props:
+  modelValue:
+    description: Whether the switch is on, bound with `v-model`.
+  defaultValue:
+    description: The starting state when `v-model` is not used.
+  size:
+    description: Track height, from 16px for `xs` to 32px for `xl` in steps of 4px. `md` is 24px, between shadcn's switch and Material's, and `xl` is Material's; the width and handle scale with the height.
+  touchTarget:
+    description: Grows the pressable area to at least 48px without changing how the switch looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
+  value:
+    description: The value submitted with a form while the switch is on.
+  trueValue:
+    description: The value `v-model` takes when on, instead of `true`.
+  falseValue:
+    description: The value `v-model` takes when off, instead of `false`.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  name:
+    description: Submits the switch with its form under this name.
+  disabled:
+    description: Disables the switch. Also set by a disabled field.
+  required:
+    description: Marks the switch required. Also set by a required field.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the switch's attributes and classes onto it.
+emits:
+  update:modelValue: Fires when the switch turns on or off.
+slots:
+  checked-icon: An icon shown in the handle while the switch is on.
+  unchecked-icon: An icon shown in the handle while it is off. Giving one keeps the handle at its larger size in both states.

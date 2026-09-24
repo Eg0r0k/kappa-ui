@@ -23,7 +23,7 @@ defineOgImage('DeltaDocs', {
       <Button as-child size="lg">
         <NuxtLink to="/docs/getting-started/introduction">Get started</NuxtLink>
       </Button>
-      <Button as-child size="lg" variant="outline">
+      <Button as-child size="lg" variant="outline" color="neutral">
         <NuxtLink to="/docs/components/button">Components</NuxtLink>
       </Button>
     </div>

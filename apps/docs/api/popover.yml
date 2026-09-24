@@ -1,0 +1,13 @@
+component: Popover
+file: ui/popover/Popover.vue
+props:
+  defaultOpen:
+    description: "Whether it starts open when `v-model:open` is not used."
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  modal:
+    description: "Shuts the page while open: outside clicks only close it, the page does not scroll and screen readers see only the panel. A scrim takes the first outside click so nothing under it is activated."
+emits:
+  update:open: "Fires when it opens or closes."
+slots:
+  default: "The trigger, an optional anchor and the content. Receives `open` and `close`."

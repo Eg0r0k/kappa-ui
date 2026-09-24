@@ -1,0 +1,4 @@
+component: DialogHeader
+file: ui/dialog/DialogHeader.vue
+slots:
+  default: "The title and description, and any buttons next to them."

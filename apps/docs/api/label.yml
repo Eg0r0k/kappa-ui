@@ -1,0 +1,11 @@
+component: Label
+file: ui/label/Label.vue
+props:
+  for:
+    description: The `id` of the control this label names.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the label's attributes and classes onto it.
+slots:
+  default: The label text.
