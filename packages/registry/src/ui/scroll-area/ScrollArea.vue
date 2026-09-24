@@ -390,6 +390,23 @@ const isExternalScroll = computed(
   () => virtualOptions.value.getScrollElement !== undefined,
 );
 
+const overflowEdges = (position: number, size: number, container: number) => {
+  const scrollable = size > container + 1;
+  return { start: scrollable && position > 1, end: scrollable && position < size - container - 1 };
+};
+
+const overflowAttributes = computed(() => {
+  if (isExternalScroll.value) return {};
+  const x = overflowEdges(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value);
+  const y = overflowEdges(positionVertical.value, sizeVertical.value, containerVertical.value);
+  return {
+    "data-overflow-x-start": x.start ? "" : undefined,
+    "data-overflow-x-end": x.end ? "" : undefined,
+    "data-overflow-y-start": y.start ? "" : undefined,
+    "data-overflow-y-end": y.end ? "" : undefined,
+  };
+});
+
 const externalEl = shallowRef<HTMLElement | null>(null);
 
 const syncExternalEl = () => {
@@ -571,6 +588,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="rootRef"
+    v-bind="overflowAttributes"
     data-slot="scroll-area"
     :data-active="active ? '' : undefined"
     :data-orientation="props.orientation"
