@@ -13,7 +13,7 @@ import {
   registryItemUrl,
   type PackageManager,
 } from '~/lib/install'
-import { findItem } from '~/lib/registry'
+import { findItem, resolveInstallFilename } from '~/lib/registry'
 import { loadSource } from '~/lib/sources'
 
 const props = defineProps<{ name: string }>()
@@ -50,7 +50,7 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
     item.files.map(async (file) => {
       const source = await loadSource(file.path)
       return {
-        filename: file.path.replace(/^src\//, '@/'),
+        filename: resolveInstallFilename(file),
         source,
         html: await highlight(source, langOf(file.path)),
       }

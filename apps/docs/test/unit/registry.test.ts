@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
-import { isExample, matchModuleKey, registryItems, resolveExample, type RegistryItem } from '~/lib/registry'
+import {
+  isExample,
+  matchModuleKey,
+  registryItems,
+  resolveExample,
+  resolveInstallFilename,
+  type RegistryItem,
+} from '~/lib/registry'
 
 const button: RegistryItem = {
   name: 'button',
@@ -57,6 +64,24 @@ describe('resolveExample', () => {
     expect(() => resolveExample('button-demo', [button, demo], [])).toThrow(
       'Example "button-demo" lists src/examples/button/ButtonDemo.vue, which was not found under packages/registry/src.',
     )
+  })
+})
+
+describe('resolveInstallFilename', () => {
+  it('rewrites a src path to the @ alias when there is no target', () => {
+    expect(resolveInstallFilename({ path: 'src/ui/button/Button.vue', type: 'registry:ui' })).toBe(
+      '@/ui/button/Button.vue',
+    )
+  })
+
+  it('shows the target when the file ships to a fixed location', () => {
+    expect(
+      resolveInstallFilename({
+        path: 'src/styles/scroll-fade.css',
+        type: 'registry:file',
+        target: 'styles/scroll-fade.css',
+      }),
+    ).toBe('styles/scroll-fade.css')
   })
 })
 
