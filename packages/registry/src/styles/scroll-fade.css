@@ -399,15 +399,18 @@
     inset-inline-end: 0;
     background: linear-gradient(to left, var(--scroll-fade-color, var(--background)), transparent);
   }
-  &:where([dir="rtl"], [dir="rtl"] *)::before {
+  &:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *)::before {
     background: linear-gradient(to left, var(--scroll-fade-color, var(--background)), transparent);
   }
-  &:where([dir="rtl"], [dir="rtl"] *)::after {
+  &:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *)::after {
     background: linear-gradient(to right, var(--scroll-fade-color, var(--background)), transparent);
   }
   &[data-slot="scroll-area"][data-overflow-x-start]::before,
   &[data-slot="scroll-area"][data-overflow-x-end]::after {
     opacity: 1;
+  }
+  &[data-slot="scroll-area"] > [data-slot="scroll-area-viewport"] {
+    isolation: isolate;
   }
   &:not([data-slot="scroll-area"]) {
     timeline-scope: --scroll-fade-overlay-x;
@@ -459,6 +462,9 @@
   &[data-slot="scroll-area"][data-overflow-y-start]::before,
   &[data-slot="scroll-area"][data-overflow-y-end]::after {
     opacity: 1;
+  }
+  &[data-slot="scroll-area"] > [data-slot="scroll-area-viewport"] {
+    isolation: isolate;
   }
   &:not([data-slot="scroll-area"]) {
     timeline-scope: --scroll-fade-overlay-y;

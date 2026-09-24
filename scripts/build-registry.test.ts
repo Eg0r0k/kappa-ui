@@ -34,6 +34,7 @@ const run = async (items: unknown[], env: Record<string, string> = {}) => {
   await writeFile(join(root, 'src/ui/demo/Demo.vue'), '<template><div /></template>\n')
   await writeFile(join(root, 'src/examples/demo/DemoExample.vue'), '<template><div /></template>\n')
   await writeFile(join(root, 'src/other/Stray.vue'), '<template><div /></template>\n')
+  await writeFile(join(root, 'src/other/fade.css'), '.fade {}\n')
   await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'fixture', items }))
   const out = join(root, 'out')
   const result = spawnSync(
@@ -92,13 +93,13 @@ test('builds dependency URLs and the homepage from DELTA_UI_URL', async () => {
   assert.equal(index.homepage, 'https://example.test')
 })
 
-test('accepts a style item that ships a css file', async () => {
+test('accepts an item that ships a css file', async () => {
   const style = {
     name: 'fade',
-    type: 'registry:style',
+    type: 'registry:item',
     title: 'Fade',
     description: 'A css utility.',
-    files: [{ path: 'src/other/Stray.vue', type: 'registry:file', target: 'styles/fade.css' }],
+    files: [{ path: 'src/other/fade.css', type: 'registry:file', target: 'styles/fade.css' }],
   }
   const { status, stderr } = await run([component, example, style])
   assert.equal(status, 0, stderr)

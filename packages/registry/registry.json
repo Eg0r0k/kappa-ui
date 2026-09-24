@@ -406,10 +406,10 @@
     },
     {
       "name": "scroll-fade",
-      "type": "registry:style",
+      "type": "registry:item",
       "title": "Scroll fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
-      "docs": "After installing, import the file in your global stylesheet, after tailwindcss: @import './styles/scroll-fade.css' (adjust the path to where the CLI wrote it).",
+      "docs": "The CLI writes styles/scroll-fade.css at the project root. Import it in your global stylesheet after tailwindcss, with a path relative to that stylesheet, e.g. @import '../../styles/scroll-fade.css' from src/assets/main.css.",
       "files": [
         { "path": "src/styles/scroll-fade.css", "type": "registry:file", "target": "styles/scroll-fade.css" }
       ]
