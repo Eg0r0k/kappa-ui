@@ -1,0 +1,44 @@
+{
+  "name": "@delta-ui/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./aspect-ratio": "./src/primitives/aspect-ratio.ts",
+    "./checkbox": "./src/primitives/checkbox.ts",
+    "./context-menu": "./src/primitives/context-menu.ts",
+    "./dialog": "./src/primitives/dialog.ts",
+    "./dropdown-menu": "./src/primitives/dropdown-menu.ts",
+    "./label": "./src/primitives/label.ts",
+    "./listbox": "./src/primitives/listbox.ts",
+    "./menu": "./src/primitives/menu.ts",
+    "./popover": "./src/primitives/popover.ts",
+    "./primitive": "./src/primitives/primitive.ts",
+    "./radio-group": "./src/primitives/radio-group.ts",
+    "./select": "./src/primitives/select.ts",
+    "./separator": "./src/primitives/separator.ts",
+    "./slider": "./src/primitives/slider.ts",
+    "./switch": "./src/primitives/switch.ts",
+    "./utils": "./src/primitives/utils.ts",
+    "./visually-hidden": "./src/primitives/visually-hidden.ts"
+  },
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "reka-ui": "2.10.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@vue/tsconfig": "^0.9.1",
+    "typescript": "~6.0.2",
+    "vitest": "^5.0.1",
+    "vue": "^3.5.42",
+    "vue-tsc": "^3.3.11"
+  }
+}
