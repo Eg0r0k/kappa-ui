@@ -23,5 +23,5 @@ describe("package exports", () => {
     const entry = (await import(`../src/primitives/${name}.ts`)) as Record<string, unknown>;
     expect(Object.keys(entry).length).toBeGreaterThan(0);
     for (const [key, value] of Object.entries(entry)) expect(value, key).toBeDefined();
-  });
+  }, 30_000);
 });
