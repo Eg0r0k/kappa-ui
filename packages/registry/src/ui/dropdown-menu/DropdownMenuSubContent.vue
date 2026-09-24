@@ -5,11 +5,12 @@ import {
   type DropdownMenuSubContentEmits,
   type DropdownMenuSubContentProps,
 } from "@delta-ui/core/dropdown-menu";
+import { injectOverlayPortalTarget } from "@delta-ui/core/overlay";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";
-import { injectOverlayPortalTarget, overlaySurface } from "@/lib/overlay";
+import { overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 
 defineOptions({ inheritAttrs: false });

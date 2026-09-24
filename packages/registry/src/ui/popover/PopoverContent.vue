@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
 import {
   PopoverContent,
   type PopoverContentEmits,
@@ -9,7 +10,7 @@ import {
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
-import { injectOverlayPortalTarget, modalScrim, overlaySurface, useModalScrim } from "@/lib/overlay";
+import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 
 defineOptions({ inheritAttrs: false });
@@ -27,24 +28,18 @@ const delegated = computed(() => {
 const forwarded = useForwardPropsEmits(delegated, emits);
 
 const rootContext = injectPopoverRootContext();
-const { scrimVisible, onScrimPointerdown, ModalScrimHold } = useModalScrim({
+const scrim = useModalScrim({
   open: rootContext.open,
   modal: rootContext.modal,
   forceMount: () => props.forceMount,
 });
+const { ModalScrimHold } = scrim;
 const portalTarget = injectOverlayPortalTarget(null);
 </script>
 
 <template>
   <PopoverPortal :to="portalTarget ?? undefined">
-    <div
-      v-if="scrimVisible"
-      data-slot="popover-scrim"
-      aria-hidden="true"
-      :class="modalScrim"
-      @pointerdown="onScrimPointerdown"
-      @contextmenu.prevent
-    />
+    <OverlayScrim :scrim="scrim" data-slot="popover-scrim" :class="modalScrim" />
     <PopoverContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="popover-content"

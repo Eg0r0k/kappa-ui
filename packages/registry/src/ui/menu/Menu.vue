@@ -5,6 +5,7 @@ const targets = new WeakMap<Element, { attached: number; open: number }>();
 
 <script setup lang="ts">
 import { MenuAnchor, MenuContent, MenuPortal, MenuRoot } from "@delta-ui/core/menu";
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
 import { useDirection, useId } from "@delta-ui/core/utils";
 import {
   type HTMLAttributes,
@@ -20,7 +21,7 @@ import {
 } from "vue";
 
 import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";
-import { injectOverlayPortalTarget, modalScrim, overlaySurface, useModalScrim } from "@/lib/overlay";
+import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 import { type MenuOrigin, type MenuPosition, parsePosition, placeMenu } from "./position";
 
@@ -149,10 +150,11 @@ const contentStyle = () => ({
   "--overlay-x": "0",
 });
 
-const { scrimVisible, onScrimPointerdown, ModalScrimHold } = useModalScrim({
+const scrim = useModalScrim({
   open,
   modal: () => props.modal,
 });
+const { ModalScrimHold } = scrim;
 
 const nativelyClickable = (element: Element) =>
   element.matches("button, a[href], input, select, textarea, summary, [role=button], [role=link]");
@@ -310,14 +312,7 @@ defineExpose({ show, hide, toggle });
   <MenuRoot v-model:open="open" :modal="props.modal" :dir="dir">
     <MenuAnchor as="template" :reference="reference" />
     <MenuPortal :to="portalTarget ?? undefined">
-      <div
-        v-if="scrimVisible"
-        data-slot="menu-scrim"
-        aria-hidden="true"
-        :class="modalScrim"
-        @pointerdown="onScrimPointerdown"
-        @contextmenu.prevent
-      />
+      <OverlayScrim :scrim="scrim" data-slot="menu-scrim" :class="modalScrim" />
       <MenuContent
         v-bind="attrs"
         :id="contentId"

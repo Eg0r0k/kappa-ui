@@ -6,11 +6,12 @@ import {
   ContextMenuPortal,
   injectContextMenuRootContext,
 } from "@delta-ui/core/context-menu";
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";
-import { injectOverlayPortalTarget, modalScrim, overlaySurface, useModalScrim } from "@/lib/overlay";
+import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 
 defineOptions({ inheritAttrs: false });
@@ -28,24 +29,18 @@ const size = toRef(() => props.size ?? "md");
 provideMenuSize(size);
 
 const rootContext = injectContextMenuRootContext();
-const { scrimVisible, onScrimPointerdown, ModalScrimHold } = useModalScrim({
+const scrim = useModalScrim({
   open: rootContext.open,
   modal: rootContext.modal,
   forceMount: () => props.forceMount,
 });
+const { ModalScrimHold } = scrim;
 const portalTarget = injectOverlayPortalTarget(null);
 </script>
 
 <template>
   <ContextMenuPortal :to="portalTarget ?? undefined">
-    <div
-      v-if="scrimVisible"
-      data-slot="context-menu-scrim"
-      aria-hidden="true"
-      :class="modalScrim"
-      @pointerdown="onScrimPointerdown"
-      @contextmenu.prevent
-    />
+    <OverlayScrim :scrim="scrim" data-slot="context-menu-scrim" :class="modalScrim" />
     <ContextMenuContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="context-menu-content"

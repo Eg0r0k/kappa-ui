@@ -2,7 +2,7 @@
 import { Bell, CreditCard, Ellipsis, LogOut, Settings, User } from '@lucide/vue'
 import { ref } from 'vue'
 
-import { provideOverlayPortalTarget } from '@/lib/overlay'
+import { provideOverlayPortalTarget } from '@delta-ui/core/overlay'
 import { Button } from '@/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/ui/card'
 import { Checkbox } from '@/ui/checkbox'

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
 import {
   SelectContent,
   type SelectContentEmits,
@@ -11,7 +12,7 @@ import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSizeVariants } from "@/lib/menu";
-import { injectOverlayPortalTarget, modalScrim, overlaySurface, useModalScrim } from "@/lib/overlay";
+import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 import SelectScrollDownButton from "./SelectScrollDownButton.vue";
 import SelectScrollUpButton from "./SelectScrollUpButton.vue";
@@ -32,24 +33,18 @@ const delegated = computed(() => {
 const forwarded = useForwardPropsEmits(delegated, emits);
 
 const rootContext = injectSelectRootContext();
-const { scrimVisible, onScrimPointerdown, ModalScrimHold } = useModalScrim({
+const scrim = useModalScrim({
   open: rootContext.open,
   modal: () => props.disableOutsidePointerEvents,
   forceMount: () => props.forceMount,
 });
+const { ModalScrimHold } = scrim;
 const portalTarget = injectOverlayPortalTarget(null);
 </script>
 
 <template>
   <SelectPortal :to="portalTarget ?? undefined">
-    <div
-      v-if="scrimVisible"
-      data-slot="select-scrim"
-      aria-hidden="true"
-      :class="modalScrim"
-      @pointerdown="onScrimPointerdown"
-      @contextmenu.prevent
-    />
+    <OverlayScrim :scrim="scrim" data-slot="select-scrim" :class="modalScrim" />
     <SelectContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="select-content"

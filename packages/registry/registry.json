@@ -57,8 +57,7 @@
       "name": "overlay",
       "type": "registry:lib",
       "title": "Overlay",
-      "description": "The scrim that keeps a modal overlay's first outside click from reaching the page, the popover surface and its enter and exit motion, and a stable scrollbar gutter.",
-      "dependencies": ["@delta-ui/core"],
+      "description": "The popover surface and its enter and exit motion, the stacking of the modal scrim, and a stable scrollbar gutter.",
       "css": {
         "@layer base": {
           "html": {

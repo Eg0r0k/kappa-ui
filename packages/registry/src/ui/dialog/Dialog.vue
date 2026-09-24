@@ -10,12 +10,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@delta-ui/core/dialog";
+import { injectOverlayPortalTarget } from "@delta-ui/core/overlay";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { VisuallyHidden } from "@delta-ui/core/visually-hidden";
 import { X } from "@lucide/vue";
 import { type HTMLAttributes, type VNode, computed, defineComponent, h, useSlots } from "vue";
 
-import { injectOverlayPortalTarget } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import { ScrollArea } from "@/ui/scroll-area";
