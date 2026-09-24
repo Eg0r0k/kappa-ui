@@ -1457,6 +1457,96 @@
       ]
     },
     {
+      "name": "accordion-demo",
+      "type": "registry:block",
+      "title": "Accordion demo",
+      "description": "Frequently asked questions, one open at a time.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "accordion"
+      ],
+      "files": [
+        {
+          "path": "src/examples/accordion/AccordionDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "accordion-multiple",
+      "type": "registry:block",
+      "title": "Accordion multiple",
+      "description": "Settings sections that can stay open together.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "accordion"
+      ],
+      "files": [
+        {
+          "path": "src/examples/accordion/AccordionMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "accordion-disabled",
+      "type": "registry:block",
+      "title": "Accordion disabled",
+      "description": "An accordion with one item that cannot open.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "accordion"
+      ],
+      "files": [
+        {
+          "path": "src/examples/accordion/AccordionDisabled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "accordion-find",
+      "type": "registry:block",
+      "title": "Accordion find in page",
+      "description": "Closed sections the browser's find in page searches and opens.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "accordion"
+      ],
+      "files": [
+        {
+          "path": "src/examples/accordion/AccordionFind.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "accordion-unmount",
+      "type": "registry:block",
+      "title": "Accordion unmount on hide",
+      "description": "Closed sections removed from the page, with one kept for find in page.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "accordion"
+      ],
+      "files": [
+        {
+          "path": "src/examples/accordion/AccordionUnmount.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "aspect-ratio-demo",
       "type": "registry:block",
       "title": "Aspect ratio demo",
