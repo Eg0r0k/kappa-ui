@@ -70,3 +70,39 @@
     }
   }
 }
+
+@keyframes delta-accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--reka-accordion-content-height);
+  }
+}
+
+@keyframes delta-accordion-up {
+  from {
+    height: var(--reka-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@utility animate-accordion-down {
+  animation: delta-accordion-down var(--transition-duration-medium-1, 250ms)
+    var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility animate-accordion-up {
+  animation: delta-accordion-up var(--transition-duration-short-4, 200ms)
+    var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15));
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

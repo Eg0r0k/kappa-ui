@@ -1,0 +1,10 @@
+component: AccordionTrigger
+file: ui/accordion/AccordionTrigger.vue
+props:
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The question or heading."
+  icon: "Replaces the chevron. It rotates half a turn while the item is open."

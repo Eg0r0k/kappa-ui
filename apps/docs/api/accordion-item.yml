@@ -1,0 +1,15 @@
+component: AccordionItem
+file: ui/accordion/AccordionItem.vue
+props:
+  value:
+    description: "The value that opens this item."
+  disabled:
+    description: "Stops this item from opening or closing."
+  unmountOnHide:
+    description: "Overrides the accordion's `unmount-on-hide` for this item; unset, it follows the accordion."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The trigger and the content. Receives `open`."

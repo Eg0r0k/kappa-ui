@@ -405,6 +405,72 @@
       ]
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Stacked sections that expand one at a time or several at once, whose closed answers the browser's find in page can search and open.",
+      "dependencies": [
+        "@delta-ui/core",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/accordion/Accordion.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/accordion/AccordionContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/accordion/AccordionItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/accordion/AccordionTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/accordion/index.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "css": {
+        "@keyframes delta-accordion-down": {
+          "from": {
+            "height": "0"
+          },
+          "to": {
+            "height": "var(--reka-accordion-content-height)"
+          }
+        },
+        "@keyframes delta-accordion-up": {
+          "from": {
+            "height": "var(--reka-accordion-content-height)"
+          },
+          "to": {
+            "height": "0"
+          }
+        },
+        "@utility animate-accordion-down": {
+          "animation": "delta-accordion-down var(--transition-duration-medium-1, 250ms) var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1))",
+          "@media (prefers-reduced-motion: reduce)": {
+            "animation": "none"
+          }
+        },
+        "@utility animate-accordion-up": {
+          "animation": "delta-accordion-up var(--transition-duration-short-4, 200ms) var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15))",
+          "@media (prefers-reduced-motion: reduce)": {
+            "animation": "none"
+          }
+        }
+      }
+    },
+    {
       "name": "aspect-ratio",
       "type": "registry:ui",
       "title": "Aspect Ratio",

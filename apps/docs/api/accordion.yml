@@ -1,0 +1,27 @@
+component: Accordion
+file: ui/accordion/Accordion.vue
+props:
+  type:
+    description: "`single` keeps one item open at a time; `multiple` lets several stay open, and `v-model` becomes an array."
+  modelValue:
+    description: "The open item's value, or an array of values in `multiple` mode, bound with `v-model`."
+  defaultValue:
+    description: "The item or items open at first when `v-model` is not used."
+  collapsible:
+    description: "In `single` mode, lets a second click close the open item. On by default."
+  disabled:
+    description: "Disables every item."
+  unmountOnHide:
+    description: "Removes a closed item's content from the page. Off by default, so closed answers stay in the page as `hidden=\"until-found\"`: the browser's find in page searches them and opens the item that matches."
+  orientation:
+    description: "Which arrow keys move between triggers: up and down for `vertical`, left and right for `horizontal`."
+  dir:
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  update:modelValue: "Fires when an item opens or closes."
+slots:
+  default: "The items. Receives `modelValue`."

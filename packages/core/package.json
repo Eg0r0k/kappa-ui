@@ -5,6 +5,7 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
+    "./accordion": "./src/primitives/accordion.ts",
     "./aspect-ratio": "./src/primitives/aspect-ratio.ts",
     "./checkbox": "./src/primitives/checkbox.ts",
     "./context-menu": "./src/primitives/context-menu.ts",
