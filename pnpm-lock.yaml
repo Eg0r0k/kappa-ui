@@ -54,7 +54,7 @@ importers:
         specifier: ^6.8.0
         version: 6.8.0(95cd217c1a2e1df4cdcff7b438a2c577)
       reka-ui:
-        specifier: ^2.10.5
+        specifier: 2.10.5
         version: 2.10.5(vue@3.5.43(typescript@6.0.3))
       shiki:
         specifier: ^4.4.3
