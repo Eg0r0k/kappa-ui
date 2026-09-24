@@ -91,3 +91,15 @@ test('builds dependency URLs and the homepage from DELTA_UI_URL', async () => {
   const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8'))
   assert.equal(index.homepage, 'https://example.test')
 })
+
+test('accepts a style item that ships a css file', async () => {
+  const style = {
+    name: 'fade',
+    type: 'registry:style',
+    title: 'Fade',
+    description: 'A css utility.',
+    files: [{ path: 'src/other/Stray.vue', type: 'registry:file', target: 'styles/fade.css' }],
+  }
+  const { status, stderr } = await run([component, example, style])
+  assert.equal(status, 0, stderr)
+})

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../../../../../packages/registry/src/styles/scroll-fade.css";
 @import "@fontsource-variable/inter";
 @import "./docs.css";
 

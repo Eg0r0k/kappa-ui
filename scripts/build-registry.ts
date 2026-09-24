@@ -20,6 +20,7 @@ const ITEM_TYPES = new Set([
   'registry:page',
   'registry:file',
   'registry:theme',
+  'registry:style',
 ])
 
 const TARGET_REQUIRED = new Set(['registry:page', 'registry:file'])
