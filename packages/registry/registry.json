@@ -372,6 +372,7 @@
       "title": "Ripple",
       "description": "Vue directive for a Material-style press ripple that grows from the press point and drifts to the centre.",
       "docs": "This is a Vue directive, so it does nothing until you register it. Add it once in your app entry:\n\n  import vRipple from '@/lib/ripple'\n  app.directive('ripple', vRipple)\n\nThen use it anywhere: <Button v-ripple>Press me</Button>. Pass false to disable it, or an object to tint it: v-ripple=\"{ color: 'red', opacity: 0.3 }\".\n\nThe host element must establish a containing block; the directive sets position: relative on it only if it is still static.",
+      "dependencies": ["@delta-ui/core"],
       "files": [
         {
           "path": "src/lib/ripple/index.ts",
@@ -379,50 +380,9 @@
         }
       ],
       "css": {
-        ".delta-ripple": {
-          "position": "absolute",
-          "inset": "0",
-          "overflow": "hidden",
-          "border-radius": "inherit",
-          "pointer-events": "none",
-          "--ripple-color": "currentColor",
-          "--ripple-opacity": "var(--state-pressed, 12%)",
-          "--ripple-grow-duration": "450ms",
-          "--ripple-fade-duration": "375ms"
-        },
-        ".delta-ripple__wave": {
-          "position": "absolute",
-          "top": "0",
-          "left": "0",
-          "width": "var(--ripple-size)",
-          "height": "var(--ripple-size)",
-          "border-radius": "50%",
-          "opacity": "var(--ripple-opacity)",
-          "background": "radial-gradient(closest-side, var(--ripple-color) max(calc(100% - 70px), 65%), transparent 100%)",
-          "transform": "var(--ripple-from) scale(1)",
-          "animation": "delta-ripple-grow var(--ripple-grow-duration) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) forwards",
-          "transition": "opacity var(--ripple-fade-duration) linear"
-        },
-        ".delta-ripple__wave[data-hiding]": {
-          "opacity": "0"
-        },
-        "@keyframes delta-ripple-grow": {
-          "from": {
-            "transform": "var(--ripple-from) scale(1)"
-          },
-          "to": {
-            "transform": "var(--ripple-to) scale(var(--ripple-scale))"
-          }
-        },
-        "@media (forced-colors: active)": {
-          ".delta-ripple": {
-            "display": "none"
-          }
-        },
-        "@media (prefers-reduced-motion: reduce)": {
-          ".delta-ripple__wave": {
-            "animation": "none",
-            "transform": "var(--ripple-to) scale(var(--ripple-scale))"
+        "@layer base": {
+          ":root": {
+            "--delta-ripple-opacity": "var(--state-pressed, 12%)"
           }
         }
       }
@@ -561,7 +521,7 @@
               "opacity": "var(--state-hover)"
             }
           },
-          "&:active:not(:has(> .delta-ripple))::before": {
+          "&:active:not(:has(> [data-slot=ripple]))::before": {
             "opacity": "var(--state-pressed)"
           },
           "@media (forced-colors: active)": {
