@@ -397,13 +397,14 @@ const overflowEdges = (position: number, size: number, container: number) => {
 
 const overflowAttributes = computed(() => {
   if (isExternalScroll.value) return {};
-  const x = overflowEdges(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value);
-  const y = overflowEdges(positionVertical.value, sizeVertical.value, containerVertical.value);
+  const edges = isHorizontal.value
+    ? overflowEdges(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value)
+    : overflowEdges(positionVertical.value, sizeVertical.value, containerVertical.value);
   return {
-    "data-overflow-x-start": x.start ? "" : undefined,
-    "data-overflow-x-end": x.end ? "" : undefined,
-    "data-overflow-y-start": y.start ? "" : undefined,
-    "data-overflow-y-end": y.end ? "" : undefined,
+    "data-overflow-x-start": isHorizontal.value && edges.start ? "" : undefined,
+    "data-overflow-x-end": isHorizontal.value && edges.end ? "" : undefined,
+    "data-overflow-y-start": !isHorizontal.value && edges.start ? "" : undefined,
+    "data-overflow-y-end": !isHorizontal.value && edges.end ? "" : undefined,
   };
 });
 
