@@ -86,14 +86,47 @@ it("reads its timing from custom properties at press time", () => {
   expect(timing.easing).toBe("linear");
 });
 
+it("reads timing set on the ripple container", () => {
+  host();
+  press(element("host"), 50, 50);
+  release(element("host"));
+
+  container()!.style.setProperty("--delta-ripple-grow-duration", "77ms");
+  press(element("host"), 50, 50);
+
+  const timing = waves()[1]!.getAnimations()[0]!.effect!.getTiming();
+  expect(timing.duration).toBe(77);
+});
+
 it("holds a short press for its minimum, then fades and removes the wave", async () => {
   host(true, "--delta-ripple-fade-duration:20ms");
   press(element("host"), 50, 50);
   release(element("host"));
 
   expect(waves()).toHaveLength(1);
+  await wait(120);
+  expect(waves()[0]!.dataset.hiding).toBeUndefined();
   await wait(400);
   expect(waves()).toHaveLength(0);
+});
+
+it("falls back to static waves where the Web Animations API is missing", async () => {
+  const original = HTMLElement.prototype.animate;
+  Object.defineProperty(HTMLElement.prototype, "animate", { value: undefined, configurable: true, writable: true });
+
+  try {
+    host(true, "--delta-ripple-fade-duration:20ms");
+    expect(() => press(element("host"), 50, 50)).not.toThrow();
+    expect(() => release(element("host"))).not.toThrow();
+
+    const wave = waves()[0]!;
+    expect(wave.style.transform).toMatch(/^translate\(80px, 30px\) scale\(7\.7\d*\)$/);
+
+    await wait(400);
+    expect(waves()).toHaveLength(0);
+  } finally {
+    Object.defineProperty(HTMLElement.prototype, "animate", { value: original, configurable: true, writable: true });
+  }
 });
 
 it("tints the wave through the directive options", () => {

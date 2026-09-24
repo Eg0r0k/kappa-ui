@@ -71,6 +71,8 @@ const readEasing = (style: CSSStyleDeclaration) => style.getPropertyValue("--del
 
 const matches = (query: string) => typeof matchMedia === "function" && matchMedia(query).matches;
 
+const canAnimate = (element: Element) => typeof element.animate === "function";
+
 const ensureContainer = (el: RippleElement): HTMLElement => {
   const state = el._ripple!;
   if (state.container) return state.container;
@@ -107,17 +109,19 @@ const removeWave = (state: RippleState, wave: Wave) => {
   if (state.current === wave) state.current = null;
 };
 
-const releaseWave = (el: RippleElement, state: RippleState, wave: Wave) => {
+const releaseWave = (state: RippleState, wave: Wave) => {
   if (wave.released) return;
   wave.released = true;
 
   const elapsed = performance.now() - wave.startTime;
   const holdFor = Math.max(MINIMUM_PRESS_MS - elapsed, 0);
-  const fadeFor = readTime(getComputedStyle(el), "--delta-ripple-fade-duration", FADE_OUT_MS);
+  const fadeFor = readTime(getComputedStyle(state.container!), "--delta-ripple-fade-duration", FADE_OUT_MS);
 
   wave.hideTimer = setTimeout(() => {
     wave.element.dataset.hiding = "";
-    wave.animations.push(wave.element.animate([{ opacity: 0 }], { duration: fadeFor, easing: "linear", fill: "forwards" }));
+    if (canAnimate(wave.element)) {
+      wave.animations.push(wave.element.animate([{ opacity: 0 }], { duration: fadeFor, easing: "linear", fill: "forwards" }));
+    }
   }, holdFor);
 
   wave.removeTimer = setTimeout(() => {
@@ -127,7 +131,8 @@ const releaseWave = (el: RippleElement, state: RippleState, wave: Wave) => {
 
 const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number): Wave => {
   const geometry = computeGeometry(el.getBoundingClientRect(), x, y);
-  const style = getComputedStyle(el);
+  const container = ensureContainer(el);
+  const style = getComputedStyle(container);
   const from = `translate(${geometry.from.x}px, ${geometry.from.y}px) scale(1)`;
   const to = `translate(${geometry.to.x}px, ${geometry.to.y}px) scale(${geometry.scale})`;
 
@@ -149,11 +154,11 @@ const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number):
     element.style.setProperty("--delta-ripple-opacity", `${state.options.opacity}`);
   }
 
-  ensureContainer(el).appendChild(element);
+  container.appendChild(element);
 
   const wave: Wave = { element, startTime: performance.now(), released: false, animations: [] };
 
-  if (matches("(prefers-reduced-motion: reduce)")) {
+  if (matches("(prefers-reduced-motion: reduce)") || !canAnimate(element)) {
     element.style.transform = to;
   } else {
     wave.animations.push(
@@ -179,7 +184,7 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
 
   const releaseCurrent = () => {
     const state = el._ripple;
-    if (state?.current) releaseWave(el, state, state.current);
+    if (state?.current) releaseWave(state, state.current);
   };
 
   const releasePrimary = (event: PointerEvent) => {
@@ -200,7 +205,7 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
     const rect = el.getBoundingClientRect();
     const wave = spawnWave(el, state, rect.width / 2, rect.height / 2);
     state.current = wave;
-    releaseWave(el, state, wave);
+    releaseWave(state, wave);
   };
 
   const onPointerdown = (event: PointerEvent) => {
