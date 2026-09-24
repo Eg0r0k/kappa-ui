@@ -4,8 +4,8 @@ const targets = new WeakMap<Element, { attached: number; open: number }>();
 </script>
 
 <script setup lang="ts">
-import { useDirection, useId } from "reka-ui";
-import { MenuAnchor, MenuContent, MenuPortal, MenuRoot } from "reka-ui/internal";
+import { MenuAnchor, MenuContent, MenuPortal, MenuRoot } from "@delta-ui/core/menu";
+import { useDirection, useId } from "@delta-ui/core/utils";
 import {
   type HTMLAttributes,
   nextTick,

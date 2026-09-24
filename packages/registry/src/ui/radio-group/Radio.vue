@@ -4,8 +4,8 @@ import {
   RadioGroupItem,
   type RadioGroupItemEmits,
   type RadioGroupItemProps,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/radio-group";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

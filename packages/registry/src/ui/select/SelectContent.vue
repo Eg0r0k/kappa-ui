@@ -6,8 +6,8 @@ import {
   SelectPortal,
   SelectViewport,
   injectSelectRootContext,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/select";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSizeVariants } from "@/lib/menu";

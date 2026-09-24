@@ -4,8 +4,8 @@ import {
   CheckboxRoot,
   type CheckboxRootEmits,
   type CheckboxRootProps,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/checkbox";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

@@ -3,8 +3,8 @@ import {
   CheckboxGroupRoot,
   type CheckboxGroupRootEmits,
   type CheckboxGroupRootProps,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/checkbox";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { cn } from "@/lib/utils";

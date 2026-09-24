@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogDescription, type DialogDescriptionProps } from "reka-ui";
+import { DialogDescription, type DialogDescriptionProps } from "@delta-ui/core/dialog";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

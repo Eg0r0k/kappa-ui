@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForwardExpose, useId } from "reka-ui";
+import { useForwardExpose, useId } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

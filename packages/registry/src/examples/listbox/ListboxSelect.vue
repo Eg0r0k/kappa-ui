@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { ListboxItemSelectEvent } from "@delta-ui/core/listbox";
 import { File } from "@lucide/vue";
-import type { ListboxItemSelectEvent } from "reka-ui";
 import { ref } from "vue";
 
 import { Listbox, ListboxContent, ListboxDescription, ListboxIcon, ListboxItem, ListboxTitle } from "@/ui/listbox";

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AspectRatio, type AspectRatioProps } from "reka-ui";
+import { AspectRatio, type AspectRatioProps } from "@delta-ui/core/aspect-ratio";
 
 const props = defineProps<AspectRatioProps>();
 </script>

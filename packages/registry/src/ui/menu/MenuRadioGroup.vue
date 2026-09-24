@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useForwardPropsEmits } from "reka-ui";
 import {
   MenuRadioGroup,
   type MenuRadioGroupEmits,
   type MenuRadioGroupProps,
-} from "reka-ui/internal";
+} from "@delta-ui/core/menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 
 const props = defineProps<MenuRadioGroupProps>();
 const emits = defineEmits<MenuRadioGroupEmits>();

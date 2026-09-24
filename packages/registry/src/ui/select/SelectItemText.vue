@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectItemText, type SelectItemTextProps } from "reka-ui";
+import { SelectItemText, type SelectItemTextProps } from "@delta-ui/core/select";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

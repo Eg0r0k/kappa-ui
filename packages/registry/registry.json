@@ -20,7 +20,7 @@
       "type": "registry:lib",
       "title": "Field context",
       "description": "The context a Field provides so the control inside it can wire its id, description and error.",
-      "dependencies": ["reka-ui"],
+      "dependencies": ["@delta-ui/core"],
       "files": [
         {
           "path": "src/lib/field-context.ts",
@@ -58,7 +58,7 @@
       "type": "registry:lib",
       "title": "Overlay",
       "description": "The scrim that keeps a modal overlay's first outside click from reaching the page, the popover surface and its enter and exit motion, and a stable scrollbar gutter.",
-      "dependencies": ["reka-ui"],
+      "dependencies": ["@delta-ui/core"],
       "css": {
         "@layer base": {
           "html": {
@@ -117,6 +117,7 @@
       "type": "registry:lib",
       "title": "Menu",
       "description": "Item, label, separator and shortcut styles shared by the dropdown menu, context menu and select.",
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "files": [
         {
           "path": "src/lib/menu.ts",
@@ -444,7 +445,7 @@
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Constrains its content to a given width-to-height ratio.",
-      "dependencies": ["reka-ui"],
+      "dependencies": ["@delta-ui/core"],
       "files": [
         {
           "path": "src/ui/aspect-ratio/AspectRatio.vue",
@@ -514,7 +515,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens"],
       "css": {
         "@layer base": {
@@ -593,7 +594,7 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "Surface that groups related content, with header, title, description, content and footer parts.",
-      "dependencies": ["reka-ui"],
+      "dependencies": ["@delta-ui/core"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -652,7 +653,7 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Accessible label for a form control.",
-      "dependencies": ["reka-ui"],
+      "dependencies": ["@delta-ui/core"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -670,7 +671,7 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A horizontal or vertical line between content, in five thicknesses, with an optional label in the middle.",
-      "dependencies": ["reka-ui", "class-variance-authority"],
+      "dependencies": ["@delta-ui/core", "class-variance-authority"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -736,7 +737,7 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
-      "dependencies": ["reka-ui"],
+      "dependencies": ["@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "overlay"],
       "files": [
         {
@@ -766,7 +767,7 @@
       "type": "registry:ui",
       "title": "Listbox",
       "description": "A list to pick one or more options from, with icons, titles, descriptions, groups and a replaceable check, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -816,7 +817,7 @@
       "type": "registry:ui",
       "title": "Menu",
       "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
-      "dependencies": ["reka-ui", "@lucide/vue"],
+      "dependencies": ["@delta-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
       "files": [
         {
@@ -882,7 +883,7 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Label, description and error for one form control, wired to it automatically, plus group and fieldset layout.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "label", "field-context"],
       "files": [
         {
@@ -928,7 +929,7 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, with an optional floating label, that picks up its id, description, error and state from a surrounding Field.",
-      "dependencies": ["class-variance-authority"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context", "text-control"],
       "files": [
         {
@@ -964,7 +965,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
       "files": [
         {
@@ -986,7 +987,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A modal window with a title, a body that scrolls in a scroll area, and a footer, with an API close to Nuxt UI's modal, built on Reka UI.",
-      "dependencies": ["reka-ui", "@lucide/vue"],
+      "dependencies": ["@delta-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "button", "scroll-area"],
       "files": [
         {
@@ -1032,7 +1033,7 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["reka-ui", "@lucide/vue"],
+      "dependencies": ["@delta-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
       "files": [
         {
@@ -1102,7 +1103,7 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["reka-ui", "@lucide/vue"],
+      "dependencies": ["@delta-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
       "files": [
         {
@@ -1172,7 +1173,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Material-style switch with five sizes, an optional touch target and custom icons in the handle, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -1190,7 +1191,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
       "files": [
         {
@@ -1212,7 +1213,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "field-context", "text-control", "overlay", "menu-styles"],
       "files": [
         {
@@ -1270,7 +1271,7 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "Slider with one or more thumbs, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -1898,7 +1899,7 @@
       "title": "Listbox select",
       "description": "Options that run an action on select instead of staying selected.",
       "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
+      "dependencies": ["@lucide/vue", "@delta-ui/core"],
       "registryDependencies": ["listbox"],
       "files": [
         { "path": "src/examples/listbox/ListboxSelect.vue", "type": "registry:component" }

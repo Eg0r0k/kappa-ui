@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuTrigger, type ContextMenuTriggerProps } from "reka-ui";
+import { ContextMenuTrigger, type ContextMenuTriggerProps } from "@delta-ui/core/context-menu";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

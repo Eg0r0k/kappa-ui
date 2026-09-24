@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { DropdownMenuPortal, DropdownMenuSubContent, type DropdownMenuSubContentEmits, type DropdownMenuSubContentProps, useForwardPropsEmits } from "reka-ui";
+import {
+  DropdownMenuPortal,
+  DropdownMenuSubContent,
+  type DropdownMenuSubContentEmits,
+  type DropdownMenuSubContentProps,
+} from "@delta-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

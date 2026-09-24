@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PopoverTrigger, type PopoverTriggerProps } from "reka-ui";
+import { PopoverTrigger, type PopoverTriggerProps } from "@delta-ui/core/popover";
 
 const props = defineProps<PopoverTriggerProps>();
 </script>

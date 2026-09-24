@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps, useForwardPropsEmits } from "reka-ui";
+import {
+  RadioGroupRoot,
+  type RadioGroupRootEmits,
+  type RadioGroupRootProps,
+} from "@delta-ui/core/radio-group";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { type ChoiceGroupVariants, choiceGroupVariants } from "@/lib/choice-group";

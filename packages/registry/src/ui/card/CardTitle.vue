@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Primitive, type PrimitiveProps } from "reka-ui";
+import { Primitive, type PrimitiveProps } from "@delta-ui/core/primitive";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";

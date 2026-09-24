@@ -8,12 +8,12 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@delta-ui/core": "workspace:*",
     "@formisch/vue": "^1.1.0",
     "@lucide/vue": "^1.47.0",
     "@tanstack/vue-virtual": "^3.13.39",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "reka-ui": "^2.10.4",
     "tailwind-merge": "^3.7.0",
     "valibot": "^1.5.0",
     "vue": "^3.5.42"
@@ -25,6 +25,7 @@
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
     "playwright": "^1.63.0",
+    "reka-ui": "2.10.5",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",

@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  MenuLabel,
-  type MenuLabelProps,
-} from "reka-ui/internal";
+import { MenuLabel, type MenuLabelProps } from "@delta-ui/core/menu";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuLabel } from "@/lib/menu";

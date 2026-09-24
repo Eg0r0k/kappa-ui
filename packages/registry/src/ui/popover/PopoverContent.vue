@@ -5,8 +5,8 @@ import {
   type PopoverContentProps,
   PopoverPortal,
   injectPopoverRootContext,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/popover";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { injectOverlayPortalTarget, modalScrim, overlaySurface, useModalScrim } from "@/lib/overlay";

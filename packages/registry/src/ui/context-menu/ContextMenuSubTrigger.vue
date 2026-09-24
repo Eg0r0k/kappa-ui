@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import {
+  ContextMenuSubTrigger,
+  type ContextMenuSubTriggerProps,
+} from "@delta-ui/core/context-menu";
 import { ChevronRight } from "@lucide/vue";
-import { ContextMenuSubTrigger, type ContextMenuSubTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSubTrigger } from "@/lib/menu";

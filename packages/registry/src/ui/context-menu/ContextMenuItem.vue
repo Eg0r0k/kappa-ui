@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ContextMenuItem, type ContextMenuItemEmits, type ContextMenuItemProps, useForwardPropsEmits } from "reka-ui";
+import {
+  ContextMenuItem,
+  type ContextMenuItemEmits,
+  type ContextMenuItemProps,
+} from "@delta-ui/core/context-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuItem } from "@/lib/menu";

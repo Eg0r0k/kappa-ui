@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Check } from "@lucide/vue";
 import {
   DropdownMenuCheckboxItem,
   type DropdownMenuCheckboxItemEmits,
   type DropdownMenuCheckboxItemProps,
   DropdownMenuItemIndicator,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuIndicator, menuIndicatorItem } from "@/lib/menu";

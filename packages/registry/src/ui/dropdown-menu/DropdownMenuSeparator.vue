@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { DropdownMenuSeparator, type DropdownMenuSeparatorProps } from "reka-ui";
+import {
+  DropdownMenuSeparator,
+  type DropdownMenuSeparatorProps,
+} from "@delta-ui/core/dropdown-menu";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSeparator } from "@/lib/menu";

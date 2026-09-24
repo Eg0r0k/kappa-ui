@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { useForwardPropsEmits } from "reka-ui";
-import {
-  MenuSub,
-  type MenuSubEmits,
-  type MenuSubProps,
-} from "reka-ui/internal";
+import { MenuSub, type MenuSubEmits, type MenuSubProps } from "@delta-ui/core/menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 
 const props = defineProps<MenuSubProps>();
 const emits = defineEmits<MenuSubEmits>();

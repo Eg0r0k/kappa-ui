@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { SliderRange, SliderRoot, type SliderRootProps, SliderThumb, SliderTrack, useForwardProps } from "reka-ui";
+import {
+  SliderRange,
+  SliderRoot,
+  type SliderRootProps,
+  SliderThumb,
+  SliderTrack,
+} from "@delta-ui/core/slider";
+import { useForwardProps } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

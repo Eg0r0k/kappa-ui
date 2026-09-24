@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuLabel, type ContextMenuLabelProps } from "reka-ui";
+import { ContextMenuLabel, type ContextMenuLabelProps } from "@delta-ui/core/context-menu";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuLabel } from "@/lib/menu";

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {
+  ContextMenuItemIndicator,
   ContextMenuRadioItem,
   type ContextMenuRadioItemEmits,
   type ContextMenuRadioItemProps,
-  ContextMenuItemIndicator,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/context-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuIndicator, menuIndicatorItem, menuRadioDot } from "@/lib/menu";

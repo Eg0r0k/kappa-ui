@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  MenuGroup,
-  type MenuGroupProps,
-} from "reka-ui/internal";
+import { MenuGroup, type MenuGroupProps } from "@delta-ui/core/menu";
 
 const props = defineProps<MenuGroupProps>();
 </script>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { X } from "@lucide/vue";
 import {
   DialogClose,
   DialogContent,
@@ -10,9 +9,10 @@ import {
   type DialogRootProps,
   DialogTitle,
   DialogTrigger,
-  VisuallyHidden,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/dialog";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { VisuallyHidden } from "@delta-ui/core/visually-hidden";
+import { X } from "@lucide/vue";
 import { type HTMLAttributes, type VNode, computed, defineComponent, h, useSlots } from "vue";
 
 import { injectOverlayPortalTarget } from "@/lib/overlay";

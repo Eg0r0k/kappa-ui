@@ -5,8 +5,8 @@ import {
   type DropdownMenuContentProps,
   DropdownMenuPortal,
   injectDropdownMenuRootContext,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

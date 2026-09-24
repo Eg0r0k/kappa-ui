@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import {
+  SelectItem,
+  type SelectItemEmits,
+  SelectItemIndicator,
+  type SelectItemProps,
+} from "@delta-ui/core/select";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { Check } from "@lucide/vue";
-import { SelectItem, type SelectItemEmits, SelectItemIndicator, type SelectItemProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuItem } from "@/lib/menu";

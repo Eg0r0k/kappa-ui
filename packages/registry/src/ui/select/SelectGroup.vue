@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectGroup, type SelectGroupProps } from "reka-ui";
+import { SelectGroup, type SelectGroupProps } from "@delta-ui/core/select";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

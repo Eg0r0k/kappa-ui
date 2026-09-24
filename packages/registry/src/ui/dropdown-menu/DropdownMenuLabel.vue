@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DropdownMenuLabel, type DropdownMenuLabelProps } from "reka-ui";
+import { DropdownMenuLabel, type DropdownMenuLabelProps } from "@delta-ui/core/dropdown-menu";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuLabel } from "@/lib/menu";

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useForwardPropsEmits } from "reka-ui";
 import {
   MenuPortal,
   MenuSubContent,
   type MenuSubContentEmits,
   type MenuSubContentProps,
-} from "reka-ui/internal";
+} from "@delta-ui/core/menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

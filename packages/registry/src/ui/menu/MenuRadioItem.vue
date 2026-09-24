@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useForwardPropsEmits } from "reka-ui";
 import {
+  MenuItemIndicator,
   MenuRadioItem,
   type MenuRadioItemEmits,
   type MenuRadioItemProps,
-  MenuItemIndicator,
-} from "reka-ui/internal";
+} from "@delta-ui/core/menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuIndicator, menuIndicatorItem, menuRadioDot } from "@/lib/menu";

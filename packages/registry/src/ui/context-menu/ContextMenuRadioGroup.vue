@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ContextMenuRadioGroup, type ContextMenuRadioGroupEmits, type ContextMenuRadioGroupProps, useForwardPropsEmits } from "reka-ui";
+import {
+  ContextMenuRadioGroup,
+  type ContextMenuRadioGroupEmits,
+  type ContextMenuRadioGroupProps,
+} from "@delta-ui/core/context-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 
 const props = defineProps<ContextMenuRadioGroupProps>();
 const emits = defineEmits<ContextMenuRadioGroupEmits>();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { SelectScrollDownButton, type SelectScrollDownButtonProps } from "@delta-ui/core/select";
 import { ChevronDown } from "@lucide/vue";
-import { SelectScrollDownButton, type SelectScrollDownButtonProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

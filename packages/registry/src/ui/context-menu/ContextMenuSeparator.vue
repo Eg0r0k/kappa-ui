@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuSeparator, type ContextMenuSeparatorProps } from "reka-ui";
+import { ContextMenuSeparator, type ContextMenuSeparatorProps } from "@delta-ui/core/context-menu";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSeparator } from "@/lib/menu";

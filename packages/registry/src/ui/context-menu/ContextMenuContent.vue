@@ -5,8 +5,8 @@ import {
   type ContextMenuContentProps,
   ContextMenuPortal,
   injectContextMenuRootContext,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/context-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

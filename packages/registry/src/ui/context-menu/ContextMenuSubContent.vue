@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { ContextMenuPortal, ContextMenuSubContent, type ContextMenuSubContentEmits, type ContextMenuSubContentProps, useForwardPropsEmits } from "reka-ui";
+import {
+  ContextMenuPortal,
+  ContextMenuSubContent,
+  type ContextMenuSubContentEmits,
+  type ContextMenuSubContentProps,
+} from "@delta-ui/core/context-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

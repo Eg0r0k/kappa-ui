@@ -1,5 +1,5 @@
+import { createContext } from "@delta-ui/core/utils";
 import { type VariantProps, cva } from "class-variance-authority";
-import { createContext } from "reka-ui";
 import type { Ref } from "vue";
 
 export const menuSizeVariants = cva("group/menu p-(--menu-pad)", {

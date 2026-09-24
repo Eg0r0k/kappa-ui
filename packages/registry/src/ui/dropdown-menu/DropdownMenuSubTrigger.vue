@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import {
+  DropdownMenuSubTrigger,
+  type DropdownMenuSubTriggerProps,
+} from "@delta-ui/core/dropdown-menu";
 import { ChevronRight } from "@lucide/vue";
-import { DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSubTrigger } from "@/lib/menu";

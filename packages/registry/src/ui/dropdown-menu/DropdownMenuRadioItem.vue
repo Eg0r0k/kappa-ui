@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {
+  DropdownMenuItemIndicator,
   DropdownMenuRadioItem,
   type DropdownMenuRadioItemEmits,
   type DropdownMenuRadioItemProps,
-  DropdownMenuItemIndicator,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuIndicator, menuIndicatorItem, menuRadioDot } from "@/lib/menu";

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ListboxGroupLabel, type ListboxGroupLabelProps } from "reka-ui";
+import { ListboxGroupLabel, type ListboxGroupLabelProps } from "@delta-ui/core/listbox";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

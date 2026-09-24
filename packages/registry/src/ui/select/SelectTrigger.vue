@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { SelectIcon, SelectTrigger, type SelectTriggerProps } from "@delta-ui/core/select";
+import { useForwardProps } from "@delta-ui/core/utils";
 import { ChevronDown } from "@lucide/vue";
-import { SelectIcon, SelectTrigger, type SelectTriggerProps, useForwardProps } from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

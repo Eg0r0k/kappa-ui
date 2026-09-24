@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { DropdownMenuSub, type DropdownMenuSubEmits, type DropdownMenuSubProps, useForwardPropsEmits } from "reka-ui";
+import {
+  DropdownMenuSub,
+  type DropdownMenuSubEmits,
+  type DropdownMenuSubProps,
+} from "@delta-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 
 const props = defineProps<DropdownMenuSubProps>();
 const emits = defineEmits<DropdownMenuSubEmits>();

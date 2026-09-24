@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SelectRoot, type SelectRootEmits, type SelectRootProps, useForwardPropsEmits } from "reka-ui";
+import { SelectRoot, type SelectRootEmits, type SelectRootProps } from "@delta-ui/core/select";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

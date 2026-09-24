@@ -4,8 +4,8 @@ import {
   ListboxRoot,
   type ListboxRootEmits,
   type ListboxRootProps,
-  useForwardPropsEmits,
-} from "reka-ui";
+} from "@delta-ui/core/listbox";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogTrigger, type DialogTriggerProps } from "reka-ui";
+import { DialogTrigger, type DialogTriggerProps } from "@delta-ui/core/dialog";
 
 const props = defineProps<DialogTriggerProps>();
 </script>

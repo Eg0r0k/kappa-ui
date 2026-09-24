@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ContextMenuSub, type ContextMenuSubEmits, type ContextMenuSubProps, useForwardPropsEmits } from "reka-ui";
+import {
+  ContextMenuSub,
+  type ContextMenuSubEmits,
+  type ContextMenuSubProps,
+} from "@delta-ui/core/context-menu";
+import { useForwardPropsEmits } from "@delta-ui/core/utils";
 
 const props = defineProps<ContextMenuSubProps>();
 const emits = defineEmits<ContextMenuSubEmits>();
