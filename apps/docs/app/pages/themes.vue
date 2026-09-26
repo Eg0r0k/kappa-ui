@@ -18,6 +18,7 @@ import {
   radii,
   randomTheme,
   surfaceBorders,
+  surfaces,
   themeCss,
   themeFromQuery,
   themeToQuery,
@@ -159,6 +160,24 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
               :color="theme.surfaceBorder === option.key ? 'primary' : 'neutral'"
               :aria-pressed="theme.surfaceBorder === option.key"
               @click="theme.surfaceBorder = option.key"
+            >
+              {{ option.name }}
+            </Button>
+          </div>
+        </FieldSet>
+
+        <FieldSet>
+          <FieldLegend>Light surfaces</FieldLegend>
+          <FieldDescription>How the page, cards and popovers separate in the light theme. Raised greys the page under white cards, as the dark theme lightens them; Tinted greys the cards on a white page.</FieldDescription>
+          <div class="flex flex-wrap gap-2">
+            <Button
+              v-for="option in surfaces"
+              :key="option.key"
+              size="sm"
+              :variant="theme.surfaces === option.key ? 'soft' : 'outline'"
+              :color="theme.surfaces === option.key ? 'primary' : 'neutral'"
+              :aria-pressed="theme.surfaces === option.key"
+              @click="theme.surfaces = option.key"
             >
               {{ option.name }}
             </Button>

@@ -2,6 +2,8 @@ export type NeutralName = 'neutral' | 'stone' | 'zinc' | 'slate' | 'brand'
 
 export type SurfaceBorder = 'default' | 'strong' | 'brand' | 'none'
 
+export type Surfaces = 'flat' | 'raised' | 'tinted'
+
 export interface ThemeConfig {
   hue: number
   chroma: number
@@ -9,6 +11,7 @@ export interface ThemeConfig {
   radius: number
   font: string
   surfaceBorder: SurfaceBorder
+  surfaces: Surfaces
 }
 
 export interface ThemeFont {
@@ -66,6 +69,17 @@ const surfaceBorderValues: Record<Exclude<SurfaceBorder, 'default'>, string> = {
   none: 'transparent',
 }
 
+export const surfaces: { key: Surfaces; name: string }[] = [
+  { key: 'flat', name: 'Flat' },
+  { key: 'raised', name: 'Raised' },
+  { key: 'tinted', name: 'Tinted' },
+]
+
+const surfaceLightness: Record<Exclude<Surfaces, 'flat'>, Record<string, number>> = {
+  raised: { background: 0.98, card: 1, popover: 1, secondary: 0.955, muted: 0.955, accent: 0.955, 'muted-foreground': 0.54 },
+  tinted: { background: 1, card: 0.98, popover: 1, secondary: 0.955, muted: 0.955, accent: 0.955, 'muted-foreground': 0.54 },
+}
+
 export const chromaRange = { min: 0.04, max: 0.26 }
 
 export const defaultTheme: ThemeConfig = {
@@ -75,6 +89,7 @@ export const defaultTheme: ThemeConfig = {
   radius: 0.75,
   font: 'inter',
   surfaceBorder: 'default',
+  surfaces: 'flat',
 }
 
 const round = (value: number, digits = 3) => Number(value.toFixed(digits))
@@ -146,6 +161,10 @@ export const themeTokens = (config: ThemeConfig) => {
     for (const [name, alpha] of Object.entries(darkAlpha)) dark[name] = oklch(1, neutral.chroma, neutral.hue, alpha)
   }
 
+  if (config.surfaces !== 'flat') {
+    for (const [name, lightness] of Object.entries(surfaceLightness[config.surfaces])) light[name] = tint(lightness)
+  }
+
   if (config.surfaceBorder !== 'default') {
     light['surface-border'] = surfaceBorderValues[config.surfaceBorder]
     dark['surface-border'] = surfaceBorderValues[config.surfaceBorder]
@@ -205,6 +224,7 @@ export const randomTheme = (random: () => number = Math.random): ThemeConfig => 
   radius: pick(radii, random),
   font: pick(fonts, random).key,
   surfaceBorder: pick(surfaceBorders, random).key,
+  surfaces: pick(surfaces, random).key,
 })
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
@@ -226,6 +246,7 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
     surfaceBorder: surfaceBorders.some((option) => option.key === query.surfaceBorder)
       ? (query.surfaceBorder as SurfaceBorder)
       : defaultTheme.surfaceBorder,
+    surfaces: surfaces.some((option) => option.key === query.surfaces) ? (query.surfaces as Surfaces) : defaultTheme.surfaces,
   }
 }
 

@@ -12,6 +12,7 @@ import {
   randomTheme,
   siteCss,
   surfaceBorders,
+  surfaces,
   themeCss,
   themeFromQuery,
   themeToQuery,
@@ -82,6 +83,34 @@ describe('theme', () => {
     expect(isDefaultTheme({ ...defaultTheme, radius: 0.5 })).toBe(false)
   })
 
+  it('layers the light surfaces, and leaves them flat by default', () => {
+    const lightness = (value?: string) => (value === undefined ? undefined : Number(value.match(/oklch\(([\d.]+)/)?.[1]))
+    const levels = (key: (typeof surfaces)[number]['key']) => {
+      const { light } = themeTokens({ ...defaultTheme, surfaces: key })
+      return ['background', 'card', 'popover', 'muted'].map((name) => lightness(light[name]))
+    }
+
+    expect(surfaces.map((option) => option.key)).toEqual(['flat', 'raised', 'tinted'])
+    expect(levels('flat')).toEqual([undefined, undefined, undefined, undefined])
+    expect(levels('raised')).toEqual([0.98, 1, 1, 0.955])
+    expect(levels('tinted')).toEqual([1, 0.98, 1, 0.955])
+    expect(themeTokens({ ...defaultTheme, surfaces: 'raised' }).dark.background).toBeUndefined()
+  })
+
+  it('keeps muted text at 4.5:1 on the page, cards and popovers with every surface option', () => {
+    const flat: Record<string, number> = { background: 1, card: 1, popover: 1, 'muted-foreground': 0.556 }
+    const luminance = (value: number) => value ** 3
+    const contrast = (a: number, b: number) =>
+      (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05)
+    for (const option of surfaces) {
+      const { light } = themeTokens({ ...defaultTheme, surfaces: option.key })
+      const level = (name: string) => Number(light[name]?.match(/oklch\(([\d.]+)/)?.[1] ?? flat[name])
+      for (const surface of ['background', 'card', 'popover']) {
+        expect(contrast(level('muted-foreground'), level(surface)), `${option.key} on ${surface}`).toBeGreaterThanOrEqual(4.5)
+      }
+    }
+  })
+
   it('draws random themes from the allowed values', () => {
     for (let index = 0; index < 50; index++) {
       const theme = randomTheme()
@@ -100,6 +129,7 @@ describe('theme', () => {
       radius: 1.25,
       font: 'source-sans-3',
       surfaceBorder: 'none',
+      surfaces: 'tinted',
     })
   })
 
