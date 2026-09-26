@@ -36,3 +36,7 @@ Run from the repo root:
   `packages/registry/registry.json`.
 - `pnpm test` — run the registry script tests, the component tests in real
   Chromium, and the docs tests.
+
+## License
+
+MIT © 2026 Eg0r0k. Code adapted from Material Web (Apache-2.0) and Quasar (MIT) is listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

@@ -1,3 +1,6 @@
+// Adapted from Quasar Framework (https://github.com/quasarframework/quasar), modified for delta-ui.
+// Copyright (c) 2015-present Razvan Stoenescu. MIT License: https://github.com/quasarframework/quasar/blob/dev/LICENSE
+
 export type MenuVertical = "top" | "center" | "bottom";
 export type MenuHorizontal = "left" | "middle" | "right";
 export type MenuPosition = `${MenuVertical} ${MenuHorizontal | "start" | "end"}`;

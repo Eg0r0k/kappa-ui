@@ -1,3 +1,6 @@
+// Adapted from Quasar Framework (https://github.com/quasarframework/quasar), modified for delta-ui.
+// Copyright (c) 2015-present Razvan Stoenescu. MIT License: https://github.com/quasarframework/quasar/blob/dev/LICENSE
+
 import type { ComputedRef, CSSProperties, InjectionKey } from "vue";
 
 import type { Virtualizer } from "./useVirtualScroll";
