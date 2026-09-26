@@ -13,7 +13,7 @@ props:
     description: "The element or component to render."
 emits:
   escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
-  pointerDownOutside: "Fires on a pointer press outside, except on the overlay's scrollbar. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. A press on the overlay's scrollbar does not close it. Call `preventDefault()` to keep it open."
   focusOutside: "Fires when focus moves outside. Call `preventDefault()` to keep it open."
   interactOutside: "Fires on any press or focus outside. Call `preventDefault()` to keep it open."
   openAutoFocus: "Fires when focus moves into the window on open. Call `preventDefault()` to keep focus where it is."
