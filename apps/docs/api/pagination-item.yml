@@ -1,0 +1,4 @@
+component: PaginationItem
+file: ui/pagination/PaginationItem.vue
+slots:
+  default: "A link, an arrow or an ellipsis."

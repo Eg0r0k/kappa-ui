@@ -1,0 +1,21 @@
+component: PaginationLink
+file: ui/pagination/PaginationLink.vue
+props:
+  value:
+    description: "The page this link goes to."
+  variant:
+    description: "Overrides the root's `variant` while this page is not current."
+  activeVariant:
+    description: "Overrides the root's `active-variant` while this page is current."
+  color:
+    description: "Overrides the root's `color`."
+  activeColor:
+    description: "Overrides the root's `active-color`."
+  size:
+    description: "Overrides the root's `size`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child, an `a` or a router link, instead of a button, merging this part's attributes and classes onto it."
+slots:
+  default: "The label, the page number by default."

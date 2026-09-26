@@ -1,0 +1,9 @@
+component: PaginationContent
+file: ui/pagination/PaginationContent.vue
+props:
+  as:
+    description: "The element to render, a `ul` by default."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The items. Receives `items`: each is `{ type: 'page', value }` or `{ type: 'ellipsis' }`."

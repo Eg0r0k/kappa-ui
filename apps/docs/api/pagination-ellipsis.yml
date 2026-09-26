@@ -1,0 +1,11 @@
+component: PaginationEllipsis
+file: ui/pagination/PaginationEllipsis.vue
+props:
+  size:
+    description: "Overrides the root's `size`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The mark, three dots and a screen-reader label by default."

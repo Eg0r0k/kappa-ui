@@ -608,6 +608,24 @@
       ]
     },
     {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page navigation with previous and next, ellipses for skipped pages, Button's variants and five sizes.",
+      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        { "path": "src/ui/pagination/Pagination.vue", "type": "registry:ui" },
+        { "path": "src/ui/pagination/PaginationContent.vue", "type": "registry:ui" },
+        { "path": "src/ui/pagination/PaginationEllipsis.vue", "type": "registry:ui" },
+        { "path": "src/ui/pagination/PaginationItem.vue", "type": "registry:ui" },
+        { "path": "src/ui/pagination/PaginationLink.vue", "type": "registry:ui" },
+        { "path": "src/ui/pagination/PaginationNext.vue", "type": "registry:ui" },
+        { "path": "src/ui/pagination/PaginationPrevious.vue", "type": "registry:ui" },
+        { "path": "src/ui/pagination/index.ts", "type": "registry:ui" }
+      ]
+    },
+    {
       "name": "item",
       "type": "registry:ui",
       "title": "Item",
@@ -1590,6 +1608,61 @@
       "registryDependencies": ["button-group", "button"],
       "files": [
         { "path": "src/examples/button-group/ButtonGroupConnected.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "pagination-demo",
+      "type": "registry:block",
+      "title": "Pagination demo",
+      "description": "Ten pages with edges and one sibling on each side.",
+      "categories": ["example"],
+      "registryDependencies": ["pagination"],
+      "files": [
+        { "path": "src/examples/pagination/PaginationDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "pagination-variants",
+      "type": "registry:block",
+      "title": "Pagination variants",
+      "description": "Variant and active variant pairs.",
+      "categories": ["example"],
+      "registryDependencies": ["pagination"],
+      "files": [
+        { "path": "src/examples/pagination/PaginationVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "pagination-sizes",
+      "type": "registry:block",
+      "title": "Pagination sizes",
+      "description": "Five sizes.",
+      "categories": ["example"],
+      "registryDependencies": ["pagination"],
+      "files": [
+        { "path": "src/examples/pagination/PaginationSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "pagination-edges",
+      "type": "registry:block",
+      "title": "Pagination with edges",
+      "description": "Twenty-five pages, first and last always listed.",
+      "categories": ["example"],
+      "registryDependencies": ["pagination"],
+      "files": [
+        { "path": "src/examples/pagination/PaginationEdges.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "pagination-links",
+      "type": "registry:block",
+      "title": "Pagination links",
+      "description": "Pages rendered as anchors.",
+      "categories": ["example"],
+      "registryDependencies": ["pagination"],
+      "files": [
+        { "path": "src/examples/pagination/PaginationLinks.vue", "type": "registry:component" }
       ]
     },
     {

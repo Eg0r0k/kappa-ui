@@ -1,0 +1,35 @@
+component: Pagination
+file: ui/pagination/Pagination.vue
+props:
+  page:
+    description: "The current page, bound with `v-model:page`."
+  defaultPage:
+    description: "The page shown at first when `v-model:page` is not used."
+  total:
+    description: "Number of items across all pages."
+  itemsPerPage:
+    description: "Items on one page. With `total`, sets the page count."
+  siblingCount:
+    description: "Pages listed on each side of the current one."
+  showEdges:
+    description: "Always lists the first and last page, with an ellipsis for the pages skipped between."
+  disabled:
+    description: "Disables every page and both arrows."
+  variant:
+    description: "Button variant of the other pages and the arrows."
+  activeVariant:
+    description: "Button variant of the current page."
+  color:
+    description: "Colour of the other pages and the arrows."
+  activeColor:
+    description: "Colour of the current page."
+  size:
+    description: "Height of every part, from 28px for `xs` to 48px for `xl`, as Button's `xs` to `xl`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  update:page: "Fires when another page is chosen."
+slots:
+  default: "The content. Receives `page` and `pageCount`."

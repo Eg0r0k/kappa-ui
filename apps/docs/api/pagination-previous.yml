@@ -1,0 +1,15 @@
+component: PaginationPrevious
+file: ui/pagination/PaginationPrevious.vue
+props:
+  variant:
+    description: "Overrides the root's `variant`."
+  color:
+    description: "Overrides the root's `color`."
+  size:
+    description: "Overrides the root's `size`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a button, merging this part's attributes and classes onto it."
+slots:
+  default: "The label and chevron."
