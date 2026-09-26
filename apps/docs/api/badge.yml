@@ -1,0 +1,19 @@
+component: Badge
+file: ui/badge/Badge.vue
+props:
+  variant:
+    description: Appearance, independent of colour. `link` underlines on hover, for a badge rendered as a link.
+  color:
+    description: Colour role the variant is drawn in. `neutral` uses the page's own foreground.
+  size:
+    description: Height, padding, text, icon size and radius, from 16px for `xs` to 32px for `xl`.
+  square:
+    description: Render the badge with equal padding on all sides. A single character or icon becomes a square.
+  touchTarget:
+    description: Grows the pressable area to at least 48px without changing how the badge looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the badge's attributes and classes onto it.
+slots:
+  default: Label and icons. Mark an icon with `data-icon="inline-start"` or `"inline-end"` to tighten padding on that side.

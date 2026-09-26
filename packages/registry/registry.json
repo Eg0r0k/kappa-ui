@@ -581,6 +581,18 @@
       ]
     },
     {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "A small label with Button's variants and colours, five sizes, side-aware icon padding and a square form.",
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "registryDependencies": ["utils", "tokens"],
+      "files": [
+        { "path": "src/ui/badge/Badge.vue", "type": "registry:ui" },
+        { "path": "src/ui/badge/index.ts", "type": "registry:ui" }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -1382,6 +1394,86 @@
           "path": "src/ui/slider/index.ts",
           "type": "registry:ui"
         }
+      ]
+    },
+    {
+      "name": "badge-demo",
+      "type": "registry:block",
+      "title": "Badge demo",
+      "description": "Three badges.",
+      "categories": ["example"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "src/examples/badge/BadgeDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "badge-variants",
+      "type": "registry:block",
+      "title": "Badge variants",
+      "description": "Every variant in every colour.",
+      "categories": ["example"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "src/examples/badge/BadgeVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "badge-sizes",
+      "type": "registry:block",
+      "title": "Badge sizes",
+      "description": "Five sizes, with and without text.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "src/examples/badge/BadgeSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "badge-icons",
+      "type": "registry:block",
+      "title": "Badge with icons",
+      "description": "Padding that tightens on the icon's side.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "src/examples/badge/BadgeIcons.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "badge-square",
+      "type": "registry:block",
+      "title": "Square badge",
+      "description": "Counts and an icon with equal padding.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "src/examples/badge/BadgeSquare.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "badge-as-child",
+      "type": "registry:block",
+      "title": "Badge as a link",
+      "description": "Badges rendered as links.",
+      "categories": ["example"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "src/examples/badge/BadgeAsChild.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "badge-touch-target",
+      "type": "registry:block",
+      "title": "Badge touch target",
+      "description": "Link badges whose pressable area grows to 48px.",
+      "categories": ["example"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "src/examples/badge/BadgeTouchTarget.vue", "type": "registry:component" }
       ]
     },
     {
