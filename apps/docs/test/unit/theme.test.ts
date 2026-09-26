@@ -96,8 +96,18 @@ describe('theme', () => {
     expect(levels('raised')).toEqual([undefined, undefined, undefined, undefined])
     expect(levels('flat')).toEqual([1, undefined, undefined, 0.97])
     expect(levels('tinted')).toEqual([1, 0.98, undefined, undefined])
-    expect(themeTokens({ ...defaultTheme, surfaces: 'flat' }).dark.background).toBeUndefined()
+    expect(themeTokens({ ...defaultTheme, surfaces: 'flat' }).dark.background).toBe('oklch(0.145 0 0)')
     expect(themeTokens({ ...defaultTheme, neutral: 'slate' }).light.background).toBe('oklch(0.98 0.018 257)')
+  })
+
+  it('gives the dark theme its own value for every colour the light surfaces change', () => {
+    for (const neutral of neutrals) {
+      for (const option of surfaces) {
+        const { light, dark } = themeTokens({ ...defaultTheme, neutral: neutral.key, surfaces: option.key })
+        const leaks = Object.keys(light).filter((name) => !['radius', 'brand'].includes(name) && !(name in dark))
+        expect(leaks, `${neutral.key}, ${option.key}`).toEqual([])
+      }
+    }
   })
 
   it('keeps muted text at 4.5:1 on the page, cards and popovers with every surface option', () => {

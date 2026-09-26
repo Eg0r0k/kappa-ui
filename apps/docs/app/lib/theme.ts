@@ -162,7 +162,10 @@ export const themeTokens = (config: ThemeConfig) => {
   }
 
   if (config.surfaces !== 'raised') {
-    for (const [name, lightness] of Object.entries(surfaceLightness[config.surfaces])) light[name] = tint(lightness)
+    for (const [name, lightness] of Object.entries(surfaceLightness[config.surfaces])) {
+      light[name] = tint(lightness)
+      dark[name] ??= tint(neutralTokens.dark[name as keyof typeof neutralTokens.dark])
+    }
   }
 
   if (config.surfaceBorder !== 'default') {

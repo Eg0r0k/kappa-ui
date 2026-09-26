@@ -168,8 +168,8 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
         <FieldSet>
           <FieldLegend>Light surfaces</FieldLegend>
           <FieldDescription>
-            Raised lifts white cards off a tinted page, as the dark theme does. Flat keeps the page white; Tinted greys the
-            cards instead.
+            The light theme only. Raised lifts white cards off a tinted page, Flat keeps both white, and Tinted greys the
+            cards on a white page.
           </FieldDescription>
           <div class="flex flex-wrap gap-2">
             <Button
