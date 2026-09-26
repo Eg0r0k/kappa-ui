@@ -9,7 +9,7 @@
     "build": "pnpm registry:build && pnpm --filter @delta-ui/docs build",
     "preview": "pnpm --filter @delta-ui/docs preview",
     "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
-    "test": "node --test scripts/build-registry.test.ts scripts/eslint-config.test.ts scripts/css-sync.test.ts && pnpm lint && pnpm -r test",
+    "test": "pnpm format:check && node --test scripts/build-registry.test.ts scripts/eslint-config.test.ts scripts/css-sync.test.ts && pnpm lint && pnpm -r test",
     "lint": "eslint packages/registry/src",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
