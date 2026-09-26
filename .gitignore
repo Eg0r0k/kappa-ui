@@ -28,6 +28,7 @@ apps/docs/public/r/
 
 # Vitest browser-mode cache and failure screenshots
 packages/*/.vitest/
+apps/*/.vitest/
 
 # Project documentation — kept locally, outside the repository.
 # The leading slash is required: a bare `docs` would also match `apps/docs`.
@@ -40,3 +41,5 @@ packages/*/.vitest/
 
 # Generated API tables
 apps/docs/app/generated/
+
+CLAUDE.md
