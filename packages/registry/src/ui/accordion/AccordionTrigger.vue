@@ -20,7 +20,7 @@ const delegated = computed(() => {
       data-slot="accordion-trigger"
       :class="
         cn(
-          'flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-start text-title-sm outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity) [&[data-state=open]>svg]:rotate-180',
+          'flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-start text-title-sm outline-none hover:underline focus-visible:focus-ring data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity) [&[data-state=open]>svg]:rotate-180',
           props.class,
         )
       "

@@ -20,7 +20,7 @@ const delegated = computed(() => {
     v-slot="slotProps"
     v-bind="delegated"
     data-slot="accordion-item"
-    :class="cn('border-b last:border-b-0', props.class)"
+    :class="cn('border-b border-border last:border-b-0', props.class)"
   >
     <slot v-bind="slotProps" />
   </AccordionItem>

@@ -39,7 +39,7 @@ export const sliderRangeClass =
   "absolute rounded-full bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full group-has-[[aria-invalid=true]]/slider:bg-destructive data-disabled:bg-foreground/(--disabled-opacity)";
 
 export const sliderThumbVariants = cva(
-  "group/thumb relative block size-(--slider-thumb) shrink-0 rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 before:pointer-events-none before:absolute before:top-1/2 before:left-1/2 before:size-[calc(var(--slider-thumb)+1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:scale-75 before:rounded-full before:bg-primary before:opacity-0 before:transition-[opacity,scale] before:duration-short-4 before:ease-standard data-hovered:before:scale-100 data-hovered:before:opacity-(--state-hover) group-active/slider:focus:before:scale-100 group-active/slider:focus:before:opacity-(--state-pressed) aria-invalid:before:bg-destructive data-disabled:before:hidden forced-colors:before:hidden motion-reduce:before:scale-100",
+  "group/thumb relative block size-(--slider-thumb) shrink-0 rounded-full outline-none focus-visible:focus-ring before:pointer-events-none before:absolute before:top-1/2 before:left-1/2 before:size-[calc(var(--slider-thumb)+1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:scale-75 before:rounded-full before:bg-primary before:opacity-0 before:transition-[opacity,scale] before:duration-short-4 before:ease-standard data-hovered:before:scale-100 data-hovered:before:opacity-(--state-hover) group-active/slider:focus:before:scale-100 group-active/slider:focus:before:opacity-(--state-pressed) aria-invalid:before:bg-destructive data-disabled:before:hidden forced-colors:before:hidden motion-reduce:before:scale-100",
   {
     variants: {
       touchTarget: {
@@ -55,6 +55,6 @@ export const sliderThumbVariants = cva(
 );
 
 export const sliderHandleClass =
-  "pointer-events-none block size-full rounded-full bg-primary shadow-sm transition-[scale,background-color] duration-short-4 ease-standard group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-100 group-aria-invalid/thumb:bg-destructive group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_38%,var(--color-background))] group-data-disabled/thumb:shadow-none motion-reduce:transition-none";
+  "pointer-events-none block size-full rounded-full bg-primary shadow-sm transition-[scale,background-color] duration-short-4 ease-standard group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-short-2 group-aria-invalid/thumb:bg-destructive group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))] group-data-disabled/thumb:shadow-none motion-reduce:transition-none";
 
 export type SliderVariants = VariantProps<typeof sliderVariants>;

@@ -12,7 +12,7 @@ const heights = Array.from({ length: 300 }, (_, index) => 60 + ((index * 37) % 9
     v-slot="{ item, index }"
   >
     <div
-      class="grid place-items-center rounded-md bg-accent text-xs text-accent-foreground"
+      class="grid place-items-center rounded-md bg-accent text-label-sm text-accent-foreground"
       :style="{ height: `${item}px` }"
     >
       {{ index }}

@@ -12,7 +12,7 @@ const files = ["Quarterly report.pdf", "Roadmap.fig", "Invoices.xlsx"];
     <li
       v-for="file in files"
       :key="file"
-      class="flex items-center justify-between gap-2 rounded-lg py-1 ps-3 pe-1 text-body-md transition-colors has-data-[state=open]:bg-muted"
+      class="flex items-center justify-between gap-2 rounded-lg py-1 ps-3 pe-1 text-body-md transition-colors duration-short-3 ease-standard has-data-[state=open]:bg-muted"
     >
       {{ file }}
       <DropdownMenu>

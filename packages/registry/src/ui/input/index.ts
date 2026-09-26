@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
 
-import { textControlBase, textControlSize, textControlVariant } from "@/lib/text-control";
+import { textControlBase, textControlRadius, textControlSize, textControlVariant } from "@/lib/text-control";
 
 export { default as Input } from "./Input.vue";
 
@@ -14,11 +14,11 @@ export const inputVariants = cva(
     variants: {
       variant: textControlVariant,
       size: {
-        xs: `h-7 ${textControlSize.xs}`,
-        sm: `h-8 ${textControlSize.sm}`,
-        md: `h-9 ${textControlSize.md}`,
-        lg: `h-10 ${textControlSize.lg}`,
-        xl: `h-12 ${textControlSize.xl}`,
+        xs: `h-7 ${textControlSize.xs} ${textControlRadius.xs}`,
+        sm: `h-8 ${textControlSize.sm} ${textControlRadius.sm}`,
+        md: `h-9 ${textControlSize.md} ${textControlRadius.md}`,
+        lg: `h-10 ${textControlSize.lg} ${textControlRadius.lg}`,
+        xl: `h-12 ${textControlSize.xl} ${textControlRadius.xl}`,
       },
     },
     defaultVariants: {
@@ -34,16 +34,16 @@ export const floatingControlVariants = cva("group/input relative", {
     size: sizes,
   },
   compoundVariants: [
-    { variant: "outline", size: "xs", class: "h-7" },
-    { variant: "outline", size: "sm", class: "h-8" },
-    { variant: "outline", size: "md", class: "h-9" },
-    { variant: "outline", size: "lg", class: "h-10" },
-    { variant: "outline", size: "xl", class: "h-12" },
-    { variant: insideLabel, size: "xs", class: "h-10" },
-    { variant: insideLabel, size: "sm", class: "h-11" },
-    { variant: insideLabel, size: "md", class: "h-12" },
-    { variant: insideLabel, size: "lg", class: "h-13" },
-    { variant: insideLabel, size: "xl", class: "h-14" },
+    { variant: "outline", size: "xs", class: `h-7 ${textControlRadius.xs}` },
+    { variant: "outline", size: "sm", class: `h-8 ${textControlRadius.sm}` },
+    { variant: "outline", size: "md", class: `h-9 ${textControlRadius.md}` },
+    { variant: "outline", size: "lg", class: `h-10 ${textControlRadius.lg}` },
+    { variant: "outline", size: "xl", class: `h-12 ${textControlRadius.xl}` },
+    { variant: insideLabel, size: "xs", class: "h-10 [--control-radius:var(--radius-lg)]" },
+    { variant: insideLabel, size: "sm", class: "h-11 [--control-radius:var(--radius-lg)]" },
+    { variant: insideLabel, size: "md", class: "h-12 [--control-radius:var(--radius-xl)]" },
+    { variant: insideLabel, size: "lg", class: "h-13 [--control-radius:var(--radius-xl)]" },
+    { variant: insideLabel, size: "xl", class: "h-14 [--control-radius:var(--radius-xl)]" },
   ],
   defaultVariants: {
     variant: "outline",
@@ -55,7 +55,7 @@ export const floatingInputVariants = cva(
   `${textControlBase} peer h-full placeholder:text-transparent focus:placeholder:text-muted-foreground`,
   {
     variants: {
-      variant: { ...textControlVariant, outline: "rounded-lg" },
+      variant: { ...textControlVariant, outline: "rounded-(--control-radius)" },
       size: textControlSize,
     },
     compoundVariants: [
@@ -109,7 +109,7 @@ export const floatingLabelVariants = cva(
 );
 
 export const floatingOutlineVariants = cva(
-  "pointer-events-none absolute inset-x-0 -top-[5px] bottom-0 m-0 min-w-0 rounded-lg border border-input transition-[border-color] duration-short-3 ease-standard peer-focus-visible:border-2 peer-focus-visible:border-primary peer-user-invalid:border-destructive peer-user-invalid:peer-focus-visible:border-destructive peer-disabled:border-foreground/(--disabled-container-opacity) peer-aria-invalid:border-destructive peer-aria-invalid:peer-focus-visible:border-destructive",
+  "pointer-events-none absolute inset-x-0 -top-[5px] bottom-0 m-0 min-w-0 rounded-(--control-radius) border border-input transition-[border-color] duration-short-3 ease-standard peer-focus-visible:border-2 peer-focus-visible:border-primary peer-user-invalid:border-destructive peer-user-invalid:peer-focus-visible:border-destructive peer-disabled:border-foreground/(--disabled-container-opacity) peer-aria-invalid:border-destructive peer-aria-invalid:peer-focus-visible:border-destructive",
   {
     variants: {
       size: { xs: "px-1", sm: "px-1.5", md: "px-2", lg: "px-2", xl: "px-3" },

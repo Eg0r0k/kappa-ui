@@ -16,6 +16,7 @@ import { VisuallyHidden } from "@delta-ui/core/visually-hidden";
 import { X } from "@lucide/vue";
 import { type HTMLAttributes, type VNode, computed, defineComponent, h, useSlots } from "vue";
 
+import { modalScrim } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import { ScrollArea } from "@/ui/scroll-area";
@@ -118,7 +119,8 @@ const onOpenAutoFocus = (event: Event) => {
         :data-transparent="!props.overlay || !props.modal || undefined"
         :class="
           cn(
-            'fixed inset-0 z-50 bg-black/40 animate-overlay [--overlay-scale:1] data-transparent:bg-transparent',
+            'fixed inset-0 bg-scrim animate-overlay [--overlay-scale:1] data-transparent:bg-transparent',
+            modalScrim,
             !props.modal && 'pointer-events-none',
             !props.scrollable && 'flex items-center justify-center',
             !props.scrollable && !props.fullscreen && 'p-4 sm:p-8',
@@ -144,7 +146,7 @@ const onOpenAutoFocus = (event: Event) => {
               data-slot="dialog"
               :class="
                 cn(
-                  'pointer-events-auto relative flex w-full flex-col rounded-2xl border bg-popover text-popover-foreground shadow-xl outline-none animate-overlay',
+                  'pointer-events-auto relative flex w-full flex-col rounded-2xl border border-surface-border bg-popover text-popover-foreground shadow-xl outline-none animate-overlay',
                   props.fullscreen ? 'min-h-full max-w-none rounded-none border-0' : 'max-w-lg',
                   props.fullscreen && !props.scrollable && 'h-full',
                   !props.scrollable && 'max-h-full overflow-hidden',

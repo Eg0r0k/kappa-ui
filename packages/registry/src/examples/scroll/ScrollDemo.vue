@@ -22,7 +22,7 @@ const scrollTo = (where: "top" | "bottom", duration: number) => {
       <Button size="sm" variant="ghost" color="neutral" @click="scrollTo('top', 0)">Jump to top</Button>
     </div>
     <div ref="box" class="h-48 overflow-y-auto rounded-lg border p-4">
-      <p v-for="index in 40" :key="index" class="text-sm leading-7">Line {{ index }}</p>
+      <p v-for="index in 40" :key="index" class="text-body-md leading-7">Line {{ index }}</p>
     </div>
   </div>
 </template>

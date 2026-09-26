@@ -18,10 +18,12 @@
 
   --state-hover: 8%;
   --state-pressed: 12%;
+  --state-selected: 8%;
   --delta-ripple-opacity: var(--state-pressed);
   --delta-ripple-easing: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
   --disabled-opacity: 38%;
   --disabled-container-opacity: 12%;
+  --scrim: oklch(0 0 0 / 40%);
 
   --typescale-display-lg-size: 3.5625rem;
   --typescale-display-lg-line-height: 4rem;
@@ -100,6 +102,8 @@
 
 .dark {
   color-scheme: dark;
+
+  --scrim: oklch(0 0 0 / 60%);
 
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -182,6 +186,8 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-warning-text: var(--warning-text);
   --color-border: var(--border);
+  --color-surface-border: var(--surface-border, var(--border));
+  --color-scrim: var(--scrim);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
@@ -283,6 +289,20 @@
       transform: none;
     }
   }
+}
+
+@utility focus-ring {
+  outline-style: solid;
+  outline-width: 3px;
+  outline-offset: 0px;
+  outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
+}
+
+@utility focus-ring-inset {
+  outline-style: solid;
+  outline-width: 3px;
+  outline-offset: -3px;
+  outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
 }
 
 @utility state-layer {

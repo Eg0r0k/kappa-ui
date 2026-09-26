@@ -12,6 +12,6 @@ const columns = Array.from({ length: 10_000 }, (_, index) => `Column ${index}`);
     class="h-32 w-full max-w-md rounded-lg border"
     v-slot="{ item }"
   >
-    <div class="grid h-full w-[140px] place-items-center border-e text-sm">{{ item }}</div>
+    <div class="grid h-full w-[140px] place-items-center border-e text-body-md">{{ item }}</div>
   </ScrollArea>
 </template>

@@ -16,7 +16,7 @@ export const listboxVariants = cva(
     variants: {
       variant: {
         outline:
-          "rounded-xl border bg-card p-1 text-card-foreground aria-invalid:border-destructive data-disabled:border-foreground/(--disabled-container-opacity)",
+          "rounded-xl border border-border bg-card p-1 text-card-foreground aria-invalid:border-destructive data-disabled:border-foreground/(--disabled-container-opacity)",
         ghost: "",
       },
     },

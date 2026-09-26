@@ -29,6 +29,6 @@ onBeforeUnmount(() => clearTimeout(timer));
         {{ saving ? "Saving" : "Width held" }}
       </Button>
     </div>
-    <p class="text-sm text-muted-foreground">Saves: {{ saves }}</p>
+    <p class="text-body-md text-muted-foreground">Saves: {{ saves }}</p>
   </div>
 </template>

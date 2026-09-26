@@ -22,7 +22,7 @@ const area = shallowRef<ScrollAreaApi | null>(null);
       class="h-64 rounded-lg border"
       v-slot="{ item, index }"
     >
-      <div class="px-4 text-sm leading-8">{{ index }} — {{ item }}</div>
+      <div class="px-4 text-body-md leading-8">{{ index }} — {{ item }}</div>
     </ScrollArea>
   </div>
 </template>

@@ -8,7 +8,7 @@ import { ScrollArea } from "@/ui/scroll-area";
       <div
         v-for="index in 12"
         :key="index"
-        class="grid size-32 shrink-0 place-items-center rounded-lg bg-accent text-sm text-accent-foreground"
+        class="grid size-32 shrink-0 place-items-center rounded-lg bg-accent text-body-md text-accent-foreground"
       >
         {{ index }}
       </div>

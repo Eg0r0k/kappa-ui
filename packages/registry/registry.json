@@ -33,12 +33,10 @@
       "type": "registry:lib",
       "title": "Choice group",
       "description": "Sizes, touch targets and the state layer shared by checkboxes and radios, and the card, list and table layouts of their groups.",
+      "registryDependencies": ["tokens"],
       "dependencies": ["class-variance-authority"],
       "files": [
-        {
-          "path": "src/lib/choice-group.ts",
-          "type": "registry:lib"
-        }
+        { "path": "src/lib/choice-group.ts", "type": "registry:lib" }
       ]
     },
     {
@@ -186,7 +184,9 @@
           "typescale-label-md-weight": "500",
           "typescale-label-sm-size": "0.6875rem",
           "typescale-label-sm-line-height": "1rem",
-          "typescale-label-sm-weight": "500"
+          "typescale-label-sm-weight": "500",
+          "state-selected": "8%",
+          "scrim": "oklch(0 0 0 / 40%)"
         },
         "dark": {
           "destructive-foreground": "oklch(0.25 0.08 25)",
@@ -195,7 +195,8 @@
           "success-text": "oklch(0.78 0.13 155)",
           "warning": "oklch(0.82 0.14 80)",
           "warning-foreground": "oklch(0.27 0.06 70)",
-          "warning-text": "oklch(0.82 0.14 80)"
+          "warning-text": "oklch(0.82 0.14 80)",
+          "scrim": "oklch(0 0 0 / 60%)"
         },
         "theme": {
           "color-destructive-foreground": "var(--destructive-foreground)",
@@ -270,10 +271,51 @@
           "text-label-md--font-weight": "var(--typescale-label-md-weight)",
           "text-label-sm": "var(--typescale-label-sm-size)",
           "text-label-sm--line-height": "var(--typescale-label-sm-line-height)",
-          "text-label-sm--font-weight": "var(--typescale-label-sm-weight)"
+          "text-label-sm--font-weight": "var(--typescale-label-sm-weight)",
+          "color-surface-border": "var(--surface-border, var(--border))",
+          "color-scrim": "var(--scrim)"
         }
       },
-      "files": []
+      "files": [],
+      "css": {
+        "@utility state-layer": {
+          "&::before": {
+            "content": "\"\"",
+            "position": "absolute",
+            "inset": "0",
+            "border-radius": "inherit",
+            "background-color": "currentColor",
+            "opacity": "0",
+            "pointer-events": "none",
+            "transition": "opacity var(--transition-duration-short-1, 50ms) linear"
+          },
+          "@media (hover: hover)": {
+            "&:hover::before": {
+              "opacity": "var(--state-hover)"
+            }
+          },
+          "&:active:not(:has(> [data-slot=ripple]))::before": {
+            "opacity": "var(--state-pressed)"
+          },
+          "@media (forced-colors: active)": {
+            "&::before": {
+              "display": "none"
+            }
+          }
+        },
+        "@utility focus-ring": {
+          "outline-style": "solid",
+          "outline-width": "3px",
+          "outline-offset": "0px",
+          "outline-color": "color-mix(in oklab, var(--color-ring) 50%, transparent)"
+        },
+        "@utility focus-ring-inset": {
+          "outline-style": "solid",
+          "outline-width": "3px",
+          "outline-offset": "-3px",
+          "outline-color": "color-mix(in oklab, var(--color-ring) 50%, transparent)"
+        }
+      }
     },
     {
       "name": "theme",

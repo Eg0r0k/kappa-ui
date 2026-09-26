@@ -3,7 +3,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 export { default as Button } from "./Button.vue";
 
 const touchTargetArea =
-  "after:absolute after:top-1/2 after:left-1/2 after:h-[max(48px,100%)] after:w-[max(48px,100%)] after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']";
+  "after:absolute after:top-1/2 after:left-1/2 after:h-[max(3rem,100%)] after:w-[max(3rem,100%)] after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']";
 
 const colors = {
   primary: {
@@ -52,7 +52,7 @@ const colorVariants = Object.entries(colors).flatMap(([color, variants]) =>
 );
 
 export const buttonVariants = cva(
-  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors ease-standard outline-none disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -74,16 +74,16 @@ export const buttonVariants = cva(
         default:
           "h-9 px-4 py-2 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
         lg: "h-10 px-6 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4",
-        xl: "h-12 px-8 text-title-md has-data-[icon=inline-start]:pl-6 has-data-[icon=inline-end]:pr-6",
+        xl: "h-12 rounded-xl px-8 text-title-md has-data-[icon=inline-start]:pl-6 has-data-[icon=inline-end]:pr-6",
         "icon-sm": "size-8",
         icon: "size-9",
         "icon-lg": "size-10",
-        "icon-xl": "size-12",
+        "icon-xl": "size-12 rounded-xl",
       },
       focusRing: {
-        outward: "focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        outward: "focus-visible:focus-ring",
         inward:
-          "focus-visible:inset-ring-[3px] focus-visible:inset-ring-ring/50",
+          "focus-visible:focus-ring-inset",
       },
 
       touchTarget: {

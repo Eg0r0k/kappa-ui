@@ -15,7 +15,7 @@ const messages = [
     <li
       v-for="message in messages"
       :key="message.from"
-      class="flex flex-col rounded-lg px-3 py-2 transition-colors data-[state=open]:bg-muted"
+      class="flex flex-col rounded-lg px-3 py-2 transition-colors duration-short-3 ease-standard data-[state=open]:bg-muted"
     >
       <span class="text-body-md">{{ message.from }}</span>
       <span class="text-body-sm text-muted-foreground">{{ message.subject }}</span>

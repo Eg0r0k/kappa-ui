@@ -37,3 +37,93 @@ it("squares cards and checkboxes when --radius is zero", () => {
   expect(getComputedStyle(wrapper.get("[data-slot=checkbox]").element).borderRadius).toBe("0px");
   wrapper.unmount();
 });
+
+const radiusOf = (element: Element, corner = "borderTopLeftRadius") =>
+  getComputedStyle(element)[corner as "borderTopLeftRadius"];
+
+it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px", async () => {
+  const { Button } = await import("@/ui/button");
+  const { Input } = await import("@/ui/input");
+  const { Textarea } = await import("@/ui/textarea");
+  const { SelectTrigger, Select } = await import("@/ui/select");
+  const { InputGroup, InputGroupInput } = await import("@/ui/input-group");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", [
+          ...(["xs", "sm", "default", "lg", "xl", "icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"] as const).map((size) =>
+            h(Button, { size, "data-case": `button-${size}` }, () => "B"),
+          ),
+          ...(["xs", "sm", "md", "lg", "xl"] as const).flatMap((size) => [
+            h(Input, { size, "data-case": `input-${size}` }),
+            h(Textarea, { size, "data-case": `textarea-${size}` }),
+            h(Select, () => h(SelectTrigger, { size, "data-case": `select-${size}` }, () => "S")),
+            h(InputGroup, { size, "data-case": `group-${size}` }, () => h(InputGroupInput)),
+          ]),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+
+  expect(["xs", "sm", "default", "lg", "xl"].map((size) => radius(`button-${size}`))).toEqual([
+    "9.6px",
+    "12px",
+    "12px",
+    "12px",
+    "16.8px",
+  ]);
+  expect(["icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"].map((size) => radius(`button-${size}`))).toEqual([
+    "9.6px",
+    "12px",
+    "12px",
+    "12px",
+    "16.8px",
+  ]);
+  for (const control of ["input", "textarea", "select", "group"]) {
+    expect(["xs", "sm", "md", "lg", "xl"].map((size) => radius(`${control}-${size}`)), control).toEqual([
+      "9.6px",
+      "12px",
+      "12px",
+      "12px",
+      "16.8px",
+    ]);
+  }
+  wrapper.unmount();
+});
+
+it("keeps a filled control square at the bottom at every size", async () => {
+  const { Input } = await import("@/ui/input");
+  const wrapper = mount(
+    { render: () => h("div", (["xs", "xl"] as const).map((size) => h(Input, { size, variant: "filled", "data-case": size }))) },
+    { attachTo: document.body },
+  );
+  const corners = (size: string) => {
+    const element = document.querySelector(`[data-case=${size}]`)!;
+    return [radiusOf(element), radiusOf(element, "borderBottomLeftRadius")];
+  };
+  expect(corners("xs")).toEqual(["9.6px", "0px"]);
+  expect(corners("xl")).toEqual(["16.8px", "0px"]);
+  wrapper.unmount();
+});
+
+it("rounds a floating-label field by its taller height", async () => {
+  const { Input } = await import("@/ui/input");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", [
+          h(Input, { label: "Email", size: "md", "data-case": "outline" }),
+          h(Input, { label: "Email", size: "md", variant: "soft", "data-case": "soft" }),
+          h(Input, { label: "Email", size: "xs", variant: "soft", "data-case": "soft-xs" }),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const input = (name: string) => document.querySelector(`input[data-case=${name}]`)!;
+  const outline = input("outline").closest("[data-slot=input-control]")!.querySelector("fieldset")!;
+  expect(radiusOf(outline)).toBe("12px");
+  expect(radiusOf(input("soft"))).toBe("16.8px");
+  expect(radiusOf(input("soft-xs"))).toBe("12px");
+  wrapper.unmount();
+});

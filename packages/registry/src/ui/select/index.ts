@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
 
-import { textControlBase, textControlSize, textControlVariant } from "@/lib/text-control";
+import { textControlBase, textControlRadius, textControlSize, textControlVariant } from "@/lib/text-control";
 
 export { default as Select } from "./Select.vue";
 export { default as SelectContent } from "./SelectContent.vue";
@@ -20,11 +20,11 @@ export const selectTriggerVariants = cva(
     variants: {
       variant: textControlVariant,
       size: {
-        xs: `h-7 ${textControlSize.xs}`,
-        sm: `h-8 ${textControlSize.sm}`,
-        md: `h-9 ${textControlSize.md}`,
-        lg: `h-10 ${textControlSize.lg}`,
-        xl: `h-12 ${textControlSize.xl}`,
+        xs: `h-7 ${textControlSize.xs} ${textControlRadius.xs}`,
+        sm: `h-8 ${textControlSize.sm} ${textControlRadius.sm}`,
+        md: `h-9 ${textControlSize.md} ${textControlRadius.md}`,
+        lg: `h-10 ${textControlSize.lg} ${textControlRadius.lg}`,
+        xl: `h-12 ${textControlSize.xl} ${textControlRadius.xl}`,
       },
     },
     defaultVariants: {

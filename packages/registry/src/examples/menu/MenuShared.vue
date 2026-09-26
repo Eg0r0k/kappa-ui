@@ -16,9 +16,11 @@ const last = ref("nothing yet");
   <div class="flex w-full max-w-sm flex-col gap-2">
     <button
       type="button"
-      class="flex items-center gap-3 rounded-xl border p-3 text-start outline-none select-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+      class="flex items-center gap-3 rounded-xl border border-border p-3 text-start outline-none select-none focus-visible:focus-ring"
     >
-      <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+      <span
+        class="flex size-10 shrink-0 items-center justify-center rounded-[calc(var(--radius-xl)-var(--spacing)*3-1px)] bg-muted text-muted-foreground"
+      >
         <File class="size-5" />
       </span>
       <span class="min-w-0 flex-1">

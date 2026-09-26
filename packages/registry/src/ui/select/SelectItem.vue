@@ -27,7 +27,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
   <SelectItem
     v-bind="forwarded"
     data-slot="select-item"
-    :class="cn(menuItem, 'w-full pe-[calc(var(--menu-item-px)*2+var(--menu-icon))] data-[state=checked]:bg-primary/8', props.class)"
+    :class="cn(menuItem, 'w-full pe-[calc(var(--menu-item-px)*2+var(--menu-icon))] data-[state=checked]:bg-primary/(--state-selected)', props.class)"
   >
     <span class="pointer-events-none absolute end-(--menu-item-px) flex size-(--menu-icon) items-center justify-center text-primary group-data-disabled/menu-item:text-foreground/(--disabled-opacity)">
       <SelectItemIndicator data-slot="select-item-indicator" class="flex items-center justify-center">
