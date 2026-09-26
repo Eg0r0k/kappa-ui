@@ -451,7 +451,8 @@
       "type": "registry:item",
       "title": "Scroll fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
-      "docs": "The CLI writes styles/scroll-fade.css at the project root. Import it in your global stylesheet after tailwindcss, with a path relative to that stylesheet, e.g. @import '../../styles/scroll-fade.css' from src/assets/main.css.",
+      "docs": "The CLI writes styles/scroll-fade.css at the project root. Import it in your global stylesheet after tailwindcss, with a path relative to that stylesheet, e.g. @import '../../styles/scroll-fade.css' from src/assets/main.css. Put v-scroll-fade from @delta-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
+      "dependencies": ["@delta-ui/core"],
       "files": [
         { "path": "src/styles/scroll-fade.css", "type": "registry:file", "target": "styles/scroll-fade.css" }
       ]
@@ -1751,7 +1752,7 @@
       "description": "A row of chips with faded edges and buttons that scroll it a step at a time.",
       "categories": ["example"],
       "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["scroll-area", "scroll-fade", "button"],
+      "registryDependencies": ["scroll-area", "scroll-fade", "button", "badge", "scroll"],
       "files": [
         { "path": "src/examples/scroll-area/ScrollAreaEdgeFade.vue", "type": "registry:component" }
       ]
@@ -1817,6 +1818,7 @@
       "title": "Scroll fade mask",
       "description": "A scrolling list whose edges fade by mask.",
       "categories": ["example"],
+      "dependencies": ["@delta-ui/core"],
       "registryDependencies": ["scroll-fade"],
       "files": [
         { "path": "src/examples/scroll-fade/ScrollFadeMask.vue", "type": "registry:component" }
@@ -1828,9 +1830,34 @@
       "title": "Scroll fade overlay",
       "description": "A scrolling list whose edges fade by overlay gradients.",
       "categories": ["example"],
+      "dependencies": ["@delta-ui/core"],
       "registryDependencies": ["scroll-fade"],
       "files": [
         { "path": "src/examples/scroll-fade/ScrollFadeOverlay.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-fade-firefox",
+      "type": "registry:block",
+      "title": "Scroll fade in Firefox",
+      "description": "Two lists, without and with v-scroll-fade.",
+      "categories": ["example"],
+      "dependencies": ["@delta-ui/core"],
+      "registryDependencies": ["scroll-fade"],
+      "files": [
+        { "path": "src/examples/scroll-fade/ScrollFadeFirefox.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "scroll-fade-horizontal",
+      "type": "registry:block",
+      "title": "Horizontal scroll fade",
+      "description": "A row of badges whose inline edges fade by mask.",
+      "categories": ["example"],
+      "dependencies": ["@delta-ui/core"],
+      "registryDependencies": ["scroll-fade", "badge"],
+      "files": [
+        { "path": "src/examples/scroll-fade/ScrollFadeHorizontal.vue", "type": "registry:component" }
       ]
     },
     {

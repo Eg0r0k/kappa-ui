@@ -19,6 +19,7 @@
     "./primitive": "./src/primitives/primitive.ts",
     "./radio-group": "./src/primitives/radio-group.ts",
     "./ripple": "./src/ripple/index.ts",
+    "./scroll-fade": "./src/scroll-fade/index.ts",
     "./select": "./src/primitives/select.ts",
     "./separator": "./src/primitives/separator.ts",
     "./slider": "./src/primitives/slider.ts",

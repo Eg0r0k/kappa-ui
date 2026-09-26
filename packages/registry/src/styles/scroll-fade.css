@@ -91,6 +91,17 @@
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-t: var(--_scroll-fade-size-t);
     --scroll-fade-b: var(--_scroll-fade-size-b);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-t, --scroll-fade-b;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not([data-overflow-y-start]) {
+      --scroll-fade-t: 0px;
+    }
+    &[data-scroll-fade]:not([data-overflow-y-end]) {
+      --scroll-fade-b: 0px;
+    }
   }
 }
 
@@ -123,6 +134,17 @@
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-t: var(--_scroll-fade-size-t);
     --scroll-fade-b: var(--_scroll-fade-size-b);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-t, --scroll-fade-b;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not([data-overflow-y-start]) {
+      --scroll-fade-t: 0px;
+    }
+    &[data-scroll-fade]:not([data-overflow-y-end]) {
+      --scroll-fade-b: 0px;
+    }
   }
 }
 
@@ -162,6 +184,17 @@
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-s: var(--_scroll-fade-size-s);
     --scroll-fade-e: var(--_scroll-fade-size-e);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-s, --scroll-fade-e;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not([data-overflow-x-start]) {
+      --scroll-fade-s: 0px;
+    }
+    &[data-scroll-fade]:not([data-overflow-x-end]) {
+      --scroll-fade-e: 0px;
+    }
   }
 }
 
@@ -187,6 +220,14 @@
 
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-t: var(--_scroll-fade-size-t);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-t;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not([data-overflow-y-start]) {
+      --scroll-fade-t: 0px;
+    }
   }
 }
 
@@ -213,6 +254,14 @@
 
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-b: var(--_scroll-fade-size-b);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-b;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not([data-overflow-y-end]) {
+      --scroll-fade-b: 0px;
+    }
   }
 }
 
@@ -234,10 +283,23 @@
     animation-timeline: scroll(self x);
     animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 24));
     animation-fill-mode: both;
+    &:dir(rtl) {
+      animation-direction: reverse;
+      animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24))) 100%;
+    }
   }
 
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-s: var(--_scroll-fade-size-s);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-s;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not(:dir(rtl)):not([data-overflow-x-start]),
+    &[data-scroll-fade]:dir(rtl):not([data-overflow-x-end]) {
+      --scroll-fade-s: 0px;
+    }
   }
 }
 
@@ -260,10 +322,23 @@
     animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24)))
       100%;
     animation-fill-mode: both;
+    &:dir(rtl) {
+      animation-direction: reverse;
+      animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 24));
+    }
   }
 
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-e: var(--_scroll-fade-size-e);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-e;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not(:dir(rtl)):not([data-overflow-x-end]),
+    &[data-scroll-fade]:dir(rtl):not([data-overflow-x-start]) {
+      --scroll-fade-e: 0px;
+    }
   }
 }
 
@@ -295,6 +370,14 @@
 
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-s: var(--_scroll-fade-size-s);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-s;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not([data-overflow-x-start]) {
+      --scroll-fade-s: 0px;
+    }
   }
 }
 
@@ -327,6 +410,14 @@
 
   @supports not (animation-timeline: scroll()) {
     --scroll-fade-e: var(--_scroll-fade-size-e);
+    &[data-scroll-fade] {
+      transition-property: --scroll-fade-e;
+      transition-duration: var(--transition-duration-short-4, 200ms);
+      transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &[data-scroll-fade]:not([data-overflow-x-end]) {
+      --scroll-fade-e: 0px;
+    }
   }
 }
 
@@ -430,8 +521,10 @@
       }
     }
     @supports not (animation-timeline: scroll()) {
-      &::before,
-      &::after {
+      &:not(:has(> [data-scroll-fade]))::before,
+      &:not(:has(> [data-scroll-fade]))::after,
+      &:has(> [data-overflow-x-start])::before,
+      &:has(> [data-overflow-x-end])::after {
         opacity: 1;
       }
     }
@@ -484,8 +577,10 @@
       }
     }
     @supports not (animation-timeline: scroll()) {
-      &::before,
-      &::after {
+      &:not(:has(> [data-scroll-fade]))::before,
+      &:not(:has(> [data-scroll-fade]))::after,
+      &:has(> [data-overflow-y-start])::before,
+      &:has(> [data-overflow-y-end])::after {
         opacity: 1;
       }
     }

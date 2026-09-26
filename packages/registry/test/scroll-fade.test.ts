@@ -1,7 +1,8 @@
+import { vScrollFade } from "@delta-ui/core/scroll-fade";
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { h } from "vue";
+import { defineComponent, h, withDirectives } from "vue";
 
 import ScrollAreaEdgeFade from "@/examples/scroll-area/ScrollAreaEdgeFade.vue";
 import { ScrollArea } from "@/ui/scroll-area";
@@ -52,15 +53,18 @@ it("hides both overlays with scroll-fade-overlay-none", () => {
 });
 
 it("fades a wrapper's edges from its only scrolling child", async () => {
-  const wrapper = document.createElement("div");
-  wrapper.className = "scroll-fade-overlay";
-  wrapper.style.height = "100px";
-  wrapper.style.overflow = "hidden";
-  wrapper.innerHTML = '<div class="h-full overflow-y-auto" style="height: 100%">'
-    + '<div style="height: 1000px"></div>'
-    + "</div>";
-  document.body.append(wrapper);
-
+  const mounted = mount(
+    defineComponent({
+      setup: () => () =>
+        h("div", { class: "scroll-fade-overlay", style: "height: 100px; overflow: hidden" }, [
+          withDirectives(h("div", { class: "h-full overflow-y-auto" }, [h("div", { style: "height: 1000px" })]), [
+            [vScrollFade],
+          ]),
+        ]),
+    }),
+    { attachTo: document.body },
+  );
+  const wrapper = mounted.element as HTMLElement;
   const child = wrapper.firstElementChild as HTMLElement;
 
   await vi.waitFor(() => {
@@ -74,7 +78,79 @@ it("fades a wrapper's edges from its only scrolling child", async () => {
     expect(getComputedStyle(wrapper, "::after").opacity).toBe("0");
   });
 
-  wrapper.remove();
+  mounted.unmount();
+});
+
+it("masks only the edges a scroll container can still scroll towards", async () => {
+  const mounted = mount(
+    defineComponent({
+      setup: () => () =>
+        withDirectives(
+          h("div", { class: "scroll-fade overflow-y-auto", style: "height: 100px; --scroll-fade-size: 20px" }, [
+            h("div", { style: "height: 1000px" }),
+          ]),
+          [[vScrollFade]],
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  const element = mounted.element as HTMLElement;
+  const edge = (name: "t" | "b") => getComputedStyle(element).getPropertyValue(`--scroll-fade-${name}`);
+
+  await vi.waitFor(() => {
+    expect(edge("t")).toBe("0px");
+    expect(edge("b")).toBe("20px");
+  });
+
+  element.scrollTop = element.scrollHeight;
+  await vi.waitFor(() => {
+    expect(edge("t")).toBe("20px");
+    expect(edge("b")).toBe("0px");
+  });
+
+  mounted.unmount();
+});
+
+it.skipIf(CSS.supports("animation-timeline: scroll()"))(
+  "keeps both mask edges without the directive where scroll-driven animations are missing",
+  () => {
+    const element = document.createElement("div");
+    element.className = "scroll-fade overflow-y-auto";
+    element.style.cssText = "height: 100px; --scroll-fade-size: 20px";
+    element.innerHTML = '<div style="height: 1000px"></div>';
+    document.body.append(element);
+
+    const style = getComputedStyle(element);
+    expect(style.getPropertyValue("--scroll-fade-t")).toBe("20px");
+    expect(style.getPropertyValue("--scroll-fade-b")).toBe("20px");
+  },
+);
+
+it.each([
+  { utility: "scroll-fade-l", edge: "s", atStart: "20px", atEnd: "0px" },
+  { utility: "scroll-fade-r", edge: "e", atStart: "0px", atEnd: "20px" },
+])("keeps $utility on its physical edge in RTL", async ({ utility, edge, atStart, atEnd }) => {
+  const mounted = mount(
+    defineComponent({
+      setup: () => () =>
+        withDirectives(
+          h("div", { class: `${utility} overflow-x-auto`, dir: "rtl", style: "width: 200px; --scroll-fade-size: 20px" }, [
+            h("div", { style: "width: 1000px; height: 10px" }),
+          ]),
+          [[vScrollFade]],
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  const element = mounted.element as HTMLElement;
+  const value = () => getComputedStyle(element).getPropertyValue(`--scroll-fade-${edge}`);
+
+  await vi.waitFor(() => expect(value()).toBe(atStart));
+
+  element.scrollLeft = -element.scrollWidth;
+  await vi.waitFor(() => expect(value()).toBe(atEnd));
+
+  mounted.unmount();
 });
 
 it("hides the start overlay with scroll-fade-overlay-e", () => {
@@ -123,5 +199,28 @@ it("shows each step button only when its direction can scroll", async () => {
 
   await userEvent.click(button("forward"));
   await vi.waitFor(() => expect(getComputedStyle(button("back")).display).not.toBe("none"));
+  wrapper.unmount();
+});
+
+it("centres the chip row in the edge-fade area", () => {
+  const wrapper = mount(ScrollAreaEdgeFade, { attachTo: document.body });
+  const area = document.querySelector<HTMLElement>("[data-slot=scroll-area]")!.getBoundingClientRect();
+  const chip = document.querySelector<HTMLElement>("[data-slot=badge]")!.getBoundingClientRect();
+
+  expect(chip.top + chip.height / 2).toBeCloseTo(area.top + area.height / 2, 0);
+  wrapper.unmount();
+});
+
+it("adds up quick steps", async () => {
+  const wrapper = mount(ScrollAreaEdgeFade, { attachTo: document.body });
+  const viewport = document.querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
+  const forward = document.querySelector<HTMLElement>("[data-test=forward]")!;
+
+  await vi.waitFor(() => expect(getComputedStyle(forward).display).not.toBe("none"));
+  await userEvent.click(forward);
+  await userEvent.click(forward);
+
+  const expected = Math.min(viewport.scrollWidth - viewport.clientWidth, 2 * 0.8 * viewport.clientWidth);
+  await vi.waitFor(() => expect(Math.abs(viewport.scrollLeft - expected)).toBeLessThan(1), { timeout: 2000 });
   wrapper.unmount();
 });
