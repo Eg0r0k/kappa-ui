@@ -27,11 +27,11 @@ export const inputGroupVariants = cva(
         subtle: `rounded-(--input-group-radius) border border-input bg-muted ${focusRing} ${disabledBorder}`,
       },
       size: {
-        xs: "h-7 [--input-group-radius:var(--radius-md)] [--input-group-height:--spacing(7)] [--input-group-padding:--spacing(2)]",
-        sm: "h-8 [--input-group-radius:var(--radius-lg)] [--input-group-height:--spacing(8)] [--input-group-padding:--spacing(2.5)]",
-        md: "h-9 [--input-group-radius:var(--radius-lg)] [--input-group-height:--spacing(9)] [--input-group-padding:--spacing(3)]",
-        lg: "h-10 [--input-group-radius:var(--radius-lg)] [--input-group-height:--spacing(10)] [--input-group-padding:--spacing(3)]",
-        xl: "h-12 [--input-group-radius:var(--radius-xl)] [--input-group-height:--spacing(12)] [--input-group-padding:--spacing(4)]",
+        xs: "h-7 [--input-group-radius:var(--radius-md)] [--input-group-height:--spacing(7)] [--input-group-padding:--spacing(2)] [--input-group-icon:--spacing(3.5)]",
+        sm: "h-8 [--input-group-radius:var(--radius-lg)] [--input-group-height:--spacing(8)] [--input-group-padding:--spacing(2.5)] [--input-group-icon:--spacing(4)]",
+        md: "h-9 [--input-group-radius:var(--radius-lg)] [--input-group-height:--spacing(9)] [--input-group-padding:--spacing(3)] [--input-group-icon:--spacing(4)]",
+        lg: "h-10 [--input-group-radius:var(--radius-lg)] [--input-group-height:--spacing(10)] [--input-group-padding:--spacing(3)] [--input-group-icon:--spacing(5)]",
+        xl: "h-12 [--input-group-radius:var(--radius-xl)] [--input-group-height:--spacing(12)] [--input-group-padding:--spacing(4)] [--input-group-icon:--spacing(5)]",
       },
     },
     defaultVariants: {
@@ -42,7 +42,7 @@ export const inputGroupVariants = cva(
 );
 
 export const inputGroupAddonVariants = cva(
-  "flex cursor-text items-center gap-2 text-body-md text-muted-foreground select-none [&>svg]:pointer-events-none [&>svg:not([class*='size-'])]:size-4 group-has-[[data-slot=input-group-control]:disabled]/input-group:opacity-(--disabled-opacity)",
+  "flex cursor-text items-center gap-2 text-body-md text-muted-foreground select-none [&>svg]:pointer-events-none [&>svg:not([class*='size-'])]:size-(--input-group-icon) group-has-[[data-slot=input-group-control]:disabled]/input-group:opacity-(--disabled-opacity)",
   {
     variants: {
       align: {

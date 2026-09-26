@@ -51,6 +51,27 @@ describe("InputGroup", () => {
     expect(heights).toEqual([28, 32, 36, 40, 48]);
   });
 
+  it("sizes the icons in addons and texts with the group", () => {
+    const sizes = (["xs", "sm", "md", "lg", "xl"] as const).map((size) => {
+      const wrapper = render({ size }, () => [
+        h(InputGroupAddon, () => h(Search, { "data-test": "addon-icon" })),
+        h(InputGroupInput),
+        h(InputGroupAddon, { align: "inline-end" }, () => h(InputGroupText, () => h(Search, { "data-test": "text-icon" }))),
+      ]);
+      const width = (test: string) => document.querySelector(`[data-test=${test}]`)!.getBoundingClientRect().width;
+      const result = [width("addon-icon"), width("text-icon")];
+      wrapper.unmount();
+      return result;
+    });
+    expect(sizes).toEqual([
+      [14, 14],
+      [16, 16],
+      [16, 16],
+      [20, 20],
+      [20, 20],
+    ]);
+  });
+
   it("rings the frame when the control has focus, not when a button inside has", async () => {
     render({}, () => [
       h(InputGroupInput),
