@@ -4,6 +4,7 @@ import { Plus } from "@lucide/vue";
 import { Button } from "@/ui/button";
 
 const sizes = [
+  { text: "xs", icon: "icon-xs", label: "Extra small" },
   { text: "sm", icon: "icon-sm", label: "Small" },
   { text: "default", icon: "icon", label: "Default" },
   { text: "lg", icon: "icon-lg", label: "Large" },

@@ -642,31 +642,6 @@
               "transform": "none"
             }
           }
-        },
-        "@utility state-layer": {
-          "&::before": {
-            "content": "\"\"",
-            "position": "absolute",
-            "inset": "0",
-            "border-radius": "inherit",
-            "background-color": "currentColor",
-            "opacity": "0",
-            "pointer-events": "none",
-            "transition": "opacity var(--transition-duration-short-1, 50ms) linear"
-          },
-          "@media (hover: hover)": {
-            "&:hover::before": {
-              "opacity": "var(--state-hover)"
-            }
-          },
-          "&:active:not(:has(> [data-slot=ripple]))::before": {
-            "opacity": "var(--state-pressed)"
-          },
-          "@media (forced-colors: active)": {
-            "&::before": {
-              "display": "none"
-            }
-          }
         }
       },
       "cssVars": {
@@ -676,14 +651,8 @@
         }
       },
       "files": [
-        {
-          "path": "src/ui/button/Button.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/button/index.ts",
-          "type": "registry:ui"
-        }
+        { "path": "src/ui/button/Button.vue", "type": "registry:ui" },
+        { "path": "src/ui/button/index.ts", "type": "registry:ui" }
       ]
     },
     {
