@@ -104,8 +104,8 @@ describe.each(Object.entries(overlays))("%s", (_, overlay) => {
 
     await clickAt(byTest("auto"));
     expect(clicks).toEqual([]);
-    expect(document.querySelector(`[data-slot=${overlay.content}]`)).toBeNull();
-    expect(document.querySelector(`[data-slot=${overlay.scrim}]`)).toBeNull();
+    await expect.poll(() => document.querySelector(`[data-slot=${overlay.content}]`)).toBeNull();
+    await expect.poll(() => document.querySelector(`[data-slot=${overlay.scrim}]`)).toBeNull();
 
     await clickAt(byTest("auto"));
     expect(clicks).toEqual(["auto"]);
@@ -148,10 +148,8 @@ describe("modal scrim", () => {
     await overlays.select.open();
     await userEvent.keyboard("{ArrowDown}");
     await userEvent.keyboard("{Enter}");
-    await settle();
-
-    expect(document.querySelector("[data-slot=select-content]")).toBeNull();
-    expect(document.querySelector("[data-slot=select-scrim]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-slot=select-content]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-slot=select-scrim]")).toBeNull();
     expect(byTest("trigger").textContent).toContain("b");
     wrapper.unmount();
   });
@@ -174,8 +172,8 @@ describe("modal scrim", () => {
 
     await clickAt(byTest("auto"));
     expect(clicks).toEqual([]);
-    expect(document.querySelector("[data-slot=dropdown-menu-content]")).toBeNull();
-    expect(document.querySelector("[data-slot=dropdown-menu-sub-content]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-slot=dropdown-menu-content]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-slot=dropdown-menu-sub-content]")).toBeNull();
     wrapper.unmount();
   });
 
@@ -195,8 +193,7 @@ describe("modal scrim", () => {
 
     open.value = false;
     await nextTick();
-    await settle();
-    expect(document.querySelector("[data-slot=popover-scrim]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-slot=popover-scrim]")).toBeNull();
     wrapper.unmount();
   });
 });

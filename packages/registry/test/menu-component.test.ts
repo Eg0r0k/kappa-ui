@@ -49,8 +49,7 @@ describe("Menu", () => {
     expect(Math.round(panel!.getBoundingClientRect().left)).toBe(Math.round(buttonBox.left));
 
     await userEvent.keyboard("{Escape}");
-    await settle();
-    expect(menu()).toBeNull();
+    await expect.poll(() => menu()).toBeNull();
     expect(button.getAttribute("aria-expanded")).toBe("false");
     expect(button.dataset.state).toBe("closed");
     wrapper.unmount();
@@ -183,13 +182,11 @@ describe("Menu", () => {
     await clickAt(600, 500);
     expect(menu()?.textContent).toContain("Kept one");
     await userEvent.click(menu()!.querySelector("[role=menuitem]")!);
-    await settle();
-    expect(menu()).toBeNull();
+    await expect.poll(() => menu()).toBeNull();
 
     await clickAt(...centre(document.getElementById("auto")!));
     await userEvent.click(document.getElementById("note")!);
-    await settle();
-    expect(menu()).toBeNull();
+    await expect.poll(() => menu()).toBeNull();
     wrapper.unmount();
   });
 

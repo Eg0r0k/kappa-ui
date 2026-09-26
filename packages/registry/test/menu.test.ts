@@ -47,7 +47,7 @@ describe("DropdownMenu", () => {
     await userEvent.click(query("[data-slot=dropdown-menu-item]")!);
     await settle();
     expect(chosen).toEqual(["rename"]);
-    expect(query("[data-slot=dropdown-menu-content]")).toBeNull();
+    await expect.poll(() => query("[data-slot=dropdown-menu-content]")).toBeNull();
     wrapper.unmount();
   });
 

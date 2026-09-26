@@ -6,8 +6,6 @@ import { defineComponent, h, nextTick, ref } from "vue";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 
-const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
-
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -72,13 +70,15 @@ describe("Select", () => {
     (wrapper.get("[data-slot=select-trigger]").element as HTMLElement).focus();
 
     await userEvent.keyboard("{Enter}");
-    await settle();
-    await userEvent.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}{Enter}");
-    await settle();
-    expect(value.value).toBe("editor");
+    await expect.poll(() => document.activeElement?.getAttribute("data-slot")).toBe("select-item");
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{Enter}");
+    await expect.poll(() => value.value).toBe("editor");
 
     await userEvent.keyboard("{Enter}");
-    await settle();
+    await expect.poll(() => document.activeElement?.getAttribute("data-slot")).toBe("select-item");
     const selected = document.querySelector("[data-slot=select-item][data-state=checked]");
     expect(selected?.textContent).toContain("editor");
     expect(selected?.querySelector("[data-slot=select-item-indicator]")).not.toBeNull();

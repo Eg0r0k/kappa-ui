@@ -67,6 +67,7 @@ describe("menu sizes", () => {
     ["xl", 48, 20],
   ] as const)("%s items are %ipx tall with %ipx indicators", async (size, itemHeight, icon) => {
     await openDropdown(size);
+    await Promise.all(document.getAnimations().map((animation) => animation.finished));
 
     expect(query("[data-slot=dropdown-menu-content]").dataset.size).toBe(size);
     expect(minHeight("[data-slot=dropdown-menu-item]")).toBe(`${itemHeight}px`);
