@@ -2647,7 +2647,7 @@
       "name": "slider-inset",
       "type": "registry:block",
       "title": "Slider inset",
-      "description": "Inset sliders: a labelled volume with its value, a range and the five sizes.",
+      "description": "Inset sliders: a labelled volume showing its value, a range and the five sizes.",
       "categories": ["example"],
       "registryDependencies": ["slider", "field"],
       "files": [

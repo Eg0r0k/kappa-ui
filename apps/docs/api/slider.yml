@@ -20,7 +20,7 @@ props:
   variant:
     description: "`inset` puts each thumb inside a thick track as a disc around a round handle; `default` is a solid thumb over a thin track."
   size:
-    description: Thumb diameter, from 12px for `xs` to 24px for `xl`; the track thickness scales with it.
+    description: Handle diameter, from 12px for `xs` to 24px for `xl`; the track thickness scales with it.
   touchTarget:
     description: Grows the pressable area of the track and each thumb to at least 48px without changing how the slider looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
   thumbAlignment:

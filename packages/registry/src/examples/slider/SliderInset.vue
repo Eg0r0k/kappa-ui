@@ -15,7 +15,7 @@ const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
         <FieldLabel>Volume</FieldLabel>
         <span class="text-label-lg text-muted-foreground tabular-nums">{{ volume }}%</span>
       </div>
-      <Slider v-model="volume" variant="inset" />
+      <Slider v-model="volume" variant="inset" :aria-valuetext="`${volume}%`" />
     </Field>
     <Slider variant="inset" :default-value="[20, 60]" aria-label="Price range" />
     <div class="flex flex-col gap-4">
