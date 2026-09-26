@@ -47,18 +47,27 @@ const selectorOf = (selector: string) =>
     .filter((part) => part !== '.light')
     .join(', ')
 
-const contextOf = (node: Node) => {
+const contextOf = (node: Node, foldTheme: boolean) => {
   const chain: string[] = []
   for (let parent = node.parent; parent; parent = parent.parent) {
     if (parent instanceof Rule) chain.unshift(selectorOf(parent.selector))
-    if (parent instanceof AtRule) chain.unshift(parent.name === 'theme' ? '@theme' : `@${parent.name} ${clean(parent.params)}`)
+    if (parent instanceof AtRule) {
+      if (parent.name === 'theme') {
+        const label = clean(parent.params)
+        chain.unshift(foldTheme || !label ? '@theme' : `@theme ${label}`)
+      } else {
+        chain.unshift(`@${parent.name} ${clean(parent.params)}`)
+      }
+    }
   }
   return chain.join(' > ')
 }
 
 const declarations = (css: string, source: string, into: Declared = new Map()) => {
   postcss.parse(css).walkDecls((decl) => {
-    into.set(`${contextOf(decl)} :: ${decl.prop}`, { value: clean(decl.value), source })
+    const foldTheme = !decl.value.includes('var(')
+    const value = `${clean(decl.value)}${decl.important ? ' !important' : ''}`
+    into.set(`${contextOf(decl, foldTheme)} :: ${decl.prop}`, { value, source })
   })
   return into
 }
@@ -77,9 +86,16 @@ const items = (JSON.parse(read('packages/registry/registry.json')) as { items: I
 
 const manifest: Declared = new Map()
 const manifestImports: string[] = []
+const manifestConflicts: string[] = []
 for (const item of items) {
   const css = [item.cssVars ? serializeVars(item.cssVars) : '', item.css ? serializeRules(item.css) : ''].join(' ')
-  declarations(css, item.name, manifest)
+  for (const [key, entry] of declarations(css, item.name)) {
+    const existing = manifest.get(key)
+    if (existing && existing.value !== entry.value) {
+      manifestConflicts.push(`${key} — "${existing.source}" declares ${existing.value}, "${entry.source}" declares ${entry.value}`)
+    }
+    manifest.set(key, entry)
+  }
   manifestImports.push(...importsOf(css))
 }
 
@@ -108,4 +124,8 @@ test('the docs stylesheet imports what the manifest imports', () => {
 test('the registry test stylesheet agrees with the manifest wherever both declare something', () => {
   const tests = declarations(read('packages/registry/test/setup.css'), 'setup.css')
   assert.deepEqual(mismatches(tests, tests.keys()), [])
+})
+
+test('the manifest never declares the same key with two different values across items', () => {
+  assert.deepEqual(manifestConflicts, [])
 })

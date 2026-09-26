@@ -154,8 +154,16 @@ for (const item of registry.items) {
         `item "${item.name}", file "${file.path}": example files must live under src/examples/`,
       )
     }
-    if (!existsSync(resolve(manifestDir, file.path))) {
+    const filePath = resolve(manifestDir, file.path)
+    if (!existsSync(filePath)) {
       errors.push(`item "${item.name}": file not found — ${file.path}`)
+    } else if (file.path.endsWith('.css')) {
+      const content = await readFile(filePath, 'utf8')
+      if (/@utility\b/.test(content) || /@keyframes\b/.test(content)) {
+        errors.push(
+          `item "${item.name}", file "${file.path}": @utility and @keyframes belong in @delta-ui/core/tailwind.css`,
+        )
+      }
     }
   }
 }

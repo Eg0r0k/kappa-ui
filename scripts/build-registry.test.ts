@@ -26,7 +26,7 @@ const example = {
   files: [{ path: 'src/examples/demo/DemoExample.vue', type: 'registry:component' }],
 }
 
-const run = async (items: unknown[], env: Record<string, string> = {}) => {
+const run = async (items: unknown[], env: Record<string, string> = {}, files: Record<string, string> = {}) => {
   const root = await mkdtemp(join(tmpdir(), 'delta-registry-'))
   await mkdir(join(root, 'src/ui/demo'), { recursive: true })
   await mkdir(join(root, 'src/examples/demo'), { recursive: true })
@@ -35,6 +35,10 @@ const run = async (items: unknown[], env: Record<string, string> = {}) => {
   await writeFile(join(root, 'src/examples/demo/DemoExample.vue'), '<template><div /></template>\n')
   await writeFile(join(root, 'src/other/Stray.vue'), '<template><div /></template>\n')
   await writeFile(join(root, 'src/other/fade.css'), '.fade {}\n')
+  for (const [path, content] of Object.entries(files)) {
+    await mkdir(dirname(join(root, path)), { recursive: true })
+    await writeFile(join(root, path), content)
+  }
   await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'fixture', items }))
   const out = join(root, 'out')
   const result = spawnSync(
@@ -119,4 +123,29 @@ test('accepts an item that imports the core stylesheet', async () => {
   const styled = { ...component, css: { '@import "@delta-ui/core/tailwind.css"': {} } }
   const { status, stderr } = await run([styled, example])
   assert.equal(status, 0, stderr)
+})
+
+test('rejects an item that ships a utility in a css file', async () => {
+  const style = {
+    name: 'glow',
+    type: 'registry:item',
+    title: 'Glow',
+    description: 'A css utility file.',
+    files: [{ path: 'src/other/glow.css', type: 'registry:file', target: 'styles/glow.css' }],
+  }
+  const { status, stderr } = await run([component, example, style], {}, {
+    'src/other/glow.css': '@utility glow { color: red; }\n',
+  })
+  assert.equal(status, 1)
+  assert.match(stderr, /item "glow", file "src\/other\/glow\.css": @utility and @keyframes belong in @delta-ui\/core\/tailwind\.css/)
+})
+
+test('rejects an item whose css nests keyframes inside @theme inline', async () => {
+  const styled = {
+    ...component,
+    css: { '@theme inline': { '@keyframes spin': { from: { transform: 'rotate(0deg)' }, to: { transform: 'rotate(360deg)' } } } },
+  }
+  const { status, stderr } = await run([styled, example])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "demo": @utility and @keyframes belong in @delta-ui\/core\/tailwind\.css/)
 })
