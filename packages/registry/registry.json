@@ -1602,7 +1602,7 @@
       "name": "aspect-ratio-demo",
       "type": "registry:block",
       "title": "Aspect ratio demo",
-      "description": "Three ratios at the same width.",
+      "description": "Three photos cropped to 16 / 9, 1 / 1 and 3 / 4 at the same width.",
       "categories": ["example"],
       "registryDependencies": ["aspect-ratio"],
       "files": [
