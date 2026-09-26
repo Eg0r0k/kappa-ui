@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { reactive } from "vue";
+
 import { Field, FieldError, FieldLabel } from "@/ui/field";
 import { Input } from "@/ui/input";
 
@@ -9,19 +11,22 @@ const variants = [
   { value: "ghost", name: "Ghost" },
   { value: "subtle", name: "Subtle" },
 ] as const;
+
+const fields = reactive(variants.map((variant) => ({ ...variant, email: "ada@" })));
+const complete = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 </script>
 
 <template>
   <div class="grid w-full max-w-md gap-6 sm:grid-cols-2">
-    <template v-for="variant in variants" :key="variant.value">
+    <template v-for="field in fields" :key="field.value">
       <Field disabled>
-        <FieldLabel>{{ variant.name }}, disabled</FieldLabel>
-        <Input :variant="variant.value" default-value="Read only for now" />
+        <FieldLabel>{{ field.name }}, disabled</FieldLabel>
+        <Input :variant="field.value" default-value="Read only for now" />
       </Field>
-      <Field invalid>
-        <FieldLabel>{{ variant.name }}, invalid</FieldLabel>
-        <Input :variant="variant.value" default-value="ada@" />
-        <FieldError errors="Enter a complete email address." />
+      <Field :invalid="!complete(field.email)">
+        <FieldLabel>{{ field.name }}, invalid</FieldLabel>
+        <Input v-model="field.email" :variant="field.value" />
+        <FieldError v-if="!complete(field.email)" errors="Enter a complete email address." />
       </Field>
     </template>
   </div>
