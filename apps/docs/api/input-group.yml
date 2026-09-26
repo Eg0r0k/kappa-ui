@@ -1,0 +1,9 @@
+component: InputGroup
+file: ui/input-group/InputGroup.vue
+props:
+  variant:
+    description: "The frame, with the input's five variants: `outline`, `soft`, `filled`, `ghost` and `subtle`. The group draws it; the control inside has none."
+  size:
+    description: "Height, padding and text size, from 28px for `xs` to 48px for `xl` — the input's sizes. A textarea or a block addon lets the height grow."
+slots:
+  default: "An `InputGroupInput` or `InputGroupTextarea` and its addons, in any order: addons place themselves by `align`."

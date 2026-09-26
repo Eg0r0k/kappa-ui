@@ -1,0 +1,15 @@
+component: InputGroupInput
+file: ui/input-group/InputGroupInput.vue
+props:
+  modelValue:
+    description: The value, bound with `v-model`.
+  defaultValue:
+    description: The starting value when `v-model` is not used.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  disabled:
+    description: Disables the input and fades the group. Also set by a disabled field.
+  required:
+    description: Marks the input required. Also set by a required field.
+emits:
+  update:modelValue: Fires as the value changes.

@@ -1,0 +1,7 @@
+component: InputGroupAddon
+file: ui/input-group/InputGroupAddon.vue
+props:
+  align:
+    description: "`inline-start` or `inline-end` sit before or after the control on its line; `block-start` and `block-end` take a full row above or below it. A click on the addon, outside its buttons, focuses the control."
+slots:
+  default: "Icons, `InputGroupText`, `InputGroupButton`s or a `Kbd`."

@@ -1009,6 +1009,23 @@
       ]
     },
     {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input group",
+      "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "registryDependencies": ["utils", "tokens", "field-context", "text-control", "button", "textarea"],
+      "files": [
+        { "path": "src/ui/input-group/InputGroup.vue", "type": "registry:ui" },
+        { "path": "src/ui/input-group/InputGroupAddon.vue", "type": "registry:ui" },
+        { "path": "src/ui/input-group/InputGroupButton.vue", "type": "registry:ui" },
+        { "path": "src/ui/input-group/InputGroupInput.vue", "type": "registry:ui" },
+        { "path": "src/ui/input-group/InputGroupText.vue", "type": "registry:ui" },
+        { "path": "src/ui/input-group/InputGroupTextarea.vue", "type": "registry:ui" },
+        { "path": "src/ui/input-group/index.ts", "type": "registry:ui" }
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",
@@ -2056,6 +2073,94 @@
       "registryDependencies": ["input", "field"],
       "files": [
         { "path": "src/examples/input/InputStates.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-demo",
+      "type": "registry:block",
+      "title": "Input group demo",
+      "description": "A search field with an icon and a shortcut.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group", "kbd"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-addons",
+      "type": "registry:block",
+      "title": "Input group addons",
+      "description": "Text and icons before and after the input.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupAddons.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-buttons",
+      "type": "registry:block",
+      "title": "Input group buttons",
+      "description": "Copy, show password, clear and search buttons inside the frame.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupButtons.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-textarea",
+      "type": "registry:block",
+      "title": "Input group textarea",
+      "description": "A growing message box with a toolbar underneath.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupTextareaExample.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-block-start",
+      "type": "registry:block",
+      "title": "Input group block start",
+      "description": "A header row above a textarea.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupBlockStart.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-variants",
+      "type": "registry:block",
+      "title": "Input group variants",
+      "description": "The input's five variants on the frame.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-sizes",
+      "type": "registry:block",
+      "title": "Input group sizes",
+      "description": "Five sizes with an icon and a button.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "input-group-field",
+      "type": "registry:block",
+      "title": "Input group in a field",
+      "description": "A label, a check while typing and an error from the field.",
+      "categories": ["example"],
+      "registryDependencies": ["input-group", "field", "spinner"],
+      "files": [
+        { "path": "src/examples/input-group/InputGroupFieldExample.vue", "type": "registry:component" }
       ]
     },
     {

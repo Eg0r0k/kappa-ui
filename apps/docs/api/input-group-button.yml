@@ -1,0 +1,13 @@
+component: InputGroupButton
+file: ui/input-group/InputGroupButton.vue
+props:
+  variant:
+    description: "Button variant, `ghost` by default."
+  color:
+    description: "Button colour, `neutral` by default."
+  size:
+    description: "`xs` (24px) or `sm` (32px), and `icon-xs` or `icon-sm` for a square icon button. The radius follows the frame's: it is the frame's radius less the button's distance from its edge, and at the start or end of a line the button sits as far from the side as from the top."
+  type:
+    description: "`button` by default, so a button inside a form doesn't submit it."
+slots:
+  default: "The label or icon."

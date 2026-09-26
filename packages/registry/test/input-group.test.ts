@@ -1,0 +1,145 @@
+import { mount } from "@vue/test-utils";
+import { Search } from "@lucide/vue";
+import { afterEach, describe, expect, it } from "vitest";
+import { defineComponent, h, nextTick, ref } from "vue";
+
+import { Field, FieldLabel } from "@/ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/ui/input-group";
+
+afterEach(() => {
+  document.body.innerHTML = "";
+});
+
+const colors = "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --disabled-opacity: 38%";
+
+const render = (props: Record<string, unknown> = {}, children: () => unknown[] = () => [h(InputGroupInput)]) =>
+  mount(defineComponent(() => () => h(InputGroup, { style: colors, ...props }, children)), {
+    attachTo: document.body,
+  });
+
+const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
+
+const group = () => document.querySelector<HTMLElement>("[data-slot=input-group]")!;
+const control = () => document.querySelector<HTMLElement>("[data-slot=input-group-control]")!;
+
+describe("InputGroup", () => {
+  it("is a group with an outline frame of the medium height, and a frameless control", () => {
+    render();
+    expect(group().getAttribute("role")).toBe("group");
+    expect(group().dataset.variant).toBe("outline");
+    expect(group().dataset.size).toBe("md");
+    expect(group().offsetHeight).toBe(36);
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 0, 255)");
+    expect(getComputedStyle(control()).borderTopWidth).toBe("0px");
+    expect(control().offsetHeight).toBe(34);
+  });
+
+  it("takes Input's sizes", () => {
+    const heights = (["xs", "sm", "md", "lg", "xl"] as const).map((size) => {
+      const wrapper = render({ size });
+      const height = group().offsetHeight;
+      wrapper.unmount();
+      return height;
+    });
+    expect(heights).toEqual([28, 32, 36, 40, 48]);
+  });
+
+  it("rings the frame when the control has focus, not when a button inside has", async () => {
+    render({}, () => [
+      h(InputGroupInput),
+      h(InputGroupAddon, { align: "inline-end" }, () => h(InputGroupButton, { "aria-label": "Clear" }, () => "x")),
+    ]);
+    expect(getComputedStyle(group()).boxShadow).toBe("none");
+    control().focus();
+    await settle();
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 128, 0)");
+    expect(getComputedStyle(group()).boxShadow).not.toBe("none");
+    document.querySelector<HTMLElement>("[data-slot=input-group-button]")!.focus();
+    await settle();
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 0, 255)");
+  });
+
+  it("turns the frame destructive when the control is invalid", () => {
+    render({}, () => [h(InputGroupInput, { "aria-invalid": "true" })]);
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(255, 0, 0)");
+  });
+
+  it("orders inline addons around the control and focuses it when an addon is clicked", async () => {
+    render({}, () => [
+      h(InputGroupInput),
+      h(InputGroupAddon, { align: "inline-start" }, () => h(Search)),
+      h(InputGroupAddon, { align: "inline-end" }, () => h(InputGroupText, () => "USD")),
+    ]);
+    const [start, end] = [...document.querySelectorAll<HTMLElement>("[data-slot=input-group-addon]")];
+    expect(start!.getBoundingClientRect().right).toBeLessThanOrEqual(control().getBoundingClientRect().left);
+    expect(end!.getBoundingClientRect().left).toBeGreaterThanOrEqual(control().getBoundingClientRect().right);
+    end!.click();
+    await nextTick();
+    expect(document.activeElement).toBe(control());
+  });
+
+  it("gives a button a radius concentric with the frame", () => {
+    render({}, () => [
+      h(InputGroupInput),
+      h(InputGroupAddon, { align: "inline-end" }, () =>
+        h(InputGroupButton, { size: "icon-xs", "aria-label": "Copy" }, () => "c"),
+      ),
+    ]);
+    const button = document.querySelector<HTMLElement>("[data-slot=input-group-button]")!;
+    const outer = Number.parseFloat(getComputedStyle(group()).borderTopRightRadius);
+    const inset = (group().offsetHeight - button.offsetHeight) / 2;
+    expect(button.offsetHeight).toBe(24);
+    expect(Number.parseFloat(getComputedStyle(button).borderTopRightRadius)).toBeCloseTo(outer - inset, 1);
+    const gap = group().getBoundingClientRect().right - button.getBoundingClientRect().right;
+    expect(gap).toBeCloseTo(inset, 0);
+  });
+
+  it("stacks block addons and a textarea in a column", () => {
+    render({}, () => [
+      h(InputGroupTextarea, { rows: 3 }),
+      h(InputGroupAddon, { align: "block-end" }, () => h(InputGroupButton, () => "Send")),
+    ]);
+    expect(getComputedStyle(group()).flexDirection).toBe("column");
+    expect(group().offsetHeight).toBeGreaterThan(80);
+    expect(control().tagName).toBe("TEXTAREA");
+    expect(getComputedStyle(control()).borderTopWidth).toBe("0px");
+  });
+
+  it("fades the addons when the control is disabled", () => {
+    render({}, () => [h(InputGroupInput, { disabled: true }), h(InputGroupAddon, () => h(Search))]);
+    const addon = document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!;
+    expect(Number(getComputedStyle(addon).opacity)).toBeLessThan(1);
+  });
+
+  it("binds v-model and takes its id from a Field", async () => {
+    const value = ref("draft");
+    mount(
+      defineComponent(() => () =>
+        h(Field, () => [
+          h(FieldLabel, () => "Search"),
+          h(InputGroup, () =>
+            h(InputGroupInput, {
+              modelValue: value.value,
+              "onUpdate:modelValue": (next: unknown) => (value.value = next as string),
+            }),
+          ),
+        ]),
+      ),
+      { attachTo: document.body },
+    );
+    const input = control() as HTMLInputElement;
+    expect(input.value).toBe("draft");
+    expect(document.querySelector("label")!.getAttribute("for")).toBe(input.id);
+    input.value = "sent";
+    input.dispatchEvent(new Event("input"));
+    await nextTick();
+    expect(value.value).toBe("sent");
+  });
+});

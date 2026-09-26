@@ -1,0 +1,7 @@
+component: InputGroupTextarea
+file: ui/input-group/InputGroupTextarea.vue
+props:
+  modelValue:
+    description: The value, bound with `v-model`. The textarea's other props, `rows`, `maxrows` and `autoresize` among them, pass through.
+emits:
+  update:modelValue: Fires as the value changes.
