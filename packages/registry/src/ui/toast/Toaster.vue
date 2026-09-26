@@ -57,6 +57,8 @@ const swipeDirection = computed(() => {
 const timed = (toast: Toast) =>
   !toast.loading && (toast.duration === undefined || (toast.duration > 0 && Number.isFinite(toast.duration)));
 
+const accentOf = (toast: Toast) => toastAccents[toast.color ?? "neutral"];
+
 const place = (toast: Toast) => {
   const layout = stack.layout.value.get(toast.id);
   return {
@@ -72,7 +74,7 @@ const place = (toast: Toast) => {
     <ToastRecordRoot
       v-for="toast in toasts"
       :key="toast.id"
-      v-slot="{ duration }"
+      v-slot="{ duration: remaining }"
       :toast="toast"
       data-slot="toast"
       :data-color="toast.color ?? 'neutral'"
@@ -88,15 +90,10 @@ const place = (toast: Toast) => {
       </div>
       <div
         v-if="props.progress && timed(toast)"
-        :key="`${duration}:${toast.open}`"
+        :key="`${remaining}:${toast.open}`"
         data-slot="toast-progress"
-        :class="
-          cn(
-            'delta-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-current',
-            toastAccents[toast.color ?? 'neutral'],
-          )
-        "
-        :style="{ animationDuration: `${duration}ms` }"
+        :class="cn('delta-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-current', accentOf(toast))"
+        :style="{ animationDuration: `${remaining}ms` }"
       />
     </ToastRecordRoot>
     <ToastPortal :to="portalTarget ?? undefined">
