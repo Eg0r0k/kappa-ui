@@ -11,6 +11,8 @@
     "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
     "test": "node --test scripts/build-registry.test.ts scripts/eslint-config.test.ts scripts/css-sync.test.ts && pnpm lint && pnpm -r test",
     "lint": "eslint packages/registry/src",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "registry:build": "node scripts/build-registry.ts"
   },
   "devDependencies": {
@@ -18,6 +20,7 @@
     "@typescript-eslint/parser": "^8.70.1",
     "eslint": "^10.11.0",
     "postcss": "^8.5.28",
+    "prettier": "3.9.9",
     "typescript": "~6.0.2",
     "vue-eslint-parser": "^10.4.1"
   }

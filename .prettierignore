@@ -1,0 +1,8 @@
+**/*.md
+**/*.json
+**/*.yml
+**/*.yaml
+pnpm-lock.yaml
+apps/docs/public/r
+apps/docs/app/generated
+**/.vitest

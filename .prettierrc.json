@@ -1,0 +1,14 @@
+{
+  "printWidth": 120,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": ["apps/docs/**", "scripts/**", "eslint.config.js"],
+      "options": { "singleQuote": true, "semi": false }
+    },
+    {
+      "files": "*.css",
+      "options": { "singleQuote": false }
+    }
+  ]
+}
