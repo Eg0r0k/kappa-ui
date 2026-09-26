@@ -2,6 +2,8 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import type { Component } from "vue";
 
+import { createToaster } from "@/ui/toast";
+
 import registry from "../registry.json";
 
 type ManifestItem = {
@@ -34,7 +36,7 @@ describe("examples", () => {
     const warnings: string[] = [];
     const wrapper = mount(module.default, {
       attachTo: document.body,
-      global: { config: { warnHandler: (message) => warnings.push(message) } },
+      global: { plugins: [createToaster()], config: { warnHandler: (message) => warnings.push(message) } },
     });
 
     expect(wrapper.element).toBeTruthy();

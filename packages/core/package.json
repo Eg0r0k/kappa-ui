@@ -26,6 +26,7 @@
     "./slider": "./src/primitives/slider.ts",
     "./switch": "./src/primitives/switch.ts",
     "./tabs": "./src/primitives/tabs.ts",
+    "./toast": "./src/toast/index.ts",
     "./utils": "./src/primitives/utils.ts",
     "./visually-hidden": "./src/primitives/visually-hidden.ts"
   },

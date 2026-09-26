@@ -647,6 +647,23 @@
       ]
     },
     {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Brief messages from a useToast() service: ids to update and remove, promises, groups, and a stacked Toaster that expands on hover.",
+      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "button", "spinner"],
+      "files": [
+        { "path": "src/ui/toast/ToastAction.vue", "type": "registry:ui" },
+        { "path": "src/ui/toast/ToastClose.vue", "type": "registry:ui" },
+        { "path": "src/ui/toast/ToastDescription.vue", "type": "registry:ui" },
+        { "path": "src/ui/toast/ToastRow.vue", "type": "registry:ui" },
+        { "path": "src/ui/toast/ToastTitle.vue", "type": "registry:ui" },
+        { "path": "src/ui/toast/Toaster.vue", "type": "registry:ui" },
+        { "path": "src/ui/toast/index.ts", "type": "registry:ui" }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -1745,6 +1762,105 @@
       "registryDependencies": ["item", "button"],
       "files": [
         { "path": "src/examples/item/ItemHeaderFooter.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-demo",
+      "type": "registry:block",
+      "title": "Toast demo",
+      "description": "A toast with a description and an action.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-colors",
+      "type": "registry:block",
+      "title": "Toast colours",
+      "description": "Each colour with its default icon.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastColors.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-loading",
+      "type": "registry:block",
+      "title": "Toast loading",
+      "description": "A loading toast updated in place when the work is done.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastLoading.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-promise",
+      "type": "registry:block",
+      "title": "Toast promise",
+      "description": "A toast that follows a promise from loading to success or error.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastPromise.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-actions",
+      "type": "registry:block",
+      "title": "Toast actions",
+      "description": "Undo a deletion from the toast, or let it happen when the toast closes.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastActions.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-positions",
+      "type": "registry:block",
+      "title": "Toast positions",
+      "description": "The six positions of a toaster.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastPositions.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-groups",
+      "type": "registry:block",
+      "title": "Toast groups",
+      "description": "A second toaster for uploads, beside the app's one.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastGroups.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-expand",
+      "type": "registry:block",
+      "title": "Toast expand",
+      "description": "Toasts laid out in full, with a progress bar.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastExpand.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "toast-custom",
+      "type": "registry:block",
+      "title": "Toast custom content",
+      "description": "A toast rendered from the toast slot.",
+      "categories": ["example"],
+      "registryDependencies": ["toast", "button"],
+      "files": [
+        { "path": "src/examples/toast/ToastCustom.vue", "type": "registry:component" }
       ]
     },
     {

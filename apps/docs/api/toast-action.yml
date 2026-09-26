@@ -1,0 +1,13 @@
+component: ToastAction
+file: ui/toast/ToastAction.vue
+props:
+  altText:
+    description: "Another way to do the same thing, read to screen reader users, who may not reach the button before the toast closes."
+  variant:
+    description: "Button variant."
+  color:
+    description: "Button colour."
+  size:
+    description: "Button size."
+slots:
+  default: "The label. Pressing the button closes the toast."

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ConfigProvider } from 'reka-ui'
 
+import { Toaster } from '@/ui/toast'
+
 useHead({
   titleTemplate: (title) => (title && title !== 'delta-ui' ? `${title} · delta-ui` : 'delta-ui'),
 })
@@ -11,5 +13,6 @@ useHead({
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <Toaster />
   </ConfigProvider>
 </template>

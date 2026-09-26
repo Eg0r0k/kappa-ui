@@ -1,0 +1,64 @@
+import { CircleCheck, CircleX, Info, TriangleAlert } from "@lucide/vue";
+import {
+  type ToastManager,
+  type ToastOptions,
+  type ToastRecord,
+  createToaster as createCoreToaster,
+  provideToaster as provideCoreToaster,
+  useToast as useCoreToast,
+} from "@delta-ui/core/toast";
+import type { Component } from "vue";
+
+export { default as ToastAction } from "./ToastAction.vue";
+export { default as ToastClose } from "./ToastClose.vue";
+export { default as ToastDescription } from "./ToastDescription.vue";
+export { default as ToastRow } from "./ToastRow.vue";
+export { default as ToastTitle } from "./ToastTitle.vue";
+export { default as Toaster } from "./Toaster.vue";
+
+export type ToastColor = "primary" | "neutral" | "destructive" | "success" | "warning";
+
+export type ToastPosition = "top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end";
+
+export interface ToastActionOptions {
+  label: string;
+  altText?: string;
+  onClick?: (event: MouseEvent) => void;
+}
+
+export interface ToastContent {
+  title?: string;
+  description?: string;
+  color?: ToastColor;
+  icon?: Component | false;
+  close?: boolean;
+  actions?: ToastActionOptions[];
+  data?: Record<string, unknown>;
+}
+
+export type Toast = ToastRecord<ToastContent>;
+export type ToastInput = ToastOptions<ToastContent>;
+export type Toasts = ToastManager<ToastContent>;
+
+export const toastIcons: Record<ToastColor, Component | undefined> = {
+  primary: Info,
+  neutral: undefined,
+  destructive: CircleX,
+  success: CircleCheck,
+  warning: TriangleAlert,
+};
+
+export const toastAccents: Record<ToastColor, string> = {
+  primary: "text-primary",
+  neutral: "text-foreground",
+  destructive: "text-destructive",
+  success: "text-success-text",
+  warning: "text-warning-text",
+};
+
+export const createToaster = (): Toasts =>
+  createCoreToaster<ToastContent>({ promise: { success: { color: "success" }, error: { color: "destructive" } } });
+
+export const useToast = (): Toasts => useCoreToast<ToastContent>();
+
+export const provideToaster = (manager: Toasts) => provideCoreToaster(manager);

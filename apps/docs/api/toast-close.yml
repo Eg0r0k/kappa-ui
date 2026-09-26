@@ -1,0 +1,4 @@
+component: ToastClose
+file: ui/toast/ToastClose.vue
+slots:
+  default: "The icon, an X by default."

@@ -1,0 +1,21 @@
+component: Toaster
+file: ui/toast/Toaster.vue
+props:
+  group:
+    description: "Shows only toasts added with this `group`. Without it, the toaster shows toasts added without one."
+  position:
+    description: "Corner or edge of the screen: `top-start`, `top-center`, `top-end`, `bottom-start`, `bottom-center` or `bottom-end`. `start` and `end` follow the text direction, and so does the swipe that closes a toast."
+  expand:
+    description: "Lay every toast out in full instead of stacking the older ones behind the newest until the pointer or focus is on them."
+  max:
+    description: "How many toasts stay open at once; adding one more closes the oldest."
+  duration:
+    description: "Milliseconds a toast stays open when it sets no `duration` of its own. The timer pauses while the pointer or focus is on the toasts, or the window is in the background."
+  progress:
+    description: "Draw a bar along the bottom of each timed toast that runs out with its timer."
+  label:
+    description: "What screen readers call each toast when announcing it."
+  hotkey:
+    description: "Keys that move focus to the toasts."
+slots:
+  toast: "Replaces the content of each toast, given `{ toast }`. The toast's surface, place in the stack, swipe and timer stay."

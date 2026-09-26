@@ -1,0 +1,5 @@
+component: ToastRow
+file: ui/toast/ToastRow.vue
+props:
+  toast:
+    description: "The toast to lay out: its icon or spinner, title, description, actions and close button."
