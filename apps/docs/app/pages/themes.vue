@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Code, RotateCcw, Shuffle } from '@lucide/vue'
+import { Check, Code, RotateCcw, Shuffle } from '@lucide/vue'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 
 import CodeBlock from '~/components/CodeBlock.vue'
@@ -26,6 +26,7 @@ import {
 import { Button } from '@/ui/button'
 import { Dialog, DialogBody, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/ui/dialog'
 import { Field, FieldDescription, FieldLabel, FieldLegend, FieldSet } from '@/ui/field'
+import { ScrollArea } from '@/ui/scroll-area'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
 import { Separator } from '@/ui/separator'
 import { Slider } from '@/ui/slider'
@@ -47,6 +48,8 @@ const site = useSiteTheme()
 
 const theme = reactive<ThemeConfig>({ ...defaultTheme })
 const apply = (next: ThemeConfig) => Object.assign(theme, next)
+
+const onSite = computed(() => JSON.stringify(themeToQuery(site.theme.value)) === JSON.stringify(themeToQuery(theme)))
 
 onMounted(() => {
   apply(Object.keys(route.query).length ? themeFromQuery(route.query) : { ...site.theme.value })
@@ -74,141 +77,147 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
     class="mx-auto flex max-w-screen-2xl flex-col gap-4 p-4 lg:h-[calc(100svh-3.5rem-1px)] lg:flex-row lg:gap-6 lg:px-6 lg:py-6"
   >
     <aside class="flex flex-col overflow-hidden rounded-2xl border lg:w-80 lg:shrink-0">
-      <div class="flex flex-col gap-6 p-5 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
-        <header class="flex flex-col gap-1">
-          <h1 class="text-headline-sm">Themes</h1>
-          <p class="text-body-md text-muted-foreground">
-            The preview follows as you go, in the light or dark theme from the header.
-          </p>
-        </header>
+      <ScrollArea class="scroll-fade-overlay-y h-[60svh] lg:h-auto lg:min-h-0 lg:flex-1">
+        <div class="flex flex-col gap-6 p-5">
+          <header class="flex flex-col gap-1">
+            <h1 class="text-headline-sm">Themes</h1>
+            <p class="text-body-md text-muted-foreground">
+              The preview follows as you go, in the light or dark theme from the header.
+            </p>
+          </header>
 
-        <FieldSet>
-          <FieldLegend>Brand colour</FieldLegend>
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="preset in presets"
-              :key="preset.name"
-              type="button"
-              :aria-label="preset.name"
-              :aria-pressed="theme.hue === preset.hue && theme.chroma === preset.chroma"
-              :title="preset.name"
-              class="size-7 rounded-full outline-offset-2 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
-              :style="{ background: swatch(preset) }"
-              @click="apply({ ...theme, hue: preset.hue, chroma: preset.chroma })"
-            />
-          </div>
+          <FieldSet>
+            <FieldLegend>Brand colour</FieldLegend>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="preset in presets"
+                :key="preset.name"
+                type="button"
+                :aria-label="preset.name"
+                :aria-pressed="theme.hue === preset.hue && theme.chroma === preset.chroma"
+                :title="preset.name"
+                class="size-7 rounded-full outline-offset-2 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
+                :style="{ background: swatch(preset) }"
+                @click="apply({ ...theme, hue: preset.hue, chroma: preset.chroma })"
+              />
+            </div>
+            <Field>
+              <FieldLabel>Hue</FieldLabel>
+              <div class="h-2 rounded-full" :style="{ background: hueTrack }" aria-hidden="true" />
+              <Slider v-model="hue" :min="0" :max="360" size="sm" />
+              <FieldDescription>{{ theme.hue }}°</FieldDescription>
+            </Field>
+            <Field>
+              <FieldLabel>Chroma</FieldLabel>
+              <Slider v-model="chroma" :min="chromaRange.min * 100" :max="chromaRange.max * 100" size="sm" />
+              <FieldDescription>{{ theme.chroma.toFixed(2) }}, how vivid the colour is.</FieldDescription>
+            </Field>
+          </FieldSet>
+
+          <Separator />
+
+          <FieldSet>
+            <FieldLegend>Neutral</FieldLegend>
+            <FieldDescription>The tint of the page, borders, muted fills and text, in both themes.</FieldDescription>
+            <div class="flex flex-wrap gap-2">
+              <Button
+                v-for="neutral in neutrals"
+                :key="neutral.key"
+                size="sm"
+                :variant="theme.neutral === neutral.key ? 'soft' : 'outline'"
+                :color="theme.neutral === neutral.key ? 'primary' : 'neutral'"
+                :aria-pressed="theme.neutral === neutral.key"
+                @click="theme.neutral = neutral.key"
+              >
+                {{ neutral.name }}
+              </Button>
+            </div>
+          </FieldSet>
+
+          <FieldSet>
+            <FieldLegend>Radius</FieldLegend>
+            <div class="flex flex-wrap gap-2">
+              <Button
+                v-for="radius in radii"
+                :key="radius"
+                size="sm"
+                :variant="theme.radius === radius ? 'soft' : 'outline'"
+                :color="theme.radius === radius ? 'primary' : 'neutral'"
+                :aria-pressed="theme.radius === radius"
+                @click="theme.radius = radius"
+              >
+                {{ radius }}
+              </Button>
+            </div>
+          </FieldSet>
+
+          <FieldSet>
+            <FieldLegend>Surface borders</FieldLegend>
+            <FieldDescription>The border of cards, dialogs, menus, popovers, select lists and toasts. None keeps the width, so nothing moves.</FieldDescription>
+            <div class="flex flex-wrap gap-2">
+              <Button
+                v-for="option in surfaceBorders"
+                :key="option.key"
+                size="sm"
+                :variant="theme.surfaceBorder === option.key ? 'soft' : 'outline'"
+                :color="theme.surfaceBorder === option.key ? 'primary' : 'neutral'"
+                :aria-pressed="theme.surfaceBorder === option.key"
+                @click="theme.surfaceBorder = option.key"
+              >
+                {{ option.name }}
+              </Button>
+            </div>
+          </FieldSet>
+
+          <FieldSet>
+            <FieldLegend>Light surfaces</FieldLegend>
+            <FieldDescription>
+              The light theme only. Raised lifts white cards off a tinted page, Flat keeps both white, and Tinted greys the
+              cards on a white page.
+            </FieldDescription>
+            <div class="flex flex-wrap gap-2">
+              <Button
+                v-for="option in surfaces"
+                :key="option.key"
+                size="sm"
+                :variant="theme.surfaces === option.key ? 'soft' : 'outline'"
+                :color="theme.surfaces === option.key ? 'primary' : 'neutral'"
+                :aria-pressed="theme.surfaces === option.key"
+                @click="theme.surfaces = option.key"
+              >
+                {{ option.name }}
+              </Button>
+            </div>
+          </FieldSet>
+
           <Field>
-            <FieldLabel>Hue</FieldLabel>
-            <div class="h-2 rounded-full" :style="{ background: hueTrack }" aria-hidden="true" />
-            <Slider v-model="hue" :min="0" :max="360" size="sm" />
-            <FieldDescription>{{ theme.hue }}°</FieldDescription>
+            <FieldLabel>Font</FieldLabel>
+            <Select v-model="theme.font">
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem v-for="font in fonts" :key="font.key" :value="font.key" :style="{ fontFamily: fontStack(font) }">
+                  {{ font.name }}
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </Field>
-          <Field>
-            <FieldLabel>Chroma</FieldLabel>
-            <Slider v-model="chroma" :min="chromaRange.min * 100" :max="chromaRange.max * 100" size="sm" />
-            <FieldDescription>{{ theme.chroma.toFixed(2) }}, how vivid the colour is.</FieldDescription>
-          </Field>
-        </FieldSet>
+        </div>
+      </ScrollArea>
 
-        <Separator />
-
-        <FieldSet>
-          <FieldLegend>Neutral</FieldLegend>
-          <FieldDescription>The tint of the page, borders, muted fills and text, in both themes.</FieldDescription>
-          <div class="flex flex-wrap gap-2">
-            <Button
-              v-for="neutral in neutrals"
-              :key="neutral.key"
-              size="sm"
-              :variant="theme.neutral === neutral.key ? 'soft' : 'outline'"
-              :color="theme.neutral === neutral.key ? 'primary' : 'neutral'"
-              :aria-pressed="theme.neutral === neutral.key"
-              @click="theme.neutral = neutral.key"
-            >
-              {{ neutral.name }}
-            </Button>
-          </div>
-        </FieldSet>
-
-        <FieldSet>
-          <FieldLegend>Radius</FieldLegend>
-          <div class="flex flex-wrap gap-2">
-            <Button
-              v-for="radius in radii"
-              :key="radius"
-              size="sm"
-              :variant="theme.radius === radius ? 'soft' : 'outline'"
-              :color="theme.radius === radius ? 'primary' : 'neutral'"
-              :aria-pressed="theme.radius === radius"
-              @click="theme.radius = radius"
-            >
-              {{ radius }}
-            </Button>
-          </div>
-        </FieldSet>
-
-        <FieldSet>
-          <FieldLegend>Surface borders</FieldLegend>
-          <FieldDescription>The border of cards, dialogs, menus, popovers, select lists and toasts. None keeps the width, so nothing moves.</FieldDescription>
-          <div class="flex flex-wrap gap-2">
-            <Button
-              v-for="option in surfaceBorders"
-              :key="option.key"
-              size="sm"
-              :variant="theme.surfaceBorder === option.key ? 'soft' : 'outline'"
-              :color="theme.surfaceBorder === option.key ? 'primary' : 'neutral'"
-              :aria-pressed="theme.surfaceBorder === option.key"
-              @click="theme.surfaceBorder = option.key"
-            >
-              {{ option.name }}
-            </Button>
-          </div>
-        </FieldSet>
-
-        <FieldSet>
-          <FieldLegend>Light surfaces</FieldLegend>
-          <FieldDescription>
-            The light theme only. Raised lifts white cards off a tinted page, Flat keeps both white, and Tinted greys the
-            cards on a white page.
-          </FieldDescription>
-          <div class="flex flex-wrap gap-2">
-            <Button
-              v-for="option in surfaces"
-              :key="option.key"
-              size="sm"
-              :variant="theme.surfaces === option.key ? 'soft' : 'outline'"
-              :color="theme.surfaces === option.key ? 'primary' : 'neutral'"
-              :aria-pressed="theme.surfaces === option.key"
-              @click="theme.surfaces = option.key"
-            >
-              {{ option.name }}
-            </Button>
-          </div>
-        </FieldSet>
-
-        <Field>
-          <FieldLabel>Font</FieldLabel>
-          <Select v-model="theme.font">
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem v-for="font in fonts" :key="font.key" :value="font.key" :style="{ fontFamily: fontStack(font) }">
-                {{ font.name }}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-      </div>
-
-      <div class="flex gap-2 border-t p-4">
-        <Button class="flex-1" @click="apply(randomTheme())">
+      <div class="flex items-center gap-2 border-t p-4">
+        <Button size="sm" variant="outline" color="neutral" @click="apply(randomTheme())">
           <Shuffle data-icon="inline-start" />
           Randomize
         </Button>
-        <Button variant="soft" color="destructive" @click="apply({ ...defaultTheme })">
+        <Button size="sm" variant="soft" color="destructive" @click="apply({ ...defaultTheme })">
           <RotateCcw data-icon="inline-start" />
           Reset
+        </Button>
+        <Button size="sm" class="ms-auto" :disabled="onSite" @click="site.set({ ...theme })">
+          <Check data-icon="inline-start" />
+          {{ onSite ? 'In use' : 'Use' }}
         </Button>
       </div>
     </aside>
