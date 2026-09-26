@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { computed, ref } from "vue";
+
 import { Field, FieldError, FieldLabel } from "@/ui/field";
 import { Slider } from "@/ui/slider";
+
+const budget = ref(85);
+const overBudget = computed(() => budget.value > 80);
 </script>
 
 <template>
@@ -9,10 +14,10 @@ import { Slider } from "@/ui/slider";
       <FieldLabel>Disabled</FieldLabel>
       <Slider :default-value="[25, 60]" />
     </Field>
-    <Field invalid>
+    <Field :invalid="overBudget">
       <FieldLabel>Invalid</FieldLabel>
-      <Slider :default-value="85" />
-      <FieldError errors="Keep the budget under 80%." />
+      <Slider v-model="budget" />
+      <FieldError v-if="overBudget" errors="Keep the budget under 80%." />
     </Field>
   </div>
 </template>
