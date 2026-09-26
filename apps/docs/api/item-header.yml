@@ -1,0 +1,4 @@
+component: ItemHeader
+file: ui/item/ItemHeader.vue
+slots:
+  default: "A full-width row above the content."

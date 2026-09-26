@@ -1,0 +1,4 @@
+component: ItemActions
+file: ui/item/ItemActions.vue
+slots:
+  default: "Buttons and controls at the row's end."

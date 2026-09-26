@@ -1,0 +1,4 @@
+component: ItemDescription
+file: ui/item/ItemDescription.vue
+slots:
+  default: "Secondary text, two lines at most."

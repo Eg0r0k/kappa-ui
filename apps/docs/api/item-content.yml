@@ -1,0 +1,4 @@
+component: ItemContent
+file: ui/item/ItemContent.vue
+slots:
+  default: "The title and description."

@@ -1,0 +1,13 @@
+component: Item
+file: ui/item/Item.vue
+props:
+  variant:
+    description: "Surface of the row, Select's set: `outline`, `soft`, `filled`, `ghost` and `subtle`."
+  size:
+    description: "Padding, gap, radius, text and media size, from `xs` to `xl`."
+  as:
+    description: "The element or component to render. `a` or `button` makes the whole row pressable, with a state layer."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the item's attributes and classes onto it — a link, for instance."
+slots:
+  default: "Media, content, actions, and a header or footer that take the full width."

@@ -1,0 +1,7 @@
+component: ItemMedia
+file: ui/item/ItemMedia.vue
+props:
+  variant:
+    description: "`icon` frames an icon on a muted square, `image` crops an image to a square; both follow the item's size."
+slots:
+  default: "An icon, an image or an avatar."

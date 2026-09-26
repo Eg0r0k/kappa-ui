@@ -608,6 +608,27 @@
       ]
     },
     {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A row of media, title, description and actions, with Select's variants, five sizes and list semantics.",
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "registryDependencies": ["utils", "tokens", "separator"],
+      "files": [
+        { "path": "src/ui/item/Item.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemActions.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemContent.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemDescription.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemFooter.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemGroup.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemHeader.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemMedia.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemSeparator.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/ItemTitle.vue", "type": "registry:ui" },
+        { "path": "src/ui/item/index.ts", "type": "registry:ui" }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -1569,6 +1590,88 @@
       "registryDependencies": ["button-group", "button"],
       "files": [
         { "path": "src/examples/button-group/ButtonGroupConnected.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "item-demo",
+      "type": "registry:block",
+      "title": "Item demo",
+      "description": "A plain item and a link item.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["item", "button"],
+      "files": [
+        { "path": "src/examples/item/ItemDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "item-variants",
+      "type": "registry:block",
+      "title": "Item variants",
+      "description": "The same item on every surface.",
+      "categories": ["example"],
+      "registryDependencies": ["item"],
+      "files": [
+        { "path": "src/examples/item/ItemVariants.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "item-sizes",
+      "type": "registry:block",
+      "title": "Item sizes",
+      "description": "Five sizes with icon media.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["item"],
+      "files": [
+        { "path": "src/examples/item/ItemSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "item-media",
+      "type": "registry:block",
+      "title": "Item media",
+      "description": "Icon and image media.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["item"],
+      "files": [
+        { "path": "src/examples/item/ItemMediaExample.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "item-group",
+      "type": "registry:block",
+      "title": "Item group",
+      "description": "A list of people divided by separators.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["item", "button"],
+      "files": [
+        { "path": "src/examples/item/ItemGroupExample.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "item-link",
+      "type": "registry:block",
+      "title": "Item links",
+      "description": "Settings rows that are links.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["item"],
+      "files": [
+        { "path": "src/examples/item/ItemLink.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "item-header-footer",
+      "type": "registry:block",
+      "title": "Item header and footer",
+      "description": "Cards with a header image and a footer.",
+      "categories": ["example"],
+      "registryDependencies": ["item", "button"],
+      "files": [
+        { "path": "src/examples/item/ItemHeaderFooter.vue", "type": "registry:component" }
       ]
     },
     {

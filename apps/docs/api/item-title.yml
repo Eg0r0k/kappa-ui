@@ -1,0 +1,4 @@
+component: ItemTitle
+file: ui/item/ItemTitle.vue
+slots:
+  default: "The row's title."

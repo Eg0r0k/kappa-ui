@@ -1,0 +1,4 @@
+component: ItemFooter
+file: ui/item/ItemFooter.vue
+slots:
+  default: "A full-width row under the content."

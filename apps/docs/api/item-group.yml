@@ -1,0 +1,4 @@
+component: ItemGroup
+file: ui/item/ItemGroup.vue
+slots:
+  default: "Items and separators. The group is a list, and its items list items; pass `role=\"group\"` for rows that are links or buttons."
