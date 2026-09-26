@@ -75,9 +75,9 @@ export const surfaces: { key: Surfaces; name: string }[] = [
   { key: 'tinted', name: 'Tinted' },
 ]
 
-const surfaceLightness: Record<Exclude<Surfaces, 'flat'>, Record<string, number>> = {
-  raised: { background: 0.98, card: 1, popover: 1, secondary: 0.955, muted: 0.955, accent: 0.955, 'muted-foreground': 0.54 },
-  tinted: { background: 1, card: 0.98, popover: 1, secondary: 0.955, muted: 0.955, accent: 0.955, 'muted-foreground': 0.54 },
+const surfaceLightness: Record<Exclude<Surfaces, 'raised'>, Record<string, number>> = {
+  flat: { background: 1, secondary: 0.97, muted: 0.97, accent: 0.97, 'muted-foreground': 0.556 },
+  tinted: { background: 1, card: 0.98 },
 }
 
 export const chromaRange = { min: 0.04, max: 0.26 }
@@ -89,7 +89,7 @@ export const defaultTheme: ThemeConfig = {
   radius: 0.75,
   font: 'inter',
   surfaceBorder: 'default',
-  surfaces: 'flat',
+  surfaces: 'raised',
 }
 
 const round = (value: number, digits = 3) => Number(value.toFixed(digits))
@@ -99,17 +99,17 @@ const oklch = (lightness: number, chroma: number, hue: number, alpha?: number) =
 
 const neutralTokens = {
   light: {
-    background: 1,
+    background: 0.98,
     foreground: 0.145,
     card: 1,
     'card-foreground': 0.145,
     popover: 1,
     'popover-foreground': 0.145,
-    secondary: 0.97,
+    secondary: 0.955,
     'secondary-foreground': 0.205,
-    muted: 0.97,
-    'muted-foreground': 0.556,
-    accent: 0.97,
+    muted: 0.955,
+    'muted-foreground': 0.54,
+    accent: 0.955,
     'accent-foreground': 0.205,
     border: 0.922,
     input: 0.62,
@@ -161,7 +161,7 @@ export const themeTokens = (config: ThemeConfig) => {
     for (const [name, alpha] of Object.entries(darkAlpha)) dark[name] = oklch(1, neutral.chroma, neutral.hue, alpha)
   }
 
-  if (config.surfaces !== 'flat') {
+  if (config.surfaces !== 'raised') {
     for (const [name, lightness] of Object.entries(surfaceLightness[config.surfaces])) light[name] = tint(lightness)
   }
 

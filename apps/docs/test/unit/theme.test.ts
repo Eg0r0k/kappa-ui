@@ -40,12 +40,13 @@ describe('theme', () => {
     expect(themeTokens(defaultTheme).light.background).toBeUndefined()
 
     const slate = themeTokens({ ...defaultTheme, neutral: 'slate' })
-    expect(slate.light.background).toBe('oklch(1 0 0)')
+    expect(slate.light.background).toBe('oklch(0.98 0.018 257)')
+    expect(slate.light.card).toBe('oklch(1 0 0)')
     expect(slate.light.foreground).toBe('oklch(0.145 0.018 257)')
     expect(slate.dark.border).toBe('oklch(1 0.018 257 / 10%)')
 
     const brand = themeTokens({ ...defaultTheme, neutral: 'brand', hue: 150 })
-    expect(brand.light.muted).toBe('oklch(0.97 0.014 150)')
+    expect(brand.light.muted).toBe('oklch(0.955 0.014 150)')
   })
 
   it('writes CSS with the font import, both themes and the font', () => {
@@ -83,7 +84,7 @@ describe('theme', () => {
     expect(isDefaultTheme({ ...defaultTheme, radius: 0.5 })).toBe(false)
   })
 
-  it('layers the light surfaces, and leaves them flat by default', () => {
+  it('raises the light surfaces by default, and can flatten or tint them', () => {
     const lightness = (value?: string) => (value === undefined ? undefined : Number(value.match(/oklch\(([\d.]+)/)?.[1]))
     const levels = (key: (typeof surfaces)[number]['key']) => {
       const { light } = themeTokens({ ...defaultTheme, surfaces: key })
@@ -91,20 +92,22 @@ describe('theme', () => {
     }
 
     expect(surfaces.map((option) => option.key)).toEqual(['flat', 'raised', 'tinted'])
-    expect(levels('flat')).toEqual([undefined, undefined, undefined, undefined])
-    expect(levels('raised')).toEqual([0.98, 1, 1, 0.955])
-    expect(levels('tinted')).toEqual([1, 0.98, 1, 0.955])
-    expect(themeTokens({ ...defaultTheme, surfaces: 'raised' }).dark.background).toBeUndefined()
+    expect(defaultTheme.surfaces).toBe('raised')
+    expect(levels('raised')).toEqual([undefined, undefined, undefined, undefined])
+    expect(levels('flat')).toEqual([1, undefined, undefined, 0.97])
+    expect(levels('tinted')).toEqual([1, 0.98, undefined, undefined])
+    expect(themeTokens({ ...defaultTheme, surfaces: 'flat' }).dark.background).toBeUndefined()
+    expect(themeTokens({ ...defaultTheme, neutral: 'slate' }).light.background).toBe('oklch(0.98 0.018 257)')
   })
 
   it('keeps muted text at 4.5:1 on the page, cards and popovers with every surface option', () => {
-    const flat: Record<string, number> = { background: 1, card: 1, popover: 1, 'muted-foreground': 0.556 }
+    const raised: Record<string, number> = { background: 0.98, card: 1, popover: 1, 'muted-foreground': 0.54 }
     const luminance = (value: number) => value ** 3
     const contrast = (a: number, b: number) =>
       (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05)
     for (const option of surfaces) {
       const { light } = themeTokens({ ...defaultTheme, surfaces: option.key })
-      const level = (name: string) => Number(light[name]?.match(/oklch\(([\d.]+)/)?.[1] ?? flat[name])
+      const level = (name: string) => Number(light[name]?.match(/oklch\(([\d.]+)/)?.[1] ?? raised[name])
       for (const surface of ['background', 'card', 'popover']) {
         expect(contrast(level('muted-foreground'), level(surface)), `${option.key} on ${surface}`).toBeGreaterThanOrEqual(4.5)
       }
