@@ -13,8 +13,9 @@ export { default as ItemMedia } from "./ItemMedia.vue";
 export { default as ItemSeparator } from "./ItemSeparator.vue";
 export { default as ItemTitle } from "./ItemTitle.vue";
 
-export const [injectItemGroupContext, provideItemGroupContext] =
-  createContext<{ list: ComputedRef<boolean> }>("ItemGroup");
+export const [injectItemGroupContext, provideItemGroupContext] = createContext<{ list: ComputedRef<boolean> }>(
+  "ItemGroup",
+);
 
 export const itemVariants = cva(
   "group/item relative flex flex-wrap items-center border border-transparent outline-none transition-colors duration-short-4 ease-standard focus-visible:focus-ring [a&]:cursor-pointer [a&]:state-layer [button&]:cursor-pointer [button&]:state-layer [button&]:text-start",

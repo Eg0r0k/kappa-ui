@@ -38,10 +38,14 @@ const openDropdown = async (size?: MenuSize, subSize?: MenuSize) => {
           h(DropdownMenuContent, { size }, () => [
             h(DropdownMenuLabel, () => "Account"),
             h(DropdownMenuItem, () => "Profile"),
-            h(DropdownMenuRadioGroup, { modelValue: "list" }, () => [h(DropdownMenuRadioItem, { value: "list" }, () => "List")]),
+            h(DropdownMenuRadioGroup, { modelValue: "list" }, () => [
+              h(DropdownMenuRadioItem, { value: "list" }, () => "List"),
+            ]),
             h(DropdownMenuSub, () => [
               h(DropdownMenuSubTrigger, () => "More"),
-              h(DropdownMenuSubContent, { size: subSize }, () => h(DropdownMenuItem, { class: "sub-item" }, () => "Email")),
+              h(DropdownMenuSubContent, { size: subSize }, () =>
+                h(DropdownMenuItem, { class: "sub-item" }, () => "Email"),
+              ),
             ]),
           ]),
         ]),
@@ -106,7 +110,12 @@ describe("menu sizes", () => {
   });
 
   it("rounds items with the radius tokens: md for xs, lg for every other size", async () => {
-    for (const [size, radius] of [["xs", "9.6px"], ["sm", "12px"], ["md", "12px"], ["xl", "12px"]] as const) {
+    for (const [size, radius] of [
+      ["xs", "9.6px"],
+      ["sm", "12px"],
+      ["md", "12px"],
+      ["xl", "12px"],
+    ] as const) {
       await openDropdown(size);
       expect(getComputedStyle(query("[data-slot=dropdown-menu-item]")).borderRadius, size).toBe(radius);
       unmount?.();

@@ -10,7 +10,14 @@ afterEach(() => {
 
 const render = (props: Record<string, unknown> = {}, slot?: string) =>
   mount(
-    { render: () => h("div", { style: "display:flex;flex-direction:column;width:200px;height:100px" }, h(Separator, props, slot ? () => slot : undefined)) },
+    {
+      render: () =>
+        h(
+          "div",
+          { style: "display:flex;flex-direction:column;width:200px;height:100px" },
+          h(Separator, props, slot ? () => slot : undefined),
+        ),
+    },
     { attachTo: document.body },
   ).get("[data-slot=separator]").element as HTMLElement;
 

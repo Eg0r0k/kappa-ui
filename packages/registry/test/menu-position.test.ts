@@ -28,7 +28,9 @@ describe("parsePosition", () => {
 describe("placeMenu", () => {
   it("meets the self point with the anchor point", () => {
     expect(place()).toMatchObject({ top: 140, left: 200, maxHeight: null, maxWidth: null });
-    expect(place({ anchor: parsePosition("center middle", false), self: parsePosition("center middle", false) })).toMatchObject({
+    expect(
+      place({ anchor: parsePosition("center middle", false), self: parsePosition("center middle", false) }),
+    ).toMatchObject({
       top: 60,
       left: 175,
     });

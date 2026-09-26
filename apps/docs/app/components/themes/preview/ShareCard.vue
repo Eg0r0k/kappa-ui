@@ -12,8 +12,20 @@ import { useToast } from '@/ui/toast'
 const link = 'https://delta.dev/d/q4-roadmap'
 
 const people = ref([
-  { initials: 'AL', name: 'Ada Lovelace', email: 'ada@example.com', avatar: 'bg-primary/15 text-primary', access: 'edit' },
-  { initials: 'GH', name: 'Grace Hopper', email: 'grace@example.com', avatar: 'bg-success/15 text-success-text', access: 'view' },
+  {
+    initials: 'AL',
+    name: 'Ada Lovelace',
+    email: 'ada@example.com',
+    avatar: 'bg-primary/15 text-primary',
+    access: 'edit',
+  },
+  {
+    initials: 'GH',
+    name: 'Grace Hopper',
+    email: 'grace@example.com',
+    avatar: 'bg-success/15 text-success-text',
+    access: 'view',
+  },
 ])
 
 const toast = useToast()

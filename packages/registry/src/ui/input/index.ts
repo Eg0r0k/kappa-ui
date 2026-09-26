@@ -96,10 +96,28 @@ export const floatingLabelVariants = cva(
       },
     },
     compoundVariants: [
-      { variant: insideLabel, size: "xs", class: "peer-focus:top-0.5 peer-not-placeholder-shown:top-0.5 peer-autofill:top-0.5 group-data-float/input:top-0.5" },
-      { variant: insideLabel, size: "sm", class: "peer-focus:top-1 peer-not-placeholder-shown:top-1 peer-autofill:top-1 group-data-float/input:top-1" },
-      { variant: insideLabel, size: "md", class: "peer-focus:top-1.5 peer-not-placeholder-shown:top-1.5 peer-autofill:top-1.5 group-data-float/input:top-1.5" },
-      { variant: insideLabel, size: ["lg", "xl"], class: "peer-focus:top-2 peer-not-placeholder-shown:top-2 peer-autofill:top-2 group-data-float/input:top-2" },
+      {
+        variant: insideLabel,
+        size: "xs",
+        class:
+          "peer-focus:top-0.5 peer-not-placeholder-shown:top-0.5 peer-autofill:top-0.5 group-data-float/input:top-0.5",
+      },
+      {
+        variant: insideLabel,
+        size: "sm",
+        class: "peer-focus:top-1 peer-not-placeholder-shown:top-1 peer-autofill:top-1 group-data-float/input:top-1",
+      },
+      {
+        variant: insideLabel,
+        size: "md",
+        class:
+          "peer-focus:top-1.5 peer-not-placeholder-shown:top-1.5 peer-autofill:top-1.5 group-data-float/input:top-1.5",
+      },
+      {
+        variant: insideLabel,
+        size: ["lg", "xl"],
+        class: "peer-focus:top-2 peer-not-placeholder-shown:top-2 peer-autofill:top-2 group-data-float/input:top-2",
+      },
     ],
     defaultVariants: {
       variant: "outline",

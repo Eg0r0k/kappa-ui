@@ -7,7 +7,15 @@ import { previewGroup } from '~/lib/theme-preview'
 import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/ui/card'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/ui/dialog'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/ui/item'
 import { useToast } from '@/ui/toast'
 
@@ -23,10 +31,34 @@ interface Member {
 }
 
 const team = ref<Member[]>([
-  { initials: 'AL', name: 'Ada Lovelace', email: 'ada@example.com', role: 'Owner', avatar: 'bg-primary/15 text-primary' },
-  { initials: 'GH', name: 'Grace Hopper', email: 'grace@example.com', role: 'Editor', avatar: 'bg-success/15 text-success-text' },
-  { initials: 'AT', name: 'Alan Turing', email: 'alan@example.com', role: 'Viewer', avatar: 'bg-warning/15 text-warning-text' },
-  { initials: 'KJ', name: 'Katherine Johnson', email: 'katherine@example.com', role: 'Viewer', avatar: 'bg-muted text-muted-foreground' },
+  {
+    initials: 'AL',
+    name: 'Ada Lovelace',
+    email: 'ada@example.com',
+    role: 'Owner',
+    avatar: 'bg-primary/15 text-primary',
+  },
+  {
+    initials: 'GH',
+    name: 'Grace Hopper',
+    email: 'grace@example.com',
+    role: 'Editor',
+    avatar: 'bg-success/15 text-success-text',
+  },
+  {
+    initials: 'AT',
+    name: 'Alan Turing',
+    email: 'alan@example.com',
+    role: 'Viewer',
+    avatar: 'bg-warning/15 text-warning-text',
+  },
+  {
+    initials: 'KJ',
+    name: 'Katherine Johnson',
+    email: 'katherine@example.com',
+    role: 'Viewer',
+    avatar: 'bg-muted text-muted-foreground',
+  },
 ])
 
 const toast = useToast()
@@ -103,7 +135,9 @@ const message = (member: Member) =>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Remove {{ leaving?.name }}?</DialogTitle>
-            <DialogDescription>They lose access to this project at once. You can invite them again later.</DialogDescription>
+            <DialogDescription
+              >They lose access to this project at once. You can invite them again later.</DialogDescription
+            >
           </DialogHeader>
           <DialogFooter>
             <DialogClose as-child>

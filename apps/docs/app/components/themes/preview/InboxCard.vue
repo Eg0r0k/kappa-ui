@@ -78,7 +78,12 @@ const items = computed(() =>
               <component :is="entry.icon" />
             </ItemMedia>
             <ItemContent class="min-w-0">
-              <ItemTitle :class="['w-full truncate', unread.has(entry.id) ? 'text-foreground' : 'font-normal text-muted-foreground']">
+              <ItemTitle
+                :class="[
+                  'w-full truncate',
+                  unread.has(entry.id) ? 'text-foreground' : 'font-normal text-muted-foreground',
+                ]"
+              >
                 {{ entry.title }}
               </ItemTitle>
               <ItemDescription>{{ entry.time }}</ItemDescription>

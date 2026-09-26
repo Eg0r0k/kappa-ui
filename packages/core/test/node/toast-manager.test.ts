@@ -124,7 +124,12 @@ describe("createToaster", () => {
     });
     expect(toaster.toasts.value[0]).toMatchObject({ id, title: "Uploading", loading: true });
     await flush();
-    expect(toaster.toasts.value[0]).toMatchObject({ id, title: "Uploaded report.pdf", color: "success", loading: false });
+    expect(toaster.toasts.value[0]).toMatchObject({
+      id,
+      title: "Uploaded report.pdf",
+      color: "success",
+      loading: false,
+    });
   });
 
   it("turns a rejected promise into its error toast", async () => {

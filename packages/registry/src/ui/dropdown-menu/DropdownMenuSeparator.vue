@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  DropdownMenuSeparator,
-  type DropdownMenuSeparatorProps,
-} from "@delta-ui/core/dropdown-menu";
+import { DropdownMenuSeparator, type DropdownMenuSeparatorProps } from "@delta-ui/core/dropdown-menu";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSeparator } from "@/lib/menu";
@@ -17,5 +14,9 @@ const delegated = computed(() => {
 </script>
 
 <template>
-  <DropdownMenuSeparator v-bind="delegated" data-slot="dropdown-menu-separator" :class="cn(menuSeparator, props.class)" />
+  <DropdownMenuSeparator
+    v-bind="delegated"
+    data-slot="dropdown-menu-separator"
+    :class="cn(menuSeparator, props.class)"
+  />
 </template>

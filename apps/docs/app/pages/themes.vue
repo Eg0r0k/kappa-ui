@@ -24,7 +24,15 @@ import {
   themeToQuery,
 } from '~/lib/theme'
 import { Button } from '@/ui/button'
-import { Dialog, DialogBody, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/ui/dialog'
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/ui/dialog'
 import { Field, FieldDescription, FieldLabel, FieldLegend, FieldSet } from '@/ui/field'
 import { ScrollArea } from '@/ui/scroll-area'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
@@ -153,7 +161,10 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
 
           <FieldSet>
             <FieldLegend>Surface borders</FieldLegend>
-            <FieldDescription>The border of cards, dialogs, menus, popovers, select lists and toasts. None keeps the width, so nothing moves.</FieldDescription>
+            <FieldDescription
+              >The border of cards, dialogs, menus, popovers, select lists and toasts. None keeps the width, so nothing
+              moves.</FieldDescription
+            >
             <div class="flex flex-wrap gap-2">
               <Button
                 v-for="option in surfaceBorders"
@@ -172,8 +183,8 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
           <FieldSet>
             <FieldLegend>Light surfaces</FieldLegend>
             <FieldDescription>
-              The light theme only. Raised lifts white cards off a tinted page, Flat keeps both white, and Tinted greys the
-              cards on a white page.
+              The light theme only. Raised lifts white cards off a tinted page, Flat keeps both white, and Tinted greys
+              the cards on a white page.
             </FieldDescription>
             <div class="flex flex-wrap gap-2">
               <Button
@@ -197,7 +208,12 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem v-for="font in fonts" :key="font.key" :value="font.key" :style="{ fontFamily: fontStack(font) }">
+                <SelectItem
+                  v-for="font in fonts"
+                  :key="font.key"
+                  :value="font.key"
+                  :style="{ fontFamily: fontStack(font) }"
+                >
                   {{ font.name }}
                 </SelectItem>
               </SelectContent>
@@ -234,8 +250,8 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
             <DialogHeader>
               <DialogTitle>Theme CSS</DialogTitle>
               <DialogDescription>
-                Paste it into your global CSS, after the delta-ui theme. The font import goes with your other imports, at
-                the top.
+                Paste it into your global CSS, after the delta-ui theme. The font import goes with your other imports,
+                at the top.
               </DialogDescription>
             </DialogHeader>
             <DialogBody>

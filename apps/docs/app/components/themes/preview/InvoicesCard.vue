@@ -52,13 +52,22 @@ const pageOfInvoices = computed(() => invoices.slice((page.value - 1) * perPage,
           </ItemContent>
           <ItemActions class="gap-3">
             <span class="text-label-lg tabular-nums">{{ invoice.amount }}</span>
-            <Badge variant="soft" :color="invoice.status.color" class="w-18 justify-center">{{ invoice.status.label }}</Badge>
+            <Badge variant="soft" :color="invoice.status.color" class="w-18 justify-center">{{
+              invoice.status.label
+            }}</Badge>
           </ItemActions>
         </Item>
       </ItemGroup>
     </CardContent>
     <CardFooter class="justify-center">
-      <Pagination v-model:page="page" :total="invoices.length" :items-per-page="perPage" :sibling-count="0" show-edges size="sm">
+      <Pagination
+        v-model:page="page"
+        :total="invoices.length"
+        :items-per-page="perPage"
+        :sibling-count="0"
+        show-edges
+        size="sm"
+      >
         <PaginationContent v-slot="{ items }">
           <PaginationItem>
             <PaginationPrevious class="w-8 px-0" aria-label="Previous page">

@@ -17,12 +17,16 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const colors = "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --disabled-opacity: 38%";
+const colors =
+  "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --disabled-opacity: 38%";
 
 const render = (props: Record<string, unknown> = {}, children: () => unknown[] = () => [h(InputGroupInput)]) =>
-  mount(defineComponent(() => () => h(InputGroup, { style: colors, ...props }, children)), {
-    attachTo: document.body,
-  });
+  mount(
+    defineComponent(() => () => h(InputGroup, { style: colors, ...props }, children)),
+    {
+      attachTo: document.body,
+    },
+  );
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
 
@@ -56,7 +60,9 @@ describe("InputGroup", () => {
       const wrapper = render({ size }, () => [
         h(InputGroupAddon, () => h(Search, { "data-test": "addon-icon" })),
         h(InputGroupInput),
-        h(InputGroupAddon, { align: "inline-end" }, () => h(InputGroupText, () => h(Search, { "data-test": "text-icon" }))),
+        h(InputGroupAddon, { align: "inline-end" }, () =>
+          h(InputGroupText, () => h(Search, { "data-test": "text-icon" })),
+        ),
       ]);
       const width = (test: string) => document.querySelector(`[data-test=${test}]`)!.getBoundingClientRect().width;
       const result = [width("addon-icon"), width("text-icon")];
@@ -142,16 +148,17 @@ describe("InputGroup", () => {
   it("binds v-model and takes its id from a Field", async () => {
     const value = ref("draft");
     mount(
-      defineComponent(() => () =>
-        h(Field, () => [
-          h(FieldLabel, () => "Search"),
-          h(InputGroup, () =>
-            h(InputGroupInput, {
-              modelValue: value.value,
-              "onUpdate:modelValue": (next: unknown) => (value.value = next as string),
-            }),
-          ),
-        ]),
+      defineComponent(
+        () => () =>
+          h(Field, () => [
+            h(FieldLabel, () => "Search"),
+            h(InputGroup, () =>
+              h(InputGroupInput, {
+                modelValue: value.value,
+                "onUpdate:modelValue": (next: unknown) => (value.value = next as string),
+              }),
+            ),
+          ]),
       ),
       { attachTo: document.body },
     );

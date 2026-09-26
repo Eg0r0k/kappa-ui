@@ -59,10 +59,7 @@ const ease = cubicBezier(0.2, 0, 0, 1);
 const prefersReducedMotion = () =>
   typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const createAxis = (
-  read: (target: ScrollTarget) => number,
-  write: (target: ScrollTarget, offset: number) => void,
-) => {
+const createAxis = (read: (target: ScrollTarget) => number, write: (target: ScrollTarget, offset: number) => void) => {
   const motions = new WeakMap<ScrollTarget, Motion>();
 
   const stop = (target: ScrollTarget) => {

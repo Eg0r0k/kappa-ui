@@ -62,7 +62,13 @@ watch(
           <TabsTrigger value="code">Code</TabsTrigger>
         </TabsList>
         <div class="flex items-center gap-1 pb-1">
-          <Button variant="ghost" color="neutral" size="icon-sm" aria-label="Toggle the example's theme" @click="toggleTheme">
+          <Button
+            variant="ghost"
+            color="neutral"
+            size="icon-sm"
+            aria-label="Toggle the example's theme"
+            @click="toggleTheme"
+          >
             <template v-if="theme">
               <Moon v-if="theme === 'dark'" />
               <Sun v-else />
@@ -73,7 +79,8 @@ watch(
             </template>
           </Button>
           <Button
-            variant="ghost" color="neutral"
+            variant="ghost"
+            color="neutral"
             size="sm"
             :aria-pressed="dir === 'rtl'"
             aria-label="Toggle right-to-left"
@@ -89,12 +96,7 @@ watch(
         </PreviewFrame>
       </TabsContent>
       <TabsContent value="code">
-        <CodeBlock
-          v-if="code"
-          :filename="file.path.replace(/^src\//, '@/')"
-          :html="code.html"
-          :source="code.source"
-        />
+        <CodeBlock v-if="code" :filename="file.path.replace(/^src\//, '@/')" :html="code.html" :source="code.source" />
         <div class="mt-3 grid gap-2">
           <p class="text-xs text-muted-foreground">Add this example to your project:</p>
           <CommandLine :command="exampleCommand" />

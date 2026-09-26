@@ -12,7 +12,8 @@ export { default as InputGroupTextarea } from "./InputGroupTextarea.vue";
 const focusRing =
   "has-[[data-slot=input-group-control]:focus-visible]:border-primary has-[[data-slot=input-group-control]:focus-visible]:inset-ring has-[[data-slot=input-group-control]:focus-visible]:inset-ring-primary has-[[data-slot=input-group-control][aria-invalid=true]]:border-destructive has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:inset-ring-destructive has-[[data-slot=input-group-control]:user-invalid]:border-destructive has-[[data-slot=input-group-control]:user-invalid:focus-visible]:inset-ring-destructive";
 
-const disabledBorder = "has-[[data-slot=input-group-control]:disabled]:border-foreground/(--disabled-container-opacity)";
+const disabledBorder =
+  "has-[[data-slot=input-group-control]:disabled]:border-foreground/(--disabled-container-opacity)";
 
 export const inputGroupVariants = cva(
   "group/input-group relative flex w-full min-w-0 items-center transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard has-[>textarea]:h-auto has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=inline-start]]:*:data-[slot=input-group-control]:ps-2 has-[>[data-align=inline-end]]:*:data-[slot=input-group-control]:pe-2",

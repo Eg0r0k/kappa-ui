@@ -30,7 +30,10 @@ describe("Menu", () => {
     const wrapper = mount(
       defineComponent({
         setup: () => () =>
-          h("button", { style: "position:fixed;left:40px;top:40px;width:120px;height:32px" }, ["Open", h(Menu, () => items())]),
+          h("button", { style: "position:fixed;left:40px;top:40px;width:120px;height:32px" }, [
+            "Open",
+            h(Menu, () => items()),
+          ]),
       }),
       { attachTo: document.body },
     );

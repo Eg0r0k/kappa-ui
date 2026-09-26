@@ -1,16 +1,7 @@
 <script setup lang="ts">
 import { Palette, RotateCcw, SlidersHorizontal } from '@lucide/vue'
 
-import {
-  type ThemeConfig,
-  fontStack,
-  fonts,
-  neutrals,
-  presets,
-  radii,
-  surfaceBorders,
-  themeToQuery,
-} from '~/lib/theme'
+import { type ThemeConfig, fontStack, fonts, neutrals, presets, radii, surfaceBorders, themeToQuery } from '~/lib/theme'
 import { Button } from '@/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
@@ -114,7 +105,12 @@ const current = (preset: { hue: number; chroma: number }) =>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem v-for="item in fonts" :key="item.key" :value="item.key" :style="{ fontFamily: fontStack(item) }">
+            <SelectItem
+              v-for="item in fonts"
+              :key="item.key"
+              :value="item.key"
+              :style="{ fontFamily: fontStack(item) }"
+            >
               {{ item.name }}
             </SelectItem>
           </SelectContent>

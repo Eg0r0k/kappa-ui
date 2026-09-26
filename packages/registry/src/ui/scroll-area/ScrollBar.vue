@@ -47,9 +47,7 @@ const hiddenBase = "pointer-events-none opacity-0";
     data-slot="scroll-area-bar"
     :data-axis="props.axis"
     aria-hidden="true"
-    :class="
-      cn(barBase, barAxis[props.axis], thumbHidden && hiddenBase, props.class)
-    "
+    :class="cn(barBase, barAxis[props.axis], thumbHidden && hiddenBase, props.class)"
     @pointerdown="store.onBarPointerdown($event, props.axis)"
     @pointermove="store.onPointermove"
     @pointerup="store.onPointerup"

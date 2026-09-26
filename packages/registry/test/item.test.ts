@@ -2,25 +2,24 @@ import { mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it } from "vitest";
 import { h } from "vue";
 
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemMedia,
-  ItemTitle,
-} from "@/ui/item";
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/ui/item";
 
 afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const render = (props: Record<string, unknown> = {}, children: () => unknown = () => h(ItemContent, () => h(ItemTitle, () => "Title"))) =>
-  mount({ render: () => h(Item, props, children) }, { attachTo: document.body }).get("[data-slot=item]").element as HTMLElement;
+const render = (
+  props: Record<string, unknown> = {},
+  children: () => unknown = () => h(ItemContent, () => h(ItemTitle, () => "Title")),
+) =>
+  mount({ render: () => h(Item, props, children) }, { attachTo: document.body }).get("[data-slot=item]")
+    .element as HTMLElement;
 
 const within = (group: Record<string, unknown>, items: Record<string, unknown>[]) =>
   mount(
-    { render: () => h(ItemGroup, group, () => items.map((props) => h(Item, props, () => h(ItemContent, () => "Row")))) },
+    {
+      render: () => h(ItemGroup, group, () => items.map((props) => h(Item, props, () => h(ItemContent, () => "Row")))),
+    },
     { attachTo: document.body },
   ).get("[data-slot=item-group]").element as HTMLElement;
 

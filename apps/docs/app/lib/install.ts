@@ -1,8 +1,7 @@
 export const packageManagers = ['pnpm', 'npm', 'yarn', 'bun'] as const
 export type PackageManager = (typeof packageManagers)[number]
 
-export const registryItemUrl = (siteUrl: string, name: string) =>
-  `${siteUrl.replace(/\/+$/, '')}/r/${name}.json`
+export const registryItemUrl = (siteUrl: string, name: string) => `${siteUrl.replace(/\/+$/, '')}/r/${name}.json`
 
 const runners: Record<PackageManager, string> = {
   pnpm: 'pnpm dlx',

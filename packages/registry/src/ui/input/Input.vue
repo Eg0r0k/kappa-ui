@@ -77,9 +77,7 @@ const inputBindings = computed(() => ({
       aria-hidden="true"
       :class="floatingOutlineVariants({ size: props.size })"
     >
-      <legend :class="floatingLegendVariants()">
-        {{ props.label }}<span v-if="control.required.value"> *</span>
-      </legend>
+      <legend :class="floatingLegendVariants()">{{ props.label }}<span v-if="control.required.value"> *</span></legend>
     </fieldset>
   </div>
   <input

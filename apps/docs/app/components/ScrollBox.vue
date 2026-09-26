@@ -44,7 +44,11 @@ onBeforeUnmount(() => observer?.disconnect())
       <slot />
     </div>
   </div>
-  <ScrollArea v-else-if="props.maxHeight" data-slot="scroll-box" :style="{ height: `${Math.min(height, props.maxHeight)}px` }">
+  <ScrollArea
+    v-else-if="props.maxHeight"
+    data-slot="scroll-box"
+    :style="{ height: `${Math.min(height, props.maxHeight)}px` }"
+  >
     <ScrollArea orientation="horizontal" :style="{ height: `${height}px` }">
       <div ref="inner" :class="cn('min-w-full', props.class)">
         <slot />

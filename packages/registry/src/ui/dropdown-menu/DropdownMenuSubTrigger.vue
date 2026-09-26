@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  DropdownMenuSubTrigger,
-  type DropdownMenuSubTriggerProps,
-} from "@delta-ui/core/dropdown-menu";
+import { DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps } from "@delta-ui/core/dropdown-menu";
 import { ChevronRight } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

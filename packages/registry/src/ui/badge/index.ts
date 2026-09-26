@@ -94,11 +94,23 @@ export const badgeVariants = cva(
     },
     compoundVariants: [
       ...colorVariants,
-      { square: false, size: "xs", class: "px-1 has-data-[icon=inline-start]:ps-0.5 has-data-[icon=inline-end]:pe-0.5" },
+      {
+        square: false,
+        size: "xs",
+        class: "px-1 has-data-[icon=inline-start]:ps-0.5 has-data-[icon=inline-end]:pe-0.5",
+      },
       { square: false, size: "sm", class: "px-1.5 has-data-[icon=inline-start]:ps-1 has-data-[icon=inline-end]:pe-1" },
-      { square: false, size: "md", class: "px-2 has-data-[icon=inline-start]:ps-1.5 has-data-[icon=inline-end]:pe-1.5" },
+      {
+        square: false,
+        size: "md",
+        class: "px-2 has-data-[icon=inline-start]:ps-1.5 has-data-[icon=inline-end]:pe-1.5",
+      },
       { square: false, size: "lg", class: "px-2.5 has-data-[icon=inline-start]:ps-2 has-data-[icon=inline-end]:pe-2" },
-      { square: false, size: "xl", class: "px-3 has-data-[icon=inline-start]:ps-2.5 has-data-[icon=inline-end]:pe-2.5" },
+      {
+        square: false,
+        size: "xl",
+        class: "px-3 has-data-[icon=inline-start]:ps-2.5 has-data-[icon=inline-end]:pe-2.5",
+      },
       { square: true, size: "xs", class: "min-w-4 px-0.5" },
       { square: true, size: "sm", class: "min-w-5 px-0.5" },
       { square: true, size: "md", class: "min-w-6 px-1" },

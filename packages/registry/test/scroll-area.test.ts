@@ -10,11 +10,7 @@ type MountOptions = {
   content?: { height: string; width: string };
 };
 
-const mountArea = ({
-  props = {},
-  attrs = {},
-  content = { height: "1200px", width: "400px" },
-}: MountOptions = {}) =>
+const mountArea = ({ props = {}, attrs = {}, content = { height: "1200px", width: "400px" } }: MountOptions = {}) =>
   mount(ScrollArea, {
     attachTo: document.body,
     props,
@@ -45,11 +41,7 @@ it("renders every slot of the structure", () => {
   expect(parts.viewport).not.toBeNull();
   expect(parts.content).not.toBeNull();
   expect(parts.verticalThumb).not.toBeNull();
-  expect(
-    (wrapper.element as Element).querySelector(
-      "[data-slot=scroll-area-thumb][data-axis=horizontal]",
-    ),
-  ).toBeNull();
+  expect((wrapper.element as Element).querySelector("[data-slot=scroll-area-thumb][data-axis=horizontal]")).toBeNull();
   expect(parts.verticalBar.getAttribute("aria-hidden")).toBe("true");
 
   wrapper.unmount();
@@ -62,28 +54,15 @@ it("gives each bar and thumb a cross-axis size that fits inside its bar", async 
     content: { height: "100px", width: "1200px" },
   });
 
-  const measure = async (
-    wrapper: ReturnType<typeof mountArea>,
-    axis: "vertical" | "horizontal",
-  ) => {
+  const measure = async (wrapper: ReturnType<typeof mountArea>, axis: "vertical" | "horizontal") => {
     const root = wrapper.element as Element;
-    const bar = root.querySelector<HTMLElement>(
-      `[data-slot=scroll-area-bar][data-axis=${axis}]`,
-    )!;
-    const thumb = root.querySelector<HTMLElement>(
-      `[data-slot=scroll-area-thumb][data-axis=${axis}]`,
-    )!;
+    const bar = root.querySelector<HTMLElement>(`[data-slot=scroll-area-bar][data-axis=${axis}]`)!;
+    const thumb = root.querySelector<HTMLElement>(`[data-slot=scroll-area-thumb][data-axis=${axis}]`)!;
 
-    await vi.waitFor(() =>
-      expect(
-        axis === "vertical" ? thumb.style.height : thumb.style.width,
-      ).not.toBe(""),
-    );
+    await vi.waitFor(() => expect(axis === "vertical" ? thumb.style.height : thumb.style.width).not.toBe(""));
 
     const cross = (el: HTMLElement) =>
-      axis === "vertical"
-        ? el.getBoundingClientRect().width
-        : el.getBoundingClientRect().height;
+      axis === "vertical" ? el.getBoundingClientRect().width : el.getBoundingClientRect().height;
 
     expect(cross(thumb)).toBeGreaterThan(0);
     expect(cross(thumb)).toBeLessThanOrEqual(cross(bar));
@@ -125,9 +104,7 @@ it("hides the thumb when its own axis does not overflow", async () => {
   const wrapper = mountArea({ content: { height: "100px", width: "400px" } });
   const { verticalThumb } = partsOf(wrapper.element);
 
-  await vi.waitFor(() =>
-    expect(verticalThumb.className).toContain("opacity-0"),
-  );
+  await vi.waitFor(() => expect(verticalThumb.className).toContain("opacity-0"));
 
   wrapper.unmount();
 });

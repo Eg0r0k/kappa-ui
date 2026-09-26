@@ -39,10 +39,16 @@ const open = ref(false)
           </DialogClose>
         </div>
         <nav aria-label="Main" class="flex gap-4 border-b px-4 py-3 text-sm">
-          <NuxtLink to="/docs/getting-started/introduction" class="text-muted-foreground hover:text-foreground" @click="open = false">
+          <NuxtLink
+            to="/docs/getting-started/introduction"
+            class="text-muted-foreground hover:text-foreground"
+            @click="open = false"
+          >
             Docs
           </NuxtLink>
-          <NuxtLink to="/themes" class="text-muted-foreground hover:text-foreground" @click="open = false">Themes</NuxtLink>
+          <NuxtLink to="/themes" class="text-muted-foreground hover:text-foreground" @click="open = false"
+            >Themes</NuxtLink
+          >
         </nav>
         <div class="min-h-0 flex-1">
           <DocsSidebar @navigate="open = false" />

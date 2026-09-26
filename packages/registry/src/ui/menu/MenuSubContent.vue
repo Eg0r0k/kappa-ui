@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  MenuPortal,
-  MenuSubContent,
-  type MenuSubContentEmits,
-  type MenuSubContentProps,
-} from "@delta-ui/core/menu";
+import { MenuPortal, MenuSubContent, type MenuSubContentEmits, type MenuSubContentProps } from "@delta-ui/core/menu";
 import { injectOverlayPortalTarget } from "@delta-ui/core/overlay";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";

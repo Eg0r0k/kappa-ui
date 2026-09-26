@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  DropdownMenuItem,
-  type DropdownMenuItemEmits,
-  type DropdownMenuItemProps,
-} from "@delta-ui/core/dropdown-menu";
+import { DropdownMenuItem, type DropdownMenuItemEmits, type DropdownMenuItemProps } from "@delta-ui/core/dropdown-menu";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 

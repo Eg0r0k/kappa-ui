@@ -12,8 +12,18 @@ import {
 } from "@/ui/context-menu";
 
 const files = [
-  "Quarterly report.pdf", "Roadmap.fig", "Invoices.xlsx", "Brand guide.pdf", "Onboarding.docx", "Budget 2027.xlsx",
-  "Release notes.md", "Interview notes.docx", "Pitch deck.key", "Research.pdf", "Contracts.zip", "Wireframes.fig",
+  "Quarterly report.pdf",
+  "Roadmap.fig",
+  "Invoices.xlsx",
+  "Brand guide.pdf",
+  "Onboarding.docx",
+  "Budget 2027.xlsx",
+  "Release notes.md",
+  "Interview notes.docx",
+  "Pitch deck.key",
+  "Research.pdf",
+  "Contracts.zip",
+  "Wireframes.fig",
 ];
 
 const open = ref(false);

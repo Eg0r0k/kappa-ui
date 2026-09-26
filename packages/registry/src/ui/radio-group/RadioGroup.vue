@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  RadioGroupRoot,
-  type RadioGroupRootEmits,
-  type RadioGroupRootProps,
-} from "@delta-ui/core/radio-group";
+import { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps } from "@delta-ui/core/radio-group";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 

@@ -85,13 +85,17 @@ describe("Listbox", () => {
       props: { modelValue: undefined, "onUpdate:modelValue": (next: unknown) => (value.value = next) },
       slots: {
         default: () =>
-          h(ListboxItem, {
-            value: "report.pdf",
-            onSelect: (event: ListboxItemSelectEvent<AcceptableValue>) => {
-              event.preventDefault();
-              opened.push(event.detail.value);
+          h(
+            ListboxItem,
+            {
+              value: "report.pdf",
+              onSelect: (event: ListboxItemSelectEvent<AcceptableValue>) => {
+                event.preventDefault();
+                opened.push(event.detail.value);
+              },
             },
-          }, () => "report.pdf"),
+            () => "report.pdf",
+          ),
       },
       attachTo: document.body,
     });
@@ -106,7 +110,8 @@ describe("Listbox", () => {
     const wrapper = mount(Listbox, {
       props: { defaultValue: "a" },
       slots: {
-        default: () => h(ListboxItem, { value: "a" }, { default: () => "A", "indicator-icon": () => h("i", { class: "custom" }) }),
+        default: () =>
+          h(ListboxItem, { value: "a" }, { default: () => "A", "indicator-icon": () => h("i", { class: "custom" }) }),
       },
     });
     await nextTick();
@@ -120,7 +125,10 @@ describe("Listbox", () => {
     const wrapper = mount(Listbox, {
       slots: {
         default: () =>
-          h(ListboxGroup, () => [h(ListboxGroupLabel, () => "Europe"), h(ListboxItem, { value: "Berlin" }, () => "Berlin")]),
+          h(ListboxGroup, () => [
+            h(ListboxGroupLabel, () => "Europe"),
+            h(ListboxItem, { value: "Berlin" }, () => "Berlin"),
+          ]),
       },
     });
     const group = wrapper.get("[role=group]");

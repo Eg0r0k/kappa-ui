@@ -243,13 +243,17 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
   return {
     hue: hue === undefined ? defaultTheme.hue : clamp(Math.round(hue), 0, 360),
     chroma: chroma === undefined ? defaultTheme.chroma : clamp(chroma, chromaRange.min, chromaRange.max),
-    neutral: neutrals.some((entry) => entry.key === query.neutral) ? (query.neutral as NeutralName) : defaultTheme.neutral,
+    neutral: neutrals.some((entry) => entry.key === query.neutral)
+      ? (query.neutral as NeutralName)
+      : defaultTheme.neutral,
     radius: radius !== undefined && radii.includes(radius) ? radius : defaultTheme.radius,
     font: fonts.some((font) => font.key === query.font) ? (query.font as string) : defaultTheme.font,
     surfaceBorder: surfaceBorders.some((option) => option.key === query.surfaceBorder)
       ? (query.surfaceBorder as SurfaceBorder)
       : defaultTheme.surfaceBorder,
-    surfaces: surfaces.some((option) => option.key === query.surfaces) ? (query.surfaces as Surfaces) : defaultTheme.surfaces,
+    surfaces: surfaces.some((option) => option.key === query.surfaces)
+      ? (query.surfaces as Surfaces)
+      : defaultTheme.surfaces,
   }
 }
 

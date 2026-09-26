@@ -23,7 +23,11 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 </script>
 
 <template>
-  <ContextMenuCheckboxItem v-bind="forwarded" data-slot="context-menu-checkbox-item" :class="cn(menuIndicatorItem, props.class)">
+  <ContextMenuCheckboxItem
+    v-bind="forwarded"
+    data-slot="context-menu-checkbox-item"
+    :class="cn(menuIndicatorItem, props.class)"
+  >
     <span :class="menuIndicator">
       <ContextMenuItemIndicator data-slot="context-menu-item-indicator" class="flex items-center justify-center">
         <slot name="indicator-icon">

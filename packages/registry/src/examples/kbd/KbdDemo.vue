@@ -15,8 +15,6 @@ import { Kbd, KbdGroup } from "@/ui/kbd";
       <span>+</span>
       <Kbd>B</Kbd>
     </KbdGroup>
-    <p class="text-body-md text-muted-foreground">
-      Press <Kbd>/</Kbd> to search, or <Kbd>Esc</Kbd> to close.
-    </p>
+    <p class="text-body-md text-muted-foreground">Press <Kbd>/</Kbd> to search, or <Kbd>Esc</Kbd> to close.</p>
   </div>
 </template>

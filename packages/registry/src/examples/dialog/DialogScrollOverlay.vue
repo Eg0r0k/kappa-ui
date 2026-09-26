@@ -10,7 +10,10 @@ import {
   DialogTrigger,
 } from "@/ui/dialog";
 
-const changes = Array.from({ length: 30 }, (_, index) => `Change ${index + 1}: fixed a layout shift in the settings panel.`);
+const changes = Array.from(
+  { length: 30 },
+  (_, index) => `Change ${index + 1}: fixed a layout shift in the settings panel.`,
+);
 </script>
 
 <template>

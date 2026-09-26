@@ -35,7 +35,9 @@ const action = ref<keyof typeof actions>("stop");
       </DialogHeader>
       <DialogBody>
         <p class="text-body-md text-muted-foreground" aria-live="polite">
-          {{ shared ? "Anyone with the link can view the project." : "Sharing is off. Only members can view the project." }}
+          {{
+            shared ? "Anyone with the link can view the project." : "Sharing is off. Only members can view the project."
+          }}
         </p>
       </DialogBody>
       <DialogFooter>

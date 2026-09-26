@@ -53,7 +53,9 @@ watch(
       >
         <span v-if="pair.fg">Aa</span>
       </div>
-      <p class="font-mono text-xs">--{{ pair.bg }} <span class="text-muted-foreground">{{ resolved[pair.bg] }}</span></p>
+      <p class="font-mono text-xs">
+        --{{ pair.bg }} <span class="text-muted-foreground">{{ resolved[pair.bg] }}</span>
+      </p>
       <p v-if="pair.fg" class="font-mono text-xs">
         --{{ pair.fg }} <span class="text-muted-foreground">{{ resolved[pair.fg] }}</span>
       </p>

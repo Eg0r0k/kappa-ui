@@ -8,8 +8,7 @@ const files = ["README.md", "package.json", "index.ts"];
 const selected = ref(["README.md"]);
 
 const all = computed({
-  get: () =>
-    selected.value.length === files.length ? true : selected.value.length === 0 ? false : "indeterminate",
+  get: () => (selected.value.length === files.length ? true : selected.value.length === 0 ? false : "indeterminate"),
   set: (value) => {
     selected.value = value === true ? [...files] : [];
   },

@@ -17,7 +17,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
           <p class="text-body-sm text-muted-foreground">Set the dimensions for the layer.</p>
         </div>
         <div class="grid gap-2">
-          <Field v-for="dimension in ['Width', 'Max. width', 'Height', 'Max. height']" :key="dimension" orientation="horizontal" class="grid grid-cols-3 items-center gap-4">
+          <Field
+            v-for="dimension in ['Width', 'Max. width', 'Height', 'Max. height']"
+            :key="dimension"
+            orientation="horizontal"
+            class="grid grid-cols-3 items-center gap-4"
+          >
             <FieldLabel>{{ dimension }}</FieldLabel>
             <Input size="sm" class="col-span-2" :default-value="dimension.includes('Max') ? 'none' : '100%'" />
           </Field>

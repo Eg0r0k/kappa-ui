@@ -12,11 +12,7 @@ type MountOptions = {
   itemStyle?: string;
 };
 
-const mountVirtual = ({
-  props = {},
-  attrs = {},
-  itemStyle = "height: 24px",
-}: MountOptions = {}) =>
+const mountVirtual = ({ props = {}, attrs = {}, itemStyle = "height: 24px" }: MountOptions = {}) =>
   mount(ScrollArea, {
     attachTo: document.body,
     props: { virtualize: { estimateSize: 24 }, items: rows, ...props },
@@ -30,8 +26,7 @@ const mountVirtual = ({
 const partsOf = (root: Element) => ({
   viewport: root.querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!,
   virtual: root.querySelector<HTMLElement>("[data-slot=scroll-area-virtual]")!,
-  items: () =>
-    Array.from(root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]")),
+  items: () => Array.from(root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]")),
 });
 
 const nextFrame = () =>
@@ -60,9 +55,7 @@ it("sizes the virtual container to the whole list", async () => {
   const wrapper = mountVirtual();
   const parts = partsOf(wrapper.element as Element);
 
-  await vi.waitFor(() =>
-    expect(parts.virtual.style.height).toBe(`${10_000 * 24}px`),
-  );
+  await vi.waitFor(() => expect(parts.virtual.style.height).toBe(`${10_000 * 24}px`));
 
   wrapper.unmount();
 });
@@ -76,9 +69,7 @@ it("moves the rendered index window as the viewport scrolls", async () => {
 
   parts.viewport.scrollTop = 24_000;
 
-  await vi.waitFor(() =>
-    expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(950),
-  );
+  await vi.waitFor(() => expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(950));
 
   wrapper.unmount();
 });
@@ -90,11 +81,7 @@ it("measures real item sizes rather than trusting the estimate", async () => {
   });
   const parts = partsOf(wrapper.element as Element);
 
-  await vi.waitFor(() =>
-    expect(Number.parseFloat(parts.virtual.style.height)).toBeGreaterThan(
-      50 * 24,
-    ),
-  );
+  await vi.waitFor(() => expect(Number.parseFloat(parts.virtual.style.height)).toBeGreaterThan(50 * 24));
 
   wrapper.unmount();
 });
@@ -120,9 +107,7 @@ it("lays a horizontal list out along the inline axis", async () => {
   });
   const parts = partsOf(wrapper.element as Element);
 
-  await vi.waitFor(() =>
-    expect(Number.parseFloat(parts.virtual.style.width)).toBe(10_000 * 100),
-  );
+  await vi.waitFor(() => expect(Number.parseFloat(parts.virtual.style.width)).toBe(10_000 * 100));
   expect(parts.virtual.style.height).toBe("300px");
   expect(parts.virtual.getBoundingClientRect().height).toBeGreaterThan(0);
 
@@ -177,9 +162,7 @@ it("scrolls an rtl horizontal list leftwards from the right edge", async () => {
 
   parts.viewport.scrollLeft = -50_000;
 
-  await vi.waitFor(() =>
-    expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(400),
-  );
+  await vi.waitFor(() => expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(400));
 
   wrapper.unmount();
 });
@@ -199,9 +182,7 @@ it("scrolls to an index and aligns it when asked", async () => {
 
   api.scrollTo(2000, "start");
   await vi.waitFor(() => {
-    const target = parts
-      .items()
-      .find((el) => el.dataset.index === "2000");
+    const target = parts.items().find((el) => el.dataset.index === "2000");
     expect(target).toBeDefined();
     expect(Math.round(target!.getBoundingClientRect().top)).toBe(
       Math.round(parts.viewport.getBoundingClientRect().top),
@@ -219,11 +200,7 @@ it("drops measured sizes on reset", async () => {
   const parts = partsOf(wrapper.element as Element);
   const api = wrapper.vm as unknown as ScrollAreaApi;
 
-  await vi.waitFor(() =>
-    expect(Number.parseFloat(parts.virtual.style.height)).toBeGreaterThan(
-      600 * 24,
-    ),
-  );
+  await vi.waitFor(() => expect(Number.parseFloat(parts.virtual.style.height)).toBeGreaterThan(600 * 24));
 
   for (let top = 0; top <= 24_000; top += 1_200) {
     parts.viewport.scrollTop = top;
@@ -235,11 +212,7 @@ it("drops measured sizes on reset", async () => {
 
   api.reset();
 
-  await vi.waitFor(() =>
-    expect(Number.parseFloat(parts.virtual.style.height)).toBeLessThan(
-      measured,
-    ),
-  );
+  await vi.waitFor(() => expect(Number.parseFloat(parts.virtual.style.height)).toBeLessThan(measured));
   wrapper.unmount();
 });
 
@@ -267,9 +240,7 @@ it("refreshes without moving the scroll position when no index is given", async 
   await vi.waitFor(() => expect(parts.items().length).toBeGreaterThan(0));
 
   parts.viewport.scrollTop = 12_000;
-  await vi.waitFor(() =>
-    expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(450),
-  );
+  await vi.waitFor(() => expect(Number(parts.items()[0].dataset.index)).toBeGreaterThan(450));
 
   const before = parts.viewport.scrollTop;
   api.refresh();
@@ -321,18 +292,12 @@ it("reports decrease when scrolling back", async () => {
 
   parts.viewport.scrollTop = 24_000;
   await vi.waitFor(() =>
-    expect(
-      (wrapper.emitted("virtualScroll")?.at(-1)?.[0] as { index: number })
-        ?.index,
-    ).toBeGreaterThan(950),
+    expect((wrapper.emitted("virtualScroll")?.at(-1)?.[0] as { index: number })?.index).toBeGreaterThan(950),
   );
 
   parts.viewport.scrollTop = 1_200;
   await vi.waitFor(() =>
-    expect(
-      (wrapper.emitted("virtualScroll")!.at(-1)![0] as { direction: string })
-        .direction,
-    ).toBe("decrease"),
+    expect((wrapper.emitted("virtualScroll")!.at(-1)![0] as { direction: string }).direction).toBe("decrease"),
   );
 
   wrapper.unmount();
@@ -342,13 +307,9 @@ it("sizes the custom thumb from the whole list, not the rendered window", async 
   const wrapper = mountVirtual({ props: { items: rows.slice(0, 500) } });
   const root = wrapper.element as Element;
   const parts = partsOf(root);
-  const thumb = root.querySelector<HTMLElement>(
-    "[data-slot=scroll-area-thumb][data-axis=vertical]",
-  )!;
+  const thumb = root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=vertical]")!;
 
-  await vi.waitFor(() =>
-    expect(parts.virtual.style.height).toBe(`${500 * 24}px`),
-  );
+  await vi.waitFor(() => expect(parts.virtual.style.height).toBe(`${500 * 24}px`));
 
   // track 300, scrollSize 12000 -> 300*300/12000 = 7.5, below the
   // minimum thumb for a track under 250... track is 300, so the floor
@@ -364,13 +325,9 @@ it("keeps the thumb proportional for a short virtual list", async () => {
   const wrapper = mountVirtual({ props: { items: rows.slice(0, 25) } });
   const root = wrapper.element as Element;
   const parts = partsOf(root);
-  const thumb = root.querySelector<HTMLElement>(
-    "[data-slot=scroll-area-thumb][data-axis=vertical]",
-  )!;
+  const thumb = root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=vertical]")!;
 
-  await vi.waitFor(() =>
-    expect(parts.virtual.style.height).toBe(`${25 * 24}px`),
-  );
+  await vi.waitFor(() => expect(parts.virtual.style.height).toBe(`${25 * 24}px`));
 
   // track 300, scrollSize 600 -> 300*300/600 = 150
   await vi.waitFor(() => expect(thumb.style.height).toBe("150px"));

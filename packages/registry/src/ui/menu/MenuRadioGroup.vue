@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  MenuRadioGroup,
-  type MenuRadioGroupEmits,
-  type MenuRadioGroupProps,
-} from "@delta-ui/core/menu";
+import { MenuRadioGroup, type MenuRadioGroupEmits, type MenuRadioGroupProps } from "@delta-ui/core/menu";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 
 const props = defineProps<MenuRadioGroupProps>();

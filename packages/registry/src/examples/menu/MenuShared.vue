@@ -35,7 +35,11 @@ const last = ref("nothing yet");
       >
         <MenuLabel>{{ contextMenu ? "Right-click menu" : "Click menu" }}</MenuLabel>
         <MenuSeparator />
-        <MenuItem v-for="action in actions" :key="action.label" @select="last = `${action.label}, from the ${contextMenu ? 'right-click' : 'click'} menu`">
+        <MenuItem
+          v-for="action in actions"
+          :key="action.label"
+          @select="last = `${action.label}, from the ${contextMenu ? 'right-click' : 'click'} menu`"
+        >
           {{ action.label }}
           <MenuShortcut>{{ action.shortcut }}</MenuShortcut>
         </MenuItem>

@@ -4,8 +4,21 @@ import { vScrollFade } from "@delta-ui/core/scroll-fade";
 import { Badge } from "@/ui/badge";
 
 const tags = [
-  "Vue", "Nuxt", "Tailwind", "TypeScript", "Vite", "Vitest", "Pinia", "Reka UI", "VueUse", "Playwright",
-  "ESLint", "pnpm", "Motion", "Formisch", "Valibot",
+  "Vue",
+  "Nuxt",
+  "Tailwind",
+  "TypeScript",
+  "Vite",
+  "Vitest",
+  "Pinia",
+  "Reka UI",
+  "VueUse",
+  "Playwright",
+  "ESLint",
+  "pnpm",
+  "Motion",
+  "Formisch",
+  "Valibot",
 ];
 </script>
 

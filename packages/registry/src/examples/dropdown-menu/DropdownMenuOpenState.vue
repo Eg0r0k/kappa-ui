@@ -2,7 +2,13 @@
 import { Copy, Ellipsis, Pencil, Trash2 } from "@lucide/vue";
 
 import { Button } from "@/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/ui/dropdown-menu";
 
 const files = ["Quarterly report.pdf", "Roadmap.fig", "Invoices.xlsx"];
 </script>

@@ -13,9 +13,7 @@ const colors = ["primary", "neutral", "destructive", "success", "warning"] as co
     </span>
     <template v-for="color in colors" :key="color">
       <span class="pr-2 text-label-sm text-muted-foreground">{{ color }}</span>
-      <Button v-for="variant in variants" :key="variant" :variant="variant" :color="color">
-        Button
-      </Button>
+      <Button v-for="variant in variants" :key="variant" :variant="variant" :color="color"> Button </Button>
     </template>
   </div>
 </template>

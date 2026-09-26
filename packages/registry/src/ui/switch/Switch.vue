@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  SwitchRoot,
-  type SwitchRootEmits,
-  type SwitchRootProps,
-  SwitchThumb,
-} from "@delta-ui/core/switch";
+import { SwitchRoot, type SwitchRootEmits, type SwitchRootProps, SwitchThumb } from "@delta-ui/core/switch";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, ref, useAttrs, useSlots } from "vue";
 

@@ -1,6 +1,5 @@
 export type MetaSchema =
-  | string
-  | { kind: string; type: string; schema?: MetaSchema[] | Record<string, MetaSchema | MetaProp> }
+  string | { kind: string; type: string; schema?: MetaSchema[] | Record<string, MetaSchema | MetaProp> }
 export type MetaProp = { name: string; type: string; required: boolean; default?: string; schema?: MetaSchema }
 export type MetaMember = { name: string; type: string }
 export type ComponentMetaInput = {

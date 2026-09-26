@@ -5,7 +5,16 @@ import { h } from "vue";
 import { Card } from "@/ui/card";
 import { Checkbox } from "@/ui/checkbox";
 
-const tokens = ["rounded-xs", "rounded-sm", "rounded-md", "rounded-lg", "rounded-xl", "rounded-2xl", "rounded-3xl", "rounded-4xl"];
+const tokens = [
+  "rounded-xs",
+  "rounded-sm",
+  "rounded-md",
+  "rounded-lg",
+  "rounded-xl",
+  "rounded-2xl",
+  "rounded-3xl",
+  "rounded-4xl",
+];
 
 const radiiUnder = (radius?: string) => {
   const host = document.createElement("div");
@@ -51,8 +60,8 @@ it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px"
     {
       render: () =>
         h("div", [
-          ...(["xs", "sm", "default", "lg", "xl", "icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"] as const).map((size) =>
-            h(Button, { size, "data-case": `button-${size}` }, () => "B"),
+          ...(["xs", "sm", "default", "lg", "xl", "icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"] as const).map(
+            (size) => h(Button, { size, "data-case": `button-${size}` }, () => "B"),
           ),
           ...(["xs", "sm", "md", "lg", "xl"] as const).flatMap((size) => [
             h(Input, { size, "data-case": `input-${size}` }),
@@ -81,13 +90,10 @@ it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px"
     "16.8px",
   ]);
   for (const control of ["input", "textarea", "select", "group"]) {
-    expect(["xs", "sm", "md", "lg", "xl"].map((size) => radius(`${control}-${size}`)), control).toEqual([
-      "9.6px",
-      "12px",
-      "12px",
-      "12px",
-      "16.8px",
-    ]);
+    expect(
+      ["xs", "sm", "md", "lg", "xl"].map((size) => radius(`${control}-${size}`)),
+      control,
+    ).toEqual(["9.6px", "12px", "12px", "12px", "16.8px"]);
   }
   wrapper.unmount();
 });
@@ -95,7 +101,13 @@ it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px"
 it("keeps a filled control square at the bottom at every size", async () => {
   const { Input } = await import("@/ui/input");
   const wrapper = mount(
-    { render: () => h("div", (["xs", "xl"] as const).map((size) => h(Input, { size, variant: "filled", "data-case": size }))) },
+    {
+      render: () =>
+        h(
+          "div",
+          (["xs", "xl"] as const).map((size) => h(Input, { size, variant: "filled", "data-case": size })),
+        ),
+    },
     { attachTo: document.body },
   );
   const corners = (size: string) => {
@@ -143,7 +155,9 @@ it("follows a --radius set on an ancestor, not only on the root", async () => {
           h(Textarea, { "data-case": "textarea" }),
           h(Select, () => h(SelectTrigger, { "data-case": "select" }, () => "S")),
           h(InputGroup, { "data-case": "input-group" }, () => h(InputGroupInput)),
-          h(Tabs, { defaultValue: "a" }, () => h(TabsList, { "data-case": "tabs" }, () => h(TabsTrigger, { value: "a" }, () => "A"))),
+          h(Tabs, { defaultValue: "a" }, () =>
+            h(TabsList, { "data-case": "tabs" }, () => h(TabsTrigger, { value: "a" }, () => "A")),
+          ),
         ]),
     },
     { attachTo: document.body },
@@ -151,7 +165,11 @@ it("follows a --radius set on an ancestor, not only on the root", async () => {
   const radii = Object.fromEntries(
     [...document.querySelectorAll("[data-case]")].map((element) => [
       element.getAttribute("data-case"),
-      radiusOf(element.matches("[data-case=floating]") ? element.closest("[data-slot=input-control]")!.querySelector("fieldset")! : element),
+      radiusOf(
+        element.matches("[data-case=floating]")
+          ? element.closest("[data-slot=input-control]")!.querySelector("fieldset")!
+          : element,
+      ),
     ]),
   );
 

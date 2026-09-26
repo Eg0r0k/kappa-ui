@@ -106,9 +106,7 @@ it("does not re-render the slot on every scroll event once both edges are known"
     { attachTo: document.body },
   );
 
-  const viewport = (wrapper.element as Element).querySelector<HTMLElement>(
-    "[data-slot=scroll-area-viewport]",
-  )!;
+  const viewport = (wrapper.element as Element).querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
 
   count = 0;
 

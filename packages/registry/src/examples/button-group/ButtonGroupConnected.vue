@@ -9,7 +9,10 @@ const view = ref("Week");
 </script>
 
 <template>
-  <ButtonGroup aria-label="Calendar view" class="gap-0.5 *:rounded-[--spacing(4.5)] [--button-group-radius:--theme(--radius-sm)]">
+  <ButtonGroup
+    aria-label="Calendar view"
+    class="gap-0.5 *:rounded-[--spacing(4.5)] [--button-group-radius:--theme(--radius-sm)]"
+  >
     <Button
       v-for="option in views"
       :key="option"

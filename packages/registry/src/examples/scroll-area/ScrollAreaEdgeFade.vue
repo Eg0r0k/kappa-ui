@@ -39,30 +39,15 @@ const step = (direction: 1 | -1) => {
   const { horizontalSize, horizontalContainerSize } = api.getScroll();
   const from = Math.abs(getHorizontalScrollDestination(viewport));
   const to = from + direction * horizontalContainerSize * 0.8;
-  api.setScrollPosition(
-    "horizontal",
-    Math.min(Math.max(to, 0), horizontalSize - horizontalContainerSize),
-    450,
-  );
+  api.setScrollPosition("horizontal", Math.min(Math.max(to, 0), horizontalSize - horizontalContainerSize), 450);
 };
 </script>
 
 <template>
   <div class="group/fade relative w-full max-w-md">
-    <ScrollArea
-      ref="area"
-      orientation="horizontal"
-      :scrollbar="false"
-      class="scroll-fade-overlay-x h-12"
-    >
+    <ScrollArea ref="area" orientation="horizontal" :scrollbar="false" class="scroll-fade-overlay-x h-12">
       <div class="flex h-full w-max items-center gap-2 px-1">
-        <Badge
-          v-for="category in categories"
-          :key="category"
-          variant="outline"
-          color="neutral"
-          size="lg"
-        >
+        <Badge v-for="category in categories" :key="category" variant="outline" color="neutral" size="lg">
           {{ category }}
         </Badge>
       </div>

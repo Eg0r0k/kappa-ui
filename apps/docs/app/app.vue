@@ -10,7 +10,9 @@ useHead({
   titleTemplate: (title) => (title && title !== 'delta-ui' ? `${title} · delta-ui` : 'delta-ui'),
   style: [{ key: 'site-theme', innerHTML: computed(() => (isDefaultTheme(theme.value) ? '' : siteCss(theme.value))) }],
   link: computed(() =>
-    theme.value.font === 'inter' ? [] : [{ key: 'site-font', rel: 'stylesheet', href: fontUrl([fontOf(theme.value).name]) }],
+    theme.value.font === 'inter'
+      ? []
+      : [{ key: 'site-font', rel: 'stylesheet', href: fontUrl([fontOf(theme.value).name]) }],
   ),
 })
 </script>

@@ -93,7 +93,8 @@ const measure = (element: HTMLElement, box: DOMRect) => {
 const cap = (space: number | null, limit: string | undefined) =>
   space === null ? (limit ?? "") : limit ? `min(${space}px, ${limit})` : `${space}px`;
 
-const gap = (a: string, b: string) => (a !== b && !["center", "middle"].includes(a) && !["center", "middle"].includes(b) ? 4 : 0);
+const gap = (a: string, b: string) =>
+  a !== b && !["center", "middle"].includes(a) && !["center", "middle"].includes(b) ? 4 : 0;
 
 const defaultOffset = (anchor: MenuOrigin, self: MenuOrigin): [number, number] => [
   gap(anchor.horizontal, self.horizontal),
@@ -304,7 +305,8 @@ const onInteractOutside = (event: CustomEvent<{ originalEvent: Event }>) => {
     event.preventDefault();
     return;
   }
-  const rightClick = original instanceof MouseEvent && (original.button === 2 || (original.button === 0 && original.ctrlKey));
+  const rightClick =
+    original instanceof MouseEvent && (original.button === 2 || (original.button === 0 && original.ctrlKey));
   if (!props.modal || rightClick) interactedOutside = true;
 };
 
@@ -337,7 +339,14 @@ defineExpose({ show, hide, toggle });
         :side-offset="0"
         :avoid-collisions="false"
         :style="contentStyle()"
-        :class="cn(overlaySurface, 'flex min-w-32 flex-col gap-0.5 overflow-x-hidden overflow-y-auto', menuSizeVariants({ size }), props.class)"
+        :class="
+          cn(
+            overlaySurface,
+            'flex min-w-32 flex-col gap-0.5 overflow-x-hidden overflow-y-auto',
+            menuSizeVariants({ size }),
+            props.class,
+          )
+        "
         @escape-key-down="keepOpen"
         @pointer-down-outside="keepOpen"
         @focus-outside="keepOpen"

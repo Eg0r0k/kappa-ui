@@ -10,19 +10,26 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const options = () => ["viewer", "editor", "admin"].map((value) => h(SelectItem, { value, disabled: value === "admin" }, () => value));
+const options = () =>
+  ["viewer", "editor", "admin"].map((value) => h(SelectItem, { value, disabled: value === "admin" }, () => value));
 
 describe("Select", () => {
   it("takes its id, description, error and state from a field", async () => {
     const wrapper = mount(
       defineComponent({
         setup: () => () =>
-          h("form", h(Field, { invalid: true, required: true }, () => [
-            h(FieldLabel, () => "Role"),
-            h(Select, { name: "role" }, () => [h(SelectTrigger, () => h(SelectValue, { placeholder: "Choose" })), h(SelectContent, options)]),
-            h(FieldDescription, () => "Who can edit."),
-            h(FieldError, { errors: "Choose a role." }),
-          ])),
+          h(
+            "form",
+            h(Field, { invalid: true, required: true }, () => [
+              h(FieldLabel, () => "Role"),
+              h(Select, { name: "role" }, () => [
+                h(SelectTrigger, () => h(SelectValue, { placeholder: "Choose" })),
+                h(SelectContent, options),
+              ]),
+              h(FieldDescription, () => "Who can edit."),
+              h(FieldError, { errors: "Choose a role." }),
+            ]),
+          ),
       }),
       { attachTo: document.body },
     );
@@ -60,10 +67,11 @@ describe("Select", () => {
     const wrapper = mount(
       defineComponent({
         setup: () => () =>
-          h(Select, { modelValue: value.value, "onUpdate:modelValue": (next: unknown) => (value.value = next as string) }, () => [
-            h(SelectTrigger, { "aria-label": "Role" }, () => h(SelectValue)),
-            h(SelectContent, options),
-          ]),
+          h(
+            Select,
+            { modelValue: value.value, "onUpdate:modelValue": (next: unknown) => (value.value = next as string) },
+            () => [h(SelectTrigger, { "aria-label": "Role" }, () => h(SelectValue)), h(SelectContent, options)],
+          ),
       }),
       { attachTo: document.body },
     );
@@ -88,7 +96,9 @@ describe("Select", () => {
 
   it("uses the input's variants and sizes on the trigger", () => {
     const wrapper = mount(Select, {
-      slots: { default: () => h(SelectTrigger, { variant: "filled", size: "xl", "aria-label": "Role" }, () => h(SelectValue)) },
+      slots: {
+        default: () => h(SelectTrigger, { variant: "filled", size: "xl", "aria-label": "Role" }, () => h(SelectValue)),
+      },
     });
     const trigger = wrapper.get("[data-slot=select-trigger]");
 

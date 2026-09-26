@@ -93,6 +93,8 @@ defineExpose({ resize });
     :required="control.required.value"
     :aria-invalid="control.invalid.value"
     :aria-describedby="control.describedBy.value"
-    :class="cn(textareaVariants({ variant: props.variant, size: props.size }), props.autoresize && 'resize-none', props.class)"
+    :class="
+      cn(textareaVariants({ variant: props.variant, size: props.size }), props.autoresize && 'resize-none', props.class)
+    "
   />
 </template>

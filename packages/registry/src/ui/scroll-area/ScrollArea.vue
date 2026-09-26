@@ -20,17 +20,7 @@ export type ScrollAreaProps<T = unknown> = {
 </script>
 
 <script setup lang="ts" generic="T">
-import {
-  computed,
-  onActivated,
-  onBeforeUnmount,
-  onDeactivated,
-  onMounted,
-  provide,
-  ref,
-  shallowRef,
-  watch,
-} from "vue";
+import { computed, onActivated, onBeforeUnmount, onDeactivated, onMounted, provide, ref, shallowRef, watch } from "vue";
 
 import { setHorizontalScrollPosition, setVerticalScrollPosition } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
@@ -93,46 +83,23 @@ const hover = ref(false);
 const tempShowing = ref(false);
 const panning = ref(false);
 
-const trackVertical = computed(
-  () =>
-    containerVertical.value - props.verticalOffset[0] - props.verticalOffset[1],
-);
+const trackVertical = computed(() => containerVertical.value - props.verticalOffset[0] - props.verticalOffset[1]);
 const trackHorizontal = computed(
-  () =>
-    containerHorizontal.value -
-    props.horizontalOffset[0] -
-    props.horizontalOffset[1],
+  () => containerHorizontal.value - props.horizontalOffset[0] - props.horizontalOffset[1],
 );
 
 const percentageVertical = computed(() =>
-  getPercentage(
-    positionVertical.value,
-    sizeVertical.value,
-    containerVertical.value,
-  ),
+  getPercentage(positionVertical.value, sizeVertical.value, containerVertical.value),
 );
 const percentageHorizontal = computed(() =>
-  getPercentage(
-    positionHorizontal.value,
-    sizeHorizontal.value,
-    containerHorizontal.value,
-  ),
+  getPercentage(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value),
 );
 
-const thumbSizeVertical = computed(() =>
-  getThumbSize(trackVertical.value, sizeVertical.value),
-);
-const thumbSizeHorizontal = computed(() =>
-  getThumbSize(trackHorizontal.value, sizeHorizontal.value),
-);
+const thumbSizeVertical = computed(() => getThumbSize(trackVertical.value, sizeVertical.value));
+const thumbSizeHorizontal = computed(() => getThumbSize(trackHorizontal.value, sizeHorizontal.value));
 
 const thumbStartVertical = computed(() =>
-  getThumbStart(
-    props.verticalOffset[0],
-    percentageVertical.value,
-    trackVertical.value,
-    thumbSizeVertical.value,
-  ),
+  getThumbStart(props.verticalOffset[0], percentageVertical.value, trackVertical.value, thumbSizeVertical.value),
 );
 const thumbStartHorizontal = computed(() =>
   getThumbStart(
@@ -143,26 +110,14 @@ const thumbStartHorizontal = computed(() =>
   ),
 );
 
-const resolvedVisible = computed(() =>
-  props.visible === null ? hover.value : props.visible,
-);
+const resolvedVisible = computed(() => (props.visible === null ? hover.value : props.visible));
 
-const barsIdle = computed(
-  () => !resolvedVisible.value && !tempShowing.value && !panning.value,
-);
+const barsIdle = computed(() => !resolvedVisible.value && !tempShowing.value && !panning.value);
 
-const thumbHiddenVertical = computed(
-  () => barsIdle.value || sizeVertical.value <= containerVertical.value + 1,
-);
-const thumbHiddenHorizontal = computed(
-  () => barsIdle.value || sizeHorizontal.value <= containerHorizontal.value + 1,
-);
+const thumbHiddenVertical = computed(() => barsIdle.value || sizeVertical.value <= containerVertical.value + 1);
+const thumbHiddenHorizontal = computed(() => barsIdle.value || sizeHorizontal.value <= containerHorizontal.value + 1);
 
-const active = computed(() =>
-  isHorizontal.value
-    ? !thumbHiddenHorizontal.value
-    : !thumbHiddenVertical.value,
-);
+const active = computed(() => (isHorizontal.value ? !thumbHiddenHorizontal.value : !thumbHiddenVertical.value));
 
 const tabindex = computed(() => {
   if (props.tabindex !== undefined) return props.tabindex;
@@ -246,14 +201,10 @@ const onBarPointerdown = (event: PointerEvent, axis: ScrollAreaAxis) => {
   if (state.hidden) return;
 
   const mirrored = axis === "horizontal" && isRtl.value;
-  const startOffset =
-    axis === "vertical"
-      ? props.verticalOffset[0]
-      : props.horizontalOffset[mirrored ? 1 : 0];
+  const startOffset = axis === "vertical" ? props.verticalOffset[0] : props.horizontalOffset[mirrored ? 1 : 0];
 
   const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-  const alongBar =
-    axis === "vertical" ? event.clientY - rect.top : event.clientX - rect.left;
+  const alongBar = axis === "vertical" ? event.clientY - rect.top : event.clientX - rect.left;
   const pointerOffset = mirrored ? containerHorizontal.value - alongBar : alongBar;
 
   const offset = pointerOffset - startOffset;
@@ -275,15 +226,9 @@ const onPointermove = (event: PointerEvent) => {
   if (dragAxis === null) return;
 
   const state = axisState(dragAxis);
-  const delta =
-    (dragAxis === "vertical" ? event.clientY : event.clientX) - dragStartCoord;
+  const delta = (dragAxis === "vertical" ? event.clientY : event.clientX) - dragStartCoord;
   const logicalDelta = dragAxis === "horizontal" && isRtl.value ? -delta : delta;
-  const multiplier = getDragMultiplier(
-    state.size,
-    state.container,
-    state.track,
-    state.thumbSize,
-  );
+  const multiplier = getDragMultiplier(state.size, state.container, state.track, state.thumbSize);
 
   writePosition(dragAxis, dragStartPosition + logicalDelta * multiplier);
 };
@@ -311,21 +256,12 @@ const getScroll = (): ScrollAreaScrollInfo => ({
   horizontalContainerInnerSize: trackHorizontal.value,
 });
 
-const setScrollPosition = (
-  axis: ScrollAreaAxis,
-  offset: number,
-  duration?: number,
-) => {
+const setScrollPosition = (axis: ScrollAreaAxis, offset: number, duration?: number) => {
   const el = viewportRef.value;
   if (el === null) return;
 
   if (axis === "vertical") setVerticalScrollPosition(el, offset, duration);
-  else
-    setHorizontalScrollPosition(
-      el,
-      getHorizontalPosition(offset, isRtl.value),
-      duration,
-    );
+  else setHorizontalScrollPosition(el, getHorizontalPosition(offset, isRtl.value), duration);
 };
 
 const api: ScrollAreaApi = {
@@ -376,22 +312,12 @@ const store: ScrollAreaStore = {
 provide(scrollAreaInjectionKey, store);
 
 const virtualCount = computed(() =>
-  props.virtualize
-    ? resolveVirtualCount(
-        props.items.length,
-        props.itemsSize,
-        props.itemsFn !== undefined,
-      )
-    : 0,
+  props.virtualize ? resolveVirtualCount(props.items.length, props.itemsSize, props.itemsFn !== undefined) : 0,
 );
 
-const virtualOptions = computed<ResolvedVirtualizeOptions>(() =>
-  resolveVirtualizeOptions(props.virtualize),
-);
+const virtualOptions = computed<ResolvedVirtualizeOptions>(() => resolveVirtualizeOptions(props.virtualize));
 
-const isExternalScroll = computed(
-  () => virtualOptions.value.getScrollElement !== undefined,
-);
+const isExternalScroll = computed(() => virtualOptions.value.getScrollElement !== undefined);
 
 const horizontalEdges = computed(() =>
   getOverflowEdges(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value),
@@ -400,18 +326,10 @@ const verticalEdges = computed(() =>
   getOverflowEdges(positionVertical.value, sizeVertical.value, containerVertical.value),
 );
 
-const overflowXStart = computed(
-  () => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.start,
-);
-const overflowXEnd = computed(
-  () => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.end,
-);
-const overflowYStart = computed(
-  () => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.start,
-);
-const overflowYEnd = computed(
-  () => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.end,
-);
+const overflowXStart = computed(() => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.start);
+const overflowXEnd = computed(() => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.end);
+const overflowYStart = computed(() => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.start);
+const overflowYEnd = computed(() => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.end);
 
 const externalEl = shallowRef<HTMLElement | null>(null);
 
@@ -424,11 +342,7 @@ const virtual = useVirtualScroll({
   count: virtualCount,
   options: virtualOptions,
   horizontal: isHorizontal,
-  crossSize: computed(() =>
-    isExternalScroll.value
-      ? (externalEl.value?.clientHeight ?? 0)
-      : containerVertical.value,
-  ),
+  crossSize: computed(() => (isExternalScroll.value ? (externalEl.value?.clientHeight ?? 0) : containerVertical.value)),
   isRtl,
   onScroll: (info: ScrollAreaVirtualInfo) => {
     emit("virtualScroll", { ...info, ref: api });
@@ -438,9 +352,7 @@ const virtual = useVirtualScroll({
 const virtualData = computed(() => {
   const { from, size } = virtual.window.value;
   if (size === 0) return [];
-  return props.itemsFn !== undefined
-    ? props.itemsFn(from, size)
-    : props.items.slice(from, from + size);
+  return props.itemsFn !== undefined ? props.itemsFn(from, size) : props.items.slice(from, from + size);
 });
 
 const startTimer = () => {
@@ -482,8 +394,7 @@ const updateDirection = () => {
 
   const previous = positionHorizontal.value;
   isRtl.value = rtl;
-  if (viewport !== null)
-    viewport.scrollLeft = getHorizontalPosition(previous, rtl);
+  if (viewport !== null) viewport.scrollLeft = getHorizontalPosition(previous, rtl);
 };
 
 const updateContainer = () => {
@@ -632,17 +543,10 @@ onBeforeUnmount(() => {
         data-slot="scroll-area-content"
         :data-active="active ? '' : undefined"
         :class="
-          cn(
-            isHorizontal ? 'h-full min-w-full' : 'min-h-full min-w-full',
-            isExternalScroll ? 'relative' : 'absolute',
-          )
+          cn(isHorizontal ? 'h-full min-w-full' : 'min-h-full min-w-full', isExternalScroll ? 'relative' : 'absolute')
         "
       >
-        <div
-          v-if="props.virtualize"
-          data-slot="scroll-area-virtual"
-          :style="virtual.containerStyle.value"
-        >
+        <div v-if="props.virtualize" data-slot="scroll-area-virtual" :style="virtual.containerStyle.value">
           <div
             v-for="slice in virtual.slices.value"
             :key="slice.index"
@@ -651,13 +555,10 @@ onBeforeUnmount(() => {
             :data-index="slice.index"
             :style="virtual.itemStyle(slice)"
           >
-            <slot
-              :item="(virtualData[slice.index - virtual.window.value.from] as T)"
-              :index="slice.index"
-            />
+            <slot :item="virtualData[slice.index - virtual.window.value.from] as T" :index="slice.index" />
           </div>
         </div>
-        <slot v-else :item="({} as T)" :index="0" />
+        <slot v-else :item="{} as T" :index="0" />
       </div>
     </div>
 

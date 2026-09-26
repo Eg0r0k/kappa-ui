@@ -43,7 +43,10 @@ const mountDialog = ({ content = {}, as = DialogContent, body, footer }: Options
       setup: () => () =>
         h(Dialog, { open: open.value, "onUpdate:open": (value: boolean) => (open.value = value) }, () =>
           h(as, content, () => [
-            h(DialogHeader, () => [h(DialogTitle, () => "Rename file"), h(DialogDescription, () => "Pick a new name.")]),
+            h(DialogHeader, () => [
+              h(DialogTitle, () => "Rename file"),
+              h(DialogDescription, () => "Pick a new name."),
+            ]),
             body ? h(DialogBody, body) : null,
             footer ? h(DialogFooter, footer) : null,
           ]),

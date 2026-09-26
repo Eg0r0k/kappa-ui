@@ -20,7 +20,10 @@ const mountGroup = (fieldset: Record<string, unknown> = {}, withError = false) =
             { modelValue: value.value, "onUpdate:modelValue": (next: unknown) => (value.value = next as string) },
             () =>
               options.map((option) =>
-                h(Field, { orientation: "horizontal" }, () => [h(Radio, { value: option }), h(FieldLabel, () => option)]),
+                h(Field, { orientation: "horizontal" }, () => [
+                  h(Radio, { value: option }),
+                  h(FieldLabel, () => option),
+                ]),
               ),
           ),
           withError ? h(FieldError, { errors: "Choose a size." }) : null,

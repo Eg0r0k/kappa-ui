@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  DropdownMenuRoot,
-  type DropdownMenuRootEmits,
-  type DropdownMenuRootProps,
-} from "@delta-ui/core/dropdown-menu";
+import { DropdownMenuRoot, type DropdownMenuRootEmits, type DropdownMenuRootProps } from "@delta-ui/core/dropdown-menu";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 
 const props = defineProps<DropdownMenuRootProps>();

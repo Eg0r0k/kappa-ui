@@ -14,7 +14,7 @@
       opacity: var(--state-hover);
     }
   }
-  &:active:not(:has(> [data-slot=ripple]))::before {
+  &:active:not(:has(> [data-slot="ripple"]))::before {
     opacity: var(--state-pressed);
   }
   @media (forced-colors: active) {
@@ -98,13 +98,16 @@
     --overlay-x: -0.25rem;
   }
   &[data-state="open"] {
-    animation: delta-overlay-in var(--transition-duration-short-4, 200ms) var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
+    animation: delta-overlay-in var(--transition-duration-short-4, 200ms)
+      var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
   }
   &[data-state="closed"] {
-    animation: delta-overlay-out var(--transition-duration-short-2, 100ms) var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
+    animation: delta-overlay-out var(--transition-duration-short-2, 100ms)
+      var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
   }
   @media (prefers-reduced-motion: reduce) {
-    &, &[data-side] {
+    &,
+    &[data-side] {
       --overlay-x: 0;
       --overlay-y: 0;
       --overlay-scale: 1;
@@ -131,14 +134,16 @@
 }
 
 @utility animate-accordion-down {
-  animation: delta-accordion-down var(--transition-duration-medium-1, 250ms) var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
+  animation: delta-accordion-down var(--transition-duration-medium-1, 250ms)
+    var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
 }
 
 @utility animate-accordion-up {
-  animation: delta-accordion-up var(--transition-duration-short-4, 200ms) var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15));
+  animation: delta-accordion-up var(--transition-duration-short-4, 200ms)
+    var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15));
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
@@ -161,7 +166,12 @@
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--foreground) var(--state-hover, 8%), transparent), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--foreground) var(--state-hover, 8%), transparent),
+      transparent
+    );
     animation: delta-skeleton-wave 1.5s linear 0.5s infinite;
   }
   &:dir(rtl)::after {
@@ -200,7 +210,7 @@
 
 @property --scroll-fade-mask {
   syntax: "*";
-  inherits: false
+  inherits: false;
 }
 
 @theme inline {
@@ -241,11 +251,13 @@
 @utility scroll-fade {
   --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
   --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-block: linear-gradient(to bottom,
+  --scroll-fade-block: linear-gradient(
+    to bottom,
     transparent 0,
     #000 var(--scroll-fade-t, 0px),
     #000 calc(100% - var(--scroll-fade-b, 0px)),
-    transparent 100%);
+    transparent 100%
+  );
   -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
   mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
   -webkit-mask-composite: source-in;
@@ -284,11 +296,13 @@
 @utility scroll-fade-y {
   --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
   --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-block: linear-gradient(to bottom,
+  --scroll-fade-block: linear-gradient(
+    to bottom,
     transparent 0,
     #000 var(--scroll-fade-t, 0px),
     #000 calc(100% - var(--scroll-fade-b, 0px)),
-    transparent 100%);
+    transparent 100%
+  );
   -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
   mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
   -webkit-mask-composite: source-in;
@@ -327,17 +341,21 @@
 @utility scroll-fade-x {
   --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
   --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-inline: linear-gradient(to right,
+  --scroll-fade-inline: linear-gradient(
+    to right,
     transparent 0,
     #000 var(--scroll-fade-s, 0px),
     #000 calc(100% - var(--scroll-fade-e, 0px)),
-    transparent 100%);
+    transparent 100%
+  );
   &:where([dir="rtl"], [dir="rtl"] *) {
-    --scroll-fade-inline: linear-gradient(to left,
+    --scroll-fade-inline: linear-gradient(
+      to left,
       transparent 0,
       #000 var(--scroll-fade-s, 0px),
       #000 calc(100% - var(--scroll-fade-e, 0px)),
-      transparent 100%);
+      transparent 100%
+    );
   }
   -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-inline));
   mask-image: var(--scroll-fade-mask, var(--scroll-fade-inline));
@@ -376,10 +394,7 @@
 
 @utility scroll-fade-t {
   --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-mask: linear-gradient(to bottom,
-    transparent 0,
-    #000 var(--scroll-fade-t, 0px),
-    #000 100%);
+  --scroll-fade-mask: linear-gradient(to bottom, transparent 0, #000 var(--scroll-fade-t, 0px), #000 100%);
   -webkit-mask-image: var(--scroll-fade-mask);
   mask-image: var(--scroll-fade-mask);
   -webkit-mask-composite: source-in;
@@ -409,10 +424,7 @@
 
 @utility scroll-fade-b {
   --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-mask: linear-gradient(to bottom,
-    #000 0,
-    #000 calc(100% - var(--scroll-fade-b, 0px)),
-    transparent 100%);
+  --scroll-fade-mask: linear-gradient(to bottom, #000 0, #000 calc(100% - var(--scroll-fade-b, 0px)), transparent 100%);
   -webkit-mask-image: var(--scroll-fade-mask);
   mask-image: var(--scroll-fade-mask);
   -webkit-mask-composite: source-in;
@@ -423,8 +435,7 @@
   @supports (animation-timeline: scroll()) {
     animation: scroll-fade-reveal-b 1ms ease-in-out;
     animation-timeline: scroll(self y);
-    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24)))
-      100%;
+    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24))) 100%;
     animation-fill-mode: both;
   }
 
@@ -443,10 +454,7 @@
 
 @utility scroll-fade-l {
   --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-mask: linear-gradient(to right,
-    transparent 0,
-    #000 var(--scroll-fade-s, 0px),
-    #000 100%);
+  --scroll-fade-mask: linear-gradient(to right, transparent 0, #000 var(--scroll-fade-s, 0px), #000 100%);
   -webkit-mask-image: var(--scroll-fade-mask);
   mask-image: var(--scroll-fade-mask);
   -webkit-mask-composite: source-in;
@@ -481,10 +489,7 @@
 
 @utility scroll-fade-r {
   --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-mask: linear-gradient(to right,
-    #000 0,
-    #000 calc(100% - var(--scroll-fade-e, 0px)),
-    transparent 100%);
+  --scroll-fade-mask: linear-gradient(to right, #000 0, #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%);
   -webkit-mask-image: var(--scroll-fade-mask);
   mask-image: var(--scroll-fade-mask);
   -webkit-mask-composite: source-in;
@@ -495,8 +500,7 @@
   @supports (animation-timeline: scroll()) {
     animation: scroll-fade-reveal-e 1ms ease-in-out;
     animation-timeline: scroll(self x);
-    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24)))
-      100%;
+    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24))) 100%;
     animation-fill-mode: both;
     &:dir(rtl) {
       animation-direction: reverse;
@@ -520,15 +524,9 @@
 
 @utility scroll-fade-s {
   --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-mask: linear-gradient(to right,
-    transparent 0,
-    #000 var(--scroll-fade-s, 0px),
-    #000 100%);
+  --scroll-fade-mask: linear-gradient(to right, transparent 0, #000 var(--scroll-fade-s, 0px), #000 100%);
   &:where([dir="rtl"], [dir="rtl"] *) {
-    --scroll-fade-mask: linear-gradient(to left,
-      transparent 0,
-      #000 var(--scroll-fade-s, 0px),
-      #000 100%);
+    --scroll-fade-mask: linear-gradient(to left, transparent 0, #000 var(--scroll-fade-s, 0px), #000 100%);
   }
   -webkit-mask-image: var(--scroll-fade-mask);
   mask-image: var(--scroll-fade-mask);
@@ -559,15 +557,9 @@
 
 @utility scroll-fade-e {
   --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, min(12%, calc(var(--spacing) * 10))));
-  --scroll-fade-mask: linear-gradient(to right,
-    #000 0,
-    #000 calc(100% - var(--scroll-fade-e, 0px)),
-    transparent 100%);
+  --scroll-fade-mask: linear-gradient(to right, #000 0, #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%);
   &:where([dir="rtl"], [dir="rtl"] *) {
-    --scroll-fade-mask: linear-gradient(to left,
-      #000 0,
-      #000 calc(100% - var(--scroll-fade-e, 0px)),
-      transparent 100%);
+    --scroll-fade-mask: linear-gradient(to left, #000 0, #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%);
   }
   -webkit-mask-image: var(--scroll-fade-mask);
   mask-image: var(--scroll-fade-mask);
@@ -579,8 +571,7 @@
   @supports (animation-timeline: scroll()) {
     animation: scroll-fade-reveal-e 1ms ease-in-out;
     animation-timeline: scroll(self inline);
-    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24)))
-      100%;
+    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 24))) 100%;
     animation-fill-mode: both;
   }
 

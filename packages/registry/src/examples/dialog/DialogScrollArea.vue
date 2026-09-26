@@ -23,9 +23,7 @@ const members = Array.from({ length: 40 }, (_, index) => `Member ${index + 1}`);
     <DialogContent class="h-screen">
       <DialogHeader>
         <DialogTitle>Members</DialogTitle>
-        <DialogDescription
-          >Everyone with access to this project.</DialogDescription
-        >
+        <DialogDescription>Everyone with access to this project.</DialogDescription>
       </DialogHeader>
       <ScrollArea class="min-h-0 flex-1">
         <ul class="flex flex-col gap-2 px-6 text-body-md">

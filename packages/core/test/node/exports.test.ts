@@ -18,7 +18,11 @@ const modules = readdirSync(src, { withFileTypes: true })
   .sort();
 
 const entries = [
-  ...primitives.map((name) => ({ name, file: `primitives/${name}.ts`, load: () => import(`../../src/primitives/${name}.ts`) })),
+  ...primitives.map((name) => ({
+    name,
+    file: `primitives/${name}.ts`,
+    load: () => import(`../../src/primitives/${name}.ts`),
+  })),
   ...modules.map((name) => ({ name, file: `${name}/index.ts`, load: () => import(`../../src/${name}/index.ts`) })),
 ];
 

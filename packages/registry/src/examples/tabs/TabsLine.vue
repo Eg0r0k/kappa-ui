@@ -11,7 +11,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
       <TabsTrigger value="archive" disabled>Archive</TabsTrigger>
     </TabsList>
     <TabsContent value="overview" class="text-body-md text-muted-foreground">Your projects at a glance.</TabsContent>
-    <TabsContent value="analytics" class="text-body-md text-muted-foreground">Traffic and conversion for the last 30 days.</TabsContent>
+    <TabsContent value="analytics" class="text-body-md text-muted-foreground"
+      >Traffic and conversion for the last 30 days.</TabsContent
+    >
     <TabsContent value="reports" class="text-body-md text-muted-foreground">Scheduled and one-off exports.</TabsContent>
   </Tabs>
 </template>

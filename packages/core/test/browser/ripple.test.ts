@@ -42,9 +42,9 @@ const waves = () => [...(container()?.children ?? [])] as HTMLElement[];
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const mediaMatching = (feature: string) =>
-  vi.spyOn(window, "matchMedia").mockImplementation(
-    (query: string) => ({ matches: query.includes(feature), media: query }) as MediaQueryList,
-  );
+  vi
+    .spyOn(window, "matchMedia")
+    .mockImplementation((query: string) => ({ matches: query.includes(feature), media: query }) as MediaQueryList);
 
 afterEach(() => {
   vi.restoreAllMocks();

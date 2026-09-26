@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/ui/accordion";
 
 const sections = [
   {
@@ -27,15 +22,9 @@ const sections = [
 
 <template>
   <div class="flex max-w-lg flex-col w-full gap-3">
-    <p class="text-body-sm text-muted-foreground">
-      Press Ctrl+F (⌘F on a Mac) and search for “invoice”.
-    </p>
+    <p class="text-body-sm text-muted-foreground">Press Ctrl+F (⌘F on a Mac) and search for “invoice”.</p>
     <Accordion type="single">
-      <AccordionItem
-        v-for="section in sections"
-        :key="section.value"
-        :value="section.value"
-      >
+      <AccordionItem v-for="section in sections" :key="section.value" :value="section.value">
         <AccordionTrigger>{{ section.title }}</AccordionTrigger>
         <AccordionContent>{{ section.text }}</AccordionContent>
       </AccordionItem>

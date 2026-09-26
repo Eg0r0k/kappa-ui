@@ -138,9 +138,11 @@ it.each([
     defineComponent({
       setup: () => () =>
         withDirectives(
-          h("div", { class: `${utility} overflow-x-auto`, dir: "rtl", style: "width: 200px; --scroll-fade-size: 20px" }, [
-            h("div", { style: "width: 1000px; height: 10px" }),
-          ]),
+          h(
+            "div",
+            { class: `${utility} overflow-x-auto`, dir: "rtl", style: "width: 200px; --scroll-fade-size: 20px" },
+            [h("div", { style: "width: 1000px; height: 10px" })],
+          ),
           [[vScrollFade]],
         ),
     }),

@@ -22,7 +22,8 @@ const BugReport = v.object({
   ),
 });
 
-const element = (control: Element | ComponentPublicInstance | null) => (control && "$el" in control ? control.$el : control);
+const element = (control: Element | ComponentPublicInstance | null) =>
+  control && "$el" in control ? control.$el : control;
 
 const form = useForm({ schema: BugReport, initialInput: { title: "", description: "" } });
 const sent = ref<v.InferOutput<typeof BugReport>>();

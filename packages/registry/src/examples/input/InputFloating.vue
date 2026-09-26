@@ -16,7 +16,13 @@ const allowed = (username: string) => /^[a-z0-9-]+$/i.test(username);
       <p class="text-label-lg capitalize text-muted-foreground">{{ column.variant }}</p>
       <Input :variant="column.variant" label="Full name" autocomplete="name" />
       <Field required>
-        <Input :variant="column.variant" label="Email" type="email" autocomplete="email" default-value="ada@example.com" />
+        <Input
+          :variant="column.variant"
+          label="Email"
+          type="email"
+          autocomplete="email"
+          default-value="ada@example.com"
+        />
         <FieldDescription>Receipts go here.</FieldDescription>
       </Field>
       <Field :invalid="!allowed(column.username)">

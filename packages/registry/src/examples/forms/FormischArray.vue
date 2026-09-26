@@ -20,7 +20,8 @@ const Contacts = v.object({
   ),
 });
 
-const element = (control: Element | ComponentPublicInstance | null) => (control && "$el" in control ? control.$el : control);
+const element = (control: Element | ComponentPublicInstance | null) =>
+  control && "$el" in control ? control.$el : control;
 
 const form = useForm({ schema: Contacts, initialInput: { emails: [{ address: "" }] } });
 </script>

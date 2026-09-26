@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { FileText, Pencil, Share2, Trash2 } from "@lucide/vue";
 
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuTrigger } from "@/ui/context-menu";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/ui/context-menu";
 
 const files = ["Brief.docx", "Budget.xlsx", "Notes.md"];
 </script>

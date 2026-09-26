@@ -39,7 +39,9 @@ const control = useFieldControl(props, useAttrs());
   >
     <slot />
     <SelectIcon as-child>
-      <ChevronDown class="text-muted-foreground transition-[rotate] duration-short-4 ease-standard group-data-[state=open]/select-trigger:rotate-180 group-disabled/select-trigger:text-foreground/(--disabled-opacity) motion-reduce:transition-none" />
+      <ChevronDown
+        class="text-muted-foreground transition-[rotate] duration-short-4 ease-standard group-data-[state=open]/select-trigger:rotate-180 group-disabled/select-trigger:text-foreground/(--disabled-opacity) motion-reduce:transition-none"
+      />
     </SelectIcon>
   </SelectTrigger>
 </template>

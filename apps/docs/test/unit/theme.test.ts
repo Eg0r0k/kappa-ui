@@ -52,7 +52,9 @@ describe('theme', () => {
   it('writes CSS with the font import, both themes and the font', () => {
     const css = themeCss({ ...defaultTheme, font: 'geist', radius: 0.5 })
 
-    expect(css).toMatch(/^@import url\("https:\/\/fonts\.googleapis\.com\/css2\?family=Geist:wght@400;500;600;700&display=swap"\);/)
+    expect(css).toMatch(
+      /^@import url\("https:\/\/fonts\.googleapis\.com\/css2\?family=Geist:wght@400;500;600;700&display=swap"\);/,
+    )
     expect(css).toContain(':root {\n  --radius: 0.5rem;\n  --brand: oklch(0.48 0.2 262);')
     expect(css).toContain('.dark {\n  --primary: oklch(0.78 0.1 262);')
     expect(css).toContain('--font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;')
@@ -85,7 +87,8 @@ describe('theme', () => {
   })
 
   it('raises the light surfaces by default, and can flatten or tint them', () => {
-    const lightness = (value?: string) => (value === undefined ? undefined : Number(value.match(/oklch\(([\d.]+)/)?.[1]))
+    const lightness = (value?: string) =>
+      value === undefined ? undefined : Number(value.match(/oklch\(([\d.]+)/)?.[1])
     const levels = (key: (typeof surfaces)[number]['key']) => {
       const { light } = themeTokens({ ...defaultTheme, surfaces: key })
       return ['background', 'card', 'popover', 'muted'].map((name) => lightness(light[name]))
@@ -119,7 +122,10 @@ describe('theme', () => {
       const { light } = themeTokens({ ...defaultTheme, surfaces: option.key })
       const level = (name: string) => Number(light[name]?.match(/oklch\(([\d.]+)/)?.[1] ?? raised[name])
       for (const surface of ['background', 'card', 'popover']) {
-        expect(contrast(level('muted-foreground'), level(surface)), `${option.key} on ${surface}`).toBeGreaterThanOrEqual(4.5)
+        expect(
+          contrast(level('muted-foreground'), level(surface)),
+          `${option.key} on ${surface}`,
+        ).toBeGreaterThanOrEqual(4.5)
       }
     }
   })
@@ -156,7 +162,14 @@ describe('theme', () => {
 
   it('falls back to the default for values it does not know', () => {
     expect(
-      themeFromQuery({ hue: 'red', chroma: '9', neutral: 'plaid', radius: '0.3', font: 'comic', surfaceBorder: 'dotted' }),
+      themeFromQuery({
+        hue: 'red',
+        chroma: '9',
+        neutral: 'plaid',
+        radius: '0.3',
+        font: 'comic',
+        surfaceBorder: 'dotted',
+      }),
     ).toEqual({
       ...defaultTheme,
       chroma: chromaRange.max,

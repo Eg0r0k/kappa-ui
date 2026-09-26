@@ -43,9 +43,7 @@ const render = (
               default: ({ items }: { items: Item[] }) => [
                 h(PaginationItem, () => h(PaginationPrevious)),
                 ...items.map((item, index) =>
-                  h(PaginationItem, { key: index }, () =>
-                    item.type === "page" ? link(item) : h(PaginationEllipsis),
-                  ),
+                  h(PaginationItem, { key: index }, () => (item.type === "page" ? link(item) : h(PaginationEllipsis))),
                 ),
                 h(PaginationItem, () => h(PaginationNext)),
               ],
@@ -135,7 +133,9 @@ describe("Pagination", () => {
   });
 
   it("renders a page as a link through as-child", () => {
-    render({}, (item) => h(PaginationLink, { value: item.value, asChild: true }, () => h("a", { href: `#${item.value}` }, item.value)));
+    render({}, (item) =>
+      h(PaginationLink, { value: item.value, asChild: true }, () => h("a", { href: `#${item.value}` }, item.value)),
+    );
 
     expect(link(1).tagName).toBe("A");
     expect(link(1).getAttribute("aria-current")).toBe("page");

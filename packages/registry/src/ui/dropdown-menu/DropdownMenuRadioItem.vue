@@ -22,7 +22,11 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 </script>
 
 <template>
-  <DropdownMenuRadioItem v-bind="forwarded" data-slot="dropdown-menu-radio-item" :class="cn(menuIndicatorItem, props.class)">
+  <DropdownMenuRadioItem
+    v-bind="forwarded"
+    data-slot="dropdown-menu-radio-item"
+    :class="cn(menuIndicatorItem, props.class)"
+  >
     <span :class="menuIndicator">
       <DropdownMenuItemIndicator data-slot="dropdown-menu-item-indicator" class="flex items-center justify-center">
         <slot name="indicator-icon">

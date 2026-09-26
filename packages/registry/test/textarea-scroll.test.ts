@@ -19,14 +19,15 @@ const settle = async () => {
 it("keeps the scroller around it in place while it grows", async () => {
   const text = ref(lines(14));
   const wrapper = mount(
-    defineComponent(() => () =>
-      h("div", { "data-scroller": "", style: "height: 150px; overflow: auto" }, [
-        h(Textarea, {
-          modelValue: text.value,
-          "onUpdate:modelValue": (next: unknown) => (text.value = next as string),
-          autoresize: true,
-        }),
-      ]),
+    defineComponent(
+      () => () =>
+        h("div", { "data-scroller": "", style: "height: 150px; overflow: auto" }, [
+          h(Textarea, {
+            modelValue: text.value,
+            "onUpdate:modelValue": (next: unknown) => (text.value = next as string),
+            autoresize: true,
+          }),
+        ]),
     ),
     { attachTo: document.body },
   );

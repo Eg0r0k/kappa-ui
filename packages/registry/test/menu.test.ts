@@ -31,7 +31,10 @@ describe("DropdownMenu", () => {
           h(DropdownMenu, () => [
             h(DropdownMenuTrigger, () => "Open"),
             h(DropdownMenuContent, () => [
-              h(DropdownMenuItem, { onSelect: () => chosen.push("rename") }, () => ["Rename", h(DropdownMenuShortcut, () => "⌘R")]),
+              h(DropdownMenuItem, { onSelect: () => chosen.push("rename") }, () => [
+                "Rename",
+                h(DropdownMenuShortcut, () => "⌘R"),
+              ]),
               h(DropdownMenuItem, { variant: "destructive" }, () => "Delete"),
             ]),
           ]),
@@ -60,11 +63,25 @@ describe("DropdownMenu", () => {
           h(DropdownMenu, () => [
             h(DropdownMenuTrigger, () => "Open"),
             h(DropdownMenuContent, () => [
-              h(DropdownMenuCheckboxItem, { modelValue: panel.value, "onUpdate:modelValue": (value: unknown) => (panel.value = value as boolean) }, () => "Panel"),
-              h(DropdownMenuRadioGroup, { modelValue: position.value, "onUpdate:modelValue": (value: unknown) => (position.value = value as string) }, () => [
-                h(DropdownMenuRadioItem, { value: "top" }, () => "Top"),
-                h(DropdownMenuRadioItem, { value: "bottom" }, () => "Bottom"),
-              ]),
+              h(
+                DropdownMenuCheckboxItem,
+                {
+                  modelValue: panel.value,
+                  "onUpdate:modelValue": (value: unknown) => (panel.value = value as boolean),
+                },
+                () => "Panel",
+              ),
+              h(
+                DropdownMenuRadioGroup,
+                {
+                  modelValue: position.value,
+                  "onUpdate:modelValue": (value: unknown) => (position.value = value as string),
+                },
+                () => [
+                  h(DropdownMenuRadioItem, { value: "top" }, () => "Top"),
+                  h(DropdownMenuRadioItem, { value: "bottom" }, () => "Bottom"),
+                ],
+              ),
             ]),
           ]),
       }),
@@ -108,7 +125,9 @@ describe("ContextMenu", () => {
     const areaBox = area.getBoundingClientRect();
 
     expect(content).not.toBeNull();
-    expect(Math.round(content!.getBoundingClientRect().left)).toBeGreaterThanOrEqual(Math.round(areaBox.left + 150) - 1);
+    expect(Math.round(content!.getBoundingClientRect().left)).toBeGreaterThanOrEqual(
+      Math.round(areaBox.left + 150) - 1,
+    );
     wrapper.unmount();
   });
 });

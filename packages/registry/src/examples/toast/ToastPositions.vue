@@ -7,7 +7,14 @@ import { type ToastPosition, Toaster, useToast } from "@/ui/toast";
 const toast = useToast();
 const position = ref<ToastPosition>("bottom-end");
 
-const positions: ToastPosition[] = ["top-start", "top-center", "top-end", "bottom-start", "bottom-center", "bottom-end"];
+const positions: ToastPosition[] = [
+  "top-start",
+  "top-center",
+  "top-end",
+  "bottom-start",
+  "bottom-center",
+  "bottom-end",
+];
 
 const show = (value: ToastPosition) => {
   position.value = value;

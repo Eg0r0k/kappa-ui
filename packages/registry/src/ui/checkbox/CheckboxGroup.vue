@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  CheckboxGroupRoot,
-  type CheckboxGroupRootEmits,
-  type CheckboxGroupRootProps,
-} from "@delta-ui/core/checkbox";
+import { CheckboxGroupRoot, type CheckboxGroupRootEmits, type CheckboxGroupRootProps } from "@delta-ui/core/checkbox";
 import { useForwardPropsEmits } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 

@@ -79,8 +79,7 @@ export const buttonVariants = cva(
       size: {
         xs: "h-7 gap-1 rounded-md px-2.5 text-label-sm has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2 [&_svg:not([class*='size-'])]:size-3.5",
         sm: "h-8 gap-1.5 px-3 text-label-md has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
-        default:
-          "h-9 px-4 py-2 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
+        default: "h-9 px-4 py-2 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
         lg: "h-10 px-6 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4",
         xl: "h-12 rounded-xl px-8 text-title-md has-data-[icon=inline-start]:pl-6 has-data-[icon=inline-end]:pr-6",
         "icon-xs": "size-7 rounded-md [&_svg:not([class*='size-'])]:size-3.5",
@@ -91,8 +90,7 @@ export const buttonVariants = cva(
       },
       focusRing: {
         outward: "focus-visible:focus-ring",
-        inward:
-          "focus-visible:focus-ring-inset",
+        inward: "focus-visible:focus-ring-inset",
       },
 
       touchTarget: {

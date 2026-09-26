@@ -24,8 +24,8 @@ const loading = ref(true);
       <template v-else>
         <h3 class="text-headline-sm">Release notes</h3>
         <p class="text-body-md text-muted-foreground">
-          Menus take a size now, from xs to xl, and the separator got a label. The layout below does not move when
-          this text replaces the skeleton.
+          Menus take a size now, from xs to xl, and the separator got a label. The layout below does not move when this
+          text replaces the skeleton.
         </p>
       </template>
     </article>

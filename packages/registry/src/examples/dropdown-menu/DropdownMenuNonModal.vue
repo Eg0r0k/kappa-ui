@@ -2,11 +2,27 @@
 import { Copy, Ellipsis, Pencil, Trash2 } from "@lucide/vue";
 
 import { Button } from "@/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/ui/dropdown-menu";
 
 const files = [
-  "Quarterly report.pdf", "Roadmap.fig", "Invoices.xlsx", "Brand guide.pdf", "Onboarding.docx", "Budget 2027.xlsx",
-  "Release notes.md", "Interview notes.docx", "Pitch deck.key", "Research.pdf", "Contracts.zip", "Wireframes.fig",
+  "Quarterly report.pdf",
+  "Roadmap.fig",
+  "Invoices.xlsx",
+  "Brand guide.pdf",
+  "Onboarding.docx",
+  "Budget 2027.xlsx",
+  "Release notes.md",
+  "Interview notes.docx",
+  "Pitch deck.key",
+  "Research.pdf",
+  "Contracts.zip",
+  "Wireframes.fig",
 ];
 </script>
 

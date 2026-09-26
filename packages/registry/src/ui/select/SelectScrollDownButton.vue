@@ -17,7 +17,12 @@ const delegated = computed(() => {
   <SelectScrollDownButton
     v-bind="delegated"
     data-slot="select-scroll-down-button"
-    :class="cn('flex shrink-0 cursor-default items-center justify-center py-1 text-muted-foreground [&_svg:not([class*=size-])]:size-4', props.class)"
+    :class="
+      cn(
+        'flex shrink-0 cursor-default items-center justify-center py-1 text-muted-foreground [&_svg:not([class*=size-])]:size-4',
+        props.class,
+      )
+    "
   >
     <slot>
       <ChevronDown />

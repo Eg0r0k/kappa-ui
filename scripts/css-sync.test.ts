@@ -35,7 +35,11 @@ const serializeVars = (vars: CssVars) =>
   )
     .flatMap(([selector, group]) =>
       group && Object.keys(group).length > 0
-        ? [`${selector} { ${Object.entries(group).map(([name, value]) => `--${name}: ${value};`).join(' ')} }`]
+        ? [
+            `${selector} { ${Object.entries(group)
+              .map(([name, value]) => `--${name}: ${value};`)
+              .join(' ')} }`,
+          ]
         : [],
     )
     .join(' ')
@@ -92,7 +96,9 @@ for (const item of items) {
   for (const [key, entry] of declarations(css, item.name)) {
     const existing = manifest.get(key)
     if (existing && existing.value !== entry.value) {
-      manifestConflicts.push(`${key} — "${existing.source}" declares ${existing.value}, "${entry.source}" declares ${entry.value}`)
+      manifestConflicts.push(
+        `${key} — "${existing.source}" declares ${existing.value}, "${entry.source}" declares ${entry.value}`,
+      )
     }
     manifest.set(key, entry)
   }

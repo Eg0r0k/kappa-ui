@@ -12,17 +12,31 @@ const sections = [
   <div class="flex w-full max-w-lg flex-col gap-8">
     <Tabs default-value="general" orientation="vertical">
       <TabsList>
-        <TabsTrigger v-for="section in sections" :key="section.value" :value="section.value">{{ section.label }}</TabsTrigger>
+        <TabsTrigger v-for="section in sections" :key="section.value" :value="section.value">{{
+          section.label
+        }}</TabsTrigger>
       </TabsList>
-      <TabsContent v-for="section in sections" :key="section.value" :value="section.value" class="text-body-md text-muted-foreground">
+      <TabsContent
+        v-for="section in sections"
+        :key="section.value"
+        :value="section.value"
+        class="text-body-md text-muted-foreground"
+      >
         {{ section.text }}
       </TabsContent>
     </Tabs>
     <Tabs default-value="general" orientation="vertical">
       <TabsList variant="line">
-        <TabsTrigger v-for="section in sections" :key="section.value" :value="section.value">{{ section.label }}</TabsTrigger>
+        <TabsTrigger v-for="section in sections" :key="section.value" :value="section.value">{{
+          section.label
+        }}</TabsTrigger>
       </TabsList>
-      <TabsContent v-for="section in sections" :key="section.value" :value="section.value" class="text-body-md text-muted-foreground">
+      <TabsContent
+        v-for="section in sections"
+        :key="section.value"
+        :value="section.value"
+        class="text-body-md text-muted-foreground"
+      >
         {{ section.text }}
       </TabsContent>
     </Tabs>

@@ -13,9 +13,7 @@ const mountArea = (props: Record<string, unknown> = {}) =>
   });
 
 const barsOf = (root: Element) =>
-  Array.from(
-    root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-bar]"),
-  ).map((el) => el.dataset.axis);
+  Array.from(root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-bar]")).map((el) => el.dataset.axis);
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -27,9 +25,7 @@ it("renders only the vertical bar by default", () => {
 
   expect(root.getAttribute("data-orientation")).toBe("vertical");
   expect(barsOf(root)).toEqual(["vertical"]);
-  expect(
-    root.querySelectorAll("[data-slot=scroll-area-thumb]").length,
-  ).toBe(1);
+  expect(root.querySelectorAll("[data-slot=scroll-area-thumb]").length).toBe(1);
 
   wrapper.unmount();
 });
@@ -49,9 +45,7 @@ it("constrains the viewport's overflow to the oriented axis", () => {
   const horizontal = mountArea({ orientation: "horizontal" });
 
   const styleOf = (wrapper: ReturnType<typeof mountArea>) => {
-    const viewport = (wrapper.element as Element).querySelector<HTMLElement>(
-      "[data-slot=scroll-area-viewport]",
-    )!;
+    const viewport = (wrapper.element as Element).querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
     const computed = getComputedStyle(viewport);
     return `${computed.overflowX}/${computed.overflowY}`;
   };
@@ -70,15 +64,9 @@ it("ignores the unoriented axis for activity and focusability", async () => {
     slots: { default: () => h("div", { style: "height: 100px; width: 1200px" }) },
   });
   const root = wrapper.element as Element;
-  const viewport = root.querySelector<HTMLElement>(
-    "[data-slot=scroll-area-viewport]",
-  )!;
+  const viewport = root.querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
 
-  await vi.waitFor(() =>
-    expect(
-      root.querySelector("[data-slot=scroll-area-bar]"),
-    ).not.toBeNull(),
-  );
+  await vi.waitFor(() => expect(root.querySelector("[data-slot=scroll-area-bar]")).not.toBeNull());
 
   expect(root.hasAttribute("data-active")).toBe(false);
   expect(viewport.hasAttribute("tabindex")).toBe(false);
@@ -95,14 +83,11 @@ it("reads sizing from the virtualize options object", async () => {
     },
     attrs: { style: "height: 300px; width: 400px" },
     slots: {
-      default: (scope: { item: unknown; index: number }) =>
-        h("div", { style: "height: 40px" }, String(scope.item)),
+      default: (scope: { item: unknown; index: number }) => h("div", { style: "height: 40px" }, String(scope.item)),
     },
   });
   const root = wrapper.element as Element;
-  const virtual = root.querySelector<HTMLElement>(
-    "[data-slot=scroll-area-virtual]",
-  )!;
+  const virtual = root.querySelector<HTMLElement>("[data-slot=scroll-area-virtual]")!;
 
   await vi.waitFor(() => expect(virtual.style.height).toBe(`${100 * 40}px`));
 
@@ -128,13 +113,10 @@ it("calls estimateSize per index when given a function", async () => {
     },
     attrs: { style: "height: 300px; width: 400px" },
     slots: {
-      default: (scope: { item: unknown; index: number }) =>
-        h("div", { style: "height: 20px" }, String(scope.item)),
+      default: (scope: { item: unknown; index: number }) => h("div", { style: "height: 20px" }, String(scope.item)),
     },
   });
-  const virtual = (wrapper.element as Element).querySelector<HTMLElement>(
-    "[data-slot=scroll-area-virtual]",
-  )!;
+  const virtual = (wrapper.element as Element).querySelector<HTMLElement>("[data-slot=scroll-area-virtual]")!;
 
   // 50 items at 20 and 50 at 60 => 4000, not 100 x one constant
   await vi.waitFor(() => expect(virtual.style.height).toBe("4000px"));
@@ -152,21 +134,14 @@ it("lays items out across lanes", async () => {
     },
     attrs: { style: "height: 300px; width: 300px" },
     slots: {
-      default: (scope: { item: unknown; index: number }) =>
-        h("div", { style: "height: 50px" }, String(scope.item)),
+      default: (scope: { item: unknown; index: number }) => h("div", { style: "height: 50px" }, String(scope.item)),
     },
   });
   const root = wrapper.element as Element;
 
-  await vi.waitFor(() =>
-    expect(
-      root.querySelectorAll("[data-slot=scroll-area-item]").length,
-    ).toBeGreaterThan(3),
-  );
+  await vi.waitFor(() => expect(root.querySelectorAll("[data-slot=scroll-area-item]").length).toBeGreaterThan(3));
 
-  const items = Array.from(
-    root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]"),
-  );
+  const items = Array.from(root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]"));
   const lefts = items.slice(0, 4).map((el) => el.getBoundingClientRect().left);
 
   // viewport 300 wide, 3 lanes, 10px gap => each lane (300 - 20) / 3
@@ -193,39 +168,22 @@ it("virtualizes against an external scroll element", async () => {
       items: Array.from({ length: 500 }, (_, index) => index),
     },
     slots: {
-      default: (scope: { item: unknown; index: number }) =>
-        h("div", { style: "height: 30px" }, String(scope.item)),
+      default: (scope: { item: unknown; index: number }) => h("div", { style: "height: 30px" }, String(scope.item)),
     },
   });
   const root = wrapper.element as Element;
 
-  await vi.waitFor(() =>
-    expect(
-      root.querySelectorAll("[data-slot=scroll-area-item]").length,
-    ).toBeGreaterThan(0),
-  );
+  await vi.waitFor(() => expect(root.querySelectorAll("[data-slot=scroll-area-item]").length).toBeGreaterThan(0));
 
   expect(root.querySelectorAll("[data-slot=scroll-area-bar]").length).toBe(0);
   expect(getComputedStyle(root as HTMLElement).overflow).toBe("visible");
 
-  expect(
-    Number(
-      root
-        .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
-        .dataset.index,
-    ),
-  ).toBe(0);
+  expect(Number(root.querySelector<HTMLElement>("[data-slot=scroll-area-item]")!.dataset.index)).toBe(0);
 
   outer.scrollTop = 6000;
 
   await vi.waitFor(() =>
-    expect(
-      Number(
-        root
-          .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
-          .dataset.index,
-      ),
-    ).toBeGreaterThan(180),
+    expect(Number(root.querySelector<HTMLElement>("[data-slot=scroll-area-item]")!.dataset.index)).toBeGreaterThan(180),
   );
 
   wrapper.unmount();
@@ -251,39 +209,22 @@ it("offsets the window by the scroll margin", async () => {
       items: Array.from({ length: 500 }, (_, index) => index),
     },
     slots: {
-      default: (scope: { item: unknown; index: number }) =>
-        h("div", { style: "height: 30px" }, String(scope.item)),
+      default: (scope: { item: unknown; index: number }) => h("div", { style: "height: 30px" }, String(scope.item)),
     },
   });
   const root = wrapper.element as Element;
 
-  await vi.waitFor(() =>
-    expect(
-      root.querySelectorAll("[data-slot=scroll-area-item]").length,
-    ).toBeGreaterThan(0),
-  );
+  await vi.waitFor(() => expect(root.querySelectorAll("[data-slot=scroll-area-item]").length).toBeGreaterThan(0));
 
   // Scrolling only as far as the header should leave the list at its start.
   outer.scrollTop = 600;
   await vi.waitFor(() =>
-    expect(
-      Number(
-        root
-          .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
-          .dataset.index,
-      ),
-    ).toBeLessThan(5),
+    expect(Number(root.querySelector<HTMLElement>("[data-slot=scroll-area-item]")!.dataset.index)).toBeLessThan(5),
   );
 
   outer.scrollTop = 1500;
   await vi.waitFor(() =>
-    expect(
-      Number(
-        root
-          .querySelector<HTMLElement>("[data-slot=scroll-area-item]")!
-          .dataset.index,
-      ),
-    ).toBeGreaterThan(20),
+    expect(Number(root.querySelector<HTMLElement>("[data-slot=scroll-area-item]")!.dataset.index)).toBeGreaterThan(20),
   );
 
   wrapper.unmount();
@@ -302,17 +243,12 @@ it("leaves room for siblings after it in external mode", async () => {
       items: Array.from({ length: 500 }, (_, index) => index),
     },
     slots: {
-      default: (scope: { item: unknown; index: number }) =>
-        h("div", { style: "height: 30px" }, String(scope.item)),
+      default: (scope: { item: unknown; index: number }) => h("div", { style: "height: 30px" }, String(scope.item)),
     },
   });
   const root = wrapper.element as Element;
 
-  await vi.waitFor(() =>
-    expect(
-      root.querySelectorAll("[data-slot=scroll-area-item]").length,
-    ).toBeGreaterThan(0),
-  );
+  await vi.waitFor(() => expect(root.querySelectorAll("[data-slot=scroll-area-item]").length).toBeGreaterThan(0));
 
   expect(root.getBoundingClientRect().height).toBeGreaterThan(1000);
 
@@ -329,8 +265,7 @@ it("exposes the virtualizer instance the component is using", async () => {
     },
     attrs: { style: "height: 300px; width: 400px" },
     slots: {
-      default: (scope: { item: unknown; index: number }) =>
-        h("div", { style: "height: 30px" }, String(scope.item)),
+      default: (scope: { item: unknown; index: number }) => h("div", { style: "height: 30px" }, String(scope.item)),
     },
   });
   const root = wrapper.element as Element;
@@ -338,18 +273,14 @@ it("exposes the virtualizer instance the component is using", async () => {
     virtualizer: { scrollToIndex: (i: number, o?: unknown) => void };
   };
 
-  await vi.waitFor(() =>
-    expect(
-      root.querySelectorAll("[data-slot=scroll-area-item]").length,
-    ).toBeGreaterThan(0),
-  );
+  await vi.waitFor(() => expect(root.querySelectorAll("[data-slot=scroll-area-item]").length).toBeGreaterThan(0));
 
   api.virtualizer.scrollToIndex(400, { align: "start" });
 
   await vi.waitFor(() => {
-    const indices = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]"),
-    ).map((el) => Number(el.dataset.index));
+    const indices = Array.from(root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-item]")).map((el) =>
+      Number(el.dataset.index),
+    );
     expect(indices).toContain(400);
   });
 
@@ -375,11 +306,7 @@ it("gives horizontal items a real height in external mode", async () => {
   });
   const root = wrapper.element as Element;
 
-  await vi.waitFor(() =>
-    expect(
-      root.querySelectorAll("[data-slot=scroll-area-item]").length,
-    ).toBeGreaterThan(0),
-  );
+  await vi.waitFor(() => expect(root.querySelectorAll("[data-slot=scroll-area-item]").length).toBeGreaterThan(0));
 
   const item = root.querySelector<HTMLElement>("[data-slot=scroll-area-item]")!;
   expect(item.getBoundingClientRect().height).toBeGreaterThan(0);

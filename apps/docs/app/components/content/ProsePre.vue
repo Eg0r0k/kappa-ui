@@ -15,7 +15,10 @@ const props = defineProps<{
 
 <template>
   <div class="not-prose relative my-6 overflow-hidden rounded-lg border bg-muted/40">
-    <div v-if="props.filename" class="flex h-11 items-center border-b ps-4 pe-12 font-mono text-xs text-muted-foreground">
+    <div
+      v-if="props.filename"
+      class="flex h-11 items-center border-b ps-4 pe-12 font-mono text-xs text-muted-foreground"
+    >
       {{ props.filename }}
     </div>
     <CopyButton v-if="props.code" :value="props.code" class="absolute end-1.5 top-1.5 z-10" />

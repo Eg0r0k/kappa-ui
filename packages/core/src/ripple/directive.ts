@@ -120,7 +120,9 @@ const releaseWave = (state: RippleState, wave: Wave) => {
   wave.hideTimer = setTimeout(() => {
     wave.element.dataset.hiding = "";
     if (canAnimate(wave.element)) {
-      wave.animations.push(wave.element.animate([{ opacity: 0 }], { duration: fadeFor, easing: "linear", fill: "forwards" }));
+      wave.animations.push(
+        wave.element.animate([{ opacity: 0 }], { duration: fadeFor, easing: "linear", fill: "forwards" }),
+      );
     }
   }, holdFor);
 

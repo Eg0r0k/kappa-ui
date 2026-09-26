@@ -87,7 +87,8 @@ const abort = (messages: string[]): never => {
 
 const shipsMechanism = (rules: CssRules = {}): boolean =>
   Object.entries(rules).some(
-    ([key, body]) => key.startsWith('@utility') || key.startsWith('@keyframes') || (typeof body === 'object' && shipsMechanism(body)),
+    ([key, body]) =>
+      key.startsWith('@utility') || key.startsWith('@keyframes') || (typeof body === 'object' && shipsMechanism(body)),
   )
 
 if (!existsSync(manifestPath)) {
@@ -110,9 +111,7 @@ for (const item of registry.items) {
   }
 
   if (!/^[a-z0-9-]+$/.test(item.name)) {
-    errors.push(
-      `item "${item.name}": name must contain only lowercase letters, digits and hyphens`,
-    )
+    errors.push(`item "${item.name}": name must contain only lowercase letters, digits and hyphens`)
   }
 
   const cssVars: CssVars = item.cssVars ?? {}
@@ -134,9 +133,7 @@ for (const item of registry.items) {
       errors.push(`item "${item.name}": an example must be of type registry:block`)
     }
     if ((item.registryDependencies ?? []).length === 0) {
-      errors.push(
-        `item "${item.name}": an example must list the item it demonstrates in registryDependencies`,
-      )
+      errors.push(`item "${item.name}": an example must list the item it demonstrates in registryDependencies`)
     }
   }
 
@@ -145,14 +142,10 @@ for (const item of registry.items) {
       errors.push(`item "${item.name}", file "${file.path}": invalid type "${file.type}"`)
     }
     if (TARGET_REQUIRED.has(file.type) && !file.target) {
-      errors.push(
-        `item "${item.name}", file "${file.path}": type "${file.type}" requires a target field`,
-      )
+      errors.push(`item "${item.name}", file "${file.path}": type "${file.type}" requires a target field`)
     }
     if (isExample && !file.path.startsWith('src/examples/')) {
-      errors.push(
-        `item "${item.name}", file "${file.path}": example files must live under src/examples/`,
-      )
+      errors.push(`item "${item.name}", file "${file.path}": example files must live under src/examples/`)
     }
     const filePath = resolve(manifestDir, file.path)
     if (!existsSync(filePath)) {
@@ -174,9 +167,7 @@ for (const item of registry.items) {
       continue
     }
     if (!names.has(dependency)) {
-      errors.push(
-        `item "${item.name}": registryDependencies references "${dependency}", which is not in the manifest`,
-      )
+      errors.push(`item "${item.name}": registryDependencies references "${dependency}", which is not in the manifest`)
     }
   }
 }

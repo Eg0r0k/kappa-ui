@@ -25,7 +25,9 @@ import {
           <Trash2 class="size-6" />
         </span>
         <DialogTitle>Delete this project?</DialogTitle>
-        <DialogDescription>The project and its 42 files are removed for everyone. This cannot be undone.</DialogDescription>
+        <DialogDescription
+          >The project and its 42 files are removed for everyone. This cannot be undone.</DialogDescription
+        >
       </DialogHeader>
       <DialogFooter class="sm:justify-center">
         <DialogClose as-child>

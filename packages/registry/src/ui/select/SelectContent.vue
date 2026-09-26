@@ -64,7 +64,8 @@ const portalTarget = injectOverlayPortalTarget(null);
           cn(
             menuSizeVariants(),
             'flex flex-col gap-0.5',
-            props.position === 'popper' && 'h-(--reka-select-trigger-height) w-full min-w-(--reka-select-trigger-width) scroll-my-1',
+            props.position === 'popper' &&
+              'h-(--reka-select-trigger-height) w-full min-w-(--reka-select-trigger-width) scroll-my-1',
           )
         "
       >

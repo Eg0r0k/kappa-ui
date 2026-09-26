@@ -28,7 +28,9 @@ describe("examples", () => {
 
   it("registers every example file in the manifest", () => {
     const registered = new Set(exampleItems.flatMap((item) => item.files.map((file) => file.path)));
-    const unregistered = Object.keys(modules).map(toManifestPath).filter((path) => !registered.has(path));
+    const unregistered = Object.keys(modules)
+      .map(toManifestPath)
+      .filter((path) => !registered.has(path));
     expect(unregistered).toEqual([]);
   });
 

@@ -36,7 +36,11 @@ const onPointerDownOutside = (event: CustomEvent<{ originalEvent: PointerEvent }
   const { originalEvent } = event.detail;
   const target = originalEvent.target as HTMLElement;
   if (target.dataset.slot !== "dialog-overlay") return;
-  if (originalEvent.offsetX < 0 || originalEvent.offsetX > target.clientWidth || originalEvent.offsetY > target.clientHeight)
+  if (
+    originalEvent.offsetX < 0 ||
+    originalEvent.offsetX > target.clientWidth ||
+    originalEvent.offsetY > target.clientHeight
+  )
     event.preventDefault();
 };
 </script>

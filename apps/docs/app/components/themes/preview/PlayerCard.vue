@@ -45,7 +45,13 @@ onBeforeUnmount(() => clearInterval(ticker))
         </Button>
       </div>
       <div class="flex flex-col gap-2">
-        <Slider v-model="position" variant="inset" :max="track.length" aria-label="Position" :aria-valuetext="clock(position)" />
+        <Slider
+          v-model="position"
+          variant="inset"
+          :max="track.length"
+          aria-label="Position"
+          :aria-valuetext="clock(position)"
+        />
         <div class="flex justify-between text-body-sm text-muted-foreground tabular-nums">
           <span>{{ clock(position) }}</span>
           <span>-{{ clock(track.length - position) }}</span>
@@ -53,8 +59,15 @@ onBeforeUnmount(() => clearInterval(ticker))
       </div>
       <div class="flex items-center justify-center gap-2">
         <Button variant="ghost" color="neutral" size="icon" aria-label="Shuffle"><Shuffle /></Button>
-        <Button variant="ghost" color="neutral" size="icon" aria-label="Previous" @click="position = 0"><SkipBack /></Button>
-        <Button size="icon-lg" class="rounded-full" :aria-label="playing ? 'Pause' : 'Play'" @click="playing = !playing">
+        <Button variant="ghost" color="neutral" size="icon" aria-label="Previous" @click="position = 0"
+          ><SkipBack
+        /></Button>
+        <Button
+          size="icon-lg"
+          class="rounded-full"
+          :aria-label="playing ? 'Pause' : 'Play'"
+          @click="playing = !playing"
+        >
           <Pause v-if="playing" />
           <Play v-else />
         </Button>

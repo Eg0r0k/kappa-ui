@@ -29,8 +29,7 @@ export const findItem = (name: string, items: readonly RegistryItem[] = registry
 
 export const isExample = (item: RegistryItem) => item.categories?.includes('example') ?? false
 
-export const resolveInstallFilename = (file: RegistryFile) =>
-  file.target ?? file.path.replace(/^src\//, '@/')
+export const resolveInstallFilename = (file: RegistryFile) => file.target ?? file.path.replace(/^src\//, '@/')
 
 export const matchModuleKey = (path: string, keys: readonly string[]) => {
   const suffix = path.replace(/^src\//, '/')

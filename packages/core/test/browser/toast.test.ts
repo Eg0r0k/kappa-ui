@@ -31,7 +31,10 @@ const Harness = defineComponent({
     duration: { type: Number, default: 60_000 },
   },
   setup(props) {
-    const { toasts } = useToastGroup<Content>(() => props.group, () => props.max);
+    const { toasts } = useToastGroup<Content>(
+      () => props.group,
+      () => props.max,
+    );
     const stack = useToastStack(toasts);
     return () =>
       h(ToastProvider, { duration: props.duration }, () => [

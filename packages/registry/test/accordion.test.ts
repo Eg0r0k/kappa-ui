@@ -37,8 +37,9 @@ const trigger = (value: string) =>
     element.textContent?.includes(`Question ${value}`),
   )!;
 const panel = (value: string) =>
-  document.querySelector<HTMLElement>(`[data-test=answer-${value}]`)?.closest<HTMLElement>("[data-slot=accordion-content]") ??
-  null;
+  document
+    .querySelector<HTMLElement>(`[data-test=answer-${value}]`)
+    ?.closest<HTMLElement>("[data-slot=accordion-content]") ?? null;
 const isOpen = (value: string) => trigger(value).getAttribute("data-state") === "open";
 const settle = () => new Promise((resolve) => setTimeout(resolve, 400));
 

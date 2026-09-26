@@ -10,7 +10,9 @@ describe('serializeCssRules', () => {
   })
 
   it('writes a rule without a body as a statement', () => {
-    expect(serializeCssRules({ '@import "@delta-ui/core/tailwind.css"': {} })).toBe('@import "@delta-ui/core/tailwind.css";')
+    expect(serializeCssRules({ '@import "@delta-ui/core/tailwind.css"': {} })).toBe(
+      '@import "@delta-ui/core/tailwind.css";',
+    )
   })
 })
 

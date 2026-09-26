@@ -110,7 +110,10 @@ it("turns around once when the destination reverses", async () => {
   setVerticalScrollPosition(host, 0, 400);
 
   const samples = await record(host, 600);
-  const steps = samples.slice(1).map((value, index) => Math.sign(value - samples[index]!)).filter(Boolean);
+  const steps = samples
+    .slice(1)
+    .map((value, index) => Math.sign(value - samples[index]!))
+    .filter(Boolean);
   const turns = steps.slice(1).filter((step, index) => step !== steps[index]).length;
 
   expect(turns).toBeLessThanOrEqual(1);

@@ -45,9 +45,7 @@ export type UseVirtualScrollReturn = {
   virtualizer: Ref<Virtualizer<HTMLElement, Element>>;
 };
 
-export const useVirtualScroll = (
-  options: UseVirtualScrollOptions,
-): UseVirtualScrollReturn => {
+export const useVirtualScroll = (options: UseVirtualScrollOptions): UseVirtualScrollReturn => {
   const virtualizer = useVirtualizer<HTMLElement, Element>(
     computed(() => ({
       count: options.count.value,
@@ -59,16 +57,13 @@ export const useVirtualScroll = (
       isRtl: options.isRtl.value,
       enabled: options.count.value > 0,
       estimateSize: (index: number) => options.options.value.estimateSize(index),
-      getScrollElement: () =>
-        options.options.value.getScrollElement?.() ?? options.scrollEl.value,
+      getScrollElement: () => options.options.value.getScrollElement?.() ?? options.scrollEl.value,
     })),
   );
 
   const slices = computed(() => virtualizer.value.getVirtualItems());
 
-  const visibleIndex = computed(() =>
-    getVisibleIndex(slices.value, virtualizer.value.scrollOffset ?? 0),
-  );
+  const visibleIndex = computed(() => getVisibleIndex(slices.value, virtualizer.value.scrollOffset ?? 0));
 
   watch(visibleIndex, (index) => {
     const current = slices.value;
@@ -101,11 +96,7 @@ export const useVirtualScroll = (
     slices,
     window: computed(() => getVirtualWindow(slices.value)),
     containerStyle: computed(() =>
-      getVirtualContainerStyle(
-        virtualizer.value.getTotalSize(),
-        options.horizontal.value,
-        options.crossSize.value,
-      ),
+      getVirtualContainerStyle(virtualizer.value.getTotalSize(), options.horizontal.value, options.crossSize.value),
     ),
     itemStyle: (slice: VirtualSlice) =>
       getVirtualItemStyle({
@@ -117,8 +108,7 @@ export const useVirtualScroll = (
         scrollMargin: options.options.value.scrollMargin,
       }),
     measureRef: (el) => {
-      const node =
-        el instanceof Element ? el : ((el?.$el as Element | null) ?? null);
+      const node = el instanceof Element ? el : ((el?.$el as Element | null) ?? null);
       if (node !== null && !node.isConnected) return;
       virtualizer.value.measureElement(node);
     },

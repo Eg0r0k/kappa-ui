@@ -30,15 +30,11 @@ export type ResolvedVirtualizeOptions = {
 export const resolveVirtualizeOptions = (
   virtualize: boolean | ScrollAreaVirtualizeOptions | undefined,
 ): ResolvedVirtualizeOptions => {
-  const given =
-    virtualize === true || virtualize === false || virtualize === undefined
-      ? {}
-      : virtualize;
+  const given = virtualize === true || virtualize === false || virtualize === undefined ? {} : virtualize;
   const estimate = given.estimateSize ?? 24;
 
   return {
-    estimateSize:
-      typeof estimate === "function" ? estimate : () => estimate,
+    estimateSize: typeof estimate === "function" ? estimate : () => estimate,
     overscan: given.overscan ?? 4,
     lanes: given.lanes ?? 1,
     gap: given.gap ?? 0,
@@ -87,54 +83,33 @@ export type ScrollAreaStore = {
   onPointerup: (event: PointerEvent) => void;
 };
 
-export const scrollAreaInjectionKey: InjectionKey<ScrollAreaStore> =
-  Symbol("scroll-area");
+export const scrollAreaInjectionKey: InjectionKey<ScrollAreaStore> = Symbol("scroll-area");
 
-export const clamp = (value: number, min: number, max: number) =>
-  Math.max(min, Math.min(max, value));
+export const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
-export const getPercentage = (
-  position: number,
-  scrollSize: number,
-  containerSize: number,
-) => {
+export const getPercentage = (position: number, scrollSize: number, containerSize: number) => {
   const diff = scrollSize - containerSize;
   if (diff <= 0) return 0;
   return Math.round(clamp(position / diff, 0, 1) * 10_000) / 10_000;
 };
 
-export const getMinThumbSize = (track: number) =>
-  track >= 250 ? 50 : Math.ceil(track / 5);
+export const getMinThumbSize = (track: number) => (track >= 250 ? 50 : Math.ceil(track / 5));
 
 export const getThumbSize = (track: number, scrollSize: number) =>
   Math.round(clamp((track * track) / scrollSize, getMinThumbSize(track), track));
 
-export const getThumbStart = (
-  startOffset: number,
-  percentage: number,
-  track: number,
-  thumbSize: number,
-) => startOffset + percentage * (track - thumbSize);
+export const getThumbStart = (startOffset: number, percentage: number, track: number, thumbSize: number) =>
+  startOffset + percentage * (track - thumbSize);
 
-export const getDragMultiplier = (
-  scrollSize: number,
-  containerSize: number,
-  track: number,
-  thumbSize: number,
-) => {
+export const getDragMultiplier = (scrollSize: number, containerSize: number, track: number, thumbSize: number) => {
   const travel = track - thumbSize;
   if (travel <= 0) return 0;
   return (scrollSize - containerSize) / travel;
 };
 
-export const getHorizontalPosition = (position: number, isRtl: boolean) =>
-  isRtl ? -position : position;
+export const getHorizontalPosition = (position: number, isRtl: boolean) => (isRtl ? -position : position);
 
-export const getOverflowEdges = (
-  position: number,
-  size: number,
-  container: number,
-) => {
+export const getOverflowEdges = (position: number, size: number, container: number) => {
   const scrollable = size > container + 1;
   return {
     start: scrollable && position > 1,
@@ -160,14 +135,8 @@ export type ScrollAreaVirtualInfo = {
   direction: ScrollAreaVirtualDirection;
 };
 
-export const resolveVirtualCount = (
-  itemsLength: number,
-  itemsSize: number | undefined,
-  hasItemsFn: boolean,
-) =>
-  hasItemsFn && itemsSize !== undefined && itemsSize >= 0
-    ? itemsSize
-    : itemsLength;
+export const resolveVirtualCount = (itemsLength: number, itemsSize: number | undefined, hasItemsFn: boolean) =>
+  hasItemsFn && itemsSize !== undefined && itemsSize >= 0 ? itemsSize : itemsLength;
 
 export const getVirtualWindow = (slices: readonly VirtualSlice[]) => {
   const first = slices[0];
@@ -177,25 +146,16 @@ export const getVirtualWindow = (slices: readonly VirtualSlice[]) => {
   return { from: first.index, size: last.index - first.index + 1 };
 };
 
-export const getVisibleIndex = (
-  slices: readonly VirtualSlice[],
-  offset: number,
-) => {
+export const getVisibleIndex = (slices: readonly VirtualSlice[], offset: number) => {
   const hit = slices.find((slice) => slice.end > offset);
   if (hit !== undefined) return hit.index;
   return slices[slices.length - 1]?.index ?? 0;
 };
 
-export const toVirtualDirection = (
-  direction: string | null,
-): ScrollAreaVirtualDirection =>
+export const toVirtualDirection = (direction: string | null): ScrollAreaVirtualDirection =>
   direction === "backward" ? "decrease" : "increase";
 
-export const getVirtualContainerStyle = (
-  totalSize: number,
-  horizontal: boolean,
-  crossSize: number,
-): CSSProperties =>
+export const getVirtualContainerStyle = (totalSize: number, horizontal: boolean, crossSize: number): CSSProperties =>
   horizontal
     ? { position: "relative", width: `${totalSize}px`, height: `${crossSize}px` }
     : { position: "relative", width: "100%", height: `${totalSize}px` };
@@ -209,16 +169,12 @@ export type VirtualItemGeometry = {
   scrollMargin: number;
 };
 
-export const getVirtualItemStyle = (
-  geometry: VirtualItemGeometry,
-): CSSProperties => {
+export const getVirtualItemStyle = (geometry: VirtualItemGeometry): CSSProperties => {
   const offset = geometry.start - geometry.scrollMargin;
   const hasLanes = geometry.lanes > 1;
   const track = `(100% - ${(geometry.lanes - 1) * geometry.gap}px)`;
   const laneSize = hasLanes ? `calc(${track} / ${geometry.lanes})` : "100%";
-  const lanePosition = hasLanes
-    ? `calc(${geometry.lane} * (${track} / ${geometry.lanes} + ${geometry.gap}px))`
-    : "0px";
+  const lanePosition = hasLanes ? `calc(${geometry.lane} * (${track} / ${geometry.lanes} + ${geometry.gap}px))` : "0px";
 
   return geometry.horizontal
     ? {

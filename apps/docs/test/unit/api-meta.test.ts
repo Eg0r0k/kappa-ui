@@ -14,7 +14,14 @@ describe('mergeApi', () => {
   it('takes types and defaults from the component and descriptions from the file', () => {
     const { api, errors } = mergeApi(
       meta({
-        props: [{ name: 'orientation', type: '"vertical" | "horizontal" | undefined', required: false, default: '"vertical"' }],
+        props: [
+          {
+            name: 'orientation',
+            type: '"vertical" | "horizontal" | undefined',
+            required: false,
+            default: '"vertical"',
+          },
+        ],
         events: [{ name: 'scroll', type: '[info: Info]' }],
         slots: [{ name: 'default', type: '{ item: T; index: number; }' }],
         exposed: [{ name: 'reset', type: '() => void' }],
@@ -102,17 +109,19 @@ describe('mergeApi', () => {
   })
 
   it('uses a described default only where the component defines none', () => {
-    const { api, errors } = mergeApi(
-      meta({ props: [{ name: 'variant', type: 'string', required: false }] }),
-      { component: 'Button', file: 'ui/button/Button.vue', props: { variant: { description: 'Style.', default: '"default"' } } },
-    )
+    const { api, errors } = mergeApi(meta({ props: [{ name: 'variant', type: 'string', required: false }] }), {
+      component: 'Button',
+      file: 'ui/button/Button.vue',
+      props: { variant: { description: 'Style.', default: '"default"' } },
+    })
     expect(errors).toEqual([])
     expect(api.props[0]?.default).toBe('"default"')
 
-    const clash = mergeApi(
-      meta({ props: [{ name: 'as', type: 'string', required: false, default: '"button"' }] }),
-      { component: 'Button', file: 'ui/button/Button.vue', props: { as: { description: 'Element.', default: '"div"' } } },
-    )
+    const clash = mergeApi(meta({ props: [{ name: 'as', type: 'string', required: false, default: '"button"' }] }), {
+      component: 'Button',
+      file: 'ui/button/Button.vue',
+      props: { as: { description: 'Element.', default: '"div"' } },
+    })
     expect(clash.errors).toEqual([
       'Button: prop "as" sets a default in its description, but the component already defines "button"',
     ])

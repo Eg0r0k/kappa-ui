@@ -98,7 +98,11 @@ it("sizes triggers from the list and defaults to a medium pill", () => {
   expect(list().dataset.size).toBe("md");
   unmount?.();
 
-  for (const [size, height] of [["xs", 28], ["md", 36], ["xl", 48]] as const) {
+  for (const [size, height] of [
+    ["xs", 28],
+    ["md", 36],
+    ["xl", 48],
+  ] as const) {
     renderTabs({}, { size });
     expect(triggers()[0]!.offsetHeight, size).toBe(height);
     unmount?.();

@@ -9,9 +9,10 @@ afterEach(() => {
 });
 
 const render = (props: Record<string, unknown> = {}, parent = "") =>
-  mount({ render: () => h("div", { style: `width:200px;${parent}` }, h(Skeleton, props)) }, { attachTo: document.body }).get(
-    "[data-slot=skeleton]",
-  ).element as HTMLElement;
+  mount(
+    { render: () => h("div", { style: `width:200px;${parent}` }, h(Skeleton, props)) },
+    { attachTo: document.body },
+  ).get("[data-slot=skeleton]").element as HTMLElement;
 
 describe("Skeleton", () => {
   it("is a hidden, pulsing, rounded block by default", () => {

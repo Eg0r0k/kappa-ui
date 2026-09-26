@@ -266,7 +266,9 @@ describe("Slider inset", () => {
   it("spans a range from the centre of one thumb to the centre of the other, in either direction", async () => {
     const ltr = await settled({ defaultValue: [10, 80] });
     const [first, second] = centres(ltr);
-    expect([offset(rect(ltr, "slider-range").left, first!), offset(rect(ltr, "slider-range").right, second!)]).toEqual([0, 0]);
+    expect([offset(rect(ltr, "slider-range").left, first!), offset(rect(ltr, "slider-range").right, second!)]).toEqual([
+      0, 0,
+    ]);
     ltr.unmount();
 
     const rtl = await settled({ defaultValue: 20, dir: "rtl" });
@@ -330,9 +332,11 @@ describe("Slider inset", () => {
     });
     await nextTick();
 
-    expect([rect(wrapper, "slider").width, rect(wrapper, "slider-track").width, rect(wrapper, "slider-thumb").width]).toEqual([
-      20, 20, 20,
-    ]);
+    expect([
+      rect(wrapper, "slider").width,
+      rect(wrapper, "slider-track").width,
+      rect(wrapper, "slider-thumb").width,
+    ]).toEqual([20, 20, 20]);
     wrapper.unmount();
   });
 });

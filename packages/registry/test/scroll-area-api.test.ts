@@ -12,8 +12,7 @@ const mountArea = (props: Record<string, unknown> = {}) =>
     slots: { default: () => h("div", { style: "height: 1200px; width: 800px" }) },
   });
 
-const apiOf = (wrapper: ReturnType<typeof mountArea>) =>
-  wrapper.vm as unknown as ScrollAreaApi;
+const apiOf = (wrapper: ReturnType<typeof mountArea>) => wrapper.vm as unknown as ScrollAreaApi;
 
 afterEach(() => {
   document.body.innerHTML = "";

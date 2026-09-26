@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  SliderRange,
-  SliderRoot,
-  type SliderRootProps,
-  SliderThumb,
-  SliderTrack,
-} from "@delta-ui/core/slider";
+import { SliderRange, SliderRoot, type SliderRootProps, SliderThumb, SliderTrack } from "@delta-ui/core/slider";
 import { useForwardProps } from "@delta-ui/core/utils";
 import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
@@ -97,7 +91,9 @@ const onPointerDown = (event: PointerEvent) => {
     :id="control.id.value"
     :disabled="control.disabled.value"
     :required="control.required.value"
-    :class="cn(sliderVariants({ variant: props.variant, size: props.size, touchTarget: props.touchTarget }), props.class)"
+    :class="
+      cn(sliderVariants({ variant: props.variant, size: props.size, touchTarget: props.touchTarget }), props.class)
+    "
     @pointerdown="onPointerDown"
     @update:model-value="onUpdate"
     @value-commit="emits('valueCommit', shape($event))"

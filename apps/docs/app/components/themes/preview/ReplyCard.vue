@@ -19,7 +19,9 @@ const formatting = [
 
 const formats = ref<string[]>([])
 const toggle = (format: string) =>
-  (formats.value = formats.value.includes(format) ? formats.value.filter((entry) => entry !== format) : [...formats.value, format])
+  (formats.value = formats.value.includes(format)
+    ? formats.value.filter((entry) => entry !== format)
+    : [...formats.value, format])
 
 const toast = useToast()
 
@@ -57,7 +59,11 @@ const send = () =>
         autoresize
         placeholder="Write a reply…"
         aria-label="Reply"
-        :class="{ 'font-semibold': formats.includes('bold'), italic: formats.includes('italic'), underline: formats.includes('underline') }"
+        :class="{
+          'font-semibold': formats.includes('bold'),
+          italic: formats.includes('italic'),
+          underline: formats.includes('underline'),
+        }"
       />
     </CardContent>
     <CardFooter class="justify-between gap-2">

@@ -90,7 +90,12 @@ const place = (toast: Toast) => {
         v-if="props.progress && timed(toast)"
         :key="`${duration}:${toast.open}`"
         data-slot="toast-progress"
-        :class="cn('delta-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-current', toastAccents[toast.color ?? 'neutral'])"
+        :class="
+          cn(
+            'delta-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-current',
+            toastAccents[toast.color ?? 'neutral'],
+          )
+        "
         :style="{ animationDuration: `${duration}ms` }"
       />
     </ToastRecordRoot>
