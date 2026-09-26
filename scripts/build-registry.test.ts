@@ -40,11 +40,16 @@ const run = async (items: unknown[], env: Record<string, string> = {}, files: Re
     await writeFile(join(root, path), content)
   }
   await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'fixture', items }))
+  await writeFile(join(root, 'core.json'), JSON.stringify({ name: '@delta-ui/core', version: '1.2.3' }))
   const out = join(root, 'out')
-  const result = spawnSync(process.execPath, [script, '--manifest', join(root, 'registry.json'), '--out', out], {
-    encoding: 'utf8',
-    env: { ...process.env, ...env },
-  })
+  const result = spawnSync(
+    process.execPath,
+    [script, '--manifest', join(root, 'registry.json'), '--out', out, '--core', join(root, 'core.json')],
+    {
+      encoding: 'utf8',
+      env: { ...process.env, ...env },
+    },
+  )
   return { status: result.status, stderr: result.stderr, out }
 }
 
@@ -161,4 +166,145 @@ test('rejects an item whose css nests keyframes inside @theme inline', async () 
   const { status, stderr } = await run([styled, example])
   assert.equal(status, 1)
   assert.match(stderr, /item "demo": @utility and @keyframes belong in @delta-ui\/core\/tailwind\.css/)
+})
+
+const sfc = (script: string) => `<script setup lang="ts">\n${script}\n</script>\n\n<template><div /></template>\n`
+
+type PublishedItem = { dependencies?: string[]; files: { path: string; content: string }[] }
+
+const published = async (out: string, name: string) =>
+  JSON.parse(await readFile(join(out, `${name}.json`), 'utf8')) as PublishedItem
+
+test('publishes @/ imports under the registry alias the CLI rewrites', async () => {
+  const source = sfc(
+    [
+      'import { Button } from "@/ui/button";',
+      "import type { Size } from '@/lib/sizes';",
+      'import "@/lib/side-effect";',
+      'import Part from "./Part.vue";',
+      'const lazy = () => import("@/ui/lazy");',
+    ].join('\n'),
+  )
+  const shipping = {
+    ...component,
+    files: [
+      { path: 'src/ui/demo/Demo.vue', type: 'registry:ui' },
+      { path: 'src/ui/demo/Part.vue', type: 'registry:ui' },
+      { path: 'src/ui/button/index.ts', type: 'registry:ui' },
+      { path: 'src/ui/lazy/index.ts', type: 'registry:ui' },
+      { path: 'src/lib/sizes.ts', type: 'registry:lib' },
+      { path: 'src/lib/side-effect.ts', type: 'registry:lib' },
+    ],
+  }
+  const { status, stderr, out } = await run(
+    [shipping, example],
+    {},
+    {
+      'src/ui/demo/Demo.vue': source,
+      'src/ui/demo/Part.vue': '<template><div /></template>\n',
+      'src/ui/button/index.ts': 'export const Button = {}\n',
+      'src/ui/lazy/index.ts': 'export default {}\n',
+      'src/lib/sizes.ts': 'export type Size = string\n',
+      'src/lib/side-effect.ts': 'export {}\n',
+    },
+  )
+  assert.equal(status, 0, stderr)
+  const content = (await published(out, 'demo')).files[0]?.content ?? ''
+  assert.match(content, /import \{ Button \} from "@\/registry\/delta-ui\/ui\/button";/)
+  assert.match(content, /import type \{ Size \} from '@\/registry\/delta-ui\/lib\/sizes';/)
+  assert.match(content, /import "@\/registry\/delta-ui\/lib\/side-effect";/)
+  assert.match(content, /import Part from "\.\/Part\.vue";/)
+  assert.match(content, /import\("@\/registry\/delta-ui\/ui\/lazy"\)/)
+})
+
+test('writes @delta-ui/core with the caret range of the core version', async () => {
+  const { status, stderr, out } = await run([{ ...component, dependencies: ['@delta-ui/core', 'clsx'] }, example])
+  assert.equal(status, 0, stderr)
+  assert.deepEqual((await published(out, 'demo')).dependencies, ['@delta-ui/core@^1.2.3', 'clsx'])
+  const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8')) as {
+    items: { name: string; dependencies?: string[] }[]
+  }
+  assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, ['@delta-ui/core@^1.2.3', 'clsx'])
+})
+
+test('rejects a version written on @delta-ui/core in the manifest', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['@delta-ui/core@^0.1.0'] }, example])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "demo": list "@delta-ui\/core" without a version/)
+})
+
+test('rejects an import of a package the item does not list', async () => {
+  const { status, stderr } = await run(
+    [component, example],
+    {},
+    {
+      'src/ui/demo/Demo.vue': sfc('import { X } from "@lucide/vue";'),
+    },
+  )
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo", file "src\/ui\/demo\/Demo\.vue": imports "@lucide\/vue", but "@lucide\/vue" is not in the dependencies of the item or its registryDependencies/,
+  )
+})
+
+test('accepts a package listed by a registryDependency, a subpath of a listed package, and vue', async () => {
+  const { status, stderr } = await run(
+    [{ ...component, dependencies: ['@lucide/vue', '@delta-ui/core'] }, example],
+    {},
+    {
+      'src/examples/demo/DemoExample.vue': sfc(
+        'import { X } from "@lucide/vue";\nimport { DialogContent } from "@delta-ui/core/dialog";\nimport { ref } from "vue";',
+      ),
+    },
+  )
+  assert.equal(status, 0, stderr)
+})
+
+test('rejects an @/ import that nothing in the tree ships', async () => {
+  const { status, stderr } = await run(
+    [component, example],
+    {},
+    {
+      'src/examples/demo/DemoExample.vue': sfc('import Stray from "@/other/Stray.vue";'),
+    },
+  )
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo-example", file "src\/examples\/demo\/DemoExample\.vue": imports "@\/other\/Stray\.vue", which neither the item nor its registryDependencies ship/,
+  )
+})
+
+test('accepts an @/ import shipped two registryDependencies away', async () => {
+  const base = {
+    name: 'base',
+    type: 'registry:lib',
+    title: 'Base',
+    description: 'A base helper.',
+    files: [{ path: 'src/lib/base.ts', type: 'registry:lib' }],
+  }
+  const { status, stderr } = await run(
+    [{ ...component, registryDependencies: ['base'] }, example, base],
+    {},
+    {
+      'src/lib/base.ts': 'export const base = 1\n',
+      'src/examples/demo/DemoExample.vue': sfc('import { base } from "@/lib/base";'),
+    },
+  )
+  assert.equal(status, 0, stderr)
+})
+
+test('ignores template text that looks like an import', async () => {
+  const { status, stderr, out } = await run(
+    [component, example],
+    {},
+    {
+      'src/examples/demo/DemoExample.vue':
+        '<script setup lang="ts">\nconst message = { from: "Ada" }\n</script>\n\n<template>\n  <p :title="message.from"\n    class="text-body-md">{{ message.from }}</p>\n</template>\n',
+    },
+  )
+  assert.equal(status, 0, stderr)
+  const content = (await published(out, 'demo-example')).files[0]?.content ?? ''
+  assert.match(content, /:title="message\.from"/)
 })

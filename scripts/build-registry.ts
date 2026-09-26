@@ -11,6 +11,13 @@ const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
+const CORE_PACKAGE = '@delta-ui/core'
+const PUBLISHED_ALIAS = '@/registry/delta-ui/'
+const IMPLICIT_PACKAGES = new Set(['vue'])
+const SPECIFIER = /(?<![.\w$])(from\s*|import\s*\(\s*|import\s+)(["'])([^"'\n]+)\2/g
+const SCRIPT_FILE = /\.(ts|vue)$/
+const SCRIPT_BLOCK = /<script\b[^>]*>[\s\S]*?<\/script>/g
+
 const ITEM_TYPES = new Set([
   'registry:block',
   'registry:component',
@@ -65,12 +72,14 @@ const { values } = parseArgs({
   options: {
     manifest: { type: 'string', default: 'packages/registry/registry.json' },
     out: { type: 'string', default: 'apps/docs/public/r' },
+    core: { type: 'string', default: 'packages/core/package.json' },
   },
 })
 
 const manifestPath = resolve(repoRoot, values.manifest as string)
 const outDir = resolve(repoRoot, values.out as string)
 const manifestDir = dirname(manifestPath)
+const corePath = resolve(repoRoot, values.core as string)
 
 const toDependencyUrl = (dependency: string) =>
   dependency.startsWith('http://') || dependency.startsWith('https://')
@@ -91,11 +100,42 @@ const shipsMechanism = (rules: CssRules = {}): boolean =>
       key.startsWith('@utility') || key.startsWith('@keyframes') || (typeof body === 'object' && shipsMechanism(body)),
   )
 
+const packageOf = (specifier: string) =>
+  specifier.startsWith('@') ? specifier.split('/').slice(0, 2).join('/') : (specifier.split('/')[0] ?? specifier)
+
+const withoutVersion = (dependency: string) => dependency.replace(/(.)@.*$/, '$1')
+
+const specifiersOf = (content: string) => [...content.matchAll(SPECIFIER)].map((match) => match[3] ?? '')
+
+const moduleCodeOf = (path: string, content: string) =>
+  path.endsWith('.vue') ? [...content.matchAll(SCRIPT_BLOCK)].map((match) => match[0]).join('\n') : content
+
+const rewriteSpecifiers = (code: string) =>
+  code.replace(SPECIFIER, (match: string, lead: string, quote: string, specifier: string) =>
+    specifier.startsWith('@/') ? `${lead}${quote}${PUBLISHED_ALIAS}${specifier.slice(2)}${quote}` : match,
+  )
+
+const publishedContent = (path: string, content: string) =>
+  path.endsWith('.vue')
+    ? content.replace(SCRIPT_BLOCK, rewriteSpecifiers)
+    : SCRIPT_FILE.test(path)
+      ? rewriteSpecifiers(content)
+      : content
+
 if (!existsSync(manifestPath)) {
   abort([`manifest not found: ${values.manifest}`])
 }
 
+if (!existsSync(corePath)) {
+  abort([`core package not found: ${values.core}`])
+}
+
 const registry = JSON.parse(await readFile(manifestPath, 'utf8')) as Registry
+
+const coreVersion = (JSON.parse(await readFile(corePath, 'utf8')) as { version: string }).version
+
+const stamp = (dependencies?: string[]) =>
+  dependencies?.map((dependency) => (dependency === CORE_PACKAGE ? `${CORE_PACKAGE}@^${coreVersion}` : dependency))
 
 const errors: string[] = []
 const names = new Set<string>()
@@ -125,6 +165,14 @@ for (const item of registry.items) {
 
   if (shipsMechanism(item.css)) {
     errors.push(`item "${item.name}": @utility and @keyframes belong in @delta-ui/core/tailwind.css`)
+  }
+
+  for (const dependency of item.dependencies ?? []) {
+    if (dependency.startsWith(`${CORE_PACKAGE}@`)) {
+      errors.push(
+        `item "${item.name}": list "${CORE_PACKAGE}" without a version; the build stamps it from packages/core/package.json`,
+      )
+    }
   }
 
   const isExample = item.categories?.includes('example') ?? false
@@ -172,6 +220,45 @@ for (const item of registry.items) {
   }
 }
 
+const byName = new Map(registry.items.map((item) => [item.name, item]))
+
+const treeOf = (name: string, seen: Set<string> = new Set()): Set<string> => {
+  const item = byName.get(name)
+  if (!item || seen.has(name)) return seen
+  seen.add(name)
+  for (const dependency of item.registryDependencies ?? []) treeOf(dependency, seen)
+  return seen
+}
+
+for (const item of registry.items) {
+  const tree = [...treeOf(item.name)].flatMap((name) => byName.get(name) ?? [])
+  const shipped = new Set(tree.flatMap((entry) => entry.files.map((file) => resolve(manifestDir, file.path))))
+  const packages = new Set(tree.flatMap((entry) => entry.dependencies ?? []).map(withoutVersion))
+  for (const file of item.files) {
+    const filePath = resolve(manifestDir, file.path)
+    if (!SCRIPT_FILE.test(file.path) || !existsSync(filePath)) continue
+    for (const specifier of specifiersOf(moduleCodeOf(file.path, await readFile(filePath, 'utf8')))) {
+      const local = specifier.startsWith('.')
+        ? resolve(dirname(filePath), specifier)
+        : specifier.startsWith('@/')
+          ? resolve(manifestDir, 'src', specifier.slice(2))
+          : null
+      if (local !== null) {
+        const candidates = [local, `${local}.ts`, `${local}.vue`, join(local, 'index.ts')]
+        if (!candidates.some((candidate) => shipped.has(candidate))) {
+          errors.push(
+            `item "${item.name}", file "${file.path}": imports "${specifier}", which neither the item nor its registryDependencies ship`,
+          )
+        }
+      } else if (!IMPLICIT_PACKAGES.has(packageOf(specifier)) && !packages.has(packageOf(specifier))) {
+        errors.push(
+          `item "${item.name}", file "${file.path}": imports "${specifier}", but "${packageOf(specifier)}" is not in the dependencies of the item or its registryDependencies`,
+        )
+      }
+    }
+  }
+}
+
 if (errors.length > 0) {
   abort(errors)
 }
@@ -188,16 +275,23 @@ for (const item of registry.items) {
   for (const file of item.files) {
     files.push({
       ...file,
-      content: await readFile(resolve(manifestDir, file.path), 'utf8'),
+      content: publishedContent(file.path, await readFile(resolve(manifestDir, file.path), 'utf8')),
     })
   }
 
+  const dependencies = stamp(item.dependencies)
   const registryDependencies = item.registryDependencies?.map(toDependencyUrl)
 
   await writeFile(
     join(outDir, `${item.name}.json`),
     `${JSON.stringify(
-      { $schema: ITEM_SCHEMA, ...item, ...(registryDependencies ? { registryDependencies } : {}), files },
+      {
+        $schema: ITEM_SCHEMA,
+        ...item,
+        ...(dependencies ? { dependencies } : {}),
+        ...(registryDependencies ? { registryDependencies } : {}),
+        files,
+      },
       null,
       2,
     )}\n`,
@@ -212,7 +306,9 @@ await writeFile(
       $schema: REGISTRY_SCHEMA,
       name: registry.name,
       homepage: HOMEPAGE,
-      items: registry.items,
+      items: registry.items.map((item) =>
+        item.dependencies ? { ...item, dependencies: stamp(item.dependencies) } : item,
+      ),
     },
     null,
     2,
