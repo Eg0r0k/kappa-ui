@@ -10,7 +10,8 @@ const touched = ref(false);
 const error = computed(() => {
   if (!touched.value) return null;
   if (!email.value) return "Enter your email address.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) return "Enter a complete email address, like ada@example.com.";
+  if (!/^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/.test(email.value))
+    return "Enter a complete email address, like ada@example.com.";
   return null;
 });
 </script>

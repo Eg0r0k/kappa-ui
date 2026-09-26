@@ -13,7 +13,7 @@ const variants = [
 ] as const;
 
 const fields = reactive(variants.map((variant) => ({ ...variant, email: "ada@" })));
-const complete = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const complete = (email: string) => /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/.test(email);
 </script>
 
 <template>
