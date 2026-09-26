@@ -42,4 +42,8 @@ apps/*/.vitest/
 # Generated API tables
 apps/docs/app/generated/
 
+# Copied into the core package by its build
+packages/core/LICENSE
+packages/core/THIRD_PARTY_NOTICES.md
+
 CLAUDE.md

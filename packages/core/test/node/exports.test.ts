@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 
 const manifest = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as {
   exports: Record<string, string>;
+  publishConfig?: { exports?: Record<string, unknown> };
 };
 
 const src = new URL("../../src/", import.meta.url);
@@ -35,6 +36,18 @@ describe("package exports", () => {
     expect(manifest.exports).toEqual({
       ...Object.fromEntries(entries.map(({ name, file }) => [`./${name}`, `./src/${file}`])),
       "./tailwind.css": "./src/tailwind.css",
+    });
+  });
+
+  it("publishes every entry from dist, with its types beside it", () => {
+    expect(manifest.publishConfig?.exports).toEqual({
+      ...Object.fromEntries(
+        entries.map(({ name, file }) => {
+          const base = `./dist/${file.slice(0, -".ts".length)}`;
+          return [`./${name}`, { types: `${base}.d.ts`, default: `${base}.js` }];
+        }),
+      ),
+      "./tailwind.css": "./dist/tailwind.css",
     });
   });
 
