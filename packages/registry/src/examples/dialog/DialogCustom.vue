@@ -5,19 +5,22 @@ import { Button } from "@/ui/button";
 import {
   Dialog,
   DialogClose,
+  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/ui/dialog";
 </script>
 
 <template>
-  <Dialog class="max-w-sm">
-    <Button variant="outline" color="destructive">Delete project</Button>
-
-    <template #content>
-      <DialogHeader class="flex-col items-center pt-8 text-center">
+  <Dialog>
+    <DialogTrigger as-child>
+      <Button variant="outline" color="destructive">Delete project</Button>
+    </DialogTrigger>
+    <DialogContent class="max-w-sm" :show-close-button="false">
+      <DialogHeader class="items-center pt-2 text-center">
         <span class="flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
           <Trash2 class="size-6" />
         </span>
@@ -32,6 +35,6 @@ import {
           <Button color="destructive">Delete</Button>
         </DialogClose>
       </DialogFooter>
-    </template>
+    </DialogContent>
   </Dialog>
 </template>

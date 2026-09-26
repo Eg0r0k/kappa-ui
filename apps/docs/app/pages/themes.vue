@@ -23,7 +23,7 @@ import {
   themeToQuery,
 } from '~/lib/theme'
 import { Button } from '@/ui/button'
-import { Dialog } from '@/ui/dialog'
+import { Dialog, DialogBody, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/ui/dialog'
 import { Field, FieldDescription, FieldLabel, FieldLegend, FieldSet } from '@/ui/field'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
 import { Separator } from '@/ui/separator'
@@ -194,18 +194,25 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
             <Check data-icon="inline-start" />
             {{ onSite ? 'Used on this site' : 'Use on this site' }}
           </Button>
-          <Dialog
-            title="Theme CSS"
-            description="Paste it into your global CSS, after the delta-ui theme. The font import goes with your other imports, at the top."
-            class="sm:max-w-2xl"
-          >
-            <Button variant="outline" color="neutral">
-              <Code data-icon="inline-start" />
-              Copy code
-            </Button>
-            <template #body>
-              <CodeBlock filename="globals.css" :html="html" :source="css" />
-            </template>
+          <Dialog>
+            <DialogTrigger as-child>
+              <Button variant="outline" color="neutral">
+                <Code data-icon="inline-start" />
+                Copy code
+              </Button>
+            </DialogTrigger>
+            <DialogContent class="sm:max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>Theme CSS</DialogTitle>
+                <DialogDescription>
+                  Paste it into your global CSS, after the delta-ui theme. The font import goes with your other imports,
+                  at the top.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogBody>
+                <CodeBlock filename="globals.css" :html="html" :source="css" />
+              </DialogBody>
+            </DialogContent>
           </Dialog>
         </div>
       </aside>

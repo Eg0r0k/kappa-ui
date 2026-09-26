@@ -1125,9 +1125,9 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "A modal window with a title, a body that scrolls in a scroll area, and a footer, with an API close to Nuxt UI's modal, built on Reka UI.",
+      "description": "A modal window built from parts: a header, a body that scrolls, and a footer, on Reka UI.",
       "dependencies": ["@delta-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "button", "scroll-area"],
+      "registryDependencies": ["utils", "tokens", "overlay", "button"],
       "files": [
         {
           "path": "src/ui/dialog/Dialog.vue",
@@ -1142,6 +1142,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/dialog/DialogContent.vue",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/dialog/DialogDescription.vue",
           "type": "registry:ui"
         },
@@ -1151,6 +1155,14 @@
         },
         {
           "path": "src/ui/dialog/DialogHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogOverlay.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/dialog/DialogScrollContent.vue",
           "type": "registry:ui"
         },
         {
@@ -2756,26 +2768,31 @@
       ]
     },
     {
-      "name": "dialog-scroll-area",
+      "name": "dialog-body-scroll",
       "type": "registry:block",
-      "title": "Dialog scroll area",
+      "title": "Dialog body scroll",
       "description": "A long body that scrolls between a fixed header and footer.",
       "categories": ["example"],
       "registryDependencies": ["dialog", "button"],
-      "files": [
-        { "path": "src/examples/dialog/DialogScrollArea.vue", "type": "registry:component" }
-      ]
+      "files": [{ "path": "src/examples/dialog/DialogBodyScroll.vue", "type": "registry:component" }]
     },
     {
-      "name": "dialog-scrollable",
+      "name": "dialog-scroll-area",
       "type": "registry:block",
-      "title": "Dialog scrollable",
-      "description": "A dialog that scrolls as a whole inside the overlay.",
+      "title": "Dialog scroll area",
+      "description": "A fixed-height dialog whose middle scrolls in a scroll area.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button", "scroll-area"],
+      "files": [{ "path": "src/examples/dialog/DialogScrollArea.vue", "type": "registry:component" }]
+    },
+    {
+      "name": "dialog-scroll-overlay",
+      "type": "registry:block",
+      "title": "Dialog scroll overlay",
+      "description": "A dialog that keeps its full height while the overlay scrolls.",
       "categories": ["example"],
       "registryDependencies": ["dialog", "button"],
-      "files": [
-        { "path": "src/examples/dialog/DialogScrollable.vue", "type": "registry:component" }
-      ]
+      "files": [{ "path": "src/examples/dialog/DialogScrollOverlay.vue", "type": "registry:component" }]
     },
     {
       "name": "dialog-fullscreen",
@@ -2800,17 +2817,6 @@
       ]
     },
     {
-      "name": "dialog-no-overlay",
-      "type": "registry:block",
-      "title": "Dialog without overlay",
-      "description": "A dialog that leaves the page undimmed.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
-      "files": [
-        { "path": "src/examples/dialog/DialogNoOverlay.vue", "type": "registry:component" }
-      ]
-    },
-    {
       "name": "dialog-nested",
       "type": "registry:block",
       "title": "Dialog nested",
@@ -2825,7 +2831,7 @@
       "name": "dialog-custom",
       "type": "registry:block",
       "title": "Dialog custom",
-      "description": "A confirmation laid out from the dialog's parts.",
+      "description": "A centred confirmation without a close button, laid out from the dialog's parts.",
       "categories": ["example"],
       "dependencies": ["@lucide/vue"],
       "registryDependencies": ["dialog", "button"],

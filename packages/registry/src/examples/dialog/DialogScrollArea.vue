@@ -1,29 +1,40 @@
 <script setup lang="ts">
 import { Button } from "@/ui/button";
-import { Dialog } from "@/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/ui/dialog";
+import { ScrollArea } from "@/ui/scroll-area";
 
-const sections = Array.from({ length: 12 }, (_, index) => index + 1);
+const members = Array.from({ length: 40 }, (_, index) => `Member ${index + 1}`);
 </script>
 
 <template>
-  <Dialog title="Terms of service" description="Last updated on 1 September 2026.">
-    <Button variant="outline" color="neutral">Read the terms</Button>
-
-    <template #body>
-      <div class="flex flex-col gap-4 text-body-md">
-        <section v-for="section in sections" :key="section" class="flex flex-col gap-1">
-          <h3 class="text-title-sm">{{ section }}. Section {{ section }}</h3>
-          <p class="text-muted-foreground">
-            The service is provided as is. You keep the rights to what you upload, and you give us the licence we
-            need to store it, back it up and show it to the people you share it with.
-          </p>
-        </section>
-      </div>
-    </template>
-
-    <template #footer="{ close }">
-      <Button variant="outline" color="neutral" @click="close">Decline</Button>
-      <Button @click="close">Accept</Button>
-    </template>
+  <Dialog>
+    <DialogTrigger as-child>
+      <Button variant="outline" color="neutral">Show members</Button>
+    </DialogTrigger>
+    <DialogContent class="h-[32rem]">
+      <DialogHeader>
+        <DialogTitle>Members</DialogTitle>
+        <DialogDescription>Everyone with access to this project.</DialogDescription>
+      </DialogHeader>
+      <ScrollArea class="min-h-0 flex-1">
+        <ul class="flex flex-col gap-2 px-6 text-body-md">
+          <li v-for="member in members" :key="member">{{ member }}</li>
+        </ul>
+      </ScrollArea>
+      <DialogFooter>
+        <DialogClose as-child>
+          <Button>Done</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
   </Dialog>
 </template>

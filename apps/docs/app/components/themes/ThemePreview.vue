@@ -6,7 +6,7 @@ import { provideOverlayPortalTarget } from '@delta-ui/core/overlay'
 import { Button } from '@/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/ui/card'
 import { Checkbox } from '@/ui/checkbox'
-import { Dialog } from '@/ui/dialog'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -224,12 +224,24 @@ const plans = [
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Dialog title="Send feedback?" description="We read every message and reply within two days.">
-            <Button>Send</Button>
-            <template #footer="{ close }">
-              <Button variant="outline" color="neutral" @click="close">Cancel</Button>
-              <Button @click="close">Send</Button>
-            </template>
+          <Dialog>
+            <DialogTrigger as-child>
+              <Button>Send</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Send feedback?</DialogTitle>
+                <DialogDescription>We read every message and reply within two days.</DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose as-child>
+                  <Button variant="outline" color="neutral">Cancel</Button>
+                </DialogClose>
+                <DialogClose as-child>
+                  <Button>Send</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
           </Dialog>
         </CardFooter>
       </Card>

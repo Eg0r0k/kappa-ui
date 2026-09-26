@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 import { Button } from "@/ui/button";
-import { Dialog } from "@/ui/dialog";
+import { Dialog, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/ui/dialog";
 import { Field, FieldLabel } from "@/ui/field";
 import { Input } from "@/ui/input";
 import { Menu, MenuItem } from "@/ui/menu";
@@ -22,16 +22,21 @@ const name = ref("quarterly-report.pdf");
     </Button>
     <p class="text-body-sm text-muted-foreground">{{ name }}</p>
 
-    <Dialog v-model:open="open" title="Rename file">
-      <template #body>
-        <Field>
-          <FieldLabel>Name</FieldLabel>
-          <Input v-model="name" />
-        </Field>
-      </template>
-      <template #footer="{ close }">
-        <Button @click="close">Save</Button>
-      </template>
+    <Dialog v-model:open="open">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Rename file</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <Field>
+            <FieldLabel>Name</FieldLabel>
+            <Input v-model="name" />
+          </Field>
+        </DialogBody>
+        <DialogFooter>
+          <Button @click="open = false">Save</Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   </div>
 </template>

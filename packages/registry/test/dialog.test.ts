@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type Component, type VNodeChild, defineComponent, h, ref } from "vue";
 
+import DialogNested from "@/examples/dialog/DialogNested.vue";
 import {
   Dialog,
   DialogBody,
@@ -232,6 +233,34 @@ describe("Dialog", () => {
     await settle();
     expect(titles()).toEqual(["Outer"]);
     expect(document.activeElement?.id).toBe("inner");
+    wrapper.unmount();
+  });
+
+  it("closes only the inner dialog when a button in it closes it", async () => {
+    const wrapper = mount(DialogNested, { attachTo: document.body });
+    const button = (name: string) =>
+      [...document.querySelectorAll<HTMLButtonElement>("[role=dialog] button")].find(
+        (element) => element.textContent?.trim() === name,
+      )!;
+
+    await userEvent.click(wrapper.get("button").element);
+    await settle();
+    await userEvent.click(button("Stop sharing"));
+    await settle();
+    const innerTitle = [...document.querySelectorAll("[role=dialog] [data-slot=dialog-title]")].at(-1)!;
+    const changes: string[] = [];
+    new MutationObserver(() => changes.push(innerTitle.textContent ?? "")).observe(innerTitle, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    await userEvent.click(button("Confirm"));
+    await settle();
+    expect(changes).toEqual([]);
+
+    expect(titles()).toEqual(["Share project"]);
+    expect(document.querySelector("[role=dialog] [aria-live]")?.textContent).toContain("Sharing is off");
+    expect(document.activeElement?.textContent?.trim()).toBe("Share again");
     wrapper.unmount();
   });
 });
