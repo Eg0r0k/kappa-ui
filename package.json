@@ -9,7 +9,7 @@
     "build": "pnpm registry:build && pnpm --filter @delta-ui/docs build",
     "preview": "pnpm --filter @delta-ui/docs preview",
     "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
-    "test": "node --test scripts/build-registry.test.ts scripts/eslint-config.test.ts && pnpm lint && pnpm -r test",
+    "test": "node --test scripts/build-registry.test.ts scripts/eslint-config.test.ts scripts/css-sync.test.ts && pnpm lint && pnpm -r test",
     "lint": "eslint packages/registry/src",
     "registry:build": "node scripts/build-registry.ts"
   },
@@ -17,6 +17,7 @@
     "@types/node": "^24.13.3",
     "@typescript-eslint/parser": "^8.70.1",
     "eslint": "^10.11.0",
+    "postcss": "^8.5.28",
     "typescript": "~6.0.2",
     "vue-eslint-parser": "^10.4.1"
   }
