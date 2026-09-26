@@ -56,9 +56,13 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
       }
     }),
   )
+  const cssEntries = Object.entries(item.css ?? {})
+  const imports = Object.fromEntries(cssEntries.filter(([key]) => key.startsWith('@import ')))
+  const rules = Object.fromEntries(cssEntries.filter(([key]) => !key.startsWith('@import ')))
   const css = [
+    Object.keys(imports).length ? serializeCssRules(imports) : '',
     item.cssVars ? serializeCssVars(item.cssVars) : '',
-    item.css ? serializeCssRules(item.css) : '',
+    Object.keys(rules).length ? serializeCssRules(rules) : '',
   ]
     .filter(Boolean)
     .join('\n\n')
@@ -110,7 +114,7 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
               </li>
             </ul>
           </li>
-          <li class="space-y-3">
+          <li v-if="code?.files.length" class="space-y-3">
             <p>Copy the files into your project:</p>
             <CodeBlock
               v-for="file in code?.files ?? []"
