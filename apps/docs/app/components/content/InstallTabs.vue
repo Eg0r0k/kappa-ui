@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 import { computed } from 'vue'
 
 import { Button } from '@/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
 import { serializeCssRules, serializeCssVars } from '~/lib/css'
@@ -64,19 +64,16 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
     .join('\n\n')
   return { files, css: css ? { source: css, html: await highlight(css, 'css') } : null }
 })
-
-const trigger =
-  '-mb-px border-b-2 border-transparent px-1 pb-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground'
 </script>
 
 <template>
   <div class="not-prose my-6">
-    <TabsRoot default-value="cli">
-      <TabsList class="flex gap-4 border-b" aria-label="Installation method">
-        <TabsTrigger value="cli" :class="trigger">CLI</TabsTrigger>
-        <TabsTrigger value="manual" :class="trigger">Manual</TabsTrigger>
+    <Tabs default-value="cli" class="gap-3">
+      <TabsList variant="line" size="sm" class="w-full" aria-label="Installation method">
+        <TabsTrigger value="cli">CLI</TabsTrigger>
+        <TabsTrigger value="manual">Manual</TabsTrigger>
       </TabsList>
-      <div class="mt-4 flex flex-wrap gap-1" role="group" aria-label="Package manager">
+      <div class="mt-1 flex flex-wrap gap-1" role="group" aria-label="Package manager">
         <Button
           v-for="manager in packageManagers"
           :key="manager"
@@ -89,10 +86,10 @@ const trigger =
           {{ manager }}
         </Button>
       </div>
-      <TabsContent value="cli" class="mt-3">
+      <TabsContent value="cli">
         <CommandLine :command="addCommand(pm, url)" />
       </TabsContent>
-      <TabsContent value="manual" class="mt-3">
+      <TabsContent value="manual">
         <ol class="list-decimal space-y-6 ps-5 text-sm marker:text-muted-foreground">
           <li v-if="dependencies" class="space-y-3">
             <p>Install the dependencies:</p>
@@ -129,6 +126,6 @@ const trigger =
           </li>
         </ol>
       </TabsContent>
-    </TabsRoot>
+    </Tabs>
   </div>
 </template>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Moon, Sun } from '@lucide/vue'
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 import { defineAsyncComponent, ref, watch, type HTMLAttributes } from 'vue'
 
 import { Button } from '@/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
 import PreviewFrame from '~/components/content/PreviewFrame.vue'
@@ -51,18 +51,15 @@ watch(
     theme.value = undefined
   },
 )
-
-const trigger =
-  '-mb-px border-b-2 border-transparent px-1 pb-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground'
 </script>
 
 <template>
   <div class="not-prose my-6">
-    <TabsRoot default-value="preview">
-      <div class="flex items-center justify-between gap-2 border-b">
-        <TabsList class="flex gap-4" aria-label="Example view">
-          <TabsTrigger value="preview" :class="trigger">Preview</TabsTrigger>
-          <TabsTrigger value="code" :class="trigger">Code</TabsTrigger>
+    <Tabs default-value="preview" class="gap-4">
+      <div class="flex items-end justify-between gap-2 border-b">
+        <TabsList variant="line" size="sm" class="-mb-px" aria-label="Example view">
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+          <TabsTrigger value="code">Code</TabsTrigger>
         </TabsList>
         <div class="flex items-center gap-1 pb-1">
           <Button variant="ghost" color="neutral" size="icon-sm" aria-label="Toggle the example's theme" @click="toggleTheme">
@@ -86,12 +83,12 @@ const trigger =
           </Button>
         </div>
       </div>
-      <TabsContent value="preview" class="mt-4">
+      <TabsContent value="preview">
         <PreviewFrame :theme="theme" :dir="dir" :class="props.class">
           <Example />
         </PreviewFrame>
       </TabsContent>
-      <TabsContent value="code" class="mt-4">
+      <TabsContent value="code">
         <CodeBlock
           v-if="code"
           :filename="file.path.replace(/^src\//, '@/')"
@@ -103,6 +100,6 @@ const trigger =
           <CommandLine :command="exampleCommand" />
         </div>
       </TabsContent>
-    </TabsRoot>
+    </Tabs>
   </div>
 </template>
