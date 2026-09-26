@@ -199,6 +199,11 @@ export const themeCss = (config: ThemeConfig) => {
   ].join('\n\n')
 }
 
+export const themeToQuery = (config: ThemeConfig) => {
+  const entries = Object.entries(config).filter(([key, value]) => defaultTheme[key as keyof ThemeConfig] !== value)
+  return Object.fromEntries(entries.map(([key, value]) => [key, String(value)]))
+}
+
 export const isDefaultTheme = (config: ThemeConfig) => Object.keys(themeToQuery(config)).length === 0
 
 export const siteCss = (config: ThemeConfig) => {
@@ -255,9 +260,4 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
       ? (query.surfaces as Surfaces)
       : defaultTheme.surfaces,
   }
-}
-
-export const themeToQuery = (config: ThemeConfig) => {
-  const entries = Object.entries(config).filter(([key, value]) => defaultTheme[key as keyof ThemeConfig] !== value)
-  return Object.fromEntries(entries.map(([key, value]) => [key, String(value)]))
 }
