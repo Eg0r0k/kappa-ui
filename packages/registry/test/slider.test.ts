@@ -144,6 +144,7 @@ describe("Slider", () => {
     expect(first.attributes("data-hovered")).toBeUndefined();
     wrapper.unmount();
   });
+
   it("clears the states example's error once the budget is back under 80%", async () => {
     const wrapper = mount(SliderStates, { attachTo: document.body });
     await nextTick();

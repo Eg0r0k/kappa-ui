@@ -24,7 +24,7 @@ const complete = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         <Input :variant="field.value" default-value="Read only for now" />
       </Field>
       <Field :invalid="!complete(field.email)">
-        <FieldLabel>{{ field.name }}, invalid</FieldLabel>
+        <FieldLabel>{{ field.name }}, email</FieldLabel>
         <Input v-model="field.email" :variant="field.value" />
         <FieldError v-if="!complete(field.email)" errors="Enter a complete email address." />
       </Field>

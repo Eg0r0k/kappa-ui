@@ -15,7 +15,7 @@ const overBudget = computed(() => budget.value > 80);
       <Slider :default-value="[25, 60]" />
     </Field>
     <Field :invalid="overBudget">
-      <FieldLabel>Invalid</FieldLabel>
+      <FieldLabel>Budget</FieldLabel>
       <Slider v-model="budget" />
       <FieldError v-if="overBudget" errors="Keep the budget under 80%." />
     </Field>
