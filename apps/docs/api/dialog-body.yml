@@ -1,4 +1,4 @@
 component: DialogBody
 file: ui/dialog/DialogBody.vue
 slots:
-  default: "The content. Scrolls in a scroll area once the window reaches its maximum height."
+  default: "The content between the header and the footer. Scrolls once the window reaches the height of the screen."

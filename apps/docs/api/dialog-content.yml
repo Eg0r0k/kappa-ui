@@ -1,0 +1,22 @@
+component: DialogContent
+file: ui/dialog/DialogContent.vue
+props:
+  showCloseButton:
+    description: "Shows a close button in the window's top corner. It comes last in the tab order, so a form's first field takes focus on open."
+  forceMount:
+    description: "Keeps the window mounted while closed, for animating it with a JavaScript library."
+  disableOutsidePointerEvents:
+    description: "Shuts the page to the pointer while open, as `modal` on the root does."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. Call `preventDefault()` to keep it open."
+  focusOutside: "Fires when focus moves outside. Call `preventDefault()` to keep it open."
+  interactOutside: "Fires on any press or focus outside. Call `preventDefault()` to keep it open."
+  openAutoFocus: "Fires when focus moves into the window on open. Call `preventDefault()` to keep focus where it is."
+  closeAutoFocus: "Fires when focus returns to the trigger on close. Call `preventDefault()` to keep focus where it is."
+slots:
+  default: "The window's parts: `DialogHeader`, `DialogBody` and `DialogFooter`, or a layout of your own."
