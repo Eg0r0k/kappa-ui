@@ -594,6 +594,20 @@
       ]
     },
     {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "Buttons joined into one control, horizontal or vertical, with an optional separator and text.",
+      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "registryDependencies": ["utils", "separator"],
+      "files": [
+        { "path": "src/ui/button-group/ButtonGroup.vue", "type": "registry:ui" },
+        { "path": "src/ui/button-group/ButtonGroupSeparator.vue", "type": "registry:ui" },
+        { "path": "src/ui/button-group/ButtonGroupText.vue", "type": "registry:ui" },
+        { "path": "src/ui/button-group/index.ts", "type": "registry:ui" }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -1475,6 +1489,100 @@
       "registryDependencies": ["badge"],
       "files": [
         { "path": "src/examples/badge/BadgeTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-demo",
+      "type": "registry:block",
+      "title": "Button group demo",
+      "description": "Three outlined buttons joined into one control.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["button-group", "button"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupDemo.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-orientation",
+      "type": "registry:block",
+      "title": "Vertical button group",
+      "description": "Groups stacked in a column.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["button-group", "button"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupOrientation.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-sizes",
+      "type": "registry:block",
+      "title": "Button group sizes",
+      "description": "Groups of buttons in each size.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["button-group", "button"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupSizes.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-nested",
+      "type": "registry:block",
+      "title": "Nested button groups",
+      "description": "Groups inside a group, spaced apart.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["button-group", "button"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupNested.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-with-separator",
+      "type": "registry:block",
+      "title": "Button group with separators",
+      "description": "Soft buttons divided by separators.",
+      "categories": ["example"],
+      "registryDependencies": ["button-group", "button"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupWithSeparator.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-input",
+      "type": "registry:block",
+      "title": "Button group with an input",
+      "description": "Text and a button joined to inputs.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["button-group", "button", "input"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupInput.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-split",
+      "type": "registry:block",
+      "title": "Split button",
+      "description": "A button with a menu of related actions.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["button-group", "button", "dropdown-menu"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupSplit.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "button-group-connected",
+      "type": "registry:block",
+      "title": "Connected button group",
+      "description": "Material 3's connected group: round outside, small radius inside.",
+      "categories": ["example"],
+      "registryDependencies": ["button-group", "button"],
+      "files": [
+        { "path": "src/examples/button-group/ButtonGroupConnected.vue", "type": "registry:component" }
       ]
     },
     {

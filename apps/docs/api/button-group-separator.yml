@@ -1,0 +1,5 @@
+component: ButtonGroupSeparator
+file: ui/button-group/ButtonGroupSeparator.vue
+props:
+  orientation:
+    description: "`vertical` between buttons in a row, `horizontal` in a vertical group."

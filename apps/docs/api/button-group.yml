@@ -1,0 +1,7 @@
+component: ButtonGroup
+file: ui/button-group/ButtonGroup.vue
+props:
+  orientation:
+    description: Lays the children in a row or a column and squares the corners where they meet.
+slots:
+  default: Buttons, nested groups and separators. Nothing is passed to them, so each button keeps its own variant and size.

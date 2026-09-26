@@ -1,0 +1,9 @@
+component: ButtonGroupText
+file: ui/button-group/ButtonGroupText.vue
+props:
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the text's attributes and classes onto it — a `label`, for instance.
+slots:
+  default: The text and an optional icon.
