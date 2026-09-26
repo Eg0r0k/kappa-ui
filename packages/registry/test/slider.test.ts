@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
+import SliderStates from "@/examples/slider/SliderStates.vue";
+import SliderTouchTarget from "@/examples/slider/SliderTouchTarget.vue";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Slider } from "@/ui/slider";
 
@@ -140,6 +142,38 @@ describe("Slider", () => {
     expect(second.attributes("data-hovered")).toBeUndefined();
     await first.trigger("pointerleave", { pointerType: "mouse" });
     expect(first.attributes("data-hovered")).toBeUndefined();
+    wrapper.unmount();
+  });
+  it("clears the states example's error once the budget is back under 80%", async () => {
+    const wrapper = mount(SliderStates, { attachTo: document.body });
+    await nextTick();
+    const budget = () => thumbs(wrapper).at(-1)!;
+
+    expect(budget().attributes("aria-invalid")).toBe("true");
+    expect(wrapper.find("[data-slot=field-error]").exists()).toBe(true);
+
+    (budget().element as HTMLElement).focus();
+    await userEvent.keyboard("{PageDown}");
+    await nextTick();
+    expect(budget().attributes("aria-valuenow")).toBe("75");
+    expect(budget().attributes("aria-invalid")).not.toBe("true");
+    expect(wrapper.find("[data-slot=field-error]").exists()).toBe(false);
+    wrapper.unmount();
+  });
+
+  it("keeps each touch area in the touch target example clear of the next row", () => {
+    const wrapper = mount(SliderTouchTarget, { attachTo: document.body });
+    const extents = [...wrapper.element.children].map((row) => {
+      const slider = row.querySelector("[data-slot=slider]")!;
+      const box = slider.getBoundingClientRect();
+      const centre = box.top + box.height / 2;
+      const reach = slider.getAttribute("data-touch-target") === "none" ? box.height / 2 : 24;
+      return { top: centre - reach, bottom: centre + reach };
+    });
+
+    for (const [index, extent] of extents.entries()) {
+      if (index > 0) expect(extent.top).toBeGreaterThanOrEqual(extents[index - 1]!.bottom);
+    }
     wrapper.unmount();
   });
 });

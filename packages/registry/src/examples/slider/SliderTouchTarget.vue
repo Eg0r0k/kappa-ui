@@ -6,7 +6,7 @@ const targets = ["none", "expand", "wrapper"] as const;
 
 <template>
   <div
-    class="flex w-full max-w-xs flex-col gap-2 [&_[data-slot=slider]::before]:outline [&_[data-slot=slider]::before]:outline-dashed [&_[data-slot=slider]::before]:outline-pink-500/70 [&_[data-slot=slider-thumb]::after]:outline [&_[data-slot=slider-thumb]::after]:outline-dashed [&_[data-slot=slider-thumb]::after]:outline-sky-500/70"
+    class="flex w-full max-w-xs flex-col gap-6 [&_[data-slot=slider]::before]:outline [&_[data-slot=slider]::before]:outline-dashed [&_[data-slot=slider]::before]:outline-pink-500/70 [&_[data-slot=slider-thumb]::after]:outline [&_[data-slot=slider-thumb]::after]:outline-dashed [&_[data-slot=slider-thumb]::after]:outline-sky-500/70"
   >
     <div v-for="target in targets" :key="target" class="flex items-center gap-4">
       <span class="w-16 shrink-0 font-mono text-body-sm">{{ target }}</span>
