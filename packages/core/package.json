@@ -9,7 +9,7 @@
     "./aspect-ratio": "./src/primitives/aspect-ratio.ts",
     "./checkbox": "./src/primitives/checkbox.ts",
     "./context-menu": "./src/primitives/context-menu.ts",
-    "./dialog": "./src/primitives/dialog.ts",
+    "./dialog": "./src/dialog/index.ts",
     "./dropdown-menu": "./src/primitives/dropdown-menu.ts",
     "./label": "./src/primitives/label.ts",
     "./listbox": "./src/primitives/listbox.ts",
