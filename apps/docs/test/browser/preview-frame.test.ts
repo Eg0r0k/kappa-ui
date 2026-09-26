@@ -4,7 +4,7 @@ import { defineComponent, h, onMounted } from 'vue'
 
 import PreviewFrame from '~/components/content/PreviewFrame.vue'
 
-const LIGHT_BACKGROUND = 'oklch(1 0 0)'
+const LIGHT_BACKGROUND = 'oklch(0.98 0 0)'
 const DARK_BACKGROUND = 'oklch(0.145 0 0)'
 
 const background = (element: Element) => getComputedStyle(element).getPropertyValue('--background').trim()
