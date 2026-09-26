@@ -1,3 +1,6 @@
+// Adapted from Material Web (https://github.com/material-components/material-web), modified for delta-ui.
+// Copyright 2022 Google LLC. Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0
+
 import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Switch } from "./Switch.vue";

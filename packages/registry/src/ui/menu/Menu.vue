@@ -1,3 +1,7 @@
+<!--
+  Adapted from Quasar Framework (https://github.com/quasarframework/quasar), modified for delta-ui.
+  Copyright (c) 2015-present Razvan Stoenescu. MIT License: https://github.com/quasarframework/quasar/blob/dev/LICENSE
+-->
 <script lang="ts">
 const handled = new WeakSet<Event>();
 const targets = new WeakMap<Element, { attached: number; open: number }>();

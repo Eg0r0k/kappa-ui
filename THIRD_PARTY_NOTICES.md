@@ -10,6 +10,7 @@ delta-ui adapts code from the projects below. Each adapted file names its source
 - Adapted in:
   - `packages/core/src/ripple/directive.ts` — the ripple's press geometry, timing and soft edge, as a Vue directive
   - `packages/registry/src/ui/button/index.ts` — the touch target's `max(48px, 100%)` expansion and per-size wrapper margin formula
+  - `packages/registry/src/ui/switch/index.ts` — the same touch target expansion and per-size wrapper margin formula, applied to the switch
 
 ## Quasar Framework
 
@@ -18,8 +19,10 @@ delta-ui adapts code from the projects below. Each adapted file names its source
 - Copyright (c) 2015-present Razvan Stoenescu
 - Adapted in:
   - `packages/registry/src/ui/menu/position.ts` — the menu's boundary placement (`applyBoundary`)
+  - `packages/registry/src/ui/menu/Menu.vue` — the anchor/self origin resolution, the context-menu re-open and target picking, and the size capping around `applyBoundary`
   - `packages/registry/src/ui/scroll-area/index.ts` — the scrollbar thumb size, position and drag-multiplier formulas
   - `packages/registry/src/ui/scroll-area/ScrollArea.vue` — the scroll area's container/content tracking and thumb-drag orchestration
+  - `packages/registry/src/ui/scroll-area/ScrollBar.vue` — the scrollbar's track and thumb styling and states
 
 ---
 
