@@ -5,6 +5,10 @@ import { userEvent } from "vitest/browser";
 import { defineComponent, h, withDirectives } from "vue";
 
 import ScrollAreaEdgeFade from "@/examples/scroll-area/ScrollAreaEdgeFade.vue";
+import { overlaySurface } from "@/lib/overlay";
+import { Card } from "@/ui/card";
+import { dialogSurface } from "@/ui/dialog";
+import { listboxVariants } from "@/ui/listbox";
 import { ScrollArea } from "@/ui/scroll-area";
 
 afterEach(() => {
@@ -223,4 +227,26 @@ it("adds up quick steps", async () => {
   const expected = Math.min(viewport.scrollWidth - viewport.clientWidth, 2 * 0.8 * viewport.clientWidth);
   await vi.waitFor(() => expect(Math.abs(viewport.scrollLeft - expected)).toBeLessThan(1), { timeout: 2000 });
   wrapper.unmount();
+});
+
+it("runs the overlay gradient to the background of the card or popover it sits in", () => {
+  const root = document.createElement("div");
+  root.style.cssText = "--background: rgb(1, 1, 1); --card: rgb(2, 2, 2); --popover: rgb(3, 3, 3)";
+  document.body.append(root);
+  const gradient = (surface: Element) =>
+    getComputedStyle(surface.querySelector(".scroll-fade-overlay-y")!, "::before").backgroundImage;
+  const surface = (className: string) => {
+    const element = document.createElement("div");
+    element.className = className;
+    element.innerHTML = '<div class="scroll-fade-overlay-y"></div>';
+    root.append(element);
+    return element;
+  };
+  const card = mount(Card, { attachTo: root, slots: { default: () => h("div", { class: "scroll-fade-overlay-y" }) } });
+
+  expect(gradient(surface(""))).toContain("rgb(1, 1, 1)");
+  expect(gradient(card.element as Element)).toContain("rgb(2, 2, 2)");
+  expect(gradient(surface(listboxVariants()))).toContain("rgb(2, 2, 2)");
+  expect(gradient(surface(overlaySurface))).toContain("rgb(3, 3, 3)");
+  expect(gradient(surface(dialogSurface))).toContain("rgb(3, 3, 3)");
 });

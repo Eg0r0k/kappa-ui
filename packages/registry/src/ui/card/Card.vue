@@ -18,7 +18,7 @@ const props = withDefaults(
     :data-size="props.size"
     :class="
       cn(
-        'group/card flex flex-col gap-(--card-spacing) rounded-xl border border-surface-border bg-card py-(--card-spacing) text-card-foreground [--card-spacing:--spacing(6)] data-[size=sm]:[--card-spacing:--spacing(4)]',
+        'group/card flex flex-col gap-(--card-spacing) rounded-xl border border-surface-border bg-card py-(--card-spacing) text-card-foreground [--card-spacing:--spacing(6)] [--scroll-fade-color:var(--card)] data-[size=sm]:[--card-spacing:--spacing(4)]',
         props.class,
       )
     "

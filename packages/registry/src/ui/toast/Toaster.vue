@@ -77,7 +77,7 @@ const place = (toast: Toast) => {
       data-slot="toast"
       :data-color="toast.color ?? 'neutral'"
       :style="place(toast)"
-      class="delta-toast overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-lg ring-1 ring-surface-border outline-none focus-visible:focus-ring"
+      class="delta-toast overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-lg ring-1 [--scroll-fade-color:var(--popover)] ring-surface-border outline-none focus-visible:focus-ring"
       @pause="paused = true"
       @resume="paused = false"
     >

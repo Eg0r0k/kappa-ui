@@ -11,4 +11,4 @@ export { default as DialogTitle } from "./DialogTitle.vue";
 export { default as DialogTrigger } from "./DialogTrigger.vue";
 
 export const dialogSurface =
-  "group/dialog flex flex-col gap-4 rounded-2xl border border-surface-border bg-popover py-6 text-popover-foreground shadow-xl outline-none animate-overlay";
+  "group/dialog flex flex-col gap-4 rounded-2xl border border-surface-border bg-popover py-6 text-popover-foreground shadow-xl outline-none animate-overlay [--scroll-fade-color:var(--popover)]";
