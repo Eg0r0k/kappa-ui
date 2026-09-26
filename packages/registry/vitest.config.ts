@@ -22,7 +22,7 @@ export default defineConfig({
       enabled: true,
       headless: true,
       provider: playwright(),
-      instances: [{ browser: "chromium" }, { browser: "firefox", include: ["test/scroll-fade.test.ts"] }],
+      instances: [{ browser: "chromium" }, { browser: "firefox", include: ["test/scroll-fade.test.ts", "test/textarea-scroll.test.ts"] }],
     },
   },
 });

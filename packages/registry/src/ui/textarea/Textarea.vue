@@ -30,21 +30,48 @@ const attrs = useAttrs();
 const control = useFieldControl(props, attrs);
 const textarea = useTemplateRef<HTMLTextAreaElement>("textarea");
 
+const measure = (element: HTMLTextAreaElement, width: string) => {
+  const shadow = element.cloneNode() as HTMLTextAreaElement;
+  shadow.removeAttribute("id");
+  shadow.removeAttribute("name");
+  shadow.setAttribute("aria-hidden", "true");
+  shadow.tabIndex = -1;
+  shadow.value = element.value;
+  Object.assign(shadow.style, {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    width,
+    height: "",
+    minHeight: "0",
+    maxHeight: "none",
+    overflow: "hidden",
+    visibility: "hidden",
+    pointerEvents: "none",
+  });
+  element.after(shadow);
+  const height = shadow.scrollHeight;
+  shadow.remove();
+  return height;
+};
+
 const resize = () => {
   const element = textarea.value;
   if (!element) return;
-  element.style.height = "";
-  element.style.overflowY = "";
-  if (!props.autoresize) return;
+  if (!props.autoresize) {
+    element.style.height = "";
+    element.style.overflowY = "";
+    return;
+  }
 
   const style = getComputedStyle(element);
   const frame = Number.parseFloat(style.borderTopWidth) + Number.parseFloat(style.borderBottomWidth);
   const padding = Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom);
   const limit = props.maxrows ? props.maxrows * Number.parseFloat(style.lineHeight) + padding + frame : Infinity;
-  const height = element.scrollHeight + frame;
+  const height = measure(element, style.width) + frame;
 
   element.style.height = `${Math.min(height, limit)}px`;
-  if (height <= limit) element.style.overflowY = "hidden";
+  element.style.overflowY = height <= limit ? "hidden" : "";
 };
 
 onMounted(resize);
@@ -55,10 +82,10 @@ defineExpose({ resize });
 
 <template>
   <textarea
+    data-slot="textarea"
     v-bind="attrs"
     ref="textarea"
     v-model="model"
-    data-slot="textarea"
     :data-variant="props.variant ?? 'outline'"
     :rows="props.rows"
     :id="control.id.value"
