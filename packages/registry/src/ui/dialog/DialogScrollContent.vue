@@ -35,7 +35,9 @@ const portalTarget = injectOverlayPortalTarget(null);
 const onPointerDownOutside = (event: CustomEvent<{ originalEvent: PointerEvent }>) => {
   const { originalEvent } = event.detail;
   const target = originalEvent.target as HTMLElement;
-  if (originalEvent.offsetX > target.clientWidth || originalEvent.offsetY > target.clientHeight) event.preventDefault();
+  if (target.dataset.slot !== "dialog-overlay") return;
+  if (originalEvent.offsetX < 0 || originalEvent.offsetX > target.clientWidth || originalEvent.offsetY > target.clientHeight)
+    event.preventDefault();
 };
 </script>
 
