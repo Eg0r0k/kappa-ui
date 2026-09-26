@@ -14,7 +14,8 @@ export const sliderVariants = cva(
     variants: {
       variant: {
         default: "[--slider-size:var(--slider-thumb)] [--slider-track:var(--slider-bar)]",
-        inset: "[--slider-size:var(--slider-track)] [--slider-track:calc(var(--slider-thumb)+0.25rem)]",
+        inset:
+          "[--slider-size:var(--slider-track)] [--slider-track:calc(var(--slider-thumb)+0.25rem)] [--slider-half:calc(var(--slider-track)/2)]",
       },
       size: {
         xs: "[--slider-thumb:0.75rem] [--slider-bar:0.25rem]",
@@ -38,12 +39,13 @@ export const sliderVariants = cva(
 );
 
 export const sliderTrackVariants = cva(
-  "relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-(--slider-track) data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-(--slider-track) data-disabled:bg-foreground/(--disabled-container-opacity)",
+  "relative grow rounded-full data-[orientation=horizontal]:h-(--slider-track) data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-(--slider-track) data-disabled:bg-foreground/(--disabled-container-opacity)",
   {
     variants: {
       variant: {
-        default: "bg-primary/20 group-has-[[aria-invalid=true]]/slider:bg-destructive/20",
-        inset: "bg-muted",
+        default: "overflow-hidden bg-primary/20 group-has-[[aria-invalid=true]]/slider:bg-destructive/20",
+        inset:
+          "border-transparent bg-muted data-[orientation=horizontal]:border-x-(length:--slider-half) data-[orientation=vertical]:border-y-(length:--slider-half)",
       },
     },
     defaultVariants: { variant: "default" },
@@ -51,13 +53,13 @@ export const sliderTrackVariants = cva(
 );
 
 export const sliderRangeVariants = cva(
-  "absolute rounded-full bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full group-has-[[aria-invalid=true]]/slider:bg-destructive",
+  "absolute bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full group-has-[[aria-invalid=true]]/slider:bg-destructive",
   {
     variants: {
       variant: {
-        default: "data-disabled:bg-foreground/(--disabled-opacity)",
+        default: "rounded-full data-disabled:bg-foreground/(--disabled-opacity)",
         inset:
-          "data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
+          "before:absolute before:bg-inherit after:absolute after:bg-inherit data-[orientation=horizontal]:before:inset-y-0 data-[orientation=horizontal]:before:right-full data-[orientation=horizontal]:before:w-(--slider-half) data-[orientation=horizontal]:before:rounded-l-full data-[orientation=horizontal]:after:inset-y-0 data-[orientation=horizontal]:after:left-full data-[orientation=horizontal]:after:w-(--slider-half) data-[orientation=horizontal]:after:rounded-r-full data-[orientation=vertical]:before:inset-x-0 data-[orientation=vertical]:before:bottom-full data-[orientation=vertical]:before:h-(--slider-half) data-[orientation=vertical]:before:rounded-t-full data-[orientation=vertical]:after:inset-x-0 data-[orientation=vertical]:after:top-full data-[orientation=vertical]:after:h-(--slider-half) data-[orientation=vertical]:after:rounded-b-full data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
       },
     },
     defaultVariants: { variant: "default" },

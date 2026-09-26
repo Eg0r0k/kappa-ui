@@ -238,6 +238,53 @@ describe("Slider inset", () => {
     expect(middle.range.right).toBeLessThan(middle.thumb.right);
   });
 
+  const settled = async (props: Record<string, unknown>) => {
+    const wrapper = mount(Slider, { props: { variant: "inset", ...props }, attachTo: document.body });
+    await nextTick();
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    return wrapper;
+  };
+  const centres = (wrapper: ReturnType<typeof mount>) =>
+    wrapper.findAll("[data-slot=slider-thumb]").map((thumb) => {
+      const box = thumb.element.getBoundingClientRect();
+      return box.left + box.width / 2;
+    });
+
+  const offset = (edge: number, centre: number) => Math.round(edge - centre) + 0;
+
+  it("ends the fill under the centre of the thumb wherever the thumb is", async () => {
+    const gaps: number[] = [];
+    for (const value of [5, 25, 50, 75, 95]) {
+      const wrapper = await settled({ defaultValue: value });
+      gaps.push(offset(rect(wrapper, "slider-range").right, centres(wrapper)[0]!));
+      wrapper.unmount();
+    }
+
+    expect(gaps).toEqual([0, 0, 0, 0, 0]);
+  });
+
+  it("spans a range from the centre of one thumb to the centre of the other, in either direction", async () => {
+    const ltr = await settled({ defaultValue: [10, 80] });
+    const [first, second] = centres(ltr);
+    expect([offset(rect(ltr, "slider-range").left, first!), offset(rect(ltr, "slider-range").right, second!)]).toEqual([0, 0]);
+    ltr.unmount();
+
+    const rtl = await settled({ defaultValue: 20, dir: "rtl" });
+    expect(offset(rect(rtl, "slider-range").left, centres(rtl)[0]!)).toBe(0);
+    rtl.unmount();
+  });
+
+  it("rounds the fill into the start of the track with a half disc", async () => {
+    const wrapper = await settled({ defaultValue: 30 });
+    const range = wrapper.get("[data-slot=slider-range]").element;
+    const cap = getComputedStyle(range, "::before");
+
+    expect(cap.width).toBe("10px");
+    expect(cap.borderTopLeftRadius).not.toBe("0px");
+    expect(Math.round(range.getBoundingClientRect().left - 10)).toBe(Math.round(rect(wrapper, "slider-track").left));
+    wrapper.unmount();
+  });
+
   it("turns the fill and the thumb destructive when invalid", async () => {
     const wrapper = mount(
       defineComponent({
