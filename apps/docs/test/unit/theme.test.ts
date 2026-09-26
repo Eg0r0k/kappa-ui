@@ -6,9 +6,12 @@ import {
   chromaRange,
   defaultTheme,
   fonts,
+  isDefaultTheme,
   neutrals,
   radii,
   randomTheme,
+  siteCss,
+  surfaceBorders,
   themeCss,
   themeFromQuery,
   themeToQuery,
@@ -53,6 +56,32 @@ describe('theme', () => {
     expect(css).toContain('--font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;')
   })
 
+  it('writes site CSS one step more specific than the stylesheet, with the font', () => {
+    const css = siteCss({ ...defaultTheme, hue: 150, font: 'geist' })
+
+    expect(css).toContain(':root:root, :root .light {\n  --radius: 0.75rem;\n  --brand: oklch(0.48 0.2 150);')
+    expect(css).toContain('--font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;')
+    expect(css).toContain(':root.dark, :root .dark {\n  --primary: oklch(0.78 0.1 150);')
+  })
+
+  it('sets the surface border in both themes, and leaves it to --border by default', () => {
+    expect(surfaceBorders.map((option) => option.key)).toEqual(['default', 'strong', 'brand', 'none'])
+    expect(themeTokens(defaultTheme).light['surface-border']).toBeUndefined()
+    for (const [key, value] of [
+      ['none', 'transparent'],
+      ['strong', 'var(--input)'],
+      ['brand', 'color-mix(in oklab, var(--primary) 35%, var(--border))'],
+    ] as const) {
+      const { light, dark } = themeTokens({ ...defaultTheme, surfaceBorder: key })
+      expect([light['surface-border'], dark['surface-border']], key).toEqual([value, value])
+    }
+  })
+
+  it('tells the default theme apart', () => {
+    expect(isDefaultTheme({ ...defaultTheme })).toBe(true)
+    expect(isDefaultTheme({ ...defaultTheme, radius: 0.5 })).toBe(false)
+  })
+
   it('draws random themes from the allowed values', () => {
     for (let index = 0; index < 50; index++) {
       const theme = randomTheme()
@@ -64,19 +93,28 @@ describe('theme', () => {
       expect(neutrals.map((neutral) => neutral.key)).toContain(theme.neutral)
       expect(fonts.map((font) => font.key)).toContain(theme.font)
     }
-    expect(randomTheme(() => 0.999)).toEqual({ hue: 360, chroma: 0.26, neutral: 'brand', radius: 1.25, font: 'source-sans-3' })
+    expect(randomTheme(() => 0.999)).toEqual({
+      hue: 360,
+      chroma: 0.26,
+      neutral: 'brand',
+      radius: 1.25,
+      font: 'source-sans-3',
+      surfaceBorder: 'none',
+    })
   })
 
   it('round-trips through the query string, keeping only what differs from the default', () => {
-    const theme = { ...defaultTheme, hue: 150, font: 'outfit' }
+    const theme = { ...defaultTheme, hue: 150, font: 'outfit', surfaceBorder: 'none' as const }
 
     expect(themeToQuery(defaultTheme)).toEqual({})
-    expect(themeToQuery(theme)).toEqual({ hue: '150', font: 'outfit' })
+    expect(themeToQuery(theme)).toEqual({ hue: '150', font: 'outfit', surfaceBorder: 'none' })
     expect(themeFromQuery(themeToQuery(theme))).toEqual(theme)
   })
 
   it('falls back to the default for values it does not know', () => {
-    expect(themeFromQuery({ hue: 'red', chroma: '9', neutral: 'plaid', radius: '0.3', font: 'comic' })).toEqual({
+    expect(
+      themeFromQuery({ hue: 'red', chroma: '9', neutral: 'plaid', radius: '0.3', font: 'comic', surfaceBorder: 'dotted' }),
+    ).toEqual({
       ...defaultTheme,
       chroma: chromaRange.max,
     })

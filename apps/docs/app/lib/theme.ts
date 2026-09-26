@@ -1,11 +1,14 @@
 export type NeutralName = 'neutral' | 'stone' | 'zinc' | 'slate' | 'brand'
 
+export type SurfaceBorder = 'default' | 'strong' | 'brand' | 'none'
+
 export interface ThemeConfig {
   hue: number
   chroma: number
   neutral: NeutralName
   radius: number
   font: string
+  surfaceBorder: SurfaceBorder
 }
 
 export interface ThemeFont {
@@ -50,9 +53,29 @@ export const presets = [
 
 export const radii = [0, 0.25, 0.5, 0.75, 1, 1.25]
 
+export const surfaceBorders: { key: SurfaceBorder; name: string }[] = [
+  { key: 'default', name: 'Default' },
+  { key: 'strong', name: 'Strong' },
+  { key: 'brand', name: 'Brand' },
+  { key: 'none', name: 'None' },
+]
+
+const surfaceBorderValues: Record<Exclude<SurfaceBorder, 'default'>, string> = {
+  strong: 'var(--input)',
+  brand: 'color-mix(in oklab, var(--primary) 35%, var(--border))',
+  none: 'transparent',
+}
+
 export const chromaRange = { min: 0.04, max: 0.26 }
 
-export const defaultTheme: ThemeConfig = { hue: 262, chroma: 0.2, neutral: 'neutral', radius: 0.75, font: 'inter' }
+export const defaultTheme: ThemeConfig = {
+  hue: 262,
+  chroma: 0.2,
+  neutral: 'neutral',
+  radius: 0.75,
+  font: 'inter',
+  surfaceBorder: 'default',
+}
 
 const round = (value: number, digits = 3) => Number(value.toFixed(digits))
 
@@ -123,6 +146,11 @@ export const themeTokens = (config: ThemeConfig) => {
     for (const [name, alpha] of Object.entries(darkAlpha)) dark[name] = oklch(1, neutral.chroma, neutral.hue, alpha)
   }
 
+  if (config.surfaceBorder !== 'default') {
+    light['surface-border'] = surfaceBorderValues[config.surfaceBorder]
+    dark['surface-border'] = surfaceBorderValues[config.surfaceBorder]
+  }
+
   return { light, dark }
 }
 
@@ -149,6 +177,16 @@ export const themeCss = (config: ThemeConfig) => {
   ].join('\n\n')
 }
 
+export const isDefaultTheme = (config: ThemeConfig) => Object.keys(themeToQuery(config)).length === 0
+
+export const siteCss = (config: ThemeConfig) => {
+  const { light, dark } = themeTokens(config)
+  return [
+    block(':root:root, :root .light', { ...light, 'font-sans': fontStack(fontOf(config)) }),
+    block(':root.dark, :root .dark', dark),
+  ].join('\n')
+}
+
 export const previewCss = (config: ThemeConfig, selector: string) => {
   const { light, dark } = themeTokens(config)
   return [
@@ -166,6 +204,7 @@ export const randomTheme = (random: () => number = Math.random): ThemeConfig => 
   neutral: pick(neutrals, random).key,
   radius: pick(radii, random),
   font: pick(fonts, random).key,
+  surfaceBorder: pick(surfaceBorders, random).key,
 })
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
@@ -184,6 +223,9 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
     neutral: neutrals.some((entry) => entry.key === query.neutral) ? (query.neutral as NeutralName) : defaultTheme.neutral,
     radius: radius !== undefined && radii.includes(radius) ? radius : defaultTheme.radius,
     font: fonts.some((font) => font.key === query.font) ? (query.font as string) : defaultTheme.font,
+    surfaceBorder: surfaceBorders.some((option) => option.key === query.surfaceBorder)
+      ? (query.surfaceBorder as SurfaceBorder)
+      : defaultTheme.surfaceBorder,
   }
 }
 

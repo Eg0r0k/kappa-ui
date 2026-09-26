@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Code, RotateCcw, Shuffle } from '@lucide/vue'
+import { Check, Code, RotateCcw, Shuffle } from '@lucide/vue'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 
 import CodeBlock from '~/components/CodeBlock.vue'
@@ -17,6 +17,7 @@ import {
   previewCss,
   radii,
   randomTheme,
+  surfaceBorders,
   themeCss,
   themeFromQuery,
   themeToQuery,
@@ -41,11 +42,15 @@ defineOgImage('DeltaDocs', {
 const route = useRoute()
 const router = useRouter()
 
+const site = useSiteTheme()
+
 const theme = reactive<ThemeConfig>({ ...defaultTheme })
 const apply = (next: ThemeConfig) => Object.assign(theme, next)
 
+const onSite = computed(() => JSON.stringify(themeToQuery(site.theme.value)) === JSON.stringify(themeToQuery(theme)))
+
 onMounted(() => {
-  apply(themeFromQuery(route.query))
+  apply(Object.keys(route.query).length ? themeFromQuery(route.query) : { ...site.theme.value })
   watch(theme, () => router.replace({ query: themeToQuery(theme) }), { deep: true })
 })
 
@@ -142,6 +147,24 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
           </div>
         </FieldSet>
 
+        <FieldSet>
+          <FieldLegend>Surface borders</FieldLegend>
+          <FieldDescription>The border of cards, dialogs, menus, popovers, select lists and toasts. None keeps the width, so nothing moves.</FieldDescription>
+          <div class="flex flex-wrap gap-2">
+            <Button
+              v-for="option in surfaceBorders"
+              :key="option.key"
+              size="sm"
+              :variant="theme.surfaceBorder === option.key ? 'soft' : 'outline'"
+              :color="theme.surfaceBorder === option.key ? 'primary' : 'neutral'"
+              :aria-pressed="theme.surfaceBorder === option.key"
+              @click="theme.surfaceBorder = option.key"
+            >
+              {{ option.name }}
+            </Button>
+          </div>
+        </FieldSet>
+
         <Field>
           <FieldLabel>Font</FieldLabel>
           <Select v-model="theme.font">
@@ -166,6 +189,10 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
           <Button variant="ghost" color="neutral" @click="apply({ ...defaultTheme })">
             <RotateCcw data-icon="inline-start" />
             Reset
+          </Button>
+          <Button variant="outline" color="neutral" :disabled="onSite" @click="site.set({ ...theme })">
+            <Check data-icon="inline-start" />
+            {{ onSite ? 'Used on this site' : 'Use on this site' }}
           </Button>
           <Dialog
             title="Theme CSS"

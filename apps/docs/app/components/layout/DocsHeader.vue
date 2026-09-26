@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MobileNav from '~/components/layout/MobileNav.vue'
 import SearchDialog from '~/components/layout/SearchDialog.vue'
+import ThemeCustomizer from '~/components/layout/ThemeCustomizer.vue'
 import ThemeToggle from '~/components/layout/ThemeToggle.vue'
 </script>
 
@@ -26,7 +27,10 @@ import ThemeToggle from '~/components/layout/ThemeToggle.vue'
       <div class="flex flex-1 justify-end">
         <SearchDialog />
       </div>
-      <ThemeToggle />
+      <div class="flex items-center gap-1">
+        <ThemeCustomizer />
+        <ThemeToggle />
+      </div>
     </div>
   </header>
 </template>
