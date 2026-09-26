@@ -13,10 +13,10 @@ import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 import {
   type SliderVariants,
-  sliderHandleClass,
-  sliderRangeClass,
+  sliderHandleVariants,
+  sliderRangeVariants,
   sliderThumbVariants,
-  sliderTrackClass,
+  sliderTrackVariants,
   sliderVariants,
 } from ".";
 
@@ -26,6 +26,7 @@ const props = defineProps<
   Omit<SliderRootProps, "modelValue" | "defaultValue"> & {
     id?: string;
     defaultValue?: number | number[];
+    variant?: SliderVariants["variant"];
     size?: SliderVariants["size"];
     touchTarget?: SliderVariants["touchTarget"];
     class?: HTMLAttributes["class"];
@@ -37,7 +38,7 @@ const model = defineModel<number | number[]>();
 if (model.value === undefined) model.value = props.defaultValue ?? props.min ?? 0;
 
 const delegated = computed(() => {
-  const { class: _, size: __, touchTarget: ___, defaultValue: ____, id: _____, ...rest } = props;
+  const { class: _, size: __, touchTarget: ___, defaultValue: ____, id: _____, variant: ______, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardProps(delegated);
@@ -90,18 +91,19 @@ const onPointerDown = (event: PointerEvent) => {
   <SliderRoot
     v-bind="{ ...rootAttrs, ...forwarded }"
     data-slot="slider"
+    :data-variant="props.variant ?? 'default'"
     :data-touch-target="props.touchTarget"
     :model-value="values"
     :id="control.id.value"
     :disabled="control.disabled.value"
     :required="control.required.value"
-    :class="cn(sliderVariants({ size: props.size, touchTarget: props.touchTarget }), props.class)"
+    :class="cn(sliderVariants({ variant: props.variant, size: props.size, touchTarget: props.touchTarget }), props.class)"
     @pointerdown="onPointerDown"
     @update:model-value="onUpdate"
     @value-commit="emits('valueCommit', shape($event))"
   >
-    <SliderTrack data-slot="slider-track" :class="sliderTrackClass">
-      <SliderRange data-slot="slider-range" :class="sliderRangeClass" />
+    <SliderTrack data-slot="slider-track" :class="sliderTrackVariants({ variant: props.variant })">
+      <SliderRange data-slot="slider-range" :class="sliderRangeVariants({ variant: props.variant })" />
     </SliderTrack>
     <SliderThumb
       v-for="(_, index) in values"
@@ -109,11 +111,11 @@ const onPointerDown = (event: PointerEvent) => {
       v-bind="thumbAttrs"
       data-slot="slider-thumb"
       :data-hovered="hovered === index || undefined"
-      :class="sliderThumbVariants({ touchTarget: props.touchTarget })"
+      :class="sliderThumbVariants({ variant: props.variant, touchTarget: props.touchTarget })"
       @pointerenter="onPointerEnter($event, index)"
       @pointerleave="onPointerLeave"
     >
-      <span data-slot="slider-handle" :class="sliderHandleClass" />
+      <span data-slot="slider-handle" :class="sliderHandleVariants({ variant: props.variant })" />
     </SliderThumb>
   </SliderRoot>
 </template>

@@ -178,3 +178,95 @@ describe("Slider", () => {
     wrapper.unmount();
   });
 });
+
+describe("Slider inset", () => {
+  const colors = "--primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0)";
+  const rect = (wrapper: ReturnType<typeof mount>, slot: string) =>
+    wrapper.get(`[data-slot=${slot}]`).element.getBoundingClientRect();
+  const heights = (wrapper: ReturnType<typeof mount>) =>
+    ["slider", "slider-track", "slider-thumb", "slider-handle"].map((slot) => rect(wrapper, slot).height);
+
+  it("keeps the default variant's 16px thumb on a 6px track", async () => {
+    const wrapper = mount(Slider, { props: { defaultValue: 50 }, attachTo: document.body });
+    await nextTick();
+
+    expect(wrapper.get("[data-slot=slider]").attributes("data-variant")).toBe("default");
+    expect(heights(wrapper)).toEqual([16, 6, 16, 16]);
+    wrapper.unmount();
+  });
+
+  it("draws the track 4px thicker than the handle at every size, as tall as the slider and its thumbs", async () => {
+    const measured: number[][] = [];
+    for (const size of ["xs", "sm", "md", "lg", "xl"] as const) {
+      const wrapper = mount(Slider, { props: { variant: "inset", size, defaultValue: 50 }, attachTo: document.body });
+      await nextTick();
+      measured.push(heights(wrapper));
+      wrapper.unmount();
+    }
+
+    expect(measured).toEqual([
+      [16, 16, 16, 12],
+      [18, 18, 18, 14],
+      [20, 20, 20, 16],
+      [24, 24, 24, 20],
+      [28, 28, 28, 24],
+    ]);
+  });
+
+  it("keeps the thumb inside the track at both ends and over the end of the fill", async () => {
+    const at = async (value: number) => {
+      const wrapper = mount(Slider, { props: { variant: "inset", defaultValue: value }, attachTo: document.body });
+      await nextTick();
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const result = {
+        track: rect(wrapper, "slider-track"),
+        range: rect(wrapper, "slider-range"),
+        thumb: rect(wrapper, "slider-thumb"),
+      };
+      wrapper.unmount();
+      return result;
+    };
+
+    const start = await at(0);
+    expect(Math.round(start.thumb.left)).toBe(Math.round(start.track.left));
+
+    const end = await at(100);
+    expect(Math.round(end.thumb.right)).toBe(Math.round(end.track.right));
+
+    const middle = await at(50);
+    expect(middle.range.right).toBeGreaterThan(middle.thumb.left);
+    expect(middle.range.right).toBeLessThan(middle.thumb.right);
+  });
+
+  it("turns the fill and the thumb destructive when invalid", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Field, { invalid: true }, () => [
+            h(FieldLabel, () => "Budget"),
+            h(Slider, { variant: "inset", defaultValue: 85, style: colors }),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    await nextTick();
+
+    expect(getComputedStyle(wrapper.get("[data-slot=slider-range]").element).backgroundColor).toBe("rgb(255, 0, 0)");
+    expect(getComputedStyle(wrapper.get("[data-slot=slider-thumb]").element).backgroundColor).toBe("rgb(255, 0, 0)");
+    wrapper.unmount();
+  });
+
+  it("is as wide as its track when vertical", async () => {
+    const wrapper = mount(Slider, {
+      props: { variant: "inset", orientation: "vertical", defaultValue: 50 },
+      attrs: { style: "height: 200px" },
+      attachTo: document.body,
+    });
+    await nextTick();
+
+    expect([rect(wrapper, "slider").width, rect(wrapper, "slider-track").width, rect(wrapper, "slider-thumb").width]).toEqual([
+      20, 20, 20,
+    ]);
+    wrapper.unmount();
+  });
+});
