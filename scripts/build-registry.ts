@@ -85,6 +85,11 @@ const abort = (messages: string[]): never => {
   process.exit(1)
 }
 
+const shipsMechanism = (rules: CssRules = {}): boolean =>
+  Object.entries(rules).some(
+    ([key, body]) => key.startsWith('@utility') || key.startsWith('@keyframes') || (typeof body === 'object' && shipsMechanism(body)),
+  )
+
 if (!existsSync(manifestPath)) {
   abort([`manifest not found: ${values.manifest}`])
 }
@@ -117,6 +122,10 @@ for (const item of registry.items) {
         errors.push(`item "${item.name}", cssVars.${group}: key "${key}" must not start with "--"`)
       }
     }
+  }
+
+  if (shipsMechanism(item.css)) {
+    errors.push(`item "${item.name}": @utility and @keyframes belong in @delta-ui/core/tailwind.css`)
   }
 
   const isExample = item.categories?.includes('example') ?? false

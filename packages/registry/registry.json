@@ -56,49 +56,11 @@
       "type": "registry:lib",
       "title": "Overlay",
       "description": "The popover surface and its enter and exit motion, the stacking of the modal scrim, and a stable scrollbar gutter.",
+      "registryDependencies": ["tokens"],
       "css": {
         "@layer base": {
           "html": {
             "scrollbar-gutter": "stable"
-          }
-        },
-        "@keyframes delta-overlay-in": {
-          "from": {
-            "opacity": "0",
-            "transform": "translate(var(--overlay-x, 0), var(--overlay-y, 0)) scale(var(--overlay-scale, 0.96))"
-          }
-        },
-        "@keyframes delta-overlay-out": {
-          "to": {
-            "opacity": "0",
-            "transform": "scale(var(--overlay-scale, 0.96))"
-          }
-        },
-        "@utility animate-overlay": {
-          "&[data-side=\"top\"]": {
-            "--overlay-y": "0.25rem"
-          },
-          "&[data-side=\"bottom\"]": {
-            "--overlay-y": "-0.25rem"
-          },
-          "&[data-side=\"left\"]": {
-            "--overlay-x": "0.25rem"
-          },
-          "&[data-side=\"right\"]": {
-            "--overlay-x": "-0.25rem"
-          },
-          "&[data-state=\"open\"]": {
-            "animation": "delta-overlay-in var(--transition-duration-short-4, 200ms) var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1))"
-          },
-          "&[data-state=\"closed\"]": {
-            "animation": "delta-overlay-out var(--transition-duration-short-2, 100ms) var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards"
-          },
-          "@media (prefers-reduced-motion: reduce)": {
-            "&, &[data-side]": {
-              "--overlay-x": "0",
-              "--overlay-y": "0",
-              "--overlay-scale": "1"
-            }
           }
         }
       },
@@ -127,6 +89,7 @@
       "type": "registry:lib",
       "title": "Tokens",
       "description": "The status colours, state, motion and typescale tokens components read, and the destructive foreground shadcn dropped.",
+      "dependencies": ["@delta-ui/core"],
       "cssVars": {
         "light": {
           "state-hover": "8%",
@@ -277,45 +240,7 @@
         }
       },
       "files": [],
-      "css": {
-        "@utility state-layer": {
-          "&::before": {
-            "content": "\"\"",
-            "position": "absolute",
-            "inset": "0",
-            "border-radius": "inherit",
-            "background-color": "currentColor",
-            "opacity": "0",
-            "pointer-events": "none",
-            "transition": "opacity var(--transition-duration-short-1, 50ms) linear"
-          },
-          "@media (hover: hover)": {
-            "&:hover::before": {
-              "opacity": "var(--state-hover)"
-            }
-          },
-          "&:active:not(:has(> [data-slot=ripple]))::before": {
-            "opacity": "var(--state-pressed)"
-          },
-          "@media (forced-colors: active)": {
-            "&::before": {
-              "display": "none"
-            }
-          }
-        },
-        "@utility focus-ring": {
-          "outline-style": "solid",
-          "outline-width": "3px",
-          "outline-offset": "0px",
-          "outline-color": "color-mix(in oklab, var(--color-ring) 50%, transparent)"
-        },
-        "@utility focus-ring-inset": {
-          "outline-style": "solid",
-          "outline-width": "3px",
-          "outline-offset": "-3px",
-          "outline-color": "color-mix(in oklab, var(--color-ring) 50%, transparent)"
-        }
-      }
+      "css": { "@import \"@delta-ui/core/tailwind.css\"": {} }
     },
     {
       "name": "theme",
@@ -490,37 +415,7 @@
           "path": "src/ui/accordion/index.ts",
           "type": "registry:ui"
         }
-      ],
-      "css": {
-        "@keyframes delta-accordion-down": {
-          "from": {
-            "height": "0"
-          },
-          "to": {
-            "height": "var(--reka-accordion-content-height)"
-          }
-        },
-        "@keyframes delta-accordion-up": {
-          "from": {
-            "height": "var(--reka-accordion-content-height)"
-          },
-          "to": {
-            "height": "0"
-          }
-        },
-        "@utility animate-accordion-down": {
-          "animation": "delta-accordion-down var(--transition-duration-medium-1, 250ms) var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1))",
-          "@media (prefers-reduced-motion: reduce)": {
-            "animation": "none"
-          }
-        },
-        "@utility animate-accordion-up": {
-          "animation": "delta-accordion-up var(--transition-duration-short-4, 200ms) var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15))",
-          "@media (prefers-reduced-motion: reduce)": {
-            "animation": "none"
-          }
-        }
-      }
+      ]
     },
     {
       "name": "aspect-ratio",
@@ -552,16 +447,7 @@
         { "path": "src/ui/scroll-area/ScrollBar.vue", "type": "registry:ui" },
         { "path": "src/ui/scroll-area/useVirtualScroll.ts", "type": "registry:ui" },
         { "path": "src/ui/scroll-area/index.ts", "type": "registry:ui" }
-      ],
-      "css": {
-        "@utility scrollbar-hidden": {
-          "scrollbar-width": "none",
-          "-ms-overflow-style": "none",
-          "&::-webkit-scrollbar": {
-            "display": "none"
-          }
-        }
-      }
+      ]
     },
     {
       "name": "spinner",
@@ -673,29 +559,6 @@
         "@layer base": {
           "button:not(:disabled), [role=\"button\"]:not(:disabled)": {
             "cursor": "pointer"
-          }
-        },
-        "@utility press-scale": {
-          "transition": "transform var(--press-duration) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1))",
-          "transform": "scale(1)",
-          "&:active": {
-            "transform": "scale(var(--press-scale))"
-          },
-          ":where(.is-mobile) &": {
-            "transform": "var(--transform-extra, none) scale3d(1, 1, 1)"
-          },
-          ":where(.is-mobile) &:active": {
-            "transform": "var(--transform-extra, none) scale3d(var(--press-scale), var(--press-scale), 1)"
-          },
-          "@media (prefers-reduced-motion: reduce)": {
-            "&": {
-              "transition": "none",
-              "transform": "none"
-            },
-            "&:active": {
-              "transition": "none",
-              "transform": "none"
-            }
           }
         }
       },
@@ -812,36 +675,6 @@
       "description": "A placeholder for content that is loading: a block, a line of text or a circle, with a pulse, a wave or no animation.",
       "dependencies": ["class-variance-authority"],
       "registryDependencies": ["utils", "tokens"],
-      "css": {
-        "@keyframes delta-skeleton-wave": {
-          "from": {
-            "transform": "translateX(-100%)"
-          },
-          "to": {
-            "transform": "translateX(100%)"
-          }
-        },
-        "@utility animate-skeleton-wave": {
-          "position": "relative",
-          "overflow": "hidden",
-          "&::after": {
-            "content": "\"\"",
-            "position": "absolute",
-            "inset": "0",
-            "transform": "translateX(-100%)",
-            "background": "linear-gradient(90deg, transparent, color-mix(in oklab, var(--foreground) var(--state-hover, 8%), transparent), transparent)",
-            "animation": "delta-skeleton-wave 1.5s linear 0.5s infinite"
-          },
-          "&:dir(rtl)::after": {
-            "animation-direction": "reverse"
-          },
-          "@media (prefers-reduced-motion: reduce)": {
-            "&::after": {
-              "animation": "none"
-            }
-          }
-        }
-      },
       "files": [
         {
           "path": "src/ui/skeleton/Skeleton.vue",

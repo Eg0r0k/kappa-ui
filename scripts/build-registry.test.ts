@@ -104,3 +104,19 @@ test('accepts an item that ships a css file', async () => {
   const { status, stderr } = await run([component, example, style])
   assert.equal(status, 0, stderr)
 })
+
+test('rejects an item that ships a utility or keyframes in its css', async () => {
+  const styled = {
+    ...component,
+    css: { '@layer base': { html: { color: 'red' } }, '@utility glow': { 'box-shadow': '0 0 4px red' } },
+  }
+  const { status, stderr } = await run([styled, example])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "demo": @utility and @keyframes belong in @delta-ui\/core\/tailwind.css/)
+})
+
+test('accepts an item that imports the core stylesheet', async () => {
+  const styled = { ...component, css: { '@import "@delta-ui/core/tailwind.css"': {} } }
+  const { status, stderr } = await run([styled, example])
+  assert.equal(status, 0, stderr)
+})
