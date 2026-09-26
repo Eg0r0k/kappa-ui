@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Check, Code, RotateCcw, Shuffle } from '@lucide/vue'
+import { Code, RotateCcw, Shuffle } from '@lucide/vue'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 
 import CodeBlock from '~/components/CodeBlock.vue'
@@ -48,8 +48,6 @@ const site = useSiteTheme()
 const theme = reactive<ThemeConfig>({ ...defaultTheme })
 const apply = (next: ThemeConfig) => Object.assign(theme, next)
 
-const onSite = computed(() => JSON.stringify(themeToQuery(site.theme.value)) === JSON.stringify(themeToQuery(theme)))
-
 onMounted(() => {
   apply(Object.keys(route.query).length ? themeFromQuery(route.query) : { ...site.theme.value })
   watch(theme, () => router.replace({ query: themeToQuery(theme) }), { deep: true })
@@ -72,17 +70,18 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
 </script>
 
 <template>
-  <main class="mx-auto flex max-w-screen-2xl flex-col gap-8 px-4 py-10 lg:px-6">
-    <header class="flex flex-col gap-2">
-      <h1 class="text-headline-lg">Themes</h1>
-      <p class="max-w-2xl text-body-lg text-muted-foreground">
-        Pick a brand colour, a neutral, a corner radius and a font. The preview follows as you go, in the light or dark
-        theme from the header, and the CSS is ready to paste when it looks right.
-      </p>
-    </header>
+  <main
+    class="mx-auto flex max-w-screen-2xl flex-col gap-4 p-4 lg:h-[calc(100svh-3.5rem-1px)] lg:flex-row lg:gap-6 lg:px-6 lg:py-6"
+  >
+    <aside class="flex flex-col overflow-hidden rounded-2xl border lg:w-80 lg:shrink-0">
+      <div class="flex flex-col gap-6 p-5 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
+        <header class="flex flex-col gap-1">
+          <h1 class="text-headline-sm">Themes</h1>
+          <p class="text-body-md text-muted-foreground">
+            The preview follows as you go, in the light or dark theme from the header.
+          </p>
+        </header>
 
-    <div class="grid items-start gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
-      <aside class="flex flex-col gap-6 rounded-2xl border p-5 lg:sticky lg:top-20">
         <FieldSet>
           <FieldLegend>Brand colour</FieldLegend>
           <div class="flex flex-wrap gap-2">
@@ -115,7 +114,7 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
 
         <FieldSet>
           <FieldLegend>Neutral</FieldLegend>
-          <FieldDescription>The tint of backgrounds, borders and muted text.</FieldDescription>
+          <FieldDescription>The tint of the page, borders, muted fills and text, in both themes.</FieldDescription>
           <div class="flex flex-wrap gap-2">
             <Button
               v-for="neutral in neutrals"
@@ -168,7 +167,10 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
 
         <FieldSet>
           <FieldLegend>Light surfaces</FieldLegend>
-          <FieldDescription>How the page, cards and popovers separate in the light theme. Raised greys the page under white cards, as the dark theme lightens them; Tinted greys the cards on a white page.</FieldDescription>
+          <FieldDescription>
+            Raised lifts white cards off a tinted page, as the dark theme does. Flat keeps the page white; Tinted greys the
+            cards instead.
+          </FieldDescription>
           <div class="flex flex-wrap gap-2">
             <Button
               v-for="option in surfaces"
@@ -197,46 +199,42 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
             </SelectContent>
           </Select>
         </Field>
+      </div>
 
-        <Separator />
+      <div class="flex gap-2 border-t p-4">
+        <Button class="flex-1" @click="apply(randomTheme())">
+          <Shuffle data-icon="inline-start" />
+          Randomize
+        </Button>
+        <Button variant="soft" color="destructive" @click="apply({ ...defaultTheme })">
+          <RotateCcw data-icon="inline-start" />
+          Reset
+        </Button>
+      </div>
+    </aside>
 
-        <div class="flex flex-wrap gap-2">
-          <Button @click="apply(randomTheme())">
-            <Shuffle data-icon="inline-start" />
-            Randomize
-          </Button>
-          <Button variant="ghost" color="neutral" @click="apply({ ...defaultTheme })">
-            <RotateCcw data-icon="inline-start" />
-            Reset
-          </Button>
-          <Button variant="outline" color="neutral" :disabled="onSite" @click="site.set({ ...theme })">
-            <Check data-icon="inline-start" />
-            {{ onSite ? 'Used on this site' : 'Use on this site' }}
-          </Button>
-          <Dialog>
-            <DialogTrigger as-child>
-              <Button variant="outline" color="neutral">
-                <Code data-icon="inline-start" />
-                Copy code
-              </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>Theme CSS</DialogTitle>
-                <DialogDescription>
-                  Paste it into your global CSS, after the delta-ui theme. The font import goes with your other imports,
-                  at the top.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogBody>
-                <CodeBlock filename="globals.css" :html="html" :source="css" />
-              </DialogBody>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </aside>
-
-      <ThemePreview />
-    </div>
+    <ThemePreview class="h-[85svh] min-w-0 lg:h-auto lg:flex-1">
+      <template #actions>
+        <Dialog>
+          <DialogTrigger as-child>
+            <Button variant="ghost" color="neutral" size="icon-sm" aria-label="Copy code" title="Copy code">
+              <Code />
+            </Button>
+          </DialogTrigger>
+          <DialogContent class="sm:max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Theme CSS</DialogTitle>
+              <DialogDescription>
+                Paste it into your global CSS, after the delta-ui theme. The font import goes with your other imports, at
+                the top.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogBody>
+              <CodeBlock filename="globals.css" :html="html" :source="css" />
+            </DialogBody>
+          </DialogContent>
+        </Dialog>
+      </template>
+    </ThemePreview>
   </main>
 </template>
