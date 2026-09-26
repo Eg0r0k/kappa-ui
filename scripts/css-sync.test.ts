@@ -127,9 +127,17 @@ test('the docs stylesheet imports what the manifest imports', () => {
   )
 })
 
-test('the registry test stylesheet agrees with the manifest wherever both declare something', () => {
+test('the registry test stylesheet declares every token and rule the manifest ships, with the same value', () => {
   const tests = declarations(read('packages/registry/test/setup.css'), 'setup.css')
-  assert.deepEqual(mismatches(tests, tests.keys()), [])
+  assert.deepEqual(mismatches(tests, manifest.keys()), [])
+})
+
+test('the registry test stylesheet imports what the manifest imports', () => {
+  const tests = importsOf(read('packages/registry/test/setup.css'))
+  assert.deepEqual(
+    manifestImports.filter((entry) => !tests.includes(entry)),
+    [],
+  )
 })
 
 test('the manifest never declares the same key with two different values across items', () => {

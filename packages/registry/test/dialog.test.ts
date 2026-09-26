@@ -169,8 +169,8 @@ describe("Dialog", () => {
     expect([rect.left, rect.top, Math.round(rect.width), Math.round(rect.height)]).toEqual([
       0,
       0,
-      document.documentElement.clientWidth,
-      document.documentElement.clientHeight,
+      document.body.clientWidth,
+      document.body.clientHeight,
     ]);
     wrapper.unmount();
   });
