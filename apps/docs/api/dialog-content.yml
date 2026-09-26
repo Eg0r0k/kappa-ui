@@ -6,9 +6,9 @@ props:
   forceMount:
     description: "Keeps the window mounted while closed, for animating it with a JavaScript library."
   disableOutsidePointerEvents:
-    description: "Shuts the page to the pointer while open, as `modal` on the root does."
+    description: "Blocks pointer events outside the window. On by default in a modal dialog; a non-modal dialog ignores it."
   asChild:
-    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+    description: "Not supported on this part: the window always adds its own close button, and core adds the hidden title fallback, so there is more than one node to merge onto a single child."
   as:
     description: "The element or component to render."
 emits:
