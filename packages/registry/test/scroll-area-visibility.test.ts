@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
@@ -14,6 +15,13 @@ const mountArea = (props: Record<string, unknown> = {}) =>
 
 const thumbOf = (root: Element) =>
   root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=vertical]")!;
+
+beforeEach(async () => {
+  const away = document.body.appendChild(document.createElement("div"));
+  away.style.cssText = "position: fixed; right: 0; bottom: 0; width: 8px; height: 8px";
+  await userEvent.hover(away);
+  away.remove();
+});
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -113,5 +121,18 @@ it("honours an explicit tabindex", async () => {
 
   await vi.waitFor(() => expect(viewport.getAttribute("tabindex")).toBe("-1"));
 
+  wrapper.unmount();
+});
+
+it('renders no bar or thumb with :scrollbar="false"', () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: { scrollbar: false },
+    attrs: { style: "height: 100px; width: 200px" },
+    slots: { default: () => h("div", { style: "height: 600px" }) },
+  });
+
+  expect(wrapper.find("[data-slot=scroll-area-bar]").exists()).toBe(false);
+  expect(wrapper.find("[data-slot=scroll-area-thumb]").exists()).toBe(false);
   wrapper.unmount();
 });

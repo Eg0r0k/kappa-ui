@@ -25,14 +25,15 @@ if (store === undefined) {
 const thumbHidden = computed(() => store[props.axis].thumbHidden.value);
 const thumbStyle = computed(() => store[props.axis].thumbStyle.value);
 
-const barBase = "absolute select-none cursor-grab z-10 transition duration-300";
+const barBase =
+  "absolute select-none cursor-grab z-10 transition-opacity duration-medium-2 ease-standard motion-reduce:transition-none";
 const barAxis: Record<ScrollAreaAxis, string> = {
   vertical: "inset-y-0 end-0 w-2.5",
   horizontal: "inset-x-0 bottom-0 h-2.5",
 };
 
 const thumbBase =
-  "absolute select-none cursor-grab z-20 rounded-sm bg-foreground/20 transition duration-300 will-change-[opacity] hover:bg-foreground/30 active:bg-foreground/50";
+  "absolute select-none cursor-grab z-20 rounded-sm bg-foreground/20 transition-[opacity,background-color] duration-medium-2 ease-standard will-change-[opacity] hover:bg-foreground/30 active:bg-foreground/50 motion-reduce:transition-none";
 const thumbAxis: Record<ScrollAreaAxis, string> = {
   vertical: "w-1.5",
   horizontal: "h-1.5",

@@ -5,6 +5,7 @@ import type { ScrollAreaOrientation, ScrollAreaVirtualizeOptions } from ".";
 
 export type ScrollAreaProps<T = unknown> = {
   visible?: boolean | null;
+  scrollbar?: boolean;
   delay?: number | string;
   tabindex?: number | string;
   orientation?: ScrollAreaOrientation;
@@ -56,6 +57,7 @@ import {
 
 const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
   visible: null,
+  scrollbar: true,
   delay: 1000,
   orientation: "vertical",
   verticalOffset: () => [0, 0],
@@ -601,7 +603,7 @@ onBeforeUnmount(() => {
     :data-orientation="props.orientation"
     :class="
       cn(
-        'relative flow-root',
+        'relative isolate flow-root',
         isExternalScroll ? 'overflow-visible' : 'overflow-clip [contain:size]',
         props.class,
       )
@@ -614,7 +616,7 @@ onBeforeUnmount(() => {
       data-slot="scroll-area-viewport"
       :class="
         cn(
-          'scrollbar-hidden relative size-full',
+          'scrollbar-hidden relative size-full rounded-[inherit] outline-none focus-visible:focus-ring-inset',
           isExternalScroll
             ? 'overflow-visible'
             : isHorizontal
@@ -631,7 +633,7 @@ onBeforeUnmount(() => {
         :data-active="active ? '' : undefined"
         :class="
           cn(
-            'min-h-full min-w-full',
+            isHorizontal ? 'h-full min-w-full' : 'min-h-full min-w-full',
             isExternalScroll ? 'relative' : 'absolute',
           )
         "
@@ -659,6 +661,6 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <ScrollBar v-if="!isExternalScroll" :axis="props.orientation" />
+    <ScrollBar v-if="!isExternalScroll && props.scrollbar" :axis="props.orientation" />
   </div>
 </template>

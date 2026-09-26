@@ -178,3 +178,15 @@ it("positions the horizontal thumb from the inline start under rtl with a non-ze
 
   wrapper.unmount();
 });
+
+it("gives a horizontal area's content the area's height", () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: { orientation: "horizontal" },
+    attrs: { style: "height: 100px; width: 200px" },
+    slots: { default: () => h("div", { class: "h-full", "data-test": "row", style: "width: 600px" }) },
+  });
+
+  expect(wrapper.get("[data-test=row]").element.getBoundingClientRect().height).toBe(100);
+  wrapper.unmount();
+});

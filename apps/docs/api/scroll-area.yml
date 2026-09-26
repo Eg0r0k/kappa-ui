@@ -6,6 +6,8 @@ exposedType:
 props:
   visible:
     description: Forces the bar on (`true`) or off (`false`). `null` shows it on hover and while scrolling.
+  scrollbar:
+    description: Renders the bar and its thumb. With `false` the area still scrolls by wheel, touch and keyboard.
   delay:
     description: Milliseconds the bar lingers after the content or position last changed.
   tabindex:
