@@ -180,7 +180,7 @@ describe("Slider", () => {
 });
 
 describe("Slider inset", () => {
-  const colors = "--primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0)";
+  const colors = "--primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --destructive-foreground: rgb(0, 0, 255)";
   const rect = (wrapper: ReturnType<typeof mount>, slot: string) =>
     wrapper.get(`[data-slot=${slot}]`).element.getBoundingClientRect();
   const heights = (wrapper: ReturnType<typeof mount>) =>
@@ -253,6 +253,25 @@ describe("Slider inset", () => {
 
     expect(getComputedStyle(wrapper.get("[data-slot=slider-range]").element).backgroundColor).toBe("rgb(255, 0, 0)");
     expect(getComputedStyle(wrapper.get("[data-slot=slider-thumb]").element).backgroundColor).toBe("rgb(255, 0, 0)");
+    expect(getComputedStyle(wrapper.get("[data-slot=slider-handle]").element).backgroundColor).toBe("rgb(0, 0, 255)");
+    wrapper.unmount();
+  });
+
+  it("gives the range and the disc one opaque colour when disabled", async () => {
+    const wrapper = mount(Slider, {
+      props: { variant: "inset", disabled: true, defaultValue: 50 },
+      attrs: { style: "--foreground: rgb(0, 0, 0); --background: rgb(255, 255, 255); --disabled-opacity: 38%" },
+      attachTo: document.body,
+    });
+    await nextTick();
+
+    const alpha = (color: string) => Number(color.match(/rgba?\([^)]+,\s*([\d.]+)\)/)?.[1] ?? 1);
+    const range = getComputedStyle(wrapper.get("[data-slot=slider-range]").element).backgroundColor;
+    const thumb = getComputedStyle(wrapper.get("[data-slot=slider-thumb]").element).backgroundColor;
+
+    expect(range).toBe(thumb);
+    expect(range).not.toBe("transparent");
+    expect(alpha(range)).toBe(1);
     wrapper.unmount();
   });
 

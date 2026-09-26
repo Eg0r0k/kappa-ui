@@ -18,6 +18,7 @@
   --color-input: var(--input);
   --color-primary: var(--primary);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --radius-xs: calc(var(--radius) * 0.2);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
