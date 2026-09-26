@@ -17,6 +17,8 @@ props:
     description: "`vertical` runs the slider from bottom to top and fills the height of its container."
   inverted:
     description: Runs the slider from the other end, right to left or top to bottom.
+  variant:
+    description: "`inset` puts each thumb inside a thick track as a disc around a round handle; `default` is a solid thumb over a thin track."
   size:
     description: Thumb diameter, from 12px for `xs` to 24px for `xl`; the track thickness scales with it.
   touchTarget:

@@ -1451,7 +1451,7 @@
       "name": "slider",
       "type": "registry:ui",
       "title": "Slider",
-      "description": "Slider with one or more thumbs, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
+      "description": "Slider with one or more thumbs, a default and an inset look, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
       "dependencies": ["class-variance-authority", "@delta-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
@@ -2641,6 +2641,17 @@
       "registryDependencies": ["slider"],
       "files": [
         { "path": "src/examples/slider/SliderTouchTarget.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "slider-inset",
+      "type": "registry:block",
+      "title": "Slider inset",
+      "description": "Inset sliders: a labelled volume with its value, a range and the five sizes.",
+      "categories": ["example"],
+      "registryDependencies": ["slider", "field"],
+      "files": [
+        { "path": "src/examples/slider/SliderInset.vue", "type": "registry:component" }
       ]
     },
     {
