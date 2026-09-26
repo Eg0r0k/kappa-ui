@@ -2,11 +2,11 @@ import type { CssRules, CssVars } from '~/lib/registry'
 
 export const serializeCssRules = (rules: CssRules, indent = ''): string =>
   Object.entries(rules)
-    .map(([selector, body]) =>
-      typeof body === 'string'
-        ? `${indent}${selector}: ${body};`
-        : `${indent}${selector} {\n${serializeCssRules(body, `${indent}  `)}\n${indent}}`,
-    )
+    .map(([selector, body]) => {
+      if (typeof body === 'string') return `${indent}${selector}: ${body};`
+      if (Object.keys(body).length === 0) return `${indent}${selector};`
+      return `${indent}${selector} {\n${serializeCssRules(body, `${indent}  `)}\n${indent}}`
+    })
     .join('\n')
 
 const block = (selector: string, vars: Record<string, string> | undefined) =>

@@ -451,11 +451,10 @@
       "type": "registry:item",
       "title": "Scroll fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
-      "docs": "The CLI writes styles/scroll-fade.css at the project root. Import it in your global stylesheet after tailwindcss, with a path relative to that stylesheet, e.g. @import '../../styles/scroll-fade.css' from src/assets/main.css. Put v-scroll-fade from @delta-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
+      "docs": "Put v-scroll-fade from @delta-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
       "dependencies": ["@delta-ui/core"],
-      "files": [
-        { "path": "src/styles/scroll-fade.css", "type": "registry:file", "target": "styles/scroll-fade.css" }
-      ]
+      "css": { "@import \"@delta-ui/core/tailwind.css\"": {} },
+      "files": []
     },
     {
       "name": "accordion",

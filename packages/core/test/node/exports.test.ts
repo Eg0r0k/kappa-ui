@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const manifest = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as {
@@ -27,10 +27,15 @@ describe("package exports", () => {
     expect(primitives.filter((name) => modules.includes(name))).toEqual([]);
   });
 
-  it("has exactly one entry per primitive file and per module directory, each pointing at its source", () => {
-    expect(manifest.exports).toEqual(
-      Object.fromEntries(entries.map(({ name, file }) => [`./${name}`, `./src/${file}`])),
-    );
+  it("has one entry per primitive file and per module directory, plus the stylesheet, each pointing at its source", () => {
+    expect(manifest.exports).toEqual({
+      ...Object.fromEntries(entries.map(({ name, file }) => [`./${name}`, `./src/${file}`])),
+      "./tailwind.css": "./src/tailwind.css",
+    });
+  });
+
+  it("ships the stylesheet it exports", () => {
+    expect(existsSync(new URL("../../src/tailwind.css", import.meta.url))).toBe(true);
   });
 
   it.each(entries)(

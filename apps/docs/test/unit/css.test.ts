@@ -8,6 +8,10 @@ describe('serializeCssRules', () => {
       '.a {\n  color: red;\n  &:hover {\n    color: blue;\n  }\n}',
     )
   })
+
+  it('writes a rule without a body as a statement', () => {
+    expect(serializeCssRules({ '@import "@delta-ui/core/tailwind.css"': {} })).toBe('@import "@delta-ui/core/tailwind.css";')
+  })
 })
 
 describe('serializeCssVars', () => {

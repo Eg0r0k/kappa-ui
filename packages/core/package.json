@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": ["./src/tailwind.css"],
   "exports": {
     "./accordion": "./src/primitives/accordion.ts",
     "./aspect-ratio": "./src/primitives/aspect-ratio.ts",
@@ -26,6 +26,7 @@
     "./slider": "./src/primitives/slider.ts",
     "./switch": "./src/primitives/switch.ts",
     "./tabs": "./src/primitives/tabs.ts",
+    "./tailwind.css": "./src/tailwind.css",
     "./toast": "./src/toast/index.ts",
     "./utils": "./src/primitives/utils.ts",
     "./visually-hidden": "./src/primitives/visually-hidden.ts"
