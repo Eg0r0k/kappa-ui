@@ -127,3 +127,41 @@ it("rounds a floating-label field by its taller height", async () => {
   expect(radiusOf(input("soft-xs"))).toBe("12px");
   wrapper.unmount();
 });
+
+it("follows a --radius set on an ancestor, not only on the root", async () => {
+  const { Input } = await import("@/ui/input");
+  const { Textarea } = await import("@/ui/textarea");
+  const { Select, SelectTrigger } = await import("@/ui/select");
+  const { InputGroup, InputGroupInput } = await import("@/ui/input-group");
+  const { Tabs, TabsList, TabsTrigger } = await import("@/ui/tabs");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "--radius: 0px" }, [
+          h(Input, { "data-case": "input" }),
+          h(Input, { label: "Name", "data-case": "floating" }),
+          h(Textarea, { "data-case": "textarea" }),
+          h(Select, () => h(SelectTrigger, { "data-case": "select" }, () => "S")),
+          h(InputGroup, { "data-case": "input-group" }, () => h(InputGroupInput)),
+          h(Tabs, { defaultValue: "a" }, () => h(TabsList, { "data-case": "tabs" }, () => h(TabsTrigger, { value: "a" }, () => "A"))),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radii = Object.fromEntries(
+    [...document.querySelectorAll("[data-case]")].map((element) => [
+      element.getAttribute("data-case"),
+      radiusOf(element.matches("[data-case=floating]") ? element.closest("[data-slot=input-control]")!.querySelector("fieldset")! : element),
+    ]),
+  );
+
+  expect(radii).toEqual({
+    input: "0px",
+    floating: "0px",
+    textarea: "0px",
+    select: "0px",
+    "input-group": "0px",
+    tabs: "0px",
+  });
+  wrapper.unmount();
+});

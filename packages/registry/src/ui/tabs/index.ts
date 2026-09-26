@@ -6,11 +6,11 @@ export { default as TabsList } from "./TabsList.vue";
 export { default as TabsTrigger } from "./TabsTrigger.vue";
 
 const sizes = {
-  xs: "text-label-sm [--tabs-radius:var(--radius-lg)] [--tabs-trigger-height:--spacing(7)] [--tabs-trigger-px:--spacing(2)] [--tabs-trigger-gap:--spacing(1.5)] [--tabs-icon:--spacing(3.5)]",
-  sm: "text-label-md [--tabs-radius:var(--radius-lg)] [--tabs-trigger-height:--spacing(8)] [--tabs-trigger-px:--spacing(2.5)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(4)]",
-  md: "text-label-md [--tabs-radius:var(--radius-lg)] [--tabs-trigger-height:--spacing(9)] [--tabs-trigger-px:--spacing(3)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(4)]",
-  lg: "text-label-lg [--tabs-radius:var(--radius-xl)] [--tabs-trigger-height:--spacing(10)] [--tabs-trigger-px:--spacing(3)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(5)]",
-  xl: "text-label-lg [--tabs-radius:var(--radius-xl)] [--tabs-trigger-height:--spacing(12)] [--tabs-trigger-px:--spacing(4)] [--tabs-trigger-gap:--spacing(2.5)] [--tabs-icon:--spacing(5)]",
+  xs: "text-label-sm [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:--spacing(7)] [--tabs-trigger-px:--spacing(2)] [--tabs-trigger-gap:--spacing(1.5)] [--tabs-icon:--spacing(3.5)]",
+  sm: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:--spacing(8)] [--tabs-trigger-px:--spacing(2.5)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(4)]",
+  md: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:--spacing(9)] [--tabs-trigger-px:--spacing(3)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(4)]",
+  lg: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:--spacing(10)] [--tabs-trigger-px:--spacing(3)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(5)]",
+  xl: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:--spacing(12)] [--tabs-trigger-px:--spacing(4)] [--tabs-trigger-gap:--spacing(2.5)] [--tabs-icon:--spacing(5)]",
 };
 
 const pillInnerRadius = "rounded-[max(0px,calc(var(--tabs-radius)-var(--spacing)))]";

@@ -22,11 +22,11 @@ export const textControlSize = {
 };
 
 export const textControlRadius = {
-  xs: "[--control-radius:var(--radius-md)]",
-  sm: "[--control-radius:var(--radius-lg)]",
-  md: "[--control-radius:var(--radius-lg)]",
-  lg: "[--control-radius:var(--radius-lg)]",
-  xl: "[--control-radius:var(--radius-xl)]",
+  xs: "[--control-radius:--theme(--radius-md)]",
+  sm: "[--control-radius:--theme(--radius-lg)]",
+  md: "[--control-radius:--theme(--radius-lg)]",
+  lg: "[--control-radius:--theme(--radius-lg)]",
+  xl: "[--control-radius:--theme(--radius-xl)]",
 };
 
 export type TextControlVariant = keyof typeof textControlVariant;

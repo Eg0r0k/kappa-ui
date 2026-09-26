@@ -17,7 +17,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
       color="neutral"
       size="icon-xs"
       aria-label="Close"
-      :class="cn('rounded-[max(0px,calc(var(--radius-xl)-var(--spacing)*2.5))] text-muted-foreground', props.class)"
+      :class="cn('rounded-[max(0px,calc(--theme(--radius-xl)-var(--spacing)*2.5))] text-muted-foreground', props.class)"
     >
       <slot>
         <X />

@@ -19,7 +19,7 @@ const last = ref("nothing yet");
       class="flex items-center gap-3 rounded-xl border border-border p-3 text-start outline-none select-none focus-visible:focus-ring"
     >
       <span
-        class="flex size-10 shrink-0 items-center justify-center rounded-[calc(var(--radius-xl)-var(--spacing)*3-1px)] bg-muted text-muted-foreground"
+        class="flex size-10 shrink-0 items-center justify-center rounded-[calc(--theme(--radius-xl)-var(--spacing)*3-1px)] bg-muted text-muted-foreground"
       >
         <File class="size-5" />
       </span>
