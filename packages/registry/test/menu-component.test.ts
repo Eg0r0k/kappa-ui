@@ -193,6 +193,37 @@ describe("Menu", () => {
     wrapper.unmount();
   });
 
+  it("opens another target's non-modal menu with one click", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h("div", [
+            h("button", { "data-test": "a", style: "position:fixed;left:40px;top:40px;width:80px;height:32px" }, [
+              "A",
+              h(Menu, { modal: false }, () => items("A")),
+            ]),
+            h("button", { "data-test": "b", style: "position:fixed;left:240px;top:40px;width:80px;height:32px" }, [
+              "B",
+              h(Menu, { modal: false }, () => items("B")),
+            ]),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    const a = wrapper.get("[data-test=a]").element;
+    const b = wrapper.get("[data-test=b]").element;
+
+    await clickAt(...centre(a));
+    expect(a.getAttribute("aria-expanded")).toBe("true");
+
+    await clickAt(...centre(b));
+    await settle();
+    expect(a.getAttribute("aria-expanded")).toBe("false");
+    expect(b.getAttribute("aria-expanded")).toBe("true");
+    expect(menu()?.textContent).toContain("B one");
+    wrapper.unmount();
+  });
+
   it("fits and covers its target", async () => {
     const wrapper = mount(
       defineComponent({

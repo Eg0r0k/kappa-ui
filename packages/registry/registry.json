@@ -2533,6 +2533,18 @@
       ]
     },
     {
+      "name": "menu-non-modal",
+      "type": "registry:block",
+      "title": "Non-modal menu",
+      "description": "Row menus that leave the list scrolling and the page live.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["menu", "button"],
+      "files": [
+        { "path": "src/examples/menu/MenuNonModal.vue", "type": "registry:component" }
+      ]
+    },
+    {
       "name": "select-demo",
       "type": "registry:block",
       "title": "Select demo",
@@ -2669,6 +2681,18 @@
       ]
     },
     {
+      "name": "dropdown-menu-non-modal",
+      "type": "registry:block",
+      "title": "Non-modal dropdown menu",
+      "description": "Row menus that leave the list scrolling and the page live.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["dropdown-menu", "button"],
+      "files": [
+        { "path": "src/examples/dropdown-menu/DropdownMenuNonModal.vue", "type": "registry:component" }
+      ]
+    },
+    {
       "name": "context-menu-demo",
       "type": "registry:block",
       "title": "Context menu demo",
@@ -2701,6 +2725,18 @@
       "registryDependencies": ["context-menu"],
       "files": [
         { "path": "src/examples/context-menu/ContextMenuOpenState.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "context-menu-non-modal",
+      "type": "registry:block",
+      "title": "Non-modal context menu",
+      "description": "A context menu that moves to the row you right-click next.",
+      "categories": ["example"],
+      "dependencies": ["@lucide/vue"],
+      "registryDependencies": ["context-menu"],
+      "files": [
+        { "path": "src/examples/context-menu/ContextMenuNonModal.vue", "type": "registry:component" }
       ]
     },
     {

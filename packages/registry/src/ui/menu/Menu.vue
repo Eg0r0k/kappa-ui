@@ -295,9 +295,23 @@ const keepOpen = (event: Event) => {
   if (props.persistent) event.preventDefault();
 };
 
+let interactedOutside = false;
+
 const onInteractOutside = (event: CustomEvent<{ originalEvent: Event }>) => {
-  const target = event.detail.originalEvent.target;
-  if (props.persistent || (target instanceof Node && anchorEl.value?.contains(target))) event.preventDefault();
+  const original = event.detail.originalEvent;
+  const target = original.target;
+  if (props.persistent || (target instanceof Node && anchorEl.value?.contains(target))) {
+    event.preventDefault();
+    return;
+  }
+  const rightClick = original instanceof MouseEvent && (original.button === 2 || (original.button === 0 && original.ctrlKey));
+  if (!props.modal || rightClick) interactedOutside = true;
+};
+
+// focus returned to this anchor after an outside press would close the menu that press just opened
+const onCloseAutoFocus = (event: Event) => {
+  if (interactedOutside) event.preventDefault();
+  interactedOutside = false;
 };
 
 const onContentClick = () => {
@@ -328,6 +342,7 @@ defineExpose({ show, hide, toggle });
         @pointer-down-outside="keepOpen"
         @focus-outside="keepOpen"
         @interact-outside="onInteractOutside"
+        @close-auto-focus="onCloseAutoFocus"
         @click="onContentClick"
       >
         <ModalScrimHold />
