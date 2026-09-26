@@ -149,7 +149,9 @@
           "typescale-label-sm-line-height": "1rem",
           "typescale-label-sm-weight": "500",
           "state-selected": "8%",
-          "scrim": "oklch(0 0 0 / 40%)"
+          "scrim": "oklch(0 0 0 / 40%)",
+          "press-scale": "0.97",
+          "press-duration": "120ms"
         },
         "dark": {
           "destructive-foreground": "oklch(0.25 0.08 25)",
@@ -560,12 +562,6 @@
           "button:not(:disabled), [role=\"button\"]:not(:disabled)": {
             "cursor": "pointer"
           }
-        }
-      },
-      "cssVars": {
-        "light": {
-          "press-scale": "0.97",
-          "press-duration": "120ms"
         }
       },
       "files": [
