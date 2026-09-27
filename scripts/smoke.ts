@@ -146,9 +146,10 @@ const itemNames = manifest.items.map((item) => `@delta/${item.name}`)
 const batches = Array.from({ length: Math.ceil(itemNames.length / ADD_BATCH) }, (_, index) =>
   itemNames.slice(index * ADD_BATCH, (index + 1) * ADD_BATCH),
 )
-const examples = manifest.items
-  .filter((item) => item.categories?.includes('example'))
-  .flatMap((item) => item.files.map((file) => file.path.replace(/^src\/examples\//, '')))
+const consumerPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
+const exampleItems = manifest.items.filter((item) => item.categories?.includes('example'))
+const examples = exampleItems.flatMap((item) => item.files.map((file) => consumerPath(file.path)))
+const loneExample = exampleItems[0] ?? fail('examples', 'the manifest has no examples')
 
 const examplesPage = (paths: string[]) =>
   [
@@ -177,6 +178,10 @@ const smoke = async (template: Template) => {
     configPath,
     `${JSON.stringify({ ...config, registries: { ...config.registries, '@delta': `${origin}/r/{name}.json` } }, null, 2)}\n`,
   )
+  const missingIn = (paths: string[]) => paths.filter((path) => !existsSync(join(dir, template.sourceDir, path)))
+  await run(label('add one example'), `pnpm exec shadcn-vue add @delta/${loneExample.name} --yes --overwrite`, dir)
+  const loneMissing = missingIn(loneExample.files.map((file) => consumerPath(file.path)))
+  if (loneMissing.length > 0) fail(label('add one example'), `not installed:\n${loneMissing.join('\n')}`)
   for (const [index, batch] of batches.entries()) {
     await run(
       label(`shadcn-vue add (${index + 1}/${batches.length})`),
@@ -184,13 +189,9 @@ const smoke = async (template: Template) => {
       dir,
     )
   }
-  const installed = (await readdir(join(dir, template.sourceDir, 'components'), { recursive: true })).map(
-    (file) => `components/${file.replaceAll('\\', '/')}`,
-  )
-  const located = examples.map((path) => installed.find((file) => file.endsWith(`/${path}`)))
-  const missing = examples.filter((_, index) => located[index] === undefined)
+  const missing = missingIn(examples)
   if (missing.length > 0) fail(label('examples'), `not installed:\n${missing.join('\n')}`)
-  await writeFile(join(dir, template.page), examplesPage(located.filter((path) => path !== undefined)))
+  await writeFile(join(dir, template.page), examplesPage(examples))
   for (const [step, command] of template.checks) await run(label(step), command, dir)
 }
 
