@@ -1,4 +1,5 @@
 import { copyFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 
 import { defineConfig } from "tsdown";
 
@@ -14,8 +15,14 @@ export default defineConfig({
   copy: [{ from: "src/tailwind.css", to: "dist" }],
   hooks: {
     "build:done": async () => {
-      await copyFile("../../LICENSE", "LICENSE");
-      await copyFile("../../THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.md");
+      await copyFile(
+        fileURLToPath(new URL("../../LICENSE", import.meta.url)),
+        fileURLToPath(new URL("LICENSE", import.meta.url)),
+      );
+      await copyFile(
+        fileURLToPath(new URL("../../THIRD_PARTY_NOTICES.md", import.meta.url)),
+        fileURLToPath(new URL("THIRD_PARTY_NOTICES.md", import.meta.url)),
+      );
     },
   },
 });
