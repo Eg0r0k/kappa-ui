@@ -1,19 +1,16 @@
 # kappa-ui
 
-A shadcn-style component registry for Vue. Components are not installed as an
-npm package — you copy their source straight into your own project, so you
-own and can freely modify the code from day one.
+A shadcn-style component registry for Vue 3 and Tailwind CSS v4. Components are copied into your project, so the code is yours from day one; their mechanism comes from [`@kappa-ui/core`](packages/core) on npm.
 
-```
-npx shadcn-vue add https://kappa-ui.pages.dev/r/button.json
+```sh
+npx shadcn-vue@latest init --preset https://kappa-ui.pages.dev/r/init.json
+npx shadcn-vue@latest add @kappa-ui/button
 ```
 
 Requirements, theming, every component and its API are documented on the
 site: run `pnpm dev` and open http://localhost:3000.
 
-`kappa-ui.dev` is a placeholder domain. The real host comes from the
-`KAPPA_UI_URL` environment variable at build time; both the registry and the
-site read it.
+Documentation: https://kappa-ui.pages.dev
 
 ## Repo layout
 
@@ -39,6 +36,11 @@ Run from the repo root:
   and the docs tests.
 - `pnpm smoke` — pack `@kappa-ui/core`, build the registry, and install every item into a fresh Vite project and a fresh Nuxt project with the shadcn-vue CLI, then type-check and build both. Needs the network and takes a few minutes; not part of `pnpm test`. `--only vite|nuxt` runs one project, `--keep` keeps the work directory.
 - `pnpm format` — format the repo with Prettier.
+- `pnpm changeset` — record a change to core or components for the next release.
+
+## Contributing
+
+Run `pnpm test` before opening a PR. A change users will notice, in `packages/core` or in a component, needs a changeset: run `pnpm changeset`, pick the packages, and describe the change for the changelog. Docs-only changes do not. Merging the "version packages" PR that the release workflow keeps open publishes `@kappa-ui/core` and deploys the site.
 
 ## License
 
