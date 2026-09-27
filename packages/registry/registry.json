@@ -3,6 +3,17 @@
   "name": "kappa-ui",
   "items": [
     {
+      "name": "init",
+      "type": "registry:base",
+      "title": "kappa-ui project setup",
+      "description": "Sets up components.json with the @kappa-ui registry and adds the utils helper, the tokens and the default theme.",
+      "extends": "none",
+      "config": {},
+      "registryDependencies": ["utils", "tokens", "theme"],
+      "dependencies": ["tw-animate-css"],
+      "files": []
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

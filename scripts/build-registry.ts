@@ -12,6 +12,7 @@ const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
 const CORE_PACKAGE = '@kappa-ui/core'
+const REGISTRY_NAMESPACE = '@kappa-ui'
 const PUBLISHED_ALIAS = '@/registry/kappa-ui/'
 const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
 const IMPLICIT_PACKAGES = new Set(['vue'])
@@ -29,6 +30,7 @@ const ITEM_TYPES = new Set([
   'registry:file',
   'registry:theme',
   'registry:item',
+  'registry:base',
 ])
 
 const TARGET_REQUIRED = new Set(['registry:page', 'registry:file'])
@@ -60,6 +62,8 @@ type RegistryItem = {
   css?: CssRules
   categories?: string[]
   docs?: string
+  extends?: string
+  config?: Record<string, unknown>
 }
 
 type Registry = {
@@ -138,6 +142,17 @@ const coreVersion = (JSON.parse(await readFile(corePath, 'utf8')) as { version: 
 const stamp = (dependencies?: string[]) =>
   dependencies?.map((dependency) => (dependency === CORE_PACKAGE ? `${CORE_PACKAGE}@^${coreVersion}` : dependency))
 
+const publishedConfig = (item: RegistryItem) =>
+  item.type === 'registry:base'
+    ? {
+        ...item.config,
+        registries: {
+          ...(item.config?.registries as Record<string, string> | undefined),
+          [REGISTRY_NAMESPACE]: `${REGISTRY_BASE}/{name}.json`,
+        },
+      }
+    : undefined
+
 const errors: string[] = []
 const names = new Set<string>()
 
@@ -162,6 +177,13 @@ for (const item of registry.items) {
         errors.push(`item "${item.name}", cssVars.${group}: key "${key}" must not start with "--"`)
       }
     }
+  }
+
+  if (item.type === 'registry:base' && (typeof item.config !== 'object' || item.config === null)) {
+    errors.push(`item "${item.name}": registry:base needs a config object`)
+  }
+  if (item.type !== 'registry:base' && item.config !== undefined) {
+    errors.push(`item "${item.name}": config is only allowed on registry:base`)
   }
 
   if (shipsMechanism(item.css)) {
@@ -283,6 +305,7 @@ for (const item of registry.items) {
 
   const dependencies = stamp(item.dependencies)
   const registryDependencies = item.registryDependencies?.map(toDependencyUrl)
+  const config = publishedConfig(item)
 
   await writeFile(
     join(outDir, `${item.name}.json`),
@@ -292,6 +315,7 @@ for (const item of registry.items) {
         ...item,
         ...(dependencies ? { dependencies } : {}),
         ...(registryDependencies ? { registryDependencies } : {}),
+        ...(config ? { config } : {}),
         files,
       },
       null,
@@ -311,6 +335,7 @@ await writeFile(
       items: registry.items.map((item) => ({
         ...item,
         ...(item.dependencies ? { dependencies: stamp(item.dependencies) } : {}),
+        ...(item.type === 'registry:base' ? { config: publishedConfig(item) } : {}),
         files: item.files.map((file) => ({ ...file, path: publishedPath(file.path) })),
       })),
     },

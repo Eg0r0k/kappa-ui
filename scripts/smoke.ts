@@ -10,7 +10,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-type Item = { name: string; categories?: string[]; files: { path: string }[] }
+type Item = { name: string; type: string; categories?: string[]; files: { path: string }[] }
 type CorePackage = {
   name: string
   version: string
@@ -142,7 +142,7 @@ await run('build the registry', `"${process.execPath}" scripts/build-registry.ts
   KAPPA_UI_URL: origin,
 })
 
-const itemNames = manifest.items.map((item) => `@kappa/${item.name}`)
+const itemNames = manifest.items.filter((item) => item.type !== 'registry:base').map((item) => `@kappa-ui/${item.name}`)
 const batches = Array.from({ length: Math.ceil(itemNames.length / ADD_BATCH) }, (_, index) =>
   itemNames.slice(index * ADD_BATCH, (index + 1) * ADD_BATCH),
 )
@@ -172,15 +172,13 @@ const smoke = async (template: Template) => {
   await cp(join(repoRoot, 'scripts/smoke', template.name), dir, { recursive: true })
   await writeFile(join(dir, '.npmrc'), `@kappa-ui:registry=${origin}/npm/\n`)
   await run(label('install'), 'pnpm install', dir)
-  await run(label('shadcn-vue init'), 'pnpm exec shadcn-vue init --yes --defaults --base-color neutral', dir)
-  const configPath = join(dir, 'components.json')
-  const config = await readJson<{ registries?: Record<string, string> }>(configPath)
-  await writeFile(
-    configPath,
-    `${JSON.stringify({ ...config, registries: { ...config.registries, '@kappa': `${origin}/r/{name}.json` } }, null, 2)}\n`,
-  )
+  await run(label('shadcn-vue init'), `pnpm exec shadcn-vue init --preset ${origin}/r/init.json`, dir)
+  const config = await readJson<{ registries?: Record<string, string> }>(join(dir, 'components.json'))
+  if (config.registries?.['@kappa-ui'] !== `${origin}/r/{name}.json`) {
+    fail(label('shadcn-vue init'), `components.json registries: ${JSON.stringify(config.registries)}`)
+  }
   const missingIn = (paths: string[]) => paths.filter((path) => !existsSync(join(dir, template.sourceDir, path)))
-  await run(label('add one example'), `pnpm exec shadcn-vue add @kappa/${loneExample.name} --yes --overwrite`, dir)
+  await run(label('add one example'), `pnpm exec shadcn-vue add @kappa-ui/${loneExample.name} --yes --overwrite`, dir)
   const loneMissing = missingIn(loneExample.files.map((file) => consumerPath(file.path)))
   if (loneMissing.length > 0) fail(label('add one example'), `not installed:\n${loneMissing.join('\n')}`)
   for (const [index, batch] of batches.entries()) {

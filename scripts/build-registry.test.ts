@@ -26,6 +26,17 @@ const example = {
   files: [{ path: 'src/examples/demo/DemoExample.vue', type: 'registry:component' }],
 }
 
+const base = {
+  name: 'init',
+  type: 'registry:base',
+  title: 'Project setup',
+  description: 'Sets up the project.',
+  extends: 'none',
+  config: { tailwind: { baseColor: 'neutral' } },
+  registryDependencies: ['demo'],
+  files: [],
+}
+
 const run = async (items: unknown[], env: Record<string, string> = {}, files: Record<string, string> = {}) => {
   const root = await mkdtemp(join(tmpdir(), 'kappa-registry-'))
   await mkdir(join(root, 'src/ui/demo'), { recursive: true })
@@ -325,4 +336,31 @@ test('ignores template text that looks like an import', async () => {
   assert.equal(status, 0, stderr)
   const content = (await published(out, 'demo-example')).files[0]?.content ?? ''
   assert.match(content, /:title="message\.from"/)
+})
+
+test('publishes a registry:base config with the kappa-ui registry added', async () => {
+  const { status, stderr, out } = await run([component, example, base], { KAPPA_UI_URL: 'https://example.test' })
+  assert.equal(status, 0, stderr)
+  const item = JSON.parse(await readFile(join(out, 'init.json'), 'utf8')) as { extends?: string; config?: unknown }
+  assert.equal(item.extends, 'none')
+  assert.deepEqual(item.config, {
+    tailwind: { baseColor: 'neutral' },
+    registries: { '@kappa-ui': 'https://example.test/r/{name}.json' },
+  })
+  const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8')) as {
+    items: { name: string; config?: unknown }[]
+  }
+  assert.deepEqual(index.items.find((entry) => entry.name === 'init')?.config, item.config)
+})
+
+test('rejects a registry:base without a config', async () => {
+  const { status, stderr } = await run([component, example, { ...base, config: undefined }])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "init": registry:base needs a config object/)
+})
+
+test('rejects a config on any other item type', async () => {
+  const { status, stderr } = await run([{ ...component, config: {} }, example])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "demo": config is only allowed on registry:base/)
 })
