@@ -202,19 +202,23 @@ test('publishes @/ imports under the registry alias the CLI rewrites', async () 
     {
       'src/ui/demo/Demo.vue': source,
       'src/ui/demo/Part.vue': '<template><div /></template>\n',
-      'src/ui/button/index.ts': 'export const Button = {}\n',
+      'src/ui/button/index.ts': 'import { x } from "@/lib/sizes";\n\nexport const Button = { x }\n',
       'src/ui/lazy/index.ts': 'export default {}\n',
       'src/lib/sizes.ts': 'export type Size = string\n',
       'src/lib/side-effect.ts': 'export {}\n',
     },
   )
   assert.equal(status, 0, stderr)
-  const content = (await published(out, 'demo')).files[0]?.content ?? ''
+  const item = await published(out, 'demo')
+  const content = item.files[0]?.content ?? ''
   assert.match(content, /import \{ Button \} from "@\/registry\/delta-ui\/ui\/button";/)
   assert.match(content, /import type \{ Size \} from '@\/registry\/delta-ui\/lib\/sizes';/)
   assert.match(content, /import "@\/registry\/delta-ui\/lib\/side-effect";/)
   assert.match(content, /import Part from "\.\/Part\.vue";/)
   assert.match(content, /import\("@\/registry\/delta-ui\/ui\/lazy"\)/)
+
+  const buttonIndex = item.files.find((file) => file.path === 'src/ui/button/index.ts')
+  assert.match(buttonIndex?.content ?? '', /import \{ x \} from "@\/registry\/delta-ui\/lib\/sizes";/)
 })
 
 test('writes @delta-ui/core with the caret range of the core version', async () => {
