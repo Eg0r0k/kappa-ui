@@ -1,7 +1,18 @@
 import { enableAutoUnmount, mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type PropType, type VNodeChild, defineComponent, h, onMounted, ref } from "vue";
+import {
+  type Component,
+  type PropType,
+  type VNodeChild,
+  defineAsyncComponent,
+  defineComponent,
+  h,
+  inject,
+  onMounted,
+  provide,
+  ref,
+} from "vue";
 
 import {
   DialogClose,
@@ -11,6 +22,7 @@ import {
   DialogPortal,
   DialogRoot,
   DialogTitle,
+  closeAllDialogs,
   createDialogs,
   defineDialog,
   openDialog,
@@ -277,5 +289,186 @@ describe("DialogHost", () => {
       },
     });
     expect(() => mount(Stray)).toThrow("useDialogContext() found no dialog");
+  });
+});
+
+describe("DialogHost edge cases", () => {
+  it("settles with error and drops a dialog whose setup throws, and still reports the error (H1)", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const errorHandler = vi.fn();
+    const dialogs = createDialogs();
+    mount(defineComponent({ setup: () => () => h(DialogHost) }), {
+      attachTo: document.body,
+      global: { plugins: [dialogs], config: { errorHandler } },
+    });
+    const Broken = defineComponent({
+      setup: () => {
+        throw new Error("broken");
+      },
+    });
+
+    const handle = openDialog(Broken);
+    expect(await handle).toEqual({ ok: false, reason: "error" });
+    expect(errorHandler).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "broken" }),
+      expect.anything(),
+      expect.anything(),
+    );
+    await settle();
+    expect(dialogs.stack.value).toHaveLength(0);
+  });
+
+  it("keeps a dialog open when one of its handlers throws (F2)", async () => {
+    const errorHandler = vi.fn();
+    mount(defineComponent({ setup: () => () => h(DialogHost) }), {
+      attachTo: document.body,
+      global: { plugins: [createDialogs()], config: { errorHandler } },
+    });
+    const Throwing = defineComponent({
+      setup: () => () =>
+        h(DialogPortal, () =>
+          h(DialogContent, null, () => [
+            h(DialogTitle, () => "Throws"),
+            h(
+              "button",
+              {
+                "data-test": "boom",
+                onClick: () => {
+                  throw new Error("boom");
+                },
+              },
+              "Boom",
+            ),
+          ]),
+        ),
+    });
+
+    const handle = openDialog(Throwing);
+    await settle();
+    await userEvent.click(document.querySelector<HTMLElement>("[data-test=boom]")!);
+    await settle();
+    expect(errorHandler).toHaveBeenCalled();
+    expect(handle.isOpen.value).toBe(true);
+    handle.dismiss();
+  });
+
+  it("settles a lazy dialog closed before it loaded and renders nothing later (C10)", async () => {
+    const { dialogs } = mountHost();
+    const Late = defineAsyncComponent(
+      () => new Promise<Component>((resolve) => setTimeout(() => resolve(Window), 100)),
+    );
+    const handle = openDialog(Late);
+    handle.close();
+    expect(await handle).toEqual({ ok: true, value: undefined });
+    await wait(200);
+    expect(titles()).toEqual([]);
+    expect(dialogs.stack.value).toHaveLength(0);
+  });
+
+  it("gives the dialog what is provided above the host (C1)", async () => {
+    const Injected = defineComponent({
+      setup: () => {
+        const token = inject("token", "missing");
+        return () => h(DialogPortal, () => h(DialogContent, null, () => h(DialogTitle, () => token)));
+      },
+    });
+    mount(
+      defineComponent({
+        setup: () => {
+          provide("token", "from above");
+          return () => h(DialogHost);
+        },
+      }),
+      { attachTo: document.body, global: { plugins: [createDialogs()] } },
+    );
+    const handle = openDialog(Injected);
+    await settle();
+    expect(titles()).toEqual(["from above"]);
+    handle.dismiss();
+  });
+
+  it("opens from a timer, outside any component (C4)", async () => {
+    mountHost();
+    let handle: ReturnType<typeof openDialog> | undefined;
+    setTimeout(() => (handle = openDialog(Window, { title: "Timer" })));
+    await settle();
+    expect(titles()).toEqual(["Timer"]);
+    handle!.dismiss();
+  });
+
+  it("closes the top dialog first, programmatic or declarative (S1, S11)", async () => {
+    const open = ref(true);
+    mountHost(() =>
+      h(DialogRoot, { open: open.value, "onUpdate:open": (value: boolean) => (open.value = value) }, () =>
+        h(DialogPortal, () => h(DialogContent, null, () => h(DialogTitle, () => "Declarative"))),
+      ),
+    );
+    await settle();
+    const lower = openDialog(Window, { title: "Lower" });
+    await settle();
+    const upper = openDialog(Window, { title: "Upper" });
+    await settle();
+    expect(titles()).toEqual(["Declarative", "Lower", "Upper"]);
+
+    await userEvent.keyboard("{Escape}");
+    expect(await upper).toEqual({ ok: false, reason: "escape" });
+    await settle();
+    expect(lower.isOpen.value).toBe(true);
+    await userEvent.keyboard("{Escape}");
+    expect(await lower).toEqual({ ok: false, reason: "escape" });
+    await settle();
+    expect(open.value).toBe(true);
+    await userEvent.keyboard("{Escape}");
+    expect(open.value).toBe(false);
+  });
+
+  it("renders dialogs in one host when two are mounted (C7)", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    mount(defineComponent({ setup: () => () => [h(DialogHost), h(DialogHost)] }), {
+      attachTo: document.body,
+      global: { plugins: [createDialogs()] },
+    });
+    const handle = openDialog(Window, { title: "Once" });
+    await settle();
+    expect(titles()).toEqual(["Once"]);
+    handle.dismiss();
+  });
+
+  it("settles open dialogs with unmount when the host goes (L9)", async () => {
+    const shown = ref(true);
+    const dialogs = createDialogs();
+    mount(defineComponent({ setup: () => () => (shown.value ? h(DialogHost) : null) }), {
+      attachTo: document.body,
+      global: { plugins: [dialogs] },
+    });
+    const handle = openDialog(Window);
+    await settle();
+    shown.value = false;
+    expect(await handle).toEqual({ ok: false, reason: "unmount" });
+    await settle();
+    expect(titles()).toEqual([]);
+    expect(dialogs.stack.value).toHaveLength(0);
+  });
+
+  it("resolves no-host with a warning once the app that installed the manager is gone (C5)", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { wrapper } = mountHost();
+    wrapper.unmount();
+    expect(await openDialog(Window)).toEqual({ ok: false, reason: "no-host" });
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("app.use(createDialogs())"));
+  });
+
+  it("closes every dialog with closeAllDialogs() (S6)", async () => {
+    const { dialogs } = mountHost();
+    const first = openDialog(Window, { title: "First" });
+    const second = openDialog(Window, { title: "Second" });
+    await settle();
+    closeAllDialogs();
+    expect(await Promise.all([first, second])).toEqual([
+      { ok: false, reason: "close-all" },
+      { ok: false, reason: "close-all" },
+    ]);
+    await settle();
+    expect(dialogs.stack.value).toHaveLength(0);
   });
 });
