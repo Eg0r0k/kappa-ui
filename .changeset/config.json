@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "changelog": ["@changesets/changelog-github", { "repo": "Eg0r0k/kappa-ui" }],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": ["@kappa-ui/docs"],
+  "privatePackages": { "version": true, "tag": false }
+}
