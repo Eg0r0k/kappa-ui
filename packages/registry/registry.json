@@ -8,7 +8,7 @@
       "title": "kappa-ui project setup",
       "description": "Sets up components.json with the @kappa-ui registry and adds the utils helper, the tokens and the default theme.",
       "extends": "none",
-      "config": {},
+      "config": { "font": "" },
       "registryDependencies": ["utils", "tokens", "theme"],
       "dependencies": ["tw-animate-css"],
       "files": []

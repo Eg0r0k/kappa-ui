@@ -17,13 +17,20 @@ type CorePackage = {
   dependencies?: Record<string, string>
   peerDependencies?: Record<string, string>
 }
-type Template = { name: string; sourceDir: string; page: string; checks: [step: string, command: string][] }
+type Template = {
+  name: string
+  sourceDir: string
+  page: string
+  stylesheet: string
+  checks: [step: string, command: string][]
+}
 
 const TEMPLATES: Template[] = [
   {
     name: 'vite',
     sourceDir: 'src',
     page: 'src/App.vue',
+    stylesheet: 'src/style.css',
     checks: [
       ['typecheck', 'pnpm exec vue-tsc --noEmit'],
       ['build', 'pnpm exec vite build'],
@@ -33,6 +40,7 @@ const TEMPLATES: Template[] = [
     name: 'nuxt',
     sourceDir: 'app',
     page: 'app/app.vue',
+    stylesheet: 'app/assets/css/main.css',
     checks: [
       ['typecheck', 'pnpm exec nuxi typecheck'],
       ['generate', 'pnpm exec nuxi generate'],
@@ -177,6 +185,11 @@ const smoke = async (template: Template) => {
   if (config.registries?.['@kappa-ui'] !== `${origin}/r/{name}.json`) {
     fail(label('shadcn-vue init'), `components.json registries: ${JSON.stringify(config.registries)}`)
   }
+  const stylesheet = await readFile(join(dir, template.stylesheet), 'utf8')
+  const foreign = stylesheet
+    .split('\n')
+    .filter((line) => line.includes('fonts.googleapis.com') || line.includes('shadcn-vue/tailwind.css'))
+  if (foreign.length > 0) fail(label('shadcn-vue init'), `${template.stylesheet} imports:\n${foreign.join('\n')}`)
   const missingIn = (paths: string[]) => paths.filter((path) => !existsSync(join(dir, template.sourceDir, path)))
   await run(label('add one example'), `pnpm exec shadcn-vue add @kappa-ui/${loneExample.name} --yes --overwrite`, dir)
   const loneMissing = missingIn(loneExample.files.map((file) => consumerPath(file.path)))
