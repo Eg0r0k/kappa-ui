@@ -953,7 +953,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "A modal window built from parts: a header, a body that scrolls, and a footer, on Reka UI.",
+      "description": "A modal window built from parts: a header, a body that scrolls, and a footer, opened from a template or from code, on Reka UI.",
       "dependencies": ["@delta-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "button"],
       "files": [

@@ -17,7 +17,13 @@ const delegated = computed(() => {
   <DialogOverlay
     v-bind="delegated"
     data-slot="dialog-overlay"
-    :class="cn('fixed inset-0 bg-scrim animate-overlay [--overlay-scale:1]', modalScrim, props.class)"
+    :class="
+      cn(
+        'fixed inset-0 bg-scrim animate-overlay [--overlay-scale:1] transition-[background-color] duration-short-4 ease-standard motion-reduce:transition-none has-[~[data-slot=dialog-overlay][data-state=open]]:bg-transparent',
+        modalScrim,
+        props.class,
+      )
+    "
   >
     <slot />
   </DialogOverlay>
