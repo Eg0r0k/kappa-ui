@@ -84,6 +84,8 @@ describe("Select", () => {
     await userEvent.keyboard("{ArrowDown}");
     await userEvent.keyboard("{Enter}");
     await expect.poll(() => value.value).toBe("editor");
+    await expect.poll(() => document.querySelector("[data-slot=select-content]")).toBeNull();
+    expect(document.activeElement?.getAttribute("data-slot")).toBe("select-trigger");
 
     await userEvent.keyboard("{Enter}");
     await expect.poll(() => document.activeElement?.getAttribute("data-slot")).toBe("select-item");
