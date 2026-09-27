@@ -22,12 +22,20 @@ describe("Button", () => {
     expect([icon.width, icon.height]).toEqual([28, 28]);
   });
 
-  it("draws subtle with the border soft does not have", () => {
-    expect(getComputedStyle(render({ variant: "subtle" })).borderTopWidth).toBe("1px");
-    expect(getComputedStyle(render({ variant: "soft" })).borderTopWidth).toBe("0px");
+  it("draws the outline and subtle edges inside the box, so every variant is the same size", () => {
+    const widths = ["solid", "soft", "subtle", "outline", "ghost"].map(
+      (variant) => render({ variant }).getBoundingClientRect().width,
+    );
+    expect(new Set(widths).size).toBe(1);
+
+    for (const variant of ["subtle", "outline"]) {
+      const style = getComputedStyle(render({ variant }));
+      expect(style.borderTopWidth).toBe("0px");
+      expect(style.boxShadow).toContain("inset");
+    }
   });
 
-  it("collapses the border between subtle buttons in a group", () => {
+  it("overlaps subtle buttons in a group by the width of their edge", () => {
     const group = mount(
       {
         render: () =>
@@ -38,8 +46,9 @@ describe("Button", () => {
       },
       { attachTo: document.body },
     ).element as HTMLElement;
+    const [one, two] = [...group.children].map((child) => child.getBoundingClientRect());
 
-    expect(getComputedStyle(group.children[1]!).borderInlineStartWidth).toBe("0px");
+    expect(two!.left).toBe(one!.right - 1);
   });
 
   it("reserves a 48px touch area around xs with the wrapper touch target", () => {

@@ -38,20 +38,20 @@ describe("ButtonGroup", () => {
     expect(last!.borderStartEndRadius).not.toBe("0px");
   });
 
-  it("collapses the borders between outlined buttons", () => {
-    const [first, second] = styles(render());
+  it("joins outlined buttons with a single 1px seam", () => {
+    const [first, second] = [...render().children].map((child) => child.getBoundingClientRect());
 
-    expect(first!.borderInlineStartWidth).toBe("1px");
-    expect(second!.borderInlineStartWidth).toBe("0px");
+    expect(second!.left).toBe(first!.right - 1);
   });
 
   it("stacks vertically", () => {
     const group = render({ orientation: "vertical" });
     const [first, middle] = styles(group);
+    const [firstBox, middleBox] = [...group.children].map((child) => child.getBoundingClientRect());
 
     expect(getComputedStyle(group).flexDirection).toBe("column");
     expect(first!.borderBottomLeftRadius).toBe("0px");
-    expect(middle!.borderTopWidth).toBe("0px");
+    expect(middleBox!.top).toBe(firstBox!.bottom - 1);
     expect([middle!.borderTopLeftRadius, middle!.borderBottomRightRadius]).toEqual(["0px", "0px"]);
   });
 
@@ -72,6 +72,18 @@ describe("ButtonGroup", () => {
     expect(separator.dataset.orientation).toBe("vertical");
     expect(separator.getBoundingClientRect().height).toBe(group.getBoundingClientRect().height);
     expect(separator.getBoundingClientRect().width).toBe(1);
+    const box = separator.getBoundingClientRect();
+    expect(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)).toBe(separator);
+  });
+
+  it("keeps the gap between nested groups", () => {
+    const group = render({}, () => [
+      h(ButtonGroup, () => [h(Button, { variant: "outline" }, () => "A")]),
+      h(ButtonGroup, () => [h(Button, { variant: "outline" }, () => "B")]),
+    ]);
+    const [one, two] = [...group.children].map((child) => child.getBoundingClientRect());
+
+    expect(two!.left - one!.right).toBe(8);
   });
 
   it("joins text to the buttons at the group's height", () => {

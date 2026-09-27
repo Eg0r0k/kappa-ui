@@ -12,40 +12,40 @@ const colors = {
   primary: {
     solid: "bg-primary text-primary-foreground",
     soft: "bg-primary/12 text-primary",
-    subtle: "bg-primary/12 border-primary/25 text-primary",
-    outline: "border-primary text-primary",
+    subtle: "bg-primary/12 inset-ring-primary/25 text-primary",
+    outline: "inset-ring-primary text-primary",
     ghost: "text-primary",
     link: "text-primary",
   },
   neutral: {
     solid: "bg-foreground text-background",
     soft: "bg-secondary text-secondary-foreground",
-    subtle: "bg-secondary border-input text-secondary-foreground",
-    outline: "border-input text-foreground",
+    subtle: "bg-secondary inset-ring-input text-secondary-foreground",
+    outline: "inset-ring-input text-foreground",
     ghost: "text-foreground",
     link: "text-foreground",
   },
   destructive: {
     solid: "bg-destructive text-destructive-foreground",
     soft: "bg-destructive/12 text-destructive",
-    subtle: "bg-destructive/12 border-destructive/25 text-destructive",
-    outline: "border-destructive text-destructive",
+    subtle: "bg-destructive/12 inset-ring-destructive/25 text-destructive",
+    outline: "inset-ring-destructive text-destructive",
     ghost: "text-destructive",
     link: "text-destructive",
   },
   success: {
     solid: "bg-success text-success-foreground",
     soft: "bg-success/12 text-success-text",
-    subtle: "bg-success/12 border-success-text/25 text-success-text",
-    outline: "border-success-text text-success-text",
+    subtle: "bg-success/12 inset-ring-success-text/25 text-success-text",
+    outline: "inset-ring-success-text text-success-text",
     ghost: "text-success-text",
     link: "text-success-text",
   },
   warning: {
     solid: "bg-warning text-warning-foreground",
     soft: "bg-warning/12 text-warning-text",
-    subtle: "bg-warning/12 border-warning-text/25 text-warning-text",
-    outline: "border-warning-text text-warning-text",
+    subtle: "bg-warning/12 inset-ring-warning-text/25 text-warning-text",
+    outline: "inset-ring-warning-text text-warning-text",
     ghost: "text-warning-text",
     link: "text-warning-text",
   },
@@ -60,15 +60,15 @@ const colorVariants = Object.entries(colors).flatMap(([color, variants]) =>
 );
 
 export const buttonVariants = cva(
-  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none forced-colors:border disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         solid: "state-layer disabled:bg-foreground/(--disabled-container-opacity)",
         soft: "state-layer disabled:bg-foreground/(--disabled-container-opacity)",
         subtle:
-          "state-layer border disabled:bg-foreground/(--disabled-container-opacity) disabled:border-foreground/(--disabled-container-opacity)",
-        outline: "state-layer border bg-background disabled:border-foreground/(--disabled-container-opacity)",
+          "state-layer inset-ring disabled:bg-foreground/(--disabled-container-opacity) disabled:inset-ring-foreground/(--disabled-container-opacity)",
+        outline: "state-layer inset-ring bg-background disabled:inset-ring-foreground/(--disabled-container-opacity)",
         ghost: "state-layer",
         link: "underline-offset-4 hover:underline",
       },
