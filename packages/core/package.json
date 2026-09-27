@@ -1,9 +1,16 @@
 {
   "name": "@kappa-ui/core",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "license": "MIT",
   "description": "The headless parts, directives and Reka UI facade behind the kappa-ui registry.",
+  "keywords": ["vue", "reka-ui", "tailwindcss", "shadcn-vue", "components", "headless"],
+  "homepage": "https://kappa-ui.pages.dev",
+  "bugs": "https://github.com/Eg0r0k/kappa-ui/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eg0r0k/kappa-ui.git",
+    "directory": "packages/core"
+  },
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -40,6 +47,7 @@
     "./visually-hidden": "./src/primitives/visually-hidden.ts"
   },
   "publishConfig": {
+    "access": "public",
     "exports": {
       "./accordion": { "types": "./dist/primitives/accordion.d.ts", "default": "./dist/primitives/accordion.js" },
       "./aspect-ratio": { "types": "./dist/primitives/aspect-ratio.d.ts", "default": "./dist/primitives/aspect-ratio.js" },
@@ -78,7 +86,7 @@
     "vue": "^3.5.0"
   },
   "dependencies": {
-    "reka-ui": "2.10.5"
+    "reka-ui": "^2.10.5"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

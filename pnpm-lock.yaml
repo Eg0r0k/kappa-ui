@@ -124,7 +124,7 @@ importers:
   packages/core:
     dependencies:
       reka-ui:
-        specifier: 2.10.5
+        specifier: ^2.10.5
         version: 2.10.5(vue@3.5.43(typescript@6.0.3))
     devDependencies:
       '@arethetypeswrong/cli':
