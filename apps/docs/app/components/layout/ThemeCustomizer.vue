@@ -40,7 +40,7 @@ const current = (preset: { hue: number; chroma: number }) =>
             :aria-label="preset.name"
             :aria-pressed="current(preset)"
             :title="preset.name"
-            class="size-7 rounded-full outline-offset-2 transition-transform duration-short-3 ease-standard hover:scale-110 focus-visible:outline-2 focus-visible:outline-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
+            class="size-7 rounded-full outline-offset-2 transition-transform duration-short-3 ease-standard hover:scale-110 focus-visible:focus-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
             :style="{ background: swatch(preset) }"
             @click="update({ hue: preset.hue, chroma: preset.chroma })"
           />

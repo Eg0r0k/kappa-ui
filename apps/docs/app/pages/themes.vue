@@ -104,7 +104,7 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
                 :aria-label="preset.name"
                 :aria-pressed="theme.hue === preset.hue && theme.chroma === preset.chroma"
                 :title="preset.name"
-                class="size-7 rounded-full outline-offset-2 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
+                class="size-7 rounded-full outline-offset-2 transition-transform hover:scale-110 focus-visible:focus-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
                 :style="{ background: swatch(preset) }"
                 @click="apply({ ...theme, hue: preset.hue, chroma: preset.chroma })"
               />

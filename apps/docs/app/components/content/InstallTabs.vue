@@ -106,7 +106,7 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
                 <NuxtLink
                   v-if="dependency.to"
                   :to="dependency.to"
-                  class="font-mono text-primary underline-offset-4 hover:underline"
+                  class="rounded-sm font-mono text-primary underline-offset-4 hover:underline focus-visible:focus-ring"
                 >
                   {{ dependency.name }}
                 </NuxtLink>

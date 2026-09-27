@@ -15,7 +15,7 @@ const sections = useDocsNavigation()
           <li v-for="item in section.children ?? []" :key="item.path">
             <NuxtLink
               :to="item.path"
-              class="block rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-accent-foreground"
+              class="block rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:focus-ring aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-accent-foreground"
               @click="emit('navigate')"
             >
               {{ item.title }}

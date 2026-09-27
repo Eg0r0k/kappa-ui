@@ -47,7 +47,7 @@ onBeforeUnmount(() => observer?.disconnect())
           :href="`#${link.id}`"
           :aria-current="active === link.id ? 'location' : undefined"
           :class="[
-            'block transition-colors hover:text-foreground',
+            'block rounded-sm transition-colors hover:text-foreground focus-visible:focus-ring',
             active === link.id ? 'font-medium text-foreground' : 'text-muted-foreground',
           ]"
         >

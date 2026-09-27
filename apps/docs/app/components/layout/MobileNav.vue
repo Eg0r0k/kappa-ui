@@ -41,12 +41,15 @@ const open = ref(false)
         <nav aria-label="Main" class="flex gap-4 border-b px-4 py-3 text-sm">
           <NuxtLink
             to="/docs/getting-started/introduction"
-            class="text-muted-foreground hover:text-foreground"
+            class="rounded-sm text-muted-foreground hover:text-foreground focus-visible:focus-ring"
             @click="open = false"
           >
             Docs
           </NuxtLink>
-          <NuxtLink to="/themes" class="text-muted-foreground hover:text-foreground" @click="open = false"
+          <NuxtLink
+            to="/themes"
+            class="rounded-sm text-muted-foreground hover:text-foreground focus-visible:focus-ring"
+            @click="open = false"
             >Themes</NuxtLink
           >
         </nav>

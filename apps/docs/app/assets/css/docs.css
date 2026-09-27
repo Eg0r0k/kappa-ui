@@ -34,6 +34,10 @@
   text-decoration: none;
 }
 
+.prose :where(a:not([data-slot])):not(:where([class~="not-prose"] *)) {
+  @apply rounded-sm focus-visible:focus-ring;
+}
+
 .prose :where(code):not(:where([class~="not-prose"] *, pre *)) {
   border-radius: var(--radius-sm);
   background: var(--muted);
