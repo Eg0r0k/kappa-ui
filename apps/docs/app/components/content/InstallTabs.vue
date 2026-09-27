@@ -5,6 +5,7 @@ import { Button } from '@/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
+import { consumerDependencies, consumerSource } from '~/lib/consumer'
 import { serializeCssRules, serializeCssVars } from '~/lib/css'
 import {
   addCommand,
@@ -31,7 +32,12 @@ const item = found
 const pm = useState<PackageManager>('package-manager', () => 'pnpm')
 const url = registryItemUrl(useRuntimeConfig().public.siteUrl, item.name)
 
-const dependencies = computed(() => installDependenciesCommand(pm.value, item.dependencies ?? []))
+const dependencies = computed(() =>
+  installDependenciesCommand(
+    pm.value,
+    consumerDependencies(item.dependencies ?? [], useRuntimeConfig().public.coreVersion),
+  ),
+)
 
 const { data: pages } = useAsyncData('docs-component-pages', () =>
   queryCollection('docs').select('path', 'component').where('component', 'IS NOT NULL').all(),
@@ -48,7 +54,7 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
   const { highlight, langOf } = await import('~/lib/highlight')
   const files = await Promise.all(
     item.files.map(async (file) => {
-      const source = await loadSource(file.path)
+      const source = consumerSource(await loadSource(file.path))
       return {
         filename: resolveInstallFilename(file),
         source,

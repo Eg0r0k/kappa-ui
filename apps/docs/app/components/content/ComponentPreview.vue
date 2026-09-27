@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
 import PreviewFrame from '~/components/content/PreviewFrame.vue'
+import { consumerFilename, consumerSource } from '~/lib/consumer'
 import { addCommand, registryItemUrl } from '~/lib/install'
 import { registryItems, resolveExample } from '~/lib/registry'
 import { exampleModules, loadSource } from '~/lib/sources'
@@ -29,8 +30,8 @@ const { data: code } = useAsyncData(`example-code:${props.name}`, async () => {
   const { highlight } = await import('~/lib/highlight')
   return Promise.all(
     item.files.map(async (file) => {
-      const source = await loadSource(file.path)
-      return { filename: file.path.replace(/^src\//, '@/'), source, html: await highlight(source, 'vue') }
+      const source = consumerSource(await loadSource(file.path))
+      return { filename: consumerFilename(file.path), source, html: await highlight(source, 'vue') }
     }),
   )
 })

@@ -1,9 +1,14 @@
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
 import tailwindcss from '@tailwindcss/vite'
 import type { Nuxt } from 'nuxt/schema'
 
 const siteUrl = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
+
+const coreVersion = (
+  JSON.parse(readFileSync(new URL('../../packages/core/package.json', import.meta.url), 'utf8')) as { version: string }
+).version
 
 const resolveMdcDepsThroughContent = (_options: unknown, nuxt: Nuxt) => {
   nuxt.hook('vite:extendConfig', (config) => {
@@ -58,7 +63,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/globals.css'],
   runtimeConfig: {
-    public: { siteUrl },
+    public: { siteUrl, coreVersion },
   },
   app: {
     head: {

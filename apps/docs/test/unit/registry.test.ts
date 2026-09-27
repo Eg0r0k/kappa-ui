@@ -68,9 +68,9 @@ describe('resolveExample', () => {
 })
 
 describe('resolveInstallFilename', () => {
-  it('rewrites a src path to the @ alias when there is no target', () => {
+  it('rewrites a src path to the consumer alias when there is no target', () => {
     expect(resolveInstallFilename({ path: 'src/ui/button/Button.vue', type: 'registry:ui' })).toBe(
-      '@/ui/button/Button.vue',
+      '@/components/ui/button/Button.vue',
     )
   })
 
