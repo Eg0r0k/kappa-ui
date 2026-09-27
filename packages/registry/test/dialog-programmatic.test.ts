@@ -73,10 +73,14 @@ describe("programmatic dialogs", () => {
     const handle = openDialog(Sheet, {
       title: "Role",
       body: () =>
-        h(Select, { modelValue: value.value, "onUpdate:modelValue": (next: string) => (value.value = next) }, () => [
-          h(SelectTrigger, () => h(SelectValue, { placeholder: "Choose" })),
-          h(SelectContent, () => ["viewer", "editor"].map((item) => h(SelectItem, { value: item }, () => item))),
-        ]),
+        h(
+          Select,
+          { modelValue: value.value, "onUpdate:modelValue": (next: unknown) => (value.value = next as string) },
+          () => [
+            h(SelectTrigger, () => h(SelectValue, { placeholder: "Choose" })),
+            h(SelectContent, () => ["viewer", "editor"].map((item) => h(SelectItem, { value: item }, () => item))),
+          ],
+        ),
     });
     await settle();
     const trigger = () => document.querySelector<HTMLElement>("[data-slot=select-trigger]")!;
