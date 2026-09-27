@@ -6,7 +6,7 @@ delta-ui adapts code from the projects below. Each adapted file names its source
 
 - Source: https://github.com/material-components/material-web
 - Licence: Apache License 2.0, full text below
-- Copyright 2022 Google LLC
+- Copyright 2021-2022 Google LLC
 - Adapted in:
   - `packages/core/src/ripple/directive.ts` — the ripple's press geometry, timing and soft edge, as a Vue directive
   - `packages/registry/src/ui/button/index.ts` — the touch target's `max(48px, 100%)` expansion and per-size wrapper margin formula
