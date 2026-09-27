@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   },
   ogImage: {
     zeroRuntime: true,
+    buildCache: true,
   },
   colorMode: {
     classSuffix: '',
