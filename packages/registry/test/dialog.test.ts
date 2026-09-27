@@ -1,4 +1,4 @@
-import { mount } from "@vue/test-utils";
+import { enableAutoUnmount, mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type Component, type VNodeChild, defineComponent, h, ref } from "vue";
@@ -27,7 +27,11 @@ const titles = () =>
 
 afterEach(() => {
   document.body.innerHTML = "";
+  document.body.style.pointerEvents = "";
+  document.body.removeAttribute("style");
 });
+
+enableAutoUnmount(afterEach);
 
 type Options = {
   content?: Record<string, unknown>;
