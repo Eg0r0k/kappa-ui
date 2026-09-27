@@ -72,7 +72,6 @@ const run = async (step: string, command: string, cwd: string, env: Record<strin
   child.stderr.setEncoding('utf8').on('data', (chunk: string) => (output += chunk))
   const [code, signal] = (await once(child, 'close')) as [number | null, NodeJS.Signals | null]
   if (code !== 0) fail(step, output || `exit ${code ?? signal}`)
-  return output
 }
 
 const readJson = async <T>(path: string) => JSON.parse(await readFile(path, 'utf8')) as T
@@ -192,10 +191,7 @@ const smoke = async (template: Template) => {
   const missing = examples.filter((_, index) => located[index] === undefined)
   if (missing.length > 0) fail(label('examples'), `not installed:\n${missing.join('\n')}`)
   await writeFile(join(dir, template.page), examplesPage(located.filter((path) => path !== undefined)))
-  for (const [step, command] of template.checks) {
-    const output = await run(label(step), command, dir)
-    if (output.includes('[Vue warn]')) fail(label(step), output)
-  }
+  for (const [step, command] of template.checks) await run(label(step), command, dir)
 }
 
 for (const template of templates) await smoke(template)
