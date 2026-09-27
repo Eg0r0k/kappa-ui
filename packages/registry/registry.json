@@ -2698,6 +2698,54 @@
       ]
     },
     {
+      "name": "dialog-programmatic",
+      "type": "registry:block",
+      "title": "Dialog programmatic",
+      "description": "A confirmation opened from code with openDialog, whose result says how it closed.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogProgrammatic.vue", "type": "registry:component" },
+        { "path": "src/examples/dialog/DeleteFileDialog.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-define",
+      "type": "registry:block",
+      "title": "Dialog define",
+      "description": "A progress dialog defined once with defineDialog and patched while it is open.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button"],
+      "files": [
+        { "path": "src/examples/dialog/DialogDefine.vue", "type": "registry:component" },
+        { "path": "src/examples/dialog/ExportDialog.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-async",
+      "type": "registry:block",
+      "title": "Dialog async",
+      "description": "A rename dialog that stays open while it saves and returns the new name.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button", "field", "input", "spinner"],
+      "files": [
+        { "path": "src/examples/dialog/DialogAsync.vue", "type": "registry:component" },
+        { "path": "src/examples/dialog/RenameDialog.vue", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "dialog-keep-mounted",
+      "type": "registry:block",
+      "title": "Dialog keep mounted",
+      "description": "A feedback form that keeps its draft between opens.",
+      "categories": ["example"],
+      "registryDependencies": ["dialog", "button", "field", "textarea"],
+      "files": [
+        { "path": "src/examples/dialog/DialogKeepMounted.vue", "type": "registry:component" },
+        { "path": "src/examples/dialog/FeedbackDialog.vue", "type": "registry:component" }
+      ]
+    },
+    {
       "name": "formisch-demo",
       "type": "registry:block",
       "title": "Formisch demo",

@@ -2,6 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import type { Component } from "vue";
 
+import { createDialogs } from "@/ui/dialog";
 import { createToaster } from "@/ui/toast";
 
 import registry from "../registry.json";
@@ -19,6 +20,8 @@ const modules = import.meta.glob<{ default: Component }>("../src/examples/**/*.v
   eager: true,
 });
 
+const entryFiles = exampleItems.map((item) => item.files[0]!.path);
+
 const toManifestPath = (key: string) => key.replace(/^\.\.\//, "");
 
 describe("examples", () => {
@@ -34,11 +37,14 @@ describe("examples", () => {
     expect(unregistered).toEqual([]);
   });
 
-  it.each(Object.entries(modules))("mounts %s without warnings", (_, module) => {
+  it.each(entryFiles)("mounts %s without warnings", (path) => {
     const warnings: string[] = [];
-    const wrapper = mount(module.default, {
+    const wrapper = mount(modules[`../${path}`]!.default, {
       attachTo: document.body,
-      global: { plugins: [createToaster()], config: { warnHandler: (message) => warnings.push(message) } },
+      global: {
+        plugins: [createToaster(), createDialogs()],
+        config: { warnHandler: (message) => warnings.push(message) },
+      },
     });
 
     expect(wrapper.element).toBeTruthy();

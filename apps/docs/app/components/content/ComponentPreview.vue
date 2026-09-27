@@ -22,14 +22,17 @@ const resolve = () => {
 }
 
 const { item, key } = resolve()
-const file = item.files[0]!
 const Example = defineAsyncComponent(exampleModules[key]!)
 const exampleCommand = addCommand('npm', registryItemUrl(useRuntimeConfig().public.siteUrl, item.name))
 
 const { data: code } = useAsyncData(`example-code:${props.name}`, async () => {
-  const source = await loadSource(file.path)
   const { highlight } = await import('~/lib/highlight')
-  return { source, html: await highlight(source, 'vue') }
+  return Promise.all(
+    item.files.map(async (file) => {
+      const source = await loadSource(file.path)
+      return { filename: file.path.replace(/^src\//, '@/'), source, html: await highlight(source, 'vue') }
+    }),
+  )
 })
 
 const colorMode = useColorMode()
@@ -96,7 +99,15 @@ watch(
         </PreviewFrame>
       </TabsContent>
       <TabsContent value="code">
-        <CodeBlock v-if="code" :filename="file.path.replace(/^src\//, '@/')" :html="code.html" :source="code.source" />
+        <div v-if="code" class="grid gap-3">
+          <CodeBlock
+            v-for="block in code"
+            :key="block.filename"
+            :filename="block.filename"
+            :html="block.html"
+            :source="block.source"
+          />
+        </div>
         <div class="mt-3 grid gap-2">
           <p class="text-xs text-muted-foreground">Add this example to your project:</p>
           <CommandLine :command="exampleCommand" />

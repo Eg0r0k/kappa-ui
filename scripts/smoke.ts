@@ -149,6 +149,7 @@ const batches = Array.from({ length: Math.ceil(itemNames.length / ADD_BATCH) }, 
 const consumerPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
 const exampleItems = manifest.items.filter((item) => item.categories?.includes('example'))
 const examples = exampleItems.flatMap((item) => item.files.map((file) => consumerPath(file.path)))
+const exampleEntries = exampleItems.map((item) => consumerPath(item.files[0]!.path))
 const loneExample = exampleItems[0] ?? fail('examples', 'the manifest has no examples')
 
 const examplesPage = (paths: string[]) =>
@@ -191,7 +192,7 @@ const smoke = async (template: Template) => {
   }
   const missing = missingIn(examples)
   if (missing.length > 0) fail(label('examples'), `not installed:\n${missing.join('\n')}`)
-  await writeFile(join(dir, template.page), examplesPage(examples))
+  await writeFile(join(dir, template.page), examplesPage(exampleEntries))
   for (const [step, command] of template.checks) await run(label(step), command, dir)
 }
 
