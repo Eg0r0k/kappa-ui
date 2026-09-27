@@ -13,6 +13,7 @@ const REGISTRY_BASE = `${HOMEPAGE}/r`
 
 const CORE_PACKAGE = '@delta-ui/core'
 const PUBLISHED_ALIAS = '@/registry/delta-ui/'
+const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
 const IMPLICIT_PACKAGES = new Set(['vue'])
 const SPECIFIER = /(?<![.\w$])(from\s*|import\s*\(\s*|import\s+)(["'])([^"'\n]+)\2/g
 const SCRIPT_FILE = /\.(ts|vue)$/
@@ -275,6 +276,7 @@ for (const item of registry.items) {
   for (const file of item.files) {
     files.push({
       ...file,
+      path: publishedPath(file.path),
       content: publishedContent(file.path, await readFile(resolve(manifestDir, file.path), 'utf8')),
     })
   }
@@ -306,9 +308,11 @@ await writeFile(
       $schema: REGISTRY_SCHEMA,
       name: registry.name,
       homepage: HOMEPAGE,
-      items: registry.items.map((item) =>
-        item.dependencies ? { ...item, dependencies: stamp(item.dependencies) } : item,
-      ),
+      items: registry.items.map((item) => ({
+        ...item,
+        ...(item.dependencies ? { dependencies: stamp(item.dependencies) } : {}),
+        files: item.files.map((file) => ({ ...file, path: publishedPath(file.path) })),
+      })),
     },
     null,
     2,

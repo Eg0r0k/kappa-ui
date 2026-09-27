@@ -227,6 +227,20 @@ test('writes @delta-ui/core with the caret range of the core version', async () 
   assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, ['@delta-ui/core@^1.2.3', 'clsx'])
 })
 
+test('publishes example files under components/examples, where the CLI keeps their folder', async () => {
+  const { status, stderr, out } = await run([component, example])
+  assert.equal(status, 0, stderr)
+  assert.equal((await published(out, 'demo-example')).files[0]?.path, 'components/examples/demo/DemoExample.vue')
+  assert.equal((await published(out, 'demo')).files[0]?.path, 'src/ui/demo/Demo.vue')
+  const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8')) as {
+    items: { name: string; files: { path: string }[] }[]
+  }
+  assert.equal(
+    index.items.find((item) => item.name === 'demo-example')?.files[0]?.path,
+    'components/examples/demo/DemoExample.vue',
+  )
+})
+
 test('rejects a version written on @delta-ui/core in the manifest', async () => {
   const { status, stderr } = await run([{ ...component, dependencies: ['@delta-ui/core@^0.1.0'] }, example])
   assert.equal(status, 1)
