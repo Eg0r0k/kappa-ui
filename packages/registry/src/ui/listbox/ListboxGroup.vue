@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ListboxGroup, type ListboxGroupProps } from "@delta-ui/core/listbox";
+import { ListboxGroup, type ListboxGroupProps } from "@kappa-ui/core/listbox";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

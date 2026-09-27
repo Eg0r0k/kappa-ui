@@ -23,7 +23,7 @@ const facade = (code: string, file: string) => errors(code, file, 'no-restricted
 
 const assertRejected = (found: { rule: string | null; text: string }[]) => {
   assert.equal(found.length, 1, JSON.stringify(found))
-  assert.match(found[0]?.text ?? '', /Import from @delta-ui\/core instead\./)
+  assert.match(found[0]?.text ?? '', /Import from @kappa-ui\/core instead\./)
 }
 
 test('rejects reka-ui in a registry .ts file', async () => {
@@ -48,7 +48,7 @@ test('rejects a type-only reka-ui import', async () => {
 
 test('accepts the facade in registry sources', async () => {
   assert.deepEqual(
-    await facade(sfc('import { Label } from "@delta-ui/core/label";'), 'packages/registry/src/ui/probe/Probe.vue'),
+    await facade(sfc('import { Label } from "@kappa-ui/core/label";'), 'packages/registry/src/ui/probe/Probe.vue'),
     [],
   )
 })
@@ -70,7 +70,7 @@ test('rejects an unknown Tailwind class in a registry component', async () => {
 test('accepts theme tokens and hook classes in a registry component', async () => {
   assert.deepEqual(
     await errors(
-      template('<div class="delta-probe bg-card text-body-md text-muted-foreground duration-short-4 ease-standard" />'),
+      template('<div class="kappa-probe bg-card text-body-md text-muted-foreground duration-short-4 ease-standard" />'),
       'packages/registry/src/ui/probe/Probe.vue',
     ),
     [],

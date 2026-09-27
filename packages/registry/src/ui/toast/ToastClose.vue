@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { X } from "@lucide/vue";
-import { ToastClose } from "@delta-ui/core/toast";
+import { ToastClose } from "@kappa-ui/core/toast";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";

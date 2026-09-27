@@ -4,8 +4,8 @@ import {
   MenuRadioItem,
   type MenuRadioItemEmits,
   type MenuRadioItemProps,
-} from "@delta-ui/core/menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuIndicator, menuIndicatorItem, menuRadioDot } from "@/lib/menu";

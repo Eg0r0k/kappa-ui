@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@delta-ui/core/tailwind.css";
+@import "@kappa-ui/core/tailwind.css";
 
 @source "../src";
 
@@ -144,8 +144,8 @@
 
 @layer base {
   :root {
-    --delta-ripple-opacity: var(--state-pressed, 12%);
-    --delta-ripple-easing: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    --kappa-ripple-opacity: var(--state-pressed, 12%);
+    --kappa-ripple-easing: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
   }
 
   button:not(:disabled),

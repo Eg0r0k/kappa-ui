@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/ui/separator'
 import { useToast } from '@/ui/toast'
 
-const link = 'https://delta.dev/d/q4-roadmap'
+const link = 'https://kappa-ui.pages.dev/d/q4-roadmap'
 
 const people = ref([
   {

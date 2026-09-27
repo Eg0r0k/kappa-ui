@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vScrollFade } from "@delta-ui/core/scroll-fade";
+import { vScrollFade } from "@kappa-ui/core/scroll-fade";
 </script>
 
 <template>

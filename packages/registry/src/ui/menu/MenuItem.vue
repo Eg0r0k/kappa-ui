@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { MenuItem, type MenuItemEmits, type MenuItemProps } from "@delta-ui/core/menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { MenuItem, type MenuItemEmits, type MenuItemProps } from "@kappa-ui/core/menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuItem } from "@/lib/menu";

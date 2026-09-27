@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { DropdownMenuItem, type DropdownMenuItemEmits, type DropdownMenuItemProps } from "@delta-ui/core/dropdown-menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { DropdownMenuItem, type DropdownMenuItemEmits, type DropdownMenuItemProps } from "@kappa-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuItem } from "@/lib/menu";

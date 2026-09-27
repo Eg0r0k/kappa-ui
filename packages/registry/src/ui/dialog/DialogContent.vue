@@ -5,9 +5,9 @@ import {
   type DialogContentEmits,
   type DialogContentProps,
   DialogPortal,
-} from "@delta-ui/core/dialog";
-import { injectOverlayPortalTarget } from "@delta-ui/core/overlay";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/dialog";
+import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { X } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

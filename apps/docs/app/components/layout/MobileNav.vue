@@ -31,7 +31,7 @@ const open = ref(false)
         class="fixed inset-y-0 start-0 z-50 flex w-72 flex-col border-e bg-background text-foreground"
       >
         <div class="flex h-14 items-center justify-between border-b px-4">
-          <DialogTitle class="font-semibold">delta-ui</DialogTitle>
+          <DialogTitle class="font-semibold">kappa-ui</DialogTitle>
           <DialogClose as-child>
             <Button variant="ghost" color="neutral" size="icon" aria-label="Close navigation">
               <X />

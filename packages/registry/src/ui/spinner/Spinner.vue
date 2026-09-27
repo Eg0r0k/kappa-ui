@@ -12,20 +12,20 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     data-icon="inline-start"
     viewBox="0 0 24 24"
     aria-hidden="true"
-    :class="cn('delta-spinner shrink-0', props.class)"
+    :class="cn('kappa-spinner shrink-0', props.class)"
   >
     <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
   </svg>
 </template>
 
 <style scoped>
-.delta-spinner {
+.kappa-spinner {
   animation:
-    delta-spinner-sweep 0.8s infinite linear alternate,
-    delta-spinner-flip 1.6s infinite linear;
+    kappa-spinner-sweep 0.8s infinite linear alternate,
+    kappa-spinner-flip 1.6s infinite linear;
 }
 
-@keyframes delta-spinner-sweep {
+@keyframes kappa-spinner-sweep {
   0% {
     clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
   }
@@ -49,7 +49,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
   }
 }
 
-@keyframes delta-spinner-flip {
+@keyframes kappa-spinner-flip {
   0% {
     transform: scaleY(1) rotate(0deg);
   }
@@ -65,7 +65,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .delta-spinner {
+  .kappa-spinner {
     animation: none;
     clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
   }

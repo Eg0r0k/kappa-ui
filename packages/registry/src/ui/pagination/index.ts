@@ -1,4 +1,4 @@
-import { createContext } from "@delta-ui/core/utils";
+import { createContext } from "@kappa-ui/core/utils";
 import type { ComputedRef } from "vue";
 
 import type { ButtonVariants } from "@/ui/button";

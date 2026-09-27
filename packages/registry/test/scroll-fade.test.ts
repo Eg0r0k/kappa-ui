@@ -1,4 +1,4 @@
-import { vScrollFade } from "@delta-ui/core/scroll-fade";
+import { vScrollFade } from "@kappa-ui/core/scroll-fade";
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";

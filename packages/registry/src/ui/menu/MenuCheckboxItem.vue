@@ -4,8 +4,8 @@ import {
   type MenuCheckboxItemEmits,
   type MenuCheckboxItemProps,
   MenuItemIndicator,
-} from "@delta-ui/core/menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

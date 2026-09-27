@@ -5,9 +5,9 @@ import {
   type DropdownMenuContentProps,
   DropdownMenuPortal,
   injectDropdownMenuRootContext,
-} from "@delta-ui/core/dropdown-menu";
-import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/dropdown-menu";
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-ui/core/overlay";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

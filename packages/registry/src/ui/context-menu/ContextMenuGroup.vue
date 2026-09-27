@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuGroup, type ContextMenuGroupProps } from "@delta-ui/core/context-menu";
+import { ContextMenuGroup, type ContextMenuGroupProps } from "@kappa-ui/core/context-menu";
 
 const props = defineProps<ContextMenuGroupProps>();
 </script>

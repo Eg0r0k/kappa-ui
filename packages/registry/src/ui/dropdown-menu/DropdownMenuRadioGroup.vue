@@ -3,8 +3,8 @@ import {
   DropdownMenuRadioGroup,
   type DropdownMenuRadioGroupEmits,
   type DropdownMenuRadioGroupProps,
-} from "@delta-ui/core/dropdown-menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 
 const props = defineProps<DropdownMenuRadioGroupProps>();
 const emits = defineEmits<DropdownMenuRadioGroupEmits>();

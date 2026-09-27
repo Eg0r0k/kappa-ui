@@ -6,7 +6,7 @@ import {
   createToaster as createCoreToaster,
   provideToaster as provideCoreToaster,
   useToast as useCoreToast,
-} from "@delta-ui/core/toast";
+} from "@kappa-ui/core/toast";
 import type { Component } from "vue";
 
 export { default as ToastAction } from "./ToastAction.vue";

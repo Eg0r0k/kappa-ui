@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PaginationNext, type PaginationNextProps } from "@delta-ui/core/pagination";
+import { PaginationNext, type PaginationNextProps } from "@kappa-ui/core/pagination";
 import { ChevronRight } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

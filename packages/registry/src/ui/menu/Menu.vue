@@ -1,5 +1,5 @@
 <!--
-  Adapted from Quasar Framework (https://github.com/quasarframework/quasar), modified for delta-ui.
+  Adapted from Quasar Framework (https://github.com/quasarframework/quasar), modified for kappa-ui.
   Copyright (c) 2015-present Razvan Stoenescu. MIT License: https://github.com/quasarframework/quasar/blob/dev/LICENSE
 -->
 <script lang="ts">
@@ -8,9 +8,9 @@ const targets = new WeakMap<Element, { attached: number; open: number }>();
 </script>
 
 <script setup lang="ts">
-import { MenuAnchor, MenuContent, MenuPortal, MenuRoot } from "@delta-ui/core/menu";
-import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
-import { useDirection, useId } from "@delta-ui/core/utils";
+import { MenuAnchor, MenuContent, MenuPortal, MenuRoot } from "@kappa-ui/core/menu";
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-ui/core/overlay";
+import { useDirection, useId } from "@kappa-ui/core/utils";
 import {
   type HTMLAttributes,
   nextTick,

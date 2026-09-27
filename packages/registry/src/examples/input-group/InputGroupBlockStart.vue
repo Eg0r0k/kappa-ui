@@ -3,7 +3,7 @@ import { Copy, FileCode } from "@lucide/vue";
 
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from "@/ui/input-group";
 
-const code = `const greet = (name: string) => \`Hello, \${name}!\`;\n\nconsole.log(greet("delta-ui"));`;
+const code = `const greet = (name: string) => \`Hello, \${name}!\`;\n\nconsole.log(greet("kappa-ui"));`;
 </script>
 
 <template>

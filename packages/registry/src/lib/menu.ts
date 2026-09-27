@@ -1,4 +1,4 @@
-import { createContext } from "@delta-ui/core/utils";
+import { createContext } from "@kappa-ui/core/utils";
 import { type VariantProps, cva } from "class-variance-authority";
 import type { Ref } from "vue";
 

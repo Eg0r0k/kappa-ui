@@ -4,8 +4,8 @@ import {
   type DropdownMenuCheckboxItemEmits,
   type DropdownMenuCheckboxItemProps,
   DropdownMenuItemIndicator,
-} from "@delta-ui/core/dropdown-menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/dropdown-menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

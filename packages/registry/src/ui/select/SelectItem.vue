@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SelectItem, type SelectItemEmits, SelectItemIndicator, type SelectItemProps } from "@delta-ui/core/select";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { SelectItem, type SelectItemEmits, SelectItemIndicator, type SelectItemProps } from "@kappa-ui/core/select";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

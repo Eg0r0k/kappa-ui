@@ -1,4 +1,4 @@
-// Adapted from Material Web (https://github.com/material-components/material-web), modified for delta-ui.
+// Adapted from Material Web (https://github.com/material-components/material-web), modified for kappa-ui.
 // Copyright 2022 Google LLC. Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
 import type { Directive, DirectiveBinding } from "vue";
@@ -70,7 +70,7 @@ const readTime = (style: CSSStyleDeclaration, name: string, fallback: number) =>
   return value.endsWith("s") ? time * 1000 : fallback;
 };
 
-const readEasing = (style: CSSStyleDeclaration) => style.getPropertyValue("--delta-ripple-easing").trim() || EASING;
+const readEasing = (style: CSSStyleDeclaration) => style.getPropertyValue("--kappa-ripple-easing").trim() || EASING;
 
 const matches = (query: string) => typeof matchMedia === "function" && matchMedia(query).matches;
 
@@ -118,7 +118,7 @@ const releaseWave = (state: RippleState, wave: Wave) => {
 
   const elapsed = performance.now() - wave.startTime;
   const holdFor = Math.max(MINIMUM_PRESS_MS - elapsed, 0);
-  const fadeFor = readTime(getComputedStyle(state.container!), "--delta-ripple-fade-duration", FADE_OUT_MS);
+  const fadeFor = readTime(getComputedStyle(state.container!), "--kappa-ripple-fade-duration", FADE_OUT_MS);
 
   wave.hideTimer = setTimeout(() => {
     wave.element.dataset.hiding = "";
@@ -149,14 +149,14 @@ const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number):
     width: `${geometry.initialSize}px`,
     height: `${geometry.initialSize}px`,
     borderRadius: "50%",
-    opacity: "var(--delta-ripple-opacity, 0.12)",
+    opacity: "var(--kappa-ripple-opacity, 0.12)",
     background:
-      "radial-gradient(closest-side, var(--delta-ripple-color, currentColor) max(calc(100% - 70px), 65%), transparent 100%)",
+      "radial-gradient(closest-side, var(--kappa-ripple-color, currentColor) max(calc(100% - 70px), 65%), transparent 100%)",
     transform: from,
   });
-  if (state.options.color) element.style.setProperty("--delta-ripple-color", state.options.color);
+  if (state.options.color) element.style.setProperty("--kappa-ripple-color", state.options.color);
   if (state.options.opacity !== undefined) {
-    element.style.setProperty("--delta-ripple-opacity", `${state.options.opacity}`);
+    element.style.setProperty("--kappa-ripple-opacity", `${state.options.opacity}`);
   }
 
   container.appendChild(element);
@@ -168,7 +168,7 @@ const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number):
   } else {
     wave.animations.push(
       element.animate([{ transform: from }, { transform: to }], {
-        duration: readTime(style, "--delta-ripple-grow-duration", PRESS_GROW_MS),
+        duration: readTime(style, "--kappa-ripple-grow-duration", PRESS_GROW_MS),
         easing: readEasing(style),
         fill: "forwards",
       }),

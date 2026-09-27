@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { MenuRadioGroup, type MenuRadioGroupEmits, type MenuRadioGroupProps } from "@delta-ui/core/menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { MenuRadioGroup, type MenuRadioGroupEmits, type MenuRadioGroupProps } from "@kappa-ui/core/menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 
 const props = defineProps<MenuRadioGroupProps>();
 const emits = defineEmits<MenuRadioGroupEmits>();

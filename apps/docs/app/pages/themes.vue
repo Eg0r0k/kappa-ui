@@ -40,11 +40,11 @@ import { Separator } from '@/ui/separator'
 import { Slider } from '@/ui/slider'
 
 useSeoMeta({
-  title: 'Themes · delta-ui',
+  title: 'Themes · kappa-ui',
   description: 'Pick a brand colour, neutral, corner radius and font, and copy the CSS.',
 })
 
-defineOgImage('DeltaDocs', {
+defineOgImage('KappaDocs', {
   title: 'Themes',
   description: 'Pick a brand colour, neutral, corner radius and font, and copy the CSS.',
 })
@@ -250,7 +250,7 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
             <DialogHeader>
               <DialogTitle>Theme CSS</DialogTitle>
               <DialogDescription>
-                Paste it into your global CSS, after the delta-ui theme. The font import goes with your other imports,
+                Paste it into your global CSS, after the kappa-ui theme. The font import goes with your other imports,
                 at the top.
               </DialogDescription>
             </DialogHeader>

@@ -78,7 +78,7 @@ it("grows from the press point towards the centre", () => {
 });
 
 it("reads its timing from custom properties at press time", () => {
-  host(true, "--delta-ripple-grow-duration:123ms;--delta-ripple-easing:linear");
+  host(true, "--kappa-ripple-grow-duration:123ms;--kappa-ripple-easing:linear");
   press(element("host"), 50, 50);
 
   const timing = waves()[0]!.getAnimations()[0]!.effect!.getTiming();
@@ -91,7 +91,7 @@ it("reads timing set on the ripple container", () => {
   press(element("host"), 50, 50);
   release(element("host"));
 
-  container()!.style.setProperty("--delta-ripple-grow-duration", "77ms");
+  container()!.style.setProperty("--kappa-ripple-grow-duration", "77ms");
   press(element("host"), 50, 50);
 
   const timing = waves()[1]!.getAnimations()[0]!.effect!.getTiming();
@@ -99,7 +99,7 @@ it("reads timing set on the ripple container", () => {
 });
 
 it("holds a short press for its minimum, then fades and removes the wave", async () => {
-  host(true, "--delta-ripple-fade-duration:20ms");
+  host(true, "--kappa-ripple-fade-duration:20ms");
   press(element("host"), 50, 50);
   release(element("host"));
 
@@ -115,7 +115,7 @@ it("falls back to static waves where the Web Animations API is missing", async (
   Object.defineProperty(HTMLElement.prototype, "animate", { value: undefined, configurable: true, writable: true });
 
   try {
-    host(true, "--delta-ripple-fade-duration:20ms");
+    host(true, "--kappa-ripple-fade-duration:20ms");
     expect(() => press(element("host"), 50, 50)).not.toThrow();
     expect(() => release(element("host"))).not.toThrow();
 
@@ -134,8 +134,8 @@ it("tints the wave through the directive options", () => {
   press(element("host"), 50, 50);
 
   const wave = waves()[0]!;
-  expect(wave.style.getPropertyValue("--delta-ripple-color")).toBe("red");
-  expect(wave.style.getPropertyValue("--delta-ripple-opacity")).toBe("0.3");
+  expect(wave.style.getPropertyValue("--kappa-ripple-color")).toBe("red");
+  expect(wave.style.getPropertyValue("--kappa-ripple-opacity")).toBe("0.3");
 });
 
 it("stays off when bound to false", () => {

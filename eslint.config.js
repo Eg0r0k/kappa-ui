@@ -18,8 +18,8 @@ const facadeOnly = {
   'no-restricted-imports': [
     'error',
     {
-      paths: [{ name: 'reka-ui', message: 'Import from @delta-ui/core instead.' }],
-      patterns: [{ group: ['reka-ui/*'], message: 'Import from @delta-ui/core instead.' }],
+      paths: [{ name: 'reka-ui', message: 'Import from @kappa-ui/core instead.' }],
+      patterns: [{ group: ['reka-ui/*'], message: 'Import from @kappa-ui/core instead.' }],
     },
   ],
 }
@@ -57,10 +57,10 @@ export default defineConfig([
     rules: facadeOnly,
   },
   tailwind(['packages/registry/src/**/*.{ts,vue}'], './packages/registry/test/setup.css', './packages/registry/', [
-    '^delta-',
+    '^kappa-',
   ]),
   tailwind(['apps/docs/app/**/*.{ts,vue}'], './apps/docs/app/assets/css/globals.css', './apps/docs/', [
-    '^delta-',
+    '^kappa-',
     '^not-prose$',
   ]),
 ])

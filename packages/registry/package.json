@@ -1,5 +1,5 @@
 {
-  "name": "@delta-ui/registry",
+  "name": "@kappa-ui/registry",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,7 +8,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@delta-ui/core": "workspace:*",
+    "@kappa-ui/core": "workspace:*",
     "@formisch/vue": "^1.1.0",
     "@lucide/vue": "^1.47.0",
     "@tanstack/vue-virtual": "^3.13.39",

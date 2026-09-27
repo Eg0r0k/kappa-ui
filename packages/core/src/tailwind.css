@@ -70,14 +70,14 @@
   }
 }
 
-@keyframes delta-overlay-in {
+@keyframes kappa-overlay-in {
   from {
     opacity: 0;
     transform: translate(var(--overlay-x, 0), var(--overlay-y, 0)) scale(var(--overlay-scale, 0.96));
   }
 }
 
-@keyframes delta-overlay-out {
+@keyframes kappa-overlay-out {
   to {
     opacity: 0;
     transform: scale(var(--overlay-scale, 0.96));
@@ -98,11 +98,11 @@
     --overlay-x: -0.25rem;
   }
   &[data-state="open"] {
-    animation: delta-overlay-in var(--transition-duration-short-4, 200ms)
+    animation: kappa-overlay-in var(--transition-duration-short-4, 200ms)
       var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
   }
   &[data-state="closed"] {
-    animation: delta-overlay-out var(--transition-duration-short-2, 100ms)
+    animation: kappa-overlay-out var(--transition-duration-short-2, 100ms)
       var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -115,7 +115,7 @@
   }
 }
 
-@keyframes delta-accordion-down {
+@keyframes kappa-accordion-down {
   from {
     height: 0;
   }
@@ -124,7 +124,7 @@
   }
 }
 
-@keyframes delta-accordion-up {
+@keyframes kappa-accordion-up {
   from {
     height: var(--reka-accordion-content-height);
   }
@@ -134,7 +134,7 @@
 }
 
 @utility animate-accordion-down {
-  animation: delta-accordion-down var(--transition-duration-medium-1, 250ms)
+  animation: kappa-accordion-down var(--transition-duration-medium-1, 250ms)
     var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -142,14 +142,14 @@
 }
 
 @utility animate-accordion-up {
-  animation: delta-accordion-up var(--transition-duration-short-4, 200ms)
+  animation: kappa-accordion-up var(--transition-duration-short-4, 200ms)
     var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15));
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
 }
 
-@keyframes delta-skeleton-wave {
+@keyframes kappa-skeleton-wave {
   from {
     transform: translateX(-100%);
   }
@@ -172,7 +172,7 @@
       color-mix(in oklab, var(--foreground) var(--state-hover, 8%), transparent),
       transparent
     );
-    animation: delta-skeleton-wave 1.5s linear 0.5s infinite;
+    animation: kappa-skeleton-wave 1.5s linear 0.5s infinite;
   }
   &:dir(rtl)::after {
     animation-direction: reverse;

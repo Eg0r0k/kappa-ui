@@ -4,8 +4,8 @@ import {
   type ContextMenuCheckboxItemEmits,
   type ContextMenuCheckboxItemProps,
   ContextMenuItemIndicator,
-} from "@delta-ui/core/context-menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/context-menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

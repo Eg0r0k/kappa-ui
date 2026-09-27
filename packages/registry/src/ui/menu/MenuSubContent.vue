@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { MenuPortal, MenuSubContent, type MenuSubContentEmits, type MenuSubContentProps } from "@delta-ui/core/menu";
-import { injectOverlayPortalTarget } from "@delta-ui/core/overlay";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { MenuPortal, MenuSubContent, type MenuSubContentEmits, type MenuSubContentProps } from "@kappa-ui/core/menu";
+import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

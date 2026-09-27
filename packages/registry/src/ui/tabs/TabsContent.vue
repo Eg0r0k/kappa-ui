@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TabsContent, type TabsContentProps } from "@delta-ui/core/tabs";
+import { TabsContent, type TabsContentProps } from "@kappa-ui/core/tabs";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

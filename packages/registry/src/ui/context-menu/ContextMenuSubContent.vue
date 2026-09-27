@@ -4,9 +4,9 @@ import {
   ContextMenuSubContent,
   type ContextMenuSubContentEmits,
   type ContextMenuSubContentProps,
-} from "@delta-ui/core/context-menu";
-import { injectOverlayPortalTarget } from "@delta-ui/core/overlay";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/context-menu";
+import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";

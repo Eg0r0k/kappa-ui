@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-ui/core/overlay";
 import {
   PopoverContent,
   type PopoverContentEmits,
   type PopoverContentProps,
   PopoverPortal,
   injectPopoverRootContext,
-} from "@delta-ui/core/popover";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/popover";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { modalScrim, overlaySurface } from "@/lib/overlay";

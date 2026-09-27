@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from "@delta-ui/core/accordion";
+import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from "@kappa-ui/core/accordion";
 import { ChevronDown } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

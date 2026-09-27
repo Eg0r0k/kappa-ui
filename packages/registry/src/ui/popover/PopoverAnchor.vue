@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PopoverAnchor, type PopoverAnchorProps } from "@delta-ui/core/popover";
+import { PopoverAnchor, type PopoverAnchorProps } from "@kappa-ui/core/popover";
 
 const props = defineProps<PopoverAnchorProps>();
 </script>

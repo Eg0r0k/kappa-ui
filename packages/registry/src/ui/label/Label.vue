@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Label, type LabelProps } from "@delta-ui/core/label";
+import { Label, type LabelProps } from "@kappa-ui/core/label";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";

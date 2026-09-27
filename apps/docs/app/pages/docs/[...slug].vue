@@ -16,7 +16,7 @@ useSeoMeta({
   description: page.value.description,
 })
 
-defineOgImage('DeltaDocs', {
+defineOgImage('KappaDocs', {
   title: page.value.title,
   description: page.value.description,
 })

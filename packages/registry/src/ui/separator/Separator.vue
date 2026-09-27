@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Separator, type SeparatorProps } from "@delta-ui/core/separator";
+import { Separator, type SeparatorProps } from "@kappa-ui/core/separator";
 import { type HTMLAttributes, computed, useSlots } from "vue";
 
 import { cn } from "@/lib/utils";

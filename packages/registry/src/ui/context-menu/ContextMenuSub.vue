@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ContextMenuSub, type ContextMenuSubEmits, type ContextMenuSubProps } from "@delta-ui/core/context-menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { ContextMenuSub, type ContextMenuSubEmits, type ContextMenuSubProps } from "@kappa-ui/core/context-menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 
 const props = defineProps<ContextMenuSubProps>();
 const emits = defineEmits<ContextMenuSubEmits>();

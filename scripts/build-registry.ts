@@ -4,15 +4,15 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-const HOMEPAGE = (process.env.DELTA_UI_URL ?? 'https://delta-ui.dev').replace(/\/+$/, '')
+const HOMEPAGE = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
 
 const REGISTRY_SCHEMA = 'https://shadcn-vue.com/schema/registry.json'
 const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
-const CORE_PACKAGE = '@delta-ui/core'
-const PUBLISHED_ALIAS = '@/registry/delta-ui/'
+const CORE_PACKAGE = '@kappa-ui/core'
+const PUBLISHED_ALIAS = '@/registry/kappa-ui/'
 const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
 const IMPLICIT_PACKAGES = new Set(['vue'])
 const SPECIFIER = /(?<![.\w$])(from\s*|import\s*\(\s*|import\s+)(["'])([^"'\n]+)\2/g
@@ -165,7 +165,7 @@ for (const item of registry.items) {
   }
 
   if (shipsMechanism(item.css)) {
-    errors.push(`item "${item.name}": @utility and @keyframes belong in @delta-ui/core/tailwind.css`)
+    errors.push(`item "${item.name}": @utility and @keyframes belong in @kappa-ui/core/tailwind.css`)
   }
 
   for (const dependency of item.dependencies ?? []) {
@@ -203,7 +203,7 @@ for (const item of registry.items) {
       const content = await readFile(filePath, 'utf8')
       if (/@utility\b/.test(content) || /@keyframes\b/.test(content)) {
         errors.push(
-          `item "${item.name}", file "${file.path}": @utility and @keyframes belong in @delta-ui/core/tailwind.css`,
+          `item "${item.name}", file "${file.path}": @utility and @keyframes belong in @kappa-ui/core/tailwind.css`,
         )
       }
     }

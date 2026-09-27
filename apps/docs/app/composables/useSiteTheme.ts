@@ -1,7 +1,7 @@
 import { type ThemeConfig, themeFromQuery, themeToQuery } from '~/lib/theme'
 
 export const useSiteTheme = () => {
-  const cookie = useCookie<Record<string, string>>('delta-theme', {
+  const cookie = useCookie<Record<string, string>>('kappa-theme', {
     default: () => ({}),
     maxAge: 60 * 60 * 24 * 365,
     sameSite: 'lax',

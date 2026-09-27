@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogClose, type DialogCloseProps } from "@delta-ui/core/dialog";
+import { DialogClose, type DialogCloseProps } from "@kappa-ui/core/dialog";
 
 const props = defineProps<DialogCloseProps>();
 </script>

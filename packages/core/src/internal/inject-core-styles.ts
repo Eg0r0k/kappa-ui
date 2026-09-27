@@ -1,5 +1,5 @@
-const css = `@layer delta-core {
-  [data-delta-scroll-viewport]::-webkit-scrollbar { display: none }
+const css = `@layer kappa-core {
+  [data-kappa-scroll-viewport]::-webkit-scrollbar { display: none }
 }`;
 
 let injected = false;

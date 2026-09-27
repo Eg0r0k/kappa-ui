@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { DialogRoot, type DialogRootEmits, type DialogRootProps } from "@delta-ui/core/dialog";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { DialogRoot, type DialogRootEmits, type DialogRootProps } from "@kappa-ui/core/dialog";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 
 const props = defineProps<DialogRootProps>();
 const emits = defineEmits<DialogRootEmits>();

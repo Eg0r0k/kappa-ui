@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectScrollUpButton, type SelectScrollUpButtonProps } from "@delta-ui/core/select";
+import { SelectScrollUpButton, type SelectScrollUpButtonProps } from "@kappa-ui/core/select";
 import { ChevronUp } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

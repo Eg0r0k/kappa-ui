@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { MenuSub, type MenuSubEmits, type MenuSubProps } from "@delta-ui/core/menu";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { MenuSub, type MenuSubEmits, type MenuSubProps } from "@kappa-ui/core/menu";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 
 const props = defineProps<MenuSubProps>();
 const emits = defineEmits<MenuSubEmits>();

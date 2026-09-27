@@ -1,6 +1,6 @@
 {
   "$schema": "https://shadcn-vue.com/schema/registry.json",
-  "name": "delta-ui",
+  "name": "kappa-ui",
   "items": [
     {
       "name": "utils",
@@ -20,7 +20,7 @@
       "type": "registry:lib",
       "title": "Field context",
       "description": "The context a Field provides so the control inside it can wire its id, description and error.",
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "files": [
         {
           "path": "src/lib/field-context.ts",
@@ -76,7 +76,7 @@
       "type": "registry:lib",
       "title": "Menu",
       "description": "Item, label, separator and shortcut styles shared by the dropdown menu, context menu and select.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "files": [
         {
           "path": "src/lib/menu.ts",
@@ -89,7 +89,7 @@
       "type": "registry:lib",
       "title": "Tokens",
       "description": "The status colours, state, motion and typescale tokens components read, and the destructive foreground shadcn dropped.",
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "cssVars": {
         "light": {
           "state-hover": "8%",
@@ -242,13 +242,13 @@
         }
       },
       "files": [],
-      "css": { "@import \"@delta-ui/core/tailwind.css\"": {} }
+      "css": { "@import \"@kappa-ui/core/tailwind.css\"": {} }
     },
     {
       "name": "theme",
       "type": "registry:theme",
       "title": "Theme",
-      "description": "delta-ui colours, derived from one brand colour, and its corner radius.",
+      "description": "kappa-ui colours, derived from one brand colour, and its corner radius.",
       "css": {
         ".dark": {
           "color-scheme": "dark"
@@ -345,7 +345,7 @@
       "title": "Ripple",
       "description": "Vue directive for a Material-style press ripple that grows from the press point and drifts to the centre.",
       "docs": "This is a Vue directive, so it does nothing until you register it. Add it once in your app entry:\n\n  import vRipple from '@/lib/ripple'\n  app.directive('ripple', vRipple)\n\nThen use it anywhere: <Button v-ripple>Press me</Button>. Pass false to disable it, or an object to tint it: v-ripple=\"{ color: 'red', opacity: 0.3 }\".\n\nThe host element must establish a containing block; the directive sets position: relative on it only if it is still static.",
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "files": [
         {
           "path": "src/lib/ripple/index.ts",
@@ -355,8 +355,8 @@
       "css": {
         "@layer base": {
           ":root": {
-            "--delta-ripple-opacity": "var(--state-pressed, 12%)",
-            "--delta-ripple-easing": "var(--ease-standard, cubic-bezier(0.2, 0, 0, 1))"
+            "--kappa-ripple-opacity": "var(--state-pressed, 12%)",
+            "--kappa-ripple-easing": "var(--ease-standard, cubic-bezier(0.2, 0, 0, 1))"
           }
         }
       }
@@ -378,9 +378,9 @@
       "type": "registry:item",
       "title": "Scroll fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
-      "docs": "Put v-scroll-fade from @delta-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
-      "dependencies": ["@delta-ui/core"],
-      "css": { "@import \"@delta-ui/core/tailwind.css\"": {} },
+      "docs": "Put v-scroll-fade from @kappa-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
+      "dependencies": ["@kappa-ui/core"],
+      "css": { "@import \"@kappa-ui/core/tailwind.css\"": {} },
       "files": []
     },
     {
@@ -389,7 +389,7 @@
       "title": "Accordion",
       "description": "Stacked sections that expand one at a time or several at once, whose closed answers the browser's find in page can search and open.",
       "dependencies": [
-        "@delta-ui/core",
+        "@kappa-ui/core",
         "@lucide/vue"
       ],
       "registryDependencies": [
@@ -424,7 +424,7 @@
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Constrains its content to a given width-to-height ratio.",
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "files": [
         {
           "path": "src/ui/aspect-ratio/AspectRatio.vue",
@@ -473,7 +473,7 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "A small label with Button's variants and colours, five sizes, side-aware icon padding and a square form.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         { "path": "src/ui/badge/Badge.vue", "type": "registry:ui" },
@@ -485,7 +485,7 @@
       "type": "registry:ui",
       "title": "Button group",
       "description": "Buttons joined into one control, horizontal or vertical, with an optional separator and text.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "separator"],
       "files": [
         { "path": "src/ui/button-group/ButtonGroup.vue", "type": "registry:ui" },
@@ -499,7 +499,7 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Page navigation with previous and next, ellipses for skipped pages, Button's variants and five sizes.",
-      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "button"],
       "files": [
         { "path": "src/ui/pagination/Pagination.vue", "type": "registry:ui" },
@@ -517,7 +517,7 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "A row of media, title, description and actions, with Select's variants, five sizes and list semantics.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "separator"],
       "files": [
         { "path": "src/ui/item/Item.vue", "type": "registry:ui" },
@@ -538,7 +538,7 @@
       "type": "registry:ui",
       "title": "Toast",
       "description": "Brief messages from a useToast() service: ids to update and remove, promises, groups, and a stacked Toaster that expands on hover.",
-      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "button", "spinner"],
       "files": [
         { "path": "src/ui/toast/ToastAction.vue", "type": "registry:ui" },
@@ -555,7 +555,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens"],
       "css": {
         "@layer base": {
@@ -574,7 +574,7 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "Surface that groups related content, with header, title, description, content and footer parts.",
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -633,7 +633,7 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Accessible label for a form control.",
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -651,7 +651,7 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A horizontal or vertical line between content, in five thicknesses, with an optional label in the middle.",
-      "dependencies": ["@delta-ui/core", "class-variance-authority"],
+      "dependencies": ["@kappa-ui/core", "class-variance-authority"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -687,7 +687,7 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "overlay"],
       "files": [
         {
@@ -717,7 +717,7 @@
       "type": "registry:ui",
       "title": "Listbox",
       "description": "A list to pick one or more options from, with icons, titles, descriptions, groups and a replaceable check, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -767,7 +767,7 @@
       "type": "registry:ui",
       "title": "Menu",
       "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
-      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
       "files": [
         {
@@ -833,7 +833,7 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Label, description and error for one form control, wired to it automatically, plus group and fieldset layout.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "label", "field-context"],
       "files": [
         {
@@ -879,7 +879,7 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, with an optional floating label, that picks up its id, description, error and state from a surrounding Field.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context", "text-control"],
       "files": [
         {
@@ -897,7 +897,7 @@
       "type": "registry:ui",
       "title": "Input group",
       "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context", "text-control", "button", "textarea"],
       "files": [
         { "path": "src/ui/input-group/InputGroup.vue", "type": "registry:ui" },
@@ -932,7 +932,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
       "files": [
         {
@@ -954,7 +954,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A modal window built from parts: a header, a body that scrolls, and a footer, opened from a template or from code, on Reka UI.",
-      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "button"],
       "files": [
         {
@@ -1012,7 +1012,7 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
       "files": [
         {
@@ -1082,7 +1082,7 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
       "files": [
         {
@@ -1152,7 +1152,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Material-style switch with five sizes, an optional touch target and custom icons in the handle, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -1170,7 +1170,7 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "Panels switched by a row or column of tabs, in pill and line variants and five sizes, with an indicator that slides to the active tab.",
-      "dependencies": ["@delta-ui/core", "class-variance-authority"],
+      "dependencies": ["@kappa-ui/core", "class-variance-authority"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -1200,7 +1200,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
       "files": [
         {
@@ -1222,7 +1222,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
       "registryDependencies": ["utils", "tokens", "field-context", "text-control", "overlay", "menu-styles"],
       "files": [
         {
@@ -1280,7 +1280,7 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "Slider with one or more thumbs, a default and an inset look, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@delta-ui/core"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -2044,7 +2044,7 @@
       "title": "Scroll fade mask",
       "description": "A scrolling list whose edges fade by mask.",
       "categories": ["example"],
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "registryDependencies": ["scroll-fade"],
       "files": [
         { "path": "src/examples/scroll-fade/ScrollFadeMask.vue", "type": "registry:component" }
@@ -2056,7 +2056,7 @@
       "title": "Scroll fade overlay",
       "description": "A scrolling list whose edges fade by overlay gradients.",
       "categories": ["example"],
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "registryDependencies": ["scroll-fade"],
       "files": [
         { "path": "src/examples/scroll-fade/ScrollFadeOverlay.vue", "type": "registry:component" }
@@ -2068,7 +2068,7 @@
       "title": "Scroll fade in Firefox",
       "description": "Two lists, without and with v-scroll-fade.",
       "categories": ["example"],
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "registryDependencies": ["scroll-fade"],
       "files": [
         { "path": "src/examples/scroll-fade/ScrollFadeFirefox.vue", "type": "registry:component" }
@@ -2080,7 +2080,7 @@
       "title": "Horizontal scroll fade",
       "description": "A row of badges whose inline edges fade by mask.",
       "categories": ["example"],
-      "dependencies": ["@delta-ui/core"],
+      "dependencies": ["@kappa-ui/core"],
       "registryDependencies": ["scroll-fade", "badge"],
       "files": [
         { "path": "src/examples/scroll-fade/ScrollFadeHorizontal.vue", "type": "registry:component" }
@@ -2575,7 +2575,7 @@
       "title": "Listbox select",
       "description": "Options that run an action on select instead of staying selected.",
       "categories": ["example"],
-      "dependencies": ["@lucide/vue", "@delta-ui/core"],
+      "dependencies": ["@lucide/vue", "@kappa-ui/core"],
       "registryDependencies": ["listbox"],
       "files": [
         { "path": "src/examples/listbox/ListboxSelect.vue", "type": "registry:component" }

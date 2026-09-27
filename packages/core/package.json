@@ -1,9 +1,9 @@
 {
-  "name": "@delta-ui/core",
+  "name": "@kappa-ui/core",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "description": "The headless parts, directives and Reka UI facade behind the delta-ui registry.",
+  "description": "The headless parts, directives and Reka UI facade behind the kappa-ui registry.",
   "type": "module",
   "sideEffects": [
     "**/*.css"

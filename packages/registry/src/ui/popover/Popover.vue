@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PopoverRoot, type PopoverRootEmits, type PopoverRootProps } from "@delta-ui/core/popover";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { PopoverRoot, type PopoverRootEmits, type PopoverRootProps } from "@kappa-ui/core/popover";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 
 const props = defineProps<PopoverRootProps>();
 const emits = defineEmits<PopoverRootEmits>();

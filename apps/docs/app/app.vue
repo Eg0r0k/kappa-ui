@@ -8,7 +8,7 @@ import { Toaster } from '@/ui/toast'
 const { theme } = useSiteTheme()
 
 useHead({
-  titleTemplate: (title) => (title && title !== 'delta-ui' ? `${title} · delta-ui` : 'delta-ui'),
+  titleTemplate: (title) => (title && title !== 'kappa-ui' ? `${title} · kappa-ui` : 'kappa-ui'),
   style: [{ key: 'site-theme', innerHTML: computed(() => (isDefaultTheme(theme.value) ? '' : siteCss(theme.value))) }],
   link: computed(() =>
     theme.value.font === 'inter'

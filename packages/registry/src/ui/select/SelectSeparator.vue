@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectSeparator, type SelectSeparatorProps } from "@delta-ui/core/select";
+import { SelectSeparator, type SelectSeparatorProps } from "@kappa-ui/core/select";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSeparator } from "@/lib/menu";

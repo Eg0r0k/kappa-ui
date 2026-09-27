@@ -2,7 +2,7 @@
 import { ConfigProvider } from 'reka-ui'
 import { type HTMLAttributes, ref } from 'vue'
 
-import { provideOverlayPortalTarget } from '@delta-ui/core/overlay'
+import { provideOverlayPortalTarget } from '@kappa-ui/core/overlay'
 import { cn } from '@/lib/utils'
 
 const props = defineProps<{

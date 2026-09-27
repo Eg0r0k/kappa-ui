@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { provideOverlayPortalTarget } from '@delta-ui/core/overlay'
+import { provideOverlayPortalTarget } from '@kappa-ui/core/overlay'
 import ButtonsCard from '~/components/themes/preview/ButtonsCard.vue'
 import InboxCard from '~/components/themes/preview/InboxCard.vue'
 import InvoicesCard from '~/components/themes/preview/InvoicesCard.vue'

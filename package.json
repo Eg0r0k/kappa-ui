@@ -1,13 +1,13 @@
 {
-  "name": "delta-ui",
+  "name": "kappa-ui",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "dev": "pnpm registry:build && pnpm --filter @delta-ui/docs dev",
-    "build": "pnpm registry:build && pnpm --filter @delta-ui/docs build",
-    "preview": "pnpm --filter @delta-ui/docs preview",
+    "dev": "pnpm registry:build && pnpm --filter @kappa-ui/docs dev",
+    "build": "pnpm registry:build && pnpm --filter @kappa-ui/docs build",
+    "preview": "pnpm --filter @kappa-ui/docs preview",
     "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
     "test": "pnpm format:check && node --test scripts/build-registry.test.ts scripts/eslint-config.test.ts scripts/css-sync.test.ts && pnpm lint && pnpm -r test",
     "lint": "eslint packages/core/src packages/registry/src apps/docs/app scripts",

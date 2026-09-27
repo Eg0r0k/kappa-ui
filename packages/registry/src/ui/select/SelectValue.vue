@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectValue, type SelectValueProps } from "@delta-ui/core/select";
+import { SelectValue, type SelectValueProps } from "@kappa-ui/core/select";
 
 const props = defineProps<SelectValueProps>();
 </script>

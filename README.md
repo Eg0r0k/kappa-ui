@@ -1,18 +1,18 @@
-# delta-ui
+# kappa-ui
 
 A shadcn-style component registry for Vue. Components are not installed as an
 npm package — you copy their source straight into your own project, so you
 own and can freely modify the code from day one.
 
 ```
-npx shadcn-vue add https://delta-ui.dev/r/button.json
+npx shadcn-vue add https://kappa-ui.pages.dev/r/button.json
 ```
 
 Requirements, theming, every component and its API are documented on the
 site: run `pnpm dev` and open http://localhost:3000.
 
-`delta-ui.dev` is a placeholder domain. The real host comes from the
-`DELTA_UI_URL` environment variable at build time; both the registry and the
+`kappa-ui.dev` is a placeholder domain. The real host comes from the
+`KAPPA_UI_URL` environment variable at build time; both the registry and the
 site read it.
 
 ## Repo layout
@@ -37,7 +37,7 @@ Run from the repo root:
 - `pnpm test` — check formatting, run the root script tests, lint, then run
   every package's tests: the component tests in real Chromium and Firefox,
   and the docs tests.
-- `pnpm smoke` — pack `@delta-ui/core`, build the registry, and install every item into a fresh Vite project and a fresh Nuxt project with the shadcn-vue CLI, then type-check and build both. Needs the network and takes a few minutes; not part of `pnpm test`. `--only vite|nuxt` runs one project, `--keep` keeps the work directory.
+- `pnpm smoke` — pack `@kappa-ui/core`, build the registry, and install every item into a fresh Vite project and a fresh Nuxt project with the shadcn-vue CLI, then type-check and build both. Needs the network and takes a few minutes; not part of `pnpm test`. `--only vite|nuxt` runs one project, `--keep` keeps the work directory.
 - `pnpm format` — format the repo with Prettier.
 
 ## License

@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/ui/input-group";
 
-const link = "https://delta-ui.dev/r/input-group.json";
+const link = "https://kappa-ui.pages.dev/r/input-group.json";
 const copied = ref(false);
 const password = ref("correct horse battery");
 const visible = ref(false);

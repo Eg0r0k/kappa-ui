@@ -59,10 +59,10 @@ it("opens one item at a time in single mode and closes the open one on a second 
 it("animates a panel's height open and closed", async () => {
   renderAccordion({ type: "single" });
   await userEvent.click(trigger("one"));
-  expect(getComputedStyle(panel("one")!).animationName).toBe("delta-accordion-down");
+  expect(getComputedStyle(panel("one")!).animationName).toBe("kappa-accordion-down");
 
   await userEvent.click(trigger("one"));
-  expect(getComputedStyle(panel("one")!).animationName).toBe("delta-accordion-up");
+  expect(getComputedStyle(panel("one")!).animationName).toBe("kappa-accordion-up");
 });
 
 it("keeps several items open in multiple mode", async () => {

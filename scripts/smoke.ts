@@ -57,7 +57,7 @@ if (templates.length === 0) {
   process.exit(1)
 }
 
-const workDir = await mkdtemp(join(tmpdir(), 'delta-smoke-'))
+const workDir = await mkdtemp(join(tmpdir(), 'kappa-smoke-'))
 
 const fail = (step: string, output: string): never => {
   console.error(`smoke: ${step} failed\n\n${output}\n\nsmoke: work directory kept at ${workDir}`)
@@ -81,10 +81,10 @@ const core = await readJson<CorePackage>(join(repoRoot, 'packages/core/package.j
 
 const packDir = join(workDir, 'pack')
 await mkdir(packDir)
-await run('pack @delta-ui/core', `pnpm --filter ${core.name} pack --pack-destination "${packDir}"`, repoRoot)
+await run('pack @kappa-ui/core', `pnpm --filter ${core.name} pack --pack-destination "${packDir}"`, repoRoot)
 const tarballName =
   (await readdir(packDir)).find((file) => file.endsWith('.tgz')) ??
-  fail('pack @delta-ui/core', `no tarball in ${packDir}`)
+  fail('pack @kappa-ui/core', `no tarball in ${packDir}`)
 const tarballPath = join(packDir, tarballName)
 await run('publint', 'pnpm exec publint --pack pnpm', join(repoRoot, 'packages/core'))
 await run(
@@ -139,10 +139,10 @@ server.on('request', async (request, response) => {
 })
 
 await run('build the registry', `"${process.execPath}" scripts/build-registry.ts --out "${registryDir}"`, repoRoot, {
-  DELTA_UI_URL: origin,
+  KAPPA_UI_URL: origin,
 })
 
-const itemNames = manifest.items.map((item) => `@delta/${item.name}`)
+const itemNames = manifest.items.map((item) => `@kappa/${item.name}`)
 const batches = Array.from({ length: Math.ceil(itemNames.length / ADD_BATCH) }, (_, index) =>
   itemNames.slice(index * ADD_BATCH, (index + 1) * ADD_BATCH),
 )
@@ -170,17 +170,17 @@ const smoke = async (template: Template) => {
   const dir = join(workDir, template.name)
   const label = (step: string) => `${template.name}: ${step}`
   await cp(join(repoRoot, 'scripts/smoke', template.name), dir, { recursive: true })
-  await writeFile(join(dir, '.npmrc'), `@delta-ui:registry=${origin}/npm/\n`)
+  await writeFile(join(dir, '.npmrc'), `@kappa-ui:registry=${origin}/npm/\n`)
   await run(label('install'), 'pnpm install', dir)
   await run(label('shadcn-vue init'), 'pnpm exec shadcn-vue init --yes --defaults --base-color neutral', dir)
   const configPath = join(dir, 'components.json')
   const config = await readJson<{ registries?: Record<string, string> }>(configPath)
   await writeFile(
     configPath,
-    `${JSON.stringify({ ...config, registries: { ...config.registries, '@delta': `${origin}/r/{name}.json` } }, null, 2)}\n`,
+    `${JSON.stringify({ ...config, registries: { ...config.registries, '@kappa': `${origin}/r/{name}.json` } }, null, 2)}\n`,
   )
   const missingIn = (paths: string[]) => paths.filter((path) => !existsSync(join(dir, template.sourceDir, path)))
-  await run(label('add one example'), `pnpm exec shadcn-vue add @delta/${loneExample.name} --yes --overwrite`, dir)
+  await run(label('add one example'), `pnpm exec shadcn-vue add @kappa/${loneExample.name} --yes --overwrite`, dir)
   const loneMissing = missingIn(loneExample.files.map((file) => consumerPath(file.path)))
   if (loneMissing.length > 0) fail(label('add one example'), `not installed:\n${loneMissing.join('\n')}`)
   for (const [index, batch] of batches.entries()) {

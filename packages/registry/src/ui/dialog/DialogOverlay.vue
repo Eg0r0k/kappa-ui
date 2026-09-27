@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogOverlay, type DialogOverlayProps } from "@delta-ui/core/dialog";
+import { DialogOverlay, type DialogOverlayProps } from "@kappa-ui/core/dialog";
 import { type HTMLAttributes, computed } from "vue";
 
 import { modalScrim } from "@/lib/overlay";

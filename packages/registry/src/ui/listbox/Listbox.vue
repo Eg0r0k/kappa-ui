@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ListboxContent, ListboxRoot, type ListboxRootEmits, type ListboxRootProps } from "@delta-ui/core/listbox";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+import { ListboxContent, ListboxRoot, type ListboxRootEmits, type ListboxRootProps } from "@kappa-ui/core/listbox";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MenuGroup, type MenuGroupProps } from "@delta-ui/core/menu";
+import { MenuGroup, type MenuGroupProps } from "@kappa-ui/core/menu";
 
 const props = defineProps<MenuGroupProps>();
 </script>

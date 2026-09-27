@@ -27,7 +27,7 @@ const example = {
 }
 
 const run = async (items: unknown[], env: Record<string, string> = {}, files: Record<string, string> = {}) => {
-  const root = await mkdtemp(join(tmpdir(), 'delta-registry-'))
+  const root = await mkdtemp(join(tmpdir(), 'kappa-registry-'))
   await mkdir(join(root, 'src/ui/demo'), { recursive: true })
   await mkdir(join(root, 'src/examples/demo'), { recursive: true })
   await mkdir(join(root, 'src/other'), { recursive: true })
@@ -40,7 +40,7 @@ const run = async (items: unknown[], env: Record<string, string> = {}, files: Re
     await writeFile(join(root, path), content)
   }
   await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'fixture', items }))
-  await writeFile(join(root, 'core.json'), JSON.stringify({ name: '@delta-ui/core', version: '1.2.3' }))
+  await writeFile(join(root, 'core.json'), JSON.stringify({ name: '@kappa-ui/core', version: '1.2.3' }))
   const out = join(root, 'out')
   const result = spawnSync(
     process.execPath,
@@ -95,8 +95,8 @@ test('rejects an example file outside src/examples', async () => {
   )
 })
 
-test('builds dependency URLs and the homepage from DELTA_UI_URL', async () => {
-  const { status, stderr, out } = await run([component, example], { DELTA_UI_URL: 'https://example.test/' })
+test('builds dependency URLs and the homepage from KAPPA_UI_URL', async () => {
+  const { status, stderr, out } = await run([component, example], { KAPPA_UI_URL: 'https://example.test/' })
   assert.equal(status, 0, stderr)
   const item = JSON.parse(await readFile(join(out, 'demo-example.json'), 'utf8'))
   assert.deepEqual(item.registryDependencies, ['https://example.test/r/demo.json'])
@@ -123,11 +123,11 @@ test('rejects an item that ships a utility or keyframes in its css', async () =>
   }
   const { status, stderr } = await run([styled, example])
   assert.equal(status, 1)
-  assert.match(stderr, /item "demo": @utility and @keyframes belong in @delta-ui\/core\/tailwind.css/)
+  assert.match(stderr, /item "demo": @utility and @keyframes belong in @kappa-ui\/core\/tailwind.css/)
 })
 
 test('accepts an item that imports the core stylesheet', async () => {
-  const styled = { ...component, css: { '@import "@delta-ui/core/tailwind.css"': {} } }
+  const styled = { ...component, css: { '@import "@kappa-ui/core/tailwind.css"': {} } }
   const { status, stderr } = await run([styled, example])
   assert.equal(status, 0, stderr)
 })
@@ -150,7 +150,7 @@ test('rejects an item that ships a utility in a css file', async () => {
   assert.equal(status, 1)
   assert.match(
     stderr,
-    /item "glow", file "src\/other\/glow\.css": @utility and @keyframes belong in @delta-ui\/core\/tailwind\.css/,
+    /item "glow", file "src\/other\/glow\.css": @utility and @keyframes belong in @kappa-ui\/core\/tailwind\.css/,
   )
 })
 
@@ -165,7 +165,7 @@ test('rejects an item whose css nests keyframes inside @theme inline', async () 
   }
   const { status, stderr } = await run([styled, example])
   assert.equal(status, 1)
-  assert.match(stderr, /item "demo": @utility and @keyframes belong in @delta-ui\/core\/tailwind\.css/)
+  assert.match(stderr, /item "demo": @utility and @keyframes belong in @kappa-ui\/core\/tailwind\.css/)
 })
 
 const sfc = (script: string) => `<script setup lang="ts">\n${script}\n</script>\n\n<template><div /></template>\n`
@@ -211,24 +211,24 @@ test('publishes @/ imports under the registry alias the CLI rewrites', async () 
   assert.equal(status, 0, stderr)
   const item = await published(out, 'demo')
   const content = item.files[0]?.content ?? ''
-  assert.match(content, /import \{ Button \} from "@\/registry\/delta-ui\/ui\/button";/)
-  assert.match(content, /import type \{ Size \} from '@\/registry\/delta-ui\/lib\/sizes';/)
-  assert.match(content, /import "@\/registry\/delta-ui\/lib\/side-effect";/)
+  assert.match(content, /import \{ Button \} from "@\/registry\/kappa-ui\/ui\/button";/)
+  assert.match(content, /import type \{ Size \} from '@\/registry\/kappa-ui\/lib\/sizes';/)
+  assert.match(content, /import "@\/registry\/kappa-ui\/lib\/side-effect";/)
   assert.match(content, /import Part from "\.\/Part\.vue";/)
-  assert.match(content, /import\("@\/registry\/delta-ui\/ui\/lazy"\)/)
+  assert.match(content, /import\("@\/registry\/kappa-ui\/ui\/lazy"\)/)
 
   const buttonIndex = item.files.find((file) => file.path === 'src/ui/button/index.ts')
-  assert.match(buttonIndex?.content ?? '', /import \{ x \} from "@\/registry\/delta-ui\/lib\/sizes";/)
+  assert.match(buttonIndex?.content ?? '', /import \{ x \} from "@\/registry\/kappa-ui\/lib\/sizes";/)
 })
 
-test('writes @delta-ui/core with the caret range of the core version', async () => {
-  const { status, stderr, out } = await run([{ ...component, dependencies: ['@delta-ui/core', 'clsx'] }, example])
+test('writes @kappa-ui/core with the caret range of the core version', async () => {
+  const { status, stderr, out } = await run([{ ...component, dependencies: ['@kappa-ui/core', 'clsx'] }, example])
   assert.equal(status, 0, stderr)
-  assert.deepEqual((await published(out, 'demo')).dependencies, ['@delta-ui/core@^1.2.3', 'clsx'])
+  assert.deepEqual((await published(out, 'demo')).dependencies, ['@kappa-ui/core@^1.2.3', 'clsx'])
   const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8')) as {
     items: { name: string; dependencies?: string[] }[]
   }
-  assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, ['@delta-ui/core@^1.2.3', 'clsx'])
+  assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, ['@kappa-ui/core@^1.2.3', 'clsx'])
 })
 
 test('publishes example files under components/examples, where the CLI keeps their folder', async () => {
@@ -245,10 +245,10 @@ test('publishes example files under components/examples, where the CLI keeps the
   )
 })
 
-test('rejects a version written on @delta-ui/core in the manifest', async () => {
-  const { status, stderr } = await run([{ ...component, dependencies: ['@delta-ui/core@^0.1.0'] }, example])
+test('rejects a version written on @kappa-ui/core in the manifest', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['@kappa-ui/core@^0.1.0'] }, example])
   assert.equal(status, 1)
-  assert.match(stderr, /item "demo": list "@delta-ui\/core" without a version/)
+  assert.match(stderr, /item "demo": list "@kappa-ui\/core" without a version/)
 })
 
 test('rejects an import of a package the item does not list', async () => {
@@ -268,11 +268,11 @@ test('rejects an import of a package the item does not list', async () => {
 
 test('accepts a package listed by a registryDependency, a subpath of a listed package, and vue', async () => {
   const { status, stderr } = await run(
-    [{ ...component, dependencies: ['@lucide/vue', '@delta-ui/core'] }, example],
+    [{ ...component, dependencies: ['@lucide/vue', '@kappa-ui/core'] }, example],
     {},
     {
       'src/examples/demo/DemoExample.vue': sfc(
-        'import { X } from "@lucide/vue";\nimport { DialogContent } from "@delta-ui/core/dialog";\nimport { ref } from "vue";',
+        'import { X } from "@lucide/vue";\nimport { DialogContent } from "@kappa-ui/core/dialog";\nimport { ref } from "vue";',
       ),
     },
   )

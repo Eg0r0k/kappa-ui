@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import type { Nuxt } from 'nuxt/schema'
 
-const siteUrl = (process.env.DELTA_UI_URL ?? 'https://delta-ui.dev').replace(/\/+$/, '')
+const siteUrl = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
 
 const resolveMdcDepsThroughContent = (_options: unknown, nuxt: Nuxt) => {
   nuxt.hook('vite:extendConfig', (config) => {
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxtjs/color-mode', 'nuxt-og-image', resolveMdcDepsThroughContent],
   site: {
     url: siteUrl,
-    name: 'delta-ui',
+    name: 'kappa-ui',
   },
   ogImage: {
     zeroRuntime: true,
@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     classSuffix: '',
     preference: 'system',
     fallback: 'light',
-    storageKey: 'delta-ui-color-mode',
+    storageKey: 'kappa-ui-color-mode',
   },
   content: {
     experimental: { sqliteConnector: 'native' },

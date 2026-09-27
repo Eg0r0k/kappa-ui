@@ -6,9 +6,9 @@ import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/ui/input-group";
 import { Spinner } from "@/ui/spinner";
 
-const taken = ["admin", "delta", "root"];
+const taken = ["admin", "kappa", "root"];
 
-const name = ref("delta");
+const name = ref("kappa");
 const checking = ref(false);
 let timer: ReturnType<typeof setTimeout> | undefined;
 
@@ -30,7 +30,7 @@ const invalid = computed(() => !checking.value && taken.includes(name.value.trim
     <FieldLabel>Username</FieldLabel>
     <InputGroup>
       <InputGroupAddon>
-        <InputGroupText>delta-ui.dev/</InputGroupText>
+        <InputGroupText>kappa-ui.dev/</InputGroupText>
       </InputGroupAddon>
       <InputGroupInput v-model="name" autocomplete="off" />
       <InputGroupAddon align="inline-end">

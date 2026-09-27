@@ -1,6 +1,6 @@
 # Third-party notices
 
-delta-ui adapts code from the projects below. Each adapted file names its source and licence in a header, and every one of them was modified for delta-ui.
+kappa-ui adapts code from the projects below. Each adapted file names its source and licence in a header, and every one of them was modified for kappa-ui.
 
 ## Material Web
 

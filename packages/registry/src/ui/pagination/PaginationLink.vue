@@ -3,7 +3,7 @@ import {
   PaginationListItem,
   type PaginationListItemProps,
   injectPaginationRootContext,
-} from "@delta-ui/core/pagination";
+} from "@kappa-ui/core/pagination";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

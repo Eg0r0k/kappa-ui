@@ -154,7 +154,7 @@ describe("Toaster", () => {
     await wait(50);
     const [timed, loading] = toasts();
     const bar = timed!.querySelector<HTMLElement>("[data-slot=toast-progress]")!;
-    expect(getComputedStyle(bar).animationName).toBe("delta-toast-progress");
+    expect(getComputedStyle(bar).animationName).toBe("kappa-toast-progress");
     expect(getComputedStyle(bar).animationDuration).toBe("4s");
     expect(loading!.querySelector("[data-slot=toast-progress]")).toBeNull();
     viewport().dispatchEvent(new PointerEvent("pointermove", { bubbles: true }));

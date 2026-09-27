@@ -4,12 +4,12 @@ import { addCommand, installDependenciesCommand, registryItemUrl } from '~/lib/i
 
 describe('registryItemUrl', () => {
   it('joins the site URL and the item name', () => {
-    expect(registryItemUrl('https://delta-ui.dev/', 'button')).toBe('https://delta-ui.dev/r/button.json')
+    expect(registryItemUrl('https://kappa-ui.pages.dev/', 'button')).toBe('https://kappa-ui.pages.dev/r/button.json')
   })
 })
 
 describe('addCommand', () => {
-  const url = 'https://delta-ui.dev/r/button.json'
+  const url = 'https://kappa-ui.pages.dev/r/button.json'
 
   it.each([
     ['pnpm', `pnpm dlx shadcn-vue@latest add ${url}`],

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AccordionContent, type AccordionContentProps } from "@delta-ui/core/accordion";
+import { AccordionContent, type AccordionContentProps } from "@kappa-ui/core/accordion";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

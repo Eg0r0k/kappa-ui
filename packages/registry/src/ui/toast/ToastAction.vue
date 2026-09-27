@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ToastAction } from "@delta-ui/core/toast";
+import { ToastAction } from "@kappa-ui/core/toast";
 import type { HTMLAttributes } from "vue";
 
 import { Button, type ButtonVariants } from "@/ui/button";

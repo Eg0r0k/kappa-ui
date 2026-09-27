@@ -4,8 +4,8 @@ import {
   type ListboxItemEmits,
   ListboxItemIndicator,
   type ListboxItemProps,
-} from "@delta-ui/core/listbox";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/listbox";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

@@ -1,4 +1,4 @@
-// Adapted from Quasar Framework (https://github.com/quasarframework/quasar), modified for delta-ui.
+// Adapted from Quasar Framework (https://github.com/quasarframework/quasar), modified for kappa-ui.
 // Copyright (c) 2015-present Razvan Stoenescu. MIT License: https://github.com/quasarframework/quasar/blob/dev/LICENSE
 
 export type MenuVertical = "top" | "center" | "bottom";

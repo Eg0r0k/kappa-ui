@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PaginationPrev, type PaginationPrevProps } from "@delta-ui/core/pagination";
+import { PaginationPrev, type PaginationPrevProps } from "@kappa-ui/core/pagination";
 import { ChevronLeft } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

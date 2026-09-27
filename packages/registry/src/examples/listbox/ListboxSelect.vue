@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ListboxItemSelectEvent } from "@delta-ui/core/listbox";
+import type { ListboxItemSelectEvent } from "@kappa-ui/core/listbox";
 import { File } from "@lucide/vue";
 import { ref } from "vue";
 

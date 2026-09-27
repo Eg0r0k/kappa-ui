@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PaginationEllipsis, type PaginationEllipsisProps } from "@delta-ui/core/pagination";
+import { PaginationEllipsis, type PaginationEllipsisProps } from "@kappa-ui/core/pagination";
 import { Ellipsis } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 

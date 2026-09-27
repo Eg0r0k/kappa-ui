@@ -29,7 +29,7 @@ describe("Skeleton", () => {
 
   it("sweeps a wave across, and stands still with none", () => {
     const wave = render({ animation: "wave", class: "h-4" });
-    expect(getComputedStyle(wave, "::after").animationName).toBe("delta-skeleton-wave");
+    expect(getComputedStyle(wave, "::after").animationName).toBe("kappa-skeleton-wave");
     expect(getComputedStyle(wave).overflow).toBe("hidden");
 
     document.body.innerHTML = "";

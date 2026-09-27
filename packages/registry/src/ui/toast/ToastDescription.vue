@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ToastDescription, type ToastDescriptionProps } from "@delta-ui/core/toast";
+import { ToastDescription, type ToastDescriptionProps } from "@kappa-ui/core/toast";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

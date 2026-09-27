@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { injectOverlayPortalTarget } from "@delta-ui/core/overlay";
+import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
 import {
   ToastPortal,
   ToastProvider,
@@ -7,8 +7,8 @@ import {
   ToastViewport,
   useToastGroup,
   useToastStack,
-} from "@delta-ui/core/toast";
-import { useDirection } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/toast";
+import { useDirection } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, ref } from "vue";
 
 import { cn } from "@/lib/utils";
@@ -79,11 +79,11 @@ const place = (toast: Toast) => {
       data-slot="toast"
       :data-color="toast.color ?? 'neutral'"
       :style="place(toast)"
-      class="delta-toast overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-lg ring-1 [--scroll-fade-color:var(--popover)] ring-surface-border outline-none focus-visible:focus-ring"
+      class="kappa-toast overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-lg ring-1 [--scroll-fade-color:var(--popover)] ring-surface-border outline-none focus-visible:focus-ring"
       @pause="paused = true"
       @resume="paused = false"
     >
-      <div :ref="stack.measure(toast.id)" data-slot="toast-content" class="delta-toast-content p-4">
+      <div :ref="stack.measure(toast.id)" data-slot="toast-content" class="kappa-toast-content p-4">
         <slot name="toast" :toast="toast">
           <ToastRow :toast="toast" />
         </slot>
@@ -92,7 +92,7 @@ const place = (toast: Toast) => {
         v-if="props.progress && timed(toast)"
         :key="`${remaining}:${toast.open}`"
         data-slot="toast-progress"
-        :class="cn('delta-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-current', accentOf(toast))"
+        :class="cn('kappa-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-current', accentOf(toast))"
         :style="{ animationDuration: `${remaining}ms` }"
       />
     </ToastRecordRoot>
@@ -109,14 +109,14 @@ const place = (toast: Toast) => {
           '--toast-total-height': `${stack.total.value}px`,
           '--toast-count': stack.count.value,
         }"
-        :class="cn('delta-toaster z-100 outline-none', props.class)"
+        :class="cn('kappa-toaster z-100 outline-none', props.class)"
       />
     </ToastPortal>
   </ToastProvider>
 </template>
 
 <style>
-.delta-toaster {
+.kappa-toaster {
   --toast-gap: 0.75rem;
   --toast-peek: 0.625rem;
   --toast-inset: 1rem;
@@ -154,7 +154,7 @@ const place = (toast: Toast) => {
   }
 }
 
-.delta-toast {
+.kappa-toast {
   --toast-y: calc(var(--toast-sign) * min(var(--toast-index), 2) * var(--toast-peek));
   position: absolute;
   inset-inline: 0;
@@ -169,13 +169,13 @@ const place = (toast: Toast) => {
   transition-duration: var(--transition-duration-medium-4, 400ms);
   transition-timing-function: var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
 
-  .delta-toaster[data-side="top"] > & {
+  .kappa-toaster[data-side="top"] > & {
     top: 0;
     bottom: auto;
     transform-origin: 50% 0;
   }
 
-  .delta-toaster:is(:hover, :focus-within, [data-expand]) > & {
+  .kappa-toaster:is(:hover, :focus-within, [data-expand]) > & {
     --toast-y: calc(var(--toast-sign) * (var(--toast-offset) + var(--toast-index) * var(--toast-gap)));
     height: var(--toast-height);
     scale: 1;
@@ -183,12 +183,12 @@ const place = (toast: Toast) => {
   }
 
   &[data-state="open"] {
-    animation: delta-toast-in var(--transition-duration-medium-4, 400ms)
+    animation: kappa-toast-in var(--transition-duration-medium-4, 400ms)
       var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
   }
 
   &[data-state="closed"] {
-    animation: delta-toast-out var(--transition-duration-short-4, 200ms)
+    animation: kappa-toast-out var(--transition-duration-short-4, 200ms)
       var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
   }
 
@@ -214,48 +214,48 @@ const place = (toast: Toast) => {
   }
 
   &[data-swipe="end"] {
-    animation: delta-toast-swipe-out var(--transition-duration-short-4, 200ms)
+    animation: kappa-toast-swipe-out var(--transition-duration-short-4, 200ms)
       var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
   }
 }
 
-.delta-toast-content {
+.kappa-toast-content {
   opacity: calc(1 - min(var(--toast-index), 1));
   transition: opacity var(--transition-duration-short-4, 200ms) linear;
 
-  .delta-toaster:is(:hover, :focus-within, [data-expand]) & {
+  .kappa-toaster:is(:hover, :focus-within, [data-expand]) & {
     opacity: 1;
   }
 }
 
-.delta-toast-progress {
+.kappa-toast-progress {
   transform-origin: left;
-  animation: delta-toast-progress linear forwards;
+  animation: kappa-toast-progress linear forwards;
 
   &:dir(rtl) {
     transform-origin: right;
   }
 
-  .delta-toaster[data-paused] & {
+  .kappa-toaster[data-paused] & {
     animation-play-state: paused;
   }
 }
 
-@keyframes delta-toast-in {
+@keyframes kappa-toast-in {
   from {
     opacity: 0;
     transform: translateY(calc(var(--toast-sign) * -100%));
   }
 }
 
-@keyframes delta-toast-out {
+@keyframes kappa-toast-out {
   to {
     opacity: 0;
     transform: translateY(calc(var(--toast-sign) * -25%));
   }
 }
 
-@keyframes delta-toast-swipe-out {
+@keyframes kappa-toast-swipe-out {
   from {
     transform: translate(var(--reka-toast-swipe-end-x, 0px), var(--reka-toast-swipe-end-y, 0px));
   }
@@ -265,36 +265,36 @@ const place = (toast: Toast) => {
   }
 }
 
-@keyframes delta-toast-progress {
+@keyframes kappa-toast-progress {
   to {
     scale: 0 1;
   }
 }
 
-@keyframes delta-toast-fade-in {
+@keyframes kappa-toast-fade-in {
   from {
     opacity: 0;
   }
 }
 
-@keyframes delta-toast-fade-out {
+@keyframes kappa-toast-fade-out {
   to {
     opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .delta-toaster,
-  .delta-toast {
+  .kappa-toaster,
+  .kappa-toast {
     transition-property: opacity;
   }
 
-  .delta-toast[data-state="open"] {
-    animation-name: delta-toast-fade-in;
+  .kappa-toast[data-state="open"] {
+    animation-name: kappa-toast-fade-in;
   }
 
-  .delta-toast:is([data-state="closed"], [data-swipe="end"]) {
-    animation-name: delta-toast-fade-out;
+  .kappa-toast:is([data-state="closed"], [data-swipe="end"]) {
+    animation-name: kappa-toast-fade-out;
   }
 }
 </style>

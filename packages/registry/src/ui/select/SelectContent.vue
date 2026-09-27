@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@delta-ui/core/overlay";
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-ui/core/overlay";
 import {
   SelectContent,
   type SelectContentEmits,
@@ -7,8 +7,8 @@ import {
   SelectPortal,
   SelectViewport,
   injectSelectRootContext,
-} from "@delta-ui/core/select";
-import { useForwardPropsEmits } from "@delta-ui/core/utils";
+} from "@kappa-ui/core/select";
+import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { menuSizeVariants } from "@/lib/menu";
