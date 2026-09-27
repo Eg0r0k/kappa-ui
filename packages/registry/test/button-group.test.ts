@@ -44,6 +44,36 @@ describe("ButtonGroup", () => {
     expect(second!.left).toBe(first!.right - 1);
   });
 
+  it("sits soft buttons edge to edge with no overlap", () => {
+    const group = render({}, () => [
+      h(Button, { variant: "soft", color: "neutral" }, () => "One"),
+      h(Button, { variant: "soft", color: "neutral" }, () => "Two"),
+    ]);
+    const [one, two] = [...group.children].map((child) => child.getBoundingClientRect());
+
+    expect(two!.left).toBe(one!.right);
+  });
+
+  it("keeps a 2px gap between soft buttons when the group sets gap-0.5", () => {
+    const group = render({ class: "gap-0.5" }, () => [
+      h(Button, { variant: "soft", color: "neutral" }, () => "One"),
+      h(Button, { variant: "soft", color: "neutral" }, () => "Two"),
+    ]);
+    const [one, two] = [...group.children].map((child) => child.getBoundingClientRect());
+
+    expect(two!.left - one!.right).toBe(2);
+  });
+
+  it("does not overlap an outline button next to a soft button", () => {
+    const group = render({}, () => [
+      h(Button, { variant: "outline", color: "neutral" }, () => "One"),
+      h(Button, { variant: "soft", color: "neutral" }, () => "Two"),
+    ]);
+    const [one, two] = [...group.children].map((child) => child.getBoundingClientRect());
+
+    expect(two!.left).toBe(one!.right);
+  });
+
   it("stacks vertically", () => {
     const group = render({ orientation: "vertical" });
     const [first, middle] = styles(group);
@@ -72,8 +102,10 @@ describe("ButtonGroup", () => {
     expect(separator.dataset.orientation).toBe("vertical");
     expect(separator.getBoundingClientRect().height).toBe(group.getBoundingClientRect().height);
     expect(separator.getBoundingClientRect().width).toBe(1);
-    const box = separator.getBoundingClientRect();
-    expect(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)).toBe(separator);
+    const [prev, , next] = [...group.children].map((child) => child.getBoundingClientRect());
+    const sep = separator.getBoundingClientRect();
+    expect(prev!.right).toBeLessThanOrEqual(sep.left);
+    expect(next!.left).toBeGreaterThanOrEqual(sep.right);
   });
 
   it("keeps the gap between nested groups", () => {
