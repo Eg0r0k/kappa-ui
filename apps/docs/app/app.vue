@@ -2,6 +2,7 @@
 import { ConfigProvider } from 'reka-ui'
 
 import { fontOf, fontUrl, isDefaultTheme, siteCss } from '~/lib/theme'
+import { DialogHost } from '@/ui/dialog'
 import { Toaster } from '@/ui/toast'
 
 const { theme } = useSiteTheme()
@@ -23,5 +24,6 @@ useHead({
       <NuxtPage />
     </NuxtLayout>
     <Toaster />
+    <DialogHost />
   </ConfigProvider>
 </template>
