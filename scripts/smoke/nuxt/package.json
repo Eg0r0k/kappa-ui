@@ -1,0 +1,19 @@
+{
+  "name": "delta-smoke-nuxt",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "^4.5.2",
+    "vue": "^3.5.42"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "shadcn-vue": "2.8.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vue-tsc": "^3.3.11"
+  }
+}

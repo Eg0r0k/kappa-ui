@@ -36,6 +36,8 @@ Run from the repo root:
   `packages/registry/registry.json`.
 - `pnpm test` — run the registry script tests, the component tests in real
   Chromium, and the docs tests.
+- `pnpm smoke` — pack `@delta-ui/core`, build the registry, and install every item into a fresh Vite project and a fresh Nuxt project with the shadcn-vue CLI, then type-check and build both. Needs the network and takes a few minutes; not part of `pnpm test`. `--only vite|nuxt` runs one project, `--keep` keeps the work directory.
+- `pnpm format` — format the repo with Prettier.
 
 ## License
 

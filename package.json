@@ -13,7 +13,8 @@
     "lint": "eslint packages/core/src packages/registry/src apps/docs/app scripts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "registry:build": "node scripts/build-registry.ts"
+    "registry:build": "node scripts/build-registry.ts",
+    "smoke": "node scripts/smoke.ts"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",

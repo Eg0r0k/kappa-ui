@@ -9,7 +9,7 @@ const sources = [
   'packages/core/src/**/*.{ts,vue}',
   'packages/registry/src/**/*.{ts,vue}',
   'apps/docs/app/**/*.{ts,vue}',
-  'scripts/**/*.ts',
+  'scripts/*.ts',
 ]
 
 const components = ['packages/core/src/**/*.vue', 'packages/registry/src/**/*.vue', 'apps/docs/app/**/*.vue']
