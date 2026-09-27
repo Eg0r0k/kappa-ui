@@ -5,4 +5,5 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   css: ['~/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
+  components: [{ path: '~/components', extensions: ['.vue'] }],
 })

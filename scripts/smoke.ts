@@ -23,6 +23,7 @@ type Template = {
   page: string
   stylesheet: string
   checks: [step: string, command: string][]
+  forbidden?: RegExp
 }
 
 const TEMPLATES: Template[] = [
@@ -45,6 +46,7 @@ const TEMPLATES: Template[] = [
       ['typecheck', 'pnpm exec nuxi typecheck'],
       ['generate', 'pnpm exec nuxi generate'],
     ],
+    forbidden: /NUXT_B3011/,
   },
 ]
 
@@ -80,6 +82,7 @@ const run = async (step: string, command: string, cwd: string, env: Record<strin
   child.stderr.setEncoding('utf8').on('data', (chunk: string) => (output += chunk))
   const [code, signal] = (await once(child, 'close')) as [number | null, NodeJS.Signals | null]
   if (code !== 0) fail(step, output || `exit ${code ?? signal}`)
+  return output
 }
 
 const readJson = async <T>(path: string) => JSON.parse(await readFile(path, 'utf8')) as T
@@ -204,7 +207,10 @@ const smoke = async (template: Template) => {
   const missing = missingIn(examples)
   if (missing.length > 0) fail(label('examples'), `not installed:\n${missing.join('\n')}`)
   await writeFile(join(dir, template.page), examplesPage(exampleEntries))
-  for (const [step, command] of template.checks) await run(label(step), command, dir)
+  for (const [step, command] of template.checks) {
+    const output = await run(label(step), command, dir)
+    if (template.forbidden?.test(output)) fail(label(step), output)
+  }
 }
 
 for (const template of templates) await smoke(template)
