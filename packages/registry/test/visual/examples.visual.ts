@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, onTestFinished } from "vitest";
 import { page } from "vitest/browser";
 import type { Component } from "vue";
 
@@ -15,6 +15,10 @@ const examples = (registry.items as ManifestItem[])
   .map((item) => [item.name, item.files[0]!.path] as const);
 
 const modules = import.meta.glob<{ default: Component }>("../../src/examples/**/*.vue", { eager: true });
+
+const remoteImages = document.createElement("style");
+remoteImages.textContent = '[data-testid="visual"] img[src^="http"] { visibility: hidden; }';
+document.head.append(remoteImages);
 
 const settle = async (host: HTMLElement) => {
   await document.fonts.ready;
@@ -33,6 +37,10 @@ describe.each(["light", "dark"] as const)("%s", (theme) => {
       attachTo: host,
       global: { plugins: [createToaster(), createDialogs()] },
     });
+    onTestFinished(() => {
+      wrapper.unmount();
+      host.remove();
+    });
     await settle(host);
 
     await expect.element(page.getByTestId("visual")).toMatchScreenshot(`${name}-${theme}`, {
@@ -40,8 +48,5 @@ describe.each(["light", "dark"] as const)("%s", (theme) => {
       comparatorOptions: { threshold: 0 },
       screenshotOptions: { animations: "disabled", caret: "hide" },
     });
-
-    wrapper.unmount();
-    host.remove();
   });
 });
