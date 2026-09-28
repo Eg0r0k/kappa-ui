@@ -16,7 +16,12 @@ export default defineConfig({
     projects: [
       {
         resolve: { alias },
-        test: { name: 'unit', environment: 'node', include: ['test/unit/**/*.test.ts'] },
+        test: {
+          name: 'unit',
+          environment: 'node',
+          include: ['test/unit/**/*.test.ts'],
+          css: { include: [/packages\/core\/src\/[^/]+\.css/] },
+        },
       },
       {
         plugins: [vue(), tailwindcss()],

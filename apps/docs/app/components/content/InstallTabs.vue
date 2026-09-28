@@ -15,7 +15,7 @@ import {
   type PackageManager,
 } from '~/lib/install'
 import { findItem, resolveInstallFilename } from '~/lib/registry'
-import { loadSource } from '~/lib/sources'
+import { loadSource, loadStyle } from '~/lib/sources'
 
 const props = defineProps<{ name: string }>()
 
@@ -65,13 +65,15 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
   const cssEntries = Object.entries(item.css ?? {})
   const imports = Object.fromEntries(cssEntries.filter(([key]) => key.startsWith('@import ')))
   const rules = Object.fromEntries(cssEntries.filter(([key]) => !key.startsWith('@import ')))
-  const css = [
-    Object.keys(imports).length ? serializeCssRules(imports) : '',
-    item.cssVars ? serializeCssVars(item.cssVars) : '',
-    Object.keys(rules).length ? serializeCssRules(rules) : '',
-  ]
-    .filter(Boolean)
-    .join('\n\n')
+  const css = item.cssSource
+    ? (await loadStyle(item.cssSource)).trim()
+    : [
+        Object.keys(imports).length ? serializeCssRules(imports) : '',
+        item.cssVars ? serializeCssVars(item.cssVars) : '',
+        Object.keys(rules).length ? serializeCssRules(rules) : '',
+      ]
+        .filter(Boolean)
+        .join('\n\n')
   return { files, css: css ? { source: css, html: await highlight(css, 'css') } : null }
 })
 </script>

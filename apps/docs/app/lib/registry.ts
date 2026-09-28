@@ -21,6 +21,7 @@ export type RegistryItem = {
   files: RegistryFile[]
   css?: CssRules
   cssVars?: CssVars
+  cssSource?: string
   docs?: string
 }
 

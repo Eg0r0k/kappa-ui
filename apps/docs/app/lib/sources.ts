@@ -12,3 +12,13 @@ export const loadSource = async (path: string) => {
   if (!load) throw new Error(`Source ${path} was not found under packages/registry/src.`)
   return load()
 }
+
+const rawStyles = import.meta.glob<string>('../../../../packages/core/src/*.css', { query: '?raw', import: 'default' })
+
+export const loadStyle = async (path: string) => {
+  const suffix = path.replace(/^(\.\.\/)+/, '/')
+  const key = Object.keys(rawStyles).find((candidate) => candidate.endsWith(suffix))
+  const load = key ? rawStyles[key] : undefined
+  if (!load) throw new Error(`Stylesheet ${path} was not found under packages/core/src.`)
+  return load()
+}
