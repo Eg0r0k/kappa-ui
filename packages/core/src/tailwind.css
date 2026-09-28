@@ -85,6 +85,47 @@
   @apply touch-target touch-target-margin;
 }
 
+@utility state-halo {
+  &::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--halo-size);
+    height: var(--halo-size);
+    translate: -50% -50%;
+    scale: 0.75;
+    border-radius: calc(infinity* 1px);
+    background-color: var(--halo-color, var(--c, currentColor));
+    opacity: 0;
+    transition-property: opacity, scale;
+    transition-duration: var(--transition-duration-short-4, 200ms);
+    transition-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  &:where([data-hovered])::before {
+    scale: 1;
+    opacity: var(--state-hover);
+  }
+  &:where(:active, .group\/switch:active *, .group\/slider:active *:focus)::before {
+    scale: 1;
+    opacity: var(--state-pressed);
+  }
+  &:where(:disabled, [data-disabled])::before {
+    display: none;
+  }
+  @media (forced-colors: active) {
+    &::before {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::before {
+      scale: 1;
+    }
+  }
+}
+
 @utility state-layer {
   &::before {
     content: "";

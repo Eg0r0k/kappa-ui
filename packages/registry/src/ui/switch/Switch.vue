@@ -42,7 +42,6 @@ const onPointerLeave = () => {
     v-bind="{ ...attrs, ...forwarded }"
     data-slot="switch"
     :data-touch-target="props.touchTarget"
-    :data-hovered="hovered || undefined"
     :data-unchecked-icon="slots['unchecked-icon'] ? '' : undefined"
     :id="control.id.value"
     :disabled="control.disabled.value"
@@ -53,7 +52,7 @@ const onPointerLeave = () => {
     @pointerenter="onPointerEnter"
     @pointerleave="onPointerLeave"
   >
-    <SwitchThumb data-slot="switch-thumb" :class="switchThumbClass">
+    <SwitchThumb data-slot="switch-thumb" :data-hovered="hovered || undefined" :class="switchThumbClass">
       <span data-slot="switch-handle" :class="switchHandleClass">
         <span
           v-if="slots['checked-icon']"
@@ -61,7 +60,7 @@ const onPointerLeave = () => {
           :class="
             cn(
               switchIconClass,
-              'text-primary opacity-0 group-data-[state=checked]/switch:opacity-100 group-aria-invalid/switch:text-destructive group-disabled/switch:text-foreground/(--disabled-opacity)',
+              'text-(--c) opacity-0 group-data-[state=checked]/switch:opacity-100 group-disabled/switch:text-foreground/(--disabled-opacity)',
               !slots['unchecked-icon'] && '-rotate-45 group-data-[state=checked]/switch:rotate-0',
             )
           "
