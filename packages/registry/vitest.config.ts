@@ -8,7 +8,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   optimizeDeps: {
-    include: ["reka-ui", "reka-ui/internal"],
+    include: ["reka-ui", "reka-ui/internal", "vue/server-renderer"],
   },
   resolve: {
     dedupe: ["vue"],
@@ -24,7 +24,10 @@ export default defineConfig({
       provider: playwright(),
       instances: [
         { browser: "chromium" },
-        { browser: "firefox", include: ["test/scroll-fade.test.ts", "test/textarea-scroll.test.ts"] },
+        {
+          browser: "firefox",
+          include: ["test/scroll-fade.test.ts", "test/textarea-scroll.test.ts", "test/image.test.ts"],
+        },
       ],
     },
   },
