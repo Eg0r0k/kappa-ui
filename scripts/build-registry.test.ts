@@ -424,3 +424,31 @@ test('rejects two items that declare one variable differently', async () => {
   assert.equal(status, 1)
   assert.match(stderr, /cssVars.light > --a: "one" declares 1px, "two" declares 2px/)
 })
+
+test('writes the merged stylesheet of every item that is not an example', async () => {
+  const one = {
+    name: 'one',
+    type: 'registry:lib',
+    title: 'One',
+    description: 'One.',
+    cssVars: { light: { a: '1px' } },
+    files: [],
+  }
+  const { status, stderr, css } = await run([component, example, one])
+  assert.equal(status, 0, stderr)
+  assert.match(await readFile(css, 'utf8'), /:root, \.light \{\n {2}--a: 1px;\n\}/)
+})
+
+test('the committed registry.css is what the build generates', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'kappa-registry-css-'))
+  const result = spawnSync(process.execPath, [script, '--out', join(dir, 'r'), '--css', join(dir, 'registry.css')], {
+    encoding: 'utf8',
+  })
+  assert.equal(result.status, 0, result.stderr)
+  const committed = resolve(dirname(script), '../apps/docs/app/assets/css/registry.css')
+  assert.equal(
+    await readFile(join(dir, 'registry.css'), 'utf8'),
+    await readFile(committed, 'utf8'),
+    'registry.css is stale: run pnpm registry:build and commit it',
+  )
+})

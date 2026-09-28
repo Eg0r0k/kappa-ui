@@ -19,10 +19,10 @@ import {
   themeTokens,
 } from '~/lib/theme'
 
-const globals = readFileSync(new URL('../../app/assets/css/globals.css', import.meta.url), 'utf8')
+const source = readFileSync(new URL('../../../../packages/core/src/theme.css', import.meta.url), 'utf8')
 
 const staticToken = (selector: string, name: string) => {
-  const block = globals.slice(globals.indexOf(`${selector} {`))
+  const block = source.slice(source.indexOf(`${selector} {`))
   return block.match(new RegExp(`--${name}: ([^;]+);`))?.[1]
 }
 
@@ -30,9 +30,9 @@ describe('theme', () => {
   it('reproduces the static fallbacks of the default theme', () => {
     const { light, dark } = themeTokens(defaultTheme)
 
-    expect(light.primary).toBe(staticToken('.light', 'primary'))
-    expect(light.ring).toBe(staticToken('.light', 'ring'))
-    expect(light.radius).toBe(staticToken('.light', 'radius'))
+    expect(light.primary).toBe(staticToken(':root', 'primary'))
+    expect(light.ring).toBe(staticToken(':root', 'ring'))
+    expect(light.radius).toBe(staticToken(':root', 'radius'))
     for (const name of ['primary', 'primary-foreground', 'ring']) expect(dark[name]).toBe(staticToken('.dark', name))
   })
 

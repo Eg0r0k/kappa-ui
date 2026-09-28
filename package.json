@@ -9,7 +9,7 @@
     "build": "pnpm registry:build && pnpm --filter @kappa-ui/docs build",
     "preview": "pnpm --filter @kappa-ui/docs preview",
     "typecheck": "tsc -p tsconfig.json && pnpm -r typecheck",
-    "test": "pnpm format:check && node --test scripts/build-registry.test.ts scripts/registry-css.test.ts scripts/eslint-config.test.ts scripts/css-sync.test.ts scripts/release.test.ts && pnpm lint && pnpm -r test",
+    "test": "pnpm format:check && node --test scripts/build-registry.test.ts scripts/registry-css.test.ts scripts/eslint-config.test.ts scripts/release.test.ts && pnpm lint && pnpm -r test",
     "test:visual": "pnpm --filter @kappa-ui/registry test:visual",
     "lint": "eslint packages/core/src packages/registry/src apps/docs/app scripts",
     "format": "prettier --write .",
