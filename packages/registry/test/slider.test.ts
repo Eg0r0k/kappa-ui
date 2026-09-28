@@ -340,3 +340,23 @@ describe("Slider inset", () => {
     wrapper.unmount();
   });
 });
+
+describe("Slider touch target", () => {
+  it("reserves 48px across the track with touch-target wrapper in both orientations", async () => {
+    const margins = async (props: Record<string, unknown>) => {
+      const wrapper = mount(Slider, {
+        props: { touchTarget: "wrapper", defaultValue: 50, ...props },
+        attrs: { style: "height: 200px" },
+        attachTo: document.body,
+      });
+      await nextTick();
+      const style = getComputedStyle(wrapper.get("[data-slot=slider]").element);
+      const result = [style.marginTop, style.marginLeft];
+      wrapper.unmount();
+      return result;
+    };
+
+    expect(await margins({})).toEqual(["16px", "0px"]);
+    expect(await margins({ orientation: "vertical" })).toEqual(["0px", "16px"]);
+  });
+});
