@@ -10,6 +10,8 @@ import {
   neutrals,
   radii,
   randomTheme,
+  shadowTokens,
+  shadows,
   siteCss,
   statusTokens,
   statuses,
@@ -85,6 +87,22 @@ describe('theme', () => {
       const { light, dark } = themeTokens({ ...defaultTheme, surfaceBorder: key })
       expect([light['surface-border'], dark['surface-border']], key).toEqual([value, value])
     }
+  })
+
+  it('reproduces the static shadow tokens, and emits them only once changed', () => {
+    expect(shadows.map((option) => option.key)).toEqual(['none', 'subtle', 'default', 'strong'])
+    for (const [name, value] of Object.entries(shadowTokens('default'))) {
+      expect(value, name).toBe(staticToken(':root', name, tokens))
+    }
+    expect(themeTokens(defaultTheme).light['shadow-md']).toBeUndefined()
+    expect(themeTokens({ ...defaultTheme, shadows: 'strong' }).light['shadow-sm']).toBe(
+      '0 1px 3px 0 oklch(0 0 0 / 20%), 0 1px 2px -1px oklch(0 0 0 / 20%)',
+    )
+    expect(themeTokens({ ...defaultTheme, shadows: 'subtle' }).light['shadow-xs']).toBe(
+      '0 1px 2px 0 oklch(0 0 0 / 2.5%)',
+    )
+    expect(Object.values(shadowTokens('none'))).toEqual(Array(5).fill('0 0 #0000'))
+    expect(themeTokens({ ...defaultTheme, shadows: 'none' }).dark['shadow-md']).toBeUndefined()
   })
 
   it('tells the default theme apart', () => {
@@ -196,6 +214,7 @@ describe('theme', () => {
       font: 'source-sans-3',
       surfaceBorder: 'none',
       surfaces: 'tinted',
+      shadows: 'strong',
     })
   })
 
@@ -204,10 +223,23 @@ describe('theme', () => {
   })
 
   it('round-trips through the query string, keeping only what differs from the default', () => {
-    const theme = { ...defaultTheme, hue: 150, font: 'outfit', surfaceBorder: 'none' as const, infoChroma: 0.2 }
+    const theme = {
+      ...defaultTheme,
+      hue: 150,
+      font: 'outfit',
+      surfaceBorder: 'none' as const,
+      shadows: 'subtle' as const,
+      infoChroma: 0.2,
+    }
 
     expect(themeToQuery(defaultTheme)).toEqual({})
-    expect(themeToQuery(theme)).toEqual({ hue: '150', font: 'outfit', surfaceBorder: 'none', infoChroma: '0.2' })
+    expect(themeToQuery(theme)).toEqual({
+      hue: '150',
+      font: 'outfit',
+      surfaceBorder: 'none',
+      shadows: 'subtle',
+      infoChroma: '0.2',
+    })
     expect(themeFromQuery(themeToQuery(theme))).toEqual(theme)
   })
 
@@ -220,6 +252,7 @@ describe('theme', () => {
         radius: '0.3',
         font: 'comic',
         surfaceBorder: 'dotted',
+        shadows: 'huge',
         successHue: 'green',
         warningChroma: '0',
       }),

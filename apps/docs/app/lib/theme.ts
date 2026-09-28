@@ -4,6 +4,8 @@ export type SurfaceBorder = 'default' | 'strong' | 'brand' | 'none'
 
 export type Surfaces = 'flat' | 'raised' | 'tinted'
 
+export type Shadows = 'none' | 'subtle' | 'default' | 'strong'
+
 export type StatusName = 'destructive' | 'success' | 'warning' | 'info'
 
 type StatusKey = `${StatusName}${'Hue' | 'Chroma' | 'Lightness'}`
@@ -16,6 +18,7 @@ export interface ThemeConfig {
   font: string
   surfaceBorder: SurfaceBorder
   surfaces: Surfaces
+  shadows: Shadows
   destructiveHue: number
   destructiveChroma: number
   destructiveLightness: number
@@ -96,6 +99,52 @@ const surfaceLightness: Record<Exclude<Surfaces, 'raised'>, Record<string, numbe
   tinted: { background: 1, card: 0.98 },
 }
 
+export const shadows: { key: Shadows; name: string }[] = [
+  { key: 'none', name: 'None' },
+  { key: 'subtle', name: 'Subtle' },
+  { key: 'default', name: 'Default' },
+  { key: 'strong', name: 'Strong' },
+]
+
+const shadowScale: Record<Shadows, number> = { none: 0, subtle: 0.5, default: 1, strong: 2 }
+
+const shadowLayers: Record<string, [y: number, blur: number, spread: number, alpha: number][]> = {
+  xs: [[1, 2, 0, 5]],
+  sm: [
+    [1, 3, 0, 10],
+    [1, 2, -1, 10],
+  ],
+  md: [
+    [4, 6, -1, 10],
+    [2, 4, -2, 10],
+  ],
+  lg: [
+    [10, 15, -3, 10],
+    [4, 6, -4, 10],
+  ],
+  xl: [
+    [20, 25, -5, 10],
+    [8, 10, -6, 10],
+  ],
+}
+
+const px = (value: number) => (value === 0 ? '0' : `${value}px`)
+
+export const shadowTokens = (option: Shadows) =>
+  Object.fromEntries(
+    Object.entries(shadowLayers).map(([size, layers]) => [
+      `shadow-${size}`,
+      option === 'none'
+        ? '0 0 #0000'
+        : layers
+            .map(
+              ([y, blur, spread, alpha]) =>
+                `0 ${px(y)} ${px(blur)} ${px(spread)} oklch(0 0 0 / ${alpha * shadowScale[option]}%)`,
+            )
+            .join(', '),
+    ]),
+  )
+
 export const chromaRange = { min: 0.04, max: 0.26 }
 
 export const lightnessRange = { min: 0.3, max: 0.95 }
@@ -168,6 +217,7 @@ export const defaultTheme: ThemeConfig = {
   font: 'inter',
   surfaceBorder: 'default',
   surfaces: 'raised',
+  shadows: 'default',
   ...statusDefaults,
 }
 
@@ -275,6 +325,8 @@ export const themeTokens = (config: ThemeConfig) => {
     dark['surface-border'] = surfaceBorderValues[config.surfaceBorder]
   }
 
+  if (config.shadows !== 'default') Object.assign(light, shadowTokens(config.shadows))
+
   const status = statusTokens(config)
   return { light: { ...light, ...status.light }, dark: { ...dark, ...status.dark } }
 }
@@ -337,6 +389,7 @@ export const randomTheme = (random: () => number = Math.random, base: ThemeConfi
   font: pick(fonts, random).key,
   surfaceBorder: pick(surfaceBorders, random).key,
   surfaces: pick(surfaces, random).key,
+  shadows: pick(shadows, random).key,
 })
 
 export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
@@ -383,5 +436,6 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
     surfaces: surfaces.some((option) => option.key === query.surfaces)
       ? (query.surfaces as Surfaces)
       : defaultTheme.surfaces,
+    shadows: shadows.some((option) => option.key === query.shadows) ? (query.shadows as Shadows) : defaultTheme.shadows,
   }
 }
