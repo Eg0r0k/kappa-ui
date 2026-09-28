@@ -21,6 +21,7 @@ import {
   previewCss,
   radii,
   randomTheme,
+  shadows,
   statusKeys,
   statuses,
   surfaceBorders,
@@ -97,6 +98,14 @@ const textClass: Record<StatusName, string> = {
   warning: 'text-warning-text',
   info: 'text-info-text',
 }
+
+const shadowSamples = [
+  { size: 'xs', class: 'shadow-shadow-xs' },
+  { size: 'sm', class: 'shadow-shadow-sm' },
+  { size: 'md', class: 'shadow-shadow-md' },
+  { size: 'lg', class: 'shadow-shadow-lg' },
+  { size: 'xl', class: 'shadow-shadow-xl' },
+]
 
 const colorMode = useColorMode()
 const scope = useTemplateRef<HTMLElement>('contrast-scope')
@@ -336,6 +345,37 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
               >
                 {{ option.name }}
               </Button>
+            </div>
+          </FieldSet>
+
+          <FieldSet>
+            <FieldLegend>Shadows</FieldLegend>
+            <FieldDescription>
+              The elevation of slider thumbs, the pill tab indicator, popovers, menus, toasts and dialogs. Subtle halves
+              the default opacity, Strong doubles it, and None removes the shadows.
+            </FieldDescription>
+            <div class="flex flex-wrap gap-2">
+              <Button
+                v-for="option in shadows"
+                :key="option.key"
+                size="sm"
+                :variant="theme.shadows === option.key ? 'soft' : 'outline'"
+                :color="theme.shadows === option.key ? 'primary' : 'neutral'"
+                :aria-pressed="theme.shadows === option.key"
+                @click="theme.shadows = option.key"
+              >
+                {{ option.name }}
+              </Button>
+            </div>
+            <div data-theme-preview class="flex flex-wrap gap-4 rounded-lg border bg-background p-4">
+              <div
+                v-for="sample in shadowSamples"
+                :key="sample.size"
+                class="grid size-12 place-items-center rounded-md bg-card text-label-sm text-muted-foreground"
+                :class="sample.class"
+              >
+                {{ sample.size }}
+              </div>
             </div>
           </FieldSet>
 
