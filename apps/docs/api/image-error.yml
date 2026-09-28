@@ -1,0 +1,4 @@
+component: ImageError
+file: ui/image/ImageError.vue
+slots:
+  default: What to show on error, an icon by default.

@@ -1,0 +1,42 @@
+component: Image
+file: ui/image/Image.vue
+props:
+  src:
+    description: The image URL. Stays as the fallback when `sources` is set.
+  alt:
+    description: Text that replaces the image for screen readers. Empty by default, which marks the image decorative.
+  srcset:
+    description: Candidate URLs with their widths or densities, as on `<img>`.
+  sizes:
+    description: The width the image takes at each breakpoint, as on `<img>`, to pick from `srcset`.
+  sources:
+    description: "`<source>` elements for a `<picture>` around the image, in order: `srcset` with `type`, `media`, `sizes`, `width` and `height`."
+  width:
+    description: The file's width in pixels. With `height`, sets the box's ratio before the file loads; also sets the box's width, capped at its container.
+  height:
+    description: The file's height in pixels.
+  ratio:
+    description: The box's width-to-height ratio, over `width` and `height` and the file's own.
+  fit:
+    description: How the image fills its box, as `object-fit`.
+  position:
+    description: Where the image sits in its box, as `object-position`.
+  loading:
+    description: "`lazy` (the default) waits until the image nears the viewport; `eager` loads it at once."
+  fetchpriority:
+    description: The priority of the request relative to others, as on `<img>`.
+  decoding:
+    description: Whether to decode the image before showing it, as on `<img>`.
+  crossorigin:
+    description: Requests the image with CORS, as on `<img>`.
+  referrerpolicy:
+    description: The referrer sent with the request, as on `<img>`.
+  draggable:
+    description: Whether the image can be dragged, as on `<img>`.
+emits:
+  load: Fires with the `load` event when the image has loaded, also when it had loaded before hydration.
+  error: Fires with the `error` event when the image fails to load.
+slots:
+  default: Layers over the image, such as `ImageLoading` and `ImageError`.
+exposed:
+  imgEl: The `<img>` element.

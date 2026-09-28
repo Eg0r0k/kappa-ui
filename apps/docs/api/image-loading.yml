@@ -1,0 +1,4 @@
+component: ImageLoading
+file: ui/image/ImageLoading.vue
+slots:
+  default: What to show while loading, a spinner by default.
