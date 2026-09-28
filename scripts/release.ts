@@ -57,4 +57,4 @@ if (!published) {
   await step(`npm publish "${join(packDir, tarball)}" --access public --provenance`)
   await rm(packDir, { recursive: true, force: true })
 }
-await step('pnpm changeset tag')
+await step('pnpm changeset git-tag')

@@ -29,21 +29,21 @@ jobs:
       - id: changesets
         uses: changesets/action@v2.1.2
         with:
-          version: pnpm changeset version
-          publish: pnpm release
-          commit: 'chore(release): version packages'
-          title: 'chore(release): version packages'
+          version-script: pnpm changeset version
+          publish-script: pnpm release
+          commit-message: 'chore(release): version packages'
+          pr-title: 'chore(release): version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - if: steps.changesets.outputs.hasChangesets == 'false'
+      - if: steps.changesets.outputs.has-changesets == 'false'
         uses: actions/cache@v6
         with:
           path: node_modules/.cache/nuxt-seo
           key: og-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
           restore-keys: og-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
-      - if: steps.changesets.outputs.hasChangesets == 'false'
+      - if: steps.changesets.outputs.has-changesets == 'false'
         run: pnpm build
-      - if: steps.changesets.outputs.hasChangesets == 'false'
+      - if: steps.changesets.outputs.has-changesets == 'false'
         run: pnpm exec wrangler pages deploy apps/docs/.output/public --project-name kappa-ui --branch main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
