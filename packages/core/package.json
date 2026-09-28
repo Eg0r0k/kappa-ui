@@ -1,6 +1,6 @@
 {
   "name": "@kappa-ui/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "description": "The headless parts, directives and Tailwind utilities behind the kappa-ui registry.",
   "keywords": ["vue", "reka-ui", "tailwindcss", "shadcn-vue", "components", "headless"],
