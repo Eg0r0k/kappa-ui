@@ -4,6 +4,10 @@ export type SurfaceBorder = 'default' | 'strong' | 'brand' | 'none'
 
 export type Surfaces = 'flat' | 'raised' | 'tinted'
 
+export type StatusName = 'destructive' | 'success' | 'warning' | 'info'
+
+type StatusKey = `${StatusName}${'Hue' | 'Chroma' | 'Lightness'}`
+
 export interface ThemeConfig {
   hue: number
   chroma: number
@@ -12,6 +16,18 @@ export interface ThemeConfig {
   font: string
   surfaceBorder: SurfaceBorder
   surfaces: Surfaces
+  destructiveHue: number
+  destructiveChroma: number
+  destructiveLightness: number
+  successHue: number
+  successChroma: number
+  successLightness: number
+  warningHue: number
+  warningChroma: number
+  warningLightness: number
+  infoHue: number
+  infoChroma: number
+  infoLightness: number
 }
 
 export interface ThemeFont {
@@ -76,11 +92,73 @@ export const surfaces: { key: Surfaces; name: string }[] = [
 ]
 
 const surfaceLightness: Record<Exclude<Surfaces, 'raised'>, Record<string, number>> = {
-  flat: { background: 1, secondary: 0.97, muted: 0.97, accent: 0.97, 'muted-foreground': 0.556 },
+  flat: { background: 1, secondary: 0.97, muted: 0.97, accent: 0.97, 'muted-foreground': 0.54 },
   tinted: { background: 1, card: 0.98 },
 }
 
 export const chromaRange = { min: 0.04, max: 0.26 }
+
+export const lightnessRange = { min: 0.3, max: 0.95 }
+
+type Role = readonly [lightness: number, chroma: number, hue: number]
+
+export const statuses: {
+  key: StatusName
+  name: string
+  hue: number
+  chroma: number
+  light: Record<string, Role>
+  dark: Record<string, Role>
+}[] = [
+  {
+    key: 'destructive',
+    name: 'Destructive',
+    hue: 27,
+    chroma: 0.22,
+    light: { destructive: [0.55, 0.22, 27], 'destructive-foreground': [1, 0, 0] },
+    dark: { destructive: [0.72, 0.14, 25], 'destructive-foreground': [0.25, 0.08, 25] },
+  },
+  {
+    key: 'success',
+    name: 'Success',
+    hue: 150,
+    chroma: 0.17,
+    light: { success: [0.72, 0.17, 150], 'success-foreground': [0.25, 0.07, 150], 'success-text': [0.5, 0.13, 152] },
+    dark: { success: [0.78, 0.13, 155], 'success-foreground': [0.25, 0.06, 155], 'success-text': [0.78, 0.13, 155] },
+  },
+  {
+    key: 'warning',
+    name: 'Warning',
+    hue: 78,
+    chroma: 0.16,
+    light: { warning: [0.8, 0.16, 78], 'warning-foreground': [0.3, 0.07, 60], 'warning-text': [0.54, 0.14, 58] },
+    dark: { warning: [0.82, 0.14, 80], 'warning-foreground': [0.27, 0.06, 70], 'warning-text': [0.82, 0.14, 80] },
+  },
+  {
+    key: 'info',
+    name: 'Info',
+    hue: 230,
+    chroma: 0.13,
+    light: { info: [0.72, 0.13, 230], 'info-foreground': [0.26, 0.05, 235], 'info-text': [0.52, 0.11, 240] },
+    dark: { info: [0.8, 0.11, 230], 'info-foreground': [0.25, 0.05, 235], 'info-text': [0.8, 0.11, 230] },
+  },
+]
+
+export const statusKeys = (status: StatusName) =>
+  ({ hue: `${status}Hue`, chroma: `${status}Chroma`, lightness: `${status}Lightness` }) as Record<
+    'hue' | 'chroma' | 'lightness',
+    StatusKey
+  >
+
+const fillOf = (status: (typeof statuses)[number]) => status.light[status.key]![0]
+
+const statusDefaults = Object.fromEntries(
+  statuses.flatMap((status) => [
+    [statusKeys(status.key).hue, status.hue],
+    [statusKeys(status.key).chroma, status.chroma],
+    [statusKeys(status.key).lightness, fillOf(status)],
+  ]),
+) as Record<StatusKey, number>
 
 export const defaultTheme: ThemeConfig = {
   hue: 262,
@@ -90,9 +168,12 @@ export const defaultTheme: ThemeConfig = {
   font: 'inter',
   surfaceBorder: 'default',
   surfaces: 'raised',
+  ...statusDefaults,
 }
 
 const round = (value: number, digits = 3) => Number(value.toFixed(digits))
+
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
 
 const oklch = (lightness: number, chroma: number, hue: number, alpha?: number) =>
   `oklch(${round(lightness)} ${round(chroma)} ${chroma === 0 ? 0 : round(hue, 1)}${alpha === undefined ? '' : ` / ${alpha}%`})`
@@ -108,7 +189,7 @@ const neutralTokens = {
     secondary: 0.955,
     'secondary-foreground': 0.205,
     muted: 0.955,
-    'muted-foreground': 0.54,
+    'muted-foreground': 0.53,
     accent: 0.955,
     'accent-foreground': 0.205,
     border: 0.922,
@@ -131,6 +212,27 @@ const neutralTokens = {
 } as const
 
 const darkAlpha = { border: 10, input: 40 } as const
+
+export const statusTokens = (config: ThemeConfig, all = false) => {
+  const light: Record<string, string> = {}
+  const dark: Record<string, string> = {}
+  for (const status of statuses) {
+    const keys = statusKeys(status.key)
+    const hue = config[keys.hue]
+    const chroma = config[keys.chroma]
+    const lift = round(config[keys.lightness] - fillOf(status))
+    if (!all && hue === status.hue && chroma === status.chroma && lift === 0) continue
+    const shift = (name: string, [lightness, roleChroma, roleHue]: Role) =>
+      oklch(
+        name === status.key ? clamp(lightness + lift, 0, 1) : lightness,
+        (roleChroma * chroma) / status.chroma,
+        (((roleHue + hue - status.hue) % 360) + 360) % 360,
+      )
+    for (const [name, role] of Object.entries(status.light)) light[name] = shift(name, role)
+    for (const [name, role] of Object.entries(status.dark)) dark[name] = shift(name, role)
+  }
+  return { light, dark }
+}
 
 export const neutralOf = (config: ThemeConfig) => {
   const neutral = neutrals.find((entry) => entry.key === config.neutral) ?? neutrals[0]!
@@ -173,7 +275,8 @@ export const themeTokens = (config: ThemeConfig) => {
     dark['surface-border'] = surfaceBorderValues[config.surfaceBorder]
   }
 
-  return { light, dark }
+  const status = statusTokens(config)
+  return { light: { ...light, ...status.light }, dark: { ...dark, ...status.dark } }
 }
 
 export const fontOf = (config: ThemeConfig) => fonts.find((font) => font.key === config.font) ?? fonts[0]!
@@ -225,7 +328,8 @@ export const previewCss = (config: ThemeConfig, selector: string) => {
 
 const pick = <T>(items: readonly T[], random: () => number) => items[Math.floor(random() * items.length)]!
 
-export const randomTheme = (random: () => number = Math.random): ThemeConfig => ({
+export const randomTheme = (random: () => number = Math.random, base: ThemeConfig = defaultTheme): ThemeConfig => ({
+  ...base,
   hue: Math.round(random() * 360),
   chroma: round(chromaRange.min + random() * (chromaRange.max - chromaRange.min), 2),
   neutral: pick(neutrals, random).key,
@@ -235,8 +339,6 @@ export const randomTheme = (random: () => number = Math.random): ThemeConfig => 
   surfaces: pick(surfaces, random).key,
 })
 
-const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
-
 export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
   const number = (key: string) => {
     const value = Number(query[key])
@@ -245,7 +347,29 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
   const hue = number('hue')
   const chroma = number('chroma')
   const radius = number('radius')
+  const status = Object.fromEntries(
+    statuses.flatMap((entry) => {
+      const keys = statusKeys(entry.key)
+      const statusHue = number(keys.hue)
+      const statusChroma = number(keys.chroma)
+      const statusLightness = number(keys.lightness)
+      return [
+        [keys.hue, statusHue === undefined ? entry.hue : clamp(Math.round(statusHue), 0, 360)],
+        [
+          keys.chroma,
+          statusChroma === undefined ? entry.chroma : clamp(statusChroma, chromaRange.min, chromaRange.max),
+        ],
+        [
+          keys.lightness,
+          statusLightness === undefined
+            ? fillOf(entry)
+            : clamp(statusLightness, lightnessRange.min, lightnessRange.max),
+        ],
+      ]
+    }),
+  ) as Record<StatusKey, number>
   return {
+    ...status,
     hue: hue === undefined ? defaultTheme.hue : clamp(Math.round(hue), 0, 360),
     chroma: chroma === undefined ? defaultTheme.chroma : clamp(chroma, chromaRange.min, chromaRange.max),
     neutral: neutrals.some((entry) => entry.key === query.neutral)

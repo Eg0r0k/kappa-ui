@@ -1,28 +1,36 @@
 <script setup lang="ts">
-import { Check, Code, RotateCcw, Shuffle } from '@lucide/vue'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { Check, Code, RotateCcw, Shuffle, TriangleAlert } from '@lucide/vue'
+import { computed, onMounted, reactive, ref, useTemplateRef, watch } from 'vue'
 
 import CodeBlock from '~/components/CodeBlock.vue'
+import ContrastBadge from '~/components/ContrastBadge.vue'
 import ThemePreview from '~/components/themes/ThemePreview.vue'
+import { statusChecks, themeChecks } from '~/lib/contrast'
 import { highlight } from '~/lib/highlight'
 import {
+  type StatusName,
   type ThemeConfig,
   chromaRange,
   defaultTheme,
   fontStack,
   fontUrl,
   fonts,
+  lightnessRange,
   neutrals,
   presets,
   previewCss,
   radii,
   randomTheme,
+  statusKeys,
+  statuses,
   surfaceBorders,
   surfaces,
   themeCss,
   themeFromQuery,
   themeToQuery,
 } from '~/lib/theme'
+import { Alert, AlertDescription, AlertTitle } from '@/ui/alert'
+import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
 import {
   Dialog,
@@ -38,6 +46,7 @@ import { ScrollArea } from '@/ui/scroll-area'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
 import { Separator } from '@/ui/separator'
 import { Slider } from '@/ui/slider'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 
 useSeoMeta({
   title: 'Themes · kappa-ui',
@@ -67,6 +76,39 @@ onMounted(() => {
 const hue = computed({ get: () => theme.hue, set: (value) => (theme.hue = value) })
 const chroma = computed({ get: () => Math.round(theme.chroma * 100), set: (value) => (theme.chroma = value / 100) })
 
+const status = ref<StatusName>('destructive')
+const statusHue = (key: StatusName) => theme[statusKeys(key).hue]
+const statusChroma = (key: StatusName) => Math.round(theme[statusKeys(key).chroma] * 100)
+const statusLightness = (key: StatusName) => Math.round(theme[statusKeys(key).lightness] * 100)
+const setStatusHue = (key: StatusName, value?: number | number[]) => (theme[statusKeys(key).hue] = Number(value))
+const setStatusChroma = (key: StatusName, value?: number | number[]) =>
+  (theme[statusKeys(key).chroma] = Number(value) / 100)
+const setStatusLightness = (key: StatusName, value?: number | number[]) =>
+  (theme[statusKeys(key).lightness] = Number(value) / 100)
+const statusChanged = (key: StatusName) =>
+  Object.values(statusKeys(key)).some((name) => theme[name] !== defaultTheme[name])
+const resetStatus = (key: StatusName) => {
+  for (const name of Object.values(statusKeys(key))) theme[name] = defaultTheme[name]
+}
+
+const textClass: Record<StatusName, string> = {
+  destructive: 'text-destructive',
+  success: 'text-success-text',
+  warning: 'text-warning-text',
+  info: 'text-info-text',
+}
+
+const colorMode = useColorMode()
+const scope = useTemplateRef<HTMLElement>('contrast-scope')
+const contrast = useContrast(scope, themeChecks, () => ({ ...theme }))
+const failing = computed(() => contrast.value.filter((result) => result.grade !== 'pass'))
+const checksOf = (key: StatusName) => {
+  const checks = key === 'destructive' ? statusChecks(key, 'destructive-foreground', key) : statusChecks(key)
+  return contrast.value
+    .filter((result) => checks.some((check) => check.fg === result.fg && check.bg === result.bg))
+    .map((result) => ({ ...result, label: checks.find((check) => check.fg === result.fg)!.label }))
+}
+
 const css = computed(() => themeCss(theme))
 const html = ref('')
 watch(css, async (value) => (html.value = await highlight(value, 'css')), { immediate: true })
@@ -94,6 +136,17 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
             </p>
           </header>
 
+          <Alert v-if="failing.length" variant="soft" color="warning" size="sm">
+            <TriangleAlert />
+            <AlertTitle>
+              {{ failing.length === 1 ? 'One pair is' : `${failing.length} pairs are` }} below WCAG AA
+            </AlertTitle>
+            <AlertDescription>
+              {{ failing.map((result) => result.label).join(', ') }}, in the {{ colorMode.value }} theme. See Contrast
+              below.
+            </AlertDescription>
+          </Alert>
+
           <FieldSet>
             <FieldLegend>Brand colour</FieldLegend>
             <div class="flex flex-wrap gap-2">
@@ -120,6 +173,91 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
               <Slider v-model="chroma" :min="chromaRange.min * 100" :max="chromaRange.max * 100" size="sm" />
               <FieldDescription>{{ theme.chroma.toFixed(2) }}, how vivid the colour is.</FieldDescription>
             </Field>
+          </FieldSet>
+
+          <FieldSet>
+            <FieldLegend>Status colours</FieldLegend>
+            <FieldDescription>
+              Hue, chroma and fill lightness of each status colour. The label on the fill keeps its lightness, so watch
+              its contrast as you move the fill.
+            </FieldDescription>
+            <Tabs v-model="status">
+              <TabsList size="xs" class="w-full">
+                <TabsTrigger v-for="entry in statuses" :key="entry.key" :value="entry.key">
+                  {{ entry.name }}
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                v-for="entry in statuses"
+                :key="entry.key"
+                :value="entry.key"
+                class="flex flex-col gap-4 pt-3"
+              >
+                <div data-theme-preview class="flex flex-wrap items-center gap-2 rounded-lg border bg-background p-3">
+                  <Badge :color="entry.key">Solid</Badge>
+                  <Badge variant="soft" :color="entry.key">Soft</Badge>
+                  <Badge variant="outline" :color="entry.key">Outline</Badge>
+                  <span class="text-label-md" :class="textClass[entry.key]">Text on the page</span>
+                </div>
+                <Field>
+                  <FieldLabel>Hue</FieldLabel>
+                  <div class="h-2 rounded-full" :style="{ background: hueTrack }" aria-hidden="true" />
+                  <Slider
+                    :model-value="statusHue(entry.key)"
+                    :min="0"
+                    :max="360"
+                    size="sm"
+                    @update:model-value="(value) => setStatusHue(entry.key, value)"
+                  />
+                  <FieldDescription>{{ statusHue(entry.key) }}°</FieldDescription>
+                </Field>
+                <Field>
+                  <FieldLabel>Chroma</FieldLabel>
+                  <Slider
+                    :model-value="statusChroma(entry.key)"
+                    :min="chromaRange.min * 100"
+                    :max="chromaRange.max * 100"
+                    size="sm"
+                    @update:model-value="(value) => setStatusChroma(entry.key, value)"
+                  />
+                  <FieldDescription>{{ (statusChroma(entry.key) / 100).toFixed(2) }}</FieldDescription>
+                </Field>
+                <Field>
+                  <FieldLabel>Fill lightness</FieldLabel>
+                  <Slider
+                    :model-value="statusLightness(entry.key)"
+                    :min="lightnessRange.min * 100"
+                    :max="lightnessRange.max * 100"
+                    size="sm"
+                    @update:model-value="(value) => setStatusLightness(entry.key, value)"
+                  />
+                  <FieldDescription>
+                    {{ (statusLightness(entry.key) / 100).toFixed(2) }} in the light theme; the dark fill moves with it.
+                  </FieldDescription>
+                </Field>
+                <ul class="flex flex-col gap-1.5">
+                  <li
+                    v-for="result in checksOf(entry.key)"
+                    :key="result.fg"
+                    class="flex items-center justify-between gap-2 text-body-sm"
+                  >
+                    {{ result.label }}
+                    <ContrastBadge :ratio="result.ratio" :grade="result.grade" :min="result.min" />
+                  </li>
+                </ul>
+                <Button
+                  v-if="statusChanged(entry.key)"
+                  size="xs"
+                  variant="ghost"
+                  color="neutral"
+                  class="self-start"
+                  @click="resetStatus(entry.key)"
+                >
+                  <RotateCcw data-icon="inline-start" />
+                  Reset {{ entry.name.toLowerCase() }}
+                </Button>
+              </TabsContent>
+            </Tabs>
           </FieldSet>
 
           <Separator />
@@ -219,11 +357,30 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
               </SelectContent>
             </Select>
           </Field>
+
+          <Separator />
+
+          <FieldSet>
+            <FieldLegend>Contrast</FieldLegend>
+            <FieldDescription>
+              WCAG contrast in the theme picked in the header. Text needs 4.5:1, control borders 3:1.
+            </FieldDescription>
+            <ul class="flex flex-col gap-1.5">
+              <li
+                v-for="result in contrast"
+                :key="`${result.fg}/${result.bg}`"
+                class="flex items-center justify-between gap-2 text-body-sm"
+              >
+                {{ result.label }}
+                <ContrastBadge :ratio="result.ratio" :grade="result.grade" :min="result.min" />
+              </li>
+            </ul>
+          </FieldSet>
         </div>
       </ScrollArea>
 
       <div class="flex items-center gap-2 border-t p-4">
-        <Button size="sm" variant="outline" color="neutral" @click="apply(randomTheme())">
+        <Button size="sm" variant="outline" color="neutral" @click="apply(randomTheme(Math.random, theme))">
           <Shuffle data-icon="inline-start" />
           Randomize
         </Button>
@@ -237,6 +394,8 @@ const hueTrack = `linear-gradient(to right in oklch longer hue, oklch(0.6 0.15 0
         </Button>
       </div>
     </aside>
+
+    <div ref="contrast-scope" data-theme-preview hidden />
 
     <ThemePreview class="h-[85svh] min-w-0 lg:h-auto lg:flex-1">
       <template #actions>

@@ -11,6 +11,8 @@ import {
   radii,
   randomTheme,
   siteCss,
+  statusTokens,
+  statuses,
   surfaceBorders,
   surfaces,
   themeCss,
@@ -20,11 +22,15 @@ import {
 } from '~/lib/theme'
 
 const source = readFileSync(new URL('../../../../packages/core/src/theme.css', import.meta.url), 'utf8')
+const tokens = readFileSync(new URL('../../../../packages/core/src/tokens.css', import.meta.url), 'utf8')
 
-const staticToken = (selector: string, name: string) => {
-  const block = source.slice(source.indexOf(`${selector} {`))
+const staticToken = (selector: string, name: string, css = source) => {
+  const block = css.slice(css.indexOf(`${selector} {`))
   return block.match(new RegExp(`--${name}: ([^;]+);`))?.[1]
 }
+
+const statusSource = (selector: string, name: string) =>
+  staticToken(selector, name, tokens) ?? staticToken(selector, name)
 
 describe('theme', () => {
   it('reproduces the static fallbacks of the default theme', () => {
@@ -113,21 +119,61 @@ describe('theme', () => {
     }
   })
 
-  it('keeps muted text at 4.5:1 on the page, cards and popovers with every surface option', () => {
-    const raised: Record<string, number> = { background: 0.98, card: 1, popover: 1, 'muted-foreground': 0.54 }
+  it('keeps muted text at 4.5:1 on the page, cards, popovers and muted fills with every surface option', () => {
+    const raised: Record<string, number> = {
+      background: 0.98,
+      card: 1,
+      popover: 1,
+      muted: 0.955,
+      'muted-foreground': 0.53,
+    }
     const luminance = (value: number) => value ** 3
     const contrast = (a: number, b: number) =>
       (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05)
     for (const option of surfaces) {
       const { light } = themeTokens({ ...defaultTheme, surfaces: option.key })
       const level = (name: string) => Number(light[name]?.match(/oklch\(([\d.]+)/)?.[1] ?? raised[name])
-      for (const surface of ['background', 'card', 'popover']) {
+      for (const surface of ['background', 'card', 'popover', 'muted']) {
         expect(
           contrast(level('muted-foreground'), level(surface)),
           `${option.key} on ${surface}`,
         ).toBeGreaterThanOrEqual(4.5)
       }
     }
+  })
+
+  it('reproduces the static status tokens, and emits them only once changed', () => {
+    const { light, dark } = statusTokens(defaultTheme, true)
+    for (const status of statuses) {
+      for (const name of Object.keys(status.light)) expect(light[name], name).toBe(statusSource(':root', name))
+      for (const name of Object.keys(status.dark)) expect(dark[name], name).toBe(statusSource('.dark', name))
+    }
+    expect(Object.keys(statusTokens(defaultTheme).light)).toEqual([])
+    expect(themeTokens(defaultTheme).light.success).toBeUndefined()
+  })
+
+  it('moves every role of a status colour with its hue and scales it with its chroma', () => {
+    const { light, dark } = themeTokens({ ...defaultTheme, successHue: 170, successChroma: 0.085 })
+
+    expect(light.success).toBe('oklch(0.72 0.085 170)')
+    expect(light['success-foreground']).toBe('oklch(0.25 0.035 170)')
+    expect(light['success-text']).toBe('oklch(0.5 0.065 172)')
+    expect(dark['success-text']).toBe('oklch(0.78 0.065 175)')
+    expect(light.warning).toBeUndefined()
+
+    const wrapped = themeTokens({ ...defaultTheme, warningHue: 10 })
+    expect(wrapped.light['warning-text']).toBe('oklch(0.54 0.14 350)')
+    expect(themeTokens({ ...defaultTheme, destructiveHue: 0 }).light['destructive-foreground']).toBe('oklch(1 0 0)')
+  })
+
+  it('moves the fill of a status colour with its lightness, leaving the label and the text', () => {
+    const { light, dark } = themeTokens({ ...defaultTheme, successLightness: 0.6 })
+
+    expect(light.success).toBe('oklch(0.6 0.17 150)')
+    expect(dark.success).toBe('oklch(0.66 0.13 155)')
+    expect(light['success-foreground']).toBe('oklch(0.25 0.07 150)')
+    expect(light['success-text']).toBe('oklch(0.5 0.13 152)')
+    expect(themeTokens({ ...defaultTheme, destructiveLightness: 0.95 }).dark.destructive).toBe('oklch(1 0.14 25)')
   })
 
   it('draws random themes from the allowed values', () => {
@@ -142,6 +188,7 @@ describe('theme', () => {
       expect(fonts.map((font) => font.key)).toContain(theme.font)
     }
     expect(randomTheme(() => 0.999)).toEqual({
+      ...defaultTheme,
       hue: 360,
       chroma: 0.26,
       neutral: 'brand',
@@ -152,11 +199,15 @@ describe('theme', () => {
     })
   })
 
+  it('keeps the status colours of the theme it randomises', () => {
+    expect(randomTheme(Math.random, { ...defaultTheme, infoHue: 200 }).infoHue).toBe(200)
+  })
+
   it('round-trips through the query string, keeping only what differs from the default', () => {
-    const theme = { ...defaultTheme, hue: 150, font: 'outfit', surfaceBorder: 'none' as const }
+    const theme = { ...defaultTheme, hue: 150, font: 'outfit', surfaceBorder: 'none' as const, infoChroma: 0.2 }
 
     expect(themeToQuery(defaultTheme)).toEqual({})
-    expect(themeToQuery(theme)).toEqual({ hue: '150', font: 'outfit', surfaceBorder: 'none' })
+    expect(themeToQuery(theme)).toEqual({ hue: '150', font: 'outfit', surfaceBorder: 'none', infoChroma: '0.2' })
     expect(themeFromQuery(themeToQuery(theme))).toEqual(theme)
   })
 
@@ -169,10 +220,13 @@ describe('theme', () => {
         radius: '0.3',
         font: 'comic',
         surfaceBorder: 'dotted',
+        successHue: 'green',
+        warningChroma: '0',
       }),
     ).toEqual({
       ...defaultTheme,
       chroma: chromaRange.max,
+      warningChroma: chromaRange.min,
     })
   })
 })
