@@ -3,11 +3,11 @@ import { Primitive, type PrimitiveProps } from "@kappa-ui/core/primitive";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type BadgeVariants, badgeVariants } from ".";
+import { type BadgeColor, type BadgeVariants, badgeVariants } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: NonNullable<BadgeVariants["variant"]>;
-  color?: NonNullable<BadgeVariants["color"]>;
+  color?: BadgeColor | (string & {});
   size?: NonNullable<BadgeVariants["size"]>;
   /** Render the badge with equal padding on all sides. */
   square?: boolean;
@@ -37,7 +37,6 @@ const props = withDefaults(defineProps<Props>(), {
       cn(
         badgeVariants({
           variant: props.variant,
-          color: props.color,
           size: props.size,
           square: props.square,
           touchTarget: props.touchTarget,
