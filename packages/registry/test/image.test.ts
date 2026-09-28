@@ -245,7 +245,14 @@ describe("ImageLoading and ImageError", () => {
     await expect.poll(() => getComputedStyle(layers(root).error).visibility).toBe("visible");
     expect(layers(root).error.querySelector("svg")).not.toBeNull();
     expect(layers(root).error.hasAttribute("aria-hidden")).toBe(false);
+    expect(getComputedStyle(root.querySelector("img")!).visibility).toBe("hidden");
     await expect.poll(() => getComputedStyle(layers(root).loading).visibility).toBe("hidden");
+  });
+
+  it("keeps the native broken image without an ImageError", async () => {
+    const { root, img } = render({ src: broken });
+    await expect.poll(() => root.dataset.state).toBe("error");
+    expect(getComputedStyle(img()!).visibility).toBe("visible");
   });
 
   it("replaces the default content with its slot", () => {

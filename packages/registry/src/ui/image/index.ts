@@ -15,18 +15,21 @@ export type ImageSource = {
   height?: number;
 };
 
-export const imageImgVariants = cva("absolute inset-0 size-full", {
-  variants: {
-    fit: {
-      cover: "object-cover",
-      contain: "object-contain",
-      fill: "object-fill",
-      none: "object-none",
-      "scale-down": "object-scale-down",
+export const imageImgVariants = cva(
+  "absolute inset-0 size-full group-data-[state=error]/image:group-has-[>[data-slot=image-error]]/image:invisible",
+  {
+    variants: {
+      fit: {
+        cover: "object-cover",
+        contain: "object-contain",
+        fill: "object-fill",
+        none: "object-none",
+        "scale-down": "object-scale-down",
+      },
     },
+    defaultVariants: { fit: "cover" },
   },
-  defaultVariants: { fit: "cover" },
-});
+);
 
 export type ImageFit = NonNullable<VariantProps<typeof imageImgVariants>["fit"]>;
 
