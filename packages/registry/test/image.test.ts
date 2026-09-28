@@ -117,9 +117,15 @@ describe("Image", () => {
     expect(size(root)).toEqual([256, 128]);
   });
 
-  it("derives the width from the ratio when a class sets only the height", () => {
-    const { root } = render({ src: png(40, 20), ratio: 2, class: "h-40" });
+  it("derives the width from the ratio when a class sets a height and w-auto", () => {
+    const { root } = render({ src: png(40, 20), ratio: 2, class: "h-40 w-auto" });
     expect(size(root)).toEqual([320, 160]);
+  });
+
+  it("fills a flex column that does not stretch its items", () => {
+    const { root } = render({ src: png(40, 20), ratio: 2 });
+    root.parentElement!.style.cssText = "width: 400px; display: flex; flex-direction: column; align-items: flex-start";
+    expect(size(root)).toEqual([400, 200]);
   });
 
   it("puts fit and position on the img", () => {

@@ -146,7 +146,7 @@ const imgAttrs = computed(() => ({
   <div
     data-slot="image"
     :data-state="state"
-    :style="{ '--image-ratio': aspectRatio, '--image-width': props.width ? `${props.width}px` : 'auto' }"
+    :style="{ '--image-ratio': aspectRatio, '--image-width': props.width ? `${props.width}px` : '100%' }"
     :class="
       cn('group/image relative block aspect-(--image-ratio) w-(--image-width) max-w-full overflow-hidden', props.class)
     "
