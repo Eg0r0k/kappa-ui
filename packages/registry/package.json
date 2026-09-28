@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "typecheck": "vue-tsc --noEmit && vue-tsc --noEmit -p tsconfig.test.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:visual": "vitest run --config vitest.visual.config.ts"
   },
   "dependencies": {
     "@kappa-ui/core": "workspace:*",
