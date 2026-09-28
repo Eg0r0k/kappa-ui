@@ -16,7 +16,7 @@ const ogImage = /<meta[^>]+property="og:image"[^>]+content="([^"]+)"/
 const pages = (await readdir(contentDir, { recursive: true })).filter((file) => file.endsWith('.md'))
 for (const file of pages) {
   const route = contentFileToRoute(file)
-  const html = join(outDir, route, 'index.html')
+  const html = join(outDir, `${route}.html`)
   if (!existsSync(html)) {
     missing.push(`page ${route} (from ${file})`)
     continue

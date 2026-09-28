@@ -4,8 +4,9 @@ import DocsToc from '~/components/layout/DocsToc.vue'
 definePageMeta({ layout: 'docs' })
 
 const route = useRoute()
+const path = route.path.replace(/\/+$/, '')
 
-const { data: page } = await useAsyncData(`docs:${route.path}`, () => queryCollection('docs').path(route.path).first())
+const { data: page } = await useAsyncData(`docs:${path}`, () => queryCollection('docs').path(path).first())
 
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
