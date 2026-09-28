@@ -1,0 +1,17 @@
+component: HoverCard
+file: ui/hover-card/HoverCard.vue
+props:
+  defaultOpen:
+    description: "Whether it starts open when `v-model:open` is not used."
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  openDelay:
+    description: "Milliseconds the pointer rests on the trigger before the card opens. 700 by default."
+  closeDelay:
+    description: "Milliseconds the card stays after the pointer leaves the trigger and the card. 300 by default."
+  enableTouch:
+    description: "Lets a touch on the trigger open the card, which touch does not do by default."
+emits:
+  update:open: "Fires when it opens or closes."
+slots:
+  default: "The trigger and the content. Receives `open`."
