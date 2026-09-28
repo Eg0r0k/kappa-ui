@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
 
-import { textControlBase, textControlRadius, textControlSize, textControlVariant } from "@/lib/text-control";
+import { textControlBase, textControlRadius, textControlSize, textControlVariant } from "@/ui/input";
 
 export { default as Select } from "./Select.vue";
 export { default as SelectContent } from "./SelectContent.vue";
