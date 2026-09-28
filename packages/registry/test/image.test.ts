@@ -135,13 +135,30 @@ describe("Image", () => {
     expect(events).toEqual(["error"]);
   });
 
-  it("is in error without a source, renders no img and emits nothing", async () => {
+  it("is loading while src is undefined, renders no img and emits nothing", async () => {
     const { root, img, events } = render({});
+    await nextTick();
+    expect(root.dataset.state).toBe("loading");
+    expect(img()).toBeNull();
+    await wait(100);
+    expect(events).toEqual([]);
+  });
+
+  it.each([null, ""])("is in error when src is %j, and emits nothing", async (src) => {
+    const { root, img, events } = render({ src });
     await nextTick();
     expect(root.dataset.state).toBe("error");
     expect(img()).toBeNull();
     await wait(100);
     expect(events).toEqual([]);
+  });
+
+  it("loads once an undefined src arrives", async () => {
+    const { root, props, events } = render({});
+    await nextTick();
+    props.src = png(40, 20);
+    await expect.poll(() => root.dataset.state).toBe("loaded");
+    expect(events).toEqual(["load"]);
   });
 
   it("goes back to loading when the source changes", async () => {

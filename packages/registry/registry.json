@@ -1187,10 +1187,32 @@
       ]
     },
     {
+      "name": "image-deferred",
+      "type": "registry:block",
+      "title": "Image deferred",
+      "description": "The loading layer while the URL is still on its way, then the image or the error layer; each fetch waits three seconds.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "image",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/image/ImageDeferred.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "image-fallback",
       "type": "registry:block",
       "title": "Image fallback",
-      "description": "The error layer for a missing file and for no source.",
+      "description": "The error layer for a file that fails to load and for a null source.",
       "categories": [
         "example"
       ],

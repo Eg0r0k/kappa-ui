@@ -10,7 +10,7 @@ import { type ImageFit, imageImgVariants, type ImageSource, type ImageState } fr
 
 const props = withDefaults(
   defineProps<{
-    src?: string;
+    src?: string | null;
     alt?: string;
     srcset?: string;
     sizes?: string;
@@ -98,7 +98,7 @@ const onError = (event: Event) => {
 const check = () => {
   const target = img.value;
   if (!target) {
-    state.value = "error";
+    state.value = props.src === undefined && props.srcset === undefined ? "loading" : "error";
     return;
   }
   state.value = "loading";
@@ -136,7 +136,7 @@ const imgAttrs = computed(() => ({
   draggable: props.draggable,
   sizes: props.sizes,
   srcset: props.srcset,
-  src: props.src,
+  src: props.src ?? undefined,
   onLoad,
   onError,
 }));

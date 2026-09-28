@@ -2,7 +2,7 @@ component: Image
 file: ui/image/Image.vue
 props:
   src:
-    description: The image URL. Stays as the fallback when `sources` is set.
+    description: The image URL, and the fallback when `sources` is set. While it is `undefined` the image counts as loading, for example until the data that holds it arrives; `null` or an empty string, with no `srcset`, means there is no image.
   alt:
     description: Text that replaces the image for screen readers. Empty by default, which marks the image decorative.
   srcset:
