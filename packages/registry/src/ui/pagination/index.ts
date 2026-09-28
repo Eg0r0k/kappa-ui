@@ -1,7 +1,7 @@
 import { createContext } from "@kappa-ui/core/utils";
 import type { ComputedRef } from "vue";
 
-import type { ButtonVariants } from "@/ui/button";
+import type { ButtonColor, ButtonVariants } from "@/ui/button";
 
 export { default as Pagination } from "./Pagination.vue";
 export { default as PaginationContent } from "./PaginationContent.vue";
@@ -13,7 +13,7 @@ export { default as PaginationPrevious } from "./PaginationPrevious.vue";
 
 export type PaginationSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type PaginationVariant = NonNullable<ButtonVariants["variant"]>;
-export type PaginationColor = NonNullable<ButtonVariants["color"]>;
+export type PaginationColor = ButtonColor | (string & {});
 
 export type PaginationLook = {
   variant: PaginationVariant;

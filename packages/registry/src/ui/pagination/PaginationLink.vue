@@ -53,9 +53,7 @@ const delegated = computed(() => {
     :data-variant="variant"
     :data-color="color"
     :data-size="size"
-    :class="
-      cn(buttonVariants({ variant, color, size: paginationButtonSize[size] }), paginationPageSize[size], props.class)
-    "
+    :class="cn(buttonVariants({ variant, size: paginationButtonSize[size] }), paginationPageSize[size], props.class)"
   >
     <slot>{{ props.value }}</slot>
   </PaginationListItem>

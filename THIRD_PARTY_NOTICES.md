@@ -9,7 +9,7 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
 - Copyright 2021-2022 Google LLC
 - Adapted in:
   - `packages/core/src/ripple/directive.ts` — the ripple's press geometry, timing and soft edge, as a Vue directive
-  - `packages/registry/src/ui/button/index.ts` — the touch target's `max(48px, 100%)` expansion and per-size wrapper margin formula
+  - `packages/core/src/tailwind.css` — the touch target's `max(48px, 100%)` expansion and wrapper margin formula (`touch-target`, `touch-target-wrapper`), and the round state layer (`state-halo`)
   - `packages/registry/src/ui/switch/index.ts` — the same touch target expansion and per-size wrapper margin formula, applied to the switch
 
 ## Quasar Framework

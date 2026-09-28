@@ -55,6 +55,24 @@ describe("Button", () => {
     const style = getComputedStyle(render({ size: "xs", touchTarget: "wrapper" }));
     expect([style.marginTop, style.marginBottom]).toEqual(["10px", "10px"]);
   });
+
+  it("reserves 48px around every size with touch-target wrapper", () => {
+    const margins = (props: Record<string, unknown>) => {
+      const style = getComputedStyle(render({ touchTarget: "wrapper", ...props }));
+      return [style.marginTop, style.marginLeft];
+    };
+    expect(margins({ size: "default" })).toEqual(["6px", "0px"]);
+    expect(margins({ size: "icon" })).toEqual(["6px", "6px"]);
+    expect(margins({ size: "xl" })).toEqual(["0px", "0px"]);
+  });
+
+  it("does not inherit a touch size from an ancestor", () => {
+    const wrapper = mount(
+      { render: () => h("div", { style: "--touch-w: 1rem" }, [h(Button, { touchTarget: "wrapper" }, () => "A")]) },
+      { attachTo: document.body },
+    );
+    expect(getComputedStyle(wrapper.get("button").element).marginLeft).toBe("0px");
+  });
 });
 
 describe("Badge subtle", () => {

@@ -1,3 +1,90 @@
+/* Adapted from Material Web (https://github.com/material-components/material-web), modified for kappa-ui. */
+/* Copyright 2021 Google LLC. Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0 */
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  [data-slot][data-color] {
+    --c-subtle-edge: color-mix(in oklab, var(--c-edge) 25%, transparent);
+    --c-text: var(--c-soft-fg);
+  }
+
+  [data-slot][data-color="primary"] {
+    --c: --theme(--color-primary);
+    --c-fg: --theme(--color-primary-foreground);
+    --c-soft: color-mix(in oklab, --theme(--color-primary) 12%, transparent);
+    --c-soft-fg: --theme(--color-primary);
+    --c-edge: --theme(--color-primary);
+  }
+
+  [data-slot][data-color="neutral"] {
+    --c: --theme(--color-foreground);
+    --c-fg: --theme(--color-background);
+    --c-soft: --theme(--color-secondary);
+    --c-soft-fg: --theme(--color-secondary-foreground);
+    --c-edge: --theme(--color-input);
+    --c-subtle-edge: --theme(--color-input);
+    --c-text: --theme(--color-foreground);
+  }
+
+  [data-slot][data-color="destructive"] {
+    --c: --theme(--color-destructive);
+    --c-fg: --theme(--color-destructive-foreground);
+    --c-soft: color-mix(in oklab, --theme(--color-destructive) 12%, transparent);
+    --c-soft-fg: --theme(--color-destructive);
+    --c-edge: --theme(--color-destructive);
+  }
+
+  [data-slot][data-color="success"] {
+    --c: --theme(--color-success);
+    --c-fg: --theme(--color-success-foreground);
+    --c-soft: color-mix(in oklab, --theme(--color-success) 12%, transparent);
+    --c-soft-fg: --theme(--color-success-text);
+    --c-edge: --theme(--color-success-text);
+  }
+
+  [data-slot][data-color="warning"] {
+    --c: --theme(--color-warning);
+    --c-fg: --theme(--color-warning-foreground);
+    --c-soft: color-mix(in oklab, --theme(--color-warning) 12%, transparent);
+    --c-soft-fg: --theme(--color-warning-text);
+    --c-edge: --theme(--color-warning-text);
+  }
+}
+
+@property --touch-w {
+  syntax: "*";
+  inherits: false;
+}
+
+@property --touch-h {
+  syntax: "*";
+  inherits: false;
+}
+
+@utility touch-target {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(3rem, 100%);
+    height: max(3rem, 100%);
+    translate: -50% -50%;
+  }
+}
+
+@utility touch-target-margin {
+  margin-inline: max(0px, calc((3rem - var(--touch-w, 3rem)) / 2));
+  margin-block: max(0px, calc((3rem - var(--touch-h, 3rem)) / 2));
+}
+
+@utility touch-target-wrapper {
+  @apply touch-target touch-target-margin;
+}
+
 @utility state-layer {
   &::before {
     content: "";
