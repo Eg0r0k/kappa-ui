@@ -1,5 +1,11 @@
 # @kappa-ui/registry
 
+## 0.4.0
+
+### Minor Changes
+
+- [`c0d0a59`](https://github.com/Eg0r0k/kappa-ui/commit/c0d0a5903f6d64ceac86ca37e3ec447796a4c697) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Add Image, with ImageLoading and ImageError: an image in a ratio box with `fit` and `position`, native `srcset`, `sizes` and `<picture>` sources, lazy loading by default, and load and error tracking that holds across SSR hydration. It shows its loading layer while `src` is `undefined` and its error layer when `src` is `null`. The API follows Nuxt Image and Quasar's QImg, without providers.
+
 ## 0.3.0
 
 ### Minor Changes
