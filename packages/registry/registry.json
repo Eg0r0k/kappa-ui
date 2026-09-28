@@ -40,17 +40,6 @@
       ]
     },
     {
-      "name": "choice-group",
-      "type": "registry:lib",
-      "title": "Choice group",
-      "description": "Sizes, touch targets and the state layer shared by checkboxes and radios, and the card, list and table layouts of their groups.",
-      "registryDependencies": ["tokens"],
-      "dependencies": ["class-variance-authority"],
-      "files": [
-        { "path": "src/lib/choice-group.ts", "type": "registry:lib" }
-      ]
-    },
-    {
       "name": "text-control",
       "type": "registry:lib",
       "title": "Text control",
@@ -944,7 +933,7 @@
       "title": "Checkbox",
       "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
+      "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
           "path": "src/ui/checkbox/Checkbox.vue",
@@ -1212,7 +1201,7 @@
       "title": "Radio Group",
       "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
+      "registryDependencies": ["utils", "tokens", "field-context", "checkbox"],
       "files": [
         {
           "path": "src/ui/radio-group/Radio.vue",

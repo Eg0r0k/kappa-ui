@@ -3,7 +3,7 @@ import { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps } fr
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
-import { type ChoiceGroupVariants, choiceGroupVariants } from "@/lib/choice-group";
+import { type ChoiceGroupVariants, choiceGroupVariants } from "@/ui/checkbox";
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 

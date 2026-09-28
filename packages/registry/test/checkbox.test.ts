@@ -99,6 +99,28 @@ describe("Checkbox", () => {
 });
 
 describe("CheckboxGroup", () => {
+  it("turns the edge, the fill and the halo destructive inside an invalid group", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            CheckboxGroup,
+            { "aria-invalid": "true", defaultValue: ["a"], style: "--destructive: rgb(255, 0, 0)" },
+            () => [h(Checkbox, { value: "a" }), h(Checkbox, { value: "b" })],
+          ),
+      }),
+      { attachTo: document.body },
+    );
+    await nextTick();
+    const [checked, unchecked] = wrapper.findAll("[data-slot=checkbox]").map((box) => box.element);
+
+    expect(unchecked!.getAttribute("aria-invalid")).toBeNull();
+    expect(getComputedStyle(checked!).backgroundColor).toBe("rgb(255, 0, 0)");
+    expect(getComputedStyle(unchecked!).borderTopColor).toBe("rgb(255, 0, 0)");
+    expect(getComputedStyle(unchecked!, "::before").backgroundColor).toBe("rgb(255, 0, 0)");
+    wrapper.unmount();
+  });
+
   it("binds one array and keeps every checkbox in the tab order", async () => {
     const selected = ref(["a"]);
     const wrapper = mount(

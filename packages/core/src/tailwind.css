@@ -126,6 +126,45 @@
   }
 }
 
+@utility choice-row {
+  & > [data-slot="field"] {
+    position: relative;
+    &::before {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background-color: --theme(--color-foreground);
+      opacity: 0;
+      transition: opacity var(--transition-duration-short-4, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    }
+    &:hover::before {
+      opacity: var(--state-hover);
+    }
+    &:active::before {
+      opacity: var(--state-pressed);
+    }
+    &[data-disabled]::before {
+      display: none;
+    }
+    &:has([data-state="checked"]) {
+      background-color: color-mix(in oklab, --theme(--color-primary) var(--state-selected), transparent);
+    }
+  }
+  & [data-slot="field-label"] {
+    cursor: pointer;
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+  }
+  & :is([data-slot="checkbox"], [data-slot="radio"])::before {
+    display: none;
+  }
+}
+
 @utility state-layer {
   &::before {
     content: "";

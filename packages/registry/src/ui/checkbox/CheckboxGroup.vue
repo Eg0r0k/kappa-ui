@@ -4,7 +4,7 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type ChoiceGroupVariants, choiceGroupVariants } from "@/lib/choice-group";
+import { type ChoiceGroupVariants, choiceGroupVariants } from ".";
 import { useFieldControl } from "@/lib/field-context";
 
 const props = withDefaults(
