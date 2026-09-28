@@ -24,9 +24,9 @@ import {
   watch,
 } from "vue";
 
-import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";
-import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
+import { overlaySurface } from "@/ui/popover";
+import { type MenuSize, menuSizeVariants, provideMenuSize } from ".";
 import { type MenuOrigin, type MenuPosition, parsePosition, placeMenu } from "./position";
 
 defineOptions({ inheritAttrs: false });
@@ -332,7 +332,7 @@ defineExpose({ show, hide, toggle });
   <MenuRoot v-model:open="open" :modal="props.modal" :dir="dir">
     <MenuAnchor as="template" :reference="reference" />
     <MenuPortal :to="portalTarget ?? undefined">
-      <OverlayScrim :scrim="scrim" data-slot="menu-scrim" :class="modalScrim" />
+      <OverlayScrim :scrim="scrim" data-slot="menu-scrim" class="z-50" />
       <MenuContent
         v-bind="attrs"
         :id="contentId"

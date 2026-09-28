@@ -4,7 +4,7 @@ props:
   variant:
     description: Appearance, independent of colour. `link` underlines on hover, for a badge rendered as a link.
   color:
-    description: Colour role the variant is drawn in. `neutral` uses the page's own foreground.
+    description: Colour role the variant is drawn in. `neutral` uses the page's own foreground. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`.
   size:
     description: Height, padding, text, icon size and radius, from 16px for `xs` to 32px for `xl`.
   square:

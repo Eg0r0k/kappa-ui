@@ -2,8 +2,8 @@
 import { ContextMenuLabel, type ContextMenuLabelProps } from "@kappa-ui/core/context-menu";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuLabel } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuLabel } from "@/ui/menu";
 
 const props = defineProps<ContextMenuLabelProps & { inset?: boolean; class?: HTMLAttributes["class"] }>();
 

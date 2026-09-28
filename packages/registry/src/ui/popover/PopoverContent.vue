@@ -10,8 +10,8 @@ import {
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
-import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
+import { overlaySurface } from ".";
 
 defineOptions({ inheritAttrs: false });
 
@@ -39,7 +39,7 @@ const portalTarget = injectOverlayPortalTarget(null);
 
 <template>
   <PopoverPortal :to="portalTarget ?? undefined">
-    <OverlayScrim :scrim="scrim" data-slot="popover-scrim" :class="modalScrim" />
+    <OverlayScrim :scrim="scrim" data-slot="popover-scrim" class="z-50" />
     <PopoverContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="popover-content"

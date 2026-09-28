@@ -3,11 +3,11 @@ import { Primitive, type PrimitiveProps } from "@kappa-ui/core/primitive";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type ButtonVariants, buttonVariants } from ".";
+import { type ButtonColor, type ButtonVariants, buttonVariants } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: ButtonVariants["variant"];
-  color?: ButtonVariants["color"];
+  color?: ButtonColor | (string & {});
   size?: ButtonVariants["size"];
   touchTarget?: ButtonVariants["touchTarget"];
   /** `inward` draws the focus ring inside, for hosts that clip overflow. */
@@ -17,6 +17,7 @@ interface Props extends PrimitiveProps {
 
 const props = withDefaults(defineProps<Props>(), {
   as: "button",
+  color: "primary",
 });
 </script>
 
@@ -32,7 +33,6 @@ const props = withDefaults(defineProps<Props>(), {
       cn(
         buttonVariants({
           variant: props.variant,
-          color: props.color,
           size: props.size,
           touchTarget: props.touchTarget,
           focusRing: props.focusRing,

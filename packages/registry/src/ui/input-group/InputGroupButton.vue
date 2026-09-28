@@ -2,13 +2,13 @@
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { Button, type ButtonVariants } from "@/ui/button";
+import { Button, type ButtonColor, type ButtonVariants } from "@/ui/button";
 import { type InputGroupButtonVariants, inputGroupButtonVariants } from ".";
 
 const props = withDefaults(
   defineProps<{
     variant?: ButtonVariants["variant"];
-    color?: ButtonVariants["color"];
+    color?: ButtonColor | (string & {});
     size?: NonNullable<InputGroupButtonVariants["size"]>;
     type?: "button" | "submit" | "reset";
     class?: HTMLAttributes["class"];

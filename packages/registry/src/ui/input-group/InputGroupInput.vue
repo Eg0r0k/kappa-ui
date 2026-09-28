@@ -2,7 +2,7 @@
 import { type HTMLAttributes, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
-import { textControlBase } from "@/lib/text-control";
+import { textControlBase } from "@/ui/input";
 import { cn } from "@/lib/utils";
 import { injectInputGroupContext, inputGroupControlText } from ".";
 

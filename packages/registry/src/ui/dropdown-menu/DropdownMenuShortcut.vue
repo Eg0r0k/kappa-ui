@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue";
 
-import { menuShortcut } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuShortcut } from "@/ui/menu";
 
 const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 </script>

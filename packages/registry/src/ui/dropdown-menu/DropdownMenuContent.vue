@@ -10,9 +10,9 @@ import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-u
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
-import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";
-import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
+import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/ui/menu";
+import { overlaySurface } from "@/ui/popover";
 
 defineOptions({ inheritAttrs: false });
 
@@ -43,7 +43,7 @@ const portalTarget = injectOverlayPortalTarget(null);
 
 <template>
   <DropdownMenuPortal :to="portalTarget ?? undefined">
-    <OverlayScrim :scrim="scrim" data-slot="dropdown-menu-scrim" :class="modalScrim" />
+    <OverlayScrim :scrim="scrim" data-slot="dropdown-menu-scrim" class="z-50" />
     <DropdownMenuContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="dropdown-menu-content"

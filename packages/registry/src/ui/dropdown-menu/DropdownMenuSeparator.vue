@@ -2,8 +2,8 @@
 import { DropdownMenuSeparator, type DropdownMenuSeparatorProps } from "@kappa-ui/core/dropdown-menu";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuSeparator } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuSeparator } from "@/ui/menu";
 
 const props = defineProps<DropdownMenuSeparatorProps & { class?: HTMLAttributes["class"] }>();
 

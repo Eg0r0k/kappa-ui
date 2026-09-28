@@ -2,8 +2,8 @@
 import { SelectSeparator, type SelectSeparatorProps } from "@kappa-ui/core/select";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuSeparator } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuSeparator } from "@/ui/menu";
 
 const props = defineProps<SelectSeparatorProps & { class?: HTMLAttributes["class"] }>();
 

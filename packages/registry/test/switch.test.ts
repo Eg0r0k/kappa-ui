@@ -49,13 +49,41 @@ describe("Switch", () => {
   it("shows the hover layer only for a mouse over the track", async () => {
     const wrapper = mount(Switch);
     const button = wrapper.get("button");
+    const thumb = () => wrapper.get("[data-slot=switch-thumb]").attributes("data-hovered");
 
     await button.trigger("pointerenter", { pointerType: "touch" });
-    expect(button.attributes("data-hovered")).toBeUndefined();
+    expect(thumb()).toBeUndefined();
     await button.trigger("pointerenter", { pointerType: "mouse" });
-    expect(button.attributes("data-hovered")).toBe("true");
+    expect(thumb()).toBe("true");
     await button.trigger("pointerleave", { pointerType: "mouse" });
-    expect(button.attributes("data-hovered")).toBeUndefined();
+    expect(thumb()).toBeUndefined();
+    wrapper.unmount();
+  });
+
+  it("centres a halo 1.25x the track height on the thumb", () => {
+    const wrapper = mount(Switch, { attachTo: document.body });
+    const halo = getComputedStyle(wrapper.get("[data-slot=switch-thumb]").element, "::before");
+    expect([halo.width, halo.height]).toEqual(["30px", "30px"]);
+    wrapper.unmount();
+  });
+
+  it("paints the edge and the handle destructive when invalid", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            Field,
+            { invalid: true, style: "--destructive: rgb(255, 0, 0); --destructive-foreground: rgb(0, 0, 255)" },
+            () => [h(FieldLabel, () => "Wi-Fi"), h(Switch), h(Switch, { modelValue: true })],
+          ),
+      }),
+      { attachTo: document.body },
+    );
+    await nextTick();
+    const [off, on] = wrapper.findAll("[data-slot=switch-handle]").map((handle) => getComputedStyle(handle.element));
+
+    expect(getComputedStyle(wrapper.get("button").element).borderTopColor).toBe("rgb(255, 0, 0)");
+    expect([off!.backgroundColor, on!.backgroundColor]).toEqual(["rgb(255, 0, 0)", "rgb(0, 0, 255)"]);
     wrapper.unmount();
   });
 

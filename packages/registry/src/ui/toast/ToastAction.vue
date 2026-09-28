@@ -2,13 +2,13 @@
 import { ToastAction } from "@kappa-ui/core/toast";
 import type { HTMLAttributes } from "vue";
 
-import { Button, type ButtonVariants } from "@/ui/button";
+import { Button, type ButtonColor, type ButtonVariants } from "@/ui/button";
 
 const props = withDefaults(
   defineProps<{
     altText: string;
     variant?: ButtonVariants["variant"];
-    color?: ButtonVariants["color"];
+    color?: ButtonColor | (string & {});
     size?: ButtonVariants["size"];
     class?: HTMLAttributes["class"];
   }>(),

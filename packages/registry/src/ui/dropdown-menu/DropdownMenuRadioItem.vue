@@ -8,8 +8,8 @@ import {
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuIndicator, menuIndicatorItem, menuRadioDot } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuIndicator, menuIndicatorItem, menuRadioDot } from "@/ui/menu";
 
 const props = defineProps<DropdownMenuRadioItemProps & { class?: HTMLAttributes["class"] }>();
 const emits = defineEmits<DropdownMenuRadioItemEmits>();

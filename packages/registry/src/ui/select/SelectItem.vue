@@ -4,8 +4,8 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuItem } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuItem } from "@/ui/menu";
 import SelectItemText from "./SelectItemText.vue";
 
 const props = defineProps<SelectItemProps & { class?: HTMLAttributes["class"] }>();

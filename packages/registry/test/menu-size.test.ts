@@ -3,7 +3,6 @@ import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h } from "vue";
 
-import type { MenuSize } from "@/lib/menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
 import { Menu, MenuItem } from "@/ui/menu";
+import type { MenuSize } from "@/ui/menu";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
 const query = (selector: string) => document.querySelector(selector) as HTMLElement;

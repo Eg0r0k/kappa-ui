@@ -267,9 +267,3 @@
   --transition-duration-extra-long-3: 900ms;
   --transition-duration-extra-long-4: 1000ms;
 }
-
-@layer base {
-  html {
-    scrollbar-gutter: stable;
-  }
-}

@@ -3,8 +3,8 @@ import { DropdownMenuItem, type DropdownMenuItemEmits, type DropdownMenuItemProp
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuItem } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuItem } from "@/ui/menu";
 
 const props = defineProps<
   DropdownMenuItemProps & {

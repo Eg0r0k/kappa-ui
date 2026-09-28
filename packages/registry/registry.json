@@ -40,62 +40,6 @@
       ]
     },
     {
-      "name": "choice-group",
-      "type": "registry:lib",
-      "title": "Choice group",
-      "description": "Sizes, touch targets and the state layer shared by checkboxes and radios, and the card, list and table layouts of their groups.",
-      "registryDependencies": ["tokens"],
-      "dependencies": ["class-variance-authority"],
-      "files": [
-        { "path": "src/lib/choice-group.ts", "type": "registry:lib" }
-      ]
-    },
-    {
-      "name": "text-control",
-      "type": "registry:lib",
-      "title": "Text control",
-      "description": "Variants, sizes and focus and invalid states shared by the input and the textarea.",
-      "files": [
-        {
-          "path": "src/lib/text-control.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "name": "overlay",
-      "type": "registry:lib",
-      "title": "Overlay",
-      "description": "The popover surface and its enter and exit motion, the stacking of the modal scrim, and a stable scrollbar gutter.",
-      "registryDependencies": ["tokens"],
-      "css": {
-        "@layer base": {
-          "html": {
-            "scrollbar-gutter": "stable"
-          }
-        }
-      },
-      "files": [
-        {
-          "path": "src/lib/overlay.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "name": "menu-styles",
-      "type": "registry:lib",
-      "title": "Menu",
-      "description": "Item, label, separator and shortcut styles shared by the dropdown menu, context menu and select.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "files": [
-        {
-          "path": "src/lib/menu.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
       "name": "tokens",
       "type": "registry:lib",
       "title": "Tokens",
@@ -699,7 +643,7 @@
       "title": "Popover",
       "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
       "dependencies": ["@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "overlay"],
+      "registryDependencies": ["utils", "tokens"],
       "files": [
         {
           "path": "src/ui/popover/Popover.vue",
@@ -778,8 +722,8 @@
       "type": "registry:ui",
       "title": "Menu",
       "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "popover"],
       "files": [
         {
           "path": "src/ui/menu/Menu.vue",
@@ -891,7 +835,7 @@
       "title": "Input",
       "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, with an optional floating label, that picks up its id, description, error and state from a surrounding Field.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "field-context", "text-control"],
+      "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
           "path": "src/ui/input/Input.vue",
@@ -909,7 +853,7 @@
       "title": "Input group",
       "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "field-context", "text-control", "button", "textarea"],
+      "registryDependencies": ["utils", "tokens", "field-context", "input", "button", "textarea"],
       "files": [
         { "path": "src/ui/input-group/InputGroup.vue", "type": "registry:ui" },
         { "path": "src/ui/input-group/InputGroupAddon.vue", "type": "registry:ui" },
@@ -926,7 +870,7 @@
       "title": "Textarea",
       "description": "Multi-line text field with the input's variants and sizes, a row count and optional auto-resize, that picks up its state from a surrounding Field.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils", "tokens", "field-context", "text-control"],
+      "registryDependencies": ["utils", "tokens", "field-context", "input"],
       "files": [
         {
           "path": "src/ui/textarea/Textarea.vue",
@@ -944,7 +888,7 @@
       "title": "Checkbox",
       "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
+      "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
           "path": "src/ui/checkbox/Checkbox.vue",
@@ -966,7 +910,7 @@
       "title": "Dialog",
       "description": "A modal window built from parts: a header, a body that scrolls, and a footer, opened from a template or from code, on Reka UI.",
       "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "button"],
+      "registryDependencies": ["utils", "tokens", "button"],
       "files": [
         {
           "path": "src/ui/dialog/Dialog.vue",
@@ -1024,7 +968,7 @@
       "title": "Context Menu",
       "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
       "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "registryDependencies": ["utils", "tokens", "popover", "menu"],
       "files": [
         {
           "path": "src/ui/context-menu/ContextMenu.vue",
@@ -1094,7 +1038,7 @@
       "title": "Dropdown Menu",
       "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
       "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "registryDependencies": ["utils", "tokens", "popover", "menu"],
       "files": [
         {
           "path": "src/ui/dropdown-menu/DropdownMenu.vue",
@@ -1212,7 +1156,7 @@
       "title": "Radio Group",
       "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "field-context", "choice-group"],
+      "registryDependencies": ["utils", "tokens", "field-context", "checkbox"],
       "files": [
         {
           "path": "src/ui/radio-group/Radio.vue",
@@ -1234,7 +1178,7 @@
       "title": "Select",
       "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "field-context", "text-control", "overlay", "menu-styles"],
+      "registryDependencies": ["utils", "tokens", "field-context", "input", "popover", "menu"],
       "files": [
         {
           "path": "src/ui/select/Select.vue",

@@ -41,7 +41,7 @@ const delegated = computed(() => {
     :data-variant="variant"
     :data-color="color"
     :data-size="size"
-    :class="cn(buttonVariants({ variant, color, size: paginationButtonSize[size] }), props.class)"
+    :class="cn(buttonVariants({ variant, size: paginationButtonSize[size] }), props.class)"
   >
     <slot>
       Next
