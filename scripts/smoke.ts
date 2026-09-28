@@ -89,6 +89,7 @@ const readJson = async <T>(path: string) => JSON.parse(await readFile(path, 'utf
 
 const manifest = await readJson<{ items: Item[] }>(join(repoRoot, 'packages/registry/registry.json'))
 const core = await readJson<CorePackage>(join(repoRoot, 'packages/core/package.json'))
+const { packageManager } = await readJson<{ packageManager: string }>(join(repoRoot, 'package.json'))
 
 const packDir = join(workDir, 'pack')
 await mkdir(packDir)
@@ -181,6 +182,9 @@ const smoke = async (template: Template) => {
   const dir = join(workDir, template.name)
   const label = (step: string) => `${template.name}: ${step}`
   await cp(join(repoRoot, 'scripts/smoke', template.name), dir, { recursive: true })
+  const templatePackage = join(dir, 'package.json')
+  const pinned = { ...(await readJson<Record<string, unknown>>(templatePackage)), packageManager }
+  await writeFile(templatePackage, `${JSON.stringify(pinned, null, 2)}\n`)
   await writeFile(join(dir, '.npmrc'), `@kappa-ui:registry=${origin}/npm/\n`)
   await run(label('install'), 'pnpm install', dir)
   await run(label('reka-ui latest'), 'pnpm add reka-ui@latest', dir)
