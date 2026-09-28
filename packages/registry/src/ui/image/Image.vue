@@ -40,7 +40,6 @@ const state = ref<ImageState>("idle");
 const naturalRatio = ref<number>();
 
 const hasSource = computed(() => Boolean(props.src || props.srcset));
-const sourceKey = computed(() => JSON.stringify([props.src, props.srcset, props.sizes, props.sources]));
 const aspectRatio = computed(
   () =>
     props.ratio ??
@@ -110,7 +109,7 @@ const check = () => {
 onMounted(() => {
   check();
   watch(
-    sourceKey,
+    [() => props.src, () => props.srcset, () => props.sizes, () => JSON.stringify(props.sources)],
     () => {
       clearPending();
       check();

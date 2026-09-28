@@ -159,6 +159,15 @@ describe("Image", () => {
     expect(events).toEqual([]);
   });
 
+  it("goes to error when an undefined src turns out null", async () => {
+    const { root, props } = render({});
+    await nextTick();
+    expect(root.dataset.state).toBe("loading");
+    props.src = null;
+    await nextTick();
+    expect(root.dataset.state).toBe("error");
+  });
+
   it("loads once an undefined src arrives", async () => {
     const { root, props, events } = render({});
     await nextTick();
