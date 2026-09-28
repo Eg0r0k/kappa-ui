@@ -11,6 +11,16 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
   - `packages/core/src/ripple/directive.ts` — the ripple's press geometry, timing and soft edge, as a Vue directive
   - `packages/core/src/tailwind.css` — the touch target's `max(48px, 100%)` expansion and wrapper margin formula (`touch-target`, `touch-target-wrapper`), and the round state layer (`state-halo`)
 
+## Nuxt UI
+
+- Source: https://github.com/nuxt/ui
+- Licence: MIT, full text below
+- Copyright (c) 2023 Nuxt
+- Adapted in:
+  - `packages/core/src/tailwind.css` — the progress bar's indeterminate keyframes (`animate-progress-*`)
+  - `packages/registry/src/ui/progress/index.ts` — the progress bar's sizes, status, steps and animation variants
+  - `packages/registry/src/ui/progress/Progress.vue` — the progress bar's percentage, indicator offset, status and steps
+
 ## Quasar Framework
 
 - Source: https://github.com/quasarframework/quasar
@@ -256,4 +266,18 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+```
+
+## MIT License (Nuxt UI)
+
+```
+MIT License
+
+Copyright (c) 2023 Nuxt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```

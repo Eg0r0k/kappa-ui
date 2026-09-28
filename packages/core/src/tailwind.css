@@ -1,5 +1,7 @@
 /* Adapted from Material Web (https://github.com/material-components/material-web), modified for kappa-ui. */
 /* Copyright 2021 Google LLC. Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0 */
+/* Progress keyframes adapted from Nuxt UI (https://github.com/nuxt/ui), modified for kappa-ui. */
+/* Copyright (c) 2023 Nuxt. MIT License: https://github.com/nuxt/ui/blob/v4/LICENSE.md */
 
 @layer base {
   html {
@@ -1035,5 +1037,203 @@
   &::before,
   &::after {
     display: none;
+  }
+}
+
+@keyframes kappa-progress-carousel {
+  0%,
+  100% {
+    width: 50%;
+  }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes kappa-progress-carousel-rtl {
+  0%,
+  100% {
+    width: 50%;
+  }
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+@keyframes kappa-progress-carousel-vertical {
+  0%,
+  100% {
+    height: 50%;
+  }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+
+@keyframes kappa-progress-carousel-inverse {
+  0%,
+  100% {
+    width: 50%;
+  }
+  0% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes kappa-progress-carousel-inverse-rtl {
+  0%,
+  100% {
+    width: 50%;
+  }
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes kappa-progress-carousel-inverse-vertical {
+  0%,
+  100% {
+    height: 50%;
+  }
+  0% {
+    transform: translateY(200%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes kappa-progress-swing {
+  0%,
+  100% {
+    width: 50%;
+  }
+  0%,
+  100% {
+    transform: translateX(-25%);
+  }
+  50% {
+    transform: translateX(125%);
+  }
+}
+
+@keyframes kappa-progress-swing-vertical {
+  0%,
+  100% {
+    height: 50%;
+  }
+  0%,
+  100% {
+    transform: translateY(-25%);
+  }
+  50% {
+    transform: translateY(125%);
+  }
+}
+
+@keyframes kappa-progress-elastic {
+  0%,
+  100% {
+    width: 50%;
+    left: 25%;
+  }
+  50% {
+    width: 100%;
+    left: 0;
+  }
+}
+
+@keyframes kappa-progress-elastic-vertical {
+  0%,
+  100% {
+    height: 50%;
+    top: 25%;
+  }
+  50% {
+    height: 100%;
+    top: 0;
+  }
+}
+
+@keyframes kappa-progress-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@utility animate-progress-carousel {
+  animation: kappa-progress-carousel 2s linear infinite;
+  &:dir(rtl) {
+    animation-name: kappa-progress-carousel-rtl;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@utility animate-progress-carousel-vertical {
+  animation: kappa-progress-carousel-vertical 2s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@utility animate-progress-carousel-inverse {
+  animation: kappa-progress-carousel-inverse 2s linear infinite;
+  &:dir(rtl) {
+    animation-name: kappa-progress-carousel-inverse-rtl;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@utility animate-progress-carousel-inverse-vertical {
+  animation: kappa-progress-carousel-inverse-vertical 2s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@utility animate-progress-swing {
+  animation: kappa-progress-swing 2s var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@utility animate-progress-swing-vertical {
+  animation: kappa-progress-swing-vertical 2s var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@utility animate-progress-elastic {
+  animation: kappa-progress-elastic 2s var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@utility animate-progress-elastic-vertical {
+  animation: kappa-progress-elastic-vertical 2s var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 }

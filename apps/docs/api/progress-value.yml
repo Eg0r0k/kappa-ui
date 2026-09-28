@@ -1,0 +1,4 @@
+component: ProgressValue
+file: ui/progress/ProgressValue.vue
+slots:
+  default: Replaces the percentage. Receives `percent`, `value` and `max`.

@@ -4934,6 +4934,182 @@
       ]
     },
     {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "A progress bar with Nuxt UI's indeterminate animations, status, steps and seven sizes, and shadcn's label and value.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/progress/Progress.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/progress/ProgressLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/progress/ProgressValue.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/progress/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress-demo",
+      "type": "registry:block",
+      "title": "Progress demo",
+      "description": "A bar at 60%.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-animations",
+      "type": "registry:block",
+      "title": "Progress animations",
+      "description": "The four indeterminate animations.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressAnimations.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-status",
+      "type": "registry:block",
+      "title": "Progress status",
+      "description": "The percentage above the bar, following the value.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressStatus.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-steps",
+      "type": "registry:block",
+      "title": "Progress steps",
+      "description": "A label per step instead of a number.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressSteps.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-sizes",
+      "type": "registry:block",
+      "title": "Progress sizes",
+      "description": "Seven thicknesses from 1 to 20px.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-vertical",
+      "type": "registry:block",
+      "title": "Vertical progress",
+      "description": "Bars that fill from the top, or from the bottom when inverted.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-colors",
+      "type": "registry:block",
+      "title": "Progress colours",
+      "description": "Bars recoloured with a text class.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-label",
+      "type": "registry:block",
+      "title": "Progress with a label",
+      "description": "ProgressLabel and ProgressValue above the bar.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/progress/ProgressWithLabel.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "overlay-scrim",
       "type": "registry:block",
       "title": "Overlay scrim",

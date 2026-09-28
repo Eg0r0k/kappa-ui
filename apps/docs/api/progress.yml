@@ -1,0 +1,29 @@
+component: Progress
+file: ui/progress/Progress.vue
+props:
+  modelValue:
+    description: The value, bound with `v-model`. `null` makes the bar indeterminate and animated.
+  max:
+    description: The value that fills the bar, 100 by default. An array names one step per value, from `0` to its length less one, and shows the current step's name under the bar.
+  status:
+    description: Shows the percentage above the bar, moving with the value.
+  inverted:
+    description: Fills the bar from the other end, right to left or bottom to top.
+  size:
+    description: Thickness of the bar, from 1px for `2xs` to 20px for `2xl`, and the size of the status and step text.
+  orientation:
+    description: "`vertical` fills the height of its container instead of the width."
+  animation:
+    description: How an indeterminate bar moves. Under reduced motion every animation becomes a slow pulse.
+  getValueLabel:
+    description: Returns the bar's `aria-label` from the value and max; a percentage by default. A `ProgressLabel` takes precedence.
+  getValueText:
+    description: Returns the bar's `aria-valuetext` from the value and max.
+  as:
+    description: The element or component to render.
+emits:
+  update:modelValue: Fires when Reka corrects a value outside `0` to `max` to `null`.
+  update:max: Fires when Reka corrects an invalid `max` to 100.
+slots:
+  default: A header row above the bar for `ProgressLabel` and `ProgressValue`.
+  status: Replaces the percentage shown by `status`. Receives `percent`.

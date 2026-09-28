@@ -1,0 +1,4 @@
+component: ProgressLabel
+file: ui/progress/ProgressLabel.vue
+slots:
+  default: The label. It names the progress bar for screen readers.
