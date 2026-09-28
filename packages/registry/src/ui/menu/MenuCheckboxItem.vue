@@ -5,8 +5,8 @@ import {
   type MenuCheckboxItemProps,
   MenuItemIndicator,
 } from "@kappa-ui/core/menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
+import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

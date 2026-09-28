@@ -4,8 +4,8 @@ import {
   ContextMenuRadioItem,
   type ContextMenuRadioItemEmits,
   type ContextMenuRadioItemProps,
-} from "@kappa-ui/core/context-menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

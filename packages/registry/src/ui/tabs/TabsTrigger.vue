@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TabsTrigger, type TabsTriggerProps } from "@kappa-ui/core/tabs";
+import { TabsTrigger, type TabsTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

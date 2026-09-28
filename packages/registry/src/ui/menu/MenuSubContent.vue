@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MenuPortal, MenuSubContent, type MenuSubContentEmits, type MenuSubContentProps } from "@kappa-ui/core/menu";
 import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { cn } from "@/lib/utils";

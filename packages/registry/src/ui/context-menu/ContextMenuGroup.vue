@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuGroup, type ContextMenuGroupProps } from "@kappa-ui/core/context-menu";
+import { ContextMenuGroup, type ContextMenuGroupProps } from "reka-ui";
 
 const props = defineProps<ContextMenuGroupProps>();
 </script>

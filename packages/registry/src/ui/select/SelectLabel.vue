@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectLabel, type SelectLabelProps } from "@kappa-ui/core/select";
+import { SelectLabel, type SelectLabelProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

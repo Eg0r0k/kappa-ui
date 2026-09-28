@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { SliderRange, SliderRoot, type SliderRootProps, SliderThumb, SliderTrack } from "@kappa-ui/core/slider";
-import { useForwardProps } from "@kappa-ui/core/utils";
+import { SliderRange, SliderRoot, type SliderRootProps, SliderThumb, SliderTrack, useForwardProps } from "reka-ui";
 import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

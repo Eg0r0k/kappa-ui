@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from "@kappa-ui/core/accordion";
 import { ChevronDown } from "@lucide/vue";
+import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

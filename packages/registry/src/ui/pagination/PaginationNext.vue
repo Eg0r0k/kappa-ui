@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PaginationNext, type PaginationNextProps } from "@kappa-ui/core/pagination";
 import { ChevronRight } from "@lucide/vue";
+import { PaginationNext, type PaginationNextProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

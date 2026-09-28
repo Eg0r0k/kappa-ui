@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuItem, type ContextMenuItemEmits, type ContextMenuItemProps } from "@kappa-ui/core/context-menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { ContextMenuItem, type ContextMenuItemEmits, type ContextMenuItemProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

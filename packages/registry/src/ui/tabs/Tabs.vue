@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { TabsRoot, type TabsRootEmits, type TabsRootProps } from "@kappa-ui/core/tabs";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { TabsRoot, type TabsRootEmits, type TabsRootProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

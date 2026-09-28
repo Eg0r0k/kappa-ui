@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps } from "@kappa-ui/core/radio-group";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { type ChoiceGroupVariants, choiceGroupVariants } from "@/ui/checkbox";

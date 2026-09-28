@@ -1,4 +1,4 @@
-import { createContext } from "@kappa-ui/core/utils";
+import { createContext } from "reka-ui";
 import type { ComputedRef } from "vue";
 
 import type { ButtonColor, ButtonVariants } from "@/ui/button";

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MenuSub, type MenuSubEmits, type MenuSubProps } from "@kappa-ui/core/menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { useForwardPropsEmits } from "reka-ui";
 
 const props = defineProps<MenuSubProps>();
 const emits = defineEmits<MenuSubEmits>();

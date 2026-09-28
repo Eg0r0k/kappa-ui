@@ -31,7 +31,7 @@
       "type": "registry:lib",
       "title": "Field context",
       "description": "The context a Field provides so the control inside it can wire its id, description and error.",
-      "dependencies": ["@kappa-ui/core"],
+      "dependencies": ["reka-ui"],
       "files": [
         {
           "path": "src/lib/field-context.ts",
@@ -105,10 +105,7 @@
       "type": "registry:ui",
       "title": "Accordion",
       "description": "Stacked sections that expand one at a time or several at once, whose closed answers the browser's find in page can search and open.",
-      "dependencies": [
-        "@kappa-ui/core",
-        "@lucide/vue"
-      ],
+      "dependencies": ["@lucide/vue", "reka-ui"],
       "registryDependencies": [
         "utils",
         "tokens"
@@ -141,7 +138,7 @@
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Constrains its content to a given width-to-height ratio.",
-      "dependencies": ["@kappa-ui/core"],
+      "dependencies": ["reka-ui"],
       "files": [
         {
           "path": "src/ui/aspect-ratio/AspectRatio.vue",
@@ -190,7 +187,7 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "A small label with Button's variants and colours, five sizes, side-aware icon padding and a square form.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         { "path": "src/ui/badge/Badge.vue", "type": "registry:ui" },
@@ -202,7 +199,7 @@
       "type": "registry:ui",
       "title": "Button group",
       "description": "Buttons joined into one control, horizontal or vertical, with an optional separator and text.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "separator"],
       "files": [
         { "path": "src/ui/button-group/ButtonGroup.vue", "type": "registry:ui" },
@@ -216,7 +213,7 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Page navigation with previous and next, ellipses for skipped pages, Button's variants and five sizes.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "button"],
       "files": [
         { "path": "src/ui/pagination/Pagination.vue", "type": "registry:ui" },
@@ -234,7 +231,7 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "A row of media, title, description and actions, with Select's variants, five sizes and list semantics.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "separator"],
       "files": [
         { "path": "src/ui/item/Item.vue", "type": "registry:ui" },
@@ -255,7 +252,7 @@
       "type": "registry:ui",
       "title": "Toast",
       "description": "Brief messages from a useToast() service: ids to update and remove, promises, groups, and a stacked Toaster that expands on hover.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "button", "spinner"],
       "files": [
         { "path": "src/ui/toast/ToastAction.vue", "type": "registry:ui" },
@@ -272,7 +269,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens"],
       "css": {
         "@layer base": {
@@ -291,7 +288,7 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "Surface that groups related content, with header, title, description, content and footer parts.",
-      "dependencies": ["@kappa-ui/core"],
+      "dependencies": ["reka-ui"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -350,7 +347,7 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Accessible label for a form control.",
-      "dependencies": ["@kappa-ui/core"],
+      "dependencies": ["reka-ui"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -368,7 +365,7 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A horizontal or vertical line between content, in five thicknesses, with an optional label in the middle.",
-      "dependencies": ["@kappa-ui/core", "class-variance-authority"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -404,7 +401,7 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
-      "dependencies": ["@kappa-ui/core"],
+      "dependencies": ["@kappa-ui/core", "reka-ui"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -434,7 +431,7 @@
       "type": "registry:ui",
       "title": "Listbox",
       "description": "A list to pick one or more options from, with icons, titles, descriptions, groups and a replaceable check, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -484,7 +481,7 @@
       "type": "registry:ui",
       "title": "Menu",
       "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "popover"],
       "files": [
         {
@@ -550,7 +547,7 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Label, description and error for one form control, wired to it automatically, plus group and fieldset layout.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "label", "field-context"],
       "files": [
         {
@@ -596,7 +593,7 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, with an optional floating label, that picks up its id, description, error and state from a surrounding Field.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -614,7 +611,7 @@
       "type": "registry:ui",
       "title": "Input group",
       "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context", "input", "button", "textarea"],
       "files": [
         { "path": "src/ui/input-group/InputGroup.vue", "type": "registry:ui" },
@@ -649,7 +646,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -671,7 +668,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A modal window built from parts: a header, a body that scrolls, and a footer, opened from a template or from code, on Reka UI.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["@kappa-ui/core", "@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "button"],
       "files": [
         {
@@ -729,7 +726,7 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "popover"],
       "files": [
         {
@@ -799,7 +796,7 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "popover"],
       "files": [
         {
@@ -869,7 +866,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Material-style switch with five sizes, an optional touch target and custom icons in the handle, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {
@@ -887,7 +884,7 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "Panels switched by a row or column of tabs, in pill and line variants and five sizes, with an indicator that slides to the active tab.",
-      "dependencies": ["@kappa-ui/core", "class-variance-authority"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens"],
       "files": [
         {
@@ -917,7 +914,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context", "checkbox"],
       "files": [
         {
@@ -939,7 +936,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context", "input", "popover", "menu"],
       "files": [
         {
@@ -997,7 +994,7 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "Slider with one or more thumbs, a default and an inset look, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
+      "dependencies": ["class-variance-authority", "reka-ui"],
       "registryDependencies": ["utils", "tokens", "field-context"],
       "files": [
         {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TabsIndicator, TabsList, type TabsListProps } from "@kappa-ui/core/tabs";
+import { TabsIndicator, TabsList, type TabsListProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { Check } from "@lucide/vue";
 import {
   DropdownMenuCheckboxItem,
   type DropdownMenuCheckboxItemEmits,
   type DropdownMenuCheckboxItemProps,
   DropdownMenuItemIndicator,
-} from "@kappa-ui/core/dropdown-menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
-import { Check } from "@lucide/vue";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

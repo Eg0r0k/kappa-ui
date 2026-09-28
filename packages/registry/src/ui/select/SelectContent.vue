@@ -7,8 +7,8 @@ import {
   SelectPortal,
   SelectViewport,
   injectSelectRootContext,
-} from "@kappa-ui/core/select";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

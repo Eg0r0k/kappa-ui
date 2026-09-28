@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { DropdownMenuSub, type DropdownMenuSubEmits, type DropdownMenuSubProps } from "@kappa-ui/core/dropdown-menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { DropdownMenuSub, type DropdownMenuSubEmits, type DropdownMenuSubProps, useForwardPropsEmits } from "reka-ui";
 
 const props = defineProps<DropdownMenuSubProps>();
 const emits = defineEmits<DropdownMenuSubEmits>();

@@ -10,7 +10,7 @@ const targets = new WeakMap<Element, { attached: number; open: number }>();
 <script setup lang="ts">
 import { MenuAnchor, MenuContent, MenuPortal, MenuRoot } from "@kappa-ui/core/menu";
 import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-ui/core/overlay";
-import { useDirection, useId } from "@kappa-ui/core/utils";
+import { useDirection, useId } from "reka-ui";
 import {
   type HTMLAttributes,
   nextTick,

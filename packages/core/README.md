@@ -4,11 +4,11 @@ The npm half of [kappa-ui](https://kappa-ui.pages.dev), a shadcn-style component
 
 kappa-ui components are copied into your project by the shadcn-vue CLI. Their mechanism lives here instead, so it receives fixes through npm:
 
-- a re-export facade over [Reka UI](https://reka-ui.com), one entry per primitive (`@kappa-ui/core/dialog`, `@kappa-ui/core/select`, …);
 - the overlay scrim and portal target, the `vRipple` and `vScrollFade` directives, the toast manager and programmatic dialogs;
+- `@kappa-ui/core/menu`, the menu parts [Reka UI](https://reka-ui.com) keeps internal, checked in development so a Reka upgrade that drops one fails with a message naming it;
 - `@kappa-ui/core/tailwind.css`, the utilities and keyframes the components are drawn with.
 
-The CLI installs this package with the first component you add, so you rarely need to install it yourself. To update it:
+The components import Reka UI themselves; it is a peer dependency here (`reka-ui` `^2.10.5`), so your project and kappa-ui share one copy. The CLI installs both with the first component you add, so you rarely need to install them yourself. To update:
 
 ```sh
 npm update @kappa-ui/core

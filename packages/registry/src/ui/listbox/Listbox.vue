@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ListboxContent, ListboxRoot, type ListboxRootEmits, type ListboxRootProps } from "@kappa-ui/core/listbox";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import {
+  ListboxContent,
+  ListboxRoot,
+  type ListboxRootEmits,
+  type ListboxRootProps,
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

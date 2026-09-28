@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps } from "@kappa-ui/core/dropdown-menu";
 import { ChevronRight } from "@lucide/vue";
+import { DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

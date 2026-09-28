@@ -14,13 +14,10 @@ const sources = [
 
 const components = ['packages/core/src/**/*.vue', 'packages/registry/src/**/*.vue', 'apps/docs/app/**/*.vue']
 
-const facadeOnly = {
+const internalInCore = {
   'no-restricted-imports': [
     'error',
-    {
-      paths: [{ name: 'reka-ui', message: 'Import from @kappa-ui/core instead.' }],
-      patterns: [{ group: ['reka-ui/*'], message: 'Import from @kappa-ui/core instead.' }],
-    },
+    { patterns: [{ group: ['reka-ui/internal'], message: 'Only @kappa-ui/core may import reka-ui/internal.' }] },
   ],
 }
 
@@ -54,7 +51,7 @@ export default defineConfig([
   },
   {
     files: ['packages/registry/src/**/*.{ts,vue}'],
-    rules: facadeOnly,
+    rules: internalInCore,
   },
   tailwind(['packages/registry/src/**/*.{ts,vue}'], './packages/registry/test/setup.css', './packages/registry/', [
     '^kappa-',

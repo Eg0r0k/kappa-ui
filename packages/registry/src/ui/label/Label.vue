@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Label, type LabelProps } from "@kappa-ui/core/label";
+import { Label, type LabelProps } from "reka-ui";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";

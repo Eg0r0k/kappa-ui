@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { PaginationRoot, type PaginationRootEmits, type PaginationRootProps } from "@kappa-ui/core/pagination";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { PaginationRoot, type PaginationRootEmits, type PaginationRootProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

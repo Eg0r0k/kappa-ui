@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-ui/core/overlay";
 import {
   ContextMenuContent,
   type ContextMenuContentEmits,
   type ContextMenuContentProps,
   ContextMenuPortal,
   injectContextMenuRootContext,
-} from "@kappa-ui/core/context-menu";
-import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-ui/core/overlay";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { cn } from "@/lib/utils";

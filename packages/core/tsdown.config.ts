@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-  entry: ["src/primitives/*.ts", "src/*/index.ts", "!src/internal/**"],
+  entry: ["src/*/index.ts", "!src/internal/**"],
   root: "src",
   unbundle: true,
   format: "esm",

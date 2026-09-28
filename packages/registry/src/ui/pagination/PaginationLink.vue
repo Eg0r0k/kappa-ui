@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  PaginationListItem,
-  type PaginationListItemProps,
-  injectPaginationRootContext,
-} from "@kappa-ui/core/pagination";
+import { PaginationListItem, type PaginationListItemProps, injectPaginationRootContext } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

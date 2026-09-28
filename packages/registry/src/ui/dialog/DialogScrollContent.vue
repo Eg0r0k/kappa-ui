@@ -7,8 +7,8 @@ import {
   DialogPortal,
 } from "@kappa-ui/core/dialog";
 import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { X } from "@lucide/vue";
+import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

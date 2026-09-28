@@ -3,8 +3,8 @@ import {
   ContextMenuRadioGroup,
   type ContextMenuRadioGroupEmits,
   type ContextMenuRadioGroupProps,
-} from "@kappa-ui/core/context-menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+  useForwardPropsEmits,
+} from "reka-ui";
 
 const props = defineProps<ContextMenuRadioGroupProps>();
 const emits = defineEmits<ContextMenuRadioGroupEmits>();

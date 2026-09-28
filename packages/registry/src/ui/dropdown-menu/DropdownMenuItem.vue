@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { DropdownMenuItem, type DropdownMenuItemEmits, type DropdownMenuItemProps } from "@kappa-ui/core/dropdown-menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import {
+  DropdownMenuItem,
+  type DropdownMenuItemEmits,
+  type DropdownMenuItemProps,
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

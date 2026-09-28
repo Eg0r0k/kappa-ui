@@ -2,7 +2,7 @@
   "name": "@kappa-ui/core",
   "version": "0.1.0",
   "license": "MIT",
-  "description": "The headless parts, directives and Reka UI facade behind the kappa-ui registry.",
+  "description": "The headless parts, directives and Tailwind utilities behind the kappa-ui registry.",
   "keywords": ["vue", "reka-ui", "tailwindcss", "shadcn-vue", "components", "headless"],
   "homepage": "https://kappa-ui.pages.dev",
   "bugs": "https://github.com/Eg0r0k/kappa-ui/issues",
@@ -20,60 +20,24 @@
     "THIRD_PARTY_NOTICES.md"
   ],
   "exports": {
-    "./accordion": "./src/primitives/accordion.ts",
-    "./aspect-ratio": "./src/primitives/aspect-ratio.ts",
-    "./checkbox": "./src/primitives/checkbox.ts",
-    "./context-menu": "./src/primitives/context-menu.ts",
     "./dialog": "./src/dialog/index.ts",
-    "./dropdown-menu": "./src/primitives/dropdown-menu.ts",
-    "./label": "./src/primitives/label.ts",
-    "./listbox": "./src/primitives/listbox.ts",
-    "./menu": "./src/primitives/menu.ts",
+    "./menu": "./src/menu/index.ts",
     "./overlay": "./src/overlay/index.ts",
-    "./pagination": "./src/primitives/pagination.ts",
-    "./popover": "./src/primitives/popover.ts",
-    "./primitive": "./src/primitives/primitive.ts",
-    "./radio-group": "./src/primitives/radio-group.ts",
     "./ripple": "./src/ripple/index.ts",
     "./scroll-fade": "./src/scroll-fade/index.ts",
-    "./select": "./src/primitives/select.ts",
-    "./separator": "./src/primitives/separator.ts",
-    "./slider": "./src/primitives/slider.ts",
-    "./switch": "./src/primitives/switch.ts",
-    "./tabs": "./src/primitives/tabs.ts",
     "./tailwind.css": "./src/tailwind.css",
-    "./toast": "./src/toast/index.ts",
-    "./utils": "./src/primitives/utils.ts",
-    "./visually-hidden": "./src/primitives/visually-hidden.ts"
+    "./toast": "./src/toast/index.ts"
   },
   "publishConfig": {
     "access": "public",
     "exports": {
-      "./accordion": { "types": "./dist/primitives/accordion.d.ts", "default": "./dist/primitives/accordion.js" },
-      "./aspect-ratio": { "types": "./dist/primitives/aspect-ratio.d.ts", "default": "./dist/primitives/aspect-ratio.js" },
-      "./checkbox": { "types": "./dist/primitives/checkbox.d.ts", "default": "./dist/primitives/checkbox.js" },
-      "./context-menu": { "types": "./dist/primitives/context-menu.d.ts", "default": "./dist/primitives/context-menu.js" },
       "./dialog": { "types": "./dist/dialog/index.d.ts", "default": "./dist/dialog/index.js" },
-      "./dropdown-menu": { "types": "./dist/primitives/dropdown-menu.d.ts", "default": "./dist/primitives/dropdown-menu.js" },
-      "./label": { "types": "./dist/primitives/label.d.ts", "default": "./dist/primitives/label.js" },
-      "./listbox": { "types": "./dist/primitives/listbox.d.ts", "default": "./dist/primitives/listbox.js" },
-      "./menu": { "types": "./dist/primitives/menu.d.ts", "default": "./dist/primitives/menu.js" },
+      "./menu": { "types": "./dist/menu/index.d.ts", "default": "./dist/menu/index.js" },
       "./overlay": { "types": "./dist/overlay/index.d.ts", "default": "./dist/overlay/index.js" },
-      "./pagination": { "types": "./dist/primitives/pagination.d.ts", "default": "./dist/primitives/pagination.js" },
-      "./popover": { "types": "./dist/primitives/popover.d.ts", "default": "./dist/primitives/popover.js" },
-      "./primitive": { "types": "./dist/primitives/primitive.d.ts", "default": "./dist/primitives/primitive.js" },
-      "./radio-group": { "types": "./dist/primitives/radio-group.d.ts", "default": "./dist/primitives/radio-group.js" },
       "./ripple": { "types": "./dist/ripple/index.d.ts", "default": "./dist/ripple/index.js" },
       "./scroll-fade": { "types": "./dist/scroll-fade/index.d.ts", "default": "./dist/scroll-fade/index.js" },
-      "./select": { "types": "./dist/primitives/select.d.ts", "default": "./dist/primitives/select.js" },
-      "./separator": { "types": "./dist/primitives/separator.d.ts", "default": "./dist/primitives/separator.js" },
-      "./slider": { "types": "./dist/primitives/slider.d.ts", "default": "./dist/primitives/slider.js" },
-      "./switch": { "types": "./dist/primitives/switch.d.ts", "default": "./dist/primitives/switch.js" },
-      "./tabs": { "types": "./dist/primitives/tabs.d.ts", "default": "./dist/primitives/tabs.js" },
       "./tailwind.css": "./dist/tailwind.css",
-      "./toast": { "types": "./dist/toast/index.d.ts", "default": "./dist/toast/index.js" },
-      "./utils": { "types": "./dist/primitives/utils.d.ts", "default": "./dist/primitives/utils.js" },
-      "./visually-hidden": { "types": "./dist/primitives/visually-hidden.d.ts", "default": "./dist/primitives/visually-hidden.js" }
+      "./toast": { "types": "./dist/toast/index.d.ts", "default": "./dist/toast/index.js" }
     }
   },
   "scripts": {
@@ -83,9 +47,7 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "vue": "^3.5.0"
-  },
-  "dependencies": {
+    "vue": "^3.5.0",
     "reka-ui": "^2.10.5"
   },
   "devDependencies": {
@@ -97,6 +59,7 @@
     "@vue/tsconfig": "^0.9.1",
     "playwright": "^1.63.0",
     "publint": "^0.3.24",
+    "reka-ui": "2.10.5",
     "tsdown": "0.23.0",
     "typescript": "~6.0.2",
     "vitest": "^5.0.1",

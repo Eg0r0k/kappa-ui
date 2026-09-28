@@ -1,5 +1,5 @@
-import { createContext } from "@kappa-ui/core/utils";
 import { type VariantProps, cva } from "class-variance-authority";
+import { createContext } from "reka-ui";
 import type { ComputedRef } from "vue";
 
 export { default as InputGroup } from "./InputGroup.vue";

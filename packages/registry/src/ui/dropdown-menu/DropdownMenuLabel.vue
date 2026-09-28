@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DropdownMenuLabel, type DropdownMenuLabelProps } from "@kappa-ui/core/dropdown-menu";
+import { DropdownMenuLabel, type DropdownMenuLabelProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

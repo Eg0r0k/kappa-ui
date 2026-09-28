@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { Check } from "@lucide/vue";
 import {
   ListboxItem,
   type ListboxItemEmits,
   ListboxItemIndicator,
   type ListboxItemProps,
-} from "@kappa-ui/core/listbox";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
-import { Check } from "@lucide/vue";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

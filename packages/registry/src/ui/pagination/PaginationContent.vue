@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PaginationList, type PaginationListProps } from "@kappa-ui/core/pagination";
+import { PaginationList, type PaginationListProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

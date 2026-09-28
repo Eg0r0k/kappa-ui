@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { SelectItem, type SelectItemEmits, SelectItemIndicator, type SelectItemProps } from "@kappa-ui/core/select";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
+import {
+  SelectItem,
+  type SelectItemEmits,
+  SelectItemIndicator,
+  type SelectItemProps,
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

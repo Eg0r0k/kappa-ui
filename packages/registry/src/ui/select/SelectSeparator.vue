@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectSeparator, type SelectSeparatorProps } from "@kappa-ui/core/select";
+import { SelectSeparator, type SelectSeparatorProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { SelectRoot, type SelectRootEmits, type SelectRootProps } from "@kappa-ui/core/select";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { SelectRoot, type SelectRootEmits, type SelectRootProps, useForwardPropsEmits } from "reka-ui";
 import { useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuSeparator, type ContextMenuSeparatorProps } from "@kappa-ui/core/context-menu";
+import { ContextMenuSeparator, type ContextMenuSeparatorProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

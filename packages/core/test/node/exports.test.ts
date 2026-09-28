@@ -8,31 +8,19 @@ const manifest = JSON.parse(readFileSync(new URL("../../package.json", import.me
 
 const src = new URL("../../src/", import.meta.url);
 
-const primitives = readdirSync(new URL("primitives", src))
-  .filter((file) => file.endsWith(".ts"))
-  .map((file) => file.slice(0, -".ts".length))
-  .sort();
-
 const modules = readdirSync(src, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory() && entry.name !== "primitives" && entry.name !== "internal")
+  .filter((entry) => entry.isDirectory() && entry.name !== "internal")
   .map((entry) => entry.name)
   .sort();
 
-const entries = [
-  ...primitives.map((name) => ({
-    name,
-    file: `primitives/${name}.ts`,
-    load: () => import(`../../src/primitives/${name}.ts`),
-  })),
-  ...modules.map((name) => ({ name, file: `${name}/index.ts`, load: () => import(`../../src/${name}/index.ts`) })),
-];
+const entries = modules.map((name) => ({
+  name,
+  file: `${name}/index.ts`,
+  load: () => import(`../../src/${name}/index.ts`),
+}));
 
 describe("package exports", () => {
-  it("never gives a primitive file and a module directory the same name", () => {
-    expect(primitives.filter((name) => modules.includes(name))).toEqual([]);
-  });
-
-  it("has one entry per primitive file and per module directory, plus the stylesheet, each pointing at its source", () => {
+  it("has one entry per module directory, plus the stylesheet, each pointing at its source", () => {
     expect(manifest.exports).toEqual({
       ...Object.fromEntries(entries.map(({ name, file }) => [`./${name}`, `./src/${file}`])),
       "./tailwind.css": "./src/tailwind.css",

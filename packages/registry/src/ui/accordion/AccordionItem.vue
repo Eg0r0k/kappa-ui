@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AccordionItem, type AccordionItemProps } from "@kappa-ui/core/accordion";
+import { AccordionItem, type AccordionItemProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

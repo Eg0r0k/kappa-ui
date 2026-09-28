@@ -19,43 +19,35 @@ const sfc = (source: string) => `<script setup lang="ts">\n${source}\n</script>\
 
 const template = (markup: string) => `<template>\n  ${markup}\n</template>\n`
 
-const facade = (code: string, file: string) => errors(code, file, 'no-restricted-imports')
+const restricted = (code: string, file: string) => errors(code, file, 'no-restricted-imports')
 
 const assertRejected = (found: { rule: string | null; text: string }[]) => {
   assert.equal(found.length, 1, JSON.stringify(found))
-  assert.match(found[0]?.text ?? '', /Import from @kappa-ui\/core instead\./)
+  assert.match(found[0]?.text ?? '', /Only @kappa-ui\/core may import reka-ui\/internal\./)
 }
 
-test('rejects reka-ui in a registry .ts file', async () => {
-  assertRejected(await facade('import { useId } from "reka-ui";\n', 'packages/registry/src/lib/probe.ts'))
-})
-
-test('rejects reka-ui in a registry .vue file', async () => {
-  assertRejected(await facade(sfc('import { Label } from "reka-ui";'), 'packages/registry/src/ui/probe/Probe.vue'))
-})
-
-test('rejects reka-ui/internal', async () => {
-  assertRejected(
-    await facade(sfc('import { MenuRoot } from "reka-ui/internal";'), 'packages/registry/src/ui/probe/Probe.vue'),
-  )
-})
-
-test('rejects a type-only reka-ui import', async () => {
-  assertRejected(
-    await facade(sfc('import type { LabelProps } from "reka-ui";'), 'packages/registry/src/examples/probe/Probe.vue'),
-  )
-})
-
-test('accepts the facade in registry sources', async () => {
+test('accepts reka-ui in registry sources', async () => {
+  assert.deepEqual(await restricted('import { useId } from "reka-ui";\n', 'packages/registry/src/lib/probe.ts'), [])
   assert.deepEqual(
-    await facade(sfc('import { Label } from "@kappa-ui/core/label";'), 'packages/registry/src/ui/probe/Probe.vue'),
+    await restricted(sfc('import type { LabelProps } from "reka-ui";'), 'packages/registry/src/ui/probe/Probe.vue'),
     [],
   )
 })
 
-test('leaves core and registry tests alone', async () => {
-  assert.deepEqual(await facade('export { Label } from "reka-ui";\n', 'packages/core/src/primitives/probe.ts'), [])
-  assert.deepEqual(await facade('import { Label } from "reka-ui";\n', 'packages/registry/test/probe.test.ts'), [])
+test('rejects reka-ui/internal in registry sources', async () => {
+  assertRejected(
+    await restricted(sfc('import { MenuRoot } from "reka-ui/internal";'), 'packages/registry/src/ui/probe/Probe.vue'),
+  )
+  assertRejected(
+    await restricted('import type { MenuItemProps } from "reka-ui/internal";\n', 'packages/registry/src/lib/probe.ts'),
+  )
+})
+
+test('leaves core alone', async () => {
+  assert.deepEqual(
+    await restricted('export { MenuRoot } from "reka-ui/internal";\n', 'packages/core/src/menu/probe.ts'),
+    [],
+  )
 })
 
 test('rejects an unknown Tailwind class in a registry component', async () => {

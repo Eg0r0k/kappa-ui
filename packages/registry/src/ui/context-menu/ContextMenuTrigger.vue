@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuTrigger, type ContextMenuTriggerProps } from "@kappa-ui/core/context-menu";
+import { ContextMenuTrigger, type ContextMenuTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

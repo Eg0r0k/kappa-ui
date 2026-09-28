@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { CheckboxGroupRoot, type CheckboxGroupRootEmits, type CheckboxGroupRootProps } from "@kappa-ui/core/checkbox";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import {
+  CheckboxGroupRoot,
+  type CheckboxGroupRootEmits,
+  type CheckboxGroupRootProps,
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { cn } from "@/lib/utils";

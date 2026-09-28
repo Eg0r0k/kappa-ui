@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DropdownMenuTrigger, type DropdownMenuTriggerProps } from "@kappa-ui/core/dropdown-menu";
+import { DropdownMenuTrigger, type DropdownMenuTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

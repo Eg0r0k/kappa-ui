@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { AccordionRoot, type AccordionRootEmits, type AccordionRootProps } from "@kappa-ui/core/accordion";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { AccordionRoot, type AccordionRootEmits, type AccordionRootProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

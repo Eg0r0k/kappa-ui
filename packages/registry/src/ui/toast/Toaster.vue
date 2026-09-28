@@ -8,7 +8,7 @@ import {
   useToastGroup,
   useToastStack,
 } from "@kappa-ui/core/toast";
-import { useDirection } from "@kappa-ui/core/utils";
+import { useDirection } from "reka-ui";
 import { type HTMLAttributes, computed, ref } from "vue";
 
 import { cn } from "@/lib/utils";

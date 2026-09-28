@@ -6,8 +6,8 @@ import {
   type PopoverContentProps,
   PopoverPortal,
   injectPopoverRootContext,
-} from "@kappa-ui/core/popover";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

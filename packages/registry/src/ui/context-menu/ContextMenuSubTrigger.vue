@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ContextMenuSubTrigger, type ContextMenuSubTriggerProps } from "@kappa-ui/core/context-menu";
 import { ChevronRight } from "@lucide/vue";
+import { ContextMenuSubTrigger, type ContextMenuSubTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

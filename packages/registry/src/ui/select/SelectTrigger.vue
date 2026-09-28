@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { SelectIcon, SelectTrigger, type SelectTriggerProps } from "@kappa-ui/core/select";
-import { useForwardProps } from "@kappa-ui/core/utils";
 import { ChevronDown } from "@lucide/vue";
+import { SelectIcon, SelectTrigger, type SelectTriggerProps, useForwardProps } from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useId } from "@kappa-ui/core/utils";
+import { useId } from "reka-ui";
 import { type HTMLAttributes, ref, toRef } from "vue";
 
 import { provideFieldContext } from "@/lib/field-context";

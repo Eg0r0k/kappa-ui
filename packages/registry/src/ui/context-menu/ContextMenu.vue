@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuRoot, type ContextMenuRootEmits, type ContextMenuRootProps } from "@kappa-ui/core/context-menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { ContextMenuRoot, type ContextMenuRootEmits, type ContextMenuRootProps, useForwardPropsEmits } from "reka-ui";
 
 const props = defineProps<ContextMenuRootProps>();
 const emits = defineEmits<ContextMenuRootEmits>();

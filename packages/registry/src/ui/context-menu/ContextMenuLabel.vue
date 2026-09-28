@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenuLabel, type ContextMenuLabelProps } from "@kappa-ui/core/context-menu";
+import { ContextMenuLabel, type ContextMenuLabelProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

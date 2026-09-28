@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DropdownMenuGroup, type DropdownMenuGroupProps } from "@kappa-ui/core/dropdown-menu";
+import { DropdownMenuGroup, type DropdownMenuGroupProps } from "reka-ui";
 
 const props = defineProps<DropdownMenuGroupProps>();
 </script>

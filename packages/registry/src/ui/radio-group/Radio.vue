@@ -4,8 +4,8 @@ import {
   RadioGroupItem,
   type RadioGroupItemEmits,
   type RadioGroupItemProps,
-} from "@kappa-ui/core/radio-group";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

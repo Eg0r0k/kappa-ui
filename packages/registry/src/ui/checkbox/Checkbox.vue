@@ -4,8 +4,8 @@ import {
   CheckboxRoot,
   type CheckboxRootEmits,
   type CheckboxRootProps,
-} from "@kappa-ui/core/checkbox";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+  useForwardPropsEmits,
+} from "reka-ui";
 import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";

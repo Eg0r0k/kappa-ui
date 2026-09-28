@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectItemText, type SelectItemTextProps } from "@kappa-ui/core/select";
+import { SelectItemText, type SelectItemTextProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MenuItem, type MenuItemEmits, type MenuItemProps } from "@kappa-ui/core/menu";
-import { useForwardPropsEmits } from "@kappa-ui/core/utils";
+import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";

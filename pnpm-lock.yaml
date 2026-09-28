@@ -131,10 +131,6 @@ importers:
         version: 2.9.1
 
   packages/core:
-    dependencies:
-      reka-ui:
-        specifier: ^2.10.5
-        version: 2.10.5(vue@3.5.43(typescript@6.0.3))
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.18.5
@@ -160,6 +156,9 @@ importers:
       publint:
         specifier: ^0.3.24
         version: 0.3.24
+      reka-ui:
+        specifier: 2.10.5
+        version: 2.10.5(vue@3.5.43(typescript@6.0.3))
       tsdown:
         specifier: 0.23.0
         version: 0.23.0(@arethetypeswrong/core@0.18.5)(@volar/typescript@2.4.28)(@vue/language-core@3.3.11)(publint@0.3.24)(typescript@6.0.3)(vue-tsc@3.3.11(typescript@6.0.3))
