@@ -1,0 +1,31 @@
+component: Toggle
+file: ui/toggle/Toggle.vue
+props:
+  defaultValue:
+    description: "Whether it starts on when `v-model` is not used."
+  modelValue:
+    description: "Whether it is on, bound with `v-model`."
+  disabled:
+    description: "Stops it from being pressed and draws it in the disabled colours, on or off."
+  name:
+    description: "The field name, for submitting its state with a form."
+  required:
+    description: "Marks the form field as required."
+  variant:
+    description: "Button's variant, for the toggle while it is off. `ghost` by default."
+  activeVariant:
+    description: "Button's variant, for the toggle while it is on. `soft` by default."
+  color:
+    description: "Button's colour, or any colour of your theme, for the toggle while it is off. `neutral` by default."
+  activeColor:
+    description: "The colour while it is on. Follows `color` when not set."
+  size:
+    description: "Button's sizes. The `icon-*` sizes make a square toggle for an icon."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  update:modelValue: "Fires when it is pressed, with whether it is now on."
+slots:
+  default: "The label and icons. Receives `modelValue`, `pressed`, `state` and `disabled`."

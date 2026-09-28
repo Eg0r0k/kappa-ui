@@ -6065,6 +6065,136 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button with Button's variants, colours and sizes, and its own look when on: activeVariant and activeColor.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/toggle/Toggle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toggle/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-demo",
+      "type": "registry:block",
+      "title": "Toggle demo",
+      "description": "An icon toggle for bold text.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle/ToggleDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-variants",
+      "type": "registry:block",
+      "title": "Toggle variants",
+      "description": "Each activeVariant in primary, turned on from an outline neutral toggle.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle/ToggleVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-active",
+      "type": "registry:block",
+      "title": "Toggle active",
+      "description": "Outline toggles that turn solid primary or soft warning when on.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle/ToggleActive.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-sizes",
+      "type": "registry:block",
+      "title": "Toggle sizes",
+      "description": "The icon sizes, from icon-xs to icon-xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle/ToggleSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-with-text",
+      "type": "registry:block",
+      "title": "Toggle with text",
+      "description": "A toggle with an icon and a label.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle/ToggleWithText.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
