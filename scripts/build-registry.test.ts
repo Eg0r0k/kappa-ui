@@ -53,15 +53,16 @@ const run = async (items: unknown[], env: Record<string, string> = {}, files: Re
   await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'fixture', items }))
   await writeFile(join(root, 'core.json'), JSON.stringify({ name: '@kappa-ui/core', version: '1.2.3' }))
   const out = join(root, 'out')
+  const css = join(root, 'registry.css')
   const result = spawnSync(
     process.execPath,
-    [script, '--manifest', join(root, 'registry.json'), '--out', out, '--core', join(root, 'core.json')],
+    [script, '--manifest', join(root, 'registry.json'), '--out', out, '--core', join(root, 'core.json'), '--css', css],
     {
       encoding: 'utf8',
       env: { ...process.env, ...env },
     },
   )
-  return { status: result.status, stderr: result.stderr, out }
+  return { status: result.status, stderr: result.stderr, out, css }
 }
 
 test('accepts an example that depends on the component it shows', async () => {
@@ -363,4 +364,63 @@ test('rejects a config on any other item type', async () => {
   const { status, stderr } = await run([{ ...component, config: {} }, example])
   assert.equal(status, 1)
   assert.match(stderr, /item "demo": config is only allowed on registry:base/)
+})
+
+const tokensItem = {
+  name: 'tokens',
+  type: 'registry:lib',
+  title: 'Tokens',
+  description: 'Tokens.',
+  cssSource: 'styles/tokens.css',
+  files: [],
+}
+
+test('resolves cssSource into css and cssVars and drops the field', async () => {
+  const { status, stderr, out } = await run(
+    [component, example, tokensItem],
+    {},
+    {
+      'styles/tokens.css': ':root {\n  --a: 1px;\n}\n\n.dark {\n  color-scheme: dark;\n  --a: 2px;\n}\n',
+    },
+  )
+  assert.equal(status, 0, stderr)
+  const item = JSON.parse(await readFile(join(out, 'tokens.json'), 'utf8'))
+  assert.deepEqual(item.cssVars, { light: { a: '1px' }, dark: { a: '2px' } })
+  assert.deepEqual(item.css, { '.dark': { 'color-scheme': 'dark' } })
+  assert.equal(item.cssSource, undefined)
+  const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8'))
+  const indexed = index.items.find((entry: { name: string }) => entry.name === 'tokens')
+  assert.deepEqual(indexed.cssVars, item.cssVars)
+  assert.equal(indexed.cssSource, undefined)
+})
+
+test('rejects cssSource next to css or cssVars', async () => {
+  const { status, stderr } = await run(
+    [component, example, { ...tokensItem, cssVars: { light: { a: '1px' } } }],
+    {},
+    { 'styles/tokens.css': ':root {}\n' },
+  )
+  assert.equal(status, 1)
+  assert.match(stderr, /item "tokens": declares css or cssVars next to cssSource/)
+})
+
+test('rejects a missing cssSource', async () => {
+  const { status, stderr } = await run([component, example, { ...tokensItem, cssSource: 'nope.css' }])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "tokens": cssSource not found — nope.css/)
+})
+
+test('rejects two items that declare one variable differently', async () => {
+  const one = {
+    name: 'one',
+    type: 'registry:lib',
+    title: 'One',
+    description: 'One.',
+    cssVars: { light: { a: '1px' } },
+    files: [],
+  }
+  const two = { ...one, name: 'two', title: 'Two', cssVars: { light: { a: '2px' } } }
+  const { status, stderr } = await run([component, example, one, two])
+  assert.equal(status, 1)
+  assert.match(stderr, /cssVars.light > --a: "one" declares 1px, "two" declares 2px/)
 })

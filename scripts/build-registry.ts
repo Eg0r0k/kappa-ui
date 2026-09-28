@@ -4,6 +4,8 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
+import { type CssRules, type CssVars, conflictsOf, itemCssFromSource, stylesheetOf } from './lib/registry-css.ts'
+
 const HOMEPAGE = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
 
 const REGISTRY_SCHEMA = 'https://shadcn-vue.com/schema/registry.json'
@@ -41,14 +43,6 @@ type RegistryFile = {
   target?: string
 }
 
-type CssVars = {
-  theme?: Record<string, string>
-  light?: Record<string, string>
-  dark?: Record<string, string>
-}
-
-type CssRules = { [key: string]: string | CssRules }
-
 type RegistryItem = {
   name: string
   type: string
@@ -60,6 +54,7 @@ type RegistryItem = {
   registryDependencies?: string[]
   cssVars?: CssVars
   css?: CssRules
+  cssSource?: string
   categories?: string[]
   docs?: string
   extends?: string
@@ -78,6 +73,7 @@ const { values } = parseArgs({
     manifest: { type: 'string', default: 'packages/registry/registry.json' },
     out: { type: 'string', default: 'apps/docs/public/r' },
     core: { type: 'string', default: 'packages/core/package.json' },
+    css: { type: 'string', default: 'apps/docs/app/assets/css/registry.css' },
   },
 })
 
@@ -85,6 +81,7 @@ const manifestPath = resolve(repoRoot, values.manifest as string)
 const outDir = resolve(repoRoot, values.out as string)
 const manifestDir = dirname(manifestPath)
 const corePath = resolve(repoRoot, values.core as string)
+const cssPath = resolve(repoRoot, values.css as string)
 
 const toDependencyUrl = (dependency: string) =>
   dependency.startsWith('http://') || dependency.startsWith('https://')
@@ -137,6 +134,24 @@ if (!existsSync(corePath)) {
 
 const registry = JSON.parse(await readFile(manifestPath, 'utf8')) as Registry
 
+const sourceErrors: string[] = []
+
+const resolveCssSource = async (item: RegistryItem): Promise<RegistryItem> => {
+  if (item.cssSource === undefined) return item
+  const { cssSource, ...rest } = item
+  if (item.css !== undefined || item.cssVars !== undefined) {
+    sourceErrors.push(`item "${item.name}": declares css or cssVars next to cssSource; keep them in ${cssSource}`)
+  }
+  const path = resolve(manifestDir, cssSource)
+  if (!existsSync(path)) {
+    sourceErrors.push(`item "${item.name}": cssSource not found — ${cssSource}`)
+    return rest
+  }
+  return { ...rest, ...itemCssFromSource(await readFile(path, 'utf8')) }
+}
+
+registry.items = await Promise.all(registry.items.map(resolveCssSource))
+
 const coreVersion = (JSON.parse(await readFile(corePath, 'utf8')) as { version: string }).version
 
 const stamp = (dependencies?: string[]) =>
@@ -153,7 +168,7 @@ const publishedConfig = (item: RegistryItem) =>
       }
     : undefined
 
-const errors: string[] = []
+const errors: string[] = [...sourceErrors]
 const names = new Set<string>()
 
 for (const item of registry.items) {
@@ -242,6 +257,10 @@ for (const item of registry.items) {
     }
   }
 }
+
+const shippedItems = registry.items.filter((item) => !item.categories?.includes('example'))
+
+errors.push(...conflictsOf(shippedItems))
 
 const byName = new Map(registry.items.map((item) => [item.name, item]))
 
@@ -345,7 +364,11 @@ await writeFile(
   'utf8',
 )
 
+await mkdir(dirname(cssPath), { recursive: true })
+await writeFile(cssPath, stylesheetOf(shippedItems), 'utf8')
+
 console.log(`build-registry: wrote ${registry.items.length} item(s) → ${values.out}`)
+console.log(`build-registry: wrote the stylesheet → ${values.css}`)
 for (const item of registry.items) {
   console.log(`  • ${item.name} (${item.files.length} file(s))`)
 }
