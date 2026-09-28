@@ -17,13 +17,19 @@ const examples = (registry.items as ManifestItem[])
 const modules = import.meta.glob<{ default: Component }>("../../src/examples/**/*.vue", { eager: true });
 
 const remoteImages = document.createElement("style");
-remoteImages.textContent = '[data-testid="visual"] img[src^="http"] { visibility: hidden; }';
+remoteImages.textContent = [
+  '[data-testid="visual"] img[src^="http"] { visibility: hidden; }',
+  '[data-testid="visual"] [data-slot="image"]:has(img[src^="http"]) :is([data-slot="image-loading"], [data-slot="image-error"]) { visibility: hidden !important; }',
+].join("\n");
 document.head.append(remoteImages);
 
 const settle = async (host: HTMLElement) => {
   await document.fonts.ready;
   const local = [...host.querySelectorAll("img")].filter((img) => !img.getAttribute("src")?.startsWith("http"));
   await Promise.all(local.map((img) => img.decode().catch(() => undefined)));
+  await expect
+    .poll(() => host.querySelectorAll('[data-slot="image"][data-state="loading"]:not(:has(img[src^="http"]))').length)
+    .toBe(0);
 };
 
 describe.each(["light", "dark"] as const)("%s", (theme) => {

@@ -1128,6 +1128,104 @@
       ]
     },
     {
+      "name": "image-demo",
+      "type": "registry:block",
+      "title": "Image demo",
+      "description": "An image with its file size, srcset and sizes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "image"
+      ],
+      "files": [
+        {
+          "path": "src/examples/image/ImageDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "image-fit",
+      "type": "registry:block",
+      "title": "Image fit",
+      "description": "cover, contain and a top-aligned cover in square boxes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "image"
+      ],
+      "files": [
+        {
+          "path": "src/examples/image/ImageFit.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "image-placeholder",
+      "type": "registry:block",
+      "title": "Image placeholder",
+      "description": "The default spinner, a skeleton and a blurred thumbnail while loading.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "image",
+        "skeleton",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/image/ImagePlaceholder.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "image-fallback",
+      "type": "registry:block",
+      "title": "Image fallback",
+      "description": "The error layer for a missing file and for no source.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "image"
+      ],
+      "files": [
+        {
+          "path": "src/examples/image/ImageFallback.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "image-sources",
+      "type": "registry:block",
+      "title": "Image sources",
+      "description": "WebP through a picture source, with the JPEG as fallback.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "image"
+      ],
+      "files": [
+        {
+          "path": "src/examples/image/ImageSources.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
