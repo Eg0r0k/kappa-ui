@@ -1,0 +1,4 @@
+component: AlertActions
+file: ui/alert/AlertActions.vue
+slots:
+  default: Buttons, under the description or at the end depending on the alert's orientation.

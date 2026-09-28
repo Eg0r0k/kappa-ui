@@ -1,0 +1,4 @@
+component: AlertDescription
+file: ui/alert/AlertDescription.vue
+slots:
+  default: Supporting text under the title.

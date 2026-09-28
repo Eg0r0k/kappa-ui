@@ -1,0 +1,4 @@
+component: AlertTitle
+file: ui/alert/AlertTitle.vue
+slots:
+  default: The alert's heading.

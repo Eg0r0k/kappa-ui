@@ -1,0 +1,17 @@
+component: Alert
+file: ui/alert/Alert.vue
+props:
+  variant:
+    description: Appearance, independent of colour, with Button's names. `link` underlines the text on hover, for an alert rendered as a link.
+  color:
+    description: Colour role the variant is drawn in. `neutral` uses the page's own foreground. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`.
+  size:
+    description: Padding, gaps, radius, type and icon size, from `xs` to `xl`.
+  orientation:
+    description: "`vertical` stacks the actions under the description; `horizontal` puts them at the end and centres the icon, text and actions against each other."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the alert's attributes and classes onto it.
+slots:
+  default: An icon as a direct `svg` child, then `AlertTitle`, `AlertDescription` and `AlertActions`.

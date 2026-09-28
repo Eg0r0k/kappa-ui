@@ -8,9 +8,17 @@
       "title": "kappa-ui project setup",
       "description": "Sets up components.json with the @kappa-ui registry and adds the utils helper, the tokens and the default theme.",
       "extends": "none",
-      "config": { "font": "" },
-      "registryDependencies": ["utils", "tokens", "theme"],
-      "dependencies": ["tw-animate-css"],
+      "config": {
+        "font": ""
+      },
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "theme"
+      ],
+      "dependencies": [
+        "tw-animate-css"
+      ],
       "files": []
     },
     {
@@ -18,7 +26,10 @@
       "type": "registry:lib",
       "title": "Utils",
       "description": "The cn() helper that merges Tailwind classes without conflicts.",
-      "dependencies": ["clsx", "tailwind-merge"],
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
       "files": [
         {
           "path": "src/lib/utils.ts",
@@ -31,7 +42,9 @@
       "type": "registry:lib",
       "title": "Field context",
       "description": "The context a Field provides so the control inside it can wire its id, description and error.",
-      "dependencies": ["reka-ui"],
+      "dependencies": [
+        "reka-ui"
+      ],
       "files": [
         {
           "path": "src/lib/field-context.ts",
@@ -44,7 +57,9 @@
       "type": "registry:lib",
       "title": "Tokens",
       "description": "The status colours, state, motion, shadow and typescale tokens components read, and the destructive foreground shadcn dropped.",
-      "dependencies": ["@kappa-ui/core"],
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
       "cssSource": "../core/src/tokens.css",
       "files": []
     },
@@ -62,7 +77,9 @@
       "title": "Ripple",
       "description": "Vue directive for a Material-style press ripple that grows from the press point and drifts to the centre.",
       "docs": "This is a Vue directive, so it does nothing until you register it. Add it once in your app entry:\n\n  import vRipple from '@/lib/ripple'\n  app.directive('ripple', vRipple)\n\nThen use it anywhere: <Button v-ripple>Press me</Button>. Pass false to disable it, or an object to tint it: v-ripple=\"{ color: 'red', opacity: 0.3 }\".\n\nThe host element must establish a containing block; the directive sets position: relative on it only if it is still static.",
-      "dependencies": ["@kappa-ui/core"],
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
       "files": [
         {
           "path": "src/lib/ripple/index.ts",
@@ -96,8 +113,12 @@
       "title": "Scroll fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
       "docs": "Put v-scroll-fade from @kappa-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
-      "dependencies": ["@kappa-ui/core"],
-      "css": { "@import \"@kappa-ui/core/tailwind.css\"": {} },
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "css": {
+        "@import \"@kappa-ui/core/tailwind.css\"": {}
+      },
       "files": []
     },
     {
@@ -105,7 +126,10 @@
       "type": "registry:ui",
       "title": "Accordion",
       "description": "Stacked sections that expand one at a time or several at once, whose closed answers the browser's find in page can search and open.",
-      "dependencies": ["@lucide/vue", "reka-ui"],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
       "registryDependencies": [
         "utils",
         "tokens"
@@ -138,7 +162,9 @@
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Constrains its content to a given width-to-height ratio.",
-      "dependencies": ["reka-ui"],
+      "dependencies": [
+        "reka-ui"
+      ],
       "files": [
         {
           "path": "src/ui/aspect-ratio/AspectRatio.vue",
@@ -156,13 +182,31 @@
       "title": "Scroll Area",
       "description": "Scrollable region that hides the native scrollbar and draws its own, with thumb offsets and an imperative scroll API.",
       "docs": "The root is contain: size, so it takes no height from its content by default. Give it an explicit height (h-72, or any other value) or it collapses to nothing.\n\nPut padding on a wrapper inside the slot, not on the root's class. The bars are positioned against the root while the geometry that drives them is measured from the scrolling viewport inside it, so padding on the root shifts the bars out of alignment with the content they represent. A border on the root is fine — only padding shifts them.\n\nSet virtualize and pass items to render long lists. The default slot then receives { item, index } and is rendered once per row in the rendered window, which is the visible rows plus a small overscan buffer. Without virtualize the slot renders once and its scope carries no item.\n\nThe area scrolls on one axis, set by orientation (vertical by default): it sets the viewport's overflow, the virtualized axis and which scrollbar renders, so content that must scroll sideways needs orientation=\"horizontal\". virtualize also accepts an options object: estimateSize, overscan, lanes, gap, scrollMargin and getScrollElement.",
-      "dependencies": ["@tanstack/vue-virtual"],
-      "registryDependencies": ["utils", "tokens", "scroll"],
+      "dependencies": [
+        "@tanstack/vue-virtual"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "scroll"
+      ],
       "files": [
-        { "path": "src/ui/scroll-area/ScrollArea.vue", "type": "registry:ui" },
-        { "path": "src/ui/scroll-area/ScrollBar.vue", "type": "registry:ui" },
-        { "path": "src/ui/scroll-area/useVirtualScroll.ts", "type": "registry:ui" },
-        { "path": "src/ui/scroll-area/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/scroll-area/ScrollArea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/scroll-area/ScrollBar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/scroll-area/useVirtualScroll.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/scroll-area/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -170,7 +214,9 @@
       "type": "registry:ui",
       "title": "Spinner",
       "description": "Loading indicator driven by clip-path, inheriting colour from currentColor.",
-      "registryDependencies": ["utils"],
+      "registryDependencies": [
+        "utils"
+      ],
       "files": [
         {
           "path": "src/ui/spinner/Spinner.vue",
@@ -183,15 +229,166 @@
       ]
     },
     {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "A callout with Button's variants and colours, five sizes, and actions under the text or beside it.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/alert/Alert.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert/AlertActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert/AlertDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert/AlertTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-demo",
+      "type": "registry:block",
+      "title": "Alert demo",
+      "description": "An info and a destructive alert with icons.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "alert"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert/AlertDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert-variants",
+      "type": "registry:block",
+      "title": "Alert variants",
+      "description": "Every variant in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "alert"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert/AlertVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert-sizes",
+      "type": "registry:block",
+      "title": "Alert sizes",
+      "description": "Five sizes with an icon, title and description.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "alert"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert/AlertSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert-orientation",
+      "type": "registry:block",
+      "title": "Alert orientation",
+      "description": "Actions under the description and at the end.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "alert",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert/AlertOrientation.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert-as-link",
+      "type": "registry:block",
+      "title": "Alert as a link",
+      "description": "An alert rendered as a link.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "alert"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert/AlertAsLink.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
       "description": "A small label with Button's variants and colours, five sizes, side-aware icon padding and a square form.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
-        { "path": "src/ui/badge/Badge.vue", "type": "registry:ui" },
-        { "path": "src/ui/badge/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/badge/Badge.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/badge/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -199,13 +396,31 @@
       "type": "registry:ui",
       "title": "Button group",
       "description": "Buttons joined into one control, horizontal or vertical, with an optional separator and text.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "separator"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "separator"
+      ],
       "files": [
-        { "path": "src/ui/button-group/ButtonGroup.vue", "type": "registry:ui" },
-        { "path": "src/ui/button-group/ButtonGroupSeparator.vue", "type": "registry:ui" },
-        { "path": "src/ui/button-group/ButtonGroupText.vue", "type": "registry:ui" },
-        { "path": "src/ui/button-group/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/button-group/ButtonGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/button-group/ButtonGroupSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/button-group/ButtonGroupText.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/button-group/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -213,17 +428,47 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Page navigation with previous and next, ellipses for skipped pages, Button's variants and five sizes.",
-      "dependencies": ["@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "button"],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "button"
+      ],
       "files": [
-        { "path": "src/ui/pagination/Pagination.vue", "type": "registry:ui" },
-        { "path": "src/ui/pagination/PaginationContent.vue", "type": "registry:ui" },
-        { "path": "src/ui/pagination/PaginationEllipsis.vue", "type": "registry:ui" },
-        { "path": "src/ui/pagination/PaginationItem.vue", "type": "registry:ui" },
-        { "path": "src/ui/pagination/PaginationLink.vue", "type": "registry:ui" },
-        { "path": "src/ui/pagination/PaginationNext.vue", "type": "registry:ui" },
-        { "path": "src/ui/pagination/PaginationPrevious.vue", "type": "registry:ui" },
-        { "path": "src/ui/pagination/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/pagination/Pagination.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pagination/PaginationContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pagination/PaginationEllipsis.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pagination/PaginationItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pagination/PaginationLink.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pagination/PaginationNext.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pagination/PaginationPrevious.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pagination/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -231,20 +476,60 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "A row of media, title, description and actions, with Select's variants, five sizes and list semantics.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "separator"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "separator"
+      ],
       "files": [
-        { "path": "src/ui/item/Item.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemActions.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemContent.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemDescription.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemFooter.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemGroup.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemHeader.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemMedia.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemSeparator.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/ItemTitle.vue", "type": "registry:ui" },
-        { "path": "src/ui/item/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/item/Item.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemMedia.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/ItemTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/item/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -252,16 +537,46 @@
       "type": "registry:ui",
       "title": "Toast",
       "description": "Brief messages from a useToast() service: ids to update and remove, promises, groups, and a stacked Toaster that expands on hover.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "button", "spinner"],
+      "dependencies": [
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "button",
+        "spinner"
+      ],
       "files": [
-        { "path": "src/ui/toast/ToastAction.vue", "type": "registry:ui" },
-        { "path": "src/ui/toast/ToastClose.vue", "type": "registry:ui" },
-        { "path": "src/ui/toast/ToastDescription.vue", "type": "registry:ui" },
-        { "path": "src/ui/toast/ToastRow.vue", "type": "registry:ui" },
-        { "path": "src/ui/toast/ToastTitle.vue", "type": "registry:ui" },
-        { "path": "src/ui/toast/Toaster.vue", "type": "registry:ui" },
-        { "path": "src/ui/toast/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/toast/ToastAction.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toast/ToastClose.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toast/ToastDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toast/ToastRow.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toast/ToastTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toast/Toaster.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toast/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -269,8 +584,14 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "css": {
         "@layer base": {
           "button:not(:disabled), [role=\"button\"]:not(:disabled)": {
@@ -279,8 +600,14 @@
         }
       },
       "files": [
-        { "path": "src/ui/button/Button.vue", "type": "registry:ui" },
-        { "path": "src/ui/button/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/button/Button.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/button/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -288,8 +615,13 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "Surface that groups related content, with header, title, description, content and footer parts.",
-      "dependencies": ["reka-ui"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
         {
           "path": "src/ui/card/Card.vue",
@@ -326,7 +658,10 @@
       "type": "registry:ui",
       "title": "Kbd",
       "description": "A keyboard key, and a group of keys for a shortcut. Takes on a button's colour when placed inside one.",
-      "registryDependencies": ["utils", "tokens"],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
         {
           "path": "src/ui/kbd/Kbd.vue",
@@ -347,8 +682,13 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Accessible label for a form control.",
-      "dependencies": ["reka-ui"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
         {
           "path": "src/ui/label/Label.vue",
@@ -365,8 +705,14 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A horizontal or vertical line between content, in five thicknesses, with an optional label in the middle.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
         {
           "path": "src/ui/separator/Separator.vue",
@@ -383,8 +729,13 @@
       "type": "registry:ui",
       "title": "Skeleton",
       "description": "A placeholder for content that is loading: a block, a line of text or a circle, with a pulse, a wave or no animation.",
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
         {
           "path": "src/ui/skeleton/Skeleton.vue",
@@ -401,8 +752,14 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
-      "dependencies": ["@kappa-ui/core", "reka-ui"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "@kappa-ui/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
         {
           "path": "src/ui/popover/Popover.vue",
@@ -431,8 +788,16 @@
       "type": "registry:ui",
       "title": "Listbox",
       "description": "A list to pick one or more options from, with icons, titles, descriptions, groups and a replaceable check, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context"],
+      "dependencies": [
+        "class-variance-authority",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context"
+      ],
       "files": [
         {
           "path": "src/ui/listbox/Listbox.vue",
@@ -481,8 +846,17 @@
       "type": "registry:ui",
       "title": "Menu",
       "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "popover"],
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover"
+      ],
       "files": [
         {
           "path": "src/ui/menu/Menu.vue",
@@ -547,8 +921,16 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Label, description and error for one form control, wired to it automatically, plus group and fieldset layout.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "label", "field-context"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "label",
+        "field-context"
+      ],
       "files": [
         {
           "path": "src/ui/field/Field.vue",
@@ -593,8 +975,15 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, with an optional floating label, that picks up its id, description, error and state from a surrounding Field.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context"
+      ],
       "files": [
         {
           "path": "src/ui/input/Input.vue",
@@ -611,16 +1000,47 @@
       "type": "registry:ui",
       "title": "Input group",
       "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context", "input", "button", "textarea"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "button",
+        "textarea"
+      ],
       "files": [
-        { "path": "src/ui/input-group/InputGroup.vue", "type": "registry:ui" },
-        { "path": "src/ui/input-group/InputGroupAddon.vue", "type": "registry:ui" },
-        { "path": "src/ui/input-group/InputGroupButton.vue", "type": "registry:ui" },
-        { "path": "src/ui/input-group/InputGroupInput.vue", "type": "registry:ui" },
-        { "path": "src/ui/input-group/InputGroupText.vue", "type": "registry:ui" },
-        { "path": "src/ui/input-group/InputGroupTextarea.vue", "type": "registry:ui" },
-        { "path": "src/ui/input-group/index.ts", "type": "registry:ui" }
+        {
+          "path": "src/ui/input-group/InputGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-group/InputGroupAddon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-group/InputGroupButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-group/InputGroupInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-group/InputGroupText.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-group/InputGroupTextarea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-group/index.ts",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -628,8 +1048,15 @@
       "type": "registry:ui",
       "title": "Textarea",
       "description": "Multi-line text field with the input's variants and sizes, a row count and optional auto-resize, that picks up its state from a surrounding Field.",
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils", "tokens", "field-context", "input"],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input"
+      ],
       "files": [
         {
           "path": "src/ui/textarea/Textarea.vue",
@@ -646,8 +1073,15 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context"
+      ],
       "files": [
         {
           "path": "src/ui/checkbox/Checkbox.vue",
@@ -668,8 +1102,16 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A modal window built from parts: a header, a body that scrolls, and a footer, opened from a template or from code, on Reka UI.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "button"],
+      "dependencies": [
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "button"
+      ],
       "files": [
         {
           "path": "src/ui/dialog/Dialog.vue",
@@ -726,8 +1168,17 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "popover"],
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover"
+      ],
       "files": [
         {
           "path": "src/ui/context-menu/ContextMenu.vue",
@@ -796,8 +1247,17 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "popover"],
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover"
+      ],
       "files": [
         {
           "path": "src/ui/dropdown-menu/DropdownMenu.vue",
@@ -866,8 +1326,15 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Material-style switch with five sizes, an optional touch target and custom icons in the handle, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context"
+      ],
       "files": [
         {
           "path": "src/ui/switch/Switch.vue",
@@ -884,8 +1351,14 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "Panels switched by a row or column of tabs, in pill and line variants and five sizes, with an indicator that slides to the active tab.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
       "files": [
         {
           "path": "src/ui/tabs/Tabs.vue",
@@ -914,8 +1387,16 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context", "checkbox"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "checkbox"
+      ],
       "files": [
         {
           "path": "src/ui/radio-group/Radio.vue",
@@ -936,8 +1417,20 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context", "input", "popover", "menu"],
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "popover",
+        "menu"
+      ],
       "files": [
         {
           "path": "src/ui/select/Select.vue",
@@ -994,8 +1487,15 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "Slider with one or more thumbs, a default and an inset look, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
-      "dependencies": ["class-variance-authority", "reka-ui"],
-      "registryDependencies": ["utils", "tokens", "field-context"],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context"
+      ],
       "files": [
         {
           "path": "src/ui/slider/Slider.vue",
@@ -1012,10 +1512,17 @@
       "type": "registry:block",
       "title": "Badge demo",
       "description": "Three badges.",
-      "categories": ["example"],
-      "registryDependencies": ["badge"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/badge/BadgeDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/badge/BadgeDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1023,10 +1530,17 @@
       "type": "registry:block",
       "title": "Badge variants",
       "description": "Every variant in every colour.",
-      "categories": ["example"],
-      "registryDependencies": ["badge"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/badge/BadgeVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/badge/BadgeVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1034,11 +1548,20 @@
       "type": "registry:block",
       "title": "Badge sizes",
       "description": "Five sizes, with and without text.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["badge"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/badge/BadgeSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/badge/BadgeSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1046,11 +1569,20 @@
       "type": "registry:block",
       "title": "Badge with icons",
       "description": "Padding that tightens on the icon's side.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["badge"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/badge/BadgeIcons.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/badge/BadgeIcons.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1058,11 +1590,20 @@
       "type": "registry:block",
       "title": "Square badge",
       "description": "Counts and an icon with equal padding.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["badge"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/badge/BadgeSquare.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/badge/BadgeSquare.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1070,10 +1611,17 @@
       "type": "registry:block",
       "title": "Badge as a link",
       "description": "Badges rendered as links.",
-      "categories": ["example"],
-      "registryDependencies": ["badge"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/badge/BadgeAsChild.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/badge/BadgeAsChild.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1081,10 +1629,17 @@
       "type": "registry:block",
       "title": "Badge touch target",
       "description": "Link badges whose pressable area grows to 48px.",
-      "categories": ["example"],
-      "registryDependencies": ["badge"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/badge/BadgeTouchTarget.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/badge/BadgeTouchTarget.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1092,11 +1647,21 @@
       "type": "registry:block",
       "title": "Button group demo",
       "description": "Three outlined buttons joined into one control.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button-group", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1104,11 +1669,21 @@
       "type": "registry:block",
       "title": "Vertical button group",
       "description": "Groups stacked in a column.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button-group", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupOrientation.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupOrientation.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1116,11 +1691,21 @@
       "type": "registry:block",
       "title": "Button group sizes",
       "description": "Groups of buttons in each size.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button-group", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1128,11 +1713,21 @@
       "type": "registry:block",
       "title": "Nested button groups",
       "description": "Groups inside a group, spaced apart.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button-group", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupNested.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupNested.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1140,10 +1735,18 @@
       "type": "registry:block",
       "title": "Button group with separators",
       "description": "Soft buttons divided by separators.",
-      "categories": ["example"],
-      "registryDependencies": ["button-group", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupWithSeparator.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupWithSeparator.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1151,11 +1754,22 @@
       "type": "registry:block",
       "title": "Button group with an input",
       "description": "Text and a button joined to inputs.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button-group", "button", "input"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupInput.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupInput.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1163,11 +1777,22 @@
       "type": "registry:block",
       "title": "Split button",
       "description": "A button with a menu of related actions.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button-group", "button", "dropdown-menu"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button",
+        "dropdown-menu"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupSplit.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupSplit.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1175,10 +1800,18 @@
       "type": "registry:block",
       "title": "Connected button group",
       "description": "Material 3's connected group: round outside, small radius inside.",
-      "categories": ["example"],
-      "registryDependencies": ["button-group", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button-group/ButtonGroupConnected.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button-group/ButtonGroupConnected.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1186,10 +1819,17 @@
       "type": "registry:block",
       "title": "Pagination demo",
       "description": "Ten pages with edges and one sibling on each side.",
-      "categories": ["example"],
-      "registryDependencies": ["pagination"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pagination"
+      ],
       "files": [
-        { "path": "src/examples/pagination/PaginationDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/pagination/PaginationDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1197,10 +1837,17 @@
       "type": "registry:block",
       "title": "Pagination variants",
       "description": "Variant and active variant pairs.",
-      "categories": ["example"],
-      "registryDependencies": ["pagination"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pagination"
+      ],
       "files": [
-        { "path": "src/examples/pagination/PaginationVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/pagination/PaginationVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1208,10 +1855,17 @@
       "type": "registry:block",
       "title": "Pagination sizes",
       "description": "Five sizes.",
-      "categories": ["example"],
-      "registryDependencies": ["pagination"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pagination"
+      ],
       "files": [
-        { "path": "src/examples/pagination/PaginationSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/pagination/PaginationSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1219,10 +1873,17 @@
       "type": "registry:block",
       "title": "Pagination with edges",
       "description": "Twenty-five pages, first and last always listed.",
-      "categories": ["example"],
-      "registryDependencies": ["pagination"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pagination"
+      ],
       "files": [
-        { "path": "src/examples/pagination/PaginationEdges.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/pagination/PaginationEdges.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1230,10 +1891,17 @@
       "type": "registry:block",
       "title": "Pagination links",
       "description": "Pages rendered as anchors.",
-      "categories": ["example"],
-      "registryDependencies": ["pagination"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pagination"
+      ],
       "files": [
-        { "path": "src/examples/pagination/PaginationLinks.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/pagination/PaginationLinks.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1241,11 +1909,21 @@
       "type": "registry:block",
       "title": "Item demo",
       "description": "A plain item and a link item.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["item", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "item",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/item/ItemDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/item/ItemDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1253,10 +1931,17 @@
       "type": "registry:block",
       "title": "Item variants",
       "description": "The same item on every surface.",
-      "categories": ["example"],
-      "registryDependencies": ["item"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "item"
+      ],
       "files": [
-        { "path": "src/examples/item/ItemVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/item/ItemVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1264,11 +1949,20 @@
       "type": "registry:block",
       "title": "Item sizes",
       "description": "Five sizes with icon media.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["item"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "item"
+      ],
       "files": [
-        { "path": "src/examples/item/ItemSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/item/ItemSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1276,11 +1970,20 @@
       "type": "registry:block",
       "title": "Item media",
       "description": "Icon and image media.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["item"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "item"
+      ],
       "files": [
-        { "path": "src/examples/item/ItemMediaExample.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/item/ItemMediaExample.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1288,11 +1991,21 @@
       "type": "registry:block",
       "title": "Item group",
       "description": "A list of people divided by separators.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["item", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "item",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/item/ItemGroupExample.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/item/ItemGroupExample.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1300,11 +2013,20 @@
       "type": "registry:block",
       "title": "Item links",
       "description": "Settings rows that are links.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["item"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "item"
+      ],
       "files": [
-        { "path": "src/examples/item/ItemLink.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/item/ItemLink.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1312,10 +2034,18 @@
       "type": "registry:block",
       "title": "Item header and footer",
       "description": "Cards with a header image and a footer.",
-      "categories": ["example"],
-      "registryDependencies": ["item", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "item",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/item/ItemHeaderFooter.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/item/ItemHeaderFooter.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1323,10 +2053,18 @@
       "type": "registry:block",
       "title": "Toast demo",
       "description": "A toast with a description and an action.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1334,10 +2072,18 @@
       "type": "registry:block",
       "title": "Toast colours",
       "description": "Each colour with its default icon.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastColors.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastColors.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1345,10 +2091,18 @@
       "type": "registry:block",
       "title": "Toast loading",
       "description": "A loading toast updated in place when the work is done.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastLoading.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastLoading.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1356,10 +2110,18 @@
       "type": "registry:block",
       "title": "Toast promise",
       "description": "A toast that follows a promise from loading to success or error.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastPromise.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastPromise.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1367,10 +2129,18 @@
       "type": "registry:block",
       "title": "Toast actions",
       "description": "Undo a deletion from the toast, or let it happen when the toast closes.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastActions.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastActions.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1378,10 +2148,18 @@
       "type": "registry:block",
       "title": "Toast positions",
       "description": "The six positions of a toaster.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastPositions.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastPositions.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1389,10 +2167,18 @@
       "type": "registry:block",
       "title": "Toast groups",
       "description": "A second toaster for uploads, beside the app's one.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastGroups.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastGroups.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1400,10 +2186,18 @@
       "type": "registry:block",
       "title": "Toast expand",
       "description": "Toasts laid out in full, with a progress bar.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastExpand.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastExpand.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1411,10 +2205,18 @@
       "type": "registry:block",
       "title": "Toast custom content",
       "description": "A toast rendered from the toast slot.",
-      "categories": ["example"],
-      "registryDependencies": ["toast", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toast",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/toast/ToastCustom.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/toast/ToastCustom.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1422,10 +2224,17 @@
       "type": "registry:block",
       "title": "Button demo",
       "description": "A default button.",
-      "categories": ["example"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1433,10 +2242,17 @@
       "type": "registry:block",
       "title": "Button variants",
       "description": "Every button variant.",
-      "categories": ["example"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1444,11 +2260,20 @@
       "type": "registry:block",
       "title": "Button sizes",
       "description": "Text and icon sizes side by side.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1456,11 +2281,20 @@
       "type": "registry:block",
       "title": "Button with icons",
       "description": "Padding that tightens on the icon's side.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonIcon.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonIcon.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1468,10 +2302,18 @@
       "type": "registry:block",
       "title": "Button loading",
       "description": "A spinner composed into a disabled button.",
-      "categories": ["example"],
-      "registryDependencies": ["button", "spinner"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button",
+        "spinner"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonLoading.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonLoading.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1479,10 +2321,17 @@
       "type": "registry:block",
       "title": "Button as a link",
       "description": "Rendering as another element.",
-      "categories": ["example"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonAsChild.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonAsChild.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1490,10 +2339,17 @@
       "type": "registry:block",
       "title": "Button focus ring",
       "description": "Outward and inward focus rings in a clipping host.",
-      "categories": ["example"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonFocusRing.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonFocusRing.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1501,10 +2357,17 @@
       "type": "registry:block",
       "title": "Button touch target",
       "description": "Expanded hit areas, outlined.",
-      "categories": ["example"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/button/ButtonTouchTarget.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/button/ButtonTouchTarget.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1512,10 +2375,17 @@
       "type": "registry:block",
       "title": "Spinner demo",
       "description": "Spinners taking size and colour from classes.",
-      "categories": ["example"],
-      "registryDependencies": ["spinner"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "spinner"
+      ],
       "files": [
-        { "path": "src/examples/spinner/SpinnerDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/spinner/SpinnerDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1523,10 +2393,18 @@
       "type": "registry:block",
       "title": "Spinner in a button",
       "description": "Spinners inside disabled buttons.",
-      "categories": ["example"],
-      "registryDependencies": ["spinner", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "spinner",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/spinner/SpinnerButton.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/spinner/SpinnerButton.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1624,10 +2502,17 @@
       "type": "registry:block",
       "title": "Aspect ratio demo",
       "description": "Three photos cropped to 16 / 9, 1 / 1 and 3 / 4 at the same width.",
-      "categories": ["example"],
-      "registryDependencies": ["aspect-ratio"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "aspect-ratio"
+      ],
       "files": [
-        { "path": "src/examples/aspect-ratio/AspectRatioDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/aspect-ratio/AspectRatioDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1635,10 +2520,17 @@
       "type": "registry:block",
       "title": "Scroll area demo",
       "description": "A vertical scroll area.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1646,10 +2538,17 @@
       "type": "registry:block",
       "title": "Scroll area, always visible",
       "description": "Bars forced on.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaVisible.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaVisible.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1657,10 +2556,17 @@
       "type": "registry:block",
       "title": "Scroll area offsets",
       "description": "A bar inset from both ends.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaOffsets.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaOffsets.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1668,10 +2574,17 @@
       "type": "registry:block",
       "title": "Scroll area styling",
       "description": "The thumb restyled through a data-slot selector.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaStyled.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaStyled.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1679,10 +2592,17 @@
       "type": "registry:block",
       "title": "Horizontal scroll area",
       "description": "A horizontal scroll area.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaHorizontal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaHorizontal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1690,11 +2610,24 @@
       "type": "registry:block",
       "title": "Scroll area edge fade",
       "description": "A row of chips with faded edges and buttons that scroll it a step at a time.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["scroll-area", "scroll-fade", "button", "badge", "scroll"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "scroll-area",
+        "scroll-fade",
+        "button",
+        "badge",
+        "scroll"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaEdgeFade.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaEdgeFade.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1702,10 +2635,17 @@
       "type": "registry:block",
       "title": "Virtualized scroll area",
       "description": "Ten thousand rows, virtualized.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaVirtualize.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaVirtualize.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1713,10 +2653,17 @@
       "type": "registry:block",
       "title": "Horizontal virtualized scroll area",
       "description": "Ten thousand columns, virtualized.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaVirtualizeHorizontal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaVirtualizeHorizontal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1724,10 +2671,17 @@
       "type": "registry:block",
       "title": "Masonry scroll area",
       "description": "Three lanes of items with differing heights.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaMasonry.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaMasonry.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1735,10 +2689,18 @@
       "type": "registry:block",
       "title": "Scroll area, programmatic scroll",
       "description": "Jumping to an item through the exposed API.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll-area", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/scroll-area/ScrollAreaScrollTo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-area/ScrollAreaScrollTo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1746,10 +2708,18 @@
       "type": "registry:block",
       "title": "Ripple demo",
       "description": "The ripple directive on buttons.",
-      "categories": ["example"],
-      "registryDependencies": ["ripple", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "ripple",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/ripple/RippleDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/ripple/RippleDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1757,11 +2727,20 @@
       "type": "registry:block",
       "title": "Scroll fade mask",
       "description": "A scrolling list whose edges fade by mask.",
-      "categories": ["example"],
-      "dependencies": ["@kappa-ui/core"],
-      "registryDependencies": ["scroll-fade"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "scroll-fade"
+      ],
       "files": [
-        { "path": "src/examples/scroll-fade/ScrollFadeMask.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-fade/ScrollFadeMask.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1769,11 +2748,20 @@
       "type": "registry:block",
       "title": "Scroll fade overlay",
       "description": "A scrolling list whose edges fade by overlay gradients.",
-      "categories": ["example"],
-      "dependencies": ["@kappa-ui/core"],
-      "registryDependencies": ["scroll-fade"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "scroll-fade"
+      ],
       "files": [
-        { "path": "src/examples/scroll-fade/ScrollFadeOverlay.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-fade/ScrollFadeOverlay.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1781,11 +2769,20 @@
       "type": "registry:block",
       "title": "Scroll fade in Firefox",
       "description": "Two lists, without and with v-scroll-fade.",
-      "categories": ["example"],
-      "dependencies": ["@kappa-ui/core"],
-      "registryDependencies": ["scroll-fade"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "scroll-fade"
+      ],
       "files": [
-        { "path": "src/examples/scroll-fade/ScrollFadeFirefox.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-fade/ScrollFadeFirefox.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1793,11 +2790,21 @@
       "type": "registry:block",
       "title": "Horizontal scroll fade",
       "description": "A row of badges whose inline edges fade by mask.",
-      "categories": ["example"],
-      "dependencies": ["@kappa-ui/core"],
-      "registryDependencies": ["scroll-fade", "badge"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "scroll-fade",
+        "badge"
+      ],
       "files": [
-        { "path": "src/examples/scroll-fade/ScrollFadeHorizontal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll-fade/ScrollFadeHorizontal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1805,10 +2812,18 @@
       "type": "registry:block",
       "title": "Card demo",
       "description": "A card with every part.",
-      "categories": ["example"],
-      "registryDependencies": ["card", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "card",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/card/CardDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/card/CardDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1816,10 +2831,18 @@
       "type": "registry:block",
       "title": "Card divided",
       "description": "A card whose header and footer are set off by borders.",
-      "categories": ["example"],
-      "registryDependencies": ["card", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "card",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/card/CardDivided.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/card/CardDivided.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1827,10 +2850,18 @@
       "type": "registry:block",
       "title": "Card size",
       "description": "The default card next to the small one.",
-      "categories": ["example"],
-      "registryDependencies": ["card", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "card",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/card/CardSize.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/card/CardSize.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1838,10 +2869,17 @@
       "type": "registry:block",
       "title": "Kbd demo",
       "description": "Single keys, shortcut groups and keys in running text.",
-      "categories": ["example"],
-      "registryDependencies": ["kbd"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "kbd"
+      ],
       "files": [
-        { "path": "src/examples/kbd/KbdDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/kbd/KbdDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1849,10 +2887,18 @@
       "type": "registry:block",
       "title": "Kbd in a button",
       "description": "Shortcuts inside buttons of several variants.",
-      "categories": ["example"],
-      "registryDependencies": ["kbd", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "kbd",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/kbd/KbdButton.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/kbd/KbdButton.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1860,10 +2906,17 @@
       "type": "registry:block",
       "title": "Input demo",
       "description": "A single input.",
-      "categories": ["example"],
-      "registryDependencies": ["input"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/input/InputDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input/InputDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1871,10 +2924,18 @@
       "type": "registry:block",
       "title": "Input variants",
       "description": "Outline and filled inputs.",
-      "categories": ["example"],
-      "registryDependencies": ["input", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/input/InputVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input/InputVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1882,10 +2943,18 @@
       "type": "registry:block",
       "title": "Input floating label",
       "description": "Floating labels in both variants: empty, filled in, invalid and on a date.",
-      "categories": ["example"],
-      "registryDependencies": ["input", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/input/InputFloating.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input/InputFloating.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1893,10 +2962,18 @@
       "type": "registry:block",
       "title": "Input sizes",
       "description": "Inputs at each size next to a button of the same size.",
-      "categories": ["example"],
-      "registryDependencies": ["input", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/input/InputSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input/InputSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1904,10 +2981,18 @@
       "type": "registry:block",
       "title": "Input file",
       "description": "A file input with a label and description.",
-      "categories": ["example"],
-      "registryDependencies": ["input", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/input/InputFile.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input/InputFile.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1915,10 +3000,18 @@
       "type": "registry:block",
       "title": "Input states",
       "description": "Disabled and invalid inputs in both variants.",
-      "categories": ["example"],
-      "registryDependencies": ["input", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/input/InputStates.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input/InputStates.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1926,11 +3019,21 @@
       "type": "registry:block",
       "title": "Input group demo",
       "description": "A search field with an icon and a shortcut.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group", "kbd"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group",
+        "kbd"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1938,11 +3041,20 @@
       "type": "registry:block",
       "title": "Input group addons",
       "description": "Text and icons before and after the input.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupAddons.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupAddons.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1950,11 +3062,20 @@
       "type": "registry:block",
       "title": "Input group buttons",
       "description": "Copy, show password, clear and search buttons inside the frame.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupButtons.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupButtons.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1962,11 +3083,20 @@
       "type": "registry:block",
       "title": "Input group textarea",
       "description": "A growing message box with a toolbar underneath.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupTextareaExample.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupTextareaExample.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1974,11 +3104,20 @@
       "type": "registry:block",
       "title": "Input group block start",
       "description": "A header row above a textarea.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupBlockStart.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupBlockStart.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1986,11 +3125,20 @@
       "type": "registry:block",
       "title": "Input group variants",
       "description": "The input's five variants on the frame.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -1998,11 +3146,20 @@
       "type": "registry:block",
       "title": "Input group sizes",
       "description": "Five sizes with an icon and a button.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2010,11 +3167,22 @@
       "type": "registry:block",
       "title": "Input group in a field",
       "description": "A label, a check while typing and an error from the field.",
-      "categories": ["example"],
-      "registryDependencies": ["input-group", "field", "spinner"],
-      "dependencies": ["@lucide/vue"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-group",
+        "field",
+        "spinner"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "files": [
-        { "path": "src/examples/input-group/InputGroupFieldExample.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/input-group/InputGroupFieldExample.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2022,10 +3190,17 @@
       "type": "registry:block",
       "title": "Textarea demo",
       "description": "A textarea with a placeholder.",
-      "categories": ["example"],
-      "registryDependencies": ["textarea"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "textarea"
+      ],
       "files": [
-        { "path": "src/examples/textarea/TextareaDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/textarea/TextareaDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2033,10 +3208,18 @@
       "type": "registry:block",
       "title": "Textarea variants",
       "description": "The five variants side by side.",
-      "categories": ["example"],
-      "registryDependencies": ["textarea", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "textarea",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/textarea/TextareaVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/textarea/TextareaVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2044,10 +3227,17 @@
       "type": "registry:block",
       "title": "Textarea sizes",
       "description": "The five sizes, two rows each.",
-      "categories": ["example"],
-      "registryDependencies": ["textarea"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "textarea"
+      ],
       "files": [
-        { "path": "src/examples/textarea/TextareaSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/textarea/TextareaSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2055,10 +3245,18 @@
       "type": "registry:block",
       "title": "Textarea rows",
       "description": "Textareas one, three and six rows tall.",
-      "categories": ["example"],
-      "registryDependencies": ["textarea", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "textarea",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/textarea/TextareaRows.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/textarea/TextareaRows.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2066,10 +3264,18 @@
       "type": "registry:block",
       "title": "Textarea autoresize",
       "description": "A textarea that grows from two to six rows as it fills.",
-      "categories": ["example"],
-      "registryDependencies": ["textarea", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "textarea",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/textarea/TextareaAutoresize.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/textarea/TextareaAutoresize.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2077,10 +3283,18 @@
       "type": "registry:block",
       "title": "Textarea states",
       "description": "Textareas with a description, disabled and invalid.",
-      "categories": ["example"],
-      "registryDependencies": ["textarea", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "textarea",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/textarea/TextareaStates.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/textarea/TextareaStates.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2088,10 +3302,19 @@
       "type": "registry:block",
       "title": "Textarea in a scroll area",
       "description": "An auto-resizing textarea scrolled by a scroll area instead of the browser.",
-      "categories": ["example"],
-      "registryDependencies": ["textarea", "scroll-area", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "textarea",
+        "scroll-area",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/textarea/TextareaScrollArea.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/textarea/TextareaScrollArea.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2099,10 +3322,17 @@
       "type": "registry:block",
       "title": "Slider demo",
       "description": "A slider with a starting value.",
-      "categories": ["example"],
-      "registryDependencies": ["slider"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2110,10 +3340,18 @@
       "type": "registry:block",
       "title": "Slider min and max",
       "description": "A labelled slider with its own range and step.",
-      "categories": ["example"],
-      "registryDependencies": ["slider", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderMinMax.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderMinMax.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2121,10 +3359,18 @@
       "type": "registry:block",
       "title": "Slider multiple",
       "description": "A range picked with two thumbs.",
-      "categories": ["example"],
-      "registryDependencies": ["slider", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderMultiple.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderMultiple.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2132,10 +3378,18 @@
       "type": "registry:block",
       "title": "Slider min steps",
       "description": "Two thumbs kept at least four steps apart.",
-      "categories": ["example"],
-      "registryDependencies": ["slider", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderMinSteps.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderMinSteps.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2143,10 +3397,17 @@
       "type": "registry:block",
       "title": "Slider orientation",
       "description": "Vertical sliders in an equaliser.",
-      "categories": ["example"],
-      "registryDependencies": ["slider"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderOrientation.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderOrientation.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2154,10 +3415,17 @@
       "type": "registry:block",
       "title": "Slider sizes",
       "description": "The five sizes.",
-      "categories": ["example"],
-      "registryDependencies": ["slider"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2165,10 +3433,18 @@
       "type": "registry:block",
       "title": "Slider inverted",
       "description": "A slider filled from the other end.",
-      "categories": ["example"],
-      "registryDependencies": ["slider", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderInverted.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderInverted.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2176,10 +3452,18 @@
       "type": "registry:block",
       "title": "Slider states",
       "description": "Disabled and invalid sliders in fields.",
-      "categories": ["example"],
-      "registryDependencies": ["slider", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderStates.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderStates.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2187,10 +3471,17 @@
       "type": "registry:block",
       "title": "Slider touch target",
       "description": "The pressable area of each touch target option, outlined.",
-      "categories": ["example"],
-      "registryDependencies": ["slider"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderTouchTarget.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderTouchTarget.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2198,10 +3489,18 @@
       "type": "registry:block",
       "title": "Slider inset",
       "description": "Inset sliders: a labelled volume showing its value, a range and the five sizes.",
-      "categories": ["example"],
-      "registryDependencies": ["slider", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/slider/SliderInset.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/slider/SliderInset.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2209,10 +3508,18 @@
       "type": "registry:block",
       "title": "Label demo",
       "description": "A label tied to an input by id.",
-      "categories": ["example"],
-      "registryDependencies": ["label", "input"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "label",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/label/LabelDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/label/LabelDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2220,10 +3527,17 @@
       "type": "registry:block",
       "title": "Listbox demo",
       "description": "A listbox with one selected option.",
-      "categories": ["example"],
-      "registryDependencies": ["listbox"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2231,11 +3545,20 @@
       "type": "registry:block",
       "title": "Listbox icons",
       "description": "Options with an icon, a title and a description.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["listbox"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxIcons.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxIcons.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2243,11 +3566,20 @@
       "type": "registry:block",
       "title": "Listbox indicator",
       "description": "A custom check icon for the selected option.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["listbox"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxIndicator.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxIndicator.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2255,10 +3587,17 @@
       "type": "registry:block",
       "title": "Listbox multiple",
       "description": "A listbox with several selected options.",
-      "categories": ["example"],
-      "registryDependencies": ["listbox"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxMultiple.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxMultiple.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2266,10 +3605,17 @@
       "type": "registry:block",
       "title": "Listbox groups",
       "description": "Options in labelled groups with a separator.",
-      "categories": ["example"],
-      "registryDependencies": ["listbox"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxGroups.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxGroups.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2277,10 +3623,17 @@
       "type": "registry:block",
       "title": "Listbox disabled",
       "description": "A disabled option and a disabled listbox.",
-      "categories": ["example"],
-      "registryDependencies": ["listbox"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxDisabled.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxDisabled.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2288,11 +3641,21 @@
       "type": "registry:block",
       "title": "Listbox select",
       "description": "Options that run an action on select instead of staying selected.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue", "@kappa-ui/core"],
-      "registryDependencies": ["listbox"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxSelect.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxSelect.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2300,10 +3663,18 @@
       "type": "registry:block",
       "title": "Listbox in a scroll area",
       "description": "A long listbox scrolled by a scroll area.",
-      "categories": ["example"],
-      "registryDependencies": ["listbox", "scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "listbox",
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxScrollArea.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxScrollArea.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2311,10 +3682,19 @@
       "type": "registry:block",
       "title": "Listbox field",
       "description": "A required listbox in a field that shows its error once the form is submitted.",
-      "categories": ["example"],
-      "registryDependencies": ["listbox", "field", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "listbox",
+        "field",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/listbox/ListboxField.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/listbox/ListboxField.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2322,10 +3702,20 @@
       "type": "registry:block",
       "title": "Dialog demo",
       "description": "A dialog with a title, a form and a footer.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button", "field", "input"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button",
+        "field",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2333,37 +3723,76 @@
       "type": "registry:block",
       "title": "Dialog body scroll",
       "description": "A long body that scrolls between a fixed header and footer.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
-      "files": [{ "path": "src/examples/dialog/DialogBodyScroll.vue", "type": "registry:component" }]
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/dialog/DialogBodyScroll.vue",
+          "type": "registry:component"
+        }
+      ]
     },
     {
       "name": "dialog-scroll-area",
       "type": "registry:block",
       "title": "Dialog scroll area",
       "description": "A fixed-height dialog whose middle scrolls in a scroll area.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button", "scroll-area"],
-      "files": [{ "path": "src/examples/dialog/DialogScrollArea.vue", "type": "registry:component" }]
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button",
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/dialog/DialogScrollArea.vue",
+          "type": "registry:component"
+        }
+      ]
     },
     {
       "name": "dialog-scroll-overlay",
       "type": "registry:block",
       "title": "Dialog scroll overlay",
       "description": "A dialog that keeps its full height while the overlay scrolls.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
-      "files": [{ "path": "src/examples/dialog/DialogScrollOverlay.vue", "type": "registry:component" }]
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/dialog/DialogScrollOverlay.vue",
+          "type": "registry:component"
+        }
+      ]
     },
     {
       "name": "dialog-fullscreen",
       "type": "registry:block",
       "title": "Dialog fullscreen",
       "description": "A dialog that fills the window.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogFullscreen.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogFullscreen.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2371,10 +3800,18 @@
       "type": "registry:block",
       "title": "Dialog dismissible",
       "description": "A dialog that ignores Escape and outside clicks.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogDismissible.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogDismissible.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2382,10 +3819,18 @@
       "type": "registry:block",
       "title": "Dialog nested",
       "description": "A confirmation dialog opened from inside another dialog.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogNested.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogNested.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2393,11 +3838,21 @@
       "type": "registry:block",
       "title": "Dialog custom",
       "description": "A centred confirmation without a close button, laid out from the dialog's parts.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["dialog", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogCustom.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogCustom.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2405,10 +3860,21 @@
       "type": "registry:block",
       "title": "Dialog controlled",
       "description": "A dialog opened with v-model from a menu item.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button", "field", "input", "menu"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button",
+        "field",
+        "input",
+        "menu"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogControlled.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogControlled.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2416,11 +3882,22 @@
       "type": "registry:block",
       "title": "Dialog programmatic",
       "description": "A confirmation opened from code with openDialog, whose result says how it closed.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogProgrammatic.vue", "type": "registry:component" },
-        { "path": "src/examples/dialog/DeleteFileDialog.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogProgrammatic.vue",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/examples/dialog/DeleteFileDialog.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2428,11 +3905,22 @@
       "type": "registry:block",
       "title": "Dialog define",
       "description": "A progress dialog defined once with defineDialog and patched while it is open.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogDefine.vue", "type": "registry:component" },
-        { "path": "src/examples/dialog/ExportDialog.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogDefine.vue",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/examples/dialog/ExportDialog.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2440,11 +3928,25 @@
       "type": "registry:block",
       "title": "Dialog async",
       "description": "A rename dialog that stays open while it saves and returns the new name.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button", "field", "input", "spinner"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button",
+        "field",
+        "input",
+        "spinner"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogAsync.vue", "type": "registry:component" },
-        { "path": "src/examples/dialog/RenameDialog.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogAsync.vue",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/examples/dialog/RenameDialog.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2452,11 +3954,24 @@
       "type": "registry:block",
       "title": "Dialog keep mounted",
       "description": "A feedback form that keeps its draft between opens.",
-      "categories": ["example"],
-      "registryDependencies": ["dialog", "button", "field", "textarea"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "button",
+        "field",
+        "textarea"
+      ],
       "files": [
-        { "path": "src/examples/dialog/DialogKeepMounted.vue", "type": "registry:component" },
-        { "path": "src/examples/dialog/FeedbackDialog.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dialog/DialogKeepMounted.vue",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/examples/dialog/FeedbackDialog.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2464,11 +3979,25 @@
       "type": "registry:block",
       "title": "Formisch demo",
       "description": "A bug report form validated with a Valibot schema through Formisch.",
-      "categories": ["example"],
-      "dependencies": ["@formisch/vue", "valibot"],
-      "registryDependencies": ["button", "card", "field", "input", "textarea"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "button",
+        "card",
+        "field",
+        "input",
+        "textarea"
+      ],
       "files": [
-        { "path": "src/examples/forms/FormischDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/forms/FormischDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2476,11 +4005,23 @@
       "type": "registry:block",
       "title": "Formisch select",
       "description": "A required select bound to a Formisch field.",
-      "categories": ["example"],
-      "dependencies": ["@formisch/vue", "valibot"],
-      "registryDependencies": ["button", "field", "select"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "button",
+        "field",
+        "select"
+      ],
       "files": [
-        { "path": "src/examples/forms/FormischSelect.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/forms/FormischSelect.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2488,11 +4029,25 @@
       "type": "registry:block",
       "title": "Formisch choices",
       "description": "A checkbox group, a radio group and a switch bound to Formisch fields.",
-      "categories": ["example"],
-      "dependencies": ["@formisch/vue", "valibot"],
-      "registryDependencies": ["button", "checkbox", "field", "radio-group", "switch"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "button",
+        "checkbox",
+        "field",
+        "radio-group",
+        "switch"
+      ],
       "files": [
-        { "path": "src/examples/forms/FormischChoices.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/forms/FormischChoices.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2500,11 +4055,24 @@
       "type": "registry:block",
       "title": "Formisch array",
       "description": "A list of email fields added and removed with Formisch's field arrays.",
-      "categories": ["example"],
-      "dependencies": ["@formisch/vue", "valibot", "@lucide/vue"],
-      "registryDependencies": ["button", "field", "input"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button",
+        "field",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/forms/FormischArray.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/forms/FormischArray.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2512,10 +4080,18 @@
       "type": "registry:block",
       "title": "Menu demo",
       "description": "A menu placed inside a button, with shortcuts, a submenu and a destructive item.",
-      "categories": ["example"],
-      "registryDependencies": ["menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2523,10 +4099,17 @@
       "type": "registry:block",
       "title": "Menu touch position",
       "description": "A menu that opens where its target is clicked.",
-      "categories": ["example"],
-      "registryDependencies": ["menu"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuTouchPosition.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuTouchPosition.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2534,10 +4117,18 @@
       "type": "registry:block",
       "title": "Menu sizing",
       "description": "Menus that fit their target, cap their height or cover their target.",
-      "categories": ["example"],
-      "registryDependencies": ["menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuSizing.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuSizing.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2545,11 +4136,21 @@
       "type": "registry:block",
       "title": "Menu sizes",
       "description": "The same menu in every size, from xs to xl.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2557,11 +4158,20 @@
       "type": "registry:block",
       "title": "Menu open state",
       "description": "List rows that stay highlighted while their context menu is open.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["menu"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menu"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuOpenState.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuOpenState.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2569,10 +4179,17 @@
       "type": "registry:block",
       "title": "Menu context menu",
       "description": "A menu that opens on right-click or long-press.",
-      "categories": ["example"],
-      "registryDependencies": ["menu"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuContextMenu.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuContextMenu.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2580,11 +4197,20 @@
       "type": "registry:block",
       "title": "Menu shared",
       "description": "A click menu and a right-click menu on one element, written as one list.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["menu"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menu"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuShared.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuShared.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2592,10 +4218,18 @@
       "type": "registry:block",
       "title": "Menu target",
       "description": "One context menu for every row of a virtualized list of ten thousand.",
-      "categories": ["example"],
-      "registryDependencies": ["menu", "scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu",
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuTarget.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuTarget.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2603,11 +4237,22 @@
       "type": "registry:block",
       "title": "Menu virtual",
       "description": "A menu listing five thousand items in a virtualized scroll area.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["menu", "button", "scroll-area"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button",
+        "scroll-area"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuVirtual.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuVirtual.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2615,10 +4260,22 @@
       "type": "registry:block",
       "title": "Menu positioning",
       "description": "A playground for the anchor, self, offset and cover props.",
-      "categories": ["example"],
-      "registryDependencies": ["menu", "button", "field", "select", "slider", "switch"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button",
+        "field",
+        "select",
+        "slider",
+        "switch"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuPositioning.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuPositioning.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2626,11 +4283,21 @@
       "type": "registry:block",
       "title": "Non-modal menu",
       "description": "Row menus that leave the list scrolling and the page live.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/menu/MenuNonModal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/menu/MenuNonModal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2638,10 +4305,17 @@
       "type": "registry:block",
       "title": "Select demo",
       "description": "A select with a placeholder.",
-      "categories": ["example"],
-      "registryDependencies": ["select"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "select"
+      ],
       "files": [
-        { "path": "src/examples/select/SelectDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/select/SelectDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2649,10 +4323,18 @@
       "type": "registry:block",
       "title": "Select variants",
       "description": "The five trigger variants side by side.",
-      "categories": ["example"],
-      "registryDependencies": ["select", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "select",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/select/SelectVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/select/SelectVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2660,10 +4342,17 @@
       "type": "registry:block",
       "title": "Select sizes",
       "description": "The five trigger sizes.",
-      "categories": ["example"],
-      "registryDependencies": ["select"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "select"
+      ],
       "files": [
-        { "path": "src/examples/select/SelectSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/select/SelectSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2671,10 +4360,17 @@
       "type": "registry:block",
       "title": "Select groups",
       "description": "Options in labelled groups, long enough to scroll.",
-      "categories": ["example"],
-      "registryDependencies": ["select"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "select"
+      ],
       "files": [
-        { "path": "src/examples/select/SelectGroups.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/select/SelectGroups.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2682,10 +4378,17 @@
       "type": "registry:block",
       "title": "Select item aligned",
       "description": "A list that opens over the trigger with the selected option in its place.",
-      "categories": ["example"],
-      "registryDependencies": ["select"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "select"
+      ],
       "files": [
-        { "path": "src/examples/select/SelectItemAligned.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/select/SelectItemAligned.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2693,11 +4396,20 @@
       "type": "registry:block",
       "title": "Select icons",
       "description": "Options with icons, repeated in the trigger through the value slot.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["select"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "select"
+      ],
       "files": [
-        { "path": "src/examples/select/SelectIcons.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/select/SelectIcons.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2705,10 +4417,19 @@
       "type": "registry:block",
       "title": "Select field",
       "description": "A required select in a field that shows its error once the form is submitted.",
-      "categories": ["example"],
-      "registryDependencies": ["select", "field", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "select",
+        "field",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/select/SelectField.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/select/SelectField.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2716,11 +4437,21 @@
       "type": "registry:block",
       "title": "Dropdown menu demo",
       "description": "An account menu with a label, groups, shortcuts, a submenu and a destructive item.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["dropdown-menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "dropdown-menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dropdown-menu/DropdownMenuDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dropdown-menu/DropdownMenuDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2728,10 +4459,18 @@
       "type": "registry:block",
       "title": "Dropdown menu checkboxes",
       "description": "Checkbox items that toggle settings.",
-      "categories": ["example"],
-      "registryDependencies": ["dropdown-menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dropdown-menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dropdown-menu/DropdownMenuCheckboxes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dropdown-menu/DropdownMenuCheckboxes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2739,10 +4478,18 @@
       "type": "registry:block",
       "title": "Dropdown menu radio group",
       "description": "Radio items that pick one of several options.",
-      "categories": ["example"],
-      "registryDependencies": ["dropdown-menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "dropdown-menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dropdown-menu/DropdownMenuRadioGroup.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dropdown-menu/DropdownMenuRadioGroup.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2750,11 +4497,21 @@
       "type": "registry:block",
       "title": "Dropdown menu sizes",
       "description": "The same menu in every size, from xs to xl; submenus follow their parent.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["dropdown-menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "dropdown-menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dropdown-menu/DropdownMenuSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dropdown-menu/DropdownMenuSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2762,11 +4519,21 @@
       "type": "registry:block",
       "title": "Dropdown menu open state",
       "description": "A row that stays highlighted while its actions menu is open, styled from the trigger's data-state.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["dropdown-menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "dropdown-menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dropdown-menu/DropdownMenuOpenState.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dropdown-menu/DropdownMenuOpenState.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2774,11 +4541,21 @@
       "type": "registry:block",
       "title": "Non-modal dropdown menu",
       "description": "Row menus that leave the list scrolling and the page live.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["dropdown-menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "dropdown-menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/dropdown-menu/DropdownMenuNonModal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/dropdown-menu/DropdownMenuNonModal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2786,10 +4563,17 @@
       "type": "registry:block",
       "title": "Context menu demo",
       "description": "A browser-style context menu with shortcuts, a submenu, checkbox and radio items.",
-      "categories": ["example"],
-      "registryDependencies": ["context-menu"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "context-menu"
+      ],
       "files": [
-        { "path": "src/examples/context-menu/ContextMenuDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/context-menu/ContextMenuDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2797,11 +4581,20 @@
       "type": "registry:block",
       "title": "Context menu sizes",
       "description": "The same context menu in every size, from xs to xl.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["context-menu"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "context-menu"
+      ],
       "files": [
-        { "path": "src/examples/context-menu/ContextMenuSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/context-menu/ContextMenuSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2809,11 +4602,20 @@
       "type": "registry:block",
       "title": "Context menu open state",
       "description": "File tiles that stay highlighted while their context menu is open.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["context-menu"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "context-menu"
+      ],
       "files": [
-        { "path": "src/examples/context-menu/ContextMenuOpenState.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/context-menu/ContextMenuOpenState.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2821,11 +4623,20 @@
       "type": "registry:block",
       "title": "Non-modal context menu",
       "description": "A context menu that moves to the row you right-click next.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["context-menu"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "context-menu"
+      ],
       "files": [
-        { "path": "src/examples/context-menu/ContextMenuNonModal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/context-menu/ContextMenuNonModal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2833,10 +4644,17 @@
       "type": "registry:block",
       "title": "Separator demo",
       "description": "Horizontal and vertical separators between text.",
-      "categories": ["example"],
-      "registryDependencies": ["separator"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "separator"
+      ],
       "files": [
-        { "path": "src/examples/separator/SeparatorDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/separator/SeparatorDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2844,10 +4662,18 @@
       "type": "registry:block",
       "title": "Separator label",
       "description": "Separators with a label in the middle, horizontal and vertical.",
-      "categories": ["example"],
-      "registryDependencies": ["separator", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "separator",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/separator/SeparatorLabel.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/separator/SeparatorLabel.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2855,10 +4681,17 @@
       "type": "registry:block",
       "title": "Separator sizes",
       "description": "Separators from 1px for xs to 5px for xl.",
-      "categories": ["example"],
-      "registryDependencies": ["separator"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "separator"
+      ],
       "files": [
-        { "path": "src/examples/separator/SeparatorSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/separator/SeparatorSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2866,10 +4699,17 @@
       "type": "registry:block",
       "title": "Skeleton demo",
       "description": "An avatar and two lines of text while they load.",
-      "categories": ["example"],
-      "registryDependencies": ["skeleton"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "skeleton"
+      ],
       "files": [
-        { "path": "src/examples/skeleton/SkeletonDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/skeleton/SkeletonDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2877,10 +4717,17 @@
       "type": "registry:block",
       "title": "Skeleton animations",
       "description": "The pulse, wave and still animations side by side.",
-      "categories": ["example"],
-      "registryDependencies": ["skeleton"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "skeleton"
+      ],
       "files": [
-        { "path": "src/examples/skeleton/SkeletonAnimations.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/skeleton/SkeletonAnimations.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2888,10 +4735,19 @@
       "type": "registry:block",
       "title": "Skeleton text",
       "description": "Text skeletons that take the height of the text they stand in for.",
-      "categories": ["example"],
-      "registryDependencies": ["skeleton", "switch", "label"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "skeleton",
+        "switch",
+        "label"
+      ],
       "files": [
-        { "path": "src/examples/skeleton/SkeletonText.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/skeleton/SkeletonText.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2899,10 +4755,18 @@
       "type": "registry:block",
       "title": "Skeleton card",
       "description": "A loading card built from skeletons with the wave animation.",
-      "categories": ["example"],
-      "registryDependencies": ["skeleton", "card"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "skeleton",
+        "card"
+      ],
       "files": [
-        { "path": "src/examples/skeleton/SkeletonCard.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/skeleton/SkeletonCard.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2910,10 +4774,20 @@
       "type": "registry:block",
       "title": "Popover demo",
       "description": "A popover with a small form.",
-      "categories": ["example"],
-      "registryDependencies": ["popover", "button", "field", "input"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "popover",
+        "button",
+        "field",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/popover/PopoverDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/popover/PopoverDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2921,10 +4795,18 @@
       "type": "registry:block",
       "title": "Popover modal",
       "description": "A non-modal and a modal popover side by side.",
-      "categories": ["example"],
-      "registryDependencies": ["popover", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "popover",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/popover/PopoverModal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/popover/PopoverModal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2932,10 +4814,19 @@
       "type": "registry:block",
       "title": "Overlay scrim",
       "description": "A select and a menu next to a button that stays clickable through a pointer-events-none layer.",
-      "categories": ["example"],
-      "registryDependencies": ["select", "dropdown-menu", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "select",
+        "dropdown-menu",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/overlay/OverlayScrim.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/overlay/OverlayScrim.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2943,10 +4834,19 @@
       "type": "registry:block",
       "title": "Field demo",
       "description": "A fieldset of fields with labels and a description.",
-      "categories": ["example"],
-      "registryDependencies": ["field", "input", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "field",
+        "input",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/field/FieldDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/field/FieldDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2954,10 +4854,18 @@
       "type": "registry:block",
       "title": "Field validation",
       "description": "A field validated on blur without a form library.",
-      "categories": ["example"],
-      "registryDependencies": ["field", "input"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "field",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/field/FieldValidation.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/field/FieldValidation.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2965,10 +4873,18 @@
       "type": "registry:block",
       "title": "Field horizontal",
       "description": "Fields with the label beside the input.",
-      "categories": ["example"],
-      "registryDependencies": ["field", "input"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "field",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/field/FieldHorizontal.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/field/FieldHorizontal.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2976,10 +4892,18 @@
       "type": "registry:block",
       "title": "Checkbox demo",
       "description": "A checkbox with a label.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2987,10 +4911,18 @@
       "type": "registry:block",
       "title": "Checkbox states",
       "description": "A select-all checkbox that turns indeterminate when some items are selected.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxStates.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxStates.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -2998,10 +4930,18 @@
       "type": "registry:block",
       "title": "Checkbox sizes",
       "description": "Every checkbox size.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3009,10 +4949,18 @@
       "type": "registry:block",
       "title": "Checkbox touch target",
       "description": "The three touch-target modes, with the touch area outlined.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxTouchTarget.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxTouchTarget.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3020,10 +4968,18 @@
       "type": "registry:block",
       "title": "Checkbox description",
       "description": "A checkbox with a label and a description.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxDescription.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxDescription.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3031,10 +4987,18 @@
       "type": "registry:block",
       "title": "Checkbox disabled",
       "description": "Disabled checkboxes in every state.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxDisabled.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxDisabled.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3042,10 +5006,18 @@
       "type": "registry:block",
       "title": "Checkbox group",
       "description": "A group of checkboxes bound to one array.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxGroupDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxGroupDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3053,10 +5025,19 @@
       "type": "registry:block",
       "title": "Checkbox group variants",
       "description": "The same group as plain options, cards, a list and a table, in both orientations.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxGroupVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxGroupVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3064,10 +5045,18 @@
       "type": "registry:block",
       "title": "Checkbox invalid",
       "description": "A required checkbox with an error.",
-      "categories": ["example"],
-      "registryDependencies": ["checkbox", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/checkbox/CheckboxInvalid.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/checkbox/CheckboxInvalid.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3075,10 +5064,18 @@
       "type": "registry:block",
       "title": "Switch demo",
       "description": "A switch with a label.",
-      "categories": ["example"],
-      "registryDependencies": ["switch", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/switch/SwitchDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/switch/SwitchDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3086,10 +5083,18 @@
       "type": "registry:block",
       "title": "Switch sizes",
       "description": "Every switch size, off and on.",
-      "categories": ["example"],
-      "registryDependencies": ["switch", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/switch/SwitchSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/switch/SwitchSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3097,11 +5102,21 @@
       "type": "registry:block",
       "title": "Switch icons",
       "description": "Icons in the handle: for the on state only, for both states, and custom ones.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["switch", "field"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "switch",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/switch/SwitchIcons.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/switch/SwitchIcons.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3109,10 +5124,18 @@
       "type": "registry:block",
       "title": "Switch description",
       "description": "A settings row with the label and description before the switch.",
-      "categories": ["example"],
-      "registryDependencies": ["switch", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/switch/SwitchDescription.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/switch/SwitchDescription.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3120,10 +5143,18 @@
       "type": "registry:block",
       "title": "Switch disabled",
       "description": "Disabled switches, off and on.",
-      "categories": ["example"],
-      "registryDependencies": ["switch", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/switch/SwitchDisabled.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/switch/SwitchDisabled.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3131,10 +5162,18 @@
       "type": "registry:block",
       "title": "Switch invalid",
       "description": "A required switch with an error.",
-      "categories": ["example"],
-      "registryDependencies": ["switch", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/switch/SwitchInvalid.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/switch/SwitchInvalid.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3142,10 +5181,18 @@
       "type": "registry:block",
       "title": "Switch touch target",
       "description": "The three touch-target modes, with the touch area outlined.",
-      "categories": ["example"],
-      "registryDependencies": ["switch", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/switch/SwitchTouchTarget.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/switch/SwitchTouchTarget.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3153,10 +5200,20 @@
       "type": "registry:block",
       "title": "Tabs demo",
       "description": "Account and password forms in pill tabs.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs", "button", "field", "input"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tabs",
+        "button",
+        "field",
+        "input"
+      ],
       "files": [
-        { "path": "src/examples/tabs/TabsDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/tabs/TabsDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3164,10 +5221,17 @@
       "type": "registry:block",
       "title": "Tabs line",
       "description": "The line variant with a disabled tab.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tabs"
+      ],
       "files": [
-        { "path": "src/examples/tabs/TabsLine.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/tabs/TabsLine.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3175,10 +5239,17 @@
       "type": "registry:block",
       "title": "Tabs sizes",
       "description": "Tabs in the five sizes.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tabs"
+      ],
       "files": [
-        { "path": "src/examples/tabs/TabsSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/tabs/TabsSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3186,10 +5257,17 @@
       "type": "registry:block",
       "title": "Tabs vertical",
       "description": "Vertical tabs in both variants.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tabs"
+      ],
       "files": [
-        { "path": "src/examples/tabs/TabsVertical.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/tabs/TabsVertical.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3197,11 +5275,20 @@
       "type": "registry:block",
       "title": "Tabs with icons",
       "description": "Tabs with an icon before each label.",
-      "categories": ["example"],
-      "dependencies": ["@lucide/vue"],
-      "registryDependencies": ["tabs"],
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tabs"
+      ],
       "files": [
-        { "path": "src/examples/tabs/TabsIcons.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/tabs/TabsIcons.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3209,10 +5296,18 @@
       "type": "registry:block",
       "title": "Tabs keeping panels mounted",
       "description": "Panels that keep their state while hidden.",
-      "categories": ["example"],
-      "registryDependencies": ["tabs", "textarea"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tabs",
+        "textarea"
+      ],
       "files": [
-        { "path": "src/examples/tabs/TabsKeepMounted.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/tabs/TabsKeepMounted.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3220,10 +5315,18 @@
       "type": "registry:block",
       "title": "Radio demo",
       "description": "A group of radios with labels.",
-      "categories": ["example"],
-      "registryDependencies": ["radio-group", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/radio/RadioDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/radio/RadioDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3231,10 +5334,17 @@
       "type": "registry:block",
       "title": "Radio sizes",
       "description": "Every radio size.",
-      "categories": ["example"],
-      "registryDependencies": ["radio-group"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group"
+      ],
       "files": [
-        { "path": "src/examples/radio/RadioSizes.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/radio/RadioSizes.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3242,10 +5352,18 @@
       "type": "registry:block",
       "title": "Radio touch target",
       "description": "The three touch-target modes, with the touch area outlined.",
-      "categories": ["example"],
-      "registryDependencies": ["radio-group", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/radio/RadioTouchTarget.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/radio/RadioTouchTarget.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3253,10 +5371,18 @@
       "type": "registry:block",
       "title": "Radio description",
       "description": "Radios with a label and a description, named by a fieldset.",
-      "categories": ["example"],
-      "registryDependencies": ["radio-group", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/radio/RadioDescription.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/radio/RadioDescription.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3264,10 +5390,18 @@
       "type": "registry:block",
       "title": "Radio disabled",
       "description": "One disabled option, and a whole disabled group.",
-      "categories": ["example"],
-      "registryDependencies": ["radio-group", "field"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "field"
+      ],
       "files": [
-        { "path": "src/examples/radio/RadioDisabled.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/radio/RadioDisabled.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3275,10 +5409,19 @@
       "type": "registry:block",
       "title": "Radio group variants",
       "description": "The same group as plain options, cards, a list and a table, in both orientations.",
-      "categories": ["example"],
-      "registryDependencies": ["radio-group", "field", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "field",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/radio/RadioGroupVariants.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/radio/RadioGroupVariants.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3286,10 +5429,19 @@
       "type": "registry:block",
       "title": "Radio invalid",
       "description": "A required group that shows its error once the form is submitted.",
-      "categories": ["example"],
-      "registryDependencies": ["radio-group", "field", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "field",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/radio/RadioInvalid.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/radio/RadioInvalid.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3297,10 +5449,18 @@
       "type": "registry:block",
       "title": "Typography demo",
       "description": "Typescale roles in a card.",
-      "categories": ["example"],
-      "registryDependencies": ["tokens", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/typography/TypographyDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/typography/TypographyDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3308,10 +5468,18 @@
       "type": "registry:block",
       "title": "Motion easing",
       "description": "Every easing curve over the same distance and duration.",
-      "categories": ["example"],
-      "registryDependencies": ["tokens", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/motion/MotionEasing.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/motion/MotionEasing.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3319,10 +5487,18 @@
       "type": "registry:block",
       "title": "Motion enter and exit",
       "description": "A notification that enters with a decelerating curve and leaves faster with an accelerating one.",
-      "categories": ["example"],
-      "registryDependencies": ["tokens", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/motion/MotionEnterExit.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/motion/MotionEnterExit.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3330,10 +5506,17 @@
       "type": "registry:block",
       "title": "Press scale demo",
       "description": "The press-scale utility on buttons.",
-      "categories": ["example"],
-      "registryDependencies": ["button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/press-scale/PressScaleDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/press-scale/PressScaleDemo.vue",
+          "type": "registry:component"
+        }
       ]
     },
     {
@@ -3341,10 +5524,18 @@
       "type": "registry:block",
       "title": "Scroll helpers demo",
       "description": "Animated and instant scrolling of an element.",
-      "categories": ["example"],
-      "registryDependencies": ["scroll", "button"],
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll",
+        "button"
+      ],
       "files": [
-        { "path": "src/examples/scroll/ScrollDemo.vue", "type": "registry:component" }
+        {
+          "path": "src/examples/scroll/ScrollDemo.vue",
+          "type": "registry:component"
+        }
       ]
     }
   ]
