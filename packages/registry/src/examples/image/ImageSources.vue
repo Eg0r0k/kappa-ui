@@ -13,6 +13,6 @@ const file = "Parc_national_de_la_Jacques-Cartier%2C_Quebec%2C_Canada_22.jpg";
     :width="960"
     :height="640"
     alt="A river running over stones below a forested mountain"
-    class="max-w-md rounded-lg"
+    class="w-full max-w-md rounded-lg"
   />
 </template>

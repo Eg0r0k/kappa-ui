@@ -15,6 +15,6 @@ const at = (width: number) => `${base}/${width}px-${file}`;
     :width="960"
     :height="640"
     alt="A river running over stones below a forested mountain"
-    class="max-w-md rounded-lg"
+    class="w-full max-w-md rounded-lg"
   />
 </template>
