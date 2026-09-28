@@ -8,12 +8,14 @@
     scrollbar-gutter: stable;
   }
 
-  [data-slot][data-color] {
+  [data-slot][data-color],
+  [data-slot][data-state="on"][data-active-color] {
     --c-subtle-edge: color-mix(in oklab, var(--c-edge) 25%, transparent);
     --c-text: var(--c-soft-fg);
   }
 
-  [data-slot][data-color="primary"] {
+  [data-slot][data-color="primary"],
+  [data-slot][data-state="on"][data-active-color="primary"] {
     --c: --theme(--color-primary);
     --c-fg: --theme(--color-primary-foreground);
     --c-soft: color-mix(in oklab, --theme(--color-primary) 12%, transparent);
@@ -21,7 +23,8 @@
     --c-edge: --theme(--color-primary);
   }
 
-  [data-slot][data-color="neutral"] {
+  [data-slot][data-color="neutral"],
+  [data-slot][data-state="on"][data-active-color="neutral"] {
     --c: --theme(--color-foreground);
     --c-fg: --theme(--color-background);
     --c-soft: --theme(--color-secondary);
@@ -31,7 +34,8 @@
     --c-text: --theme(--color-foreground);
   }
 
-  [data-slot][data-color="destructive"] {
+  [data-slot][data-color="destructive"],
+  [data-slot][data-state="on"][data-active-color="destructive"] {
     --c: --theme(--color-destructive);
     --c-fg: --theme(--color-destructive-foreground);
     --c-soft: color-mix(in oklab, --theme(--color-destructive) 12%, transparent);
@@ -39,7 +43,8 @@
     --c-edge: --theme(--color-destructive);
   }
 
-  [data-slot][data-color="success"] {
+  [data-slot][data-color="success"],
+  [data-slot][data-state="on"][data-active-color="success"] {
     --c: --theme(--color-success);
     --c-fg: --theme(--color-success-foreground);
     --c-soft: color-mix(in oklab, --theme(--color-success) 12%, transparent);
@@ -47,7 +52,8 @@
     --c-edge: --theme(--color-success-text);
   }
 
-  [data-slot][data-color="warning"] {
+  [data-slot][data-color="warning"],
+  [data-slot][data-state="on"][data-active-color="warning"] {
     --c: --theme(--color-warning);
     --c-fg: --theme(--color-warning-foreground);
     --c-soft: color-mix(in oklab, --theme(--color-warning) 12%, transparent);
@@ -55,7 +61,8 @@
     --c-edge: --theme(--color-warning-text);
   }
 
-  [data-slot][data-color="info"] {
+  [data-slot][data-color="info"],
+  [data-slot][data-state="on"][data-active-color="info"] {
     --c: --theme(--color-info);
     --c-fg: --theme(--color-info-foreground);
     --c-soft: color-mix(in oklab, --theme(--color-info) 12%, transparent);
