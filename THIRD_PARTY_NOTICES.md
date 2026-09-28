@@ -27,6 +27,7 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
 - Licence: MIT, full text below
 - Copyright (c) 2015-present Razvan Stoenescu
 - Adapted in:
+  - `packages/registry/src/ui/image/Image.vue` — the image's load, error and hydration tracking and its natural-ratio reading
   - `packages/registry/src/ui/menu/position.ts` — the menu's boundary placement (`applyBoundary`)
   - `packages/registry/src/ui/menu/Menu.vue` — the anchor/self origin resolution, the context-menu re-open and target picking, and the size capping around `applyBoundary`
   - `packages/registry/src/ui/scroll-area/index.ts` — the scrollbar thumb size, position and drag-multiplier formulas

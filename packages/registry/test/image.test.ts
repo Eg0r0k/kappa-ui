@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { createSSRApp, h, nextTick, reactive } from "vue";
 import { renderToString } from "vue/server-renderer";
 
-import { Image } from "@/ui/image";
+import { Image, ImageError, ImageLoading } from "@/ui/image";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -17,6 +17,7 @@ const png = (width: number, height: number) => {
 };
 
 const broken = "data:image/png;base64,AAAA";
+const deferred = "/never-requested.png";
 
 const render = (initial: Record<string, unknown> = {}, slots: Record<string, () => unknown> = {}) => {
   const props = reactive({ ...initial });
@@ -207,5 +208,70 @@ describe("Image", () => {
     expect(events).toEqual(["load"]);
     expect(warn).not.toHaveBeenCalled();
     warn.mockRestore();
+  });
+});
+
+describe("ImageLoading and ImageError", () => {
+  const layers = (root: HTMLElement) => ({
+    loading: root.querySelector<HTMLElement>("[data-slot=image-loading]")!,
+    error: root.querySelector<HTMLElement>("[data-slot=image-error]")!,
+  });
+
+  const offscreen = () => {
+    const spacer = document.body.appendChild(document.createElement("div"));
+    spacer.style.height = "10000px";
+  };
+
+  it("shows the loading layer with a spinner while loading", async () => {
+    offscreen();
+    const { root } = render({ src: deferred }, { default: () => [h(ImageLoading), h(ImageError)] });
+    await nextTick();
+    const { loading, error } = layers(root);
+    expect(root.dataset.state).toBe("loading");
+    expect(loading.getAttribute("aria-hidden")).toBe("true");
+    expect(loading.querySelector("[data-slot=spinner]")).not.toBeNull();
+    await expect.poll(() => getComputedStyle(loading).visibility).toBe("visible");
+    expect(getComputedStyle(error).visibility).toBe("hidden");
+  });
+
+  it("hides the loading layer once loaded", async () => {
+    const { root } = render({ src: png(40, 20) }, { default: () => h(ImageLoading) });
+    await expect.poll(() => root.dataset.state).toBe("loaded");
+    await expect.poll(() => getComputedStyle(layers(root).loading).visibility).toBe("hidden");
+  });
+
+  it("shows the error layer with an icon on error", async () => {
+    const { root } = render({ src: broken }, { default: () => [h(ImageLoading), h(ImageError)] });
+    await expect.poll(() => getComputedStyle(layers(root).error).visibility).toBe("visible");
+    expect(layers(root).error.querySelector("svg")).not.toBeNull();
+    expect(layers(root).error.hasAttribute("aria-hidden")).toBe(false);
+    await expect.poll(() => getComputedStyle(layers(root).loading).visibility).toBe("hidden");
+  });
+
+  it("replaces the default content with its slot", () => {
+    const { root } = render({}, { default: () => [h(ImageLoading, () => "Wait"), h(ImageError, () => "No photo")] });
+    expect(layers(root).loading.textContent).toBe("Wait");
+    expect(layers(root).error.textContent).toBe("No photo");
+  });
+
+  it("delays showing the loading layer, not hiding it", async () => {
+    offscreen();
+    const { root, props } = render({ src: deferred }, { default: () => h(ImageLoading, { class: "delay-300" }) });
+    await nextTick();
+    expect(getComputedStyle(layers(root).loading).transitionDelay).toBe("0.3s");
+    props.loading = "eager";
+    props.src = broken;
+    await expect.poll(() => root.dataset.state).toBe("error");
+    expect(getComputedStyle(layers(root).loading).transitionDelay).toBe("0s");
+  });
+
+  it("keeps the layers hidden in server HTML", async () => {
+    const html = await renderToString(
+      createSSRApp({ render: () => h(Image, { src: png(4, 2) }, () => [h(ImageLoading), h(ImageError)]) }),
+    );
+    document.body.innerHTML = html;
+    const root = document.querySelector<HTMLElement>("[data-slot=image]")!;
+    expect(getComputedStyle(layers(root).loading).visibility).toBe("hidden");
+    expect(getComputedStyle(layers(root).error).visibility).toBe("hidden");
   });
 });

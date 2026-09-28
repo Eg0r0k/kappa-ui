@@ -1095,6 +1095,39 @@
       ]
     },
     {
+      "name": "image",
+      "type": "registry:ui",
+      "title": "Image",
+      "description": "An image in a ratio box with loading and error layers, native srcset, sizes and picture sources, and load tracking that survives SSR, after Nuxt Image and Quasar's QImg.",
+      "dependencies": [
+        "class-variance-authority",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/ui/image/Image.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/image/ImageError.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/image/ImageLoading.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/image/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
