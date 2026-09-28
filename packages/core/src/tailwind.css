@@ -96,7 +96,7 @@
     height: var(--halo-size);
     translate: -50% -50%;
     scale: 0.75;
-    border-radius: calc(infinity* 1px);
+    border-radius: 50%;
     background-color: var(--halo-color, var(--c, currentColor));
     opacity: 0;
     transition-property: opacity, scale;
