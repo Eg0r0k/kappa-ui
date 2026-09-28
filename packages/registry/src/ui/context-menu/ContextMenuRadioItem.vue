@@ -9,7 +9,7 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { menuIndicator, menuIndicatorItem, menuRadioDot } from "@/ui/menu";
+import { contextMenuIndicator, contextMenuIndicatorItem, contextMenuRadioDot } from ".";
 
 const props = defineProps<ContextMenuRadioItemProps & { class?: HTMLAttributes["class"] }>();
 const emits = defineEmits<ContextMenuRadioItemEmits>();
@@ -25,12 +25,12 @@ const forwarded = useForwardPropsEmits(delegated, emits);
   <ContextMenuRadioItem
     v-bind="forwarded"
     data-slot="context-menu-radio-item"
-    :class="cn(menuIndicatorItem, props.class)"
+    :class="cn(contextMenuIndicatorItem, props.class)"
   >
-    <span :class="menuIndicator">
+    <span :class="contextMenuIndicator">
       <ContextMenuItemIndicator data-slot="context-menu-item-indicator" class="flex items-center justify-center">
         <slot name="indicator-icon">
-          <span :class="menuRadioDot" />
+          <span :class="contextMenuRadioDot" />
         </slot>
       </ContextMenuItemIndicator>
     </span>

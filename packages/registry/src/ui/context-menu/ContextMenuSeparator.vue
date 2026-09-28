@@ -3,7 +3,7 @@ import { ContextMenuSeparator, type ContextMenuSeparatorProps } from "@kappa-ui/
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { menuSeparator } from "@/ui/menu";
+import { contextMenuSeparator } from ".";
 
 const props = defineProps<ContextMenuSeparatorProps & { class?: HTMLAttributes["class"] }>();
 
@@ -14,5 +14,9 @@ const delegated = computed(() => {
 </script>
 
 <template>
-  <ContextMenuSeparator v-bind="delegated" data-slot="context-menu-separator" :class="cn(menuSeparator, props.class)" />
+  <ContextMenuSeparator
+    v-bind="delegated"
+    data-slot="context-menu-separator"
+    :class="cn(contextMenuSeparator, props.class)"
+  />
 </template>

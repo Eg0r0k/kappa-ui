@@ -11,12 +11,12 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/ui/menu";
 import { overlaySurface } from "@/ui/popover";
+import { type ContextMenuSize, contextMenuSizeVariants, provideContextMenuSize } from ".";
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<ContextMenuContentProps & { size?: MenuSize; class?: HTMLAttributes["class"] }>();
+const props = defineProps<ContextMenuContentProps & { size?: ContextMenuSize; class?: HTMLAttributes["class"] }>();
 const emits = defineEmits<ContextMenuContentEmits>();
 
 const delegated = computed(() => {
@@ -26,7 +26,7 @@ const delegated = computed(() => {
 const forwarded = useForwardPropsEmits(delegated, emits);
 
 const size = toRef(() => props.size ?? "md");
-provideMenuSize(size);
+provideContextMenuSize(size);
 
 const rootContext = injectContextMenuRootContext();
 const scrim = useModalScrim({
@@ -49,7 +49,7 @@ const portalTarget = injectOverlayPortalTarget(null);
         cn(
           overlaySurface,
           'max-h-(--reka-context-menu-content-available-height) flex min-w-32 flex-col gap-0.5 overflow-x-hidden overflow-y-auto origin-(--reka-context-menu-content-transform-origin)',
-          menuSizeVariants({ size }),
+          contextMenuSizeVariants({ size }),
           props.class,
         )
       "

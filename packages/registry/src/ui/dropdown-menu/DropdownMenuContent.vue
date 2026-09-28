@@ -11,13 +11,13 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/ui/menu";
 import { overlaySurface } from "@/ui/popover";
+import { type DropdownMenuSize, dropdownMenuSizeVariants, provideDropdownMenuSize } from ".";
 
 defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
-  defineProps<DropdownMenuContentProps & { size?: MenuSize; class?: HTMLAttributes["class"] }>(),
+  defineProps<DropdownMenuContentProps & { size?: DropdownMenuSize; class?: HTMLAttributes["class"] }>(),
   { sideOffset: 4 },
 );
 const emits = defineEmits<DropdownMenuContentEmits>();
@@ -29,7 +29,7 @@ const delegated = computed(() => {
 const forwarded = useForwardPropsEmits(delegated, emits);
 
 const size = toRef(() => props.size ?? "md");
-provideMenuSize(size);
+provideDropdownMenuSize(size);
 
 const rootContext = injectDropdownMenuRootContext();
 const scrim = useModalScrim({
@@ -52,7 +52,7 @@ const portalTarget = injectOverlayPortalTarget(null);
         cn(
           overlaySurface,
           'max-h-(--reka-dropdown-menu-content-available-height) flex min-w-32 flex-col gap-0.5 overflow-x-hidden overflow-y-auto origin-(--reka-dropdown-menu-content-transform-origin)',
-          menuSizeVariants({ size }),
+          dropdownMenuSizeVariants({ size }),
           props.class,
         )
       "

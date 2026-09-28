@@ -3,7 +3,7 @@ import { DropdownMenuLabel, type DropdownMenuLabelProps } from "@kappa-ui/core/d
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { menuLabel } from "@/ui/menu";
+import { dropdownMenuLabel } from ".";
 
 const props = defineProps<DropdownMenuLabelProps & { inset?: boolean; class?: HTMLAttributes["class"] }>();
 
@@ -18,7 +18,7 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="dropdown-menu-label"
     :data-inset="props.inset || undefined"
-    :class="cn(menuLabel, props.class)"
+    :class="cn(dropdownMenuLabel, props.class)"
   >
     <slot />
   </DropdownMenuLabel>

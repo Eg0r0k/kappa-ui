@@ -3,7 +3,7 @@ import { DropdownMenuSeparator, type DropdownMenuSeparatorProps } from "@kappa-u
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { menuSeparator } from "@/ui/menu";
+import { dropdownMenuSeparator } from ".";
 
 const props = defineProps<DropdownMenuSeparatorProps & { class?: HTMLAttributes["class"] }>();
 
@@ -17,6 +17,6 @@ const delegated = computed(() => {
   <DropdownMenuSeparator
     v-bind="delegated"
     data-slot="dropdown-menu-separator"
-    :class="cn(menuSeparator, props.class)"
+    :class="cn(dropdownMenuSeparator, props.class)"
   />
 </template>

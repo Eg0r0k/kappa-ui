@@ -10,7 +10,7 @@ import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { menuIndicator, menuIndicatorItem } from "@/ui/menu";
+import { contextMenuIndicator, contextMenuIndicatorItem } from ".";
 
 const props = defineProps<ContextMenuCheckboxItemProps & { class?: HTMLAttributes["class"] }>();
 const emits = defineEmits<ContextMenuCheckboxItemEmits>();
@@ -26,9 +26,9 @@ const forwarded = useForwardPropsEmits(delegated, emits);
   <ContextMenuCheckboxItem
     v-bind="forwarded"
     data-slot="context-menu-checkbox-item"
-    :class="cn(menuIndicatorItem, props.class)"
+    :class="cn(contextMenuIndicatorItem, props.class)"
   >
-    <span :class="menuIndicator">
+    <span :class="contextMenuIndicator">
       <ContextMenuItemIndicator data-slot="context-menu-item-indicator" class="flex items-center justify-center">
         <slot name="indicator-icon">
           <Check stroke-width="2.5" />

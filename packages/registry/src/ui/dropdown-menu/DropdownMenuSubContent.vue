@@ -10,12 +10,12 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/ui/menu";
 import { overlaySurface } from "@/ui/popover";
+import { type DropdownMenuSize, injectDropdownMenuSize, dropdownMenuSizeVariants, provideDropdownMenuSize } from ".";
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<DropdownMenuSubContentProps & { size?: MenuSize; class?: HTMLAttributes["class"] }>();
+const props = defineProps<DropdownMenuSubContentProps & { size?: DropdownMenuSize; class?: HTMLAttributes["class"] }>();
 const emits = defineEmits<DropdownMenuSubContentEmits>();
 
 const delegated = computed(() => {
@@ -25,9 +25,9 @@ const delegated = computed(() => {
 const forwarded = useForwardPropsEmits(delegated, emits);
 const portalTarget = injectOverlayPortalTarget(null);
 
-const parentSize = injectMenuSize(null);
+const parentSize = injectDropdownMenuSize(null);
 const size = toRef(() => props.size ?? parentSize?.value ?? "md");
-provideMenuSize(size);
+provideDropdownMenuSize(size);
 </script>
 
 <template>
@@ -40,7 +40,7 @@ provideMenuSize(size);
         cn(
           overlaySurface,
           'max-h-(--reka-dropdown-menu-content-available-height) flex min-w-32 flex-col gap-0.5 overflow-x-hidden overflow-y-auto origin-(--reka-dropdown-menu-content-transform-origin)',
-          menuSizeVariants({ size }),
+          dropdownMenuSizeVariants({ size }),
           props.class,
         )
       "

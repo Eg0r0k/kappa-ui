@@ -729,8 +729,8 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "popover", "menu"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "popover"],
       "files": [
         {
           "path": "src/ui/context-menu/ContextMenu.vue",
@@ -799,8 +799,8 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "popover", "menu"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "popover"],
       "files": [
         {
           "path": "src/ui/dropdown-menu/DropdownMenu.vue",

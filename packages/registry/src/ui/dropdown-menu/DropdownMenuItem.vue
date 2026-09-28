@@ -4,7 +4,7 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { menuItem } from "@/ui/menu";
+import { dropdownMenuItem } from ".";
 
 const props = defineProps<
   DropdownMenuItemProps & {
@@ -28,7 +28,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     data-slot="dropdown-menu-item"
     :data-inset="props.inset || undefined"
     :data-variant="props.variant ?? 'default'"
-    :class="cn(menuItem, props.class)"
+    :class="cn(dropdownMenuItem, props.class)"
   >
     <slot />
   </DropdownMenuItem>

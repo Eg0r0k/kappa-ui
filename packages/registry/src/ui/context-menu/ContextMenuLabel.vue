@@ -3,7 +3,7 @@ import { ContextMenuLabel, type ContextMenuLabelProps } from "@kappa-ui/core/con
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { menuLabel } from "@/ui/menu";
+import { contextMenuLabel } from ".";
 
 const props = defineProps<ContextMenuLabelProps & { inset?: boolean; class?: HTMLAttributes["class"] }>();
 
@@ -18,7 +18,7 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="context-menu-label"
     :data-inset="props.inset || undefined"
-    :class="cn(menuLabel, props.class)"
+    :class="cn(contextMenuLabel, props.class)"
   >
     <slot />
   </ContextMenuLabel>
