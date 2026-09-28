@@ -7,10 +7,9 @@ npx shadcn-vue@latest init --preset https://kappa-ui.pages.dev/r/init.json
 npx shadcn-vue@latest add @kappa-ui/button
 ```
 
-Requirements, theming, every component and its API are documented on the
-site: run `pnpm dev` and open http://localhost:3000.
-
-Documentation: https://kappa-ui.pages.dev
+Requirements, theming, every component and its API are documented at
+https://kappa-ui.pages.dev. To run the site locally, `pnpm dev` and open
+http://localhost:3000.
 
 ## Repo layout
 
