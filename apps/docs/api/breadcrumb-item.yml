@@ -1,0 +1,4 @@
+component: BreadcrumbItem
+file: ui/breadcrumb/BreadcrumbItem.vue
+slots:
+  default: A link, the current page or an ellipsis.

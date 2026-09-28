@@ -1,0 +1,4 @@
+component: BreadcrumbSeparator
+file: ui/breadcrumb/BreadcrumbSeparator.vue
+slots:
+  default: The separator icon; a chevron by default.

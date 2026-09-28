@@ -1,0 +1,4 @@
+component: BreadcrumbPage
+file: ui/breadcrumb/BreadcrumbPage.vue
+slots:
+  default: The current page's name.

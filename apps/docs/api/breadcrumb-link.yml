@@ -1,0 +1,9 @@
+component: BreadcrumbLink
+file: ui/breadcrumb/BreadcrumbLink.vue
+props:
+  as:
+    description: The element or component to render; an `a` by default.
+  asChild:
+    description: Render the single child, such as your router's link, merging the link's attributes and classes onto it.
+slots:
+  default: The link text.

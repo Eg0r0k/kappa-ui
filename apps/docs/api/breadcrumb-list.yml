@@ -1,0 +1,4 @@
+component: BreadcrumbList
+file: ui/breadcrumb/BreadcrumbList.vue
+slots:
+  default: Items and separators, in order.

@@ -1,0 +1,4 @@
+component: Breadcrumb
+file: ui/breadcrumb/Breadcrumb.vue
+slots:
+  default: The `BreadcrumbList`.

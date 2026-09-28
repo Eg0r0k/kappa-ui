@@ -392,6 +392,130 @@
       ]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "The path to the current page, as links separated by chevrons.",
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/breadcrumb/Breadcrumb.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/breadcrumb/BreadcrumbEllipsis.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/breadcrumb/BreadcrumbItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/breadcrumb/BreadcrumbLink.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/breadcrumb/BreadcrumbList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/breadcrumb/BreadcrumbPage.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/breadcrumb/BreadcrumbSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/breadcrumb/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb-demo",
+      "type": "registry:block",
+      "title": "Breadcrumb demo",
+      "description": "A trail with a menu behind the ellipsis.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "breadcrumb",
+        "dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/breadcrumb/BreadcrumbDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb-custom-separator",
+      "type": "registry:block",
+      "title": "Breadcrumb with a custom separator",
+      "description": "Slashes instead of chevrons.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "breadcrumb"
+      ],
+      "files": [
+        {
+          "path": "src/examples/breadcrumb/BreadcrumbCustomSeparator.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb-collapsed",
+      "type": "registry:block",
+      "title": "Collapsed breadcrumb",
+      "description": "An ellipsis in place of the middle of the trail.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "breadcrumb"
+      ],
+      "files": [
+        {
+          "path": "src/examples/breadcrumb/BreadcrumbCollapsed.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb-as-child",
+      "type": "registry:block",
+      "title": "Breadcrumb with your own links",
+      "description": "Links passed through as-child.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "breadcrumb"
+      ],
+      "files": [
+        {
+          "path": "src/examples/breadcrumb/BreadcrumbAsChild.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button group",

@@ -1,0 +1,4 @@
+component: BreadcrumbEllipsis
+file: ui/breadcrumb/BreadcrumbEllipsis.vue
+slots:
+  default: The icon; a horizontal ellipsis by default. The text "More" stays for screen readers.
