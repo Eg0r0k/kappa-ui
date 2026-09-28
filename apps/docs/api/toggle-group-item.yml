@@ -1,0 +1,23 @@
+component: ToggleGroupItem
+file: ui/toggle-group/ToggleGroupItem.vue
+props:
+  value:
+    description: "The value this item adds to the group's value when it is on."
+  disabled:
+    description: "Disables this item."
+  variant:
+    description: "Overrides the group's `variant`."
+  activeVariant:
+    description: "Overrides the group's `activeVariant`."
+  color:
+    description: "Overrides the group's `color`."
+  activeColor:
+    description: "Overrides the group's `activeColor`."
+  size:
+    description: "Overrides the group's `size`."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The label and icons. Receives `modelValue`, `pressed`, `state` and `disabled`."

@@ -1,0 +1,41 @@
+component: ToggleGroup
+file: ui/toggle-group/ToggleGroup.vue
+props:
+  type:
+    description: "`single` keeps at most one item on and binds a string; `multiple` binds an array."
+  defaultValue:
+    description: "The value it starts with when `v-model` is not used."
+  modelValue:
+    description: "The value of the item that is on, or an array of them with `type=\"multiple\"`, bound with `v-model`."
+  disabled:
+    description: "Disables every item."
+  rovingFocus:
+    description: "Tab reaches the group once and the arrow keys move between the items. On by default."
+  loop:
+    description: "Arrow keys wrap from the last item to the first and back."
+  orientation:
+    description: "The direction the items run in, and the arrow keys that move between them."
+  dir:
+    description: "Reading direction. Mirrors the arrow keys in `rtl`."
+  name:
+    description: "The field name, for submitting the value with a form."
+  required:
+    description: "Marks the form field as required."
+  variant:
+    description: "Button's variant for every item while it is off. `ghost` by default."
+  activeVariant:
+    description: "Button's variant for every item while it is on. `soft` by default."
+  color:
+    description: "The colour of every item while it is off. `neutral` by default."
+  activeColor:
+    description: "The colour of every item while it is on. Follows `color` when not set."
+  size:
+    description: "Button's size for every item."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  update:modelValue: "Fires when an item is pressed, with the new value."
+slots:
+  default: "The items. Receives `modelValue`."

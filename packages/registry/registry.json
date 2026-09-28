@@ -6195,6 +6195,116 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A set of toggles joined like a button group, with single or multiple selection and arrow-key navigation.",
+      "dependencies": [
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "toggle",
+        "button",
+        "button-group"
+      ],
+      "files": [
+        {
+          "path": "src/ui/toggle-group/ToggleGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toggle-group/ToggleGroupItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toggle-group/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group-demo",
+      "type": "registry:block",
+      "title": "Toggle Group demo",
+      "description": "Bold, italic and underline, any of them on.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle-group/ToggleGroupDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group-single",
+      "type": "registry:block",
+      "title": "Toggle Group single",
+      "description": "Text alignment, one at a time, solid primary when on.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle-group/ToggleGroupSingle.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group-outline",
+      "type": "registry:block",
+      "title": "Toggle Group outline",
+      "description": "A day, week and month switch in outline primary.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle-group/ToggleGroupOutline.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group-vertical",
+      "type": "registry:block",
+      "title": "Toggle Group vertical",
+      "description": "The formatting group stacked vertically.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toggle-group/ToggleGroupVertical.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
