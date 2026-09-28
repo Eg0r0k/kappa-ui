@@ -22,7 +22,8 @@ document.head.append(remoteImages);
 
 const settle = async (host: HTMLElement) => {
   await document.fonts.ready;
-  await Promise.all([...host.querySelectorAll("img")].map((img) => img.decode().catch(() => undefined)));
+  const local = [...host.querySelectorAll("img")].filter((img) => !img.getAttribute("src")?.startsWith("http"));
+  await Promise.all(local.map((img) => img.decode().catch(() => undefined)));
 };
 
 describe.each(["light", "dark"] as const)("%s", (theme) => {
