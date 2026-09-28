@@ -68,7 +68,7 @@ const select = async (value: unknown) => {
     <DialogPortal>
       <DialogOverlay class="fixed inset-0 z-50 bg-black/50" />
       <DialogContent
-        class="fixed inset-x-0 top-24 z-50 mx-auto w-[calc(100%-2rem)] max-w-xl overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-lg"
+        class="fixed inset-x-0 top-24 z-50 mx-auto w-[calc(100%-2rem)] max-w-xl overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-shadow-lg"
       >
         <DialogTitle class="sr-only">Search documentation</DialogTitle>
         <DialogDescription class="sr-only">Type to search pages and sections, then press Enter.</DialogDescription>

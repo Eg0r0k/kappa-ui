@@ -64,6 +64,11 @@
   --scrim: oklch(0 0 0 / 40%);
   --press-scale: 0.97;
   --press-duration: 120ms;
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 5%);
+  --shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 10%), 0 1px 2px -1px oklch(0 0 0 / 10%);
+  --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 10%), 0 2px 4px -2px oklch(0 0 0 / 10%);
+  --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 10%), 0 4px 6px -4px oklch(0 0 0 / 10%);
+  --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 10%), 0 8px 10px -6px oklch(0 0 0 / 10%);
 }
 
 .dark {
@@ -159,4 +164,9 @@
   --text-label-sm--font-weight: var(--typescale-label-sm-weight);
   --color-surface-border: var(--surface-border, var(--border));
   --color-scrim: var(--scrim);
+  --shadow-shadow-xs: var(--shadow-xs);
+  --shadow-shadow-sm: var(--shadow-sm);
+  --shadow-shadow-md: var(--shadow-md);
+  --shadow-shadow-lg: var(--shadow-lg);
+  --shadow-shadow-xl: var(--shadow-xl);
 }

@@ -43,7 +43,7 @@
       "name": "tokens",
       "type": "registry:lib",
       "title": "Tokens",
-      "description": "The status colours, state, motion and typescale tokens components read, and the destructive foreground shadcn dropped.",
+      "description": "The status colours, state, motion, shadow and typescale tokens components read, and the destructive foreground shadcn dropped.",
       "dependencies": ["@kappa-ui/core"],
       "cssSource": "../core/src/tokens.css",
       "files": []

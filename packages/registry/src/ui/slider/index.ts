@@ -79,7 +79,7 @@ export const sliderThumbVariants = cva(
 );
 
 export const sliderHandleVariants = cva(
-  "pointer-events-none block size-(--slider-thumb) rounded-full shadow-sm transition-[scale,background-color] duration-short-4 ease-standard group-data-disabled/thumb:shadow-none motion-reduce:transition-none",
+  "pointer-events-none block size-(--slider-thumb) rounded-full shadow-shadow-sm transition-[scale,background-color] duration-short-4 ease-standard group-data-disabled/thumb:shadow-none motion-reduce:transition-none",
   {
     variants: {
       variant: {

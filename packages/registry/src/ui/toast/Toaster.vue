@@ -79,7 +79,7 @@ const place = (toast: Toast) => {
       data-slot="toast"
       :data-color="toast.color ?? 'neutral'"
       :style="place(toast)"
-      class="kappa-toast overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-lg ring-1 [--scroll-fade-color:var(--popover)] ring-surface-border outline-none focus-visible:focus-ring"
+      class="kappa-toast overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-shadow-lg ring-1 [--scroll-fade-color:var(--popover)] ring-surface-border outline-none focus-visible:focus-ring"
       @pause="paused = true"
       @resume="paused = false"
     >
