@@ -36,6 +36,8 @@ describe.each(["light", "dark"] as const)("%s", (theme) => {
     await settle(host);
 
     await expect.element(page.getByTestId("visual")).toMatchScreenshot(`${name}-${theme}`, {
+      comparatorName: "pixelmatch",
+      comparatorOptions: { threshold: 0 },
       screenshotOptions: { animations: "disabled", caret: "hide" },
     });
 
