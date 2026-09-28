@@ -183,6 +183,7 @@ const smoke = async (template: Template) => {
   await cp(join(repoRoot, 'scripts/smoke', template.name), dir, { recursive: true })
   await writeFile(join(dir, '.npmrc'), `@kappa-ui:registry=${origin}/npm/\n`)
   await run(label('install'), 'pnpm install', dir)
+  await run(label('reka-ui latest'), 'pnpm add reka-ui@latest', dir)
   await run(label('shadcn-vue init'), `pnpm exec shadcn-vue init --preset ${origin}/r/init.json`, dir)
   const config = await readJson<{ registries?: Record<string, string> }>(join(dir, 'components.json'))
   if (config.registries?.['@kappa-ui'] !== `${origin}/r/{name}.json`) {
