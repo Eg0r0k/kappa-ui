@@ -2,8 +2,8 @@
 import { DropdownMenuLabel, type DropdownMenuLabelProps } from "@kappa-ui/core/dropdown-menu";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuLabel } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuLabel } from "@/ui/menu";
 
 const props = defineProps<DropdownMenuLabelProps & { inset?: boolean; class?: HTMLAttributes["class"] }>();
 

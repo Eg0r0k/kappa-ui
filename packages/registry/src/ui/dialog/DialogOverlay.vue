@@ -2,7 +2,6 @@
 import { DialogOverlay, type DialogOverlayProps } from "@kappa-ui/core/dialog";
 import { type HTMLAttributes, computed } from "vue";
 
-import { modalScrim } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 
 const props = defineProps<DialogOverlayProps & { class?: HTMLAttributes["class"] }>();
@@ -19,8 +18,7 @@ const delegated = computed(() => {
     data-slot="dialog-overlay"
     :class="
       cn(
-        'fixed inset-0 bg-scrim animate-overlay [--overlay-scale:1] transition-[background-color] duration-short-4 ease-standard motion-reduce:transition-none has-[~[data-slot=dialog-overlay][data-state=open]]:bg-transparent',
-        modalScrim,
+        'fixed inset-0 bg-scrim animate-overlay [--overlay-scale:1] transition-[background-color] duration-short-4 ease-standard motion-reduce:transition-none has-[~[data-slot=dialog-overlay][data-state=open]]:bg-transparent z-50',
         props.class,
       )
     "

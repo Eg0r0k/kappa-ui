@@ -9,8 +9,8 @@ import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { Check } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuIndicator, menuIndicatorItem } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuIndicator, menuIndicatorItem } from "@/ui/menu";
 
 const props = defineProps<ContextMenuCheckboxItemProps & { class?: HTMLAttributes["class"] }>();
 const emits = defineEmits<ContextMenuCheckboxItemEmits>();

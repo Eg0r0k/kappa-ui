@@ -3,8 +3,8 @@ import { MenuSubTrigger, type MenuSubTriggerProps } from "@kappa-ui/core/menu";
 import { ChevronRight } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuSubTrigger } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuSubTrigger } from ".";
 
 const props = defineProps<MenuSubTriggerProps & { inset?: boolean; class?: HTMLAttributes["class"] }>();
 

@@ -2,8 +2,8 @@
 import { SelectLabel, type SelectLabelProps } from "@kappa-ui/core/select";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuLabel } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuLabel } from "@/ui/menu";
 
 const props = defineProps<SelectLabelProps & { class?: HTMLAttributes["class"] }>();
 

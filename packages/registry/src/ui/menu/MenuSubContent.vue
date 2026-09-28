@@ -4,9 +4,9 @@ import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
-import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";
-import { overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
+import { overlaySurface } from "@/ui/popover";
+import { type MenuSize, injectMenuSize, menuSizeVariants, provideMenuSize } from ".";
 
 defineOptions({ inheritAttrs: false });
 

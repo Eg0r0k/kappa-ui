@@ -3,8 +3,8 @@ import { MenuItem, type MenuItemEmits, type MenuItemProps } from "@kappa-ui/core
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuItem } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuItem } from ".";
 
 const props = defineProps<
   MenuItemProps & {

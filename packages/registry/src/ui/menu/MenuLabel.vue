@@ -2,8 +2,8 @@
 import { MenuLabel, type MenuLabelProps } from "@kappa-ui/core/menu";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuLabel } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuLabel } from ".";
 
 const props = defineProps<MenuLabelProps & { inset?: boolean; class?: HTMLAttributes["class"] }>();
 

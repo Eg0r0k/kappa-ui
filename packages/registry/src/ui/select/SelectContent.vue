@@ -11,9 +11,9 @@ import {
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuSizeVariants } from "@/lib/menu";
-import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
+import { menuSizeVariants } from "@/ui/menu";
+import { overlaySurface } from "@/ui/popover";
 import SelectScrollDownButton from "./SelectScrollDownButton.vue";
 import SelectScrollUpButton from "./SelectScrollUpButton.vue";
 
@@ -44,7 +44,7 @@ const portalTarget = injectOverlayPortalTarget(null);
 
 <template>
   <SelectPortal :to="portalTarget ?? undefined">
-    <OverlayScrim :scrim="scrim" data-slot="select-scrim" :class="modalScrim" />
+    <OverlayScrim :scrim="scrim" data-slot="select-scrim" class="z-50" />
     <SelectContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="select-content"

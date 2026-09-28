@@ -10,9 +10,9 @@ import { OverlayScrim, injectOverlayPortalTarget, useModalScrim } from "@kappa-u
 import { useForwardPropsEmits } from "@kappa-ui/core/utils";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
-import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/lib/menu";
-import { modalScrim, overlaySurface } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
+import { type MenuSize, menuSizeVariants, provideMenuSize } from "@/ui/menu";
+import { overlaySurface } from "@/ui/popover";
 
 defineOptions({ inheritAttrs: false });
 
@@ -40,7 +40,7 @@ const portalTarget = injectOverlayPortalTarget(null);
 
 <template>
   <ContextMenuPortal :to="portalTarget ?? undefined">
-    <OverlayScrim :scrim="scrim" data-slot="context-menu-scrim" :class="modalScrim" />
+    <OverlayScrim :scrim="scrim" data-slot="context-menu-scrim" class="z-50" />
     <ContextMenuContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="context-menu-content"

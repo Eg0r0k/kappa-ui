@@ -40,39 +40,6 @@
       ]
     },
     {
-      "name": "overlay",
-      "type": "registry:lib",
-      "title": "Overlay",
-      "description": "The popover surface and its enter and exit motion, the stacking of the modal scrim, and a stable scrollbar gutter.",
-      "registryDependencies": ["tokens"],
-      "css": {
-        "@layer base": {
-          "html": {
-            "scrollbar-gutter": "stable"
-          }
-        }
-      },
-      "files": [
-        {
-          "path": "src/lib/overlay.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "name": "menu-styles",
-      "type": "registry:lib",
-      "title": "Menu",
-      "description": "Item, label, separator and shortcut styles shared by the dropdown menu, context menu and select.",
-      "dependencies": ["class-variance-authority", "@kappa-ui/core"],
-      "files": [
-        {
-          "path": "src/lib/menu.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
       "name": "tokens",
       "type": "registry:lib",
       "title": "Tokens",
@@ -676,7 +643,7 @@
       "title": "Popover",
       "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
       "dependencies": ["@kappa-ui/core"],
-      "registryDependencies": ["utils", "tokens", "overlay"],
+      "registryDependencies": ["utils", "tokens"],
       "files": [
         {
           "path": "src/ui/popover/Popover.vue",
@@ -755,8 +722,8 @@
       "type": "registry:ui",
       "title": "Menu",
       "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
-      "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
+      "registryDependencies": ["utils", "tokens", "popover"],
       "files": [
         {
           "path": "src/ui/menu/Menu.vue",
@@ -943,7 +910,7 @@
       "title": "Dialog",
       "description": "A modal window built from parts: a header, a body that scrolls, and a footer, opened from a template or from code, on Reka UI.",
       "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "button"],
+      "registryDependencies": ["utils", "tokens", "button"],
       "files": [
         {
           "path": "src/ui/dialog/Dialog.vue",
@@ -1001,7 +968,7 @@
       "title": "Context Menu",
       "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
       "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "registryDependencies": ["utils", "tokens", "popover", "menu"],
       "files": [
         {
           "path": "src/ui/context-menu/ContextMenu.vue",
@@ -1071,7 +1038,7 @@
       "title": "Dropdown Menu",
       "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
       "dependencies": ["@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "overlay", "menu-styles"],
+      "registryDependencies": ["utils", "tokens", "popover", "menu"],
       "files": [
         {
           "path": "src/ui/dropdown-menu/DropdownMenu.vue",
@@ -1211,7 +1178,7 @@
       "title": "Select",
       "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
       "dependencies": ["class-variance-authority", "@kappa-ui/core", "@lucide/vue"],
-      "registryDependencies": ["utils", "tokens", "field-context", "input", "overlay", "menu-styles"],
+      "registryDependencies": ["utils", "tokens", "field-context", "input", "popover", "menu"],
       "files": [
         {
           "path": "src/ui/select/Select.vue",

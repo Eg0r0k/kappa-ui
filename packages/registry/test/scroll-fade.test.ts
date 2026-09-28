@@ -5,11 +5,11 @@ import { userEvent } from "vitest/browser";
 import { defineComponent, h, withDirectives } from "vue";
 
 import ScrollAreaEdgeFade from "@/examples/scroll-area/ScrollAreaEdgeFade.vue";
-import { overlaySurface } from "@/lib/overlay";
 import { Card } from "@/ui/card";
 import { dialogSurface } from "@/ui/dialog";
 import { listboxVariants } from "@/ui/listbox";
 import { ScrollArea } from "@/ui/scroll-area";
+import { overlaySurface } from "@/ui/popover";
 
 afterEach(() => {
   document.body.innerHTML = "";

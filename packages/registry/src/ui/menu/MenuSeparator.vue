@@ -2,8 +2,8 @@
 import { MenuSeparator, type MenuSeparatorProps } from "@kappa-ui/core/menu";
 import { type HTMLAttributes, computed } from "vue";
 
-import { menuSeparator } from "@/lib/menu";
 import { cn } from "@/lib/utils";
+import { menuSeparator } from ".";
 
 const props = defineProps<MenuSeparatorProps & { class?: HTMLAttributes["class"] }>();
 
