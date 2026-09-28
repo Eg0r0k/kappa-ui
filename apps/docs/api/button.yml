@@ -6,7 +6,6 @@ props:
     default: '"solid"'
   color:
     description: Colour role the variant is drawn in. `neutral` uses the page's own foreground.
-    default: '"primary"'
   size:
     description: Height, padding and text size. The `icon` sizes are square and match the text sizes' heights.
     default: '"default"'
