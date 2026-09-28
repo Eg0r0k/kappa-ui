@@ -16,7 +16,7 @@ export { default as ToastRow } from "./ToastRow.vue";
 export { default as ToastTitle } from "./ToastTitle.vue";
 export { default as Toaster } from "./Toaster.vue";
 
-export type ToastColor = "primary" | "neutral" | "destructive" | "success" | "warning";
+export type ToastColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
 export type ToastPosition = "top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end";
 
@@ -46,6 +46,7 @@ export const toastIcons: Record<ToastColor, Component | undefined> = {
   destructive: CircleX,
   success: CircleCheck,
   warning: TriangleAlert,
+  info: Info,
 };
 
 export const toastAccents: Record<ToastColor, string> = {
@@ -54,6 +55,7 @@ export const toastAccents: Record<ToastColor, string> = {
   destructive: "text-destructive",
   success: "text-success-text",
   warning: "text-warning-text",
+  info: "text-info-text",
 };
 
 export const createToaster = (): Toasts =>

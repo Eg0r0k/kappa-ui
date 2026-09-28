@@ -55,6 +55,13 @@ describe("colour axis", () => {
     expect(colours).toEqual(["rgb(255, 0, 0)", "rgb(0, 128, 0)"]);
   });
 
+  it("draws info from the info tokens", () => {
+    const vars = { style: "--info: rgb(0, 0, 255); --info-foreground: rgb(1, 1, 1); --info-text: rgb(0, 0, 128)" };
+    const solid = getComputedStyle(render({ color: "info" }, vars));
+    expect([solid.backgroundColor, solid.color]).toEqual(["rgb(0, 0, 255)", "rgb(1, 1, 1)"]);
+    expect(getComputedStyle(render({ variant: "soft", color: "info" }, vars)).color).toBe("rgb(0, 0, 128)");
+  });
+
   it("keeps neutral's full-strength edge and foreground text", () => {
     const vars = {
       style: "--input: rgb(0, 128, 0); --foreground: rgb(10, 10, 10); --secondary-foreground: rgb(90, 90, 90)",

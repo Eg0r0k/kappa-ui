@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Button } from "./Button.vue";
 
-export type ButtonColor = "primary" | "neutral" | "destructive" | "success" | "warning";
+export type ButtonColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
 export const buttonVariants = cva(
   "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none forced-colors:border disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",

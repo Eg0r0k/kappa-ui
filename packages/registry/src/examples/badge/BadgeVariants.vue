@@ -2,7 +2,7 @@
 import { Badge } from "@/ui/badge";
 
 const variants = ["solid", "soft", "subtle", "outline", "ghost", "link"] as const;
-const colors = ["primary", "neutral", "destructive", "success", "warning"] as const;
+const colors = ["primary", "neutral", "destructive", "success", "warning", "info"] as const;
 </script>
 
 <template>

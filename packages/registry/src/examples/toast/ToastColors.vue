@@ -9,6 +9,7 @@ const messages: { color: ToastColor; title: string; description: string }[] = [
   { color: "primary", title: "Update available", description: "Version 2.4 is ready to install." },
   { color: "success", title: "Payment received", description: "We emailed you the receipt." },
   { color: "warning", title: "Storage almost full", description: "You have used 92% of 15 GB." },
+  { color: "info", title: "New sign-in", description: "Someone signed in from Firefox on Windows." },
   { color: "destructive", title: "Could not send", description: "Check your connection and try again." },
 ];
 </script>

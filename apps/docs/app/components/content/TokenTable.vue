@@ -11,6 +11,8 @@ const pairs = [
   { bg: 'success-text', fg: null, role: 'Success-coloured text, borders and tints on the page' },
   { bg: 'warning', fg: 'warning-foreground', role: 'Fill for actions and states that need care' },
   { bg: 'warning-text', fg: null, role: 'Warning-coloured text, borders and tints on the page' },
+  { bg: 'info', fg: 'info-foreground', role: 'Fill for notices and tips' },
+  { bg: 'info-text', fg: null, role: 'Info-coloured text, borders and tints on the page' },
   { bg: 'muted', fg: 'muted-foreground', role: 'Subdued surfaces and text' },
   { bg: 'accent', fg: 'accent-foreground', role: 'Highlighted surfaces; not read by any component' },
   { bg: 'card', fg: 'card-foreground', role: 'Card surface and text' },

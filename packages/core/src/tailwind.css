@@ -52,6 +52,14 @@
     --c-soft-fg: --theme(--color-warning-text);
     --c-edge: --theme(--color-warning-text);
   }
+
+  [data-slot][data-color="info"] {
+    --c: --theme(--color-info);
+    --c-fg: --theme(--color-info-foreground);
+    --c-soft: color-mix(in oklab, --theme(--color-info) 12%, transparent);
+    --c-soft-fg: --theme(--color-info-text);
+    --c-edge: --theme(--color-info-text);
+  }
 }
 
 @property --touch-w {
