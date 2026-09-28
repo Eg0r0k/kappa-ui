@@ -1,0 +1,51 @@
+component: HoverCardContent
+file: ui/hover-card/HoverCardContent.vue
+props:
+  forceMount:
+    description: "Keeps the card mounted while closed, for animating it with a JavaScript library."
+  memoDependencies:
+    description: "Values that should re-run the position update when they change."
+  side:
+    description: "The side of the trigger to open on. Flips to the other side when there is no room, unless `avoidCollisions` is off."
+  sideOffset:
+    description: "Distance in pixels from the trigger."
+  sideFlip:
+    description: "Flips to the opposite side when the preferred one would overflow."
+  align:
+    description: "Alignment against the trigger along the chosen side."
+  alignOffset:
+    description: "Offset in pixels from the `align` position."
+  alignFlip:
+    description: "Flips the alignment when it would overflow."
+  avoidCollisions:
+    description: "Keeps the card inside the collision boundary by flipping and shifting it."
+  collisionBoundary:
+    description: "The element or elements used as the collision boundary. The viewport by default."
+  collisionPadding:
+    description: "Distance in pixels from the boundary edges where collisions start."
+  arrowPadding:
+    description: "Padding between an arrow and the card's corners."
+  hideShiftedArrow:
+    description: "Hides an arrow when the card is shifted so far that the arrow would not point at the trigger."
+  sticky:
+    description: "`partial` keeps the card attached to the trigger while scrolling; `always` also lets it detach from the trigger to stay in the boundary."
+  hideWhenDetached:
+    description: "Hides the card when the trigger is scrolled out of view."
+  positionStrategy:
+    description: "The CSS position used to place the card."
+  updatePositionStrategy:
+    description: "`always` recomputes the position on every animation frame instead of only on layout changes."
+  disableUpdateOnLayoutShift:
+    description: "Stops recomputing the position when the layout shifts."
+  prioritizePosition:
+    description: "Keeps the preferred side and alignment and lets the card overflow instead of flipping."
+  reference:
+    description: "A virtual element to position against instead of the trigger."
+  dir:
+    description: "Reading direction. Mirrors the layout and arrow keys in `rtl`."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The card's content."

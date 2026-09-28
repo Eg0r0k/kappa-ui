@@ -1,0 +1,11 @@
+component: HoverCardTrigger
+file: ui/hover-card/HoverCardTrigger.vue
+props:
+  reference:
+    description: "A virtual element to position the card against instead of the trigger."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render. A link by default."
+slots:
+  default: "The link the card belongs to, or a `Button` with `as-child`."

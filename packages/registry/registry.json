@@ -1095,6 +1095,81 @@
       ]
     },
     {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "A card of content shown on hover or focus of a link, on the popover surface.",
+      "dependencies": [
+        "@kappa-ui/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "src/ui/hover-card/HoverCard.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/hover-card/HoverCardContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/hover-card/HoverCardTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/hover-card/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hover-card-demo",
+      "type": "registry:block",
+      "title": "Hover Card demo",
+      "description": "A profile card on a link, with an avatar and a join date.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "hover-card",
+        "button",
+        "image"
+      ],
+      "files": [
+        {
+          "path": "src/examples/hover-card/HoverCardDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "hover-card-delay",
+      "type": "registry:block",
+      "title": "Hover Card delay",
+      "description": "Three cards with different open and close delays.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "hover-card",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/hover-card/HoverCardDelay.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "image",
       "type": "registry:ui",
       "title": "Image",
