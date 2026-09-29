@@ -63,13 +63,34 @@ it("animates a delayed open, not an instant one, and cuts the exit when a siblin
   pointer("pointermove", trigger("a"));
   await expect.poll(() => content("a")?.dataset.state).toBe("delayed-open");
   expect(getComputedStyle(content("a")!).animationName).toBe("kappa-overlay-in");
+  await Promise.all(
+    content("a")!
+      .getAnimations()
+      .map((animation) => animation.finished),
+  );
+  const leaving = new Promise((resolve) => content("a")!.addEventListener("leave", resolve, { once: true }));
   pointer("pointerleave", trigger("a"));
+  await leaving;
   pointer("pointermove", trigger("b"));
   await nextTick();
   expect(content("a")?.dataset.instant).toBe("sibling");
   await expect.poll(() => content("b")?.dataset.state).toBe("instant-open");
   expect(getComputedStyle(content("b")!).animationName).toBe("none");
-  await expect.poll(() => content("a")).toBeNull();
+  await expect.poll(() => content("a"), { timeout: 60 }).toBeNull();
+});
+
+it("leaves no closing tooltip behind when a real pointer moves to the next trigger", async () => {
+  render(() => [tip("a"), tip("b")]);
+  await userEvent.hover(trigger("a"));
+  await expect.poll(() => content("a")?.dataset.state).toBe("delayed-open");
+  await Promise.all(
+    content("a")!
+      .getAnimations()
+      .map((animation) => animation.finished),
+  );
+  await userEvent.hover(trigger("b"));
+  await expect.poll(() => content("b")?.dataset.state).toBe("instant-open");
+  await expect.poll(() => content("a"), { timeout: 300 }).toBeNull();
 });
 
 it("draws a tooltip opened by touch larger", async () => {

@@ -360,8 +360,8 @@
     animation: kappa-overlay-out var(--transition-duration-short-2, 100ms)
       var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
   }
-  &[data-instant] {
-    animation: none;
+  &[data-state="closed"][data-instant] {
+    animation-duration: 0s;
   }
   @media (prefers-reduced-motion: reduce) {
     &,
