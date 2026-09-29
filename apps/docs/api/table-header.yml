@@ -1,0 +1,7 @@
+component: TableHeader
+file: ui/table/TableHeader.vue
+props:
+  sticky:
+    description: Sticks the header to the top of the nearest scroller, on an opaque background. Needs `overflow="visible"` on the table, or the container is the scroller.
+slots:
+  default: Header rows.

@@ -1,0 +1,13 @@
+component: TableCell
+file: ui/table/TableCell.vue
+props:
+  align:
+    description: Text alignment, `start`, `center` or `end`.
+  pinned:
+    description: Sticks the cell to the `start` or `end` edge while the table scrolls sideways, on an opaque background that follows the row. The offset from the edge is `--pin-start` or `--pin-end`, 0 by default; set it in `style` for the second pinned column.
+  pinnedEdge:
+    description: Draws the shadow strip on the cell's outer edge. Give it to the last pinned column on each side. It shows only inside a `ScrollArea`, while the area can scroll under it.
+  truncate:
+    description: Cuts the content with an ellipsis instead of growing the column.
+slots:
+  default: The cell's content.

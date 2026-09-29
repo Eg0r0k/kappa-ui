@@ -1,0 +1,4 @@
+component: TableBody
+file: ui/table/TableBody.vue
+slots:
+  default: Rows. Several bodies are fine; the last row of the last body has no bottom border.

@@ -1,0 +1,7 @@
+component: TableFooter
+file: ui/table/TableFooter.vue
+props:
+  sticky:
+    description: Sticks the footer to the bottom of the nearest scroller, on an opaque background.
+slots:
+  default: Footer rows, on a muted tint with a top border.

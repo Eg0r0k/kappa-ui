@@ -1,0 +1,7 @@
+component: TableEmpty
+file: ui/table/TableEmpty.vue
+props:
+  colspan:
+    description: The number of columns, so the message spans the row.
+slots:
+  default: The message.

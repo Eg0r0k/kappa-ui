@@ -1,0 +1,11 @@
+component: Table
+file: ui/table/Table.vue
+props:
+  overflow:
+    description: "`x` wraps the table in a container that scrolls sideways, as shadcn does; a sticky header then sticks to that container, which never scrolls vertically. `visible` clips nothing, so a sticky header sticks to the nearest scroller: the page, or a `ScrollArea` around the table."
+  density:
+    description: Row height, as `--table-row-h` on the table. `sm` is 2.25rem, `md` 2.75rem, `lg` 3.25rem. Content that wraps still grows a row.
+  striped:
+    description: Tints every even body row. A `TableRow` with `parity` set is tinted by that instead of its position.
+slots:
+  default: Caption, header, bodies and footer.

@@ -1,0 +1,7 @@
+component: TableCaption
+file: ui/table/TableCaption.vue
+props:
+  visible:
+    description: Shows the caption under the table. By default it is read by assistive technology only.
+slots:
+  default: The caption.

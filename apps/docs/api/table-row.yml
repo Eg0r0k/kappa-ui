@@ -1,0 +1,11 @@
+component: TableRow
+file: ui/table/TableRow.vue
+props:
+  selected:
+    description: Tints the row with the primary colour, as `data-state="selected"`.
+  clickable:
+    description: Marks the row as a target with a pointer cursor, `data-clickable` and `tabindex="0"`. Handle `click` and the Enter and Space keys yourself; the row keeps no role.
+  parity:
+    description: Sets `data-parity`, for stripes that do not follow the row's position, as in a virtualized list.
+slots:
+  default: Cells.
