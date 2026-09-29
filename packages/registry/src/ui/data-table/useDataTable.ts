@@ -75,6 +75,8 @@ export type UseDataTableOptions<T extends RowData> = {
 export type UseDataTableReturn<T extends RowData> = {
   table: DataTableInstance<T>;
   rows: ComputedRef<DataTableRow<T>[]>;
+  topRows: ComputedRef<DataTableRow<T>[]>;
+  bottomRows: ComputedRef<DataTableRow<T>[]>;
   filtered: ComputedRef<boolean>;
   selection: ComputedRef<ReturnType<typeof resolveSelection>>;
   expanding: ComputedRef<ReturnType<typeof resolveExpanding>>;
@@ -211,6 +213,8 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     paginateExpandedRows: computed(() => expanding.value.paginateExpandedRows),
     enableGrouping: computed(() => options.grouping?.() ?? false),
     groupedColumnMode: "reorder",
+    enableRowPinning: true,
+    keepPinnedRows: true,
     rowCount: rowCount.value,
     pageCount: pageCount.value,
     autoResetExpanded: tableOptions.value.autoResetExpanded ?? false,
@@ -270,8 +274,10 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
 
   const rows = computed(() => {
     checkMutation();
-    return table.getRowModel().rows;
+    return table.getCenterRows();
   });
+  const topRows = computed(() => table.getTopRows());
+  const bottomRows = computed(() => table.getBottomRows());
 
   const filtered = computed(
     () => slices.columnFilters.get().length > 0 || String(slices.globalFilter.get() ?? "").length > 0,
@@ -293,5 +299,5 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     });
   });
 
-  return { table, rows, filtered, selection, expanding };
+  return { table, rows, topRows, bottomRows, filtered, selection, expanding };
 };

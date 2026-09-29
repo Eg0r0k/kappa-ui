@@ -291,6 +291,135 @@ it("mirrors pinned columns under rtl", async () => {
   expect(near(cells[4]!.getBoundingClientRect().left, viewport.getBoundingClientRect().left)).toBe(true);
 });
 
+it("keeps pinned rows sticky under the header and above the footer, outside the virtualizer", async () => {
+  const t = render({ virtualize: true, sticky: true, rowPinning: { top: ["r5000"], bottom: ["r7000"] } });
+  await t.settle();
+  const top = () => document.querySelector<HTMLElement>("[data-slot=table-pinned-top]")!;
+  const bottom = () => document.querySelector<HTMLElement>("[data-slot=table-pinned-bottom]")!;
+  const firstCell = (el: HTMLElement) => el.querySelector("td")!.textContent;
+  expect(firstCell(top())).toBe("Row 5000");
+  expect(firstCell(bottom())).toBe("Row 7000");
+  expect(t.table().getAttribute("aria-rowcount")).toBe("10001");
+  expect(top().querySelector("tr")!.getAttribute("aria-rowindex")).toBe("2");
+  expect(t.groups()[0]!.querySelector("tr")!.getAttribute("aria-rowindex")).toBe("3");
+  expect(bottom().querySelector("tr")!.getAttribute("aria-rowindex")).toBe("10001");
+  t.api.value!.scrollToIndex(3000, { align: "start" });
+  await t.settle();
+  const box = t.viewport().getBoundingClientRect();
+  expect(near(top().getBoundingClientRect().top, t.thead().getBoundingClientRect().bottom)).toBe(true);
+  expect(near(bottom().getBoundingClientRect().bottom, box.bottom)).toBe(true);
+  const target = document.querySelector<HTMLElement>("[data-slot=table-row-group][data-index='3000']")!;
+  expect(near(target.getBoundingClientRect().top, top().getBoundingClientRect().bottom)).toBe(true);
+  expect(t.groups().some((group) => ["Row 5000", "Row 7000"].includes(firstCell(group)!))).toBe(false);
+  t.api.value!.scrollToIndex(9997, { align: "end" });
+  await t.settle();
+  const last = document.querySelector<HTMLElement>("[data-slot=table-row-group][data-index='9997']")!;
+  expect(near(last.getBoundingClientRect().bottom, bottom().getBoundingClientRect().top)).toBe(true);
+});
+
+it("keeps a pinned row while a filter removes it and after a sort", async () => {
+  const t = render({ data: make(30), sortable: true, rowPinning: { top: ["r5"], bottom: [] } });
+  await t.settle();
+  const top = () => document.querySelector<HTMLElement>("[data-slot=table-pinned-top]")!;
+  expect(t.groups()).toHaveLength(29);
+  t.extra.value = { globalFilter: "zzz" };
+  await t.settle();
+  expect(t.groups()).toHaveLength(0);
+  const empty = document.querySelector<HTMLElement>("[data-slot=table-empty]")!;
+  expect(top().querySelector("td")!.textContent).toBe("Row 5");
+  expect(empty.getBoundingClientRect().top).toBeGreaterThanOrEqual(top().getBoundingClientRect().bottom - 1);
+  t.extra.value = { globalFilter: "", sorting: [{ id: "a", desc: true }] };
+  await t.settle();
+  expect(top().querySelector("td")!.textContent).toBe("Row 5");
+  expect(t.groups()[0]!.querySelector("td")!.textContent).toBe("Row 29");
+  expect(t.groups().some((group) => group.querySelector("td")!.textContent === "Row 5")).toBe(false);
+});
+
+it("stacks a pinned row's pinned cell under the header corner", async () => {
+  const t = render({
+    data: make(200),
+    sticky: true,
+    columnPinning: { start: ["name"], end: [] },
+    rowPinning: { top: ["r5"], bottom: [] },
+  });
+  await t.settle();
+  const viewport = t.viewport();
+  viewport.scrollLeft = 200;
+  viewport.scrollTop = 2000;
+  await t.settle();
+  const box = viewport.getBoundingClientRect();
+  const cell = document.querySelector<HTMLElement>("[data-slot=table-pinned-top] td[data-pinned=start]")!;
+  const rect = cell.getBoundingClientRect();
+  expect(near(rect.left, box.left)).toBe(true);
+  expect(near(rect.top, t.thead().getBoundingClientRect().bottom)).toBe(true);
+  expect(cell.contains(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2))).toBe(true);
+  const corner = document.querySelector<HTMLElement>("thead th[data-pinned=start]")!;
+  const cornerRect = corner.getBoundingClientRect();
+  const hit = document.elementFromPoint(cornerRect.left + cornerRect.width / 2, cornerRect.bottom - 1);
+  expect(corner.contains(hit)).toBe(true);
+});
+
+it("loads more when the window nears the last row under virtualization, once per pending promise", async () => {
+  const calls: number[] = [];
+  let resolve: (() => void) | undefined;
+  const t = render({
+    data: make(200),
+    virtualize: true,
+    onLoadMore: ({ index }: { index: number }) => {
+      calls.push(index);
+      return new Promise<void>((done) => (resolve = done));
+    },
+  });
+  await t.settle();
+  await t.settle();
+  expect(calls).toEqual([]);
+  t.viewport().scrollTop = 200 * 44;
+  await vi.waitFor(() => expect(calls).toEqual([1]), { timeout: 1000 });
+  for (let index = 0; index < 20; index++) t.viewport().dispatchEvent(new Event("scroll"));
+  await t.settle();
+  await t.settle();
+  expect(calls).toEqual([1]);
+  expect(document.querySelector("[data-slot=table-loading-more][data-direction=bottom]")).not.toBeNull();
+  t.data.value = make(400);
+  await t.settle();
+  resolve!();
+  await t.settle();
+  await t.settle();
+  expect(calls).toEqual([1]);
+  expect(document.querySelector("[data-slot=table-loading-more]")).toBeNull();
+  t.viewport().scrollTop = 400 * 44;
+  await vi.waitFor(() => expect(calls).toEqual([1, 2]), { timeout: 1000 });
+});
+
+it("keeps the reading position when rows are prepended at the top under virtualization", async () => {
+  const calls: number[] = [];
+  const t = render({
+    data: make(200),
+    virtualize: true,
+    loadMore: { direction: "top" },
+    onLoadMore: async ({ index }: { index: number }) => {
+      calls.push(index);
+      await Promise.resolve();
+      t.data.value = [...make(50, 1000 * index), ...t.data.value];
+    },
+  });
+  await vi.waitFor(() => expect(t.data.value).toHaveLength(250), { timeout: 1000 });
+  await t.settle();
+  await t.settle();
+  expect(calls).toEqual([1]);
+  const theadH = t.thead().getBoundingClientRect().height;
+  const kept = document.querySelector<HTMLElement>("[data-slot=table-row-group][data-index='50']")!;
+  expect(kept.querySelector("td")!.textContent).toBe("Row 0");
+  expect(near(kept.getBoundingClientRect().top, t.viewport().getBoundingClientRect().top + theadH, 2)).toBe(true);
+  t.viewport().scrollTop = 0;
+  await vi.waitFor(() => expect(t.data.value).toHaveLength(300), { timeout: 1000 });
+  await t.settle();
+  await t.settle();
+  const again = document.querySelector<HTMLElement>("[data-slot=table-row-group][data-index='50']")!;
+  expect(again.querySelector("td")!.textContent).toBe("Row 1000");
+  expect(near(again.getBoundingClientRect().top, t.viewport().getBoundingClientRect().top + theadH, 2)).toBe(true);
+});
+
 it("renders a deterministic window on the server", async () => {
   const html = await renderToString(
     createSSRApp({

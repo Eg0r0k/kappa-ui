@@ -391,6 +391,33 @@ it("checks at most once per debounce window", async () => {
   await vi.waitFor(() => expect(calls).toHaveLength(1), { timeout: 500 });
 });
 
+it("falls back to the pixel check when shouldLoad returns undefined", async () => {
+  const calls: Call[] = [];
+  const rootRef = shallowRef<HTMLElement | null>(null);
+  const Harness = defineComponent({
+    setup() {
+      useInfiniteScroll({
+        anchor: rootRef,
+        debounce: 0,
+        offset: 50,
+        shouldLoad: () => undefined,
+        onLoad: async (context) => void calls.push(context),
+      });
+      return () => h("div", { ref: rootRef, style: "height: 2000px" });
+    },
+  });
+  mount(
+    { render: () => h("div", { "data-testid": "scroller", style: "height: 200px; overflow: auto" }, [h(Harness)]) },
+    { attachTo: document.body },
+  );
+  const scroller = document.querySelector<HTMLElement>("[data-testid=scroller]")!;
+  await settle();
+  expect(calls).toEqual([]);
+  scroller.scrollTop = 1800;
+  scroller.dispatchEvent(new Event("scroll"));
+  await vi.waitFor(() => expect(calls).toEqual([{ direction: "bottom", index: 1 }]));
+});
+
 it("replaces the pixel check with shouldLoad", async () => {
   let allow = false;
   const calls: Call[] = [];

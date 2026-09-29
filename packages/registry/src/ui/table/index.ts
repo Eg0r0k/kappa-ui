@@ -29,13 +29,14 @@ export const tableStyles = {
     "w-full caption-bottom border-separate border-spacing-0 text-body-md data-[layout=fixed]:table-fixed [--table-row-bg:transparent] [--table-row-h:2.75rem] [--table-hover-bg:color-mix(in_oklab,var(--color-foreground)_var(--state-hover),transparent)] [--table-selected-bg:color-mix(in_oklab,var(--color-primary)_var(--state-selected),transparent)] [--table-stripe-bg:color-mix(in_oklab,var(--color-muted)_50%,transparent)] data-[density=sm]:[--table-row-h:2.25rem] data-[density=lg]:[--table-row-h:3.25rem] data-striped:[&_tbody:not([data-parity])>tr:nth-child(even):not([data-parity]):not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tr[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tbody[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)]",
   header: "data-sticky:sticky data-sticky:top-0 data-sticky:z-2 data-sticky:bg-background",
   body: "",
+  pinnedRows: "sticky isolate z-2 bg-background",
   rowGroup:
     "not-data-[state=selected]:hover:[--table-row-bg:var(--table-hover-bg)] data-[state=selected]:[--table-row-bg:var(--table-selected-bg)]",
   footer:
     "font-medium [--table-row-bg:var(--table-stripe-bg)] data-sticky:sticky data-sticky:bottom-0 data-sticky:z-2 data-sticky:bg-background [&_td]:border-t [&_td]:border-b-0",
   row: "h-(--table-row-h) outline-none [tbody:not([data-state=selected])>&:not([data-state=selected])]:hover:[--table-row-bg:var(--table-hover-bg)] data-[state=selected]:[--table-row-bg:var(--table-selected-bg)] data-clickable:cursor-pointer focus-visible:focus-ring-inset",
   head: `${cellBase} h-(--table-row-h) border-b border-border text-start font-medium text-foreground`,
-  cell: `${cellBase} border-b border-border py-2 [tbody:last-of-type>tr:last-child>&]:border-b-0 data-truncate:max-w-0 data-truncate:truncate`,
+  cell: `${cellBase} border-b border-border py-2 [tbody:last-of-type>tr:last-child>&]:border-b-0 [tbody:has(+[data-slot=table-pinned-bottom])>tr:last-child>&]:border-b-0 data-truncate:max-w-0 data-truncate:truncate`,
   pinned:
     "sticky z-1 bg-background bg-[linear-gradient(var(--table-row-bg),var(--table-row-bg))] data-[pinned=start]:start-(--pin-start,0px) data-[pinned=end]:end-(--pin-end,0px)",
   pinnedEdge:

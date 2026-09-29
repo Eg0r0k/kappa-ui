@@ -21,6 +21,9 @@ import type {
   DataTableColumn,
   DataTableExpandingProp,
   DataTableFeatures,
+  DataTableHasMore,
+  DataTableLoadMore,
+  DataTableLoadMoreFn,
   DataTableManual,
   DataTablePaginationProp,
   DataTableRow,
@@ -60,6 +63,9 @@ export type DataTableProps<T extends RowData> = {
   loadingRows?: number;
   empty?: string;
   noResults?: string;
+  onLoadMore?: DataTableLoadMoreFn;
+  hasMore?: DataTableHasMore;
+  loadMore?: DataTableLoadMore;
   onRowClick?: DataTableRowEvent<T>;
   onRowContextmenu?: DataTableRowEvent<T>;
   onRowHover?: (event: MouseEvent, row: DataTableRow<T> | null) => void;
@@ -75,12 +81,14 @@ import { computed, nextTick, onBeforeUnmount, onMounted, type Ref, ref, shallowR
 
 import { cn } from "@/lib/utils";
 import { Progress } from "@/ui/progress";
-import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
+import { type InfiniteScrollTarget, ScrollArea, type ScrollAreaApi, useInfiniteScroll } from "@/ui/scroll-area";
 import { Skeleton } from "@/ui/skeleton";
+import { Spinner } from "@/ui/spinner";
 import { tableStyles } from "@/ui/table";
 import {
   type DataTableExpose,
   type DataTableInstance,
+  type DataTableLoadDirection,
   type DataTableSelectAll,
   type DataTableSelectionSource,
   dataTableRowHeights,
@@ -109,6 +117,7 @@ const props = withDefaults(defineProps<DataTableProps<T>>(), {
   loading: false,
   empty: "No data",
   noResults: "No results",
+  hasMore: true,
 });
 
 const emit = defineEmits<{
@@ -147,6 +156,8 @@ const slots = defineSlots<
     empty?: () => unknown;
     noResults?: () => unknown;
     expanded?: (scope: { row: DataTableRow<T> }) => unknown;
+    loadingMore?: (scope: { direction: DataTableLoadDirection }) => unknown;
+    endOfData?: (scope: { direction: DataTableLoadDirection }) => unknown;
     "select-all-banner"?: (scope: {
       pageCount: number;
       totalCount: number;
@@ -158,7 +169,7 @@ const slots = defineSlots<
     Record<`header-${string}` | `footer-${string}`, (context: HeaderContext<DataTableFeatures, T, unknown>) => unknown>
 >();
 
-const { table, rows, filtered, selection, expanding } = useDataTable<T>({
+const { table, rows, topRows, bottomRows, filtered, selection, expanding } = useDataTable<T>({
   data: () => props.data,
   columns: () => props.columns,
   getRowId: props.getRowId,
@@ -211,11 +222,12 @@ const selectAll = useSelectAll<T>({
 });
 provideDataTableContext({ selectAll });
 
-watch([sorting, columnFilters, globalFilter], () => selectAll.onOrderChanged());
-
 const tableRef = shallowRef<HTMLTableElement | null>(null);
 const theadRef = shallowRef<HTMLElement | null>(null);
 const tfootRef = shallowRef<HTMLElement | null>(null);
+const pinnedTopRef = shallowRef<HTMLElement | null>(null);
+const pinnedBottomRef = shallowRef<HTMLElement | null>(null);
+const loadingTopRef = shallowRef<HTMLElement | null>(null);
 const scrollerRef = shallowRef<ScrollAreaApi | HTMLElement | null>(null);
 
 const scrollTarget = () => {
@@ -265,20 +277,28 @@ const stickyFooter = computed(() => props.sticky === true || props.sticky === "f
 
 const theadHeight = ref(0);
 const tfootHeight = ref(0);
+const pinnedTopHeight = ref(0);
+const pinnedBottomHeight = ref(0);
+const loadingTopHeight = ref(0);
 let observer: ResizeObserver | null = null;
 
+const heightOf = (el: HTMLElement | null) => el?.getBoundingClientRect().height ?? 0;
+const measureParts = () => {
+  theadHeight.value = heightOf(theadRef.value);
+  tfootHeight.value = heightOf(tfootRef.value);
+  pinnedTopHeight.value = heightOf(pinnedTopRef.value);
+  pinnedBottomHeight.value = heightOf(pinnedBottomRef.value);
+  loadingTopHeight.value = heightOf(loadingTopRef.value);
+};
+
 onMounted(() => {
-  observer = new ResizeObserver(() => {
-    theadHeight.value = theadRef.value?.getBoundingClientRect().height ?? 0;
-    tfootHeight.value = tfootRef.value?.getBoundingClientRect().height ?? 0;
-  });
+  observer = new ResizeObserver(measureParts);
   watch(
-    [theadRef, tfootRef],
-    ([thead, tfoot]) => {
+    [theadRef, tfootRef, pinnedTopRef, pinnedBottomRef, loadingTopRef],
+    (parts) => {
       observer?.disconnect();
-      if (thead) observer?.observe(thead);
-      if (tfoot) observer?.observe(tfoot);
-      tfootHeight.value = tfoot?.getBoundingClientRect().height ?? 0;
+      for (const part of parts) if (part) observer?.observe(part);
+      measureParts();
     },
     { immediate: true },
   );
@@ -295,9 +315,11 @@ const virtual = useRowVirtualizer({
   estimateSize: computed(() => virtualOptions.value.estimateSize ?? (() => rowHeight.value)),
   overscan: computed(() => virtualOptions.value.overscan),
   measure,
-  scrollMargin: computed(() => virtualOptions.value.scrollMargin + theadHeight.value),
-  scrollPaddingStart: computed(() => (stickyHeader.value ? theadHeight.value : 0)),
-  scrollPaddingEnd: computed(() => (stickyFooter.value ? tfootHeight.value : 0)),
+  scrollMargin: computed(
+    () => virtualOptions.value.scrollMargin + theadHeight.value + pinnedTopHeight.value + loadingTopHeight.value,
+  ),
+  scrollPaddingStart: computed(() => (stickyHeader.value ? theadHeight.value : 0) + pinnedTopHeight.value),
+  scrollPaddingEnd: computed(() => (stickyFooter.value ? tfootHeight.value : 0) + pinnedBottomHeight.value),
   keepIndex: focusedIndex,
   initialRect: heightPx.value === undefined ? undefined : { width: 0, height: heightPx.value },
 });
@@ -312,6 +334,89 @@ watch(
   },
   { immediate: true },
 );
+
+const loadMore = computed(() => ({
+  direction: props.loadMore?.direction ?? "bottom",
+  threshold: props.loadMore?.threshold,
+  initialFill: props.loadMore?.initialFill ?? true,
+}));
+const loadDirections = computed<DataTableLoadDirection[]>(() =>
+  loadMore.value.direction === "both" ? ["top", "bottom"] : [loadMore.value.direction],
+);
+
+const findScroller = (): InfiniteScrollTarget | null => {
+  const explicit = virtualOptions.value.getScrollElement?.() ?? scrollTarget();
+  if (explicit !== null) return explicit;
+  for (
+    let node = tableRef.value?.parentElement ?? null;
+    node !== null && node !== document.body;
+    node = node.parentElement
+  ) {
+    if (/(auto|scroll|overlay)/.test(getComputedStyle(node).overflowY)) return node;
+  }
+  return typeof window === "undefined" ? null : window;
+};
+
+const infinite = useInfiniteScroll({
+  target: findScroller,
+  directions: loadDirections,
+  offset: () => loadMore.value.threshold ?? 200,
+  initialFill: () => loadMore.value.initialFill,
+  disabled: () => props.onLoadMore === undefined,
+  shouldLoad: (direction) => {
+    if (!virtualEnabled.value) return undefined;
+    const virtualizer = virtual.virtualizer.value;
+    const el = virtualOptions.value.getScrollElement?.() ?? scrollTarget();
+    if (virtualizer === null || el === null) return undefined;
+    const threshold = loadMore.value.threshold ?? virtualOptions.value.overscan;
+    if (direction === "bottom") {
+      const last = virtualizer.getVirtualItemForOffset(el.scrollTop + el.clientHeight)?.index ?? -1;
+      return last >= rows.value.length - 1 - threshold;
+    }
+    const first = virtualizer.getVirtualItemForOffset(el.scrollTop)?.index ?? Number.POSITIVE_INFINITY;
+    return first <= threshold;
+  },
+  onLoad: (context) =>
+    props.onLoadMore!({ direction: context.direction as DataTableLoadDirection, index: context.index }),
+});
+
+const hasMore = (direction: DataTableLoadDirection) => {
+  const value = props.hasMore;
+  return (typeof value === "object" ? value[direction] : value) ?? true;
+};
+watch(
+  () => loadDirections.value.map((direction) => [direction, hasMore(direction)] as const),
+  (entries) => {
+    for (const [direction, more] of entries) {
+      if (more) infinite.resume(direction);
+      else infinite.stop(direction);
+    }
+  },
+  { immediate: true },
+);
+watch(
+  () => props.onLoadMore !== undefined && manualFlags.value.pagination,
+  (both) => {
+    if (both) warnOnce("infinite-manual", "onLoadMore and manual pagination both page the data; use one of them.");
+  },
+  { immediate: true },
+);
+
+watch([sorting, columnFilters, globalFilter], () => {
+  selectAll.onOrderChanged();
+  if (manualFlags.value.sorting || manualFlags.value.filtering) infinite.reset();
+});
+watch(
+  () => rows.value.length,
+  () => {
+    if (loadMore.value.initialFill) infinite.poll();
+  },
+  { flush: "post" },
+);
+
+const loadState = (direction: DataTableLoadDirection) => infinite.state.value[direction];
+const showEnd = (direction: DataTableLoadDirection) =>
+  slots.endOfData !== undefined && loadDirections.value.includes(direction) && loadState(direction).stopped;
 
 const {
   layout: layoutMode,
@@ -334,7 +439,10 @@ const footerGroups = computed(() =>
     .filter((group) => group.headers.some((header) => header.column.columnDef.footer !== undefined)),
 );
 const headerRowCount = computed(() => headerGroups.value.length + (props.loading ? 1 : 0));
-const ariaRowCount = computed(() => headerRowCount.value + rows.value.length + footerGroups.value.length);
+const centerOffset = computed(() => headerRowCount.value + topRows.value.length);
+const bottomOffset = computed(() => centerOffset.value + rows.value.length);
+const footerOffset = computed(() => bottomOffset.value + bottomRows.value.length);
+const ariaRowCount = computed(() => footerOffset.value + footerGroups.value.length);
 
 const segments = computed(() =>
   virtual.segments.value.map((segment) =>
@@ -367,15 +475,19 @@ const headStyle = (header: Header<DataTableFeatures, T, unknown>) => {
   const own = typeof info?.thStyle === "function" ? info.thStyle(header.getContext()) : info?.thStyle;
   return [info?.pinStyle, own];
 };
-const cellClass = (cell: Cell<DataTableFeatures, T, unknown>) => {
-  const info = infoOf(cell.column.id);
-  if (info === undefined) return cn(tableStyles.cell, props.ui?.td);
-  return info.tdClassFn === undefined ? info.tdClass : cn(info.tdClass, info.tdClassFn(cell.getContext()));
-};
-const cellStyle = (cell: Cell<DataTableFeatures, T, unknown>) => {
+const cellAttrs = (cell: Cell<DataTableFeatures, T, unknown>) => {
   const info = infoOf(cell.column.id);
   const own = typeof info?.tdStyle === "function" ? info.tdStyle(cell.getContext()) : info?.tdStyle;
-  return [info?.pinStyle, own];
+  const base = info === undefined ? cn(tableStyles.cell, props.ui?.td) : info.tdClass;
+  return {
+    "data-slot": "table-cell",
+    "data-pinned": info?.pinned || undefined,
+    "data-pinned-edge": info?.edge ? "" : undefined,
+    "data-align": info?.align,
+    "data-truncate": info?.truncate ? "" : undefined,
+    style: [info?.pinStyle, own],
+    class: info?.tdClassFn === undefined ? base : cn(base, info.tdClassFn(cell.getContext())),
+  };
 };
 
 const interactive = "a, button, input, label, select, textarea, [role=checkbox], [role=button], [data-row-ignore]";
@@ -392,13 +504,25 @@ const onRowKeydown = (event: KeyboardEvent, row: DataTableRow<T>) => {
   event.preventDefault();
   props.onRowClick(event, row);
 };
-const onRowContextmenu = (event: MouseEvent, row: DataTableRow<T>) => props.onRowContextmenu?.(event, row);
-const onRowEnter = (event: MouseEvent, row: DataTableRow<T>) => props.onRowHover?.(event, row);
-const onRowLeave = (event: MouseEvent) => props.onRowHover?.(event, null);
+
+const rowAttrs = (row: DataTableRow<T>, ariaIndex: number, pinned = false) => ({
+  "data-slot": row.getIsGrouped() ? "table-group" : "table-row",
+  "aria-rowindex": ariaIndex,
+  "data-state": pinned && selectAll.isSelected(row) ? "selected" : undefined,
+  "data-clickable": props.onRowClick ? "" : undefined,
+  tabindex: props.onRowClick ? 0 : undefined,
+  class: cn(tableStyles.row, props.ui?.tr),
+  onClick: (event: MouseEvent) => onRowClick(event, row),
+  onKeydown: (event: KeyboardEvent) => onRowKeydown(event, row),
+  onContextmenu: (event: MouseEvent) => props.onRowContextmenu?.(event, row),
+  onMouseenter: (event: MouseEvent) => props.onRowHover?.(event, row),
+  onMouseleave: (event: MouseEvent) => props.onRowHover?.(event, null),
+});
 
 const onFocusin = (event: FocusEvent) => {
   const group = (event.target as Element).closest<HTMLElement>("[data-slot=table-row-group]");
-  focusedIndex.value = group === null ? null : Number(group.dataset.index);
+  const index = group?.dataset.index;
+  focusedIndex.value = index === undefined ? null : Number(index);
 };
 const onFocusout = (event: FocusEvent) => {
   if (!(event.relatedTarget instanceof Node) || !tableRef.value?.contains(event.relatedTarget)) {
@@ -445,7 +569,7 @@ const scrollerAttrs = computed(() =>
         orientation: "both" as const,
         style: heightStyle.value,
         class: cn(
-          "rounded-[inherit] [&>[data-slot=scroll-area-viewport]]:scroll-pt-(--table-thead-h) [&>[data-slot=scroll-area-viewport]]:scroll-pb-(--table-tfoot-h)",
+          "rounded-[inherit] [&>[data-slot=scroll-area-viewport]]:scroll-pt-[calc(var(--table-thead-h)+var(--table-pinned-top-h))] [&>[data-slot=scroll-area-viewport]]:scroll-pb-[calc(var(--table-tfoot-h)+var(--table-pinned-bottom-h))]",
           props.ui?.scroll,
         ),
       }
@@ -463,7 +587,12 @@ const scrollerAttrs = computed(() =>
     :data-density="props.density"
     :data-loading="props.loading ? '' : undefined"
     :class="cn('flex flex-col gap-3', props.ui?.root, props.class)"
-    :style="{ '--table-thead-h': `${theadHeight}px`, '--table-tfoot-h': `${tfootHeight}px` }"
+    :style="{
+      '--table-thead-h': `${theadHeight}px`,
+      '--table-tfoot-h': `${tfootHeight}px`,
+      '--table-pinned-top-h': `${pinnedTopHeight}px`,
+      '--table-pinned-bottom-h': `${pinnedBottomHeight}px`,
+    }"
   >
     <slot name="toolbar" :table="table" />
     <slot
@@ -552,6 +681,49 @@ const scrollerAttrs = computed(() =>
             </th>
           </tr>
         </thead>
+        <tbody
+          v-if="topRows.length > 0"
+          ref="pinnedTopRef"
+          data-slot="table-pinned-top"
+          :class="cn(tableStyles.pinnedRows, stickyHeader ? 'top-(--table-thead-h)' : 'top-0', props.ui?.pinned)"
+        >
+          <tr v-for="(row, index) in topRows" :key="row.id" v-bind="rowAttrs(row, headerRowCount + index + 1, true)">
+            <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
+              <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
+                <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                  <FlexRender :cell="cell" />
+                </slot>
+              </DataTableGroupCell>
+              <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                <FlexRender :cell="cell" />
+              </slot>
+            </td>
+            <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
+          </tr>
+        </tbody>
+        <tbody v-if="showEnd('top')" data-slot="table-end-of-data" data-direction="top" :class="props.ui?.endOfData">
+          <tr>
+            <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal')">
+              <slot name="endOfData" direction="top" />
+            </td>
+          </tr>
+        </tbody>
+        <tbody
+          v-if="loadState('top').loading"
+          ref="loadingTopRef"
+          data-slot="table-loading-more"
+          data-direction="top"
+          aria-hidden="true"
+          :class="props.ui?.loadingMore"
+        >
+          <tr>
+            <td :colspan="columnCount" :class="tableStyles.cell">
+              <slot name="loadingMore" direction="top">
+                <span class="flex justify-center p-2 text-muted-foreground"><Spinner class="size-5" /></span>
+              </slot>
+            </td>
+          </tr>
+        </tbody>
         <template v-for="segment in segments" :key="segment.key">
           <tbody v-if="segment.type === 'gap'" data-slot="table-spacer" aria-hidden="true" :class="props.ui?.spacer">
             <tr :style="{ height: `${segment.size}px` }">
@@ -568,29 +740,8 @@ const scrollerAttrs = computed(() =>
             :data-expanded="segment.row.getIsExpanded() ? '' : undefined"
             :class="cn(tableStyles.rowGroup, props.ui?.tbody)"
           >
-            <tr
-              :data-slot="segment.row.getIsGrouped() ? 'table-group' : 'table-row'"
-              :aria-rowindex="headerRowCount + segment.index + 1"
-              :data-clickable="props.onRowClick ? '' : undefined"
-              :tabindex="props.onRowClick ? 0 : undefined"
-              :class="cn(tableStyles.row, props.ui?.tr)"
-              @click="onRowClick($event, segment.row)"
-              @keydown="onRowKeydown($event, segment.row)"
-              @contextmenu="onRowContextmenu($event, segment.row)"
-              @mouseenter="onRowEnter($event, segment.row)"
-              @mouseleave="onRowLeave"
-            >
-              <td
-                v-for="cell in segment.row.getVisibleCells()"
-                :key="cell.id"
-                data-slot="table-cell"
-                :data-pinned="infoOf(cell.column.id)?.pinned || undefined"
-                :data-pinned-edge="infoOf(cell.column.id)?.edge ? '' : undefined"
-                :data-align="infoOf(cell.column.id)?.align"
-                :data-truncate="infoOf(cell.column.id)?.truncate ? '' : undefined"
-                :style="cellStyle(cell)"
-                :class="cellClass(cell)"
-              >
+            <tr v-bind="rowAttrs(segment.row, centerOffset + segment.index + 1)">
+              <td v-for="cell in segment.row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
                 <DataTableGroupCell v-if="cell.getIsGrouped()" :row="segment.row">
                   <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
                     <FlexRender :cell="cell" />
@@ -612,6 +763,60 @@ const scrollerAttrs = computed(() =>
             </tr>
           </tbody>
         </template>
+        <tbody
+          v-if="loadState('bottom').loading"
+          data-slot="table-loading-more"
+          data-direction="bottom"
+          aria-hidden="true"
+          :class="props.ui?.loadingMore"
+        >
+          <tr>
+            <td :colspan="columnCount" :class="tableStyles.cell">
+              <slot name="loadingMore" direction="bottom">
+                <span class="flex justify-center p-2 text-muted-foreground"><Spinner class="size-5" /></span>
+              </slot>
+            </td>
+          </tr>
+        </tbody>
+        <tbody
+          v-if="showEnd('bottom')"
+          data-slot="table-end-of-data"
+          data-direction="bottom"
+          :class="props.ui?.endOfData"
+        >
+          <tr>
+            <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal')">
+              <slot name="endOfData" direction="bottom" />
+            </td>
+          </tr>
+        </tbody>
+        <tbody
+          v-if="bottomRows.length > 0"
+          ref="pinnedBottomRef"
+          data-slot="table-pinned-bottom"
+          :class="
+            cn(
+              tableStyles.pinnedRows,
+              '[&_td]:border-t',
+              stickyFooter ? 'bottom-(--table-tfoot-h)' : 'bottom-0',
+              props.ui?.pinned,
+            )
+          "
+        >
+          <tr v-for="(row, index) in bottomRows" :key="row.id" v-bind="rowAttrs(row, bottomOffset + index + 1, true)">
+            <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
+              <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
+                <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                  <FlexRender :cell="cell" />
+                </slot>
+              </DataTableGroupCell>
+              <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                <FlexRender :cell="cell" />
+              </slot>
+            </td>
+            <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
+          </tr>
+        </tbody>
         <tbody v-if="skeletonRows > 0" data-slot="table-skeleton" aria-hidden="true" :class="props.ui?.skeleton">
           <tr v-for="index in skeletonRows" :key="index" data-slot="table-row" :class="tableStyles.row">
             <td v-for="info in infos" :key="info.id" :class="info.tdClass">
@@ -641,7 +846,7 @@ const scrollerAttrs = computed(() =>
             v-for="(group, groupIndex) in footerGroups"
             :key="group.id"
             data-slot="table-row"
-            :aria-rowindex="headerRowCount + rows.length + groupIndex + 1"
+            :aria-rowindex="footerOffset + groupIndex + 1"
             :class="cn(tableStyles.row, props.ui?.tr)"
           >
             <template v-for="header in group.headers" :key="header.id">

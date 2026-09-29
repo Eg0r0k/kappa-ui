@@ -171,7 +171,10 @@ export type DataTableSlot =
   | "skeleton"
   | "pagination"
   | "banner"
-  | "expanded";
+  | "expanded"
+  | "pinned"
+  | "loadingMore"
+  | "endOfData";
 
 export type DataTableUi = Partial<Record<DataTableSlot, HTMLAttributes["class"]>>;
 
@@ -276,6 +279,21 @@ export const expandColumn = <T extends RowData>(): DataTableColumn<T> => ({
   header: "",
   cell: (context) => h(DataTableExpandCell, { row: context.row as DataTableRow<RowData> }),
 });
+
+export type DataTableLoadDirection = "top" | "bottom";
+
+export type DataTableLoadMore = {
+  direction?: DataTableLoadDirection | "both";
+  threshold?: number;
+  initialFill?: boolean;
+};
+
+export type DataTableHasMore = boolean | { top?: boolean; bottom?: boolean };
+
+export type DataTableLoadMoreFn = (context: {
+  direction: DataTableLoadDirection;
+  index: number;
+}) => Promise<void | "stop">;
 
 export const dataTableRowHeights: Record<TableDensity, number> = { sm: 36, md: 44, lg: 52 };
 

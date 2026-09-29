@@ -34,7 +34,7 @@ export type UseInfiniteScrollOptions = {
   debounce?: MaybeRefOrGetter<number>;
   initialFill?: MaybeRefOrGetter<boolean>;
   disabled?: MaybeRefOrGetter<boolean>;
-  shouldLoad?: (direction: InfiniteDirection) => boolean;
+  shouldLoad?: (direction: InfiniteDirection) => boolean | undefined;
   onLoad: InfiniteScrollLoad;
   onError?: (error: unknown, direction: InfiniteDirection) => void;
 };
@@ -170,9 +170,16 @@ export const useInfiniteScroll = (options: UseInfiniteScrollOptions): UseInfinit
       restore();
       return;
     }
-    if (leading) shiftBy(current, direction, readAxis(current, horizontal).size - before);
-    restore();
     patch(direction, { loading: false, stopped: state.value[direction].stopped || result === "stop" });
+    if (leading) {
+      await nextTick();
+      if (disposed || generation !== generations[direction]) {
+        restore();
+        return;
+      }
+      shiftBy(current, direction, readAxis(current, horizontal).size - before);
+    }
+    restore();
     if (result !== "stop" && (toValue(options.initialFill) ?? true)) poll();
   };
 
@@ -183,10 +190,7 @@ export const useInfiniteScroll = (options: UseInfiniteScrollOptions): UseInfinit
     for (const direction of directions()) {
       const { loading, stopped } = state.value[direction];
       if (loading || stopped) continue;
-      const due =
-        options.shouldLoad !== undefined
-          ? options.shouldLoad(direction)
-          : isNearEdge(target, direction, toValue(options.offset) ?? 200);
+      const due = options.shouldLoad?.(direction) ?? isNearEdge(target, direction, toValue(options.offset) ?? 200);
       if (due) void load(direction);
     }
   };

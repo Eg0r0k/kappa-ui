@@ -1477,7 +1477,8 @@
         "progress",
         "pagination",
         "button",
-        "checkbox"
+        "checkbox",
+        "spinner"
       ],
       "files": [
         {
