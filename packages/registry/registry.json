@@ -1708,6 +1708,58 @@
       ]
     },
     {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Semantic table parts with borders on the cells, sticky header and footer, pinned cells, density and striping, sharing their classes with the data table.",
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/table/Table.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableBody.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableRow.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableHead.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableCell.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableCaption.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/TableEmpty.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/table/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
