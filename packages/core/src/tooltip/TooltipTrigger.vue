@@ -9,7 +9,7 @@ import { shallowRef, watch } from "vue";
 
 import { type TooltipReason, injectTooltipController } from "./context";
 import { inspectTrigger } from "./dev";
-import { isTouchLike } from "./long-press";
+import { isTouchLike, useLongPress } from "./long-press";
 
 const props = defineProps<TooltipTriggerProps>();
 
@@ -27,6 +27,19 @@ const close = (reason: TooltipReason, event?: Event) => {
   controller.hide(reason, event);
   root.onClose();
 };
+
+const longPress = useLongPress({
+  policy: () => (controller.settings.disabled ? "off" : controller.settings.touch),
+  delay: () => controller.settings.touchDelay,
+  hideDelay: () => controller.settings.touchHideDelay,
+  open: (event) => {
+    controller.request("trigger-press", event, true);
+    root.onOpen();
+  },
+  close: (event) => {
+    if (controller.touch.value) close("touch-release", event);
+  },
+});
 
 const track = (event: Event) => {
   const el = event.currentTarget as HTMLElement;
@@ -67,6 +80,7 @@ const onPointerDown = (event: PointerEvent) => {
   const doc = (event.currentTarget as HTMLElement).ownerDocument;
   doc.addEventListener("pointerup", release, { signal: released.signal });
   doc.addEventListener("pointercancel", release, { signal: released.signal });
+  longPress.onPointerDown(event);
   if (isTouchLike(event)) return;
   latched = true;
   if (controller.settings.closeOnClick) close("trigger-press", event);
@@ -138,6 +152,7 @@ watch(
     @pointerleave="onPointerLeave"
     @pointerdown="onPointerDown"
     @click="onClick"
+    @click.capture="longPress.onClickCapture"
     @focusin="onFocusIn"
     @focusout="onFocusOut"
   >
