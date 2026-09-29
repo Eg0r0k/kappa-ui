@@ -582,6 +582,34 @@ describe("follow cursor", () => {
     at(0.5);
     await expect.poll(() => content()?.parentElement?.style.pointerEvents).toBe("none");
   });
+
+  it("stays where the pointer was while it closes", async () => {
+    const style = document.createElement("style");
+    style.textContent =
+      "@keyframes leave { to { opacity: 0 } } [data-test=a-content][data-state=closed] { animation: leave 300ms }";
+    document.head.append(style);
+    render(() => wide({ followCursor: "both" }), { delay: 0 });
+    const x = at(0.1);
+    await expect.poll(() => Math.abs(centre() - x)).toBeLessThan(1);
+    leave(trigger());
+    await expect.poll(() => content()?.dataset.state).toBe("closed");
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    expect(content()).not.toBeNull();
+    expect(Math.abs(centre() - x)).toBeLessThan(1);
+    style.remove();
+  });
+
+  it("opens on the trigger, not at the last pointer position, when focused after a hover", async () => {
+    render(() => wide({ followCursor: "both" }), { delay: 0 });
+    at(0.1);
+    await expect.poll(() => content()).not.toBeNull();
+    leave(trigger());
+    await expect.poll(() => content()).toBeNull();
+    await userEvent.keyboard("{Tab}");
+    await expect.poll(() => content()).not.toBeNull();
+    const box = trigger().getBoundingClientRect();
+    await expect.poll(() => Math.abs(centre() - (box.left + box.width / 2))).toBeLessThan(1);
+  });
 });
 
 it("keeps a trigger's own aria-describedby in label mode", async () => {

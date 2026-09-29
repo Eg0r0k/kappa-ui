@@ -86,7 +86,6 @@ export const useTriggerBehaviour = () => {
       root.onTriggerLeave();
       return;
     }
-    cursor = undefined;
     close("trigger-hover", event);
   };
 
@@ -120,6 +119,7 @@ export const useTriggerBehaviour = () => {
       return;
     }
     if (pressed || controller.settings.disabled || !(event.target as Element).matches(":focus-visible")) return;
+    cursor = undefined;
     controller.request("trigger-focus", event);
     root.onOpen();
   };
