@@ -11,7 +11,7 @@ props:
   getRowId:
     description: Returns a stable id for a row. Without it the id is the index, and selection or expansion moves when the rows are sorted or replaced.
   getSubRows:
-    description: Returns a row's children, for a tree.
+    description: Returns a row's children, for a tree; with `expandable` they render as rows of their own, indented by depth.
   caption:
     description: A caption read by assistive technology, visually hidden.
   density:
@@ -32,6 +32,18 @@ props:
     description: Lets columns sort through a header button. `true`, or `{ multi, removable, sortDescFirst }`.
   paginate:
     description: Paginates and renders `DataTablePagination` under the table. `true` for ten rows a page, or `{ pageSize }`.
+  selection:
+    description: "Prepends a checkbox column and lets rows be selected. `true` or `\"multiple\"`, `\"single\"` for one row at a time, or `{ mode, column, enableRowSelection, selectAll }`; `column: false` keeps the column out, `enableRowSelection` decides per row, `selectAll` switches the page and select-all machine, on by default with `paginate`."
+  selectAllLabels:
+    description: The banner texts, `{ page(count), all(total), selected(total), clear }`, each a function of the count or a string; English by default.
+  rowSelection:
+    description: "`v-model:row-selection`, `{ [id]: true }` for selected rows and, while `selectAll` is `all`, `{ [id]: false }` for the rows taken out."
+  selectAll:
+    description: "`v-model:select-all`, the select-all mode: `none`, `page` after the header checkbox selected the page, `all` after the banner selected every row."
+  expandable:
+    description: "Prepends a chevron column and lets rows expand, into the `expanded` slot's detail row or into their `getSubRows` children. `true`, or `{ column, getRowCanExpand, paginateExpandedRows }`; `paginateExpandedRows: false` keeps children on their parent's page."
+  groupable:
+    description: Lets `v-model:grouping` group the rows by columns; grouped rows show a toggle, the value and the leaf count, and the other columns' `aggregatedCell`.
   manual:
     description: Leaves sorting, filtering, pagination or expanding to the server, `true` for all or an object per feature; the table then shows `data` as it is and only reports the state.
   rowCount:
@@ -46,6 +58,12 @@ props:
     description: The message when there are no rows and no filter is active.
   noResults:
     description: The message when a filter leaves no rows.
+  onLoadMore:
+    description: Loads more rows when the scroller nears an edge (bind it as `@load-more` too). Receives `{ direction, index }`, `index` counting loads in that direction from 1; resolve once the rows are in `data`, resolve `'stop'` when there are no more, and a rejection rolls the index back and reports the error.
+  hasMore:
+    description: Whether more rows can load, `true` by default; `false`, or `{ top, bottom }` per direction, pauses loading until it turns true again.
+  loadMore:
+    description: "Infinite scroll settings: `direction` (`bottom`, `top` or `both`), `threshold` (rows under virtualization, by default the overscan; pixels otherwise, 200 by default) and `initialFill` (keep loading while the rows do not fill the height, on by default)."
   onRowClick:
     description: Makes rows clickable (`tabindex="0"`, `data-clickable`) and receives the event and the row; also fires on Enter and Space. Clicks on controls inside the row are not row clicks.
   onRowContextmenu:
@@ -55,7 +73,7 @@ props:
   tableOptions:
     description: Passed to TanStack's `useTable` under the table's own options, for `initialState`, `defaultColumn`, `meta` and the like.
   ui:
-    description: Classes per part, merged over the base classes; the keys are `root`, `scroll`, `table`, `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `spacer`, `filler`, `empty`, `loading`, `skeleton` and `pagination`.
+    description: Classes per part, merged over the base classes; the keys are `root`, `scroll`, `table`, `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `spacer`, `filler`, `empty`, `loading`, `skeleton`, `pagination`, `banner`, `expanded`, `pinned`, `loadingMore` and `endOfData`.
   sorting:
     description: "`v-model:sorting`, the sorting state. Every state model is local until it is bound."
   columnVisibility:
@@ -72,14 +90,12 @@ props:
     description: "`v-model:global-filter`, a string matched against every column."
   pagination:
     description: "`v-model:pagination`, `{ pageIndex, pageSize }`."
-  rowSelection:
-    description: "`v-model:row-selection`; selection itself lands with the next stage."
   expanded:
-    description: "`v-model:expanded`; expanding lands with the next stage."
+    description: "`v-model:expanded`, `{ [id]: true }` for the expanded rows, or `true` for all of them."
   grouping:
-    description: "`v-model:grouping`; grouping lands with the next stage."
+    description: "`v-model:grouping`, the ids of the columns grouped by, in order."
   rowPinning:
-    description: "`v-model:row-pinning`; row pinning lands with the next stage."
+    description: "`v-model:row-pinning`, `{ top, bottom }` of row ids; pinned rows render in sticky row groups outside the virtualized window."
 emits:
   update:sorting: The sorting state changed.
   update:columnVisibility: The column visibility changed.
@@ -89,7 +105,8 @@ emits:
   update:columnFilters: The column filters changed.
   update:globalFilter: The global filter changed.
   update:pagination: The page index or size changed.
-  update:rowSelection: The row selection changed.
+  update:rowSelection: "The row selection changed. The second argument is `{ source }`: `header` for the header checkbox and the banner, `row` for a row checkbox, `range` for a shift-click, `imperative` for a call on the table."
+  update:selectAll: The select-all mode changed.
   update:expanded: The expanded rows changed.
   update:grouping: The grouping changed.
   update:rowPinning: The row pinning changed.
@@ -98,9 +115,14 @@ slots:
   caption: The caption's content, in place of the `caption` prop.
   empty: The message when there are no rows.
   noResults: The message when a filter leaves no rows.
+  expanded: The detail row of an expanded row, with `{ row }`; rendered inside the row's group, spanning every column.
+  loadingMore: What shows at the loading edge while more rows load, with `{ direction }`; a spinner row by default.
+  endOfData: What shows at an edge once it has no more rows, with `{ direction }`.
+  select-all-banner: Replaces the banner under the toolbar, with `{ pageCount, totalCount, mode, selectAll, clear }`.
 exposed:
   table: The TanStack table instance.
   scrollToIndex: Scrolls a row index into view; `align` is `start`, `center`, `end` or `auto`.
   scrollToRow: Scrolls a row id into view and returns whether it is in the current rows.
   focusRow: Scrolls a row index into view and focuses it.
   measure: Drops the measured row heights and measures again.
+  getSelection: "The selection for a request: `{ mode, ids, excluded, count }`, where `all` mode lists the excluded ids instead of the selected ones."

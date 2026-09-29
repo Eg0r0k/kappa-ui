@@ -1,0 +1,5 @@
+component: DataTableExpandCell
+file: ui/data-table/DataTableExpandCell.vue
+props:
+  row:
+    description: The TanStack row. A chevron button that toggles it when it can expand, indented by the row's depth.

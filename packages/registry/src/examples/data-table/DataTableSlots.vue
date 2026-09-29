@@ -13,7 +13,7 @@ const tasks: Task[] = [
     title: "Ship the data table",
     owner: "Ada",
     priority: "high",
-    notes: "Sorting, pinning and virtualization are in; selection lands with the next stage.",
+    notes: "Sorting, pinning, selection and virtualization are in; column resizing is next.",
   },
   {
     id: 2,

@@ -1,0 +1,5 @@
+component: DataTableSelectCell
+file: ui/data-table/DataTableSelectCell.vue
+props:
+  row:
+    description: The TanStack row. A checkbox that toggles it, selects a range with Shift, and is disabled when the row cannot be selected.

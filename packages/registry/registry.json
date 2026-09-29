@@ -4426,6 +4426,115 @@
       ]
     },
     {
+      "name": "data-table-selection",
+      "type": "registry:block",
+      "title": "Data table selection",
+      "description": "A checkbox column, the page and select-all banner, and the source of each change.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableSelection.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-expanding",
+      "type": "registry:block",
+      "title": "Data table expanding",
+      "description": "Orders that open a detail row with their lines.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableExpanding.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-tree",
+      "type": "registry:block",
+      "title": "Data table tree",
+      "description": "A file tree from getSubRows, indented by depth.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableTree.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-grouping",
+      "type": "registry:block",
+      "title": "Data table grouping",
+      "description": "Expenses grouped by category with summed amounts.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableGrouping.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-pinned-rows",
+      "type": "registry:block",
+      "title": "Data table pinned rows",
+      "description": "A results list with a pin button that keeps a row under the header.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTablePinnedRows.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-infinite",
+      "type": "registry:block",
+      "title": "Data table infinite scroll",
+      "description": "An event log that loads thirty more rows near the end, virtualized.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableInfinite.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "dialog-demo",
       "type": "registry:block",
       "title": "Dialog demo",

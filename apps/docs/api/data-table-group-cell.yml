@@ -1,0 +1,7 @@
+component: DataTableGroupCell
+file: ui/data-table/DataTableGroupCell.vue
+props:
+  row:
+    description: The grouped TanStack row. A chevron button that toggles the group, the value and the number of leaf rows.
+slots:
+  default: The group's value, the column's cell by default.

@@ -1,0 +1,14 @@
+component: DataTableSelectAllBanner
+file: ui/data-table/DataTableSelectAllBanner.vue
+props:
+  mode:
+    description: "`page` shows the page count and the select-all link; `all` shows the total and the clear link."
+  pageCount:
+    description: How many rows of the page are selected.
+  totalCount:
+    description: How many rows there are in all, across pages.
+  labels:
+    description: Overrides for the texts, `{ page(count), all(total), selected(total), clear }`.
+emits:
+  selectAll: The select-all link was pressed.
+  clear: The clear link was pressed.
