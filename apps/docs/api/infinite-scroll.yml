@@ -1,0 +1,35 @@
+component: InfiniteScroll
+file: ui/scroll-area/InfiniteScroll.vue
+exposedType:
+  file: ui/scroll-area/useInfiniteScroll.ts
+  name: UseInfiniteScrollReturn
+props:
+  target:
+    description: What scrolls. An element, the `window`, or a `ScrollArea` API. Left out, the surrounding `ScrollArea`'s viewport, else the nearest scrolling ancestor, else the window.
+  directions:
+    description: The edges to load from. `top`, `bottom`, `start` and `end`; `start` and `end` are logical. `['bottom']` by default.
+  offset:
+    description: Distance in pixels from an edge at which a load starts. 200 by default.
+  debounce:
+    description: Milliseconds between checks while scrolling. 100 by default; 0 checks on every scroll event.
+  initialFill:
+    description: After each load, load again while the content does not fill the viewport. On by default.
+  disabled:
+    description: Stops loading. Turning it off checks the edges at once.
+  resetKey:
+    description: Any value; when it changes, every direction resets to index 0 and starts over.
+  onLoad:
+    description: Called with `{ direction, index }` when an edge is near. `index` counts loads in that direction from 1. Resolve to load again later, resolve `'stop'` when that direction has no more; a rejection rolls the index back and reports the error.
+slots:
+  default: The content.
+  loading: What shows at an edge while it loads; a `Spinner` by default. Receives `{ direction }`.
+  end: What shows at an edge once it is stopped. Receives `{ direction }`.
+exposed:
+  state: The `{ index, loading, stopped }` of each direction.
+  trigger: Loads a direction now, unless it is loading, stopped or disabled. The first listed direction by default.
+  stop: Stops a direction, or all of them.
+  resume: Starts a stopped direction again, or all of them, and checks the edges.
+  reset: Sets a direction, or all of them, back to index 0 and not stopped, then checks the edges.
+  setIndex: Sets the next load index of a direction.
+  poll: Checks the edges now, after content changed without a scroll.
+  getTarget: The resolved scroll target.

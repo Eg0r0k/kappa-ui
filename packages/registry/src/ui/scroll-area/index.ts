@@ -7,6 +7,7 @@ import type { Virtualizer } from "./useVirtualScroll";
 
 export { default as ScrollArea, type ScrollAreaProps } from "./ScrollArea.vue";
 export { default as ScrollBar, type ScrollBarProps } from "./ScrollBar.vue";
+export { default as InfiniteScroll, type InfiniteScrollProps } from "./InfiniteScroll.vue";
 export {
   type InfiniteDirection,
   type InfiniteScrollLoad,
