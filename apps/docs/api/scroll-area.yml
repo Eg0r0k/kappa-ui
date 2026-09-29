@@ -13,7 +13,7 @@ props:
   tabindex:
     description: Lands on the viewport, the element that scrolls and receives focus.
   orientation:
-    description: The axis the area scrolls on. Sets the viewport's overflow, the virtualized axis and which bar renders.
+    description: The axis the area scrolls on, `vertical`, `horizontal` or `both`. Sets the viewport's overflow, the virtualized axis (`both` virtualizes the vertical one) and which bars render.
   verticalOffset:
     description: Space in pixels kept free at the start and end of the vertical bar's track.
   horizontalOffset:

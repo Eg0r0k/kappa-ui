@@ -26,7 +26,12 @@ export default defineConfig({
         { browser: "chromium" },
         {
           browser: "firefox",
-          include: ["test/scroll-fade.test.ts", "test/textarea-scroll.test.ts", "test/image.test.ts"],
+          include: [
+            "test/scroll-fade.test.ts",
+            "test/textarea-scroll.test.ts",
+            "test/image.test.ts",
+            "test/scroll-area-both.test.ts",
+          ],
         },
       ],
     },

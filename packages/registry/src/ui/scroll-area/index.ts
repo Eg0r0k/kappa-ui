@@ -10,7 +10,7 @@ export { default as ScrollBar, type ScrollBarProps } from "./ScrollBar.vue";
 
 export type ScrollAreaAxis = "vertical" | "horizontal";
 
-export type ScrollAreaOrientation = "vertical" | "horizontal";
+export type ScrollAreaOrientation = "vertical" | "horizontal" | "both";
 
 export type ScrollAreaVirtualizeOptions = {
   estimateSize?: number | ((index: number) => number);

@@ -61,6 +61,8 @@ const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
 });
 
 const isHorizontal = computed(() => props.orientation === "horizontal");
+const scrollsX = computed(() => props.orientation !== "vertical");
+const scrollsY = computed(() => props.orientation !== "horizontal");
 
 const emit = defineEmits<{
   scroll: [info: ScrollAreaScrollInfo & { ref: ScrollAreaApi }];
@@ -121,19 +123,17 @@ const barsIdle = computed(() => !resolvedVisible.value && !tempShowing.value && 
 const thumbHiddenVertical = computed(() => barsIdle.value || sizeVertical.value <= containerVertical.value + 1);
 const thumbHiddenHorizontal = computed(() => barsIdle.value || sizeHorizontal.value <= containerHorizontal.value + 1);
 
-const active = computed(() => (isHorizontal.value ? !thumbHiddenHorizontal.value : !thumbHiddenVertical.value));
+const active = computed(
+  () => (scrollsY.value && !thumbHiddenVertical.value) || (scrollsX.value && !thumbHiddenHorizontal.value),
+);
+
+const overflowsX = computed(() => sizeHorizontal.value > containerHorizontal.value + 1);
+const overflowsY = computed(() => sizeVertical.value > containerVertical.value + 1);
 
 const tabindex = computed(() => {
   if (props.tabindex !== undefined) return props.tabindex;
   if (isExternalScroll.value) return undefined;
-
-  return (
-    isHorizontal.value
-      ? sizeHorizontal.value > containerHorizontal.value + 1
-      : sizeVertical.value > containerVertical.value + 1
-  )
-    ? 0
-    : undefined;
+  return (scrollsX.value && overflowsX.value) || (scrollsY.value && overflowsY.value) ? 0 : undefined;
 });
 
 const thumbStyleVertical = computed(() => ({
@@ -330,10 +330,10 @@ const verticalEdges = computed(() =>
   getOverflowEdges(positionVertical.value, sizeVertical.value, containerVertical.value),
 );
 
-const overflowXStart = computed(() => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.start);
-const overflowXEnd = computed(() => !isExternalScroll.value && isHorizontal.value && horizontalEdges.value.end);
-const overflowYStart = computed(() => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.start);
-const overflowYEnd = computed(() => !isExternalScroll.value && !isHorizontal.value && verticalEdges.value.end);
+const overflowXStart = computed(() => !isExternalScroll.value && scrollsX.value && horizontalEdges.value.start);
+const overflowXEnd = computed(() => !isExternalScroll.value && scrollsX.value && horizontalEdges.value.end);
+const overflowYStart = computed(() => !isExternalScroll.value && scrollsY.value && verticalEdges.value.start);
+const overflowYEnd = computed(() => !isExternalScroll.value && scrollsY.value && verticalEdges.value.end);
 
 const externalEl = shallowRef<HTMLElement | null>(null);
 
@@ -534,9 +534,11 @@ onBeforeUnmount(() => {
           'scrollbar-hidden relative size-full rounded-[inherit] outline-none focus-visible:focus-ring-inset',
           isExternalScroll
             ? 'overflow-visible'
-            : isHorizontal
-              ? 'overflow-x-auto overflow-y-hidden'
-              : 'overflow-y-auto overflow-x-hidden',
+            : props.orientation === 'both'
+              ? 'overflow-auto'
+              : isHorizontal
+                ? 'overflow-x-auto overflow-y-hidden'
+                : 'overflow-y-auto overflow-x-hidden',
         )
       "
       :tabindex="tabindex"
@@ -566,6 +568,9 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <ScrollBar v-if="!isExternalScroll && props.scrollbar" :axis="props.orientation" />
+    <template v-if="!isExternalScroll && props.scrollbar">
+      <ScrollBar v-if="scrollsY" axis="vertical" />
+      <ScrollBar v-if="scrollsX" axis="horizontal" />
+    </template>
   </div>
 </template>
