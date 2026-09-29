@@ -212,6 +212,22 @@ it("selects a range with shift and does not fire the row click from the checkbox
   expect(clicks).toEqual([]);
 });
 
+it("keeps the page when a row is toggled on the second page while the props are recreated", async () => {
+  const t = render({ paginate: { pageSize: 10 } });
+  const pageIndex = () => t.api.value!.table.atoms.pagination.get().pageIndex;
+  t.api.value!.table.setPageIndex(1);
+  await nextTick();
+  t.extra.value = { paginate: { pageSize: 10 }, selection: { mode: "multiple" } };
+  await nextTick();
+  await userEvent.click(t.boxes()[0]!);
+  await nextTick();
+  t.extra.value = { paginate: { pageSize: 10 }, selection: { mode: "multiple" } };
+  await new Promise((resolve) => setTimeout(resolve, 30));
+  expect(pageIndex()).toBe(1);
+  expect(t.selection.value).toEqual({ p11: true });
+  expect(t.boxes()[0]!.getAttribute("aria-checked")).toBe("true");
+});
+
 it("takes the banner slot", async () => {
   const t = render(
     { paginate: { pageSize: 10 } },

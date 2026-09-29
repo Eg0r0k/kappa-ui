@@ -84,7 +84,7 @@ export type UseDataTableReturn<T extends RowData> = {
 
 type Defaults = { [K in keyof DataTableModels]: NonNullable<DataTableModels[K]["value"]> };
 
-const defaults = (pageSize: number): Defaults => ({
+const defaults = (): Omit<Defaults, "pagination"> => ({
   sorting: [],
   columnVisibility: {},
   columnPinning: { start: [], end: [] },
@@ -92,7 +92,6 @@ const defaults = (pageSize: number): Defaults => ({
   columnSizing: {},
   columnFilters: [],
   globalFilter: "",
-  pagination: { pageIndex: 0, pageSize },
   rowSelection: {},
   expanded: {},
   grouping: [],
@@ -122,8 +121,17 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
   const manual = computed(() => resolveManual(options.manual()));
   const selection = computed(() => resolveSelection(options.selection?.()));
   const expanding = computed(() => resolveExpanding(options.expanding?.()));
+  const pageSize = computed(() => pagination.value.pageSize);
+  const paginated = computed(() => pagination.value.enabled);
+  const selectCol = computed(() => selection.value.enabled && selection.value.column);
+  const expandCol = computed(() => expanding.value.enabled && expanding.value.column);
   const tableOptions = computed(() => options.tableOptions() ?? {});
-  const initial = computed(() => ({ ...defaults(pagination.value.pageSize), ...tableOptions.value.initialState }));
+  const base = defaults();
+  const initial = computed(() => ({
+    ...base,
+    pagination: { pageIndex: 0, pageSize: pageSize.value },
+    ...tableOptions.value.initialState,
+  }));
 
   const data = computed(() => options.data());
   const columns = computed(() => {
@@ -131,8 +139,8 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     assertColumnIds(given);
     const ids = new Set(given.map((column) => (column as { id?: string }).id));
     const prepended: DataTableColumn<T>[] = [];
-    if (selection.value.enabled && selection.value.column && !ids.has("select")) prepended.push(selectColumn<T>());
-    if (expanding.value.enabled && expanding.value.column && !ids.has("expand")) prepended.push(expandColumn<T>());
+    if (selectCol.value && !ids.has("select")) prepended.push(selectColumn<T>());
+    if (expandCol.value && !ids.has("expand")) prepended.push(expandColumn<T>());
     return prepended.length === 0 ? given : [...prepended, ...given];
   });
 
@@ -199,7 +207,7 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     sortDescFirst: computed(() => sorting.value.sortDescFirst),
     manualSorting: computed(() => manual.value.sorting),
     manualFiltering: computed(() => manual.value.filtering),
-    manualPagination: computed(() => manual.value.pagination || !pagination.value.enabled),
+    manualPagination: computed(() => manual.value.pagination || !paginated.value),
     manualExpanding: computed(() => manual.value.expanding),
     enableRowSelection: computed(() => {
       if (!selection.value.enabled) return false;
