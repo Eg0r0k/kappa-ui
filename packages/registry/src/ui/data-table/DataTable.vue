@@ -19,6 +19,7 @@ import type { HTMLAttributes } from "vue";
 import type { TableDensity, TableOverflow } from "@/ui/table";
 import type {
   DataTableColumn,
+  DataTableExpandingProp,
   DataTableFeatures,
   DataTableManual,
   DataTablePaginationProp,
@@ -50,6 +51,8 @@ export type DataTableProps<T extends RowData> = {
   selection?: DataTableSelectionProp;
   selectAllLabels?: Partial<DataTableSelectAllLabels>;
   rowSelection?: DataTableRowSelectionState;
+  expandable?: DataTableExpandingProp;
+  groupable?: boolean;
   manual?: DataTableManual;
   rowCount?: number;
   columnResizing?: boolean;
@@ -88,6 +91,7 @@ import {
   warnOnce,
 } from ".";
 import DataTableColumnHeader from "./DataTableColumnHeader.vue";
+import DataTableGroupCell from "./DataTableGroupCell.vue";
 import DataTablePagination from "./DataTablePagination.vue";
 import DataTableSelectAllBanner from "./DataTableSelectAllBanner.vue";
 import { useColumnLayout } from "./useColumnLayout";
@@ -142,6 +146,7 @@ const slots = defineSlots<
     caption?: () => unknown;
     empty?: () => unknown;
     noResults?: () => unknown;
+    expanded?: (scope: { row: DataTableRow<T> }) => unknown;
     "select-all-banner"?: (scope: {
       pageCount: number;
       totalCount: number;
@@ -153,7 +158,7 @@ const slots = defineSlots<
     Record<`header-${string}` | `footer-${string}`, (context: HeaderContext<DataTableFeatures, T, unknown>) => unknown>
 >();
 
-const { table, rows, filtered, selection } = useDataTable<T>({
+const { table, rows, filtered, selection, expanding } = useDataTable<T>({
   data: () => props.data,
   columns: () => props.columns,
   getRowId: props.getRowId,
@@ -163,6 +168,9 @@ const { table, rows, filtered, selection } = useDataTable<T>({
   manual: () => props.manual,
   rowCount: () => props.rowCount,
   selection: () => props.selection,
+  expanding: () => props.expandable,
+  hasExpandedSlot: () => slots.expanded !== undefined,
+  grouping: () => props.groupable,
   tableOptions: () => props.tableOptions,
   models: {
     sorting,
@@ -229,6 +237,17 @@ const scrolled = computed(() => props.height !== undefined);
 const rowHeight = computed(() => dataTableRowHeights[props.density]);
 
 const virtualOptions = computed(() => resolveVirtualize(props.virtualize));
+const detailRows = computed(() => expanding.value.enabled && slots.expanded !== undefined);
+const measure = computed(() => {
+  if (!detailRows.value) return virtualOptions.value.measure;
+  if (typeof props.virtualize === "object" && props.virtualize.measure === false) {
+    warnOnce(
+      "measure-expanded",
+      "detail rows change a row group's height; measure is on while the expanded slot is used.",
+    );
+  }
+  return true;
+});
 const external = computed(() => virtualOptions.value.getScrollElement !== undefined);
 const virtualEnabled = computed(() => {
   const { enabled, threshold } = virtualOptions.value;
@@ -275,7 +294,7 @@ const virtual = useRowVirtualizer({
   getScrollElement: () => virtualOptions.value.getScrollElement?.() ?? scrollTarget(),
   estimateSize: computed(() => virtualOptions.value.estimateSize ?? (() => rowHeight.value)),
   overscan: computed(() => virtualOptions.value.overscan),
-  measure: computed(() => virtualOptions.value.measure),
+  measure,
   scrollMargin: computed(() => virtualOptions.value.scrollMargin + theadHeight.value),
   scrollPaddingStart: computed(() => (stickyHeader.value ? theadHeight.value : 0)),
   scrollPaddingEnd: computed(() => (stickyFooter.value ? tfootHeight.value : 0)),
@@ -544,13 +563,14 @@ const scrollerAttrs = computed(() =>
             :ref="virtual.measureRow"
             data-slot="table-row-group"
             :data-index="segment.index"
-            :class="props.ui?.tbody"
+            :data-parity="props.striped ? (segment.index % 2 === 0 ? 'odd' : 'even') : undefined"
+            :data-state="selectAll.isSelected(segment.row) ? 'selected' : undefined"
+            :data-expanded="segment.row.getIsExpanded() ? '' : undefined"
+            :class="cn(tableStyles.rowGroup, props.ui?.tbody)"
           >
             <tr
-              data-slot="table-row"
+              :data-slot="segment.row.getIsGrouped() ? 'table-group' : 'table-row'"
               :aria-rowindex="headerRowCount + segment.index + 1"
-              :data-parity="props.striped ? (segment.index % 2 === 0 ? 'odd' : 'even') : undefined"
-              :data-state="selectAll.isSelected(segment.row) ? 'selected' : undefined"
               :data-clickable="props.onRowClick ? '' : undefined"
               :tabindex="props.onRowClick ? 0 : undefined"
               :class="cn(tableStyles.row, props.ui?.tr)"
@@ -571,11 +591,24 @@ const scrollerAttrs = computed(() =>
                 :style="cellStyle(cell)"
                 :class="cellClass(cell)"
               >
-                <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                <DataTableGroupCell v-if="cell.getIsGrouped()" :row="segment.row">
+                  <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                    <FlexRender :cell="cell" />
+                  </slot>
+                </DataTableGroupCell>
+                <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
                   <FlexRender :cell="cell" />
                 </slot>
               </td>
               <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
+            </tr>
+            <tr
+              v-if="detailRows && segment.row.getIsExpanded() && !segment.row.getIsGrouped()"
+              data-slot="table-expanded"
+            >
+              <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal', props.ui?.expanded)">
+                <slot name="expanded" :row="segment.row" />
+              </td>
             </tr>
           </tbody>
         </template>

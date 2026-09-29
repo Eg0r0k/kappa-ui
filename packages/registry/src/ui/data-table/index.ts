@@ -34,12 +34,15 @@ import { createContext } from "reka-ui";
 import { type HTMLAttributes, type StyleValue, h } from "vue";
 
 import type { TableAlign, TableDensity } from "@/ui/table";
+import DataTableExpandCell from "./DataTableExpandCell.vue";
 import DataTableSelectCell from "./DataTableSelectCell.vue";
 import DataTableSelectHeader from "./DataTableSelectHeader.vue";
 import type { UseSelectAllReturn } from "./useSelectAll";
 
 export { default as DataTable } from "./DataTable.vue";
 export { default as DataTableColumnHeader } from "./DataTableColumnHeader.vue";
+export { default as DataTableExpandCell } from "./DataTableExpandCell.vue";
+export { default as DataTableGroupCell } from "./DataTableGroupCell.vue";
 export { default as DataTablePagination } from "./DataTablePagination.vue";
 export { default as DataTableSelectAllBanner } from "./DataTableSelectAllBanner.vue";
 export { default as DataTableSelectCell } from "./DataTableSelectCell.vue";
@@ -167,7 +170,8 @@ export type DataTableSlot =
   | "loading"
   | "skeleton"
   | "pagination"
-  | "banner";
+  | "banner"
+  | "expanded";
 
 export type DataTableUi = Partial<Record<DataTableSlot, HTMLAttributes["class"]>>;
 
@@ -243,6 +247,34 @@ export const selectColumn = <T extends RowData>(): DataTableColumn<T> => ({
   meta: { align: "center" },
   header: () => h(DataTableSelectHeader),
   cell: (context) => h(DataTableSelectCell, { row: context.row as DataTableRow<RowData> }),
+});
+
+export type DataTableExpandingProp =
+  | boolean
+  | {
+      column?: boolean;
+      getRowCanExpand?: (row: DataTableRow<RowData>) => boolean;
+      paginateExpandedRows?: boolean;
+    };
+
+export const resolveExpanding = (value: DataTableExpandingProp | undefined) => {
+  const given = typeof value === "object" ? value : {};
+  return {
+    enabled: value !== undefined && value !== false,
+    column: given.column ?? true,
+    getRowCanExpand: given.getRowCanExpand,
+    paginateExpandedRows: given.paginateExpandedRows ?? true,
+  };
+};
+
+export const expandColumn = <T extends RowData>(): DataTableColumn<T> => ({
+  id: "expand",
+  size: 40,
+  enableSorting: false,
+  enableHiding: false,
+  enableGrouping: false,
+  header: "",
+  cell: (context) => h(DataTableExpandCell, { row: context.row as DataTableRow<RowData> }),
 });
 
 export const dataTableRowHeights: Record<TableDensity, number> = { sm: 36, md: 44, lg: 52 };

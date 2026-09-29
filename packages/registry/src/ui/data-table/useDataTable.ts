@@ -20,6 +20,7 @@ import { computed, type ComputedRef, type Ref, watch } from "vue";
 
 import {
   type DataTableColumn,
+  type DataTableExpandingProp,
   type DataTableFeatures,
   type DataTableInstance,
   type DataTableManual,
@@ -28,7 +29,9 @@ import {
   type DataTableSelectionProp,
   type DataTableSortingProp,
   dataTableFeatures,
+  expandColumn,
   inferColumns,
+  resolveExpanding,
   resolveManual,
   resolvePagination,
   resolveSelection,
@@ -62,6 +65,9 @@ export type UseDataTableOptions<T extends RowData> = {
   manual: () => DataTableManual | undefined;
   rowCount: () => number | undefined;
   selection?: () => DataTableSelectionProp | undefined;
+  expanding?: () => DataTableExpandingProp | undefined;
+  hasExpandedSlot?: () => boolean;
+  grouping?: () => boolean | undefined;
   tableOptions: () => Partial<TableOptions<DataTableFeatures, T>> | undefined;
   models: DataTableModels;
 };
@@ -71,6 +77,7 @@ export type UseDataTableReturn<T extends RowData> = {
   rows: ComputedRef<DataTableRow<T>[]>;
   filtered: ComputedRef<boolean>;
   selection: ComputedRef<ReturnType<typeof resolveSelection>>;
+  expanding: ComputedRef<ReturnType<typeof resolveExpanding>>;
 };
 
 type Defaults = { [K in keyof DataTableModels]: NonNullable<DataTableModels[K]["value"]> };
@@ -112,6 +119,7 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
   const pagination = computed(() => resolvePagination(options.pagination()));
   const manual = computed(() => resolveManual(options.manual()));
   const selection = computed(() => resolveSelection(options.selection?.()));
+  const expanding = computed(() => resolveExpanding(options.expanding?.()));
   const tableOptions = computed(() => options.tableOptions() ?? {});
   const initial = computed(() => ({ ...defaults(pagination.value.pageSize), ...tableOptions.value.initialState }));
 
@@ -119,9 +127,20 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
   const columns = computed(() => {
     const given = options.columns() ?? inferColumns(data.value);
     assertColumnIds(given);
-    const hasSelect = given.some((column) => (column as { id?: string }).id === "select");
-    return selection.value.enabled && selection.value.column && !hasSelect ? [selectColumn<T>(), ...given] : given;
+    const ids = new Set(given.map((column) => (column as { id?: string }).id));
+    const prepended: DataTableColumn<T>[] = [];
+    if (selection.value.enabled && selection.value.column && !ids.has("select")) prepended.push(selectColumn<T>());
+    if (expanding.value.enabled && expanding.value.column && !ids.has("expand")) prepended.push(expandColumn<T>());
+    return prepended.length === 0 ? given : [...prepended, ...given];
   });
+
+  const getRowCanExpand = (row: DataTableRow<T>) => {
+    if (row.getIsGrouped()) return row.subRows.length > 0;
+    if (!expanding.value.enabled) return false;
+    const custom = expanding.value.getRowCanExpand;
+    if (custom !== undefined) return custom(row as DataTableRow<RowData>);
+    return row.subRows.length > 0 || (options.hasExpandedSlot?.() ?? false);
+  };
 
   let seenArray = data.value;
   let seenLength = data.value.length;
@@ -187,6 +206,11 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     }),
     enableMultiRowSelection: computed(() => selection.value.mode === "multiple"),
     isRowRangeSelectionEvent: (event: unknown) => Boolean((event as { shiftKey?: boolean } | null)?.shiftKey),
+    enableExpanding: computed(() => expanding.value.enabled),
+    getRowCanExpand,
+    paginateExpandedRows: computed(() => expanding.value.paginateExpandedRows),
+    enableGrouping: computed(() => options.grouping?.() ?? false),
+    groupedColumnMode: "reorder",
     rowCount: rowCount.value,
     pageCount: pageCount.value,
     autoResetExpanded: tableOptions.value.autoResetExpanded ?? false,
@@ -269,5 +293,5 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     });
   });
 
-  return { table, rows, filtered, selection };
+  return { table, rows, filtered, selection, expanding };
 };

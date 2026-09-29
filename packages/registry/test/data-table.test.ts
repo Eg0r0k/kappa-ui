@@ -202,8 +202,8 @@ it("sets density, stripes by absolute parity and switches hover off", () => {
   const { table, rows } = render({ density: "sm", striped: true, hoverable: false });
   expect(table().dataset.density).toBe("sm");
   expect(table().dataset.striped).toBe("");
-  expect(rows()[0]!.dataset.parity).toBe("odd");
-  expect(rows()[1]!.dataset.parity).toBe("even");
+  expect(rows()[0]!.parentElement!.dataset.parity).toBe("odd");
+  expect(rows()[1]!.parentElement!.dataset.parity).toBe("even");
   expect(getComputedStyle(rows()[1]!.querySelector("td")!).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   expect(table().className).toContain("[--table-hover-bg:transparent]");
 });

@@ -42,22 +42,26 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const render = (props: Record<string, unknown>) => {
+const render = (props: Record<string, unknown>, slots: Record<string, unknown> = {}) => {
   const data = ref<Item[]>((props.data as Item[] | undefined) ?? make(10_000));
   const extra = ref<Record<string, unknown>>({});
   const api = ref<DataTableExpose<Item> | null>(null);
   const wrapper = mount(
     defineComponent({
       render: () =>
-        h(AnyTable, {
-          ref: api,
-          columns: sized,
-          getRowId: (row: Item) => row.id,
-          height: 400,
-          ...props,
-          ...extra.value,
-          data: data.value,
-        }),
+        h(
+          AnyTable,
+          {
+            ref: api,
+            columns: sized,
+            getRowId: (row: Item) => row.id,
+            height: 400,
+            ...props,
+            ...extra.value,
+            data: data.value,
+          },
+          slots,
+        ),
     }),
     { attachTo: document.body },
   );
@@ -189,6 +193,30 @@ it("never measures rows unless asked", async () => {
   const observedRows = spy.mock.calls.filter(([el]) => (el as Element).matches("[data-slot=table-row-group]"));
   expect(observedRows).toHaveLength(0);
   expect(t.groups()[0]!.querySelector("tr")!.getBoundingClientRect().height).toBe(44);
+});
+
+it("measures the row group with its detail under virtualization without drift", async () => {
+  const expanded: Record<string, boolean> = {};
+  for (let index = 0; index < 50; index++) expanded[`r${index}`] = true;
+  const spy = vi.spyOn(ResizeObserver.prototype, "observe");
+  const t = render(
+    { virtualize: true, expandable: true, expanded },
+    { expanded: () => h("div", { style: "height: 120px" }, "detail") },
+  );
+  await t.settle();
+  expect(t.groups()[0]!.querySelector("tr[data-slot=table-expanded]")).not.toBeNull();
+  expect(t.groups()[0]!.getBoundingClientRect().height).toBeGreaterThan(44 + 120);
+  expect(spy.mock.calls.some(([el]) => (el as Element).matches("[data-slot=table-row-group]"))).toBe(true);
+  for (const top of [1000, 3000, 6000, 9000, 6000, 3000, 0]) {
+    t.viewport().scrollTop = top;
+    await t.settle();
+  }
+  const theadH = t.thead().getBoundingClientRect().height;
+  expect(t.viewport().scrollHeight).toBeGreaterThan(theadH + 10_000 * 44 + 50 * 120);
+  const painted = [...t.groups(), ...t.spacers()].reduce((sum, el) => sum + el.getBoundingClientRect().height, 0);
+  expect(near(painted + theadH, t.viewport().scrollHeight, 2)).toBe(true);
+  expect(t.viewport().scrollTop).toBe(0);
+  expect(t.groups()[0]!.dataset.index).toBe("0");
 });
 
 it("pins columns at offsets from the width model, on both sides, with the edge shadows and the corner", async () => {
