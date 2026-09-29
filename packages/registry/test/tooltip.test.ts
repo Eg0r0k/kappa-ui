@@ -53,6 +53,7 @@ it("draws the tooltip in the overlay portal target and merges the class", async 
   await expect.poll(() => document.querySelector("[data-test=portal] [data-slot=tooltip-content]")).not.toBeNull();
   const panel = document.querySelector<HTMLElement>("[data-slot=tooltip-content]")!;
   expect(panel.className).toContain("bg-foreground");
+  expect(getComputedStyle(panel).boxShadow).not.toBe("none");
   expect(panel.className).toContain("max-w-40");
   expect(panel.className).not.toContain("max-w-xs");
   expect(document.querySelector("[data-slot=tooltip-trigger]")?.tagName).toBe("BUTTON");

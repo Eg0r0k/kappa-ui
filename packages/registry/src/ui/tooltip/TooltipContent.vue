@@ -34,7 +34,7 @@ const portalTarget = injectOverlayPortalTarget(null);
       data-slot="tooltip-content"
       :class="
         cn(
-          'z-50 w-fit max-w-xs origin-(--reka-tooltip-content-transform-origin) rounded-md bg-foreground px-3 py-1.5 text-body-sm text-balance text-background animate-overlay data-touch:px-4 data-touch:py-2 data-touch:text-body-md',
+          'z-50 w-fit max-w-xs origin-(--reka-tooltip-content-transform-origin) rounded-md bg-foreground px-3 py-1.5 text-body-sm shadow-shadow-lg text-balance text-background animate-overlay data-touch:px-4 data-touch:py-2 data-touch:text-body-md',
           props.class,
         )
       "
