@@ -191,6 +191,24 @@ it("sticks the header to a ScrollArea viewport with overflow visible, and not wi
   );
 });
 
+it("offsets a page-sticky header and footer by --table-sticky-top and --table-sticky-bottom", async () => {
+  render(() =>
+    area({ style: "height: 150px; width: 400px; --table-sticky-top: 20px; --table-sticky-bottom: 10px" }, () =>
+      h(Table, { overflow: "visible" }, () => [
+        h(TableHeader, { sticky: true }, () => h(TableRow, () => h(TableHead, () => "h"))),
+        h(TableBody, () => rows({ rows: 20, columns: 1 })),
+        h(TableFooter, { sticky: true }, () => h(TableRow, () => h(TableCell, () => "f"))),
+      ]),
+    ),
+  );
+  const viewport = q("[data-slot=scroll-area-viewport]");
+  viewport.scrollTop = 300;
+  await vi.waitFor(() => expect(viewport.scrollTop).toBe(300));
+  const box = viewport.getBoundingClientRect();
+  expect(q("[data-slot=table-header]").getBoundingClientRect().top).toBe(box.top + 20);
+  expect(q("[data-slot=table-footer]").getBoundingClientRect().bottom).toBe(box.bottom - 10);
+});
+
 const pinnedTable = (dir?: string) =>
   area({ orientation: "both", dir, style: "height: 200px; width: 300px" }, () =>
     h(Table, { overflow: "visible" }, () => [

@@ -29,6 +29,10 @@
   scroll-margin-top: 5rem;
 }
 
+.preview-page-sticky {
+  --table-sticky-top: 3.5rem;
+}
+
 .prose :where(h2, h3, h4) a {
   color: inherit;
   text-decoration: none;
