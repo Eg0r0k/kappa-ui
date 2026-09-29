@@ -6345,6 +6345,105 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "tooltip-demo",
+      "type": "registry:block",
+      "title": "Tooltip demo",
+      "description": "A tooltip on an outline button.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tooltip/TooltipDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tooltip-toolbar",
+      "type": "registry:block",
+      "title": "Tooltip toolbar",
+      "description": "Icon buttons named by their tooltips, which open at once along the row.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tooltip/TooltipToolbar.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tooltip-shortcut",
+      "type": "registry:block",
+      "title": "Tooltip shortcut",
+      "description": "A tooltip with a keyboard shortcut.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "button",
+        "kbd"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tooltip/TooltipShortcut.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tooltip-disabled",
+      "type": "registry:block",
+      "title": "Tooltip disabled",
+      "description": "A tooltip on an aria-disabled button, saying why it is off.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tooltip/TooltipDisabled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tooltip-side",
+      "type": "registry:block",
+      "title": "Tooltip side",
+      "description": "Tooltips on each side of their trigger, with an arrow.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tooltip/TooltipSide.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
