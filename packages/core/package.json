@@ -26,7 +26,8 @@
     "./ripple": "./src/ripple/index.ts",
     "./scroll-fade": "./src/scroll-fade/index.ts",
     "./tailwind.css": "./src/tailwind.css",
-    "./toast": "./src/toast/index.ts"
+    "./toast": "./src/toast/index.ts",
+    "./tooltip": "./src/tooltip/index.ts"
   },
   "publishConfig": {
     "access": "public",
@@ -37,7 +38,8 @@
       "./ripple": { "types": "./dist/ripple/index.d.ts", "default": "./dist/ripple/index.js" },
       "./scroll-fade": { "types": "./dist/scroll-fade/index.d.ts", "default": "./dist/scroll-fade/index.js" },
       "./tailwind.css": "./dist/tailwind.css",
-      "./toast": { "types": "./dist/toast/index.d.ts", "default": "./dist/toast/index.js" }
+      "./toast": { "types": "./dist/toast/index.d.ts", "default": "./dist/toast/index.js" },
+      "./tooltip": { "types": "./dist/tooltip/index.d.ts", "default": "./dist/tooltip/index.js" }
     }
   },
   "scripts": {
