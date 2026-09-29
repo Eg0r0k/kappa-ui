@@ -1,5 +1,29 @@
 # @kappa-ui/registry
 
+## 0.5.0
+
+### Minor Changes
+
+- [`e931ebe`](https://github.com/Eg0r0k/kappa-ui/commit/e931ebedb6357a988ea2e613997dca8f174bae20) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Add DataTable over TanStack Table v9: columns and data, per-column header and cell slots, sorting with an accessible header button, a scroll area with sticky header and footer, pinned columns with offsets from the width model, density and stripes, row events, client and manual pagination, loading and empty states, and row virtualization with one row group per row and exact spacers. Row selection with a checkbox column, shift-click ranges, a page and select-all banner and a `source` on `update:rowSelection`; expanding into detail rows and trees; grouping with aggregated cells; pinned rows in sticky row groups; infinite scroll through `onLoadMore`, `hasMore` and `loadMore`. The table styles gain `rowGroup` and `pinnedRows`, a sticky `TableHeader` and `TableFooter` read `--table-sticky-top` and `--table-sticky-bottom` for the offset under a fixed app bar, and `useInfiniteScroll` accepts a `shouldLoad` that returns `undefined` to fall back to the pixel check.
+
+- [`976b350`](https://github.com/Eg0r0k/kappa-ui/commit/976b35065dffb752cda5fb61bfd10329d81c6e9b) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Add HoverCard, from shadcn-vue, on the popover surface: a card shown on hover or focus of a link, with `openDelay` and `closeDelay`.
+
+- [`86397f1`](https://github.com/Eg0r0k/kappa-ui/commit/86397f14c10a8ef26571db317d71d9756b0a4e4e) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Add `MenuTrigger`: a Reka-shaped part that marks the element opening a `Menu` placed next to it, so `<MenuTrigger as-child><Button /></MenuTrigger><Menu />` reads like a dropdown menu. A `Menu` with the default target prefers a sibling trigger over the element it is placed in.
+
+- [`9181705`](https://github.com/Eg0r0k/kappa-ui/commit/9181705840699b48cbd949a8bd3c0363be134535) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ScrollArea scrolls on both axes with `orientation="both"`, emits `reachEdge` once per entry into an edge zone (`edgeOffset` widens it), and ships `useInfiniteScroll` and `InfiniteScroll`: loading on approach to any of four edges with a promise, `'stop'` to end a direction, initial fill of the viewport and a kept reading position when content is prepended.
+
+- [`79560bc`](https://github.com/Eg0r0k/kappa-ui/commit/79560bcb93f1fbce838df16988dcde36918a0815) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Add the Table primitives: shadcn-named parts with borders on the cells, sticky header and footer, pinned columns with an edge shadow, density, stripes, selected and clickable rows, a visually hidden caption and an empty row. Their classes are one `tableStyles` object, which the coming data table shares.
+
+- [`d290041`](https://github.com/Eg0r0k/kappa-ui/commit/d290041f16221bdabbe9f3df71de6167d71e27c4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Add Toggle and ToggleGroup. Toggle is a two-state button with Button's variants, colours and sizes, styled when on by `activeVariant` and `activeColor`; ToggleGroup joins toggles like a ButtonGroup, with single or multiple selection and arrow-key navigation. The core colour rules also match `[data-state="on"][data-active-color]`, so an on toggle reads its active colour.
+
+- [`59f9254`](https://github.com/Eg0r0k/kappa-ui/commit/59f9254566e6bcaaddb1424d148cdbdced30c2b5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Add Tooltip, from shadcn-vue, with its behaviour in `@kappa-ui/core/tooltip`: it opens once the pointer rests on the trigger (moving restarts the wait), on keyboard focus only, and on a long press on touch screens; tooltips under a `TooltipProvider` warm up together; `update:open` reports why it opened or closed; `role="label"` suits icon buttons; `followCursor` keeps it at the pointer. `v-tooltip` gives the same tooltip from a string or an options object, with the side as its argument and `.label` for icon buttons. Button with `aria-disabled="true"` now looks disabled while keeping focus and pointer events, and swallows its click. A Kbd inside a tooltip takes the tooltip's colours.
+
+### Patch Changes
+
+- [`5f82937`](https://github.com/Eg0r0k/kappa-ui/commit/5f829372846f75c9333ac75be945c21860571da2) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ScrollArea's bars and thumbs let touches through on a touch screen (`pointer: coarse`), so a finger that lands on the bar scrolls the content natively instead of grabbing the thumb.
+- Updated dependencies [[`d290041`](https://github.com/Eg0r0k/kappa-ui/commit/d290041f16221bdabbe9f3df71de6167d71e27c4), [`ee10c54`](https://github.com/Eg0r0k/kappa-ui/commit/ee10c54902c4f6af0f71e0668a892a063af0201e), [`59f9254`](https://github.com/Eg0r0k/kappa-ui/commit/59f9254566e6bcaaddb1424d148cdbdced30c2b5)]:
+  - @kappa-ui/core@0.4.0
+
 ## 0.4.0
 
 ### Minor Changes
