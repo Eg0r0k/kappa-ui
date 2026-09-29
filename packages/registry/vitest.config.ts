@@ -32,7 +32,12 @@ export default defineConfig({
             "test/image.test.ts",
             "test/scroll-area-both.test.ts",
             "test/scroll-area-infinite.test.ts",
+            "test/data-table-geometry.test.ts",
           ],
+        },
+        {
+          browser: "webkit",
+          include: ["test/tbody-measure.test.ts", "test/data-table-geometry.test.ts"],
         },
       ],
     },

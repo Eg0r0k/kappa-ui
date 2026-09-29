@@ -9,9 +9,10 @@
     "test:visual": "vitest run --config vitest.visual.config.ts"
   },
   "dependencies": {
-    "@kappa-ui/core": "workspace:*",
     "@formisch/vue": "^1.1.0",
+    "@kappa-ui/core": "workspace:*",
     "@lucide/vue": "^1.47.0",
+    "@tanstack/vue-table": "^9.2.4",
     "@tanstack/vue-virtual": "^3.13.39",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
