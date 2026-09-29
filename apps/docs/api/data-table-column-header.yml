@@ -1,0 +1,5 @@
+component: DataTableColumnHeader
+file: ui/data-table/DataTableColumnHeader.vue
+props:
+  header:
+    description: The TanStack header to render. A ghost button with the column's header, its sort direction and, in a multi-sort, its rank.

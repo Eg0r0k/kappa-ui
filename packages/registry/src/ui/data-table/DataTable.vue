@@ -61,15 +61,15 @@ export type DataTableProps<T extends RowData> = {
 </script>
 
 <script setup lang="ts" generic="T extends RowData">
-import { type Cell, FlexRender, type Header } from "@tanstack/vue-table";
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, useSlots, watch } from "vue";
+import { type Cell, type CellContext, FlexRender, type Header, type HeaderContext } from "@tanstack/vue-table";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Progress } from "@/ui/progress";
 import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
 import { Skeleton } from "@/ui/skeleton";
 import { tableStyles } from "@/ui/table";
-import { type DataTableExpose, dataTableRowHeights, resolveVirtualize, warnOnce } from ".";
+import { type DataTableExpose, type DataTableInstance, dataTableRowHeights, resolveVirtualize, warnOnce } from ".";
 import DataTableColumnHeader from "./DataTableColumnHeader.vue";
 import DataTablePagination from "./DataTablePagination.vue";
 import { useColumnLayout } from "./useColumnLayout";
@@ -101,7 +101,15 @@ const expanded = defineModel<ExpandedState>("expanded");
 const grouping = defineModel<GroupingState>("grouping");
 const rowPinning = defineModel<RowPinningState>("rowPinning");
 
-const slots = useSlots();
+const slots = defineSlots<
+  {
+    toolbar?: (scope: { table: DataTableInstance<T> }) => unknown;
+    caption?: () => unknown;
+    empty?: () => unknown;
+    noResults?: () => unknown;
+  } & Record<`cell-${string}`, (context: CellContext<DataTableFeatures, T, unknown>) => unknown> &
+    Record<`header-${string}` | `footer-${string}`, (context: HeaderContext<DataTableFeatures, T, unknown>) => unknown>
+>();
 
 const { table, rows, filtered } = useDataTable<T>({
   data: () => props.data,

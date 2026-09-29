@@ -21,6 +21,7 @@ const onClick = (event: MouseEvent) => props.header.column.getToggleSortingHandl
 <template>
   <Button
     variant="ghost"
+    color="neutral"
     size="sm"
     data-slot="data-table-column-header"
     :data-sorted="sorted || undefined"

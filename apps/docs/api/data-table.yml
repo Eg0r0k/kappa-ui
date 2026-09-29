@@ -1,0 +1,106 @@
+component: DataTable
+file: ui/data-table/DataTable.vue
+exposedType:
+  file: ui/data-table/index.ts
+  name: DataTableExpose
+props:
+  data:
+    description: The rows. Pass a new array to change them; a mutation in place is not seen (one warning in development).
+  columns:
+    description: TanStack column definitions, best made with `createDataTableColumnHelper`. Left out, one column per key of the first row.
+  getRowId:
+    description: Returns a stable id for a row. Without it the id is the index, and selection or expansion moves when the rows are sorted or replaced.
+  getSubRows:
+    description: Returns a row's children, for a tree.
+  caption:
+    description: A caption read by assistive technology, visually hidden.
+  density:
+    description: Row height, `sm`, `md` or `lg`, through the table's `--table-row-h`; also the estimated row height while virtualizing.
+  striped:
+    description: Tints every even row by its absolute index, so virtualization does not break the pattern.
+  hoverable:
+    description: Hover tint on body rows. On by default; `false` makes `--table-hover-bg` transparent.
+  height:
+    description: Puts the table in a scroll area of this height, scrolling on both axes; needed for sticky parts and virtualization. A number is pixels.
+  overflow:
+    description: Without `height`, `x` wraps the table in a container that scrolls sideways and `visible` clips nothing, so a sticky header sticks to the page.
+  sticky:
+    description: Sticks the header, the footer, or both (`true`) to the scroll area.
+  virtualize:
+    description: Renders only the rows near the view. `true`, or `"auto"` to switch on from 200 rows, or an object with `enabled`, `threshold`, `estimateSize`, `measure`, `overscan`, `getScrollElement` and `scrollMargin`. Needs `height` or `getScrollElement`.
+  sortable:
+    description: Lets columns sort through a header button. `true`, or `{ multi, removable, sortDescFirst }`.
+  paginate:
+    description: Paginates and renders `DataTablePagination` under the table. `true` for ten rows a page, or `{ pageSize }`.
+  manual:
+    description: Leaves sorting, filtering, pagination or expanding to the server, `true` for all or an object per feature; the table then shows `data` as it is and only reports the state.
+  rowCount:
+    description: The total number of rows in manual pagination. Without it the page count is unknown and the bar shows previous and next only.
+  columnResizing:
+    description: Reserved; accepted and ignored until column resizing lands.
+  loading:
+    description: Shows an indeterminate progress bar under the header and, with no data, skeleton rows.
+  loadingRows:
+    description: How many skeleton rows to show while loading with no data. By default as many as fit the height, or five.
+  empty:
+    description: The message when there are no rows and no filter is active.
+  noResults:
+    description: The message when a filter leaves no rows.
+  onRowClick:
+    description: Makes rows clickable (`tabindex="0"`, `data-clickable`) and receives the event and the row; also fires on Enter and Space. Clicks on controls inside the row are not row clicks.
+  onRowContextmenu:
+    description: Receives the `contextmenu` event and the row.
+  onRowHover:
+    description: Receives the pointer event and the row on enter, and `null` on leave.
+  tableOptions:
+    description: Passed to TanStack's `useTable` under the table's own options, for `initialState`, `defaultColumn`, `meta` and the like.
+  ui:
+    description: Classes per part, merged over the base classes; the keys are `root`, `scroll`, `table`, `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `spacer`, `filler`, `empty`, `loading`, `skeleton` and `pagination`.
+  sorting:
+    description: "`v-model:sorting`, the sorting state. Every state model is local until it is bound."
+  columnVisibility:
+    description: "`v-model:column-visibility`."
+  columnPinning:
+    description: "`v-model:column-pinning`, `{ start, end }` of column ids."
+  columnOrder:
+    description: "`v-model:column-order`."
+  columnSizing:
+    description: "`v-model:column-sizing`."
+  columnFilters:
+    description: "`v-model:column-filters`."
+  globalFilter:
+    description: "`v-model:global-filter`, a string matched against every column."
+  pagination:
+    description: "`v-model:pagination`, `{ pageIndex, pageSize }`."
+  rowSelection:
+    description: "`v-model:row-selection`; selection itself lands with the next stage."
+  expanded:
+    description: "`v-model:expanded`; expanding lands with the next stage."
+  grouping:
+    description: "`v-model:grouping`; grouping lands with the next stage."
+  rowPinning:
+    description: "`v-model:row-pinning`; row pinning lands with the next stage."
+emits:
+  update:sorting: The sorting state changed.
+  update:columnVisibility: The column visibility changed.
+  update:columnPinning: The column pinning changed.
+  update:columnOrder: The column order changed.
+  update:columnSizing: The column sizing changed.
+  update:columnFilters: The column filters changed.
+  update:globalFilter: The global filter changed.
+  update:pagination: The page index or size changed.
+  update:rowSelection: The row selection changed.
+  update:expanded: The expanded rows changed.
+  update:grouping: The grouping changed.
+  update:rowPinning: The row pinning changed.
+slots:
+  toolbar: Rendered above the table, outside the scroller, with `{ table }`.
+  caption: The caption's content, in place of the `caption` prop.
+  empty: The message when there are no rows.
+  noResults: The message when a filter leaves no rows.
+exposed:
+  table: The TanStack table instance.
+  scrollToIndex: Scrolls a row index into view; `align` is `start`, `center`, `end` or `auto`.
+  scrollToRow: Scrolls a row id into view and returns whether it is in the current rows.
+  focusRow: Scrolls a row index into view and focuses it.
+  measure: Drops the measured row heights and measures again.

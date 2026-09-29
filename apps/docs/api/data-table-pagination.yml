@@ -1,0 +1,5 @@
+component: DataTablePagination
+file: ui/data-table/DataTablePagination.vue
+props:
+  table:
+    description: The TanStack table whose pagination state to show and change. With an unknown page count it shows previous and next only.

@@ -4270,6 +4270,136 @@
       ]
     },
     {
+      "name": "data-table-demo",
+      "type": "registry:block",
+      "title": "Data table",
+      "description": "Payments with a sortable header, a status badge and a formatted amount.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-virtualized",
+      "type": "registry:block",
+      "title": "Virtualized data table",
+      "description": "Ten thousand trades in a fixed height with a sticky header, stripes and row clicks.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableVirtualized.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-pinned",
+      "type": "registry:block",
+      "title": "Pinned columns",
+      "description": "Twelve months scrolling sideways between a pinned product and a pinned total.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTablePinned.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-pagination",
+      "type": "registry:block",
+      "title": "Client pagination",
+      "description": "Forty-five people, eight per page, sortable.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTablePagination.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-server",
+      "type": "registry:block",
+      "title": "Server mode",
+      "description": "Manual pagination and sorting against a fake source, with the loading bar.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableServer.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-states",
+      "type": "registry:block",
+      "title": "Loading and empty states",
+      "description": "The progress bar, the skeleton rows, the empty and the no-results messages.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-table-slots",
+      "type": "registry:block",
+      "title": "Column slots and a toolbar",
+      "description": "A filter input in the toolbar, custom header and cell slots, a truncated column.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table",
+        "badge",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableSlots.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "dialog-demo",
       "type": "registry:block",
       "title": "Dialog demo",
