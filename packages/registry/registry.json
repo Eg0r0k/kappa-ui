@@ -5893,6 +5893,118 @@
       ]
     },
     {
+      "name": "table-demo",
+      "type": "registry:block",
+      "title": "Table",
+      "description": "Invoices with a caption, a footer and an aligned amount column.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-sticky",
+      "type": "registry:block",
+      "title": "Sticky table header",
+      "description": "A header and footer that stay in view while the rows scroll in a scroll area.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableSticky.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-pinned",
+      "type": "registry:block",
+      "title": "Pinned columns",
+      "description": "First and last columns pinned while the months scroll sideways.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TablePinned.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-density",
+      "type": "registry:block",
+      "title": "Table density",
+      "description": "Compact, default and comfortable rows, striped.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableDensity.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-selection",
+      "type": "registry:block",
+      "title": "Row selection",
+      "description": "Clickable rows with a checkbox and a selected state.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "checkbox"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableSelection.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-empty",
+      "type": "registry:block",
+      "title": "Empty table",
+      "description": "A body with nothing in it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableEmptyDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "tabs-demo",
       "type": "registry:block",
       "title": "Tabs demo",
