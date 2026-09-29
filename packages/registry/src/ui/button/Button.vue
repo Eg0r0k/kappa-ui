@@ -19,6 +19,12 @@ const props = withDefaults(defineProps<Props>(), {
   as: "button",
   color: "primary",
 });
+
+const swallowWhenDisabled = (event: MouseEvent) => {
+  if ((event.currentTarget as HTMLElement).getAttribute("aria-disabled") !== "true") return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+};
 </script>
 
 <template>
@@ -29,6 +35,7 @@ const props = withDefaults(defineProps<Props>(), {
     :data-size="props.size"
     :as="as"
     :as-child="asChild"
+    @click.capture="swallowWhenDisabled"
     :class="
       cn(
         buttonVariants({

@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
 import { Badge } from "@/ui/badge";
@@ -82,4 +83,41 @@ describe("Badge subtle", () => {
 
     expect(getComputedStyle(badge).borderTopWidth).toBe("1px");
   });
+});
+
+describe("Button aria-disabled", () => {
+  it("swallows clicks and keyboard activation, keeping focus and pointer events", async () => {
+    const onClick = vi.fn();
+    const el = render({ "aria-disabled": "true", onClick }) as HTMLButtonElement;
+    await userEvent.click(el, { force: true });
+    el.focus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard(" ");
+    expect(onClick).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(el);
+    expect(getComputedStyle(el).pointerEvents).toBe("auto");
+  });
+
+  it.each(["solid", "soft", "subtle", "outline", "ghost"] as const)(
+    "draws %s like disabled, with no hover layer",
+    async (variant) => {
+      mount(
+        {
+          render: () => [
+            h(Button, { variant, disabled: true }, () => "A"),
+            h(Button, { variant, "aria-disabled": "true" }, () => "B"),
+          ],
+        },
+        { attachTo: document.body },
+      );
+      const [native, aria] = [...document.querySelectorAll<HTMLElement>("[data-slot=button]")];
+      const look = (el: HTMLElement) => {
+        const style = getComputedStyle(el);
+        return [style.backgroundColor, style.color, style.boxShadow];
+      };
+      expect(look(aria!)).toEqual(look(native!));
+      await userEvent.hover(aria!);
+      expect(getComputedStyle(aria!, "::before").opacity).toBe("0");
+    },
+  );
 });

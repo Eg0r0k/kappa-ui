@@ -5,18 +5,19 @@ export { default as Button } from "./Button.vue";
 export type ButtonColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
 export const buttonVariants = cva(
-  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none forced-colors:border disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none forced-colors:border disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 aria-disabled:cursor-default aria-disabled:text-foreground/(--disabled-opacity)",
   {
     variants: {
       variant: {
-        solid: "state-layer bg-(--c) text-(--c-fg) disabled:bg-foreground/(--disabled-container-opacity)",
-        soft: "state-layer bg-(--c-soft) text-(--c-soft-fg) disabled:bg-foreground/(--disabled-container-opacity)",
+        solid:
+          "state-layer bg-(--c) text-(--c-fg) disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity)",
+        soft: "state-layer bg-(--c-soft) text-(--c-soft-fg) disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity)",
         subtle:
-          "state-layer bg-(--c-soft) text-(--c-soft-fg) inset-ring inset-ring-(--c-subtle-edge) disabled:bg-foreground/(--disabled-container-opacity) disabled:inset-ring-foreground/(--disabled-container-opacity)",
+          "state-layer bg-(--c-soft) text-(--c-soft-fg) inset-ring inset-ring-(--c-subtle-edge) disabled:bg-foreground/(--disabled-container-opacity) disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
         outline:
-          "state-layer bg-background text-(--c-text) inset-ring inset-ring-(--c-edge) disabled:inset-ring-foreground/(--disabled-container-opacity)",
+          "state-layer bg-background text-(--c-text) inset-ring inset-ring-(--c-edge) disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
         ghost: "state-layer text-(--c-text)",
-        link: "text-(--c-text) underline-offset-4 hover:underline",
+        link: "text-(--c-text) underline-offset-4 hover:underline aria-disabled:hover:no-underline",
       },
       size: {
         xs: "h-7 gap-1 rounded-md px-2.5 text-label-sm [--touch-h:1.75rem] has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2 [&_svg:not([class*='size-'])]:size-3.5",
