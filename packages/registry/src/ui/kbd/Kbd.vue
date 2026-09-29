@@ -11,7 +11,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     data-slot="kbd"
     :class="
       cn(
-        'pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm bg-muted px-1 font-sans text-label-md text-muted-foreground select-none in-data-[slot=button]:bg-current/15 in-data-[slot=button]:text-current in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background [&_svg:not([class*=size-])]:size-3',
+        'pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm bg-muted px-1 font-sans text-label-md text-muted-foreground select-none in-data-[slot=button]:bg-current/15 in-data-[slot=button]:text-current in-data-[slot=tooltip-content]:bg-current/20 in-data-[slot=tooltip-content]:text-current [&_svg:not([class*=size-])]:size-3',
         props.class,
       )
     "

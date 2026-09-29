@@ -17,7 +17,7 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="tooltip-arrow"
     :class="
-      cn('z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-xs bg-foreground fill-foreground', props.class)
+      cn('z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-xs bg-foreground fill-foreground', props.class)
     "
   />
 </template>
