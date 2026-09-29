@@ -6305,6 +6305,46 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A short hint about a control, shown after the pointer rests on it, on keyboard focus or on a long press, with a shared warm-up and close reasons.",
+      "dependencies": [
+        "@kappa-ui/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/tooltip/Tooltip.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tooltip/TooltipArrow.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tooltip/TooltipContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tooltip/TooltipProvider.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tooltip/TooltipTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tooltip/index.ts",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
