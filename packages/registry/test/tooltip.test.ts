@@ -2,11 +2,11 @@ import { provideOverlayPortalTarget } from "@kappa-ui/core/overlay";
 import { type VueWrapper, mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
+import { type VNodeChild, defineComponent, h, nextTick, ref, withDirectives } from "vue";
 
 import { Button } from "@/ui/button";
 import { Kbd } from "@/ui/kbd";
-import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/ui/tooltip";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger, vTooltip } from "@/ui/tooltip";
 
 const mounted: VueWrapper[] = [];
 
@@ -127,4 +127,14 @@ it("opens on an aria-disabled Button whose click stays swallowed", async () => {
   await expect.poll(() => content("a")).not.toBeNull();
   button.click();
   expect(onClick).not.toHaveBeenCalled();
+});
+
+it("draws v-tooltip with the registry's content", async () => {
+  render(() => withDirectives(h("button", { "data-test": "a-trigger" }, "Save"), [[vTooltip, "Save file"]]));
+  await nextTick();
+  pointer("pointermove", trigger("a"));
+  await expect.poll(() => document.querySelector("[data-test=portal] [data-slot=tooltip-content]")).not.toBeNull();
+  const panel = document.querySelector<HTMLElement>("[data-slot=tooltip-content]")!;
+  expect(panel.className).toContain("bg-foreground");
+  expect(panel.textContent).toContain("Save file");
 });

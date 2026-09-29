@@ -6311,6 +6311,7 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "A short hint about a control, shown after the pointer rests on it, on keyboard focus or on a long press, with a shared warm-up and close reasons.",
+      "docs": "The v-tooltip directive comes with the component. Import it where you use it:\n\n  import { vTooltip } from '@/components/ui/tooltip'\n\nor register it once in your app entry: app.directive('tooltip', vTooltip). Then <Button v-tooltip=\"'Save'\">, v-tooltip:bottom for a side, v-tooltip.label on an icon button, or an object with the Tooltip options. Wrap the app in one <TooltipProvider> so tooltips share their warm-up.",
       "dependencies": [
         "@kappa-ui/core",
         "reka-ui"
@@ -6338,6 +6339,10 @@
         },
         {
           "path": "src/ui/tooltip/TooltipTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tooltip/directive.ts",
           "type": "registry:ui"
         },
         {
@@ -6441,6 +6446,46 @@
       "files": [
         {
           "path": "src/examples/tooltip/TooltipSide.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tooltip-directive",
+      "type": "registry:block",
+      "title": "Tooltip directive",
+      "description": "v-tooltip with a string, a side, an options object and .label on an icon button.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tooltip/TooltipDirective.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tooltip-follow-cursor",
+      "type": "registry:block",
+      "title": "Tooltip follow cursor",
+      "description": "A seek bar whose tooltip follows the pointer and shows the time under it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tooltip/TooltipFollowCursor.vue",
           "type": "registry:component"
         }
       ]
