@@ -9,7 +9,7 @@ export const warnOnce = (key: string, message: string) => {
   console.warn(`[kappa-ui] Tooltip: ${message}`);
 };
 
-const hasOwnName = (el: HTMLElement) =>
+export const hasOwnName = (el: HTMLElement) =>
   Boolean(el.getAttribute("aria-label")?.trim() || el.hasAttribute("aria-labelledby") || el.textContent?.trim());
 
 export const inspectTrigger = (el: HTMLElement, role: TooltipRole) => {

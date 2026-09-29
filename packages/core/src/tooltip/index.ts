@@ -12,6 +12,7 @@ export {
   type TooltipRootProps,
   type TouchPolicy,
 } from "./context";
+export { type TooltipDirectiveOptions, type TooltipDirectiveValue, createTooltipDirective } from "./directive";
 export { TooltipArrow, TooltipPortal } from "reka-ui";
 export type {
   TooltipArrowProps,
