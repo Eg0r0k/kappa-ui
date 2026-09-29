@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
+import { cdp } from "vitest/browser";
 import { h } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
@@ -141,4 +142,24 @@ it("inverts the horizontal drag direction under rtl", async () => {
   horizontalThumb.dispatchEvent(pointer("pointerup", { clientX: start.x - 95, clientY: start.y + 5 }));
 
   wrapper.unmount();
+});
+
+it("lets touches on a touch screen through the bar and the thumb to the content", async () => {
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 });
+  try {
+    expect(matchMedia("(pointer: coarse)").matches).toBe(true);
+    const wrapper = mountArea();
+    const { viewport, verticalBar, verticalThumb } = partsOf(wrapper.element);
+    await vi.waitFor(() => expect(verticalThumb.style.height).toBe("75px"));
+
+    for (const part of [verticalThumb, verticalBar]) {
+      const box = part.getBoundingClientRect();
+      const hit = document.elementFromPoint(box.x + box.width / 2, box.y + box.height - 2);
+      expect(viewport.contains(hit)).toBe(true);
+    }
+
+    wrapper.unmount();
+  } finally {
+    await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false });
+  }
 });
