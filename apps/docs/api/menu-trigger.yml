@@ -1,0 +1,9 @@
+component: MenuTrigger
+file: ui/menu/MenuTrigger.vue
+props:
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render; a `button` by default."
+slots:
+  default: "The button that opens the `Menu` placed next to this part, usually a `Button` with `as-child`."

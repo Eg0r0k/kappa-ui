@@ -1040,6 +1040,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/menu/MenuTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/menu/position.ts",
           "type": "registry:ui"
         },
@@ -4535,6 +4539,26 @@
       ]
     },
     {
+      "name": "data-table-actions",
+      "type": "registry:block",
+      "title": "Data table actions",
+      "description": "A display column whose cell slot renders a MenuTrigger and a Menu for the row.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-table",
+        "menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-table/DataTableActions.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "dialog-demo",
       "type": "registry:block",
       "title": "Dialog demo",
@@ -4908,6 +4932,25 @@
       "files": [
         {
           "path": "src/examples/forms/FormischArray.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menu-with-trigger",
+      "type": "registry:block",
+      "title": "Menu with trigger",
+      "description": "A MenuTrigger next to its Menu, the Reka UI shape.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menu/MenuWithTrigger.vue",
           "type": "registry:component"
         }
       ]
@@ -6222,6 +6265,26 @@
       "files": [
         {
           "path": "src/examples/table/TableDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-actions",
+      "type": "registry:block",
+      "title": "Table actions",
+      "description": "A row actions column with a MenuTrigger and a Menu in each row.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableActions.vue",
           "type": "registry:component"
         }
       ]

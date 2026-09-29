@@ -26,7 +26,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { overlaySurface } from "@/ui/popover";
-import { type MenuSize, menuSizeVariants, provideMenuSize } from ".";
+import { type MenuSize, menuSizeVariants, menuTriggers, provideMenuSize } from ".";
 import { type MenuOrigin, type MenuPosition, parsePosition, placeMenu } from "./position";
 
 defineOptions({ inheritAttrs: false });
@@ -269,9 +269,21 @@ const attach = (element: HTMLElement) => {
   };
 };
 
+const siblingTrigger = () => {
+  const el = probe.value;
+  if (!el) return null;
+  for (let node = el.previousElementSibling; node; node = node.previousElementSibling) {
+    if (menuTriggers.has(node)) return node as HTMLElement;
+  }
+  for (let node = el.nextElementSibling; node; node = node.nextElementSibling) {
+    if (menuTriggers.has(node)) return node as HTMLElement;
+  }
+  return null;
+};
+
 const resolveTarget = () => {
   if (props.target === false) return null;
-  if (props.target === true) return probe.value?.parentElement ?? null;
+  if (props.target === true) return siblingTrigger() ?? probe.value?.parentElement ?? null;
   if (typeof props.target === "string") return document.querySelector<HTMLElement>(props.target);
   return props.target instanceof HTMLElement ? props.target : null;
 };

@@ -3,7 +3,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
-import { Menu, MenuItem } from "@/ui/menu";
+import { Button } from "@/ui/button";
+import { Menu, MenuItem, MenuTrigger } from "@/ui/menu";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
 const menus = () => document.querySelectorAll<HTMLElement>("[data-slot=menu]");
@@ -253,6 +254,55 @@ describe("Menu", () => {
     const [coverX, coverY] = centre(cover);
     expect(Math.abs(menuX - coverX)).toBeLessThan(1);
     expect(Math.abs(menuY - coverY)).toBeLessThan(1);
+    wrapper.unmount();
+  });
+});
+
+describe("MenuTrigger", () => {
+  it("opens from a sibling trigger and leaves the parent alone", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h("div", { style: "position:fixed;left:40px;top:40px;padding:20px" }, [
+            h(MenuTrigger, () => "Open"),
+            h(Menu, () => items()),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    const parent = wrapper.get("div").element;
+    const trigger = wrapper.get("button").element;
+    expect(trigger.dataset.slot).toBe("menu-trigger");
+    expect(trigger.getAttribute("aria-haspopup")).toBe("menu");
+    expect(trigger.dataset.state).toBe("closed");
+    expect(parent.hasAttribute("data-state")).toBe(false);
+    await clickAt(...centre(trigger));
+    expect(menu()?.getAttribute("role")).toBe("menu");
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+    expect(trigger.dataset.state).toBe("open");
+    expect(Math.abs(menu()!.getBoundingClientRect().left - trigger.getBoundingClientRect().left)).toBeLessThan(2);
+    wrapper.unmount();
+  });
+
+  it("merges into its child with as-child", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h("div", { style: "position:fixed;left:40px;top:40px" }, [
+            h(MenuTrigger, { asChild: true }, () => h(Button, () => "Open")),
+            h(Menu, () => items()),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    const button = wrapper.get("button").element;
+    expect(button.dataset.slot).toBe("menu-trigger");
+    expect(button.textContent?.trim()).toBe("Open");
+    expect(document.querySelectorAll("button")).toHaveLength(1);
+    await clickAt(...centre(button));
+    expect(menu()).not.toBeNull();
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    await nextTick();
     wrapper.unmount();
   });
 });

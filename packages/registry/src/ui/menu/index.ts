@@ -14,7 +14,10 @@ export { default as MenuShortcut } from "./MenuShortcut.vue";
 export { default as MenuSub } from "./MenuSub.vue";
 export { default as MenuSubContent } from "./MenuSubContent.vue";
 export { default as MenuSubTrigger } from "./MenuSubTrigger.vue";
+export { default as MenuTrigger } from "./MenuTrigger.vue";
 export type { MenuOrigin, MenuPosition } from "./position";
+
+export const menuTriggers = new WeakSet<Element>();
 
 export const menuSizeVariants = cva("group/menu p-(--menu-pad)", {
   variants: {
