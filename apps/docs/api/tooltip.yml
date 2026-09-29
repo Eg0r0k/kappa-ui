@@ -7,6 +7,8 @@ props:
     description: "Whether it starts open when `v-model:open` is not used."
   role:
     description: "`description` makes the tooltip the trigger's accessible description. `label` is for a tooltip that repeats the trigger's own name, such as an icon button's `aria-label`: the description is left out so screen readers do not read the name twice."
+  followCursor:
+    description: "Keeps the tooltip at the pointer along `x`, `y` or `both` axes while it moves over the trigger; `none` by default. Opened by touch or the keyboard, it stays on the trigger. `both` turns `hoverable` off."
   delay:
     description: "This tooltip's own `delay`, over the provider's."
   restThreshold:
