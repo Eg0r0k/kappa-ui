@@ -1459,6 +1459,57 @@
       ]
     },
     {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "A table over TanStack Table: columns and data, column slots, sorting, sticky header and footer, pinned columns, density, row events, pagination, loading and empty states, and row virtualization.",
+      "dependencies": [
+        "@tanstack/vue-table",
+        "@tanstack/vue-virtual",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "table",
+        "scroll-area",
+        "skeleton",
+        "progress",
+        "pagination",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/data-table/DataTable.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/DataTableColumnHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/DataTablePagination.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/useDataTable.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/useColumnLayout.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/useRowVirtualizer.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",

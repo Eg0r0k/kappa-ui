@@ -171,7 +171,7 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     sortDescFirst: computed(() => sorting.value.sortDescFirst),
     manualSorting: computed(() => manual.value.sorting),
     manualFiltering: computed(() => manual.value.filtering),
-    manualPagination: computed(() => manual.value.pagination),
+    manualPagination: computed(() => manual.value.pagination || !pagination.value.enabled),
     manualExpanding: computed(() => manual.value.expanding),
     rowCount: rowCount.value,
     pageCount: pageCount.value,

@@ -34,6 +34,9 @@ import type { HTMLAttributes, StyleValue } from "vue";
 
 import type { TableAlign, TableDensity } from "@/ui/table";
 
+export { default as DataTable } from "./DataTable.vue";
+export { default as DataTableColumnHeader } from "./DataTableColumnHeader.vue";
+export { default as DataTablePagination } from "./DataTablePagination.vue";
 export { FlexRender } from "@tanstack/vue-table";
 export type {
   RowData,
@@ -100,7 +103,8 @@ export const dataTableFeatures = tableFeatures({
 
 export type DataTableFeatures = typeof dataTableFeatures;
 
-export type DataTableColumn<T extends RowData, V = unknown> = ColumnDef<DataTableFeatures, T, V>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type DataTableColumn<T extends RowData, V = any> = ColumnDef<DataTableFeatures, T, V>;
 
 export type DataTableInstance<T extends RowData> = Table<DataTableFeatures, T>;
 
