@@ -326,6 +326,7 @@ const queueScrollEmit = () => {
 };
 
 const store: ScrollAreaStore = {
+  getScrollTarget: () => viewportRef.value,
   vertical: { thumbHidden: thumbHiddenVertical, thumbStyle: thumbStyleVertical },
   horizontal: { thumbHidden: thumbHiddenHorizontal, thumbStyle: thumbStyleHorizontal },
   onBarPointerdown,

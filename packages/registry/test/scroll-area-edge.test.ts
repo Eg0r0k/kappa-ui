@@ -14,7 +14,7 @@ const mountArea = (props: Record<string, unknown> = {}, attrs: Record<string, un
     attrs: { style: "height: 100px; width: 200px", ...attrs },
     slots: { default: () => h("div", { style: "width: 600px; height: 400px" }) },
   });
-  const viewport = wrapper.element.querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
+  const viewport = (wrapper.element as Element).querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
   return { wrapper, hits, viewport };
 };
 

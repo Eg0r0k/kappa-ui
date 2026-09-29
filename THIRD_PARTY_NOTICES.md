@@ -33,6 +33,7 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
   - `packages/registry/src/ui/scroll-area/index.ts` — the scrollbar thumb size, position and drag-multiplier formulas
   - `packages/registry/src/ui/scroll-area/ScrollArea.vue` — the scroll area's container/content tracking and thumb-drag orchestration
   - `packages/registry/src/ui/scroll-area/ScrollBar.vue` — the scrollbar's track and thumb styling and states
+  - `packages/registry/src/ui/scroll-area/useInfiniteScroll.ts` — the load index and the poll/trigger/stop/resume cycle of `QInfiniteScroll`, and its reverse-mode scroll anchoring
 
 ---
 

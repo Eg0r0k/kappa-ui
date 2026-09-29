@@ -25,7 +25,7 @@ afterEach(() => {
 
 it("renders a bar for each axis and scrolls on both", async () => {
   const wrapper = mountArea(block);
-  const root = wrapper.element;
+  const root: Element = wrapper.element;
   const viewport = viewportOf(root);
 
   expect(root.getAttribute("data-orientation")).toBe("both");
@@ -48,7 +48,7 @@ it("renders a bar for each axis and scrolls on both", async () => {
 
 it("marks the edges of both axes", async () => {
   const wrapper = mountArea(block);
-  const root = wrapper.element;
+  const root: Element = wrapper.element;
   await vi.waitFor(() => expect(edges(root)).toEqual(["x-end", "y-end"]));
 
   viewportOf(root).scrollLeft = 100;
@@ -64,7 +64,7 @@ it("marks the edges of both axes", async () => {
 
 it("sizes the thumbs from each axis", async () => {
   const wrapper = mountArea(block);
-  const root = wrapper.element;
+  const root: Element = wrapper.element;
   const vertical = root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=vertical]")!;
   const horizontal = root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=horizontal]")!;
 
@@ -76,7 +76,7 @@ it("sizes the thumbs from each axis", async () => {
 
 it("keeps the horizontal edges logical under rtl", async () => {
   const wrapper = mountArea(block, { dir: "rtl" });
-  const root = wrapper.element;
+  const root: Element = wrapper.element;
   await vi.waitFor(() => expect(edges(root)).toEqual(["x-end", "y-end"]));
 
   (wrapper.vm as unknown as ScrollAreaApi).setScrollPosition("horizontal", 400);

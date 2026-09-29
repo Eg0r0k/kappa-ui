@@ -204,6 +204,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/scroll-area/useInfiniteScroll.ts",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/scroll-area/index.ts",
           "type": "registry:ui"
         }

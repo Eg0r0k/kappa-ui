@@ -7,6 +7,15 @@ import type { Virtualizer } from "./useVirtualScroll";
 
 export { default as ScrollArea, type ScrollAreaProps } from "./ScrollArea.vue";
 export { default as ScrollBar, type ScrollBarProps } from "./ScrollBar.vue";
+export {
+  type InfiniteDirection,
+  type InfiniteScrollLoad,
+  type InfiniteScrollState,
+  type InfiniteScrollTarget,
+  useInfiniteScroll,
+  type UseInfiniteScrollOptions,
+  type UseInfiniteScrollReturn,
+} from "./useInfiniteScroll";
 
 export type ScrollAreaAxis = "vertical" | "horizontal";
 
@@ -78,6 +87,7 @@ export type ScrollAreaAxisState = {
 };
 
 export type ScrollAreaStore = {
+  getScrollTarget: () => HTMLElement | null;
   vertical: ScrollAreaAxisState;
   horizontal: ScrollAreaAxisState;
   onBarPointerdown: (event: PointerEvent, axis: ScrollAreaAxis) => void;

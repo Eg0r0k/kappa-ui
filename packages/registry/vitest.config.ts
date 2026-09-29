@@ -31,6 +31,7 @@ export default defineConfig({
             "test/textarea-scroll.test.ts",
             "test/image.test.ts",
             "test/scroll-area-both.test.ts",
+            "test/scroll-area-infinite.test.ts",
           ],
         },
       ],
