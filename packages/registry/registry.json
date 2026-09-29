@@ -1476,7 +1476,8 @@
         "skeleton",
         "progress",
         "pagination",
-        "button"
+        "button",
+        "checkbox"
       ],
       "files": [
         {
@@ -1489,6 +1490,22 @@
         },
         {
           "path": "src/ui/data-table/DataTablePagination.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/DataTableSelectHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/DataTableSelectCell.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/DataTableSelectAllBanner.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-table/useSelectAll.ts",
           "type": "registry:ui"
         },
         {

@@ -25,12 +25,15 @@ import {
   type DataTableManual,
   type DataTablePaginationProp,
   type DataTableRow,
+  type DataTableSelectionProp,
   type DataTableSortingProp,
   dataTableFeatures,
   inferColumns,
   resolveManual,
   resolvePagination,
+  resolveSelection,
   resolveSorting,
+  selectColumn,
   warnOnce,
 } from ".";
 
@@ -58,6 +61,7 @@ export type UseDataTableOptions<T extends RowData> = {
   pagination: () => DataTablePaginationProp | undefined;
   manual: () => DataTableManual | undefined;
   rowCount: () => number | undefined;
+  selection?: () => DataTableSelectionProp | undefined;
   tableOptions: () => Partial<TableOptions<DataTableFeatures, T>> | undefined;
   models: DataTableModels;
 };
@@ -66,6 +70,7 @@ export type UseDataTableReturn<T extends RowData> = {
   table: DataTableInstance<T>;
   rows: ComputedRef<DataTableRow<T>[]>;
   filtered: ComputedRef<boolean>;
+  selection: ComputedRef<ReturnType<typeof resolveSelection>>;
 };
 
 type Defaults = { [K in keyof DataTableModels]: NonNullable<DataTableModels[K]["value"]> };
@@ -106,6 +111,7 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
   const sorting = computed(() => resolveSorting(options.sorting()));
   const pagination = computed(() => resolvePagination(options.pagination()));
   const manual = computed(() => resolveManual(options.manual()));
+  const selection = computed(() => resolveSelection(options.selection?.()));
   const tableOptions = computed(() => options.tableOptions() ?? {});
   const initial = computed(() => ({ ...defaults(pagination.value.pageSize), ...tableOptions.value.initialState }));
 
@@ -113,7 +119,8 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
   const columns = computed(() => {
     const given = options.columns() ?? inferColumns(data.value);
     assertColumnIds(given);
-    return given;
+    const hasSelect = given.some((column) => (column as { id?: string }).id === "select");
+    return selection.value.enabled && selection.value.column && !hasSelect ? [selectColumn<T>(), ...given] : given;
   });
 
   let seenArray = data.value;
@@ -173,6 +180,13 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     manualFiltering: computed(() => manual.value.filtering),
     manualPagination: computed(() => manual.value.pagination || !pagination.value.enabled),
     manualExpanding: computed(() => manual.value.expanding),
+    enableRowSelection: computed(() => {
+      if (!selection.value.enabled) return false;
+      const allow = selection.value.enableRowSelection;
+      return allow === undefined ? true : (row: DataTableRow<T>) => allow(row as DataTableRow<RowData>);
+    }),
+    enableMultiRowSelection: computed(() => selection.value.mode === "multiple"),
+    isRowRangeSelectionEvent: (event: unknown) => Boolean((event as { shiftKey?: boolean } | null)?.shiftKey),
     rowCount: rowCount.value,
     pageCount: pageCount.value,
     autoResetExpanded: tableOptions.value.autoResetExpanded ?? false,
@@ -255,5 +269,5 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     });
   });
 
-  return { table, rows, filtered };
+  return { table, rows, filtered, selection };
 };

@@ -30,13 +30,20 @@ import {
   type Table,
   tableFeatures,
 } from "@tanstack/vue-table";
-import type { HTMLAttributes, StyleValue } from "vue";
+import { createContext } from "reka-ui";
+import { type HTMLAttributes, type StyleValue, h } from "vue";
 
 import type { TableAlign, TableDensity } from "@/ui/table";
+import DataTableSelectCell from "./DataTableSelectCell.vue";
+import DataTableSelectHeader from "./DataTableSelectHeader.vue";
+import type { UseSelectAllReturn } from "./useSelectAll";
 
 export { default as DataTable } from "./DataTable.vue";
 export { default as DataTableColumnHeader } from "./DataTableColumnHeader.vue";
 export { default as DataTablePagination } from "./DataTablePagination.vue";
+export { default as DataTableSelectAllBanner } from "./DataTableSelectAllBanner.vue";
+export { default as DataTableSelectCell } from "./DataTableSelectCell.vue";
+export { default as DataTableSelectHeader } from "./DataTableSelectHeader.vue";
 export { FlexRender } from "@tanstack/vue-table";
 export type {
   RowData,
@@ -53,7 +60,6 @@ export type {
   PaginationState,
   Row,
   RowPinningState,
-  RowSelectionState,
   SortingState,
 } from "@tanstack/vue-table";
 
@@ -160,7 +166,8 @@ export type DataTableSlot =
   | "empty"
   | "loading"
   | "skeleton"
-  | "pagination";
+  | "pagination"
+  | "banner";
 
 export type DataTableUi = Partial<Record<DataTableSlot, HTMLAttributes["class"]>>;
 
@@ -172,7 +179,71 @@ export type DataTableExpose<T extends RowData> = {
   scrollToRow: (id: string, options?: DataTableScrollOptions) => boolean;
   focusRow: (index: number) => void;
   measure: () => void;
+  getSelection: () => DataTableSelection;
 };
+
+export type DataTableSelectAll = "none" | "page" | "all";
+
+export type DataTableSelectionSource = "row" | "header" | "range" | "imperative";
+
+export type DataTableSelectionProp =
+  | boolean
+  | "single"
+  | "multiple"
+  | {
+      mode?: "single" | "multiple";
+      column?: boolean;
+      enableRowSelection?: (row: DataTableRow<RowData>) => boolean;
+      selectAll?: boolean;
+    };
+
+export type DataTableSelectAllLabels = {
+  page: (count: number) => string;
+  all: (total: number) => string;
+  selected: (total: number) => string;
+  clear: string;
+};
+
+export type DataTableRowSelectionState = Record<string, boolean>;
+
+export type DataTableSelection = { mode: DataTableSelectAll; ids: string[]; excluded: string[]; count: number };
+
+export type DataTableContext = { selectAll: UseSelectAllReturn };
+
+export const [injectDataTableContext, provideDataTableContext] = createContext<DataTableContext>(
+  "DataTable",
+  "KappaDataTable",
+);
+
+export const defaultSelectAllLabels: DataTableSelectAllLabels = {
+  page: (count) => `${count.toLocaleString("en-US")} selected on this page`,
+  all: (total) => `Select all ${total.toLocaleString("en-US")}`,
+  selected: (total) => `All ${total.toLocaleString("en-US")} selected`,
+  clear: "Clear selection",
+};
+
+export const resolveSelection = (value: DataTableSelectionProp | undefined) => {
+  const given = typeof value === "object" ? value : {};
+  const mode: "single" | "multiple" =
+    value === "single" ? "single" : typeof value === "object" ? (value.mode ?? "multiple") : "multiple";
+  return {
+    enabled: value !== undefined && value !== false,
+    mode,
+    column: given.column ?? true,
+    enableRowSelection: given.enableRowSelection,
+    selectAll: given.selectAll,
+  };
+};
+
+export const selectColumn = <T extends RowData>(): DataTableColumn<T> => ({
+  id: "select",
+  size: 40,
+  enableSorting: false,
+  enableHiding: false,
+  meta: { align: "center" },
+  header: () => h(DataTableSelectHeader),
+  cell: (context) => h(DataTableSelectCell, { row: context.row as DataTableRow<RowData> }),
+});
 
 export const dataTableRowHeights: Record<TableDensity, number> = { sm: 36, md: 44, lg: 52 };
 

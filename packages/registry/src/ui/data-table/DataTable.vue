@@ -24,6 +24,9 @@ import type {
   DataTablePaginationProp,
   DataTableRow,
   DataTableRowEvent,
+  DataTableRowSelectionState,
+  DataTableSelectAllLabels,
+  DataTableSelectionProp,
   DataTableSortingProp,
   DataTableUi,
   DataTableVirtualize,
@@ -44,6 +47,9 @@ export type DataTableProps<T extends RowData> = {
   virtualize?: DataTableVirtualize;
   sortable?: DataTableSortingProp;
   paginate?: DataTablePaginationProp;
+  selection?: DataTableSelectionProp;
+  selectAllLabels?: Partial<DataTableSelectAllLabels>;
+  rowSelection?: DataTableRowSelectionState;
   manual?: DataTableManual;
   rowCount?: number;
   columnResizing?: boolean;
@@ -62,19 +68,32 @@ export type DataTableProps<T extends RowData> = {
 
 <script setup lang="ts" generic="T extends RowData">
 import { type Cell, type CellContext, FlexRender, type Header, type HeaderContext } from "@tanstack/vue-table";
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, type Ref, ref, shallowRef, watch } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Progress } from "@/ui/progress";
 import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
 import { Skeleton } from "@/ui/skeleton";
 import { tableStyles } from "@/ui/table";
-import { type DataTableExpose, type DataTableInstance, dataTableRowHeights, resolveVirtualize, warnOnce } from ".";
+import {
+  type DataTableExpose,
+  type DataTableInstance,
+  type DataTableSelectAll,
+  type DataTableSelectionSource,
+  dataTableRowHeights,
+  provideDataTableContext,
+  resolveManual,
+  resolvePagination,
+  resolveVirtualize,
+  warnOnce,
+} from ".";
 import DataTableColumnHeader from "./DataTableColumnHeader.vue";
 import DataTablePagination from "./DataTablePagination.vue";
+import DataTableSelectAllBanner from "./DataTableSelectAllBanner.vue";
 import { useColumnLayout } from "./useColumnLayout";
 import { useDataTable } from "./useDataTable";
 import { useRowVirtualizer } from "./useRowVirtualizer";
+import { useSelectAll } from "./useSelectAll";
 
 const props = withDefaults(defineProps<DataTableProps<T>>(), {
   density: "md",
@@ -88,6 +107,10 @@ const props = withDefaults(defineProps<DataTableProps<T>>(), {
   noResults: "No results",
 });
 
+const emit = defineEmits<{
+  "update:rowSelection": [state: DataTableRowSelectionState, details: { source: DataTableSelectionSource }];
+}>();
+
 const sorting = defineModel<SortingState>("sorting");
 const columnVisibility = defineModel<ColumnVisibilityState>("columnVisibility");
 const columnPinning = defineModel<ColumnPinningState>("columnPinning");
@@ -96,7 +119,19 @@ const columnSizing = defineModel<ColumnSizingState>("columnSizing");
 const columnFilters = defineModel<ColumnFiltersState>("columnFilters");
 const globalFilter = defineModel<string>("globalFilter");
 const pagination = defineModel<PaginationState>("pagination");
-const rowSelection = defineModel<RowSelectionState>("rowSelection");
+const selectAllMode = defineModel<DataTableSelectAll>("selectAll", { default: "none" });
+
+const localSelection = ref<DataTableRowSelectionState>({});
+let pendingSource: DataTableSelectionSource = "imperative";
+const rowSelection = computed<DataTableRowSelectionState | undefined>({
+  get: () => props.rowSelection ?? localSelection.value,
+  set: (value) => {
+    const next = value ?? {};
+    localSelection.value = next;
+    emit("update:rowSelection", next, { source: pendingSource });
+    pendingSource = "imperative";
+  },
+});
 const expanded = defineModel<ExpandedState>("expanded");
 const grouping = defineModel<GroupingState>("grouping");
 const rowPinning = defineModel<RowPinningState>("rowPinning");
@@ -107,11 +142,18 @@ const slots = defineSlots<
     caption?: () => unknown;
     empty?: () => unknown;
     noResults?: () => unknown;
+    "select-all-banner"?: (scope: {
+      pageCount: number;
+      totalCount: number;
+      mode: DataTableSelectAll;
+      selectAll: () => void;
+      clear: () => void;
+    }) => unknown;
   } & Record<`cell-${string}`, (context: CellContext<DataTableFeatures, T, unknown>) => unknown> &
     Record<`header-${string}` | `footer-${string}`, (context: HeaderContext<DataTableFeatures, T, unknown>) => unknown>
 >();
 
-const { table, rows, filtered } = useDataTable<T>({
+const { table, rows, filtered, selection } = useDataTable<T>({
   data: () => props.data,
   columns: () => props.columns,
   getRowId: props.getRowId,
@@ -120,6 +162,7 @@ const { table, rows, filtered } = useDataTable<T>({
   pagination: () => props.paginate,
   manual: () => props.manual,
   rowCount: () => props.rowCount,
+  selection: () => props.selection,
   tableOptions: () => props.tableOptions,
   models: {
     sorting,
@@ -130,12 +173,37 @@ const { table, rows, filtered } = useDataTable<T>({
     columnFilters,
     globalFilter,
     pagination,
-    rowSelection,
+    rowSelection: rowSelection as Ref<RowSelectionState | undefined>,
     expanded,
     grouping,
     rowPinning,
   },
 });
+
+const manualFlags = computed(() => resolveManual(props.manual));
+const paginated = computed(() => resolvePagination(props.paginate).enabled);
+
+const selectAll = useSelectAll<T>({
+  table,
+  mode: selectAllMode,
+  selection: {
+    get: () => rowSelection.value ?? {},
+    set: (state, source) => {
+      pendingSource = source;
+      rowSelection.value = state;
+    },
+  },
+  markSource: (source) => {
+    pendingSource = source;
+  },
+  enabled: () => selection.value.selectAll ?? paginated.value,
+  single: () => selection.value.mode === "single",
+  manual: () => manualFlags.value.pagination || manualFlags.value.sorting || manualFlags.value.filtering,
+  total: () => (manualFlags.value.pagination ? (props.rowCount ?? 0) : table.getPrePaginatedRowModel().rows.length),
+});
+provideDataTableContext({ selectAll });
+
+watch([sorting, columnFilters, globalFilter], () => selectAll.onOrderChanged());
 
 const tableRef = shallowRef<HTMLTableElement | null>(null);
 const theadRef = shallowRef<HTMLElement | null>(null);
@@ -343,7 +411,14 @@ const focusRow: DataTableExpose<T>["focusRow"] = (index) => {
   });
 };
 
-defineExpose<DataTableExpose<T>>({ table, scrollToIndex, scrollToRow, focusRow, measure: () => virtual.measure() });
+defineExpose<DataTableExpose<T>>({
+  table,
+  scrollToIndex,
+  scrollToRow,
+  focusRow,
+  measure: () => virtual.measure(),
+  getSelection: () => selectAll.getSelection(),
+});
 
 const scrollerAttrs = computed(() =>
   scrolled.value
@@ -372,6 +447,25 @@ const scrollerAttrs = computed(() =>
     :style="{ '--table-thead-h': `${theadHeight}px`, '--table-tfoot-h': `${tfootHeight}px` }"
   >
     <slot name="toolbar" :table="table" />
+    <slot
+      v-if="selectAll.bannerVisible.value"
+      name="select-all-banner"
+      :page-count="selectAll.pageCount.value"
+      :total-count="selectAll.total.value"
+      :mode="selectAllMode"
+      :select-all="selectAll.selectAllRows"
+      :clear="selectAll.clear"
+    >
+      <DataTableSelectAllBanner
+        :mode="selectAllMode"
+        :page-count="selectAll.pageCount.value"
+        :total-count="selectAll.total.value"
+        :labels="props.selectAllLabels"
+        :class="props.ui?.banner"
+        @select-all="selectAll.selectAllRows()"
+        @clear="selectAll.clear()"
+      />
+    </slot>
     <component :is="scrolled ? ScrollArea : 'div'" ref="scrollerRef" v-bind="scrollerAttrs">
       <table
         ref="tableRef"
@@ -456,6 +550,7 @@ const scrollerAttrs = computed(() =>
               data-slot="table-row"
               :aria-rowindex="headerRowCount + segment.index + 1"
               :data-parity="props.striped ? (segment.index % 2 === 0 ? 'odd' : 'even') : undefined"
+              :data-state="selectAll.isSelected(segment.row) ? 'selected' : undefined"
               :data-clickable="props.onRowClick ? '' : undefined"
               :tabindex="props.onRowClick ? 0 : undefined"
               :class="cn(tableStyles.row, props.ui?.tr)"
