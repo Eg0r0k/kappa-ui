@@ -4,6 +4,7 @@ import { ConfigProvider } from 'reka-ui'
 import { fontOf, fontUrl, isDefaultTheme, siteCss } from '~/lib/theme'
 import { DialogHost } from '@/ui/dialog'
 import { Toaster } from '@/ui/toast'
+import { TooltipProvider } from '@/ui/tooltip'
 
 const { theme } = useSiteTheme()
 
@@ -20,9 +21,11 @@ useHead({
 
 <template>
   <ConfigProvider :scroll-body="false">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <TooltipProvider>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </TooltipProvider>
     <Toaster />
     <DialogHost />
   </ConfigProvider>

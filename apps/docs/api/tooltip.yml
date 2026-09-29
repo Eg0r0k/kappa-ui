@@ -1,0 +1,29 @@
+component: Tooltip
+file: ui/tooltip/Tooltip.vue
+props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether it starts open when `v-model:open` is not used."
+  role:
+    description: "`description` makes the tooltip the trigger's accessible description. `label` is for a tooltip that repeats the trigger's own name, such as an icon button's `aria-label`: the description is left out so screen readers do not read the name twice."
+  delay:
+    description: "This tooltip's own `delay`, over the provider's."
+  restThreshold:
+    description: "This tooltip's own `restThreshold`, over the provider's."
+  touch:
+    description: "This tooltip's own `touch` policy, over the provider's."
+  touchDelay:
+    description: "This tooltip's own `touchDelay`, over the provider's."
+  touchHideDelay:
+    description: "This tooltip's own `touchHideDelay`, over the provider's."
+  hoverable:
+    description: "Keeps the tooltip open while the pointer moves onto it, and lets it take pointer events."
+  closeOnClick:
+    description: "Closes the tooltip when its trigger is pressed."
+  disabled:
+    description: "Keeps the tooltip from opening, and closes it when open."
+emits:
+  update:open: "Fires when it opens or closes, with `{ reason, event }` as the second argument."
+slots:
+  default: "The trigger and the content. Receives `open`."

@@ -1,0 +1,11 @@
+component: TooltipTrigger
+file: ui/tooltip/TooltipTrigger.vue
+props:
+  reference:
+    description: "A virtual element to place the tooltip against instead of the trigger."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render. A button by default."
+slots:
+  default: "The trigger's content, or with `as-child` the element that becomes the trigger."

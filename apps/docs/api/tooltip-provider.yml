@@ -1,0 +1,23 @@
+component: TooltipProvider
+file: ui/tooltip/TooltipProvider.vue
+props:
+  delay:
+    description: "Milliseconds the pointer rests on a trigger before its tooltip opens. Moving the pointer restarts the wait. 600 by default."
+  skipDelay:
+    description: "Milliseconds after a tooltip closes during which the next one opens at once. 300 by default."
+  restThreshold:
+    description: "Squared distance in pixels a pointer move has to reach to restart the wait; smaller jitter does not. 2 by default."
+  touch:
+    description: "How touch opens a tooltip: `auto` (a long press, except on links, images, text fields, draggable elements and context menu triggers), `long-press` or `off`. `auto` by default."
+  touchDelay:
+    description: "Milliseconds a finger holds the trigger before the tooltip opens. 500 by default."
+  touchHideDelay:
+    description: "Milliseconds a tooltip opened by touch stays after the finger lifts. 1500 by default."
+  hoverable:
+    description: "Keeps a tooltip open while the pointer moves from the trigger onto it, and lets it take pointer events."
+  closeOnClick:
+    description: "Closes a tooltip when its trigger is pressed. On by default."
+  disabled:
+    description: "Keeps every tooltip under the provider from opening."
+slots:
+  default: "The app, or the part of it whose tooltips share these settings and warm up together."

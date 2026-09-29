@@ -1,0 +1,40 @@
+component: TooltipContent
+file: ui/tooltip/TooltipContent.vue
+props:
+  forceMount:
+    description: "Keeps the tooltip mounted while closed, for animating it with a JavaScript library."
+  ariaLabel:
+    description: "The text screen readers read as the trigger's description, instead of the tooltip's text as it was when it opened. Bind it when the text changes while open."
+  side:
+    description: "The side of the trigger to open on. Flips to the other side when there is no room, unless `avoidCollisions` is off."
+  sideOffset:
+    description: "Distance in pixels from the trigger."
+  align:
+    description: "Alignment against the trigger along the chosen side."
+  alignOffset:
+    description: "Offset in pixels from the `align` position."
+  avoidCollisions:
+    description: "Keeps the tooltip inside the collision boundary by flipping and shifting it."
+  collisionBoundary:
+    description: "The element or elements used as the collision boundary. The viewport by default."
+  collisionPadding:
+    description: "Distance in pixels from the boundary edges where collisions start."
+  arrowPadding:
+    description: "Padding between an arrow and the tooltip's corners."
+  sticky:
+    description: "`partial` keeps the tooltip attached to the trigger while scrolling; `always` also lets it detach from the trigger to stay in the boundary."
+  hideWhenDetached:
+    description: "Hides the tooltip when the trigger is scrolled out of view."
+  positionStrategy:
+    description: "The CSS position used to place the tooltip."
+  updatePositionStrategy:
+    description: "`always` recomputes the position on every animation frame instead of only on layout changes."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. Call `preventDefault()` to keep it open."
+slots:
+  default: "The tooltip's text, and an optional `TooltipArrow`."
