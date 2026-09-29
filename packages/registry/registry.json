@@ -3001,6 +3001,24 @@
       ]
     },
     {
+      "name": "scroll-area-reach-edge",
+      "type": "registry:block",
+      "title": "Scroll area edge events",
+      "description": "Each entry into an edge zone logged once.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/scroll-area/ScrollAreaReachEdge.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "scroll-area-virtualize",
       "type": "registry:block",
       "title": "Virtualized scroll area",

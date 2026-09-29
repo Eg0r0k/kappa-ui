@@ -18,6 +18,8 @@ props:
     description: Space in pixels kept free at the start and end of the vertical bar's track.
   horizontalOffset:
     description: Space in pixels kept free at the start and end of the horizontal bar's track.
+  edgeOffset:
+    description: Distance in pixels from an edge at which `reachEdge` counts the edge as reached. 0 by default.
   virtualize:
     description: Render only the items in and near the view. `true` uses the defaults; an object sets them.
     fields:
@@ -36,6 +38,7 @@ props:
 emits:
   scroll: Fires on scroll with positions, percentages and sizes for both axes, and `ref`, the exposed API.
   virtualScroll: Fires when the item at the scroll position changes, with `{ index, from, to, direction, ref }`.
+  reachEdge: Fires once when the position enters an edge zone, with `{ edge, ref }`. `edge` is `top`, `bottom`, `start` or `end`; `start` and `end` are logical. It fires again only after the position leaves the zone, and never at mount.
 slots:
   default: The content. When virtualized, rendered once per item with `{ item, index }`.
 exposed:

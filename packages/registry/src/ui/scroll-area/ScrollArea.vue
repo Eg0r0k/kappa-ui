@@ -15,6 +15,7 @@ export type ScrollAreaProps<T = unknown> = {
   orientation?: ScrollAreaOrientation;
   verticalOffset?: [number, number];
   horizontalOffset?: [number, number];
+  edgeOffset?: number;
   class?: HTMLAttributes["class"];
   virtualize?: boolean | ScrollAreaVirtualizeOptions;
   items?: readonly T[];
@@ -33,6 +34,7 @@ import { useVirtualScroll } from "./useVirtualScroll";
 import {
   clamp,
   getDragMultiplier,
+  getEdgeZones,
   getHorizontalPosition,
   getOverflowEdges,
   getPercentage,
@@ -44,6 +46,7 @@ import {
   type ResolvedVirtualizeOptions,
   type ScrollAreaApi,
   type ScrollAreaAxis,
+  type ScrollAreaEdge,
   type ScrollAreaScrollInfo,
   type ScrollAreaStore,
   type ScrollAreaVirtualInfo,
@@ -56,6 +59,7 @@ const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
   orientation: "vertical",
   verticalOffset: () => [0, 0],
   horizontalOffset: () => [0, 0],
+  edgeOffset: 0,
   virtualize: false,
   items: () => [],
 });
@@ -67,6 +71,7 @@ const scrollsY = computed(() => props.orientation !== "horizontal");
 const emit = defineEmits<{
   scroll: [info: ScrollAreaScrollInfo & { ref: ScrollAreaApi }];
   virtualScroll: [info: ScrollAreaVirtualInfo & { ref: ScrollAreaApi }];
+  reachEdge: [info: { edge: ScrollAreaEdge; ref: ScrollAreaApi }];
 }>();
 
 defineSlots<{
@@ -293,6 +298,22 @@ const api: ScrollAreaApi = {
 };
 
 defineExpose(api);
+
+const edgeZones = computed(() => {
+  const vertical = scrollsY.value
+    ? getEdgeZones(positionVertical.value, sizeVertical.value, containerVertical.value, props.edgeOffset)
+    : { start: false, end: false };
+  const horizontal = scrollsX.value
+    ? getEdgeZones(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value, props.edgeOffset)
+    : { start: false, end: false };
+  return { top: vertical.start, bottom: vertical.end, start: horizontal.start, end: horizontal.end };
+});
+
+watch(edgeZones, (zones, previous) => {
+  for (const edge of ["top", "bottom", "start", "end"] as const) {
+    if (zones[edge] && !previous[edge]) emit("reachEdge", { edge, ref: api });
+  }
+});
 
 let emitTimer: ReturnType<typeof setTimeout> | null = null;
 

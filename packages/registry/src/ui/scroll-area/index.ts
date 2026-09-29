@@ -120,6 +120,13 @@ export const getOverflowEdges = (position: number, size: number, container: numb
   };
 };
 
+export type ScrollAreaEdge = "top" | "bottom" | "start" | "end";
+
+export const getEdgeZones = (position: number, size: number, container: number, offset: number) => ({
+  start: position <= offset + 1,
+  end: position >= size - container - offset - 1,
+});
+
 export type VirtualSlice = {
   index: number;
   start: number;
