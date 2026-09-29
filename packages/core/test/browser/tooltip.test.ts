@@ -544,3 +544,60 @@ describe("accessibility and layout", () => {
     ]);
   });
 });
+
+describe("follow cursor", () => {
+  const wide = (props: Record<string, unknown>) =>
+    tooltip("a", { props, trigger: { style: "display: block; width: 400px; height: 40px; margin: 120px auto 0" } });
+
+  const at = (fraction: number) => {
+    const box = trigger().getBoundingClientRect();
+    mouse("pointermove", trigger(), { clientX: box.left + box.width * fraction, clientY: box.top + 20, movementX: 10 });
+    return box.left + box.width * fraction;
+  };
+
+  const centre = () => {
+    const box = content()!.getBoundingClientRect();
+    return box.left + box.width / 2;
+  };
+
+  it("keeps the tooltip over the pointer along x and above the trigger", async () => {
+    render(() => wide({ followCursor: "x" }), { delay: 0 });
+    const first = at(0.1);
+    await expect.poll(() => Math.abs(centre() - first)).toBeLessThan(1);
+    const second = at(0.8);
+    await expect.poll(() => Math.abs(centre() - second)).toBeLessThan(1);
+    expect(content()!.getBoundingClientRect().bottom).toBeLessThanOrEqual(trigger().getBoundingClientRect().top);
+  });
+
+  it("stays on the trigger without following", async () => {
+    render(() => wide({}), { delay: 0 });
+    at(0.1);
+    await expect.poll(() => content()?.parentElement?.style.transform ?? "").not.toContain("-200%");
+    const box = trigger().getBoundingClientRect();
+    await expect.poll(() => Math.abs(centre() - (box.left + box.width / 2))).toBeLessThan(1);
+  });
+
+  it("is never hoverable while it follows both axes", async () => {
+    render(() => wide({ followCursor: "both", hoverable: true }), { delay: 0 });
+    at(0.5);
+    await expect.poll(() => content()?.parentElement?.style.pointerEvents).toBe("none");
+  });
+});
+
+it("keeps a trigger's own aria-describedby in label mode", async () => {
+  render(
+    () => [
+      h("p", { id: "note" }, "Note"),
+      tooltip("a", {
+        props: { role: "label" },
+        trigger: { asChild: true, "data-test": undefined },
+        text: () => h("button", { "data-test": "a-trigger", "aria-describedby": "note", "aria-label": "a" }),
+      }),
+    ],
+    { delay: 0 },
+  );
+  move(trigger());
+  await expect.poll(() => content()).not.toBeNull();
+  await flush();
+  expect(trigger().getAttribute("aria-describedby")).toBe("note");
+});

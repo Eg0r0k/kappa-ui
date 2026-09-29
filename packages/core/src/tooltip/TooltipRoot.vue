@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<TooltipRootProps>(), {
   open: undefined,
   defaultOpen: false,
   role: "description",
+  followCursor: "none",
   hoverable: undefined,
   closeOnClick: undefined,
   disabled: undefined,
@@ -33,7 +34,7 @@ const settings = reactive({
   touch: computed(() => resolveTouch(props.touch ?? group.touch)),
   touchDelay: computed(() => props.touchDelay ?? group.touchDelay),
   touchHideDelay: computed(() => props.touchHideDelay ?? group.touchHideDelay),
-  hoverable: computed(() => props.hoverable ?? group.hoverable),
+  hoverable: computed(() => (props.followCursor === "both" ? false : (props.hoverable ?? group.hoverable))),
   closeOnClick: computed(() => props.closeOnClick ?? group.closeOnClick),
   disabled: computed(() => props.disabled ?? group.disabled),
 });
@@ -106,7 +107,7 @@ const rekaProps = computed(() => ({
   delayDuration: settings.delay,
   disableHoverableContent: !settings.hoverable,
   disableClosingTrigger: !settings.closeOnClick,
-  // Only switches off Reka's trigger listeners: TooltipTrigger binds its own.
+  // Only switches off Reka's trigger listeners: useTriggerBehaviour binds its own.
   disabled: true,
 }));
 
@@ -114,6 +115,7 @@ provideTooltipController({
   open,
   settings,
   role: toRef(props, "role"),
+  followCursor: toRef(props, "followCursor"),
   closedBy,
   touch,
   instant,

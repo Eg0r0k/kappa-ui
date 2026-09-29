@@ -3,6 +3,7 @@ export { default as TooltipProvider } from "./TooltipProvider.vue";
 export { default as TooltipRoot } from "./TooltipRoot.vue";
 export { default as TooltipTrigger } from "./TooltipTrigger.vue";
 export {
+  type TooltipFollowCursor,
   type TooltipOpenChangeDetails,
   type TooltipProviderProps,
   type TooltipReason,

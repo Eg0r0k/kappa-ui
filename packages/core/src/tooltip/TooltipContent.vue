@@ -20,6 +20,9 @@ const root = injectTooltipRootContext();
 const content = ref<ComponentPublicInstance>();
 
 const ariaLabel = computed(() => (controller.role.value === "label" ? " " : props.ariaLabel));
+const updatePositionStrategy = computed(
+  () => props.updatePositionStrategy ?? (controller.followCursor.value === "none" ? undefined : "always"),
+);
 
 // Reka's TOOLTIP_OPEN, dispatched on document by every tooltip as it opens.
 const siblingOpen = "tooltip.open";
@@ -86,6 +89,7 @@ const onPointerDownOutside = (event: Event) => {
     ref="content"
     v-bind="forwarded"
     :aria-label="ariaLabel"
+    :update-position-strategy="updatePositionStrategy"
     :data-touch="controller.touch.value ? '' : undefined"
     :data-instant="controller.instant.value ? 'sibling' : undefined"
     @escape-key-down="onEscapeKeyDown"

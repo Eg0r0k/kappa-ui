@@ -7,6 +7,8 @@ export type TouchPolicy = "off" | "long-press" | "auto";
 
 export type TooltipRole = "description" | "label";
 
+export type TooltipFollowCursor = "none" | "x" | "y" | "both";
+
 export type TooltipReason =
   | "trigger-hover"
   | "trigger-focus"
@@ -36,6 +38,7 @@ export interface TooltipRootProps extends Omit<TooltipProviderProps, "skipDelay"
   open?: boolean;
   defaultOpen?: boolean;
   role?: TooltipRole;
+  followCursor?: TooltipFollowCursor;
 }
 
 export type TooltipRootEmits = {
@@ -68,6 +71,7 @@ export type TooltipController = {
   open: Readonly<Ref<boolean>>;
   settings: Readonly<Omit<TooltipSettings, "skipDelay">>;
   role: Readonly<Ref<TooltipRole>>;
+  followCursor: Readonly<Ref<TooltipFollowCursor>>;
   closedBy: Readonly<Ref<TooltipReason | undefined>>;
   touch: Readonly<Ref<boolean>>;
   instant: Ref<boolean>;
