@@ -3,6 +3,8 @@ file: ui/table/Table.vue
 props:
   overflow:
     description: "`x` wraps the table in a container that scrolls sideways, as shadcn does; a sticky header then sticks to that container, which never scrolls vertically. `visible` clips nothing, so a sticky header sticks to the nearest scroller: the page, or a `ScrollArea` around the table."
+  layout:
+    description: "`auto` sizes columns from their content, the browser default. `fixed` sizes them from the header row's widths alone, so a long cell truncates instead of widening its column and rows never shift the layout as they come and go."
   density:
     description: Row height, as `--table-row-h` on the table. `sm` is 2.25rem, `md` 2.75rem, `lg` 3.25rem. Content that wraps still grows a row.
   striped:

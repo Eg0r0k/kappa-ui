@@ -6005,6 +6005,137 @@
       ]
     },
     {
+      "name": "table-wide",
+      "type": "registry:block",
+      "title": "Wide table",
+      "description": "Twelve columns scrolling sideways in the default container.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableWide.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-groups",
+      "type": "registry:block",
+      "title": "Grouped rows",
+      "description": "One body per group with a heading row.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableGroups.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-truncate",
+      "type": "registry:block",
+      "title": "Truncated cells",
+      "description": "A fixed layout with long text cut by an ellipsis.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableTruncate.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-rtl",
+      "type": "registry:block",
+      "title": "Right-to-left table",
+      "description": "Pinned columns and a sticky header mirrored under dir=\"rtl\".",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableRtl.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-large",
+      "type": "registry:block",
+      "title": "Large table",
+      "description": "Two hundred rows with two pinned columns at the start, one at the end, density and stripes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "scroll-area",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableLarge.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-card",
+      "type": "registry:block",
+      "title": "Table in a card",
+      "description": "A table filling a card, with badges and a caption for assistive technology.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table",
+        "card",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TableCard.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table-page-sticky",
+      "type": "registry:block",
+      "title": "Header sticky to the page",
+      "description": "A long table without a scroller of its own whose header sticks to the page.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/table/TablePageSticky.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "tabs-demo",
       "type": "registry:block",
       "title": "Tabs demo",

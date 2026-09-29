@@ -12,6 +12,8 @@ export type TableDensity = "sm" | "md" | "lg";
 
 export type TableOverflow = "x" | "visible";
 
+export type TableLayout = "auto" | "fixed";
+
 export type TableAlign = "start" | "center" | "end";
 
 export type TablePinned = "start" | "end";
@@ -24,7 +26,7 @@ const cellBase =
 export const tableStyles = {
   container: "relative w-full data-[overflow=x]:overflow-x-auto data-[overflow=visible]:overflow-visible",
   table:
-    "w-full caption-bottom border-separate border-spacing-0 text-body-md [--table-row-bg:transparent] [--table-row-h:2.75rem] [--table-hover-bg:color-mix(in_oklab,var(--color-foreground)_var(--state-hover),transparent)] [--table-selected-bg:color-mix(in_oklab,var(--color-primary)_var(--state-selected),transparent)] [--table-stripe-bg:color-mix(in_oklab,var(--color-muted)_50%,transparent)] data-[density=sm]:[--table-row-h:2.25rem] data-[density=lg]:[--table-row-h:3.25rem] data-striped:[&_tbody>tr:nth-child(even):not([data-parity]):not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tr[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)]",
+    "w-full caption-bottom border-separate border-spacing-0 text-body-md data-[layout=fixed]:table-fixed [--table-row-bg:transparent] [--table-row-h:2.75rem] [--table-hover-bg:color-mix(in_oklab,var(--color-foreground)_var(--state-hover),transparent)] [--table-selected-bg:color-mix(in_oklab,var(--color-primary)_var(--state-selected),transparent)] [--table-stripe-bg:color-mix(in_oklab,var(--color-muted)_50%,transparent)] data-[density=sm]:[--table-row-h:2.25rem] data-[density=lg]:[--table-row-h:3.25rem] data-striped:[&_tbody>tr:nth-child(even):not([data-parity]):not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tr[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)]",
   header: "data-sticky:sticky data-sticky:top-0 data-sticky:z-2 data-sticky:bg-background",
   body: "",
   footer:

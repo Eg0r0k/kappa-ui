@@ -281,7 +281,7 @@ it("mirrors pinned sides under rtl", async () => {
 
 it("aligns, truncates and marks clickable rows", () => {
   render(() =>
-    h(Table, { style: "width: 200px; table-layout: fixed" }, () => [
+    h(Table, { layout: "fixed", style: "width: 200px" }, () => [
       h(TableHeader, () => h(TableRow, () => [h(TableHead, { align: "end" }, () => "n"), h(TableHead, () => "t")])),
       h(TableBody, () =>
         h(TableRow, { clickable: true }, () => [
@@ -291,6 +291,8 @@ it("aligns, truncates and marks clickable rows", () => {
       ),
     ]),
   );
+  expect(q("[data-slot=table]").dataset.layout).toBe("fixed");
+  expect(getComputedStyle(q("[data-slot=table]")).tableLayout).toBe("fixed");
   expect(getComputedStyle(q("[data-slot=table-head]")).textAlign).toBe("end");
   expect(getComputedStyle(q("[data-slot=table-cell]")).textAlign).toBe("center");
   const long = qa("[data-slot=table-cell]")[1]!;
