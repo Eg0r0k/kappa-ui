@@ -1,0 +1,17 @@
+component: Splitter
+file: ui/splitter/Splitter.vue
+props:
+  direction:
+    description: "`horizontal` lays the panels out in a row and the handles resize widths; `vertical` stacks them and the handles resize heights."
+  id:
+    description: The group's `id`. Set it when rendering on the server, so the panels and handles pair up the same way after hydration.
+  keyboardResizeBy:
+    description: How far an arrow key moves a handle, as a percentage of the group. 10 by default.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the group's attributes and classes onto it."
+emits:
+  layout: "Fires with every panel's size, each in its own unit, whenever the layout changes."
+slots:
+  default: "The panels and handles. Receives `layout`."

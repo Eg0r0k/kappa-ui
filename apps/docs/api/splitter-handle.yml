@@ -1,0 +1,25 @@
+component: SplitterHandle
+file: ui/splitter/SplitterHandle.vue
+props:
+  variant:
+    description: "`line` is a 1px line in `--border`; `gutter` an invisible 8px gap. Both show a `--primary` line while the pointer is in the hit zone or a drag is on."
+  grip:
+    description: Draws a small pill with a grip icon in the middle of the handle.
+  hitAreaMargins:
+    description: "How far beyond the handle a press still grabs it, in pixels: `coarse` for touch, 15 by default, and `fine` for a mouse, 5 by default."
+  disabled:
+    description: Locks the handle; the panels beside it keep their sizes.
+  tabindex:
+    description: The handle's `tabindex`. 0 by default, so it is in the tab order.
+  id:
+    description: The handle's `id`. Set it when rendering on the server.
+  nonce:
+    description: A CSP nonce for the cursor style Reka UI injects while the pointer is over a handle.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the handle's attributes and classes onto it."
+emits:
+  dragging: Fires with `true` when a drag starts and `false` when it ends.
+slots:
+  default: Replaces the grip icon. Only rendered with `grip`.

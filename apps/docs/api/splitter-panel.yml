@@ -1,0 +1,36 @@
+component: SplitterPanel
+file: ui/splitter/SplitterPanel.vue
+props:
+  defaultSize:
+    description: The size at first, in `size-unit`. Panels without one share what is left.
+  minSize:
+    description: The smallest the panel can be dragged to. Past it, the drag shrinks the next panel along instead.
+  maxSize:
+    description: The largest the panel can grow to.
+  collapsible:
+    description: Lets a drag past `min-size` snap the panel down to `collapsed-size`.
+  collapsedSize:
+    description: The size of a collapsed panel. 0 by default.
+  sizeUnit:
+    description: "`%` of the group, the default, or `px`."
+  order:
+    description: The panel's place in the layout, for panels that mount conditionally or out of order.
+  id:
+    description: The panel's `id`. Set it when rendering on the server.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the panel's attributes and classes onto it."
+emits:
+  resize: Fires with the new size and the previous one whenever the panel's size changes, and once on mount with the starting size.
+  collapse: Fires when the panel collapses.
+  expand: Fires when the panel expands.
+slots:
+  default: "The content. Receives `isCollapsed`, `isExpanded`, `collapse`, `expand` and `resize`."
+exposed:
+  collapse: Collapses the panel, if it is `collapsible`.
+  expand: Expands a collapsed panel to the size it had before.
+  resize: Sets the panel's size, in its `size-unit`.
+  getSize: The current size, in the panel's `size-unit`.
+  isCollapsed: Whether the panel is collapsed.
+  isExpanded: Whether the panel is not collapsed.
