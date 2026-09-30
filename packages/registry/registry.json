@@ -884,6 +884,7 @@
       "title": "Card",
       "description": "Surface that groups related content, with header, title, description, content and footer parts.",
       "dependencies": [
+        "class-variance-authority",
         "reka-ui"
       ],
       "registryDependencies": [
@@ -3631,7 +3632,7 @@
       "name": "card-size",
       "type": "registry:block",
       "title": "Card size",
-      "description": "The default card next to the small one.",
+      "description": "The five sizes, each with a button of the matching size.",
       "categories": [
         "example"
       ],
@@ -3642,6 +3643,49 @@
       "files": [
         {
           "path": "src/examples/card/CardSize.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "card-variants",
+      "type": "registry:block",
+      "title": "Card variants",
+      "description": "The four surfaces: outline, solid, soft and subtle.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "card",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/card/CardVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "card-flush",
+      "type": "registry:block",
+      "title": "Card edge to edge",
+      "description": "An image flush at the top and a list of items reaching the sides, with the padding on the items instead of the card.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "card",
+        "item",
+        "image",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/card/CardFlush.vue",
           "type": "registry:component"
         }
       ]
