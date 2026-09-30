@@ -8005,6 +8005,136 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "pin-input",
+      "type": "registry:ui",
+      "title": "Pin Input",
+      "description": "One box per character for codes and PINs, with the text control variants and sizes of Input, one-time-code autofill and Field integration. Built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/ui/pin-input/PinInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pin-input/PinInputGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pin-input/PinInputSlot.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pin-input/PinInputSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/pin-input/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pin-input-demo",
+      "type": "registry:block",
+      "title": "Pin Input demo",
+      "description": "Six digits in two groups with a dash between.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pin-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/pin-input/PinInputDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pin-input-variants",
+      "type": "registry:block",
+      "title": "Pin Input variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pin-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/pin-input/PinInputVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pin-input-sizes",
+      "type": "registry:block",
+      "title": "Pin Input sizes",
+      "description": "Slots from 28px to 48px.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pin-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/pin-input/PinInputSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pin-input-mask",
+      "type": "registry:block",
+      "title": "Pin Input mask",
+      "description": "A masked numeric PIN with a placeholder.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pin-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/pin-input/PinInputMask.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pin-input-field",
+      "type": "registry:block",
+      "title": "Pin Input in a field",
+      "description": "Label, description and error from a Field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "pin-input",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/pin-input/PinInputField.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
