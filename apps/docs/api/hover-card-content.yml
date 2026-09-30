@@ -47,5 +47,10 @@ props:
     description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
   as:
     description: "The element or component to render."
+emits:
+  escapeKeyDown: "Fires on Escape while the card is open. `preventDefault()` keeps the card open."
+  pointerDownOutside: "Fires on a pointer press outside the card. Informational: the card decides on its own whether the press closes it."
+  focusOutside: "Fires when focus moves outside the card. Informational: focus leaving never closes the card by itself."
+  interactOutside: "Fires for either of the two above."
 slots:
   default: "The card's content."

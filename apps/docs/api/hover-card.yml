@@ -1,17 +1,23 @@
 component: HoverCard
 file: ui/hover-card/HoverCard.vue
 props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`. A change from outside emits nothing."
   defaultOpen:
     description: "Whether it starts open when `v-model:open` is not used."
-  open:
-    description: "Whether it is open, bound with `v-model:open`."
   openDelay:
-    description: "Milliseconds the pointer rests on the trigger before the card opens. 700 by default."
+    description: "Milliseconds the pointer rests on the trigger before the card opens. 700 by default. Touch opens at once, or after `touchDelay` on a long press."
   closeDelay:
-    description: "Milliseconds the card stays after the pointer leaves the trigger and the card. 300 by default."
-  enableTouch:
-    description: "Lets a touch on the trigger open the card, which touch does not do by default."
+    description: "Milliseconds the card stays after the pointer has left the trigger and the card, or focus has left the trigger. 300 by default."
+  restThreshold:
+    description: "Squared pointer movement, in pixels, below which the pointer counts as resting and the open delay keeps counting. 2 by default."
+  touch:
+    description: "How touch opens the card. `auto` (the default) long-presses a link or another element with a native long press and taps anything else; `long-press` always waits for the long press; `off` leaves touch alone. A touch-opened card stays until a tap outside, Escape or `disabled`."
+  touchDelay:
+    description: "Milliseconds a finger holds the trigger before a long press opens the card. 500 by default."
+  disabled:
+    description: "Closes the card and ignores the trigger while set."
 emits:
-  update:open: "Fires when it opens or closes."
+  update:open: "Fires when it opens or closes, with `{ reason, event }`: `trigger-hover`, `trigger-focus`, `trigger-press`, `outside-press`, `escape-key`, `scroll` or `disabled`."
 slots:
   default: "The trigger and the content. Receives `open`."
