@@ -8135,6 +8135,116 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "toolbar",
+      "type": "registry:ui",
+      "title": "Toolbar",
+      "description": "A row or column of buttons, toggle groups, links and separators with one tab stop and arrow-key focus, framed or ghost. Built on Reka UI over Button and ToggleGroup.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "button",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/ui/toolbar/Toolbar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toolbar/ToolbarButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toolbar/ToolbarLink.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toolbar/ToolbarSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toolbar/ToolbarToggleGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toolbar/ToolbarToggleItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/toolbar/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toolbar-demo",
+      "type": "registry:block",
+      "title": "Toolbar demo",
+      "description": "Text style and alignment toggles, a link and a share button.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toolbar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toolbar/ToolbarDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toolbar-vertical",
+      "type": "registry:block",
+      "title": "Toolbar vertical",
+      "description": "A column of tools with up and down arrow focus.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toolbar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toolbar/ToolbarVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toolbar-ghost",
+      "type": "registry:block",
+      "title": "Toolbar ghost",
+      "description": "A frameless toolbar in a card header.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "toolbar",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/toolbar/ToolbarGhost.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
