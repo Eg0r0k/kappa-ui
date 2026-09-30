@@ -27,16 +27,27 @@ describe("colour axis", () => {
   });
 
   it("draws a colour the user declares on [data-slot][data-color]", () => {
-    style('[data-slot][data-color="brand"] { --c: rgb(1, 2, 3); --c-fg: rgb(4, 5, 6); }');
+    style('[data-slot][data-color="brand"] { --tone: rgb(1, 2, 3); --tone-foreground: rgb(4, 5, 6); }');
     const button = getComputedStyle(render({ color: "brand" }));
     expect(button.backgroundColor).toBe("rgb(1, 2, 3)");
     expect(button.color).toBe("rgb(4, 5, 6)");
   });
 
-  it("lets a class override the colour variables", () => {
-    const button = getComputedStyle(render({ class: "[--c:rgb(255,0,0)] [--c-fg:rgb(0,0,255)]" }));
+  it("lets a class override the tone variables", () => {
+    const button = getComputedStyle(render({ class: "[--tone:rgb(255,0,0)] [--tone-foreground:rgb(0,0,255)]" }));
     expect(button.backgroundColor).toBe("rgb(255, 0, 0)");
     expect(button.color).toBe("rgb(0, 0, 255)");
+  });
+
+  it("derives the soft text and the edge from --tone-text", () => {
+    style(
+      '[data-slot][data-color="brand"] { --tone: rgb(1, 2, 3); --tone-foreground: rgb(4, 5, 6); --tone-text: rgb(7, 8, 9); }',
+    );
+    const outline = getComputedStyle(render({ variant: "outline", color: "brand" }));
+    expect(outline.color).toBe("rgb(7, 8, 9)");
+    expect(outline.boxShadow).toContain("rgb(7, 8, 9)");
+    expect(getComputedStyle(render({ variant: "soft", color: "brand" })).color).toBe("rgb(7, 8, 9)");
+    expect(getComputedStyle(render({ variant: "ghost", color: "brand" })).color).toBe("rgb(7, 8, 9)");
   });
 
   it("follows a theme overridden on a subtree", () => {

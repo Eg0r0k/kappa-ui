@@ -10,14 +10,14 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         solid:
-          "state-layer bg-(--c) text-(--c-fg) disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity)",
-        soft: "state-layer bg-(--c-soft) text-(--c-soft-fg) disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity)",
+          "state-layer bg-tone text-tone-foreground disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity)",
+        soft: "state-layer bg-tone-soft text-tone-soft-foreground disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity)",
         subtle:
-          "state-layer bg-(--c-soft) text-(--c-soft-fg) inset-ring inset-ring-(--c-subtle-edge) disabled:bg-foreground/(--disabled-container-opacity) disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
+          "state-layer bg-tone-soft text-tone-soft-foreground inset-ring inset-ring-tone-border-subtle disabled:bg-foreground/(--disabled-container-opacity) disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
         outline:
-          "state-layer bg-background text-(--c-text) inset-ring inset-ring-(--c-edge) disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
-        ghost: "state-layer text-(--c-text)",
-        link: "text-(--c-text) underline-offset-4 hover:underline aria-disabled:hover:no-underline",
+          "state-layer bg-background text-tone-text inset-ring inset-ring-tone-border disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
+        ghost: "state-layer text-tone-text",
+        link: "text-tone-text underline-offset-4 hover:underline aria-disabled:hover:no-underline",
       },
       size: {
         xs: "h-7 gap-1 rounded-md px-2.5 text-label-sm [--touch-h:1.75rem] has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2 [&_svg:not([class*='size-'])]:size-3.5",

@@ -10,65 +10,67 @@
 
   [data-slot][data-color],
   [data-slot][data-state="on"][data-active-color] {
-    --c-subtle-edge: color-mix(in oklab, var(--c-edge) 25%, transparent);
-    --c-text: var(--c-soft-fg);
+    --tone-soft: color-mix(in oklab, var(--tone) 12%, transparent);
+    --tone-soft-foreground: var(--tone-text);
+    --tone-border: var(--tone-text);
+    --tone-border-subtle: color-mix(in oklab, var(--tone-border) 25%, transparent);
   }
 
   [data-slot][data-color="primary"],
   [data-slot][data-state="on"][data-active-color="primary"] {
-    --c: --theme(--color-primary);
-    --c-fg: --theme(--color-primary-foreground);
-    --c-soft: color-mix(in oklab, --theme(--color-primary) 12%, transparent);
-    --c-soft-fg: --theme(--color-primary);
-    --c-edge: --theme(--color-primary);
+    --tone: --theme(--color-primary);
+    --tone-foreground: --theme(--color-primary-foreground);
+    --tone-text: --theme(--color-primary);
   }
 
   [data-slot][data-color="neutral"],
   [data-slot][data-state="on"][data-active-color="neutral"] {
-    --c: --theme(--color-foreground);
-    --c-fg: --theme(--color-background);
-    --c-soft: --theme(--color-secondary);
-    --c-soft-fg: --theme(--color-secondary-foreground);
-    --c-edge: --theme(--color-input);
-    --c-subtle-edge: --theme(--color-input);
-    --c-text: --theme(--color-foreground);
+    --tone: --theme(--color-foreground);
+    --tone-foreground: --theme(--color-background);
+    --tone-text: --theme(--color-foreground);
+    --tone-soft: --theme(--color-secondary);
+    --tone-soft-foreground: --theme(--color-secondary-foreground);
+    --tone-border: --theme(--color-input);
+    --tone-border-subtle: --theme(--color-input);
   }
 
   [data-slot][data-color="destructive"],
   [data-slot][data-state="on"][data-active-color="destructive"] {
-    --c: --theme(--color-destructive);
-    --c-fg: --theme(--color-destructive-foreground);
-    --c-soft: color-mix(in oklab, --theme(--color-destructive) 12%, transparent);
-    --c-soft-fg: --theme(--color-destructive);
-    --c-edge: --theme(--color-destructive);
+    --tone: --theme(--color-destructive);
+    --tone-foreground: --theme(--color-destructive-foreground);
+    --tone-text: --theme(--color-destructive);
   }
 
   [data-slot][data-color="success"],
   [data-slot][data-state="on"][data-active-color="success"] {
-    --c: --theme(--color-success);
-    --c-fg: --theme(--color-success-foreground);
-    --c-soft: color-mix(in oklab, --theme(--color-success) 12%, transparent);
-    --c-soft-fg: --theme(--color-success-text);
-    --c-edge: --theme(--color-success-text);
+    --tone: --theme(--color-success);
+    --tone-foreground: --theme(--color-success-foreground);
+    --tone-text: --theme(--color-success-text);
   }
 
   [data-slot][data-color="warning"],
   [data-slot][data-state="on"][data-active-color="warning"] {
-    --c: --theme(--color-warning);
-    --c-fg: --theme(--color-warning-foreground);
-    --c-soft: color-mix(in oklab, --theme(--color-warning) 12%, transparent);
-    --c-soft-fg: --theme(--color-warning-text);
-    --c-edge: --theme(--color-warning-text);
+    --tone: --theme(--color-warning);
+    --tone-foreground: --theme(--color-warning-foreground);
+    --tone-text: --theme(--color-warning-text);
   }
 
   [data-slot][data-color="info"],
   [data-slot][data-state="on"][data-active-color="info"] {
-    --c: --theme(--color-info);
-    --c-fg: --theme(--color-info-foreground);
-    --c-soft: color-mix(in oklab, --theme(--color-info) 12%, transparent);
-    --c-soft-fg: --theme(--color-info-text);
-    --c-edge: --theme(--color-info-text);
+    --tone: --theme(--color-info);
+    --tone-foreground: --theme(--color-info-foreground);
+    --tone-text: --theme(--color-info-text);
   }
+}
+
+@theme inline {
+  --color-tone: var(--tone);
+  --color-tone-foreground: var(--tone-foreground);
+  --color-tone-text: var(--tone-text);
+  --color-tone-soft: var(--tone-soft);
+  --color-tone-soft-foreground: var(--tone-soft-foreground);
+  --color-tone-border: var(--tone-border);
+  --color-tone-border-subtle: var(--tone-border-subtle);
 }
 
 @property --touch-w {
