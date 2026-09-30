@@ -1,5 +1,11 @@
 # @kappa-ui/core
 
+## 0.6.0
+
+### Minor Changes
+
+- [`7323be6`](https://github.com/Eg0r0k/kappa-ui/commit/7323be66354c14fe11f9d4eff9b006d98c4eae8b) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `animate-collapsible-down` and `animate-collapsible-up` in `tailwind.css`: the accordion's timing for Reka UI's collapsible, with `overflow: hidden` inside the keyframes so an open panel at rest does not clip.
+
 ## 0.5.0
 
 ### Minor Changes
