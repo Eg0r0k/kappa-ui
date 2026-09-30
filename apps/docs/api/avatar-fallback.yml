@@ -1,0 +1,11 @@
+component: AvatarFallback
+file: ui/avatar/AvatarFallback.vue
+props:
+  delayMs:
+    description: Milliseconds to wait before rendering, so a photo that arrives quickly never shows the fallback first.
+  as:
+    description: The element or component to render. A span by default.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the fallback's attributes and classes onto it.
+slots:
+  default: Initials or an icon.

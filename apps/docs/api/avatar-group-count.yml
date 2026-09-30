@@ -1,0 +1,11 @@
+component: AvatarGroupCount
+file: ui/avatar/AvatarGroupCount.vue
+props:
+  size:
+    description: The same sizes as `Avatar`, so the count lines up with the avatars beside it. `md` by default.
+  as:
+    description: The element or component to render. A span by default.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the count's attributes and classes onto it.
+slots:
+  default: The count, such as `+3`, or an icon.

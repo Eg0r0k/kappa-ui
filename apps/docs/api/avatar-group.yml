@@ -1,0 +1,9 @@
+component: AvatarGroup
+file: ui/avatar/AvatarGroup.vue
+props:
+  as:
+    description: The element or component to render. A div by default.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the group's attributes and classes onto it.
+slots:
+  default: Avatars, and an `AvatarGroupCount` last.

@@ -1,0 +1,15 @@
+component: AvatarImage
+file: ui/avatar/AvatarImage.vue
+props:
+  src:
+    description: The image URL. The element stays hidden until it has loaded.
+  referrerPolicy:
+    description: The referrer sent with the request, as on `<img>`.
+  crossOrigin:
+    description: Requests the image with CORS, as on `<img>`.
+  as:
+    description: The element or component to render. An img by default.
+  asChild:
+    description: Render the single child instead of an img, merging the attributes onto it.
+emits:
+  loadingStatusChange: Fires with `idle`, `loading`, `loaded` or `error` as the load progresses.

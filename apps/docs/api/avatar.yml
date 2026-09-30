@@ -1,0 +1,11 @@
+component: Avatar
+file: ui/avatar/Avatar.vue
+props:
+  size:
+    description: Width and height, 24px for `xs` to 64px for `xl`, with the text and icon size of the fallback. `md` (40px) by default.
+  as:
+    description: The element or component to render. A span by default.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the avatar's attributes and classes onto it.
+slots:
+  default: An `AvatarImage` and an `AvatarFallback`, or an `Image`.
