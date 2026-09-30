@@ -21,6 +21,7 @@
   ],
   "exports": {
     "./dialog": "./src/dialog/index.ts",
+    "./hover-card": "./src/hover-card/index.ts",
     "./menu": "./src/menu/index.ts",
     "./overlay": "./src/overlay/index.ts",
     "./ripple": "./src/ripple/index.ts",
@@ -33,6 +34,10 @@
     "access": "public",
     "exports": {
       "./dialog": { "types": "./dist/dialog/index.d.ts", "default": "./dist/dialog/index.js" },
+      "./hover-card": {
+        "types": "./dist/hover-card/index.d.ts",
+        "default": "./dist/hover-card/index.js"
+      },
       "./menu": { "types": "./dist/menu/index.d.ts", "default": "./dist/menu/index.js" },
       "./overlay": { "types": "./dist/overlay/index.d.ts", "default": "./dist/overlay/index.js" },
       "./ripple": { "types": "./dist/ripple/index.d.ts", "default": "./dist/ripple/index.js" },
