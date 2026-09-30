@@ -1,5 +1,27 @@
 # @kappa-ui/registry
 
+## 0.6.0
+
+### Minor Changes
+
+- [`aa71d8d`](https://github.com/Eg0r0k/kappa-ui/commit/aa71d8daa18fe2ca5b2a3ceff43c7f49469c86dd) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Avatar: `Avatar`, `AvatarImage`, `AvatarFallback`, `AvatarGroup` and `AvatarGroupCount`. Five sizes from 24 to 64px; a group overlaps its members by a quarter of their size and rings them in `--avatar-ring`; `Image` goes in an avatar in place of `AvatarImage` for sources and layers.
+
+- [`4e35ec3`](https://github.com/Eg0r0k/kappa-ui/commit/4e35ec3511f84a0f14cccdd00c851833588cfd2f) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Card takes `size` from `xs` to `xl` on one `--card-spacing` (`md` is the default and replaces `default`) and `variant`: `outline` (unchanged, the default), `solid` with a small shadow and no border, `soft` tinted, `subtle` tinted with a border. `ChoiceGroup` is the layout behind `CheckboxGroup` and `RadioGroup`'s `variant` and `orientation`, in its own `choice-group` item; `radio-group` depends on it instead of on `checkbox`.
+
+- [`6ea2d24`](https://github.com/Eg0r0k/kappa-ui/commit/6ea2d24355e8575d52e4daf638619dd389da3e40) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `@kappa-ui/core/hover-card` drives the hover card: on touch, `auto` opens a link on a long press and anything else on a tap, the card stays open while the page scrolls and closes on a tap outside, on Escape or on `disabled`; on a desktop the pointer has to rest for `openDelay`, focus opens only when visible, and `update:open` reports why the card opened or closed. `HoverCard` loses `enableTouch` and gains `touch`, `touchDelay`, `restThreshold` and `disabled`. The card no longer gets stuck after a scroll on touch.
+
+- [`5043a12`](https://github.com/Eg0r0k/kappa-ui/commit/5043a1289edc7f3b2e66ff3ec92155c2606367e0) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `InputFloating` is the input with a floating label; `Input` no longer takes `label`. Replace `<Input label="…">` with `<InputFloating label="…">` from `@/components/ui/input-floating`. The wrapper's `data-slot` is `input-floating`, the input inside it `input-floating-input` and the label `input-floating-label`.
+
+- [`305c540`](https://github.com/Eg0r0k/kappa-ui/commit/305c540350059aca48dc0ca2ea5824c6219ff029) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Splitter: `Splitter`, `SplitterPanel` and `SplitterHandle` over Reka UI's splitter. The handle is a `line` or a `gutter` that lights up in `--primary` while the pointer is in its hit zone, with an optional `grip`; double-clicking it puts the panels beside it back to their starting sizes.
+
+- [`715f6fc`](https://github.com/Eg0r0k/kappa-ui/commit/715f6fcccaafcbabc56cd53f7a5671756c63e477) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Components are coloured by tones. A colour is three inputs, `--tone`, `--tone-foreground` and `--tone-text`, set on `[data-slot][data-color="<name>"]`; core derives `--tone-soft`, `--tone-soft-foreground`, `--tone-border` and `--tone-border-subtle` from them and registers all seven as `tone-*` colours, so `bg-tone`, `text-tone-text` and the rest work as classes. The `--c-*` variables are gone: a rule that set `--c`, `--c-fg`, `--c-soft`, `--c-soft-fg` or `--c-edge` now sets `--tone`, `--tone-foreground` and `--tone-text`, and drops the rest. Button, Badge, Alert, Toggle, the choice controls and Toast read tones; Toast no longer exports `toastAccents`.
+
+### Patch Changes
+
+- [`80f5d64`](https://github.com/Eg0r0k/kappa-ui/commit/80f5d64b537dc6fbbc2a9de4c1f2cc3ccdd32ae6) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The pill tab indicator is `--input` at 30% in the dark theme, so the active tab sits above its track instead of sinking below it.
+- Updated dependencies [[`6ea2d24`](https://github.com/Eg0r0k/kappa-ui/commit/6ea2d24355e8575d52e4daf638619dd389da3e40), [`715f6fc`](https://github.com/Eg0r0k/kappa-ui/commit/715f6fcccaafcbabc56cd53f7a5671756c63e477)]:
+  - @kappa-ui/core@0.5.0
+
 ## 0.5.0
 
 ### Minor Changes
