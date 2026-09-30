@@ -7720,6 +7720,9 @@
           "path": "src/examples/collapsible/CollapsibleDemo.vue",
           "type": "registry:component"
         }
+      ],
+      "dependencies": [
+        "@lucide/vue"
       ]
     },
     {
@@ -7739,6 +7742,9 @@
           "path": "src/examples/collapsible/CollapsibleIcon.vue",
           "type": "registry:component"
         }
+      ],
+      "dependencies": [
+        "@lucide/vue"
       ]
     },
     {
@@ -7815,6 +7821,9 @@
           "path": "src/examples/collapsible/CollapsibleHeavy.vue",
           "type": "registry:component"
         }
+      ],
+      "dependencies": [
+        "@lucide/vue"
       ]
     }
   ]
