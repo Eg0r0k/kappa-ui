@@ -7544,6 +7544,133 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "splitter-demo",
+      "type": "registry:block",
+      "title": "Splitter demo",
+      "description": "Three panels with minimum sizes; a panel at its minimum pushes the next one along.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "splitter"
+      ],
+      "files": [
+        {
+          "path": "src/examples/splitter/SplitterDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "splitter-vertical",
+      "type": "registry:block",
+      "title": "Splitter vertical",
+      "description": "Two panels stacked with direction=\"vertical\".",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "splitter"
+      ],
+      "files": [
+        {
+          "path": "src/examples/splitter/SplitterVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "splitter-collapsible",
+      "type": "registry:block",
+      "title": "Splitter collapsible",
+      "description": "A pixel-sized sidebar that collapses to 48px, with a button from the panel slot props.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "splitter",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/splitter/SplitterCollapsible.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "splitter-nested",
+      "type": "registry:block",
+      "title": "Splitter nested",
+      "description": "A vertical splitter inside a horizontal one, like an editor layout.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "splitter"
+      ],
+      "files": [
+        {
+          "path": "src/examples/splitter/SplitterNested.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "splitter-gutter",
+      "type": "registry:block",
+      "title": "Splitter gutter",
+      "description": "An invisible 8px gutter between card panels.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "splitter"
+      ],
+      "files": [
+        {
+          "path": "src/examples/splitter/SplitterGutter.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "splitter-grip",
+      "type": "registry:block",
+      "title": "Splitter grip",
+      "description": "A line handle with a grip pill.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "splitter"
+      ],
+      "files": [
+        {
+          "path": "src/examples/splitter/SplitterGrip.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "splitter-disabled",
+      "type": "registry:block",
+      "title": "Splitter disabled",
+      "description": "A disabled handle locks the layout.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "splitter"
+      ],
+      "files": [
+        {
+          "path": "src/examples/splitter/SplitterDisabled.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
