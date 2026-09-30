@@ -12,12 +12,12 @@ export const alertVariants = cva(
   {
     variants: {
       variant: {
-        solid: "bg-(--c) text-(--c-fg)",
-        soft: "bg-(--c-soft) text-(--c-soft-fg)",
-        subtle: "bg-(--c-soft) text-(--c-soft-fg) inset-ring inset-ring-(--c-subtle-edge)",
-        outline: "bg-background text-(--c-text) inset-ring inset-ring-(--c-edge)",
-        ghost: "text-(--c-text)",
-        link: "text-(--c-text) underline-offset-4 hover:underline",
+        solid: "bg-tone text-tone-foreground",
+        soft: "bg-tone-soft text-tone-soft-foreground",
+        subtle: "bg-tone-soft text-tone-soft-foreground inset-ring inset-ring-tone-border-subtle",
+        outline: "bg-background text-tone-text inset-ring inset-ring-tone-border",
+        ghost: "text-tone-text",
+        link: "text-tone-text underline-offset-4 hover:underline",
       },
       size: {
         xs: "rounded-md p-2.5 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(3.5)] [--alert-line:var(--typescale-label-md-line-height)]",

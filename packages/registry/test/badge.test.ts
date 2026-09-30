@@ -83,7 +83,7 @@ describe("Badge touch target", () => {
 describe("Badge colour", () => {
   it("draws a colour the user declares on [data-slot][data-color]", () => {
     const style = document.createElement("style");
-    style.textContent = '[data-slot][data-color="brand"] { --c: rgb(1, 2, 3); --c-fg: rgb(4, 5, 6); }';
+    style.textContent = '[data-slot][data-color="brand"] { --tone: rgb(1, 2, 3); --tone-foreground: rgb(4, 5, 6); }';
     document.head.append(style);
     const badge = getComputedStyle(render({ color: "brand" }));
     expect([badge.backgroundColor, badge.color]).toEqual(["rgb(1, 2, 3)", "rgb(4, 5, 6)"]);

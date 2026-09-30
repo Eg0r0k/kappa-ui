@@ -9,12 +9,12 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        solid: "bg-(--c) text-(--c-fg)",
-        soft: "bg-(--c-soft) text-(--c-soft-fg)",
-        subtle: "border border-(--c-subtle-edge) bg-(--c-soft) text-(--c-soft-fg)",
-        outline: "border border-(--c-edge) text-(--c-text)",
-        ghost: "text-(--c-text)",
-        link: "text-(--c-text) underline-offset-4 hover:underline",
+        solid: "bg-tone text-tone-foreground",
+        soft: "bg-tone-soft text-tone-soft-foreground",
+        subtle: "border border-tone-border-subtle bg-tone-soft text-tone-soft-foreground",
+        outline: "border border-tone-border text-tone-text",
+        ghost: "text-tone-text",
+        link: "text-tone-text underline-offset-4 hover:underline",
       },
       size: {
         xs: "h-4 gap-0.5 rounded-sm text-label-sm [--touch-h:1rem] [&_svg:not([class*='size-'])]:size-3",
