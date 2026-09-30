@@ -2,26 +2,24 @@
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
+import { type CardVariants, cardVariants } from ".";
 
 const props = withDefaults(
   defineProps<{
-    size?: "default" | "sm";
+    variant?: CardVariants["variant"];
+    size?: CardVariants["size"];
     class?: HTMLAttributes["class"];
   }>(),
-  { size: "default" },
+  { variant: "outline", size: "md" },
 );
 </script>
 
 <template>
   <div
     data-slot="card"
+    :data-variant="props.variant"
     :data-size="props.size"
-    :class="
-      cn(
-        'group/card flex flex-col gap-(--card-spacing) rounded-xl border border-surface-border bg-card py-(--card-spacing) text-card-foreground [--card-spacing:--spacing(6)] [--scroll-fade-color:var(--card)] data-[size=sm]:[--card-spacing:--spacing(4)]',
-        props.class,
-      )
-    "
+    :class="cn(cardVariants({ variant: props.variant, size: props.size }), props.class)"
   >
     <slot />
   </div>
