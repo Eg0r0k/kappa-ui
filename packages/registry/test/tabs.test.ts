@@ -157,15 +157,17 @@ it("squares the pill when --radius is zero", async () => {
   }
 });
 
-it("gives the pill indicator a hairline border, and the line indicator none", async () => {
+it("lifts the pill indicator with a shadow and no border, and the line indicator with neither", async () => {
   renderTabs();
   await settle();
-  expect(getComputedStyle(indicator()).borderTopWidth).toBe("1px");
+  expect(getComputedStyle(indicator()).borderTopWidth).toBe("0px");
+  expect(getComputedStyle(indicator()).boxShadow).not.toBe("none");
   unmount?.();
 
   renderTabs({}, { variant: "line" });
   await settle();
   expect(getComputedStyle(indicator()).borderTopWidth).toBe("0px");
+  expect(getComputedStyle(indicator()).boxShadow).toBe("none");
 });
 
 it("slides the indicator under the active trigger in right-to-left", async () => {
