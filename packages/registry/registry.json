@@ -7825,6 +7825,186 @@
       "dependencies": [
         "@lucide/vue"
       ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "An empty state: media, title, description and actions, centred and scaled by one size prop, with no surface of its own so it fits a card, a table or a page.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/empty/Empty.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/empty/EmptyHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/empty/EmptyMedia.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/empty/EmptyTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/empty/EmptyDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/empty/EmptyContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/empty/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty-demo",
+      "type": "registry:block",
+      "title": "Empty demo",
+      "description": "An icon, a title, a description, two actions and a link.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "empty",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/empty/EmptyDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "empty-card",
+      "type": "registry:block",
+      "title": "Empty in a card",
+      "description": "The card draws the surface, the empty state fills it.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "empty",
+        "card",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/empty/EmptyCard.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "empty-table",
+      "type": "registry:block",
+      "title": "Empty in a table",
+      "description": "An empty state in the empty slot of a data table.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "empty",
+        "data-table",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/empty/EmptyTable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "empty-avatars",
+      "type": "registry:block",
+      "title": "Empty avatars",
+      "description": "An avatar group as the media.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "empty",
+        "avatar",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/empty/EmptyAvatars.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "empty-search",
+      "type": "registry:block",
+      "title": "Empty search",
+      "description": "A not-found state with a search field in the content.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "empty",
+        "input-group",
+        "kbd"
+      ],
+      "files": [
+        {
+          "path": "src/examples/empty/EmptySearch.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "empty-sizes",
+      "type": "registry:block",
+      "title": "Empty sizes",
+      "description": "sm, md and lg side by side in cards.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "empty",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/empty/EmptySizes.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
