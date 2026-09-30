@@ -49,15 +49,6 @@ export const toastIcons: Record<ToastColor, Component | undefined> = {
   info: Info,
 };
 
-export const toastAccents: Record<ToastColor, string> = {
-  primary: "text-primary",
-  neutral: "text-foreground",
-  destructive: "text-destructive",
-  success: "text-success-text",
-  warning: "text-warning-text",
-  info: "text-info-text",
-};
-
 export const createToaster = (): Toasts =>
   createCoreToaster<ToastContent>({ promise: { success: { color: "success" }, error: { color: "destructive" } } });
 

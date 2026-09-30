@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import { cn } from "@/lib/utils";
 import { Spinner } from "@/ui/spinner";
-import { type Toast, toastAccents, toastIcons } from ".";
+import { type Toast, toastIcons } from ".";
 import ToastAction from "./ToastAction.vue";
 import ToastClose from "./ToastClose.vue";
 import ToastDescription from "./ToastDescription.vue";
@@ -11,7 +10,6 @@ import ToastTitle from "./ToastTitle.vue";
 
 const props = defineProps<{ toast: Toast }>();
 
-const accent = computed(() => toastAccents[props.toast.color ?? "neutral"]);
 const icon = computed(() =>
   props.toast.icon === false ? undefined : (props.toast.icon ?? toastIcons[props.toast.color ?? "neutral"]),
 );
@@ -19,13 +17,13 @@ const icon = computed(() =>
 
 <template>
   <div class="flex items-start gap-3">
-    <Spinner v-if="props.toast.loading" :class="cn('mt-0.5 size-4', accent)" />
+    <Spinner v-if="props.toast.loading" class="mt-0.5 size-4 text-tone-text" />
     <component
       :is="icon"
       v-else-if="icon"
       data-slot="toast-icon"
       aria-hidden="true"
-      :class="cn('mt-0.5 size-4 shrink-0', accent)"
+      class="mt-0.5 size-4 shrink-0 text-tone-text"
     />
     <div class="flex min-w-0 flex-1 flex-col gap-0.5">
       <ToastTitle v-if="props.toast.title">{{ props.toast.title }}</ToastTitle>

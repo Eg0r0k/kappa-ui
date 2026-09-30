@@ -12,7 +12,7 @@ import { useDirection } from "reka-ui";
 import { type HTMLAttributes, computed, ref } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type Toast, type ToastContent, type ToastPosition, toastAccents } from ".";
+import type { Toast, ToastContent, ToastPosition } from ".";
 import ToastRow from "./ToastRow.vue";
 
 const props = withDefaults(
@@ -57,8 +57,6 @@ const swipeDirection = computed(() => {
 const timed = (toast: Toast) =>
   !toast.loading && (toast.duration === undefined || (toast.duration > 0 && Number.isFinite(toast.duration)));
 
-const accentOf = (toast: Toast) => toastAccents[toast.color ?? "neutral"];
-
 const place = (toast: Toast) => {
   const layout = stack.layout.value.get(toast.id);
   return {
@@ -92,7 +90,7 @@ const place = (toast: Toast) => {
         v-if="props.progress && timed(toast)"
         :key="`${remaining}:${toast.open}`"
         data-slot="toast-progress"
-        :class="cn('kappa-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-current', accentOf(toast))"
+        class="kappa-toast-progress absolute inset-x-0 bottom-0 h-0.5 bg-tone-text"
         :style="{ animationDuration: `${remaining}ms` }"
       />
     </ToastRecordRoot>
