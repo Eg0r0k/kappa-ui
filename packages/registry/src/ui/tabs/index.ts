@@ -34,7 +34,7 @@ export const tabsIndicatorVariants = cva(
   {
     variants: {
       variant: {
-        pill: "border border-border bg-background shadow-shadow-sm dark:bg-input/30 group-aria-[orientation=horizontal]/tabs-list:top-1 group-aria-[orientation=horizontal]/tabs-list:h-(--reka-tabs-indicator-thickness) group-aria-[orientation=vertical]/tabs-list:left-1 group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)",
+        pill: "bg-background shadow-shadow-sm dark:bg-input/30 group-aria-[orientation=horizontal]/tabs-list:top-1 group-aria-[orientation=horizontal]/tabs-list:h-(--reka-tabs-indicator-thickness) group-aria-[orientation=vertical]/tabs-list:left-1 group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)",
         line: "rounded-full bg-primary group-aria-[orientation=horizontal]/tabs-list:-bottom-px group-aria-[orientation=horizontal]/tabs-list:h-0.5 group-aria-[orientation=vertical]/tabs-list:-end-px group-aria-[orientation=vertical]/tabs-list:w-0.5",
       },
       size: { xs: "", sm: "", md: "", lg: "", xl: "" },
