@@ -7671,6 +7671,37 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "A trigger that shows and hides a block of content, animated with the accordion timing; closed content stays in the page as hidden until found unless unmount-on-hide is set. Built on Reka UI.",
+      "dependencies": [
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/collapsible/Collapsible.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/collapsible/CollapsibleTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/collapsible/CollapsibleContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/collapsible/index.ts",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

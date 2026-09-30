@@ -409,6 +409,44 @@
   }
 }
 
+@keyframes kappa-collapsible-down {
+  from {
+    height: 0;
+    overflow: hidden;
+  }
+  to {
+    height: var(--reka-collapsible-content-height);
+    overflow: hidden;
+  }
+}
+
+@keyframes kappa-collapsible-up {
+  from {
+    height: var(--reka-collapsible-content-height);
+    overflow: hidden;
+  }
+  to {
+    height: 0;
+    overflow: hidden;
+  }
+}
+
+@utility animate-collapsible-down {
+  animation: kappa-collapsible-down var(--transition-duration-medium-1, 250ms)
+    var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility animate-collapsible-up {
+  animation: kappa-collapsible-up var(--transition-duration-short-4, 200ms)
+    var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15));
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 @keyframes kappa-skeleton-wave {
   from {
     transform: translateX(-100%);
