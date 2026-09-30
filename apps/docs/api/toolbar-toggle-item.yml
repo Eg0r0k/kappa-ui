@@ -1,0 +1,23 @@
+component: ToolbarToggleItem
+file: ui/toolbar/ToolbarToggleItem.vue
+props:
+  value:
+    description: The value this item stands for.
+  disabled:
+    description: Disables this item alone.
+  variant:
+    description: Overrides the group's `variant` for this item.
+  activeVariant:
+    description: Overrides the group's `active-variant` for this item.
+  color:
+    description: Overrides the group's `color` for this item.
+  activeColor:
+    description: Overrides the group's `active-color` for this item.
+  size:
+    description: Overrides the group's `size` for this item.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the item's attributes and classes onto it."
+slots:
+  default: The item's content.

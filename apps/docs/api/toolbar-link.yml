@@ -1,0 +1,9 @@
+component: ToolbarLink
+file: ui/toolbar/ToolbarLink.vue
+props:
+  color:
+    description: "The Button colour. `neutral` by default."
+  size:
+    description: "The Button size. `sm` by default."
+slots:
+  default: The link's text.

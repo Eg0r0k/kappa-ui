@@ -1,0 +1,41 @@
+component: ToolbarToggleGroup
+file: ui/toolbar/ToolbarToggleGroup.vue
+props:
+  type:
+    description: "`single` keeps one item on at a time and `v-model` is a string; `multiple` lets several stay on and `v-model` is an array."
+  modelValue:
+    description: The value of the item that is on, or the values in `multiple` mode, bound with `v-model`.
+  defaultValue:
+    description: The item or items on at first when `v-model` is not used.
+  disabled:
+    description: Disables every item.
+  rovingFocus:
+    description: Unused inside a toolbar, which already moves focus with the arrow keys.
+  loop:
+    description: Unused inside a toolbar, which already wraps focus.
+  orientation:
+    description: "Unused inside a toolbar, which passes its own orientation down."
+  dir:
+    description: Reading direction. Inherits from the toolbar.
+  name:
+    description: Submits the value with its form under this name.
+  required:
+    description: Keeps one item on in `single` mode.
+  variant:
+    description: "The Button variant of the items while off. `ghost` by default."
+  activeVariant:
+    description: "The Toggle variant of the items while on. `soft` by default."
+  color:
+    description: "The colour of the items while off. `neutral` by default."
+  activeColor:
+    description: The colour of the items while on. Falls back to `color`.
+  size:
+    description: "The Button size of the items. `sm` by default; use `icon-sm` for icons alone."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the group's attributes and classes onto it."
+emits:
+  update:modelValue: Fires when an item turns on or off.
+slots:
+  default: "The items. Receives `modelValue`."

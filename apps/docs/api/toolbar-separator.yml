@@ -1,0 +1,7 @@
+component: ToolbarSeparator
+file: ui/toolbar/ToolbarSeparator.vue
+props:
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the separator's attributes and classes onto it."

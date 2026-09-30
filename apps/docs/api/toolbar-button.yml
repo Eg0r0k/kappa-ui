@@ -1,0 +1,13 @@
+component: ToolbarButton
+file: ui/toolbar/ToolbarButton.vue
+props:
+  variant:
+    description: "The Button variant. `ghost` by default."
+  color:
+    description: "The Button colour. `neutral` by default."
+  size:
+    description: "The Button size. `sm` by default; use `icon-sm` for an icon alone."
+  disabled:
+    description: Disables the button and takes it out of the arrow-key order.
+slots:
+  default: The button's content.

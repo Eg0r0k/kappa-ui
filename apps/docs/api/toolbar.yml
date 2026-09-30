@@ -1,0 +1,17 @@
+component: Toolbar
+file: ui/toolbar/Toolbar.vue
+props:
+  orientation:
+    description: "`horizontal` lays the parts out in a row and the left and right arrows move focus; `vertical` stacks them and the up and down arrows move focus."
+  loop:
+    description: Lets the arrow keys wrap from the last part to the first. On by default.
+  dir:
+    description: Reading direction. In `rtl` the arrows run the other way.
+  variant:
+    description: "`outline` frames the toolbar with a border, a radius and padding; `ghost` is a bare row."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the toolbar's attributes and classes onto it."
+slots:
+  default: The buttons, links, toggle groups and separators.
