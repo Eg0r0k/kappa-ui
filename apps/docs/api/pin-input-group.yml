@@ -1,0 +1,4 @@
+component: PinInputGroup
+file: ui/pin-input/PinInputGroup.vue
+slots:
+  default: A run of slots, spaced like the root.

@@ -1,0 +1,38 @@
+component: PinInput
+file: ui/pin-input/PinInput.vue
+props:
+  modelValue:
+    description: The characters, one per slot, bound with `v-model`. Strings, or numbers with `type="number"`.
+  defaultValue:
+    description: The starting characters when `v-model` is not used.
+  type:
+    description: "`text` accepts any character; `number` only digits, and brings up the numeric keyboard on phones."
+  otp:
+    description: Lets phones offer a code from a message and marks the boxes `autocomplete="one-time-code"`. On by default.
+  mask:
+    description: Hides the characters like a password field.
+  placeholder:
+    description: A character shown in every empty slot.
+  variant:
+    description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`."
+  size:
+    description: The slot size, from 28px at `xs` to 48px at `xl`; the type scales with it.
+  id:
+    description: Overrides the `id` taken from a surrounding field. It lands on the hidden form input, so the field's label focuses the first slot.
+  name:
+    description: Submits the joined characters with the form under this name.
+  disabled:
+    description: Disables every slot. Also set by a disabled field.
+  required:
+    description: Marks the hidden form input required. Also set by a required field.
+  dir:
+    description: Reading direction. In `rtl` the slots fill from the right.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
+emits:
+  update:modelValue: Fires as characters are typed, pasted or deleted.
+  complete: Fires once every slot has a character, with the full value.
+slots:
+  default: "The groups, slots and separators. Receives `modelValue`."

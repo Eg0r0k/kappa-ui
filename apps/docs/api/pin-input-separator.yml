@@ -1,0 +1,4 @@
+component: PinInputSeparator
+file: ui/pin-input/PinInputSeparator.vue
+slots:
+  default: Replaces the dash between two groups.

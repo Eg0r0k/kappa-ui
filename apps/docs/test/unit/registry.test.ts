@@ -87,6 +87,6 @@ describe('resolveInstallFilename', () => {
 
 describe('registryItems', () => {
   it('reads the real manifest', () => {
-    expect(registryItems.filter(isExample).length).toBe(307)
+    expect(registryItems.filter(isExample).length).toBe(312)
   })
 })

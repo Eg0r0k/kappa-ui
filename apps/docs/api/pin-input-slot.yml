@@ -1,0 +1,11 @@
+component: PinInputSlot
+file: ui/pin-input/PinInputSlot.vue
+props:
+  index:
+    description: Which character this slot holds, from 0.
+  disabled:
+    description: Disables this slot alone.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the slot's attributes and classes onto it."
