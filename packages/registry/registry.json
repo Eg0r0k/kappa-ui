@@ -7702,6 +7702,120 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "collapsible-demo",
+      "type": "registry:block",
+      "title": "Collapsible demo",
+      "description": "A list whose last two rows show on a click.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "collapsible",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/collapsible/CollapsibleDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "collapsible-icon",
+      "type": "registry:block",
+      "title": "Collapsible icon",
+      "description": "A button whose chevron turns while the content is open.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "collapsible",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/collapsible/CollapsibleIcon.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "collapsible-controlled",
+      "type": "registry:block",
+      "title": "Collapsible controlled",
+      "description": "v-model:open shared by an outside button and the trigger.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "collapsible",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/collapsible/CollapsibleControlled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "collapsible-unmount",
+      "type": "registry:block",
+      "title": "Collapsible unmount",
+      "description": "unmount-on-hide unmounts closed content.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "collapsible",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/collapsible/CollapsibleUnmount.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "collapsible-disabled",
+      "type": "registry:block",
+      "title": "Collapsible disabled",
+      "description": "A disabled collapsible never opens.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "collapsible",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/collapsible/CollapsibleDisabled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "collapsible-heavy",
+      "type": "registry:block",
+      "title": "Collapsible heavy content",
+      "description": "Three hundred rows animate open and closed.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "collapsible",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/collapsible/CollapsibleHeavy.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
