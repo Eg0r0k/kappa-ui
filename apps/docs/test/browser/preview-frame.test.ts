@@ -3,11 +3,21 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { defineComponent, h, onMounted } from 'vue'
 
 import PreviewFrame from '~/components/content/PreviewFrame.vue'
+import { Tabs, TabsList, TabsTrigger } from '@/ui/tabs'
 
 const LIGHT_BACKGROUND = 'oklch(0.98 0 0)'
 const DARK_BACKGROUND = 'oklch(0.145 0 0)'
 
 const background = (element: Element) => getComputedStyle(element).getPropertyValue('--background').trim()
+
+const tabs = () =>
+  h(Tabs, { defaultValue: 'one' }, () =>
+    h(TabsList, () => [h(TabsTrigger, { value: 'one' }, () => 'One'), h(TabsTrigger, { value: 'two' }, () => 'Two')]),
+  )
+const pill = async () => {
+  await expect.poll(() => document.querySelector('[data-slot=tabs-indicator]')).not.toBeNull()
+  return getComputedStyle(document.querySelector('[data-slot=tabs-indicator]')!).backgroundColor
+}
 
 afterEach(() => {
   document.documentElement.classList.remove('dark')
@@ -64,5 +74,25 @@ describe('PreviewFrame', () => {
     expect(background(document.documentElement)).toBe(DARK_BACKGROUND)
 
     wrapper.unmount()
+  })
+
+  it('keeps dark: utilities out of a light frame inside a dark document, and in a dark frame inside a light one', async () => {
+    document.documentElement.classList.add('dark')
+    const light = mount(PreviewFrame, {
+      props: { dir: 'ltr', theme: 'light' },
+      slots: { default: tabs },
+      attachTo: document.body,
+    })
+    expect(await pill()).toBe(LIGHT_BACKGROUND)
+    light.unmount()
+
+    document.documentElement.classList.remove('dark')
+    const dark = mount(PreviewFrame, {
+      props: { dir: 'ltr', theme: 'dark' },
+      slots: { default: tabs },
+      attachTo: document.body,
+    })
+    expect(await pill()).not.toBe(DARK_BACKGROUND)
+    dark.unmount()
   })
 })

@@ -5,7 +5,7 @@
 
 @source "../../../../../packages/registry/src";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *):not(.dark .light *));
 
 :where(:root),
 .light {
