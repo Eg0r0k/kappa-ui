@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import {
+  HoverCardContent,
+  type HoverCardContentEmits,
+  type HoverCardContentProps,
+  HoverCardPortal,
+} from "@kappa-ui/core/hover-card";
 import { injectOverlayPortalTarget } from "@kappa-ui/core/overlay";
-import { HoverCardContent, type HoverCardContentProps, HoverCardPortal, useForwardProps } from "reka-ui";
+import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
@@ -11,12 +17,13 @@ defineOptions({ inheritAttrs: false });
 const props = withDefaults(defineProps<HoverCardContentProps & { class?: HTMLAttributes["class"] }>(), {
   sideOffset: 4,
 });
+const emits = defineEmits<HoverCardContentEmits>();
 
 const delegated = computed(() => {
   const { class: _, ...rest } = props;
   return rest;
 });
-const forwarded = useForwardProps(delegated);
+const forwarded = useForwardPropsEmits(delegated, emits);
 const portalTarget = injectOverlayPortalTarget(null);
 </script>
 

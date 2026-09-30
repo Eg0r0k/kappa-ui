@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { HoverCardRoot, type HoverCardRootEmits, type HoverCardRootProps, useForwardPropsEmits } from "reka-ui";
+import { HoverCardRoot, type HoverCardRootEmits, type HoverCardRootProps } from "@kappa-ui/core/hover-card";
+import { useForwardPropsEmits } from "reka-ui";
 
 const props = defineProps<HoverCardRootProps>();
 const emits = defineEmits<HoverCardRootEmits>();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HoverCardTrigger, type HoverCardTriggerProps } from "reka-ui";
+import { HoverCardTrigger, type HoverCardTriggerProps } from "@kappa-ui/core/hover-card";
 
 const props = defineProps<HoverCardTriggerProps>();
 </script>
