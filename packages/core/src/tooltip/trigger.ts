@@ -3,7 +3,7 @@ import { computed, shallowRef, watch } from "vue";
 
 import { type TooltipReason, injectTooltipController } from "./context";
 import { inspectTrigger } from "./dev";
-import { isTouchLike, useLongPress } from "./long-press";
+import { isTouchLike, useLongPress } from "../internal/long-press";
 
 export const toggleToken = (el: Element, attribute: string, token: string, present: boolean) => {
   const tokens = (el.getAttribute(attribute) ?? "").split(/\s+/).filter((item) => item && item !== token);

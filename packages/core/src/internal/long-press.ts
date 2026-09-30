@@ -1,11 +1,11 @@
 import { onScopeDispose } from "vue";
 
-import type { TouchPolicy } from "./context";
+export type TouchPolicy = "off" | "long-press" | "auto";
 
 export const isTouchLike = (event: PointerEvent) =>
   event.pointerType === "touch" || (event.pointerType === "pen" && event.buttons !== 0);
 
-const nativeLongPress = [
+export const nativeLongPress = [
   "a[href]",
   "img",
   '[draggable="true"]',
@@ -50,9 +50,9 @@ type Press = {
 export type LongPressOptions = {
   policy: () => TouchPolicy;
   delay: () => number;
-  hideDelay: () => number;
+  hideDelay?: () => number;
   open: (event: PointerEvent) => void;
-  close: (event: Event) => void;
+  close?: (event: Event) => void;
 };
 
 export const useLongPress = (options: LongPressOptions) => {
@@ -95,7 +95,8 @@ export const useLongPress = (options: LongPressOptions) => {
     if (!press || event.pointerId !== press.id) return;
     const fired = press.fired;
     end(10);
-    if (fired) hideTimer = setTimeout(() => options.close(event), options.hideDelay());
+    const { close, hideDelay } = options;
+    if (fired && close && hideDelay) hideTimer = setTimeout(() => close(event), hideDelay());
   };
 
   const onPointerDown = (event: PointerEvent) => {

@@ -1,9 +1,10 @@
 import { createContext } from "reka-ui";
 import type { Ref } from "vue";
 
+import type { TouchPolicy } from "../internal/long-press";
 import { warnOnce } from "./dev";
 
-export type TouchPolicy = "off" | "long-press" | "auto";
+export type { TouchPolicy };
 
 export type TooltipRole = "description" | "label";
 
