@@ -2,9 +2,8 @@
 import { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
-import { type ChoiceGroupVariants, choiceGroupVariants } from "@/ui/checkbox";
 import { useFieldControl } from "@/lib/field-context";
-import { cn } from "@/lib/utils";
+import { ChoiceGroup, type ChoiceGroupVariants } from "@/ui/choice-group";
 
 const props = defineProps<
   RadioGroupRootProps & {
@@ -24,17 +23,16 @@ const control = useFieldControl(props, useAttrs());
 </script>
 
 <template>
-  <RadioGroupRoot
-    v-bind="forwarded"
-    data-slot="radio-group"
-    :disabled="control.disabled.value"
-    :required="control.required.value"
-    :aria-invalid="control.invalid.value"
-    :aria-describedby="control.describedBy.value"
-    :data-variant="props.variant ?? 'default'"
-    :data-orientation="props.orientation ?? 'vertical'"
-    :class="cn(choiceGroupVariants({ variant: props.variant, orientation: props.orientation }), props.class)"
-  >
-    <slot />
-  </RadioGroupRoot>
+  <ChoiceGroup as-child :variant="props.variant" :orientation="props.orientation" :class="props.class">
+    <RadioGroupRoot
+      v-bind="forwarded"
+      data-slot="radio-group"
+      :disabled="control.disabled.value"
+      :required="control.required.value"
+      :aria-invalid="control.invalid.value"
+      :aria-describedby="control.describedBy.value"
+    >
+      <slot />
+    </RadioGroupRoot>
+  </ChoiceGroup>
 </template>

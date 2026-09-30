@@ -1626,7 +1626,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "field-context"
+        "field-context",
+        "choice-group"
       ],
       "files": [
         {
@@ -1640,6 +1641,70 @@
         {
           "path": "src/ui/checkbox/index.ts",
           "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "choice-group",
+      "type": "registry:ui",
+      "title": "Choice group",
+      "description": "The layouts a checkbox group or radio group lays its options out in: plain, cards, one bordered list or a table, in a column or a row, with the whole card or row clickable.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/choice-group/ChoiceGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/choice-group/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "choice-group-checkbox",
+      "type": "registry:block",
+      "title": "Choice group with checkboxes",
+      "description": "The four layouts and both orientations, switched live, on a checkbox group.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/choice-group/ChoiceGroupCheckbox.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "choice-group-radio",
+      "type": "registry:block",
+      "title": "Choice group with radios",
+      "description": "The same layouts on a radio group.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "field",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/choice-group/ChoiceGroupRadio.vue",
+          "type": "registry:component"
         }
       ]
     },
@@ -2070,7 +2135,7 @@
         "utils",
         "tokens",
         "field-context",
-        "checkbox"
+        "choice-group"
       ],
       "files": [
         {
@@ -6283,26 +6348,6 @@
       ]
     },
     {
-      "name": "checkbox-group-variants",
-      "type": "registry:block",
-      "title": "Checkbox group variants",
-      "description": "The same group as plain options, cards, a list and a table, in both orientations.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "checkbox",
-        "field",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/checkbox/CheckboxGroupVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "checkbox-invalid",
       "type": "registry:block",
       "title": "Checkbox invalid",
@@ -6925,26 +6970,6 @@
       "files": [
         {
           "path": "src/examples/radio/RadioDisabled.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "radio-group-variants",
-      "type": "registry:block",
-      "title": "Radio group variants",
-      "description": "The same group as plain options, cards, a list and a table, in both orientations.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "radio-group",
-        "field",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/radio/RadioGroupVariants.vue",
           "type": "registry:component"
         }
       ]

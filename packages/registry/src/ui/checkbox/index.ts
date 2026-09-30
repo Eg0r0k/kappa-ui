@@ -1,66 +1,9 @@
 import { type VariantProps, cva } from "class-variance-authority";
 
+import { choiceControl, choiceControlVariants } from "@/ui/choice-group";
+
 export { default as Checkbox } from "./Checkbox.vue";
 export { default as CheckboxGroup } from "./CheckboxGroup.vue";
-
-export const choiceControl =
-  "relative inline-flex size-(--choice-size) shrink-0 items-center justify-center border-2 border-tone-border outline-none state-halo [--touch-w:var(--choice-size)] [--touch-h:var(--choice-size)] [--halo-size:calc(var(--choice-size)*20/9)] [--tone:--theme(--color-primary)] [--tone-foreground:--theme(--color-primary-foreground)] [--tone-border:--theme(--color-input)] [--halo-color:--theme(--color-foreground)] aria-invalid:[--tone:--theme(--color-destructive)] aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)] aria-invalid:[--tone-border:var(--tone)] aria-invalid:[--halo-color:var(--tone)] in-aria-invalid:[--tone:--theme(--color-destructive)] in-aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)] in-aria-invalid:[--tone-border:var(--tone)] in-aria-invalid:[--halo-color:var(--tone)] data-[state=checked]:[--halo-color:var(--tone)] data-[state=checked]:border-tone not-data-[touch-target=wrapper]:has-[+[data-slot=field-label],+[data-slot=field-content],+[data-slot=label]]:me-[calc(var(--choice-size)*11/18-0.25rem)] focus-visible:focus-ring disabled:cursor-not-allowed";
-
-export const choiceControlVariants = {
-  size: {
-    xs: "[--choice-size:0.875rem]",
-    sm: "[--choice-size:1rem]",
-    md: "[--choice-size:1.125rem]",
-    lg: "[--choice-size:1.25rem]",
-    xl: "[--choice-size:1.5rem]",
-  },
-  touchTarget: {
-    none: "",
-    expand: "touch-target",
-    wrapper: "touch-target-wrapper",
-  },
-};
-
-export const choiceGroupVariants = cva("flex", {
-  variants: {
-    variant: {
-      default: "",
-      card: "choice-row gap-3 [&>[data-slot=field]]:rounded-lg [&>[data-slot=field]]:border [&>[data-slot=field]]:border-border [&>[data-slot=field]]:p-4 [&>[data-slot=field]:has([data-state=checked])]:border-primary [&>[data-slot=field]:has(:focus-visible)]:focus-ring [&>[data-slot=field][data-invalid]]:border-destructive",
-      list: "choice-row overflow-hidden rounded-lg border border-border [&>[data-slot=field]]:px-4 [&>[data-slot=field]]:py-3",
-      table:
-        "choice-row overflow-hidden rounded-lg border border-border [&_[data-slot=field-description]]:text-body-sm",
-    },
-    orientation: {
-      vertical: "flex-col",
-      horizontal: "flex-row",
-    },
-  },
-  compoundVariants: [
-    { variant: "default", orientation: "vertical", class: "gap-3" },
-    { variant: "default", orientation: "horizontal", class: "flex-wrap gap-x-6 gap-y-3" },
-    { variant: "card", orientation: "horizontal", class: "grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))]" },
-    { variant: ["list", "table"], orientation: "vertical", class: "divide-y" },
-    { variant: ["list", "table"], orientation: "horizontal", class: "divide-x [&>[data-slot=field]]:flex-1" },
-    {
-      variant: "table",
-      orientation: "vertical",
-      class:
-        "[&>[data-slot=field]]:grid [&>[data-slot=field]]:grid-cols-[auto_minmax(0,1fr)_minmax(0,2fr)] [&>[data-slot=field]]:items-center [&>[data-slot=field]]:gap-x-4 [&>[data-slot=field]]:px-4 [&>[data-slot=field]]:py-2.5 [&_[data-slot=field-content]]:contents",
-    },
-    {
-      variant: "table",
-      orientation: "horizontal",
-      class:
-        "[&>[data-slot=field]]:flex-col [&>[data-slot=field]]:items-start [&>[data-slot=field]]:gap-3 [&>[data-slot=field]]:p-4",
-    },
-  ],
-  defaultVariants: {
-    variant: "default",
-    orientation: "vertical",
-  },
-});
-
-export type ChoiceGroupVariants = VariantProps<typeof choiceGroupVariants>;
 
 export const checkboxVariants = cva(
   `${choiceControl} group/checkbox rounded-xs text-tone-foreground transition-[background-color,border-color] duration-short-3 ease-standard data-[state=checked]:bg-tone data-[state=indeterminate]:border-tone data-[state=indeterminate]:bg-tone data-[state=indeterminate]:[--halo-color:var(--tone)] disabled:border-foreground/(--disabled-opacity) disabled:text-background disabled:data-[state=checked]:border-transparent disabled:data-[state=checked]:bg-foreground/(--disabled-opacity) disabled:data-[state=indeterminate]:border-transparent disabled:data-[state=indeterminate]:bg-foreground/(--disabled-opacity)`,

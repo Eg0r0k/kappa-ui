@@ -7,9 +7,8 @@ import {
 } from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
-import { cn } from "@/lib/utils";
-import { type ChoiceGroupVariants, choiceGroupVariants } from ".";
 import { useFieldControl } from "@/lib/field-context";
+import { ChoiceGroup, type ChoiceGroupVariants } from "@/ui/choice-group";
 
 const props = withDefaults(
   defineProps<
@@ -32,16 +31,15 @@ const control = useFieldControl(props, useAttrs());
 </script>
 
 <template>
-  <CheckboxGroupRoot
-    v-bind="forwarded"
-    data-slot="checkbox-group"
-    :disabled="control.disabled.value"
-    :aria-invalid="control.invalid.value"
-    :aria-describedby="control.describedBy.value"
-    :data-variant="props.variant ?? 'default'"
-    :data-orientation="props.orientation ?? 'vertical'"
-    :class="cn(choiceGroupVariants({ variant: props.variant, orientation: props.orientation }), props.class)"
-  >
-    <slot />
-  </CheckboxGroupRoot>
+  <ChoiceGroup as-child :variant="props.variant" :orientation="props.orientation" :class="props.class">
+    <CheckboxGroupRoot
+      v-bind="forwarded"
+      data-slot="checkbox-group"
+      :disabled="control.disabled.value"
+      :aria-invalid="control.invalid.value"
+      :aria-describedby="control.describedBy.value"
+    >
+      <slot />
+    </CheckboxGroupRoot>
+  </ChoiceGroup>
 </template>

@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
 
-import { choiceControl, choiceControlVariants } from "@/ui/checkbox";
+import { choiceControl, choiceControlVariants } from "@/ui/choice-group";
 
 export { default as Radio } from "./Radio.vue";
 export { default as RadioGroup } from "./RadioGroup.vue";
