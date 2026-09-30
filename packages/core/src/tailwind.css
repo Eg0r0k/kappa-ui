@@ -116,7 +116,7 @@
     translate: -50% -50%;
     scale: 0.75;
     border-radius: 50%;
-    background-color: var(--halo-color, var(--c, currentColor));
+    background-color: var(--halo-color, var(--tone, currentColor));
     opacity: 0;
     transition-property: opacity, scale;
     transition-duration: var(--transition-duration-short-4, 200ms);

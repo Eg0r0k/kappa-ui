@@ -3,7 +3,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 export { default as Slider } from "./Slider.vue";
 
 export const sliderVariants = cva(
-  "group/slider relative flex h-(--slider-h) w-(--slider-w) touch-none items-center select-none slider-axis [--c:--theme(--color-primary)] [--c-fg:--theme(--color-primary-foreground)] has-[[aria-invalid=true]]:[--c:--theme(--color-destructive)] has-[[aria-invalid=true]]:[--c-fg:--theme(--color-destructive-foreground)] data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:flex-col data-disabled:cursor-not-allowed",
+  "group/slider relative flex h-(--slider-h) w-(--slider-w) touch-none items-center select-none slider-axis [--tone:--theme(--color-primary)] [--tone-foreground:--theme(--color-primary-foreground)] has-[[aria-invalid=true]]:[--tone:--theme(--color-destructive)] has-[[aria-invalid=true]]:[--tone-foreground:--theme(--color-destructive-foreground)] data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:flex-col data-disabled:cursor-not-allowed",
   {
     variants: {
       variant: {
@@ -37,7 +37,7 @@ export const sliderTrackVariants = cva(
   {
     variants: {
       variant: {
-        default: "overflow-hidden bg-(--c)/20",
+        default: "overflow-hidden bg-tone/20",
         inset: "border-x-(length:--track-inset-x) border-y-(length:--track-inset-y) border-transparent bg-muted",
       },
     },
@@ -45,7 +45,7 @@ export const sliderTrackVariants = cva(
   },
 );
 
-export const sliderRangeVariants = cva("absolute h-(--range-h) w-(--range-w) bg-(--c)", {
+export const sliderRangeVariants = cva("absolute h-(--range-h) w-(--range-w) bg-tone", {
   variants: {
     variant: {
       default: "rounded-full data-disabled:bg-foreground/(--disabled-opacity)",
@@ -63,7 +63,7 @@ export const sliderThumbVariants = cva(
       variant: {
         default: "state-halo [--halo-size:calc(var(--slider-thumb)+1.5rem)]",
         inset:
-          "bg-(--c) data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
+          "bg-tone data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
       },
       touchTarget: {
         none: "",
@@ -84,9 +84,9 @@ export const sliderHandleVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-(--c) group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-short-2 group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
+          "bg-tone group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-short-2 group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
         inset:
-          "bg-(--c-fg) group-active/slider:group-focus/thumb:scale-90 group-active/slider:group-focus/thumb:duration-short-2 group-data-disabled/thumb:bg-background",
+          "bg-tone-foreground group-active/slider:group-focus/thumb:scale-90 group-active/slider:group-focus/thumb:duration-short-2 group-data-disabled/thumb:bg-background",
       },
     },
     defaultVariants: { variant: "default" },
