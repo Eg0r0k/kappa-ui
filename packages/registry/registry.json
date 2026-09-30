@@ -7511,6 +7511,39 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "splitter",
+      "type": "registry:ui",
+      "title": "Splitter",
+      "description": "Resizable panels separated by draggable handles: a line or a gutter that lights up under the pointer, an optional grip, and a double-click that puts the panels beside a handle back to their starting sizes. Built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/splitter/Splitter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/splitter/SplitterPanel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/splitter/SplitterHandle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/splitter/index.ts",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
