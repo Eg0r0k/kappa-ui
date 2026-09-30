@@ -36,11 +36,11 @@ const { forwardRef } = useForwardExpose();
 
 const alwaysFloating = new Set(["date", "datetime-local", "month", "time", "week", "color", "file"]);
 
-const id = computed(() => control.id.value ?? generatedId);
+const inputId = computed(() => control.id.value ?? generatedId);
 
 const inputBindings = computed(() => ({
   ...attrs,
-  id: id.value,
+  id: inputId.value,
   disabled: control.disabled.value,
   required: control.required.value,
   "aria-invalid": control.invalid.value,
@@ -65,7 +65,7 @@ const inputBindings = computed(() => ({
     />
     <label
       data-slot="input-floating-label"
-      :for="id"
+      :for="inputId"
       :class="cn(inputFloatingLabelVariants({ variant: props.variant, size: props.size }))"
     >
       {{ props.label }}<span v-if="control.required.value" aria-hidden="true"> *</span>

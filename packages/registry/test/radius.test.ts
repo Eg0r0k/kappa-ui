@@ -53,7 +53,6 @@ const radiusOf = (element: Element, corner = "borderTopLeftRadius") =>
 it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px", async () => {
   const { Button } = await import("@/ui/button");
   const { Input } = await import("@/ui/input");
-  const { InputFloating } = await import("@/ui/input-floating");
   const { Textarea } = await import("@/ui/textarea");
   const { SelectTrigger, Select } = await import("@/ui/select");
   const { InputGroup, InputGroupInput } = await import("@/ui/input-group");
