@@ -3730,6 +3730,7 @@
       ],
       "registryDependencies": [
         "input",
+        "input-floating",
         "button"
       ],
       "files": [
