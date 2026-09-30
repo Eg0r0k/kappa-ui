@@ -1,0 +1,4 @@
+component: EmptyHeader
+file: ui/empty/EmptyHeader.vue
+slots:
+  default: "The media, the title and the description, centred and no wider than 24rem."

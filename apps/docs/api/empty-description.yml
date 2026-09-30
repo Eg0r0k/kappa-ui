@@ -1,0 +1,4 @@
+component: EmptyDescription
+file: ui/empty/EmptyDescription.vue
+slots:
+  default: "The description, in `--muted-foreground`. Links inside are underlined and turn `--primary` on hover."

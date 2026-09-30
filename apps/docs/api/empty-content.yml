@@ -1,0 +1,4 @@
+component: EmptyContent
+file: ui/empty/EmptyContent.vue
+slots:
+  default: "Actions or a form, stacked and centred, no wider than 24rem."

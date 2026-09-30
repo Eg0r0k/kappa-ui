@@ -1,0 +1,9 @@
+component: EmptyTitle
+file: ui/empty/EmptyTitle.vue
+props:
+  as:
+    description: "The element to render. An `h3` by default; pick the level that fits the page."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the title's attributes and classes onto it."
+slots:
+  default: The title.

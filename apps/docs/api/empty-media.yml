@@ -1,0 +1,4 @@
+component: EmptyMedia
+file: ui/empty/EmptyMedia.vue
+slots:
+  default: "An icon, an avatar or an image. A bare `svg` takes its size from the root's `size`, from 24px at `xs` to 56px at `xl`; anything with its own size keeps it."

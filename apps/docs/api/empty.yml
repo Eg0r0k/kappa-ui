@@ -1,0 +1,7 @@
+component: Empty
+file: ui/empty/Empty.vue
+props:
+  size:
+    description: Sets the padding and the gaps, and through them the icon, title and description sizes of the parts inside, from `xs` to `xl`. `md` by default.
+slots:
+  default: "The header, the content and anything else, stacked and centred."
