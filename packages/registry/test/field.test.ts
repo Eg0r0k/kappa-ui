@@ -4,6 +4,7 @@ import { defineComponent, h, nextTick, ref } from "vue";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Input } from "@/ui/input";
+import { InputFloating } from "@/ui/input-floating";
 
 const mountField = (options: {
   field?: Record<string, unknown>;
@@ -128,7 +129,7 @@ describe("Input", () => {
   });
 
   it("names itself with a floating label outside a field", () => {
-    const wrapper = mount(Input, { props: { label: "Email", class: "w-64" }, attrs: { name: "email" } });
+    const wrapper = mount(InputFloating, { props: { label: "Email", class: "w-64" }, attrs: { name: "email" } });
     const input = wrapper.get("input");
     const label = wrapper.get("label");
 
@@ -137,19 +138,19 @@ describe("Input", () => {
     expect(label.text()).toBe("Email");
     expect(input.attributes("name")).toBe("email");
     expect(input.attributes("placeholder")).toBe(" ");
-    expect(wrapper.get("[data-slot=input-control]").classes()).toContain("w-64");
+    expect(wrapper.get("[data-slot=input-floating]").classes()).toContain("w-64");
     wrapper.unmount();
   });
 
   it("keeps a given placeholder and draws the notch only for outline", () => {
-    const outline = mount(Input, { props: { label: "Email" }, attrs: { placeholder: "ada@example.com" } });
-    const filled = mount(Input, { props: { label: "Email", variant: "filled" } });
+    const outline = mount(InputFloating, { props: { label: "Email" }, attrs: { placeholder: "ada@example.com" } });
+    const filled = mount(InputFloating, { props: { label: "Email", variant: "filled" } });
 
     expect(outline.get("input").attributes("placeholder")).toBe("ada@example.com");
     expect(outline.get("fieldset").attributes("aria-hidden")).toBe("true");
     expect(outline.get("legend").text()).toBe("Email");
     expect(filled.find("fieldset").exists()).toBe(false);
-    const soft = mount(Input, { props: { label: "Email", variant: "soft" } });
+    const soft = mount(InputFloating, { props: { label: "Email", variant: "soft" } });
     expect(soft.find("fieldset").exists()).toBe(false);
     soft.unmount();
     outline.unmount();
@@ -161,7 +162,7 @@ describe("Input", () => {
       defineComponent({
         setup: () => () =>
           h(Field, { required: true, invalid: true }, () => [
-            h(Input, { label: "Email" }),
+            h(InputFloating, { label: "Email" }),
             h(FieldDescription, () => "Receipts go here."),
           ]),
       }),
@@ -178,12 +179,20 @@ describe("Input", () => {
   });
 
   it("keeps the label up on inputs that always show their own controls", () => {
-    const date = mount(Input, { props: { label: "Start" }, attrs: { type: "date" } });
-    const text = mount(Input, { props: { label: "Name" } });
+    const date = mount(InputFloating, { props: { label: "Start" }, attrs: { type: "date" } });
+    const text = mount(InputFloating, { props: { label: "Name" } });
 
-    expect(date.get("[data-slot=input-control]").attributes("data-float")).toBe("true");
-    expect(text.get("[data-slot=input-control]").attributes("data-float")).toBeUndefined();
+    expect(date.get("[data-slot=input-floating]").attributes("data-float")).toBe("true");
+    expect(text.get("[data-slot=input-floating]").attributes("data-float")).toBeUndefined();
     date.unmount();
     text.unmount();
+  });
+
+  it("passes a stray label attribute through as an attribute of the input", () => {
+    const wrapper = mount(Input, { attrs: { label: "Email" } });
+    expect(wrapper.element.tagName).toBe("INPUT");
+    expect(wrapper.find("label").exists()).toBe(false);
+    expect(wrapper.attributes("label")).toBe("Email");
+    wrapper.unmount();
   });
 });

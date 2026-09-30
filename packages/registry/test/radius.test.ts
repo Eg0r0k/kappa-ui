@@ -53,6 +53,7 @@ const radiusOf = (element: Element, corner = "borderTopLeftRadius") =>
 it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px", async () => {
   const { Button } = await import("@/ui/button");
   const { Input } = await import("@/ui/input");
+  const { InputFloating } = await import("@/ui/input-floating");
   const { Textarea } = await import("@/ui/textarea");
   const { SelectTrigger, Select } = await import("@/ui/select");
   const { InputGroup, InputGroupInput } = await import("@/ui/input-group");
@@ -120,20 +121,20 @@ it("keeps a filled control square at the bottom at every size", async () => {
 });
 
 it("rounds a floating-label field by its taller height", async () => {
-  const { Input } = await import("@/ui/input");
+  const { InputFloating } = await import("@/ui/input-floating");
   const wrapper = mount(
     {
       render: () =>
         h("div", [
-          h(Input, { label: "Email", size: "md", "data-case": "outline" }),
-          h(Input, { label: "Email", size: "md", variant: "soft", "data-case": "soft" }),
-          h(Input, { label: "Email", size: "xs", variant: "soft", "data-case": "soft-xs" }),
+          h(InputFloating, { label: "Email", size: "md", "data-case": "outline" }),
+          h(InputFloating, { label: "Email", size: "md", variant: "soft", "data-case": "soft" }),
+          h(InputFloating, { label: "Email", size: "xs", variant: "soft", "data-case": "soft-xs" }),
         ]),
     },
     { attachTo: document.body },
   );
   const input = (name: string) => document.querySelector(`input[data-case=${name}]`)!;
-  const outline = input("outline").closest("[data-slot=input-control]")!.querySelector("fieldset")!;
+  const outline = input("outline").closest("[data-slot=input-floating]")!.querySelector("fieldset")!;
   expect(radiusOf(outline)).toBe("12px");
   expect(radiusOf(input("soft"))).toBe("16.8px");
   expect(radiusOf(input("soft-xs"))).toBe("12px");
@@ -142,6 +143,7 @@ it("rounds a floating-label field by its taller height", async () => {
 
 it("follows a --radius set on an ancestor, not only on the root", async () => {
   const { Input } = await import("@/ui/input");
+  const { InputFloating } = await import("@/ui/input-floating");
   const { Textarea } = await import("@/ui/textarea");
   const { Select, SelectTrigger } = await import("@/ui/select");
   const { InputGroup, InputGroupInput } = await import("@/ui/input-group");
@@ -151,7 +153,7 @@ it("follows a --radius set on an ancestor, not only on the root", async () => {
       render: () =>
         h("div", { style: "--radius: 0px" }, [
           h(Input, { "data-case": "input" }),
-          h(Input, { label: "Name", "data-case": "floating" }),
+          h(InputFloating, { label: "Name", "data-case": "floating" }),
           h(Textarea, { "data-case": "textarea" }),
           h(Select, () => h(SelectTrigger, { "data-case": "select" }, () => "S")),
           h(InputGroup, { "data-case": "input-group" }, () => h(InputGroupInput)),
@@ -167,7 +169,7 @@ it("follows a --radius set on an ancestor, not only on the root", async () => {
       element.getAttribute("data-case"),
       radiusOf(
         element.matches("[data-case=floating]")
-          ? element.closest("[data-slot=input-control]")!.querySelector("fieldset")!
+          ? element.closest("[data-slot=input-floating]")!.querySelector("fieldset")!
           : element,
       ),
     ]),

@@ -1474,7 +1474,7 @@
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
-      "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, with an optional floating label, that picks up its id, description, error and state from a surrounding Field.",
+      "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, that picks up its id, description, error and state from a surrounding Field.",
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1491,6 +1491,32 @@
         },
         {
           "path": "src/ui/input/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-floating",
+      "type": "registry:ui",
+      "title": "Input floating",
+      "description": "A text input with a label that floats inside it, as in Material's text fields, in Input's variants and sizes, wired to a surrounding Field.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/ui/input-floating/InputFloating.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-floating/index.ts",
           "type": "registry:ui"
         }
       ]

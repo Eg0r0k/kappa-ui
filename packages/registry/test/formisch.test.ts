@@ -4,6 +4,7 @@ import { type ComponentPublicInstance, defineComponent, h, nextTick, ref } from 
 
 import FormischDemo from "@/examples/forms/FormischDemo.vue";
 import { Input } from "@/ui/input";
+import { InputFloating } from "@/ui/input-floating";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -29,7 +30,7 @@ describe("Formisch", () => {
     const floating = ref<ComponentPublicInstance>();
     mount(
       defineComponent({
-        setup: () => () => [h(Input, { ref: plain }), h(Input, { ref: floating, label: "Email" })],
+        setup: () => () => [h(Input, { ref: plain }), h(InputFloating, { ref: floating, label: "Email" })],
       }),
       { attachTo: document.body },
     );
