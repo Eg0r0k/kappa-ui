@@ -1,0 +1,9 @@
+component: CollapsibleTrigger
+file: ui/collapsible/CollapsibleTrigger.vue
+props:
+  as:
+    description: The element or component to render. A `<button>` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the trigger's attributes, state and classes onto it. Wrap a `Button` this way."
+slots:
+  default: The trigger's content.

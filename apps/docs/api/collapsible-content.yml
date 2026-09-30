@@ -1,0 +1,13 @@
+component: CollapsibleContent
+file: ui/collapsible/CollapsibleContent.vue
+props:
+  forceMount:
+    description: Keeps the content mounted and visible to animate it with an external library.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  contentFound: Fires when find in page matches text inside closed content and the browser opens it.
+slots:
+  default: The content.

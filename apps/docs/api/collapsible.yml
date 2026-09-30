@@ -1,0 +1,19 @@
+component: Collapsible
+file: ui/collapsible/Collapsible.vue
+props:
+  open:
+    description: Whether the content shows, bound with `v-model:open`.
+  defaultOpen:
+    description: Starts open when `v-model:open` is not used.
+  disabled:
+    description: Disables the trigger; the content stays as it is.
+  unmountOnHide:
+    description: Unmounts the content while closed, leaving an empty hidden panel. Off by default, so closed content stays in the page as `hidden="until-found"` and find in page can open it.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
+emits:
+  update:open: Fires when the content opens or closes.
+slots:
+  default: "The trigger and the content. Receives `open`."
