@@ -3,8 +3,6 @@ file: ui/input/Input.vue
 props:
   modelValue:
     description: The value, bound with `v-model`.
-  label:
-    description: Floating label drawn inside the input and tied to it as its `<label>`. Makes every variant but `outline` taller.
   defaultValue:
     description: The starting value when `v-model` is not used.
   variant:
