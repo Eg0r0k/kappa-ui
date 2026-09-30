@@ -1522,6 +1522,25 @@
       ]
     },
     {
+      "name": "input-floating-demo",
+      "type": "registry:block",
+      "title": "Input floating demo",
+      "description": "Floating labels in every variant: empty, filled in, invalid and on a date.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-floating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-floating/InputFloatingDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "input-group",
       "type": "registry:ui",
       "title": "Input group",
@@ -3697,25 +3716,6 @@
       "files": [
         {
           "path": "src/examples/input/InputVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "input-floating",
-      "type": "registry:block",
-      "title": "Input floating label",
-      "description": "Floating labels in both variants: empty, filled in, invalid and on a date.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "input",
-        "field"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input/InputFloating.vue",
           "type": "registry:component"
         }
       ]

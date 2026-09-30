@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
 import { nextTick } from "vue";
 
-import InputFloating from "@/examples/input/InputFloating.vue";
+import InputFloatingDemo from "@/examples/input-floating/InputFloatingDemo.vue";
 import InputStates from "@/examples/input/InputStates.vue";
 
 afterEach(() => {
@@ -26,7 +26,7 @@ it("clears the states example's email error once the address is complete", async
 });
 
 it("clears the floating example's username error once it holds only letters, digits and hyphens", async () => {
-  const wrapper = mount(InputFloating, { attachTo: document.body });
+  const wrapper = mount(InputFloatingDemo, { attachTo: document.body });
   expect(invalidFields(wrapper)).toHaveLength(5);
 
   const [first] = invalidFields(wrapper);
