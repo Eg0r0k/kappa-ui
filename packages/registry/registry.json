@@ -217,6 +217,101 @@
       ]
     },
     {
+      "name": "avatar-demo",
+      "type": "registry:block",
+      "title": "Avatar demo",
+      "description": "A photo with initials behind it, initials alone, and an icon.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/avatar/AvatarDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "avatar-sizes",
+      "type": "registry:block",
+      "title": "Avatar sizes",
+      "description": "The five sizes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/avatar/AvatarSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "avatar-fallback",
+      "type": "registry:block",
+      "title": "Avatar fallback",
+      "description": "Initials for a photo that fails, a delayed fallback, and a square avatar.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/avatar/AvatarFallbackDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "avatar-group",
+      "type": "registry:block",
+      "title": "Avatar group",
+      "description": "Overlapping avatars with a count, on the page and on a card.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "avatar",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/avatar/AvatarGroupDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "avatar-image",
+      "type": "registry:block",
+      "title": "Avatar with Image",
+      "description": "Image inside an avatar: a 2x srcset, a webp source, and its loading and error layers.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "avatar",
+        "image"
+      ],
+      "files": [
+        {
+          "path": "src/examples/avatar/AvatarWithImage.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "scroll-area",
       "type": "registry:ui",
       "title": "Scroll Area",

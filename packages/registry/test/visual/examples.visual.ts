@@ -20,6 +20,7 @@ const remoteImages = document.createElement("style");
 remoteImages.textContent = [
   '[data-testid="visual"] img[src^="http"] { visibility: hidden; }',
   '[data-testid="visual"] [data-slot="image"]:has(img[src^="http"]) :is([data-slot="image-loading"], [data-slot="image-error"]) { visibility: hidden !important; }',
+  '[data-testid="visual"] [data-slot="avatar"]:has(img[src^="http"]) [data-slot="avatar-fallback"] { visibility: hidden !important; }',
 ].join("\n");
 document.head.append(remoteImages);
 
