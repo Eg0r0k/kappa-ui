@@ -24,7 +24,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: pnpm
-          registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
       - id: changesets
         uses: changesets/action@v2.1.2
