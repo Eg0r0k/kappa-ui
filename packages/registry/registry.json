@@ -8478,6 +8478,80 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "inner-loading",
+      "type": "registry:ui",
+      "title": "Inner loading",
+      "description": "A loading overlay for one region: a translucent scrim with an indicator over content that turns inert, so nothing behind it can be clicked, focused or read until it is done.",
+      "dependencies": [
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/ui/inner-loading/InnerLoading.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/inner-loading/InnerLoadingContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/inner-loading/InnerLoadingOverlay.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/inner-loading/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "inner-loading-demo",
+      "type": "registry:block",
+      "title": "Inner loading demo",
+      "description": "A profile card that covers itself while it saves.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "inner-loading",
+        "button",
+        "card",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/inner-loading/InnerLoadingDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "inner-loading-label",
+      "type": "registry:block",
+      "title": "Inner loading label",
+      "description": "The indicator with a label beneath it, over a card of files.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "inner-loading",
+        "card",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/inner-loading/InnerLoadingLabel.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
