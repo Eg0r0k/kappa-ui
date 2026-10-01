@@ -12,7 +12,7 @@ import {
 } from "vue";
 
 export type DismissReason =
-  "escape" | "outside" | "close-button" | "programmatic" | "close-all" | "unmount" | "no-host" | "error";
+  "escape" | "outside" | "close-button" | "programmatic" | "close-all" | "unmount" | "no-host" | "error" | "swipe";
 
 export type DialogResult<T> = { ok: true; value: T } | { ok: false; reason: DismissReason };
 
