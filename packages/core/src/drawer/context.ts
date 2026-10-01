@@ -3,6 +3,7 @@ import type { ComputedRef, Ref } from "vue";
 
 import type { DragSide } from "../drag";
 import type { SnapPoint } from "../snap";
+import type { DrawerStack, DrawerStackEntry } from "./stack";
 
 export interface DrawerRootProps extends DialogRootProps {
   side?: DragSide;
@@ -39,6 +40,8 @@ export interface DrawerRootContext {
   snapOffset: ComputedRef<number>;
   overlayOpacity: ComputedRef<number>;
   setOpen: (open: boolean) => void;
+  stack: DrawerStack;
+  entry: DrawerStackEntry;
 }
 
 export const [injectDrawerRootContext, provideDrawerRootContext] = createContext<DrawerRootContext>("DrawerRoot");

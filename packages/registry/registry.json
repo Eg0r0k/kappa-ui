@@ -1855,7 +1855,7 @@
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",
-      "description": "A panel that slides in from an edge of the screen and swipes away, with a handle, a swipe-to-open edge and a bottom that stays above the virtual keyboard, on Reka UI's dialog.",
+      "description": "A panel that slides in from an edge of the screen and swipes away, with a handle, a swipe-to-open edge, a bottom that stays above the virtual keyboard, a page that steps back behind it and nesting, on Reka UI's dialog.",
       "dependencies": [
         "@kappa-ui/core",
         "@lucide/vue",
@@ -1898,6 +1898,10 @@
         },
         {
           "path": "src/ui/drawer/DrawerHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerIndent.vue",
           "type": "registry:ui"
         },
         {
@@ -5354,6 +5358,44 @@
       "files": [
         {
           "path": "src/examples/drawer/DrawerSnapPoints.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-nested",
+      "type": "registry:block",
+      "title": "Drawer nested",
+      "description": "A drawer opened from another drawer; the one below steps back.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerNested.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-indent",
+      "type": "registry:block",
+      "title": "Drawer indent",
+      "description": "A mock page in DrawerIndent that steps back while its drawer is open.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerIndent.vue",
           "type": "registry:component"
         }
       ]

@@ -17,6 +17,13 @@ const forwarded = useForwardPropsEmits(props, emits);
 const context = injectDrawerRootContext();
 const owner = useOwnDialogEntry();
 
+const above = computed(() => {
+  const entries = context.stack.entries.value;
+  const index = entries.indexOf(context.entry);
+  return index === -1 ? [] : entries.slice(index + 1);
+});
+const nestedSwiping = computed(() => above.value.some((entry) => entry.swiping.value));
+
 const instance = ref<ComponentPublicInstance>();
 const element = ref<HTMLElement>();
 const interrupted = ref(false);
@@ -164,6 +171,8 @@ const style = computed(() => ({
   "--drawer-swipe-progress": String(context.progress.value),
   "--drawer-snap-offset": `${context.snapOffset.value}px`,
   "--drawer-keyboard-inset": `${context.keyboardInset.value}px`,
+  "--drawer-nested": String(above.value.length),
+  "--drawer-nested-progress": String(above.value.reduce((depth, entry) => depth + entry.presence.value, 0)),
   "--drawer-in": interrupted.value ? "none" : undefined,
 }));
 </script>
@@ -175,6 +184,8 @@ const style = computed(() => ({
     :data-side="context.side.value"
     :data-swiping="context.swiping.value ? '' : undefined"
     :data-expanded="context.expanded.value ? '' : undefined"
+    :data-nested-open="above.length > 0 ? '' : undefined"
+    :data-nested-swiping="nestedSwiping ? '' : undefined"
     :style="style"
     @escape-key-down="keepUnlessDismissible"
     @interact-outside="keepUnlessDismissible"

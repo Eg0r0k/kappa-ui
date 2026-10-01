@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useVModel, useWindowSize } from "@vueuse/core";
+import { isClient, useVModel, useWindowSize } from "@vueuse/core";
 import { DialogRoot } from "reka-ui";
-import { type Ref, computed, ref, watch } from "vue";
+import { type Ref, computed, onBeforeUnmount, ref, watch } from "vue";
 
 import { type SnapPoint, toPixels } from "../snap";
 import { type DrawerRootEmits, type DrawerRootProps, provideDrawerRootContext } from "./context";
+import { type DrawerStackEntry, useDrawerStack } from "./stack";
 
 const props = withDefaults(defineProps<DrawerRootProps>(), {
   side: "bottom",
@@ -79,15 +80,34 @@ watch(
   { flush: "sync" },
 );
 
+const side = computed(() => props.side);
+const swiping = ref(false);
+const progress = computed(() => (size.value > 0 ? Math.min(1, Math.max(0, movement.value / size.value)) : 0));
+
+const stack = useDrawerStack();
+const entry: DrawerStackEntry = {
+  side,
+  presence: computed(() => liveOverlayOpacity.value * (snapPoints.value.length > 0 ? 1 : 1 - progress.value)),
+  swiping,
+};
+if (isClient) {
+  watch(
+    () => isOpen.value && props.modal !== false,
+    (registered) => (registered ? stack.add(entry) : stack.remove(entry)),
+    { immediate: true },
+  );
+}
+onBeforeUnmount(() => stack.remove(entry));
+
 provideDrawerRootContext({
-  side: computed(() => props.side),
+  side,
   dismissible: computed(() => props.dismissible),
   handleOnly: computed(() => props.handleOnly),
   open: isOpen,
   size,
   movement,
-  progress: computed(() => (size.value > 0 ? Math.min(1, Math.max(0, movement.value / size.value)) : 0)),
-  swiping: ref(false),
+  progress,
+  swiping,
   dragged: ref(false),
   keyboardInset: ref(0),
   snapPoints,
@@ -101,6 +121,8 @@ provideDrawerRootContext({
   setOpen: (value) => {
     open.value = value;
   },
+  stack,
+  entry,
 });
 </script>
 

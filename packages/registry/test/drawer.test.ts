@@ -12,6 +12,7 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
+  DrawerIndent,
   DrawerSwipeArea,
   DrawerTitle,
   DrawerTrigger,
@@ -309,4 +310,69 @@ it("plays the enter animation with snap points, lands on the first point and scr
   await wait(400);
   expect(snap.value).toBe("120px");
   expect(translateY(content)).toBeCloseTo(280, 0);
+});
+
+it("scales the page in DrawerIndent behind an open drawer and gives it back after the close", async () => {
+  const open = ref(false);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(DrawerIndent, { class: "bg-red-500" }, () => [
+          h("header", { id: "sticky", class: "sticky top-0" }, "Header"),
+          h(Drawer, { open: open.value, "onUpdate:open": (value: boolean) => (open.value = value) }, () =>
+            h(DrawerContent, () => [h(DrawerTitle, () => "Title"), h(DrawerDescription, () => "Description")]),
+          ),
+        ]),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  const outer = slot("drawer-indent")!;
+  const page = slot("drawer-indent-page")!;
+  expect(outer.className).toContain("bg-red-500");
+  expect(outer.className).not.toContain("bg-black");
+  expect(getComputedStyle(page).scale).toBe("none");
+  open.value = true;
+  await expect.poll(() => getComputedStyle(page).scale).toBe("0.95");
+  expect(getComputedStyle(page).translate).toBe("0px 12px");
+  expect(getComputedStyle(page).clipPath).toMatch(/^inset\(/);
+  expect(getComputedStyle(page).overflow).toBe("visible");
+  expect(getComputedStyle(document.getElementById("sticky")!).position).toBe("sticky");
+  expect(page.contains(slot("drawer-content"))).toBe(false);
+  expect(document.body.style.background).toBe("");
+  open.value = false;
+  await expect.poll(() => getComputedStyle(page).scale).toBe("none");
+  expect(getComputedStyle(page).clipPath).toBe("none");
+  expect(document.body.style.background).toBe("");
+});
+
+it("steps a drawer back while a nested one is open", async () => {
+  const inner = ref(false);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(Drawer, { open: true }, () =>
+          h(DrawerContent, { id: "parent" }, () => [
+            h(DrawerTitle, () => "Parent"),
+            h(DrawerDescription, () => "Description"),
+            h(Drawer, { open: inner.value, "onUpdate:open": (value: boolean) => (inner.value = value) }, () =>
+              h(DrawerContent, { id: "child" }, () => [
+                h(DrawerTitle, () => "Child"),
+                h(DrawerDescription, () => "Description"),
+              ]),
+            ),
+          ]),
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  const parent = () => document.getElementById("parent")!;
+  await expect.poll(() => getComputedStyle(parent()).scale).toBe("1");
+  inner.value = true;
+  await expect.poll(() => getComputedStyle(parent()).scale).toBe("0.94");
+  expect(getComputedStyle(parent()).transform).toBe("matrix(1, 0, 0, 1, 0, -16)");
+  expect(parent().hasAttribute("data-nested-open")).toBe(true);
+  inner.value = false;
+  await expect.poll(() => getComputedStyle(parent()).scale).toBe("1");
 });
