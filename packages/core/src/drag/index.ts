@@ -32,8 +32,14 @@ export const opposite = (side: DragSide) => OPPOSITE[side];
 const axisOf = (side: DragSide) => (side === "left" || side === "right" ? 0 : 1);
 const signOf = (side: DragSide) => (side === "bottom" || side === "right" ? 1 : -1);
 
+type DragConfig = NonNullable<ConstructorParameters<typeof DragGesture>[2]>;
+
 const isMouse = (event: Event) =>
   event instanceof PointerEvent ? event.pointerType === "mouse" : event.type.startsWith("mouse");
+
+const isTouchEvent = (event: Event) => typeof TouchEvent !== "undefined" && event instanceof TouchEvent;
+
+const touchCapable = () => typeof window !== "undefined" && "ontouchstart" in window;
 
 const hasSelection = () => (window.getSelection()?.toString().length ?? 0) > 0;
 
@@ -64,8 +70,10 @@ export const releaseVerdict = (movement: number, size: number, swipe: number): "
   swipe > 0 || (size > 0 && movement >= size * 0.25) ? "close" : "return";
 
 export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: UseDragOptions) => {
-  let gesture: DragGesture | undefined;
+  let pointerGesture: DragGesture | undefined;
+  let touchGesture: DragGesture | undefined;
   let decided: "drag" | "cancel" | undefined;
+  let pen = false;
 
   const normalise = (state: FullGestureState<"drag">): DragMove => {
     const side = toValue(options.towards);
@@ -122,11 +130,55 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     }
   };
 
+  let ignorePointer = false;
+  const onPointer = (state: FullGestureState<"drag">) => {
+    if (state.first) {
+      const type = state.event instanceof PointerEvent ? state.event.pointerType : "mouse";
+      ignorePointer = touchGesture !== undefined && type === "touch";
+      if (ignorePointer) {
+        state.cancel();
+        return;
+      }
+      pen = type === "pen";
+    }
+    if (ignorePointer) return;
+    handler(state);
+    if (state.last) pen = false;
+  };
+
+  let ignoreTouch = false;
+  const onTouch = (state: FullGestureState<"drag">) => {
+    if (state.first) {
+      ignoreTouch = pen || !isTouchEvent(state.event);
+      if (ignoreTouch) {
+        state.cancel();
+        return;
+      }
+    }
+    if (ignoreTouch) return;
+    handler(state);
+  };
+
+  const config = (towards: DragSide, touch: boolean): DragConfig => ({
+    axis: axisOf(towards) === 0 ? "x" : "y",
+    filterTaps: true,
+    threshold: 4,
+    pointer: touch ? { touch: true, capture: false } : { capture: false },
+    eventOptions: { passive: false },
+    from: () => [0, 0],
+    bounds,
+    rubberband: 0.15,
+    swipe: { velocity: 0.5, distance: 50, duration: 250 },
+  });
+
   let bound: { element: HTMLElement | null | undefined; enabled: boolean; towards: DragSide } | undefined;
 
   const detach = () => {
-    gesture?.destroy();
-    gesture = undefined;
+    pointerGesture?.destroy();
+    touchGesture?.destroy();
+    pointerGesture = undefined;
+    touchGesture = undefined;
+    pen = false;
     const running = decided === "drag";
     decided = undefined;
     if (running) options.onCancel?.();
@@ -139,17 +191,8 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     bound = { element, enabled, towards };
     detach();
     if (!element || enabled === false) return;
-    gesture = new DragGesture(element, handler, {
-      axis: axisOf(towards) === 0 ? "x" : "y",
-      filterTaps: true,
-      threshold: 4,
-      pointer: { touch: true, capture: false },
-      eventOptions: { passive: false },
-      from: () => [0, 0],
-      bounds,
-      rubberband: 0.15,
-      swipe: { velocity: 0.5, distance: 50, duration: 250 },
-    });
+    if (touchCapable()) touchGesture = new DragGesture(element, onTouch, config(towards, true));
+    pointerGesture = new DragGesture(element, onPointer, config(towards, false));
   };
 
   onMounted(() => attach(target.value));

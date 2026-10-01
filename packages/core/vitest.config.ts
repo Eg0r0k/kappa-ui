@@ -33,6 +33,19 @@ export default defineConfig({
           },
         },
       },
+      {
+        extends: true,
+        test: {
+          name: "touch",
+          include: ["test/touch/**/*.test.ts"],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({ contextOptions: { hasTouch: true } }),
+            instances: [{ browser: "chromium" }],
+          },
+        },
+      },
     ],
   },
 });

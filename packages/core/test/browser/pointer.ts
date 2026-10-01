@@ -3,7 +3,7 @@ export const pointer = (
   target: Element,
   x: number,
   y: number,
-  pointerType: "touch" | "mouse" = "touch",
+  pointerType: "touch" | "mouse" | "pen" = "touch",
 ) =>
   target.dispatchEvent(
     new PointerEvent(type, {
