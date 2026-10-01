@@ -8733,6 +8733,169 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "color-picker",
+      "type": "registry:ui",
+      "title": "Color picker",
+      "description": "A colour picker from parts: a saturation and brightness area, channel sliders with hue and alpha, a hex or channel field, a preview and preset swatches, bound to one v-model string in hex, rgb, hsl or hsb. Keyboard and screen-reader support from Reka UI, one size from xs to xl, wired to Field.",
+      "dependencies": [
+        "@lucide/vue",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/ui/color-picker/ColorPicker.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/color-picker/ColorPickerArea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/color-picker/ColorPickerSlider.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/color-picker/ColorPickerField.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/color-picker/ColorPickerPreview.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/color-picker/ColorPickerSwatches.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/color-picker/ColorPickerSwatch.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/color-picker/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "color-picker-demo",
+      "type": "registry:block",
+      "title": "Color picker demo",
+      "description": "Area, hue and alpha sliders, preview, hex field and preset swatches.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "color-picker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/color-picker/ColorPickerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "color-picker-chooser",
+      "type": "registry:block",
+      "title": "Color picker chooser",
+      "description": "A button with a colour chip that opens the picker in a popover.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "color-picker",
+        "button",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "src/examples/color-picker/ColorPickerChooser.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "color-picker-channels",
+      "type": "registry:block",
+      "title": "Color picker channels",
+      "description": "Red, green, blue and alpha sliders with a number field each.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "color-picker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/color-picker/ColorPickerChannels.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "color-picker-sizes",
+      "type": "registry:block",
+      "title": "Color picker sizes",
+      "description": "The five sizes, from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "color-picker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/color-picker/ColorPickerSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "color-picker-formats",
+      "type": "registry:block",
+      "title": "Color picker formats",
+      "description": "One colour written as hex, rgb, hsl or hsb.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "color-picker",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/color-picker/ColorPickerFormats.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "color-picker-field",
+      "type": "registry:block",
+      "title": "Color picker field",
+      "description": "A picker inside Field with a label, a description and an error when the colour is too light.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "color-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/color-picker/ColorPickerField.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
