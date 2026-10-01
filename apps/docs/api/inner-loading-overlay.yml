@@ -1,0 +1,4 @@
+component: InnerLoadingOverlay
+file: ui/inner-loading/InnerLoadingOverlay.vue
+slots:
+  default: "The indicator and, optionally, a label, read out through `role=\"status\"`. A `Spinner` by default."

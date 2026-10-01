@@ -1,0 +1,4 @@
+component: InnerLoadingContent
+file: ui/inner-loading/InnerLoadingContent.vue
+slots:
+  default: "The content that is covered. The wrapper is `display: contents`, so it adds no box of its own."

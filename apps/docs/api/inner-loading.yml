@@ -1,0 +1,7 @@
+component: InnerLoading
+file: ui/inner-loading/InnerLoading.vue
+props:
+  loading:
+    description: "Whether the region is loading. While `true` the root is `aria-busy`, the content is inert and the overlay is shown; when it turns `false`, focus returns to the control that had it."
+slots:
+  default: "`InnerLoadingContent` and `InnerLoadingOverlay`."
