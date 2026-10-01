@@ -10,3 +10,4 @@ export {
   injectDrawerRootContext,
   useDrawerContext,
 } from "./context";
+export type { SnapPoint } from "../snap";

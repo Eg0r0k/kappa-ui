@@ -1,15 +1,23 @@
-import { type DialogRootEmits, type DialogRootProps, createContext } from "reka-ui";
+import { type DialogRootProps, createContext } from "reka-ui";
 import type { ComputedRef, Ref } from "vue";
 
 import type { DragSide } from "../drag";
+import type { SnapPoint } from "../snap";
 
 export interface DrawerRootProps extends DialogRootProps {
   side?: DragSide;
   dismissible?: boolean;
   handleOnly?: boolean;
+  snapPoints?: SnapPoint[];
+  activeSnapPoint?: SnapPoint | null;
+  snapToSequentialPoints?: boolean;
+  fadeFromIndex?: number;
 }
 
-export type DrawerRootEmits = DialogRootEmits;
+export type DrawerRootEmits = {
+  "update:open": [value: boolean];
+  "update:activeSnapPoint": [value: SnapPoint | null];
+};
 
 export interface DrawerRootContext {
   side: ComputedRef<DragSide>;
@@ -22,8 +30,13 @@ export interface DrawerRootContext {
   swiping: Ref<boolean>;
   dragged: Ref<boolean>;
   keyboardInset: Ref<number>;
-  snapOffset: Ref<number>;
-  overlayOpacity: Ref<number>;
+  snapPoints: ComputedRef<SnapPoint[]>;
+  snapPixels: ComputedRef<number[]>;
+  activeSnapPoint: Ref<SnapPoint | null>;
+  snapToSequentialPoints: ComputedRef<boolean>;
+  expanded: ComputedRef<boolean>;
+  snapOffset: ComputedRef<number>;
+  overlayOpacity: ComputedRef<number>;
   setOpen: (open: boolean) => void;
 }
 

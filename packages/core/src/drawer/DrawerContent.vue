@@ -149,6 +149,7 @@ const style = computed(() => ({
     v-bind="forwarded"
     :data-side="context.side.value"
     :data-swiping="context.swiping.value ? '' : undefined"
+    :data-expanded="context.expanded.value ? '' : undefined"
     :style="style"
     @escape-key-down="keepUnlessDismissible"
     @interact-outside="keepUnlessDismissible"
