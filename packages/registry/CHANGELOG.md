@@ -1,5 +1,22 @@
 # @kappa-ui/registry
 
+## 0.7.0
+
+### Minor Changes
+
+- [`7323be6`](https://github.com/Eg0r0k/kappa-ui/commit/7323be66354c14fe11f9d4eff9b006d98c4eae8b) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Collapsible: `Collapsible`, `CollapsibleTrigger` and `CollapsibleContent` over Reka UI's collapsible. The content animates with the accordion's timing; closed content stays in the page as `hidden="until-found"` unless `unmount-on-hide` is set.
+
+- [`5af8a9b`](https://github.com/Eg0r0k/kappa-ui/commit/5af8a9b92a6cdc4db8dc8d0926ef3eb61d6dc8af) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Empty: `Empty`, `EmptyHeader`, `EmptyMedia`, `EmptyTitle`, `EmptyDescription` and `EmptyContent` for empty states. One `size` from `xs` to `xl` scales the spacing, the icon and the type; the layout draws no surface of its own, so it sits in a card, a table or a page.
+
+- [`c08ee4f`](https://github.com/Eg0r0k/kappa-ui/commit/c08ee4f2d08da0e0841335d8213019a6bd253199) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - PinInput: `PinInput`, `PinInputGroup`, `PinInputSlot` and `PinInputSeparator` over Reka UI's pin input, with the text control variants and sizes of `Input`, one-time-code autofill on by default, and label, state and error from a surrounding `Field`.
+
+- [`07109fb`](https://github.com/Eg0r0k/kappa-ui/commit/07109fb38ff674f194c000d9feb73ae5fba97203) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Toolbar: `Toolbar`, `ToolbarButton`, `ToolbarLink`, `ToolbarSeparator`, `ToolbarToggleGroup` and `ToolbarToggleItem` over Reka UI's toolbar, drawn with `Button` and `ToggleGroup`: one tab stop, arrow-key focus, a framed `outline` or a bare `ghost` variant.
+
+### Patch Changes
+
+- Updated dependencies [[`7323be6`](https://github.com/Eg0r0k/kappa-ui/commit/7323be66354c14fe11f9d4eff9b006d98c4eae8b)]:
+  - @kappa-ui/core@0.6.0
+
 ## 0.6.0
 
 ### Minor Changes
