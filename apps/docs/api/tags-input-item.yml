@@ -1,0 +1,17 @@
+component: TagsInputItem
+file: ui/tags-input/TagsInputItem.vue
+props:
+  value:
+    description: The tag this chip stands for, as it appears in the model.
+  variant:
+    description: "The badge variant, `soft` by default."
+  color:
+    description: "The badge colour, `neutral` by default."
+  disabled:
+    description: Keeps this tag from being removed.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the chip's attributes and classes onto it."
+slots:
+  default: "`TagsInputItemText` and `TagsInputItemDelete`."

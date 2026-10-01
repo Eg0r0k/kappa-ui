@@ -1,0 +1,9 @@
+component: TagsInputItemDelete
+file: ui/tags-input/TagsInputItemDelete.vue
+props:
+  as:
+    description: The element or component to render, a `button` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the button's attributes and classes onto it."
+slots:
+  default: "The icon. A cross by default."

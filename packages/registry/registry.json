@@ -1630,6 +1630,50 @@
       ]
     },
     {
+      "name": "tags-input",
+      "type": "registry:ui",
+      "title": "Tags input",
+      "description": "Tags typed into one text control frame, drawn as badges, with delimiter, paste, max and duplicate handling and Field integration. Built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "src/ui/tags-input/TagsInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tags-input/TagsInputItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tags-input/TagsInputItemText.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tags-input/TagsInputItemDelete.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tags-input/TagsInputInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tags-input/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",
@@ -4298,6 +4342,116 @@
       "files": [
         {
           "path": "src/examples/input-number/InputNumberFieldExample.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tags-input-demo",
+      "type": "registry:block",
+      "title": "Tags input demo",
+      "description": "Fruits as tags, typed one by one.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tags-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tags-input/TagsInputDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tags-input-variants",
+      "type": "registry:block",
+      "title": "Tags input variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tags-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tags-input/TagsInputVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tags-input-sizes",
+      "type": "registry:block",
+      "title": "Tags input sizes",
+      "description": "Frames from 28px to 48px with tags to match.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tags-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tags-input/TagsInputSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tags-input-behaviour",
+      "type": "registry:block",
+      "title": "Tags input paste and limits",
+      "description": "A delimiter pattern, adding on paste and blur, and a maximum.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tags-input",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tags-input/TagsInputBehaviour.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tags-input-objects",
+      "type": "registry:block",
+      "title": "Tags input with objects",
+      "description": "Objects as values through convertValue and displayValue.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tags-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tags-input/TagsInputObjects.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tags-input-field",
+      "type": "registry:block",
+      "title": "Tags input in a field",
+      "description": "Label, description and error from the field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tags-input",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tags-input/TagsInputFieldExample.vue",
           "type": "registry:component"
         }
       ]
