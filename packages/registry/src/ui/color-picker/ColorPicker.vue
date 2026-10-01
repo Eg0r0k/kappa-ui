@@ -1,0 +1,84 @@
+<script setup lang="ts">
+import { type Color, colorToString, convertToHsb, isValidColor, parseColor } from "reka-ui";
+import { type HTMLAttributes, computed, ref, toRef, useAttrs, watch } from "vue";
+
+import { useFieldControl } from "@/lib/field-context";
+import { cn } from "@/lib/utils";
+import { type ColorPickerFormat, type ColorPickerSize, colorPickerVariants, provideColorPickerContext } from ".";
+
+defineOptions({ inheritAttrs: false });
+
+const props = withDefaults(
+  defineProps<{
+    id?: string;
+    defaultValue?: string;
+    format?: ColorPickerFormat;
+    size?: ColorPickerSize;
+    disabled?: boolean;
+    required?: boolean;
+    name?: string;
+    class?: HTMLAttributes["class"];
+  }>(),
+  { format: "hex", size: "md" },
+);
+
+const model = defineModel<string>();
+
+const attrs = useAttrs();
+const control = useFieldControl(props, attrs);
+
+const parse = (value: string | undefined) =>
+  value !== undefined && isValidColor(value) ? convertToHsb(parseColor(value)) : undefined;
+
+const color = ref<Color>(parse(model.value) ?? parse(props.defaultValue) ?? parse("#ffffff")!);
+let written: string | undefined;
+
+const setColor = (next: Color) => {
+  color.value = convertToHsb(next);
+  written = colorToString(next, props.format);
+  model.value = written;
+};
+if (model.value === undefined) setColor(color.value);
+
+watch(model, (next) => {
+  if (next === undefined || next === written) return;
+  const parsed = parse(next);
+  if (parsed) color.value = parsed;
+});
+watch(
+  () => props.format,
+  () => setColor(color.value),
+);
+
+const isDisabled = computed(() => Boolean(control.disabled.value));
+
+provideColorPickerContext({
+  color,
+  hex: computed(() => colorToString(color.value, "hex")),
+  setColor,
+  size: toRef(() => props.size),
+  disabled: isDisabled,
+  invalid: control.invalid,
+  describedBy: control.describedBy,
+});
+
+const partOwned = ["aria-invalid", "aria-describedby"];
+const rootAttrs = computed(() => Object.fromEntries(Object.entries(attrs).filter(([key]) => !partOwned.includes(key))));
+</script>
+
+<template>
+  <div
+    v-bind="rootAttrs"
+    :id="control.id.value"
+    data-slot="color-picker"
+    role="group"
+    :data-size="props.size"
+    :data-disabled="isDisabled ? '' : undefined"
+    :aria-labelledby="control.labelledBy.value"
+    :aria-required="control.required.value || undefined"
+    :class="cn(colorPickerVariants({ size: props.size }), props.class)"
+  >
+    <slot />
+    <input v-if="props.name" type="hidden" :name="props.name" :value="model" :disabled="isDisabled" />
+  </div>
+</template>
