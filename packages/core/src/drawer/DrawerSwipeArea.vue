@@ -21,6 +21,7 @@ const extent = () => context.size.value || (vertical.value ? window.innerHeight 
 useDrag(element, {
   towards: () => opposite(context.side.value),
   bounds: () => ({ min: 0, max: extent() }),
+  canStart: (move) => move.direction > 0,
   onStart: () => {
     context.swiping.value = true;
     context.movement.value = extent();

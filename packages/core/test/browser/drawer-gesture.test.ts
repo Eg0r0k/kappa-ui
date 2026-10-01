@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
-import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
+import { type VNodeChild, defineComponent, h, nextTick, ref, watch } from "vue";
 
 import {
   DrawerContent,
@@ -310,5 +310,17 @@ it("closes again when the swipe from the edge is released early", async () => {
   await settle();
   await drag(area(), [150, 395], [150, 365]);
   await settle();
+  expect(open.value).toBe(false);
+});
+
+it("ignores a move on the swipe area towards the edge", async () => {
+  const open = harness({}, () => h("p", "Body"), false);
+  await settle();
+  const seen: boolean[] = [];
+  const stop = watch(open, (value) => seen.push(value), { flush: "sync" });
+  await drag(area(), [150, 380], [150, 420]);
+  await settle();
+  stop();
+  expect(seen).not.toContain(true);
   expect(open.value).toBe(false);
 });
