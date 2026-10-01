@@ -35,6 +35,7 @@
     "./overlay": "./src/overlay/index.ts",
     "./ripple": "./src/ripple/index.ts",
     "./scroll-fade": "./src/scroll-fade/index.ts",
+    "./snap": "./src/snap/index.ts",
     "./tailwind.css": "./src/tailwind.css",
     "./toast": "./src/toast/index.ts",
     "./tooltip": "./src/tooltip/index.ts",
@@ -74,6 +75,10 @@
       "./scroll-fade": {
         "types": "./dist/scroll-fade/index.d.ts",
         "default": "./dist/scroll-fade/index.js"
+      },
+      "./snap": {
+        "types": "./dist/snap/index.d.ts",
+        "default": "./dist/snap/index.js"
       },
       "./tailwind.css": "./dist/tailwind.css",
       "./toast": {

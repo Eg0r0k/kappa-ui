@@ -7,7 +7,6 @@ export interface DragMove {
   movement: number;
   velocity: number;
   direction: number;
-  swipe: number;
   event: Event;
   target: Element;
   mouse: boolean;
@@ -18,12 +17,15 @@ export interface UseDragOptions {
   enabled?: MaybeRefOrGetter<boolean>;
   bounds?: MaybeRefOrGetter<{ min?: number; max?: number }>;
   canStart?: (move: DragMove) => boolean;
-  mouseFrom?: (target: Element) => boolean;
   onStart?: (move: DragMove) => void;
   onMove: (move: DragMove) => void;
   onRelease: (move: DragMove) => void;
   onCancel?: () => void;
 }
+
+export const SWIPE_VELOCITY = 0.5;
+const VELOCITY_WINDOW = 100;
+const VELOCITY_REST = 50;
 
 const OPPOSITE: Record<DragSide, DragSide> = { bottom: "top", top: "bottom", left: "right", right: "left" };
 
@@ -41,7 +43,31 @@ const isTouchEvent = (event: Event) => typeof TouchEvent !== "undefined" && even
 
 const touchCapable = () => typeof window !== "undefined" && "ontouchstart" in window;
 
-const hasSelection = () => (window.getSelection()?.toString().length ?? 0) > 0;
+const isTextControl = (element: Element | null): element is HTMLInputElement | HTMLTextAreaElement =>
+  element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement;
+
+const hasSelection = () => {
+  const control = document.activeElement;
+  if (
+    isTextControl(control) &&
+    control.selectionStart !== null &&
+    control.selectionEnd !== null &&
+    control.selectionStart < control.selectionEnd
+  ) {
+    return true;
+  }
+  return (window.getSelection()?.toString().length ?? 0) > 0;
+};
+
+const preventDefault = (event: Event) => event.preventDefault();
+
+const releaseVelocity = (samples: [number, number][], now: number) => {
+  const latest = samples.at(-1);
+  if (!latest || now - latest[0] > VELOCITY_REST) return 0;
+  const oldest = samples.find(([time]) => latest[0] - time <= VELOCITY_WINDOW) ?? latest;
+  const elapsed = latest[0] - oldest[0];
+  return elapsed > 0 ? (latest[1] - oldest[1]) / elapsed : 0;
+};
 
 const scrollable = (element: Element, vertical: boolean) => {
   const style = getComputedStyle(element);
@@ -66,14 +92,17 @@ export const scrollBlocksDrag = (target: Element, boundary: Element, towards: Dr
   return false;
 };
 
-export const releaseVerdict = (movement: number, size: number, swipe: number): "close" | "return" =>
-  swipe > 0 || movement >= Math.max(size * 0.5, 10) ? "close" : "return";
+export const releaseVerdict = (movement: number, size: number, velocity: number): "close" | "return" =>
+  movement > 0 && (velocity >= SWIPE_VELOCITY || movement >= Math.max(size * 0.5, 10)) ? "close" : "return";
 
 export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: UseDragOptions) => {
   let pointerGesture: DragGesture | undefined;
   let touchGesture: DragGesture | undefined;
   let decided: "drag" | "cancel" | undefined;
   let pen = false;
+  let preselected = false;
+  let samples: [number, number][] = [];
+  let unblockSelection: (() => void) | undefined;
 
   const normalise = (state: FullGestureState<"drag">): DragMove => {
     const side = toValue(options.towards);
@@ -81,9 +110,8 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     const sign = signOf(side);
     return {
       movement: state.movement[axis] * sign,
-      velocity: state.velocity[axis],
+      velocity: state.velocity[axis] * state.direction[axis] * sign,
       direction: (state.direction[axis] || Math.sign(state._movement[axis])) * sign,
-      swipe: state.swipe[axis] * sign,
       event: state.event,
       target: state.target as Element,
       mouse: isMouse(state.event),
@@ -92,9 +120,17 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
 
   const allowed = (move: DragMove) => {
     if (move.target.closest("[data-no-drag]")) return false;
-    if (hasSelection()) return false;
-    if (move.mouse && options.mouseFrom && !options.mouseFrom(move.target)) return false;
+    if (preselected) return false;
     return options.canStart ? options.canStart(move) : true;
+  };
+
+  const blockSelection = () => {
+    window.getSelection()?.removeAllRanges();
+    document.addEventListener("selectstart", preventDefault, true);
+    unblockSelection = () => {
+      document.removeEventListener("selectstart", preventDefault, true);
+      unblockSelection = undefined;
+    };
   };
 
   const bounds = () => {
@@ -108,54 +144,61 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
   };
 
   const handler = (state: FullGestureState<"drag">) => {
-    if (state.first) decided = undefined;
+    if (state.event.type === "pointerdown" || state.event.type === "touchstart") {
+      preselected = hasSelection();
+    }
+    if (state.first) {
+      decided = undefined;
+      samples = [];
+    }
     const move = normalise(state);
-    if (!decided && state.intentional && !state.last) {
+    if (!decided && state.active && state.intentional && !state.last) {
       decided = allowed(move) ? "drag" : "cancel";
       if (decided === "cancel") {
         state.cancel();
         return;
       }
+      if (!isTouchEvent(state.event)) blockSelection();
       options.onStart?.(move);
     }
     if (decided !== "drag") return;
     if (state.active) {
       if (state.event.cancelable && state.event.type === "touchmove") state.event.preventDefault();
+      samples.push([state.event.timeStamp, move.movement]);
       options.onMove(move);
     }
     if (state.last) {
       decided = undefined;
+      unblockSelection?.();
       if (state.canceled) options.onCancel?.();
-      else options.onRelease(move);
+      else options.onRelease({ ...move, velocity: releaseVelocity(samples, state.event.timeStamp) });
     }
   };
 
   let ignorePointer = false;
   const onPointer = (state: FullGestureState<"drag">) => {
-    if (state.first) {
+    if (state.event.type === "pointerdown") {
       const type = state.event instanceof PointerEvent ? state.event.pointerType : "mouse";
       ignorePointer = touchGesture !== undefined && type === "touch";
-      if (ignorePointer) {
-        state.cancel();
-        return;
-      }
-      pen = type === "pen";
+      if (!ignorePointer) pen = type === "pen";
     }
-    if (ignorePointer) return;
+    if (ignorePointer) {
+      if (state.first) state.cancel();
+      return;
+    }
     handler(state);
     if (state.last) pen = false;
   };
 
   let ignoreTouch = false;
   const onTouch = (state: FullGestureState<"drag">) => {
-    if (state.first) {
+    if (state.event.type === "touchstart") {
       ignoreTouch = pen || !isTouchEvent(state.event);
-      if (ignoreTouch) {
-        state.cancel();
-        return;
-      }
     }
-    if (ignoreTouch) return;
+    if (ignoreTouch) {
+      if (state.first) state.cancel();
+      return;
+    }
     handler(state);
   };
 
@@ -168,7 +211,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     from: () => [0, 0],
     bounds,
     rubberband: 0.15,
-    swipe: { velocity: 0.5, distance: 50, duration: 250 },
+    triggerAllEvents: true,
   });
 
   let bound: { element: HTMLElement | null | undefined; enabled: boolean; towards: DragSide } | undefined;
@@ -179,6 +222,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     pointerGesture = undefined;
     touchGesture = undefined;
     pen = false;
+    unblockSelection?.();
     const running = decided === "drag";
     decided = undefined;
     if (running) options.onCancel?.();

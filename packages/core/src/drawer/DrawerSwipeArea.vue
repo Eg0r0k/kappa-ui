@@ -14,12 +14,15 @@ const setInstance = (instance: ComponentPublicInstance | Element | null) => {
   element.value = node instanceof HTMLElement ? node : undefined;
 };
 
-const shown = computed(() => !context.open.value || context.swiping.value);
 const vertical = computed(() => context.side.value === "bottom" || context.side.value === "top");
-const extent = () => context.size.value || (vertical.value ? window.innerHeight : window.innerWidth);
+const extent = () => {
+  const visible = context.size.value - context.snapOffset.value;
+  return visible > 0 ? visible : vertical.value ? window.innerHeight : window.innerWidth;
+};
 
 useDrag(element, {
   towards: () => opposite(context.side.value),
+  enabled: () => !context.open.value || context.swiping.value,
   bounds: () => ({ min: 0, max: extent() }),
   canStart: (move) => move.direction > 0,
   onStart: () => {
@@ -34,7 +37,7 @@ useDrag(element, {
     const size = extent();
     const revealed = Math.min(size, Math.max(0, move.movement));
     context.swiping.value = false;
-    if (revealed >= 40 || (move.velocity >= 0.1 && move.direction > 0)) {
+    if (revealed >= 40 || move.velocity >= 0.1) {
       context.movement.value = 0;
       return;
     }
@@ -49,7 +52,7 @@ useDrag(element, {
 </script>
 
 <template>
-  <Primitive v-if="shown" :ref="setInstance" v-bind="props" :data-side="context.side.value" aria-hidden="true">
+  <Primitive :ref="setInstance" v-bind="props" :data-side="context.side.value" aria-hidden="true">
     <slot />
   </Primitive>
 </template>

@@ -47,13 +47,13 @@ const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: ()
   };
 };
 
-it("reports movement towards the side as positive and calls release", async () => {
+it("reports movement towards the side as positive, calls release, and reads zero velocity after a rest", async () => {
   const { element, starts, moves, releases } = host();
   await drag(element, [100, 100], [100, 210], 4, 80);
   expect(starts).toHaveLength(1);
   expect(moves.at(-1)!.movement).toBeCloseTo(100, 0);
   expect(releases).toHaveLength(1);
-  expect(releases[0]!.swipe).toBe(0);
+  expect(releases[0]!.velocity).toBe(0);
 });
 
 it("mirrors the sign for the top side", async () => {
@@ -62,10 +62,22 @@ it("mirrors the sign for the top side", async () => {
   expect(moves.at(-1)!.movement).toBeCloseTo(100, 0);
 });
 
-it("flags a fast release as a swipe", async () => {
+it("reports the release velocity over the last moves when released on the move", async () => {
   const { element, releases } = host();
-  await flick(element, [100, 50], [100, 250]);
-  expect(releases[0]!.swipe).toBe(1);
+  pointer("pointerdown", element, 100, 100);
+  for (let y = 120; y <= 260; y += 20) {
+    await wait(20);
+    pointer("pointermove", element, 100, y);
+  }
+  await wait(10);
+  pointer("pointerup", element, 100, 260);
+  expect(releases).toHaveLength(1);
+  expect(releases[0]!.velocity).toBeGreaterThan(0.5);
+  expect(releases[0]!.velocity).toBeLessThan(2);
+
+  const back = host({ towards: "top" });
+  await flick(back.element, [100, 250], [100, 50]);
+  expect(back.releases[0]!.velocity).toBeGreaterThan(2);
 });
 
 it("ignores a tap", async () => {
@@ -88,25 +100,34 @@ it("cancels when canStart says no and when the target is inside data-no-drag", a
   expect(inner.starts).toHaveLength(0);
 });
 
-it("lets a mouse drag only from where mouseFrom allows", async () => {
-  const { element, starts } = host({ mouseFrom: (target) => target.hasAttribute("data-drag") }, () => [
-    h("span", { "data-drag": "" }, "grip"),
-    h("span", "text"),
-  ]);
-  const [grip, text] = element.querySelectorAll("span");
-  pointer("pointerdown", text!, 10, 10, "mouse");
+it("drags with a mouse from anywhere and clears the selection the press started", async () => {
+  const { element, starts } = host({}, () => h("p", "Some text to select"));
+  const text = element.querySelector("p")!;
+  pointer("pointerdown", text, 10, 10, "mouse");
+  const range = document.createRange();
+  range.selectNodeContents(text);
+  getSelection()!.addRange(range);
   await wait(20);
-  pointer("pointermove", text!, 10, 60, "mouse");
+  pointer("pointermove", text, 10, 60, "mouse");
   await wait(20);
-  pointer("pointerup", text!, 10, 60, "mouse");
-  expect(starts).toHaveLength(0);
-
-  pointer("pointerdown", grip!, 10, 10, "mouse");
-  await wait(20);
-  pointer("pointermove", grip!, 10, 60, "mouse");
-  await wait(20);
-  pointer("pointerup", grip!, 10, 60, "mouse");
   expect(starts).toHaveLength(1);
+  expect(getSelection()!.toString()).toBe("");
+  pointer("pointerup", text, 10, 60, "mouse");
+});
+
+it("leaves a press alone while text is already selected", async () => {
+  const { element, starts } = host({}, () => h("p", "Some text to select"));
+  const text = element.querySelector("p")!;
+  const range = document.createRange();
+  range.selectNodeContents(text);
+  getSelection()!.addRange(range);
+  pointer("pointerdown", text, 10, 10, "mouse");
+  await wait(20);
+  pointer("pointermove", text, 10, 60, "mouse");
+  await wait(20);
+  pointer("pointerup", text, 10, 60, "mouse");
+  expect(starts).toHaveLength(0);
+  getSelection()!.removeAllRanges();
 });
 
 it("reads the direction from the finger when the threshold leaves no movement yet", async () => {
@@ -169,11 +190,56 @@ it("scrollBlocksDrag reads the scroll chain for each side", () => {
   expect(scrollBlocksDrag(target, boundary, "left")).toBe(false);
 });
 
-it("releaseVerdict closes on a swipe or half of the size, and on 10px while the size is unknown", () => {
-  expect(releaseVerdict(10, 400, 1)).toBe("close");
-  expect(releaseVerdict(199, 400, 0)).toBe("return");
+it("ignores a sideways gesture on a fresh instance and still drags normally afterwards", async () => {
+  const { element, starts, releases } = host();
+  pointer("pointerdown", element, 100, 100);
+  for (const [x, y] of [
+    [160, 103],
+    [220, 108],
+    [280, 112],
+  ] as const) {
+    await wait(30);
+    pointer("pointermove", element, x, y);
+  }
+  await wait(30);
+  pointer("pointerup", element, 280, 112);
+  expect(starts).toHaveLength(0);
+
+  const selectstart = new Event("selectstart", { bubbles: true, cancelable: true });
+  document.body.dispatchEvent(selectstart);
+  expect(selectstart.defaultPrevented).toBe(false);
+
+  await drag(element, [100, 100], [100, 210], 4, 80);
+  expect(starts).toHaveLength(1);
+  expect(releases).toHaveLength(1);
+});
+
+it("keeps releasing fast after a drag that pauses and then flicks", async () => {
+  const { element, releases } = host();
+  pointer("pointerdown", element, 100, 100);
+  let y = 100;
+  for (let i = 0; i < 6; i++) {
+    await wait(60);
+    y += 10;
+    pointer("pointermove", element, 100, y);
+  }
+  for (let i = 0; i < 3; i++) {
+    await wait(16);
+    y += 30;
+    pointer("pointermove", element, 100, y);
+  }
+  await wait(10);
+  pointer("pointerup", element, 100, y);
+  expect(releases).toHaveLength(1);
+  expect(releases[0]!.velocity).toBeGreaterThan(0.5);
+});
+
+it("releaseVerdict closes at the swipe velocity or half of the size, on 10px while the size is unknown, never without net movement", () => {
+  expect(releaseVerdict(10, 400, 0.5)).toBe("close");
+  expect(releaseVerdict(199, 400, 0.49)).toBe("return");
   expect(releaseVerdict(200, 400, 0)).toBe("close");
   expect(releaseVerdict(9, 0, 0)).toBe("return");
   expect(releaseVerdict(10, 0, 0)).toBe("close");
+  expect(releaseVerdict(0, 400, 3)).toBe("return");
   expect(releaseVerdict(300, 400, -1)).toBe("close");
 });

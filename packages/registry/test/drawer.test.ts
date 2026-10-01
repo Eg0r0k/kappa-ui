@@ -86,18 +86,18 @@ it("renders every part with its data-slot and the side on the content", async ()
   }
   expect(slot("drawer-content")!.dataset.side).toBe("bottom");
   expect(slot("drawer-content")!.classList.contains("bottom-0")).toBe(true);
-  expect(slot("drawer-header")!.hasAttribute("data-drawer-drag")).toBe(true);
-  expect(slot("drawer-swipe-area")).toBeNull();
+  expect(slot("drawer-content")!.classList.contains("touch-pan-x")).toBe(true);
+  expect(slot("drawer-swipe-area")).not.toBeNull();
 });
 
-it("shows the swipe area only while closed", async () => {
+it("keeps the swipe area rendered on both sides of a close", async () => {
   const open = render();
   await settle();
+  expect(slot("drawer-swipe-area")!.classList.contains("bottom-0")).toBe(true);
   open.value = false;
   await settle();
   await new Promise((resolve) => setTimeout(resolve, 300));
   expect(slot("drawer-swipe-area")).not.toBeNull();
-  expect(slot("drawer-swipe-area")!.classList.contains("bottom-0")).toBe(true);
 });
 
 it("takes its side classes from the root and hides the handle on the sides", async () => {
@@ -105,6 +105,7 @@ it("takes its side classes from the root and hides the handle on the sides", asy
   await settle();
   expect(slot("drawer-content")!.dataset.side).toBe("left");
   expect(slot("drawer-content")!.classList.contains("left-0")).toBe(true);
+  expect(slot("drawer-content")!.classList.contains("touch-pan-y")).toBe(true);
   expect(slot("drawer-handle")).toBeNull();
 });
 
@@ -245,4 +246,67 @@ it("settles a swipe-to-open release by its transition instead of replaying the e
   expect(translateY(content)).toBeLessThan(held);
   await wait(400);
   expect(translateY(content)).toBe(0);
+});
+
+it("plays the enter animation with snap points, lands on the first point and scrolls the body only when expanded", async () => {
+  const snap = ref<string | number | null>("120px");
+  const open = ref(true);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(
+          Drawer,
+          {
+            open: open.value,
+            "onUpdate:open": (value: boolean) => (open.value = value),
+            snapPoints: ["120px", "400px"],
+            activeSnapPoint: snap.value,
+            "onUpdate:activeSnapPoint": (value: string | number | null) => (snap.value = value),
+          },
+          () => [
+            h(DrawerContent, { class: "h-[400px]" }, () => [
+              h(DrawerHeader, () => [h(DrawerTitle, () => "Title"), h(DrawerDescription, () => "Description")]),
+              h(DrawerBody, () => h("div", { style: "height: 900px" })),
+            ]),
+          ],
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  await settle();
+  const content = slot("drawer-content")!;
+  const body = slot("drawer-body")!;
+  expect(animations(content)).toContain("kappa-drawer-in-bottom");
+  await wait(500);
+  expect(translateY(content)).toBeCloseTo(280, 0);
+  expect(content.hasAttribute("data-expanded")).toBe(false);
+  expect(getComputedStyle(body).overflowY).toBe("hidden");
+
+  snap.value = "400px";
+  await settle();
+  await wait(400);
+  expect(translateY(content)).toBe(0);
+  expect(content.hasAttribute("data-expanded")).toBe(true);
+  expect(getComputedStyle(body).overflowY).toBe("auto");
+
+  snap.value = "120px";
+  await settle();
+  await wait(100);
+  const midway = translateY(content);
+  expect(midway).toBeGreaterThan(0);
+  expect(midway).toBeLessThan(280);
+  const before = translateY(content);
+  pointer("pointerdown", body, 100, 100);
+  await wait(30);
+  pointer("pointermove", body, 100, 85);
+  await wait(30);
+  const after = translateY(content);
+  expect(after).toBeGreaterThan(before - 20);
+  expect(after).toBeLessThan(before + 60);
+  pointer("pointerup", body, 100, 85);
+  await settle();
+  await wait(400);
+  expect(snap.value).toBe("120px");
+  expect(translateY(content)).toBeCloseTo(280, 0);
 });

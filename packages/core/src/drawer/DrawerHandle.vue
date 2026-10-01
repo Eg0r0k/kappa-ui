@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { Primitive, type PrimitiveProps } from "reka-ui";
 
+import { cycleSnapPoint } from "../snap";
 import { injectDrawerRootContext } from "./context";
 
 const props = withDefaults(defineProps<PrimitiveProps>(), { as: "div" });
 const context = injectDrawerRootContext();
 
 const onClick = () => {
-  if (context.dragged.value || !context.dismissible.value) return;
-  context.setOpen(false);
+  if (context.dragged.value) return;
+  const points = context.snapPoints.value;
+  if (points.length > 0) {
+    const next = cycleSnapPoint(points, context.activeSnapPoint.value ?? context.snapPoints.value[0]!) ?? null;
+    if (context.activeSnapPoint.value !== next) context.activeSnapPoint.value = next;
+    return;
+  }
+  if (context.dismissible.value) context.setOpen(false);
 };
 </script>
 

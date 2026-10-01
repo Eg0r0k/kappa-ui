@@ -5,3 +5,5 @@ props:
     description: "The element or component to render."
   asChild:
     description: "Renders the slot's element instead of its own and puts the swipe behaviour on it."
+slots:
+  default: "Content shown inside the strip, such as a label; empty by default."
