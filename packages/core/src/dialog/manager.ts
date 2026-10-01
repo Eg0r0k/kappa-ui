@@ -50,6 +50,8 @@ export interface DialogEntry {
   readonly component: Component;
   readonly defaults: Props;
   readonly keepMounted: boolean;
+  readonly root?: Component;
+  readonly rootProps: Props;
   props: Props;
   isOpen: boolean;
   loading: boolean;
@@ -66,7 +68,12 @@ export interface DialogManager {
   install: (app: App) => void;
 }
 
-interface OpenOptions {
+export interface DialogRooting {
+  root?: Component;
+  rootProps?: Props;
+}
+
+interface OpenOptions extends DialogRooting {
   definition?: symbol;
   defaults?: Props;
   keepMounted?: boolean;
@@ -139,7 +146,7 @@ export const createDialogs = (): DialogManager => {
         if (active === store) active = undefined;
       });
     },
-    open: (component, props, { definition, defaults = {}, keepMounted = false } = {}) => {
+    open: (component, props, { definition, defaults = {}, keepMounted = false, root, rootProps = {} } = {}) => {
       const existing = definition ? entries.find((entry) => entry.definition === definition) : undefined;
       if (existing?.isOpen && existing.handle) return existing.handle;
       if (!hosts.length) {
@@ -154,6 +161,8 @@ export const createDialogs = (): DialogManager => {
           component,
           defaults,
           keepMounted,
+          root,
+          rootProps,
           props: {},
           isOpen: false,
           loading: false,
@@ -247,14 +256,13 @@ export const useDialogStore = () => {
   return store;
 };
 
-export const openDialog = <T = void, C extends Component = Component>(
-  component: C,
-  ...[props]: PropsArgs<DialogProps<C>>
-): DialogHandle<T, DialogProps<C>> => openIn(current(), component, toProps(props));
+export const openDialogWith = <T, P>(component: Component, props: unknown, rooting: DialogRooting = {}) =>
+  openIn<T, P>(current(), component, toProps(props), rooting);
 
-export const defineDialog = <C extends Component>(
+export const defineDialogWith = <C extends Component>(
   component: C,
   options: DialogOptions<C> = {},
+  rooting: DialogRooting = {},
 ): DialogDefinition<C> => {
   const definition = Symbol("definition");
   const owner = shallowRef<DialogStore>();
@@ -266,6 +274,7 @@ export const defineDialog = <C extends Component>(
         definition,
         defaults: toProps(options.props),
         keepMounted: options.keepMounted,
+        ...rooting,
       });
     },
     dismiss: () => {
@@ -275,6 +284,14 @@ export const defineDialog = <C extends Component>(
     isOpen: computed(() => entry()?.isOpen ?? false),
   };
 };
+
+export const openDialog = <T = void, C extends Component = Component>(
+  component: C,
+  ...[props]: PropsArgs<DialogProps<C>>
+): DialogHandle<T, DialogProps<C>> => openDialogWith<T, DialogProps<C>>(component, props);
+
+export const defineDialog = <C extends Component>(component: C, options: DialogOptions<C> = {}): DialogDefinition<C> =>
+  defineDialogWith(component, options);
 
 export const closeAllDialogs = () => {
   current()?.closeAll();

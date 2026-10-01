@@ -17,9 +17,15 @@ onErrorCaptured(() => {
 </script>
 
 <template>
-  <DialogRoot :open="props.entry.isOpen" :unmount-on-hide="!props.entry.keepMounted" @update:open="onUpdateOpen">
+  <component
+    :is="props.entry.root ?? DialogRoot"
+    v-bind="props.entry.rootProps"
+    :open="props.entry.isOpen"
+    :unmount-on-hide="!props.entry.keepMounted"
+    @update:open="onUpdateOpen"
+  >
     <DialogEntryScope :entry="props.entry" :store="props.store">
       <component :is="props.entry.component" v-bind="props.entry.props" />
     </DialogEntryScope>
-  </DialogRoot>
+  </component>
 </template>

@@ -4,6 +4,7 @@ import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
 
 import { Button } from "@/ui/button";
+import { DialogHost, createDialogs } from "@/ui/dialog";
 import {
   Drawer,
   DrawerBody,
@@ -16,6 +17,8 @@ import {
   DrawerSwipeArea,
   DrawerTitle,
   DrawerTrigger,
+  openDrawer,
+  useDialogContext,
 } from "@/ui/drawer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 
@@ -375,4 +378,27 @@ it("steps a drawer back while a nested one is open", async () => {
   expect(parent().hasAttribute("data-nested-open")).toBe(true);
   inner.value = false;
   await expect.poll(() => getComputedStyle(parent()).scale).toBe("1");
+});
+
+it("opens a drawer from code through @/ui/drawer and resolves the value it closes with", async () => {
+  const Share = defineComponent({
+    setup: () => {
+      const { close } = useDialogContext<string>();
+      return () =>
+        h(DrawerContent, () => [
+          h(DrawerTitle, () => "Share"),
+          h(DrawerDescription, () => "Pick a target."),
+          h(Button, { "data-test": "mail", onClick: () => close("Mail") }, () => "Mail"),
+        ]);
+    },
+  });
+  const wrapper = mount(defineComponent({ setup: () => () => h(DialogHost) }), {
+    attachTo: document.body,
+    global: { plugins: [createDialogs()] },
+  });
+  unmount = () => wrapper.unmount();
+  const handle = openDrawer<string>(Share, {}, { side: "right" });
+  await expect.poll(() => slot("drawer-content")?.dataset.side).toBe("right");
+  await userEvent.click(document.querySelector<HTMLElement>("[data-test=mail]")!);
+  expect(await handle).toEqual({ ok: true, value: "Mail" });
 });

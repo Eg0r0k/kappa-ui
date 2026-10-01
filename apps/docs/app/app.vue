@@ -27,9 +27,9 @@ useHead({
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
+        <DialogHost />
       </DrawerIndent>
     </TooltipProvider>
     <Toaster />
-    <DialogHost />
   </ConfigProvider>
 </template>

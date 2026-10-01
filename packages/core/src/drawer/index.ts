@@ -11,5 +11,6 @@ export {
   injectDrawerRootContext,
   useDrawerContext,
 } from "./context";
+export { type DrawerOptions, defineDrawer, openDrawer } from "./manager";
 export type { DrawerStack, DrawerStackEntry } from "./stack";
 export type { SnapPoint } from "../snap";
