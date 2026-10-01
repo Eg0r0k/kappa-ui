@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
-import { defineComponent, h, ref } from "vue";
+import { type VNodeChild, defineComponent, h, ref } from "vue";
 
 import { type DragMove, releaseVerdict, scrollBlocksDrag, useDrag } from "../../src/drag";
 import { drag, flick, pointer, wait } from "./pointer";
@@ -9,7 +9,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: () => unknown = () => null) => {
+const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: () => VNodeChild = () => null) => {
   const moves: DragMove[] = [];
   const releases: DragMove[] = [];
   const starts: DragMove[] = [];
@@ -30,7 +30,7 @@ const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: ()
           h(
             "div",
             { ref: element, style: "position: fixed; left: 0; top: 0; width: 300px; height: 400px" },
-            children(),
+            children() ?? undefined,
           );
       },
     }),
@@ -41,17 +41,17 @@ const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: ()
 
 it("reports movement towards the side as positive and calls release", async () => {
   const { element, starts, moves, releases } = host();
-  await drag(element, [100, 100], [100, 200], 4, 80);
+  await drag(element, [100, 100], [100, 204], 4, 80);
   expect(starts).toHaveLength(1);
-  expect(moves.at(-1)!.movement).toBeCloseTo(100, -1);
+  expect(moves.at(-1)!.movement).toBeCloseTo(100, 0);
   expect(releases).toHaveLength(1);
   expect(releases[0]!.swipe).toBe(0);
 });
 
 it("mirrors the sign for the top side", async () => {
   const { element, moves } = host({ towards: "top" });
-  await drag(element, [100, 200], [100, 100]);
-  expect(moves.at(-1)!.movement).toBeCloseTo(100, -1);
+  await drag(element, [100, 200], [100, 96]);
+  expect(moves.at(-1)!.movement).toBeCloseTo(100, 0);
 });
 
 it("flags a fast release as a swipe", async () => {
