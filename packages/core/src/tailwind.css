@@ -495,31 +495,49 @@
   }
 }
 
+@property --drawer-nested-progress {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 @utility drawer-slide {
   --drawer-swipe-movement: 0px;
   --drawer-snap-offset: 0px;
   --drawer-keyboard-inset: 0px;
   --drawer-offset: calc(var(--drawer-swipe-movement) + var(--drawer-snap-offset));
-  transition: translate var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  --drawer-stack-shift: calc(var(--drawer-nested-progress) * 1rem);
+  scale: calc(1 - 0.06 * var(--drawer-nested-progress));
+  transition:
+    translate var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    --drawer-nested-progress var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
   &[data-side="bottom"] {
     --drawer-in: kappa-drawer-in-bottom;
     --drawer-out: kappa-drawer-out-bottom;
     translate: 0 calc(var(--drawer-offset) - var(--drawer-keyboard-inset));
+    transform-origin: top;
+    transform: translateY(calc(-1 * var(--drawer-stack-shift)));
   }
   &[data-side="top"] {
     --drawer-in: kappa-drawer-in-top;
     --drawer-out: kappa-drawer-out-top;
     translate: 0 calc(-1 * var(--drawer-offset));
+    transform-origin: bottom;
+    transform: translateY(var(--drawer-stack-shift));
   }
   &[data-side="left"] {
     --drawer-in: kappa-drawer-in-left;
     --drawer-out: kappa-drawer-out-left;
     translate: calc(-1 * var(--drawer-offset)) 0;
+    transform-origin: right;
+    transform: translateX(var(--drawer-stack-shift));
   }
   &[data-side="right"] {
     --drawer-in: kappa-drawer-in-right;
     --drawer-out: kappa-drawer-out-right;
     translate: var(--drawer-offset) 0;
+    transform-origin: left;
+    transform: translateX(calc(-1 * var(--drawer-stack-shift)));
   }
   &[data-state="open"] {
     animation: var(--drawer-in) var(--transition-duration-medium-4, 400ms)
@@ -535,6 +553,9 @@
     user-select: none;
     -webkit-user-select: none;
   }
+  &[data-nested-swiping] {
+    transition: none;
+  }
   @media (prefers-reduced-motion: reduce) {
     &,
     &[data-state] {
@@ -547,6 +568,51 @@
 @utility drawer-overlay-fade {
   opacity: calc(var(--drawer-overlay-opacity, 1) * (1 - var(--drawer-swipe-progress, 0)));
   transition: opacity var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  &[data-swiping] {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+@property --drawer-indent-progress {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@utility drawer-indent {
+  &[data-side] {
+    --drawer-indent-gap: calc(var(--drawer-indent-progress) * 0.75rem);
+    --drawer-indent-middle: calc(
+      var(--drawer-indent-top, 0px) + (100% - var(--drawer-indent-top, 0px) - var(--drawer-indent-bottom, 0px)) / 2
+    );
+    scale: calc(1 - 0.05 * var(--drawer-indent-progress));
+    clip-path: inset(
+      var(--drawer-indent-top, 0px) 0 var(--drawer-indent-bottom, 0px) round
+        calc(var(--drawer-indent-progress) * var(--radius-xl, 0.75rem))
+    );
+    transition: --drawer-indent-progress var(--transition-duration-medium-2, 300ms)
+      var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  &[data-side="bottom"] {
+    transform-origin: 50% var(--drawer-indent-top, 0px);
+    translate: 0 calc(var(--drawer-indent-gap) + var(--drawer-indent-progress) * env(safe-area-inset-top, 0px));
+  }
+  &[data-side="top"] {
+    transform-origin: 50% calc(100% - var(--drawer-indent-bottom, 0px));
+    translate: 0
+      calc(-1 * (var(--drawer-indent-gap) + var(--drawer-indent-progress) * env(safe-area-inset-bottom, 0px)));
+  }
+  &[data-side="left"] {
+    transform-origin: 100% var(--drawer-indent-middle);
+    translate: calc(-1 * (var(--drawer-indent-gap) + var(--drawer-indent-progress) * env(safe-area-inset-right, 0px))) 0;
+  }
+  &[data-side="right"] {
+    transform-origin: 0% var(--drawer-indent-middle);
+    translate: calc(var(--drawer-indent-gap) + var(--drawer-indent-progress) * env(safe-area-inset-left, 0px)) 0;
+  }
   &[data-swiping] {
     transition: none;
   }
