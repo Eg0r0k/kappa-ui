@@ -30,7 +30,7 @@ export const drawerContentVariants = cva("", {
 });
 
 export const drawerHandleVariants = cva(
-  "shrink-0 cursor-grab touch-none rounded-full bg-muted-foreground/40 touch-target",
+  "relative shrink-0 cursor-grab touch-none rounded-full bg-muted-foreground/40 touch-target",
   {
     variants: {
       side: {
