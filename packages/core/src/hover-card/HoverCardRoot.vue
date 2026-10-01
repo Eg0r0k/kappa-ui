@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { HoverCardRoot } from "reka-ui";
-import { computed, nextTick, onScopeDispose, reactive, ref, watch } from "vue";
+import { computed, nextTick, reactive, ref, watch } from "vue";
 
 import {
   type HoverCardReason,
@@ -9,6 +9,7 @@ import {
   hoverCardDefaults,
   provideHoverCardController,
 } from "./context";
+import { isScrolling, trackScrolling } from "./scrolling";
 
 const props = withDefaults(defineProps<HoverCardRootProps>(), {
   open: undefined,
@@ -38,7 +39,6 @@ type Pending = { reason: HoverCardReason; event?: Event };
 let pendingOpen: Pending | undefined;
 let pendingClose: Pending | undefined;
 let emitted: boolean | undefined;
-let scrolling = false;
 
 const change = (value: boolean, reason: HoverCardReason, event?: Event) => {
   local.value = value;
@@ -88,7 +88,7 @@ const onRekaOpen = (value: boolean) => {
   const expected = pendingClose;
   pendingClose = undefined;
   if (expected) hide(expected.reason, expected.event);
-  else hide(scrolling ? "scroll" : "trigger-hover");
+  else hide(isScrolling() ? "scroll" : "trigger-hover");
 };
 
 watch(
@@ -105,17 +105,7 @@ watch(
   },
 );
 
-if (typeof window !== "undefined") {
-  // Registered in setup so it runs before the capture listener Reka's content adds on mount.
-  const onScroll = () => {
-    scrolling = true;
-    queueMicrotask(() => {
-      scrolling = false;
-    });
-  };
-  window.addEventListener("scroll", onScroll, { capture: true });
-  onScopeDispose(() => window.removeEventListener("scroll", onScroll, { capture: true }));
-}
+trackScrolling();
 
 provideHoverCardController({ open, touch, settings, closedBy, request, cancel, expectClose, show, hide });
 </script>

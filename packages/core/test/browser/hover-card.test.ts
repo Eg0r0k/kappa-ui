@@ -183,3 +183,18 @@ it("renders when open is set from outside and emits nothing", async () => {
   expect(element("trigger").dataset.state).toBe("open");
   expect(changes).toEqual([]);
 });
+
+it("shares one window scroll listener between every root", () => {
+  const add = vi.spyOn(window, "addEventListener");
+  const remove = vi.spyOn(window, "removeEventListener");
+  const scrolls = (spy: typeof add) => spy.mock.calls.filter(([type]) => type === "scroll");
+  const wrapper = mount(defineComponent({ setup: () => () => h("div", [card(), card(), card()]) }), {
+    attachTo: document.body,
+  });
+
+  expect(scrolls(add)).toHaveLength(1);
+  wrapper.unmount();
+  expect(scrolls(remove)).toHaveLength(1);
+  add.mockRestore();
+  remove.mockRestore();
+});
