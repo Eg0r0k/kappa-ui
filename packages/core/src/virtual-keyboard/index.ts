@@ -2,9 +2,8 @@ import { useEventListener } from "@vueuse/core";
 import { type MaybeRefOrGetter, type Ref, ref, toValue, watch } from "vue";
 
 const measure = () => {
-  const viewport = window.visualViewport;
-  if (!viewport) return 0;
-  return Math.max(0, Math.round(window.innerHeight - viewport.height - viewport.offsetTop));
+  if (typeof window === "undefined" || !window.visualViewport) return 0;
+  return Math.max(0, Math.round(window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop));
 };
 
 export const useVirtualKeyboardInset = (active: MaybeRefOrGetter<boolean>): Ref<number> => {
