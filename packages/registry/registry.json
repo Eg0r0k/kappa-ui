@@ -1590,6 +1590,46 @@
       ]
     },
     {
+      "name": "input-number",
+      "type": "registry:ui",
+      "title": "Input number",
+      "description": "A number field with stepper buttons inside the frame, in Input's variants and sizes, laid out horizontally or vertically, with min, max, step and Intl formatting. Built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/input-number/InputNumber.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-number/InputNumberInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-number/InputNumberIncrement.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-number/InputNumberDecrement.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-number/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",
@@ -4129,6 +4169,135 @@
       "files": [
         {
           "path": "src/examples/input-group/InputGroupFieldExample.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-number-demo",
+      "type": "registry:block",
+      "title": "Input number demo",
+      "description": "A quantity between 0 and 99 with a button on each side.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-number"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-number/InputNumberDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-number-vertical",
+      "type": "registry:block",
+      "title": "Input number vertical",
+      "description": "Both buttons stacked at the end of the field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-number"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-number/InputNumberVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-number-variants",
+      "type": "registry:block",
+      "title": "Input number variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-number"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-number/InputNumberVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-number-sizes",
+      "type": "registry:block",
+      "title": "Input number sizes",
+      "description": "Five sizes in both orientations.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-number"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-number/InputNumberSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-number-format",
+      "type": "registry:block",
+      "title": "Input number formatting",
+      "description": "A unit, a percentage and a currency through Intl.NumberFormat options and a locale.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-number",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-number/InputNumberFormat.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-number-states",
+      "type": "registry:block",
+      "title": "Input number states",
+      "description": "Disabled, read-only and at the end of its range.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-number",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-number/InputNumberStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-number-field",
+      "type": "registry:block",
+      "title": "Input number in a field",
+      "description": "Label, description and error from the field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "input-number",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-number/InputNumberFieldExample.vue",
           "type": "registry:component"
         }
       ]

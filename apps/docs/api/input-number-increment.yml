@@ -1,0 +1,7 @@
+component: InputNumberIncrement
+file: ui/input-number/InputNumberIncrement.vue
+props:
+  disabled:
+    description: Disables this button on its own. It is also disabled by the field, by `readonly` and at `max`.
+slots:
+  default: "The icon. A plus sign by default, or a chevron up in the vertical orientation."

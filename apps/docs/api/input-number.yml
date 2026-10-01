@@ -1,0 +1,49 @@
+component: InputNumber
+file: ui/input-number/InputNumber.vue
+props:
+  modelValue:
+    description: The number, bound with `v-model`. `undefined` while the field is empty.
+  defaultValue:
+    description: The starting number when `v-model` is not used.
+  min:
+    description: The smallest value allowed. Typing below it is clamped on commit, and the decrement button disables at it.
+  max:
+    description: The largest value allowed. The increment button disables at it.
+  step:
+    description: How much a button, an arrow key or a wheel tick changes the value. `1` by default.
+  stepSnapping:
+    description: Snaps every value to a multiple of `step` counted from `min`. On by default; turn it off to allow any typed value between steps.
+  formatOptions:
+    description: "`Intl.NumberFormat` options for the text shown and the characters accepted: decimals, a percentage, a currency or a unit."
+  locale:
+    description: The locale for formatting and parsing. Defaults to the one Reka UI's `ConfigProvider` sets, or the browser's.
+  orientation:
+    description: "`horizontal` puts the decrement at the start and the increment at the end of the field. `vertical` stacks both at the end, with chevrons."
+  variant:
+    description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`."
+  size:
+    description: The field's height, from 28px at `xs` to 48px at `xl`; the buttons and type scale with it.
+  readonly:
+    description: Shows the value but lets the user neither type nor step.
+  disabled:
+    description: Disables the input and both buttons. Also set by a disabled field.
+  required:
+    description: Marks the input required. Also set by a required field.
+  focusOnChange:
+    description: Moves focus to the input when a button changes the value. On by default.
+  disableWheelChange:
+    description: Stops the mouse wheel from stepping the focused input.
+  invertWheelChange:
+    description: Scrolls up to decrease and down to increase.
+  id:
+    description: Overrides the `id` taken from a surrounding field. It lands on the input, so the field's label focuses it.
+  name:
+    description: Submits the number with the form under this name, through a hidden input.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
+emits:
+  update:modelValue: Fires when a button, a key, the wheel or a committed edit changes the number.
+slots:
+  default: "The `InputNumberInput` and the stepper buttons, in any order."
