@@ -532,6 +532,8 @@
   &[data-swiping] {
     transition: none;
     animation: none;
+    user-select: none;
+    -webkit-user-select: none;
   }
   @media (prefers-reduced-motion: reduce) {
     &,

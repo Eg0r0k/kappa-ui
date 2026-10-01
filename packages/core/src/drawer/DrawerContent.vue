@@ -108,7 +108,6 @@ useDrag(element, {
     const towards = move.direction > 0 ? context.side.value : opposite(context.side.value);
     return !scrollBlocksDrag(move.target, element.value, towards);
   },
-  mouseFrom: (target) => target.closest("[data-drawer-handle], [data-drawer-drag]") !== null,
   onStart: () => {
     seed = currentMovement();
     context.swiping.value = true;
@@ -120,7 +119,7 @@ useDrag(element, {
   onRelease: (move) => {
     finish();
     const closable = context.dismissible.value && !owner?.entry.loading;
-    if (closable && releaseVerdict(move.movement, context.size.value, move.swipe) === "close") {
+    if (closable && releaseVerdict(move.movement, context.size.value, move.velocity) === "close") {
       context.movement.value = Math.max(0, seed + move.movement);
       if (owner) owner.entry.reason = "swipe";
       context.setOpen(false);

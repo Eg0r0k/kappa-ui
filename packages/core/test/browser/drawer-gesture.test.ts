@@ -85,10 +85,10 @@ it("closes after a drag past half of its height, writing the variables on the wa
   expect(parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(210, 0);
 });
 
-it("returns after a drag short of half of its height", async () => {
+it("returns after a slow drag short of half of its height", async () => {
   const open = harness();
   await settle();
-  await drag(body(), [150, 100], [150, 260], 4, 80);
+  await drag(body(), [150, 100], [150, 260], 4, 120);
   await settle();
   expect(open.value).toBe(true);
   expect(variable("--drawer-swipe-movement")).toBe("0px");
@@ -180,25 +180,27 @@ it("keeps a non-dismissible drawer open after a long drag and a handle tap", asy
   expect(open.value).toBe(true);
 });
 
-it("drags with a mouse only from the handle or a data-drawer-drag zone", async () => {
-  const open = harness({}, () => [
-    h("header", { id: "head", "data-drawer-drag": "" }, "Title"),
-    h("p", { id: "text" }, "Text"),
-  ]);
+it("drags with a mouse from the body, but not while text is selected", async () => {
+  const open = harness({}, () => h("p", { id: "text" }, "Selectable text"));
   await settle();
-  const mouseDrag = async (target: Element) => {
-    pointer("pointerdown", target, 150, 50, "mouse");
+  const text = document.getElementById("text")!;
+  const mouseDrag = async () => {
+    pointer("pointerdown", text, 150, 50, "mouse");
     await wait(30);
-    pointer("pointermove", target, 150, 150, "mouse");
+    pointer("pointermove", text, 150, 150, "mouse");
     await wait(30);
-    pointer("pointermove", target, 150, 250, "mouse");
+    pointer("pointermove", text, 150, 250, "mouse");
     await wait(30);
-    pointer("pointerup", target, 150, 250, "mouse");
+    pointer("pointerup", text, 150, 250, "mouse");
     await settle();
   };
-  await mouseDrag(document.getElementById("text")!);
+  const range = document.createRange();
+  range.selectNodeContents(text);
+  getSelection()!.addRange(range);
+  await mouseDrag();
   expect(open.value).toBe(true);
-  await mouseDrag(document.getElementById("head")!);
+  getSelection()!.removeAllRanges();
+  await mouseDrag();
   expect(open.value).toBe(false);
 });
 
@@ -303,21 +305,21 @@ it("opens from the swipe area following the finger and stays open after a long s
   await settle();
   expect(open.value).toBe(true);
   expect(variable("--drawer-swipe-movement")).toBe("0px");
-  expect(document.getElementById("area")).toBeNull();
+  expect(document.getElementById("area")).not.toBeNull();
 });
 
-it("closes again when the swipe from the edge is released early", async () => {
+it("closes again when the swipe from the edge is released early after a slow pull", async () => {
   const open = harness({}, () => h("p", "Body"), false);
   await settle();
   pointer("pointerdown", area(), 150, 395);
-  await wait(40);
+  await wait(60);
   pointer("pointermove", area(), 150, 380);
-  await wait(40);
+  await wait(60);
   expect(open.value).toBe(true);
   pointer("pointermove", area(), 150, 370);
-  await wait(40);
+  await wait(60);
   pointer("pointermove", area(), 150, 365);
-  await wait(40);
+  await wait(120);
   pointer("pointerup", area(), 150, 365);
   await settle();
   expect(open.value).toBe(false);
@@ -386,4 +388,14 @@ it("ignores a move on the swipe area towards the edge", async () => {
   stop();
   expect(seen).not.toContain(true);
   expect(open.value).toBe(false);
+});
+
+it("keeps the swipe area rendered while open, with its gesture off", async () => {
+  const open = harness();
+  await settle();
+  expect(area()).not.toBeNull();
+  await drag(area(), [150, 395], [150, 200]);
+  await settle();
+  expect(open.value).toBe(true);
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
 });
