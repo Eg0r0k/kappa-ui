@@ -1,0 +1,23 @@
+component: Stepper
+file: ui/stepper/Stepper.vue
+props:
+  size:
+    description: "Indicator size, from 24px for `xs` to 48px for `xl`, with matching icon, type, gaps and separator thickness."
+  modelValue:
+    description: "The current step, counted from 1, bound with `v-model`."
+  defaultValue:
+    description: "The step shown at first when `v-model` is not used. `1` by default."
+  orientation:
+    description: "`horizontal` lays the steps out in a row, `vertical` in a column. Arrow keys follow the orientation."
+  dir:
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`."
+  linear:
+    description: "Steps open in order: only the steps up to the one after the current can be reached, the rest are disabled. On by default."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  update:modelValue: "Fires when another step is selected."
+slots:
+  default: "The items. Receives `modelValue`, `totalSteps`, `isFirstStep`, `isLastStep`, `isNextDisabled`, `isPrevDisabled`, `hasNext`, `hasPrev`, `goToStep`, `nextStep` and `prevStep`."

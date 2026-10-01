@@ -1,0 +1,9 @@
+component: StepperIndicator
+file: ui/stepper/StepperIndicator.vue
+props:
+  as:
+    description: The element or component to render. A `<span>` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "A number or an icon. Receives `step`. Shows \"Step n\" when empty."

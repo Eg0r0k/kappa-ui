@@ -1,0 +1,9 @@
+component: StepperDescription
+file: ui/stepper/StepperDescription.vue
+props:
+  as:
+    description: The element or component to render. A `<p>` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The description, which the trigger is described by."

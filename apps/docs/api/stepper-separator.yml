@@ -1,0 +1,11 @@
+component: StepperSeparator
+file: ui/stepper/StepperSeparator.vue
+props:
+  orientation:
+    description: "Ignored: the separator follows the stepper's orientation."
+  decorative:
+    description: "Ignored: the separator is always decorative and hidden from assistive technology."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."

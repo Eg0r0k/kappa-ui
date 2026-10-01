@@ -1,0 +1,15 @@
+component: StepperItem
+file: ui/stepper/StepperItem.vue
+props:
+  step:
+    description: "The step number, counted from 1."
+  disabled:
+    description: "Disables the trigger and dims the step; the arrow keys skip it."
+  completed:
+    description: "Marks the step completed whatever the current step is."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The trigger and the separator. Receives `state`: `active`, `completed` or `inactive`."
