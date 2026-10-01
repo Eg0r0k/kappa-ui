@@ -17,6 +17,6 @@ const props = withDefaults(
   <Separator
     data-slot="button-group-separator"
     :orientation="props.orientation"
-    :class="cn('relative m-0 self-stretch bg-input data-[orientation=vertical]:h-auto', props.class)"
+    :class="cn('relative m-0 self-stretch bg-transparent data-[orientation=vertical]:h-auto', props.class)"
   />
 </template>
