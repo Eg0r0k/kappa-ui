@@ -15,7 +15,10 @@ const setInstance = (instance: ComponentPublicInstance | Element | null) => {
 };
 
 const vertical = computed(() => context.side.value === "bottom" || context.side.value === "top");
-const extent = () => context.size.value || (vertical.value ? window.innerHeight : window.innerWidth);
+const extent = () => {
+  const visible = context.size.value - context.snapOffset.value;
+  return visible > 0 ? visible : vertical.value ? window.innerHeight : window.innerWidth;
+};
 
 useDrag(element, {
   towards: () => opposite(context.side.value),

@@ -11,7 +11,7 @@ import {
   DrawerSwipeArea,
 } from "../../src/drawer";
 import type { SnapPoint } from "../../src/snap";
-import { pointer, wait } from "./pointer";
+import { drag, flick, pointer, wait } from "./pointer";
 
 const PANEL = "position: fixed; left: 0; bottom: 0; width: 300px; height: 400px";
 const BODY = "height: 200px; overflow: auto";
@@ -22,6 +22,7 @@ const sheet = document.createElement("style");
 sheet.textContent = [
   "@keyframes drawer-snap-test-out { to { translate: 0 100% } }",
   "[role=dialog][data-state=closed], #overlay[data-state=closed] { animation: drawer-snap-test-out 150ms forwards }",
+  "[role=dialog] { translate: 0 calc(var(--drawer-swipe-movement, 0px) + var(--drawer-snap-offset, 0px)); }",
 ].join(" ");
 document.head.append(sheet);
 
@@ -73,9 +74,23 @@ const settle = async () => {
 };
 const panel = () => document.querySelector<HTMLElement>("[role=dialog]")!;
 const overlay = () => document.getElementById("overlay")!;
+const body = () => document.getElementById("body")!;
 const text = () => document.getElementById("text")!;
+const handle = () => document.getElementById("handle")!;
+const area = () => document.getElementById("area")!;
 const variable = (name: string) => panel().style.getPropertyValue(name);
 const opacity = () => parseFloat(overlay().style.getPropertyValue("--drawer-overlay-opacity"));
+
+const creep = async (target: Element, from: number, to: number, step = 30, pause = 50) => {
+  pointer("pointerdown", target, 150, from);
+  const sign = Math.sign(to - from);
+  for (let y = from + sign * step; sign > 0 ? y <= to : y >= to; y += sign * step) {
+    await wait(pause);
+    pointer("pointermove", target, 150, y);
+  }
+  await wait(10);
+  pointer("pointerup", target, 150, to);
+};
 
 it("opens at the first point, hidden below the edge by the rest of its size", async () => {
   const { changes } = harness({ snapPoints: POINTS });
@@ -119,8 +134,7 @@ it("fades the overlay between the point below fadeFromIndex and the point at it"
   await wait(30);
   pointer("pointermove", text(), 150, 190);
   await wait(30);
-  expect(opacity()).toBeGreaterThan(0);
-  expect(opacity()).toBeLessThan(1);
+  expect(opacity()).toBeCloseTo(0.5, 1);
   pointer("pointerup", text(), 150, 190);
   await settle();
   document.body.innerHTML = "";
@@ -150,4 +164,134 @@ it("returns to the first point after a close, holding the exit offset until then
   open.value = true;
   await settle();
   expect(variable("--drawer-snap-offset")).toBe("300px");
+});
+
+it("settles a slow drag on the nearest point and reports it", async () => {
+  const { changes } = harness({ snapPoints: POINTS });
+  await settle();
+  await drag(text(), [150, 300], [150, 130], 4, 120);
+  await settle();
+  expect(changes).toEqual(["200px"]);
+  expect(variable("--drawer-snap-offset")).toBe("200px");
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
+  expect(panel().hasAttribute("data-swiping")).toBe(false);
+});
+
+it("moves one point in the direction of a quick swipe", async () => {
+  const { changes } = harness({ snapPoints: POINTS });
+  await settle();
+  await creep(text(), 300, 240);
+  await settle();
+  expect(changes.at(-1)).toBe("200px");
+  await creep(text(), 100, 160);
+  await settle();
+  expect(changes.at(-1)).toBe("100px");
+  expect(variable("--drawer-snap-offset")).toBe("300px");
+});
+
+it("flings to the last point, and closes from a fling towards the edge", async () => {
+  const { open, changes } = harness({ snapPoints: POINTS });
+  await settle();
+  await flick(text(), [150, 300], [150, 100]);
+  await settle();
+  expect(changes.at(-1)).toBe("400px");
+  expect(variable("--drawer-snap-offset")).toBe("0px");
+  await flick(text(), [150, 100], [150, 300]);
+  await settle();
+  expect(open.value).toBe(false);
+  expect(changes.at(-1)).toBe("100px");
+});
+
+it("keeps a fling to one step with snapToSequentialPoints", async () => {
+  const { changes } = harness({ snapPoints: POINTS, snapToSequentialPoints: true });
+  await settle();
+  await flick(text(), [150, 300], [150, 220]);
+  await settle();
+  expect(changes.at(-1)).toBe("200px");
+});
+
+it("returns a non-dismissible drawer to the smallest point instead of closing", async () => {
+  const { open, changes } = harness({ snapPoints: POINTS, dismissible: false });
+  await settle();
+  await drag(text(), [150, 50], [150, 350]);
+  await settle();
+  expect(open.value).toBe(true);
+  await flick(text(), [150, 50], [150, 350]);
+  await settle();
+  expect(open.value).toBe(true);
+  expect(changes).toEqual([]);
+  expect(variable("--drawer-snap-offset")).toBe("300px");
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
+});
+
+it("closes from the smallest point once dragged past half of it", async () => {
+  const { open } = harness({ snapPoints: POINTS });
+  await settle();
+  await drag(text(), [150, 100], [150, 170], 4, 120);
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("cycles the points from a handle tap, wrapping to the first", async () => {
+  const { open, changes } = harness({ snapPoints: POINTS });
+  await settle();
+  for (let i = 0; i < 3; i++) {
+    handle().click();
+    await settle();
+  }
+  expect(changes).toEqual(["200px", "400px", "100px"]);
+  expect(open.value).toBe(true);
+});
+
+it("drags from a scrolled body below the largest point and scrolls it only there", async () => {
+  const tall = () => h("div", { style: "height: 1000px" }, h("p", { id: "text" }, "Body"));
+  const low = harness({ snapPoints: POINTS }, tall);
+  await settle();
+  body().scrollTop = 100;
+  await drag(text(), [150, 100], [150, 300]);
+  await settle();
+  expect(low.open.value).toBe(false);
+  document.body.innerHTML = "";
+
+  const high = harness({ snapPoints: POINTS, activeSnapPoint: "400px" }, tall);
+  await settle();
+  body().scrollTop = 100;
+  await drag(text(), [150, 100], [150, 300]);
+  await settle();
+  expect(high.open.value).toBe(true);
+  expect(high.changes).toEqual([]);
+});
+
+it("opens from the swipe area at the active point", async () => {
+  const { open } = harness({ snapPoints: POINTS }, undefined, false);
+  await settle();
+  pointer("pointerdown", area(), 150, 395);
+  await wait(30);
+  pointer("pointermove", area(), 150, 380);
+  await wait(30);
+  expect(open.value).toBe(true);
+  await settle();
+  pointer("pointermove", area(), 150, 300);
+  await wait(30);
+  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(15, 0);
+  pointer("pointerup", area(), 150, 300);
+  await settle();
+  expect(open.value).toBe(true);
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
+  expect(variable("--drawer-snap-offset")).toBe("300px");
+});
+
+it("lets a drag move the panel above the active point only up to the largest one", async () => {
+  harness({ snapPoints: POINTS, activeSnapPoint: "200px" });
+  await settle();
+  pointer("pointerdown", text(), 150, 390);
+  await wait(30);
+  pointer("pointermove", text(), 150, 300);
+  await wait(30);
+  pointer("pointermove", text(), 150, 100);
+  await wait(30);
+  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeGreaterThan(-260);
+  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeLessThanOrEqual(-200);
+  pointer("pointerup", text(), 150, 100);
+  await settle();
 });

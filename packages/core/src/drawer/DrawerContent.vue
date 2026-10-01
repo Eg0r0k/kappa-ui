@@ -6,6 +6,7 @@ import { type ComponentPublicInstance, computed, nextTick, ref, watch } from "vu
 import DialogContent from "../dialog/DialogContent.vue";
 import { useOwnDialogEntry } from "../dialog/entry";
 import { opposite, releaseVerdict, scrollBlocksDrag, useDrag } from "../drag";
+import { resolveSnapPoint } from "../snap";
 import { scrollFocusedIntoView, useVirtualKeyboardInset } from "../virtual-keyboard";
 import { injectDrawerRootContext } from "./context";
 
@@ -78,7 +79,14 @@ const axisTranslate = () => {
 const currentMovement = () => {
   const sign = context.side.value === "bottom" || context.side.value === "right" ? 1 : -1;
   const keyboard = context.side.value === "bottom" ? context.keyboardInset.value : 0;
-  return Math.max(0, axisTranslate() * sign - context.snapOffset.value + keyboard);
+  return axisTranslate() * sign - context.snapOffset.value + keyboard;
+};
+
+const headroom = () => {
+  const pixels = context.snapPixels.value;
+  if (pixels.length === 0) return 0;
+  const largest = Math.max(0, context.size.value - Math.min(context.size.value, Math.max(...pixels)));
+  return largest - context.snapOffset.value;
 };
 
 const keepUnlessDismissible = (event: Event) => {
@@ -97,14 +105,20 @@ const finish = () => {
   }, 0);
 };
 
+const close = (movement: number) => {
+  context.movement.value = Math.max(0, movement);
+  if (owner) owner.entry.reason = "swipe";
+  context.setOpen(false);
+};
+
 useDrag(element, {
   towards: () => context.side.value,
   enabled: () => context.open.value,
-  bounds: () => ({ min: -currentMovement() }),
+  bounds: () => ({ min: headroom() - currentMovement() }),
   canStart: (move) => {
     const handle = inHandle(move.target);
     if (context.handleOnly.value && !handle) return false;
-    if (handle || !element.value || move.direction === 0) return true;
+    if (handle || !context.expanded.value || !element.value || move.direction === 0) return true;
     const towards = move.direction > 0 ? context.side.value : opposite(context.side.value);
     return !scrollBlocksDrag(move.target, element.value, towards);
   },
@@ -119,11 +133,20 @@ useDrag(element, {
   onRelease: (move) => {
     finish();
     const closable = context.dismissible.value && !owner?.entry.loading;
-    if (closable && releaseVerdict(move.movement, context.size.value, move.velocity) === "close") {
-      context.movement.value = Math.max(0, seed + move.movement);
-      if (owner) owner.entry.reason = "swipe";
-      context.setOpen(false);
+    const pixels = context.snapPixels.value;
+    if (pixels.length > 0) {
+      const visible = context.size.value - context.snapOffset.value - (seed + move.movement);
+      const index = resolveSnapPoint(pixels, visible, -move.velocity, {
+        sequential: context.snapToSequentialPoints.value,
+        dismissible: closable,
+      });
+      if (index === null) return close(seed + move.movement);
+      context.activeSnapPoint.value = context.snapPoints.value[index]!;
+      context.movement.value = 0;
       return;
+    }
+    if (closable && releaseVerdict(move.movement, context.size.value, move.velocity) === "close") {
+      return close(seed + move.movement);
     }
     context.movement.value = 0;
   },
