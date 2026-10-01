@@ -1,0 +1,13 @@
+component: TagsInputInput
+file: ui/tags-input/TagsInputInput.vue
+props:
+  placeholder:
+    description: Text shown while nothing is typed.
+  maxLength:
+    description: The most characters one tag may have.
+  autoFocus:
+    description: Focuses the text box when it mounts.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the input's attributes and classes onto it."

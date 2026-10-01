@@ -1,0 +1,48 @@
+component: TagsInput
+file: ui/tags-input/TagsInput.vue
+props:
+  modelValue:
+    description: The tags, bound with `v-model`. Strings, or objects with `convertValue` and `displayValue`.
+  defaultValue:
+    description: The starting tags when `v-model` is not used.
+  delimiter:
+    description: "A character or regular expression that turns the typed text into a tag, and splits pasted text with `addOnPaste`. A comma by default."
+  addOnPaste:
+    description: Turns pasted text into tags, split on `delimiter`.
+  addOnTab:
+    description: Turns the typed text into a tag on Tab as well as Enter.
+  addOnBlur:
+    description: Turns the typed text into a tag when the input loses focus.
+  max:
+    description: The most tags allowed. Past it, a new tag is refused and `invalid` fires.
+  duplicate:
+    description: Allows the same tag twice. Off by default, so a repeat is refused and `invalid` fires.
+  convertValue:
+    description: Turns the typed text into the value stored in the model. Required when the tags are objects.
+  displayValue:
+    description: The text shown for a tag. Required when the tags are objects.
+  variant:
+    description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`."
+  size:
+    description: The frame's minimum height, from 28px at `xs` to 48px at `xl`; the tags and type scale with it.
+  disabled:
+    description: Disables the input and every tag's button. Also set by a disabled field.
+  required:
+    description: Marks the hidden form input required and the text box `aria-required`. Also set by a required field.
+  id:
+    description: Overrides the `id` taken from a surrounding field. It lands on the text box, so the field's label focuses it.
+  name:
+    description: Submits the tags with the form under this name, through a hidden input.
+  dir:
+    description: Reading direction. In `rtl` the arrow keys move through the tags the other way.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
+emits:
+  update:modelValue: Fires when a tag is added or removed.
+  addTag: Fires with the tag that was added.
+  removeTag: Fires with the tag that was removed.
+  invalid: Fires with a tag that was refused, as a duplicate or past `max`.
+slots:
+  default: "The `TagsInputItem`s, one per tag, and the `TagsInputInput`. Receives `modelValue`."
