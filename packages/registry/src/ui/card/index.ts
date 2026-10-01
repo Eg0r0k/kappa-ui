@@ -12,10 +12,10 @@ export const cardVariants = cva(
   {
     variants: {
       variant: {
-        outline: "border border-surface-border bg-card",
+        outline: "bg-card ring-1 ring-surface-border",
         solid: "bg-card shadow-shadow-sm",
         soft: "bg-muted [--scroll-fade-color:var(--muted)]",
-        subtle: "border border-surface-border bg-muted [--scroll-fade-color:var(--muted)]",
+        subtle: "bg-muted ring-1 ring-surface-border [--scroll-fade-color:var(--muted)]",
       },
       size: {
         xs: "rounded-lg [--card-spacing:--spacing(3)]",

@@ -2,7 +2,7 @@ component: Card
 file: ui/card/Card.vue
 props:
   variant:
-    description: "`outline` (the default) is the surface with a border, `solid` the surface lifted by a small shadow and no border, `soft` a tinted surface without a border, and `subtle` a tinted surface with one."
+    description: "`outline` (the default) is the surface with an edge, `solid` the surface lifted by a small shadow and no edge, `soft` a tinted surface without an edge, and `subtle` a tinted surface with one. The edge is a ring outside the box, not a border, so every variant has the same size."
   size:
     description: "Padding, gaps, radius and text, from 12px and `title-sm` for `xs` to 40px and `headline-sm` for `xl`. `md`, 24px, is the default; every part reads the same `--card-spacing`."
 slots:

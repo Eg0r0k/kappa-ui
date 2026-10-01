@@ -61,21 +61,26 @@ describe("Card sizes", () => {
 });
 
 describe("Card variants", () => {
-  it("draws a border for outline and subtle only, and a shadow for solid only", () => {
+  it("draws the edge as a ring for outline and subtle only, a shadow for solid only, and no border anywhere", () => {
+    const probe = document.createElement("div");
+    probe.style.cssText = "border: 1px solid var(--border)";
+    document.body.append(probe);
+    const edge = `${getComputedStyle(probe).borderTopColor} 0px 0px 0px 1px`;
     const styles = Object.fromEntries(
       (["outline", "solid", "soft", "subtle"] as const).map((variant) => {
         const card = render({ variant });
         const style = getComputedStyle(card);
-        const result = [card.dataset.variant, style.borderTopWidth, style.boxShadow !== "none"] as const;
+        const ring = style.boxShadow.includes(edge);
+        const result = [card.dataset.variant, style.borderTopWidth, ring, !ring && style.boxShadow !== "none"] as const;
         document.body.innerHTML = "";
         return [variant, result];
       }),
     );
     expect(styles).toEqual({
-      outline: ["outline", "1px", false],
-      solid: ["solid", "0px", true],
-      soft: ["soft", "0px", false],
-      subtle: ["subtle", "1px", false],
+      outline: ["outline", "0px", true, false],
+      solid: ["solid", "0px", false, true],
+      soft: ["soft", "0px", false, false],
+      subtle: ["subtle", "0px", true, false],
     });
   });
 

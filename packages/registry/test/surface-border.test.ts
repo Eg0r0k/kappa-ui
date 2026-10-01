@@ -19,10 +19,10 @@ const borderColor = () => {
 it("draws cards with the surface border, --border by default", () => {
   const card = mount(Card, { attachTo: document.body, slots: { default: () => "Card" } }).element as HTMLElement;
 
-  expect(getComputedStyle(card).borderTopColor).toBe(borderColor());
+  expect(getComputedStyle(card).boxShadow).toContain(`${borderColor()} 0px 0px 0px 1px`);
 });
 
-it("hides a card's border with --surface-border: transparent and keeps its width", () => {
+it("hides a card's edge with --surface-border: transparent, and the box never had a border to lose", () => {
   const card = mount(Card, {
     attachTo: document.body,
     attrs: { style: "--surface-border: transparent" },
@@ -30,8 +30,8 @@ it("hides a card's border with --surface-border: transparent and keeps its width
   }).element as HTMLElement;
   const style = getComputedStyle(card);
 
-  expect(style.borderTopColor).toBe("rgba(0, 0, 0, 0)");
-  expect(style.borderTopWidth).toBe("1px");
+  expect(style.boxShadow).toContain("rgba(0, 0, 0, 0) 0px 0px 0px 1px");
+  expect(style.borderTopWidth).toBe("0px");
 });
 
 it("draws menus with the surface border", async () => {
