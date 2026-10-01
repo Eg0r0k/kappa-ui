@@ -5363,6 +5363,44 @@
       ]
     },
     {
+      "name": "drawer-nested",
+      "type": "registry:block",
+      "title": "Drawer nested",
+      "description": "A drawer opened from another drawer; the one below steps back.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerNested.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-indent",
+      "type": "registry:block",
+      "title": "Drawer indent",
+      "description": "A mock page in DrawerIndent that steps back while its drawer is open.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerIndent.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "formisch-demo",
       "type": "registry:block",
       "title": "Formisch demo",
