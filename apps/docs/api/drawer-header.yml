@@ -1,0 +1,4 @@
+component: DrawerHeader
+file: ui/drawer/DrawerHeader.vue
+slots:
+  default: "The title and description. Keeps clear of the close button while there is one."

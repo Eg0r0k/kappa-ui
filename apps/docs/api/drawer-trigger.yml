@@ -1,0 +1,9 @@
+component: DrawerTrigger
+file: ui/drawer/DrawerTrigger.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a button, merging the trigger's attributes and behaviour onto it."
+slots:
+  default: "The trigger's content, or with `as-child` the element that opens the drawer."

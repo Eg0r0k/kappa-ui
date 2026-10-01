@@ -1,0 +1,21 @@
+component: Drawer
+file: ui/drawer/Drawer.vue
+props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether the drawer starts open when `v-model:open` is not used."
+  modal:
+    description: "Shuts the page while open: focus stays in the panel, the page does not scroll, and the overlay takes outside clicks. Off, the page stays live and has no overlay; swipes still work."
+  unmountOnHide:
+    description: "Removes the panel from the DOM while closed. Turn it off to keep its state between openings."
+  side:
+    description: "The edge the panel slides in from and swipes back to: `bottom` (the default), `top`, `left` or `right`."
+  dismissible:
+    description: "Whether a swipe, Escape or a press outside closes it. Off, the panel still follows a drag and springs back."
+  handleOnly:
+    description: "Starts a drag only from `DrawerHandle`, so the content keeps every touch for itself."
+emits:
+  update:open: "Fires when the drawer opens or closes."
+slots:
+  default: "The trigger, the content and an optional swipe area. Receives `open` and `close`."

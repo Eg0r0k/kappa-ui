@@ -1,0 +1,7 @@
+component: DrawerHandle
+file: ui/drawer/DrawerHandle.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Renders the slot's element instead of its own and puts the handle's behaviour on it."

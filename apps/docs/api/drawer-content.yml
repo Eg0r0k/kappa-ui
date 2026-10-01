@@ -1,0 +1,24 @@
+component: DrawerContent
+file: ui/drawer/DrawerContent.vue
+props:
+  showHandle:
+    description: "Shows the drag handle at the top of a bottom drawer or the bottom of a top drawer. On by default for those two sides, off for left and right."
+  showCloseButton:
+    description: "Shows a close button in the panel's top corner. Off by default: a swipe, Escape and the overlay already close the drawer."
+  forceMount:
+    description: "Keeps the panel mounted while closed, for animating it with a JavaScript library."
+  disableOutsidePointerEvents:
+    description: "Blocks pointer events outside the panel. On by default in a modal drawer; a non-modal drawer ignores it."
+  asChild:
+    description: "Not supported on this part: the panel adds its own handle and close button, and core adds the hidden title fallback, so there is more than one node to merge onto a single child."
+  as:
+    description: "The element or component to render."
+emits:
+  escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. Call `preventDefault()` to keep it open."
+  focusOutside: "Fires when focus moves outside. Call `preventDefault()` to keep it open."
+  interactOutside: "Fires on any press or focus outside. Call `preventDefault()` to keep it open."
+  openAutoFocus: "Fires when focus moves into the panel on open. Call `preventDefault()` to keep focus where it is."
+  closeAutoFocus: "Fires when focus returns to the trigger on close. Call `preventDefault()` to keep focus where it is."
+slots:
+  default: "The panel's parts: `DrawerHeader`, `DrawerBody` and `DrawerFooter`, or a layout of your own."

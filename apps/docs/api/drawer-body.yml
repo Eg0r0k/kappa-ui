@@ -1,0 +1,4 @@
+component: DrawerBody
+file: ui/drawer/DrawerBody.vue
+slots:
+  default: "The content between the header and the footer. Scrolls once the panel reaches the height of the screen."

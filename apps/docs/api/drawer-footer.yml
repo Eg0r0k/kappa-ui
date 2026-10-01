@@ -1,0 +1,4 @@
+component: DrawerFooter
+file: ui/drawer/DrawerFooter.vue
+slots:
+  default: "The buttons, stacked on narrow screens and in a row from 640px up, at the end."
