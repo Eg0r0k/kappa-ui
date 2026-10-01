@@ -5343,7 +5343,7 @@
       "name": "drawer-snap-points",
       "type": "registry:block",
       "title": "Drawer snap points",
-      "description": "A sheet that rests at three heights, with the overlay fading in only at the top one.",
+      "description": "A sheet that rests at three heights, with the overlay fading in from the middle one.",
       "categories": [
         "example"
       ],
