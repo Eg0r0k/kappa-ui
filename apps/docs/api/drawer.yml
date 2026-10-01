@@ -15,7 +15,16 @@ props:
     description: "Whether a swipe, Escape or a press outside closes it. Off, the panel still follows a drag and springs back."
   handleOnly:
     description: "Starts a drag only from `DrawerHandle`, so the content keeps every touch for itself."
+  snapPoints:
+    description: "The sizes the panel can rest at, in ascending order. A number from 0 to 1 is a share of the viewport along the panel's axis; a larger number or a `\"320px\"` string is pixels. The panel keeps the size its class gives it, so make that at least the largest point."
+  activeSnapPoint:
+    description: "The point the panel rests at, bound with `v-model:active-snap-point`. Starts at the first point and returns to it after a close."
+  snapToSequentialPoints:
+    description: "Keeps every release to one point in the direction of travel; off, a fast fling goes to the last point or closes."
+  fadeFromIndex:
+    description: "The index of the point from which the overlay is fully visible; it fades out towards the point below and is gone at any lower point. The last point by default."
 emits:
   update:open: "Fires when the drawer opens or closes."
+  update:activeSnapPoint: "Fires when the panel settles on another point, from a drag, a handle tap, or the reset after a close."
 slots:
   default: "The trigger, the content and an optional swipe area. Receives `open` and `close`."
