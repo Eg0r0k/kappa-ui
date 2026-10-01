@@ -15,7 +15,7 @@ export const buttonVariants = cva(
         subtle:
           "state-layer bg-tone-soft text-tone-soft-foreground inset-ring inset-ring-tone-border-subtle disabled:bg-foreground/(--disabled-container-opacity) disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:bg-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
         outline:
-          "state-layer bg-background text-tone-text inset-ring inset-ring-tone-border disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
+          "state-layer text-tone-text inset-ring inset-ring-tone-border disabled:inset-ring-foreground/(--disabled-container-opacity) aria-disabled:inset-ring-foreground/(--disabled-container-opacity)",
         ghost: "state-layer text-tone-text",
         link: "text-tone-text underline-offset-4 hover:underline aria-disabled:hover:no-underline",
       },
