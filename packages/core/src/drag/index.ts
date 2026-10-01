@@ -177,30 +177,28 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
 
   let ignorePointer = false;
   const onPointer = (state: FullGestureState<"drag">) => {
-    if (state.first) {
+    if (state.event.type === "pointerdown") {
       const type = state.event instanceof PointerEvent ? state.event.pointerType : "mouse";
       ignorePointer = touchGesture !== undefined && type === "touch";
-      if (ignorePointer) {
-        state.cancel();
-        return;
-      }
       pen = type === "pen";
     }
-    if (ignorePointer) return;
+    if (ignorePointer) {
+      if (state.first) state.cancel();
+      return;
+    }
     handler(state);
     if (state.last) pen = false;
   };
 
   let ignoreTouch = false;
   const onTouch = (state: FullGestureState<"drag">) => {
-    if (state.first) {
+    if (state.event.type === "touchstart") {
       ignoreTouch = pen || !isTouchEvent(state.event);
-      if (ignoreTouch) {
-        state.cancel();
-        return;
-      }
     }
-    if (ignoreTouch) return;
+    if (ignoreTouch) {
+      if (state.first) state.cancel();
+      return;
+    }
     handler(state);
   };
 

@@ -127,3 +127,44 @@ it("ignores touch events that arrive while a pen drags", async () => {
   expect(releases).toHaveLength(1);
   expect(cancels()).toBe(0);
 });
+
+it("keys the input model off the start event instead of a flag left over from the previous gesture", async () => {
+  const { element, starts } = host({}, () => h("p", "Some text to select"));
+  const text = element.querySelector("p")!;
+
+  pointer("pointerdown", element, 100, 100);
+  await wait(30);
+  pointer("pointermove", element, 100, 150);
+  await wait(30);
+  pointer("pointerup", element, 100, 150);
+  await wait(30);
+  expect(starts).toHaveLength(0);
+
+  touch("touchstart", element, 100, 100);
+  await wait(30);
+  touch("touchmove", element, 100, 150);
+  await wait(30);
+  touch("touchend", element, 100, 150);
+  await wait(30);
+  expect(starts).toHaveLength(1);
+
+  const range = document.createRange();
+  range.selectNodeContents(text);
+  getSelection()!.addRange(range);
+  pointer("pointerdown", text, 10, 10, "mouse");
+  await wait(30);
+  pointer("pointermove", text, 10, 60, "mouse");
+  await wait(30);
+  pointer("pointerup", text, 10, 60, "mouse");
+  await wait(30);
+  expect(starts).toHaveLength(1);
+
+  getSelection()!.removeAllRanges();
+  pointer("pointerdown", text, 10, 10, "mouse");
+  await wait(30);
+  pointer("pointermove", text, 10, 60, "mouse");
+  await wait(30);
+  pointer("pointerup", text, 10, 60, "mouse");
+  await wait(30);
+  expect(starts).toHaveLength(2);
+});
