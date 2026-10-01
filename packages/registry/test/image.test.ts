@@ -272,6 +272,24 @@ describe("ImageLoading and ImageError", () => {
     await expect.poll(() => getComputedStyle(layers(root).loading).visibility).toBe("hidden");
   });
 
+  it("stops rendering the loading layer once loaded", async () => {
+    const { root } = render({ src: png(40, 20) }, { default: () => h(ImageLoading) });
+    await expect.poll(() => root.dataset.state).toBe("loaded");
+    await expect.poll(() => getComputedStyle(layers(root).loading).display).toBe("none");
+    expect(layers(root).loading.getAnimations({ subtree: true })).toHaveLength(0);
+  });
+
+  it("animates nothing before a source is set", () => {
+    const { root } = render({}, { default: () => h(ImageLoading) });
+    expect(root.dataset.state).toBe("idle");
+    expect(layers(root).loading.getAnimations({ subtree: true })).toHaveLength(0);
+  });
+
+  it("keeps a consumer display class on the shown layer", async () => {
+    const { root } = render({ src: broken }, { default: () => h(ImageError, { class: "flex" }) });
+    await expect.poll(() => getComputedStyle(layers(root).error).display).toBe("flex");
+  });
+
   it("shows the error layer with an icon on error", async () => {
     const { root } = render({ src: broken }, { default: () => [h(ImageLoading), h(ImageError)] });
     await expect.poll(() => getComputedStyle(layers(root).error).visibility).toBe("visible");
