@@ -108,6 +108,19 @@ it("lets a mouse drag only from where mouseFrom allows", async () => {
   expect(starts).toHaveLength(1);
 });
 
+it("reads the direction from the finger when the threshold leaves no movement yet", async () => {
+  const { element, starts, releases } = host({ canStart: (move) => move.direction > 0 });
+  pointer("pointerdown", element, 100, 100);
+  for (let y = 101; y <= 115; y++) {
+    await wait(5);
+    pointer("pointermove", element, 100, y);
+  }
+  await wait(40);
+  pointer("pointerup", element, 100, 115);
+  expect(starts).toHaveLength(1);
+  expect(releases).toHaveLength(1);
+});
+
 it("cancels a running drag once when its host unmounts", async () => {
   const { element, starts, releases, cancels, unmount } = host();
   pointer("pointerdown", element, 100, 100);

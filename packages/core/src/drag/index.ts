@@ -82,7 +82,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     return {
       movement: state.movement[axis] * sign,
       velocity: state.velocity[axis],
-      direction: state.direction[axis] * sign,
+      direction: (state.direction[axis] || Math.sign(state._movement[axis])) * sign,
       swipe: state.swipe[axis] * sign,
       event: state.event,
       target: state.target as Element,
