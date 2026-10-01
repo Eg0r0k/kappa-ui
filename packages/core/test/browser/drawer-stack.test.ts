@@ -184,3 +184,55 @@ it("lets go of the page when an open drawer unmounts", async () => {
   shown.value = false;
   await expect.poll(() => page().hasAttribute("data-open")).toBe(false);
 });
+
+const nested = (id: string) => {
+  const element = document.getElementById(id)!;
+  return {
+    count: element.style.getPropertyValue("--drawer-nested"),
+    progress: element.style.getPropertyValue("--drawer-nested-progress"),
+    open: element.hasAttribute("data-nested-open"),
+    swiping: element.hasAttribute("data-nested-swiping"),
+  };
+};
+const idle = { count: "0", progress: "0", open: false, swiping: false };
+
+it("tells each drawer how many drawers are open above it", async () => {
+  const { opens } = harness([{ id: "a" }, { id: "b", open: false }, { id: "c", open: false }]);
+  await expect.poll(() => page().dataset.side).toBe("bottom");
+  expect(nested("a")).toEqual(idle);
+  opens[1]!.value = true;
+  await expect.poll(() => nested("a").count).toBe("1");
+  expect(nested("a")).toEqual({ count: "1", progress: "1", open: true, swiping: false });
+  opens[2]!.value = true;
+  await expect.poll(() => nested("a").count).toBe("2");
+  expect(nested("a").progress).toBe("2");
+  expect(nested("b")).toEqual({ count: "1", progress: "1", open: true, swiping: false });
+  expect(nested("c")).toEqual(idle);
+  expect(pageVariable("--drawer-indent-progress")).toBe("1");
+  opens[2]!.value = false;
+  await expect.poll(() => nested("a").count).toBe("1");
+  expect(nested("b")).toEqual(idle);
+});
+
+it("brings the stack forward under a swipe on the top drawer", async () => {
+  harness([{ id: "a" }, { id: "b" }, { id: "c" }]);
+  await expect.poll(() => nested("a").count).toBe("2");
+  const release = await hold("c", 100);
+  const left = presence("c");
+  expect(left).toBeLessThan(1);
+  expect(parseFloat(nested("b").progress)).toBeCloseTo(left, 3);
+  expect(parseFloat(nested("a").progress)).toBeCloseTo(1 + left, 3);
+  expect(nested("a").swiping).toBe(true);
+  expect(nested("b").swiping).toBe(true);
+  expect(page().hasAttribute("data-swiping")).toBe(false);
+  expect(pageVariable("--drawer-indent-progress")).toBe("1");
+  release();
+  await settle();
+  expect(nested("b").swiping).toBe(false);
+});
+
+it("stacks drawers without a DrawerIndent", async () => {
+  harness([{ id: "a" }, { id: "b" }], { indent: false });
+  await expect.poll(() => nested("a").count).toBe("1");
+  expect(nested("a").open).toBe(true);
+});
