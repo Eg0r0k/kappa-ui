@@ -245,12 +245,12 @@ it("picks a drag up where the enter animation left the panel and lets it be pull
   pointer("pointermove", handle(), 150, 270);
   await wait(30);
   expect(panel().hasAttribute("data-swiping")).toBe(true);
-  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeGreaterThan(100);
-  pointer("pointermove", handle(), 150, 150);
+  const seeded = parseFloat(variable("--drawer-swipe-movement"));
+  expect(seeded).toBeGreaterThan(100);
+  pointer("pointermove", handle(), 150, 240);
   await wait(30);
-  pointer("pointermove", handle(), 150, 20);
-  await wait(30);
-  pointer("pointerup", handle(), 150, 20);
+  expect(seeded - parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(30, 0);
+  pointer("pointerup", handle(), 150, 240);
   await settle();
   expect(open.value).toBe(true);
   expect(variable("--drawer-swipe-movement")).toBe("0px");

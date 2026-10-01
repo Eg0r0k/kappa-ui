@@ -101,10 +101,9 @@ useDrag(element, {
   },
   onRelease: (move) => {
     finish();
-    const movement = seed + move.movement;
     const closable = context.dismissible.value && !owner?.entry.loading;
-    if (closable && releaseVerdict(movement, context.size.value, move.swipe) === "close") {
-      context.movement.value = Math.max(0, movement);
+    if (closable && releaseVerdict(move.movement, context.size.value, move.swipe) === "close") {
+      context.movement.value = Math.max(0, seed + move.movement);
       if (owner) owner.entry.reason = "swipe";
       context.setOpen(false);
       return;
