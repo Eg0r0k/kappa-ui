@@ -5,7 +5,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [vue()],
   optimizeDeps: {
-    include: ["reka-ui", "reka-ui/internal"],
+    include: ["reka-ui", "reka-ui/internal", "@use-gesture/vanilla", "@vueuse/core"],
   },
   resolve: {
     dedupe: ["vue"],
