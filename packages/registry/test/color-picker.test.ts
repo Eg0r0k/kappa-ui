@@ -33,6 +33,7 @@ const parts = () => [
   h(ColorPickerSwatches, () => [
     h(ColorPickerSwatch, { value: "#ef4444" }),
     h(ColorPickerSwatch, { value: "#22C55E" }),
+    h(ColorPickerSwatch, { value: "#fef08a" }),
   ]),
 ];
 
@@ -73,7 +74,7 @@ it("renders a group of parts bound to one colour", async () => {
   expect(valueNow(sliderThumb("alpha"))).toBe(100);
   expect(input().value).toBe("#3b82f6");
   expect(q("[data-slot=color-picker-preview]").style.getPropertyValue("--reka-color-swatch-color")).toBe("#3b82f6");
-  expect(swatches().map((element) => element.dataset.color)).toEqual(["#ef4444", "#22c55e"]);
+  expect(swatches().map((element) => element.dataset.color)).toEqual(["#ef4444", "#22c55e", "#fef08a"]);
   const hidden = q("input[type=hidden]") as HTMLInputElement;
   expect(hidden.name).toBe("accent");
   expect(hidden.value).toBe("#3b82f6");
@@ -161,12 +162,34 @@ it("commits a typed colour on Enter and reverts an invalid one on blur", async (
 
 it("selects a swatch and marks the one matching the colour", async () => {
   const updates = await collect();
-  expect(swatches().map((element) => element.getAttribute("aria-selected"))).toEqual(["false", "false"]);
+  expect(swatches().map((element) => element.getAttribute("aria-selected"))).toEqual(["false", "false", "false"]);
   await userEvent.click(swatches()[1]!);
   expect(updates.at(-1)).toBe("#22c55e");
   expect(swatches()[1]!.getAttribute("aria-selected")).toBe("true");
   expect(swatches()[1]!.querySelector("[data-slot=color-picker-swatch-indicator]")).not.toBeNull();
   expect(q("[data-slot=color-picker-preview]").style.getPropertyValue("--reka-color-swatch-color")).toBe("#22c55e");
+});
+
+it("draws round swatches with a check in the contrasting colour and an optional border", async () => {
+  await render();
+  const [red, , yellow] = swatches();
+  expect(parseFloat(getComputedStyle(red!).borderRadius)).toBeGreaterThan(1000);
+  await userEvent.click(red!);
+  expect(getComputedStyle(red!.querySelector("[data-slot=color-picker-swatch-indicator]")!).color).toBe(
+    "rgb(255, 255, 255)",
+  );
+  await userEvent.click(yellow!);
+  expect(getComputedStyle(yellow!.querySelector("[data-slot=color-picker-swatch-indicator]")!).color).toBe(
+    "rgb(0, 0, 0)",
+  );
+  const swatchColor = yellow!.querySelector("[data-slot=color-picker-swatch-color]")!;
+  expect(getComputedStyle(swatchColor).borderRadius).toBe(getComputedStyle(yellow!).borderRadius);
+  expect(swatchColor.className).toContain("inset-ring-surface-border");
+  const preview = q("[data-slot=color-picker-preview]");
+  const previewColor = preview.querySelector("span")!;
+  expect(getComputedStyle(previewColor).borderRadius).toBe(getComputedStyle(preview).borderRadius);
+  expect(getComputedStyle(preview).borderRadius).not.toBe("0px");
+  expect(previewColor.className).toContain("inset-ring-surface-border");
 });
 
 it("follows a controlled model from outside", async () => {

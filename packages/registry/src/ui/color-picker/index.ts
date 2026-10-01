@@ -53,16 +53,17 @@ export const colorPickerAreaHandle = "ring-2 ring-background";
 
 export const colorPickerSliderChecker = `absolute inset-0 m-auto h-(--track-h) w-(--track-w) rounded-full ${colorPickerChecker}`;
 
-export const colorPickerPreview = `relative size-(--color-picker-control) shrink-0 overflow-hidden rounded-(--color-picker-radius) ${colorPickerChecker}`;
+export const colorPickerPreview = `relative size-(--color-picker-control) shrink-0 rounded-(--color-picker-radius) ${colorPickerChecker}`;
 
-export const colorPickerPreviewColor = "absolute inset-0 bg-(--reka-color-swatch-color) inset-ring inset-ring-border";
+export const colorPickerPreviewColor =
+  "absolute inset-0 rounded-[inherit] bg-(--reka-color-swatch-color) inset-ring inset-ring-surface-border";
 
 export const colorPickerSwatches = "flex flex-wrap gap-2 outline-none data-disabled:opacity-(--disabled-opacity)";
 
-export const colorPickerSwatch = `relative size-(--color-picker-swatch) shrink-0 cursor-pointer rounded-md outline-none focus-visible:focus-ring data-disabled:cursor-not-allowed data-disabled:opacity-(--disabled-opacity) ${colorPickerChecker}`;
+export const colorPickerSwatch = `relative size-(--color-picker-swatch) shrink-0 cursor-pointer rounded-full outline-none focus-visible:focus-ring data-disabled:cursor-not-allowed data-disabled:opacity-(--disabled-opacity) ${colorPickerChecker}`;
 
 export const colorPickerSwatchColor =
-  "peer absolute inset-0 rounded-[inherit] bg-(--reka-color-swatch-color) inset-ring inset-ring-border";
+  "peer/swatch absolute inset-0 rounded-[inherit] bg-(--reka-color-swatch-color) inset-ring inset-ring-surface-border";
 
 export const colorPickerSwatchIndicator =
-  "absolute inset-0 flex items-center justify-center text-white peer-data-[color-contrast=dark]:text-black [&_svg]:size-[55%]";
+  "absolute inset-0 flex items-center justify-center text-white peer-data-[color-contrast=dark]/swatch:text-black [&_svg]:size-[55%]";
