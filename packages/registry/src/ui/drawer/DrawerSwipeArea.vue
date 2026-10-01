@@ -20,5 +20,7 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="drawer-swipe-area"
     :class="cn(drawerSwipeAreaVariants({ side: context.side.value }), props.class)"
-  />
+  >
+    <slot />
+  </DrawerSwipeArea>
 </template>

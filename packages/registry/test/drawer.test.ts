@@ -86,18 +86,18 @@ it("renders every part with its data-slot and the side on the content", async ()
   }
   expect(slot("drawer-content")!.dataset.side).toBe("bottom");
   expect(slot("drawer-content")!.classList.contains("bottom-0")).toBe(true);
-  expect(slot("drawer-header")!.hasAttribute("data-drawer-drag")).toBe(true);
-  expect(slot("drawer-swipe-area")).toBeNull();
+  expect(slot("drawer-content")!.classList.contains("touch-pan-x")).toBe(true);
+  expect(slot("drawer-swipe-area")).not.toBeNull();
 });
 
-it("shows the swipe area only while closed", async () => {
+it("keeps the swipe area rendered on both sides of a close", async () => {
   const open = render();
   await settle();
+  expect(slot("drawer-swipe-area")!.classList.contains("bottom-0")).toBe(true);
   open.value = false;
   await settle();
   await new Promise((resolve) => setTimeout(resolve, 300));
   expect(slot("drawer-swipe-area")).not.toBeNull();
-  expect(slot("drawer-swipe-area")!.classList.contains("bottom-0")).toBe(true);
 });
 
 it("takes its side classes from the root and hides the handle on the sides", async () => {
@@ -105,6 +105,7 @@ it("takes its side classes from the root and hides the handle on the sides", asy
   await settle();
   expect(slot("drawer-content")!.dataset.side).toBe("left");
   expect(slot("drawer-content")!.classList.contains("left-0")).toBe(true);
+  expect(slot("drawer-content")!.classList.contains("touch-pan-y")).toBe(true);
   expect(slot("drawer-handle")).toBeNull();
 });
 

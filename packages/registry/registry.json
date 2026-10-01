@@ -5280,7 +5280,7 @@
       "name": "drawer-swipe-area",
       "type": "registry:block",
       "title": "Drawer swipe area",
-      "description": "A strip along the edge that opens the drawer with a swipe.",
+      "description": "A visible strip inside a page that opens the drawer with a swipe.",
       "categories": [
         "example"
       ],
