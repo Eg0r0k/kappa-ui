@@ -502,42 +502,32 @@
   --drawer-offset: calc(var(--drawer-swipe-movement) + var(--drawer-snap-offset));
   transition: translate var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
   &[data-side="bottom"] {
+    --drawer-in: kappa-drawer-in-bottom;
+    --drawer-out: kappa-drawer-out-bottom;
     translate: 0 calc(var(--drawer-offset) - var(--drawer-keyboard-inset));
   }
   &[data-side="top"] {
+    --drawer-in: kappa-drawer-in-top;
+    --drawer-out: kappa-drawer-out-top;
     translate: 0 calc(-1 * var(--drawer-offset));
   }
   &[data-side="left"] {
+    --drawer-in: kappa-drawer-in-left;
+    --drawer-out: kappa-drawer-out-left;
     translate: calc(-1 * var(--drawer-offset)) 0;
   }
   &[data-side="right"] {
+    --drawer-in: kappa-drawer-in-right;
+    --drawer-out: kappa-drawer-out-right;
     translate: var(--drawer-offset) 0;
   }
   &[data-state="open"] {
-    animation: kappa-drawer-in-bottom var(--transition-duration-medium-4, 400ms)
+    animation: var(--drawer-in) var(--transition-duration-medium-4, 400ms)
       var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
   }
-  &[data-state="open"][data-side="top"] {
-    animation-name: kappa-drawer-in-top;
-  }
-  &[data-state="open"][data-side="left"] {
-    animation-name: kappa-drawer-in-left;
-  }
-  &[data-state="open"][data-side="right"] {
-    animation-name: kappa-drawer-in-right;
-  }
   &[data-state="closed"] {
-    animation: kappa-drawer-out-bottom var(--transition-duration-short-4, 200ms)
+    animation: var(--drawer-out) var(--transition-duration-short-4, 200ms)
       var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
-  }
-  &[data-state="closed"][data-side="top"] {
-    animation-name: kappa-drawer-out-top;
-  }
-  &[data-state="closed"][data-side="left"] {
-    animation-name: kappa-drawer-out-left;
-  }
-  &[data-state="closed"][data-side="right"] {
-    animation-name: kappa-drawer-out-right;
   }
   &[data-swiping] {
     transition: none;
