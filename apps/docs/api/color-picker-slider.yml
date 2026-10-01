@@ -1,0 +1,23 @@
+component: ColorPickerSlider
+file: ui/color-picker/ColorPickerSlider.vue
+props:
+  channel:
+    description: "The channel the slider moves: `hue` by default, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue` or `alpha`. The track shows the channel's gradient through the current colour, and `alpha` draws a checkerboard under it."
+  colorSpace:
+    description: "The space `saturation` is read in, `hsb` by default, or `hsl`."
+  orientation:
+    description: "`horizontal` by default, or `vertical`. Arrow keys follow the orientation."
+  dir:
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`."
+  inverted:
+    description: "Puts the channel's maximum at the start."
+  step:
+    description: "The keyboard step. One unit of the channel by default."
+  name:
+    description: "Adds a hidden input with the colour as hex, for a form submission."
+  required:
+    description: "Marks the hidden input required."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."

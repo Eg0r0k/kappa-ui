@@ -1,0 +1,19 @@
+component: ColorPickerSwatches
+file: ui/color-picker/ColorPickerSwatches.vue
+props:
+  orientation:
+    description: "`horizontal` by default, or `vertical`. Arrow keys follow the orientation."
+  dir:
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`."
+  highlightOnHover:
+    description: "Highlights the swatch under the pointer."
+  name:
+    description: "Adds a hidden input with the selected swatch, for a form submission."
+  required:
+    description: "Marks the hidden input required."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The swatches."

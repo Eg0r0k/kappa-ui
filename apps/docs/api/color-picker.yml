@@ -1,0 +1,23 @@
+component: ColorPicker
+file: ui/color-picker/ColorPicker.vue
+props:
+  modelValue:
+    description: "The colour as a string in `format`, bound with `v-model`."
+  defaultValue:
+    description: "The colour at first when `v-model` is not used. White by default."
+  format:
+    description: "How the model is written: `hex` (`#rrggbb`, `#rrggbbaa` with alpha), `rgb`, `hsl` or `hsb`. Any of them is accepted on the way in."
+  size:
+    description: "Scales the area height from 96px for `xs` to 224px for `xl`, with the slider, field, preview, swatch and gap sizes to match."
+  disabled:
+    description: "Disables every part. Follows a surrounding `Field`."
+  required:
+    description: "Marks the group required; follows a surrounding `Field`."
+  name:
+    description: "Adds a hidden input with the model, for a form submission."
+  id:
+    description: "The id of the group, which a `FieldLabel` points at. Comes from a surrounding `Field` when not set."
+emits:
+  update:modelValue: "Fires with the colour in `format` whenever a part changes it, and once on mount when `v-model` is not used."
+slots:
+  default: "The parts, in any layout."

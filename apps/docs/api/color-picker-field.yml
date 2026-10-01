@@ -1,0 +1,27 @@
+component: ColorPickerField
+file: ui/color-picker/ColorPickerField.vue
+props:
+  channel:
+    description: "Makes the field a number input for one channel instead of a hex input: `hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue` or `alpha`."
+  colorSpace:
+    description: "The space `saturation` is read in, `hsb` by default, or `hsl`."
+  variant:
+    description: "The text control look, as on `Input`: `outline` by default, `soft`, `filled`, `ghost` or `subtle`."
+  placeholder:
+    description: "Shown while the input is empty."
+  readonly:
+    description: "Shows the value without letting it be edited."
+  disableWheelChange:
+    description: "Stops the mouse wheel from changing the value while the input has focus."
+  locale:
+    description: "The locale numbers are read in. Inherits from a surrounding `ConfigProvider` when not set."
+  step:
+    description: "The keyboard step. One unit of the channel by default, or one of the hex integer."
+  name:
+    description: "Adds a hidden input with the colour as hex, for a form submission."
+  required:
+    description: "Marks the hidden input required."
+  as:
+    description: The element or component to render around the input.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."

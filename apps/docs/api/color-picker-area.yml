@@ -1,0 +1,21 @@
+component: ColorPickerArea
+file: ui/color-picker/ColorPickerArea.vue
+props:
+  colorSpace:
+    description: "The space the two axes live in, `hsb` by default, or `hsl`."
+  xChannel:
+    description: "The channel on the horizontal axis, `saturation` by default."
+  yChannel:
+    description: "The channel on the vertical axis, `brightness` by default, or `lightness` in `hsl`."
+  xName:
+    description: "Adds a hidden input with the horizontal channel's value, for a form submission."
+  yName:
+    description: "Adds a hidden input with the vertical channel's value, for a form submission."
+  name:
+    description: "Passed to Reka UI's area; the picker's own `name` is the one to use for forms."
+  required:
+    description: "Marks the hidden inputs required."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."

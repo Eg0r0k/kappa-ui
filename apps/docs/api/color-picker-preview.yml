@@ -1,0 +1,11 @@
+component: ColorPickerPreview
+file: ui/color-picker/ColorPickerPreview.vue
+props:
+  color:
+    description: "A colour to show instead of the picker's current one."
+  label:
+    description: "The accessible name. The colour's own name, or its string, by default."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."

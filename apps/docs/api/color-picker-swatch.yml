@@ -1,0 +1,13 @@
+component: ColorPickerSwatch
+file: ui/color-picker/ColorPickerSwatch.vue
+props:
+  value:
+    description: "The swatch's colour, in any accepted format. Selected while it matches the picker's colour."
+  disabled:
+    description: "Skips the swatch for the arrow keys and ignores clicks."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The indicator shown while selected. A check icon by default."
