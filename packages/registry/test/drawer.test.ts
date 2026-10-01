@@ -247,3 +247,63 @@ it("settles a swipe-to-open release by its transition instead of replaying the e
   await wait(400);
   expect(translateY(content)).toBe(0);
 });
+
+it("plays the enter animation with snap points, lands on the first point and scrolls the body only when expanded", async () => {
+  const snap = ref<string | number | null>("120px");
+  const open = ref(true);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(
+          Drawer,
+          {
+            open: open.value,
+            "onUpdate:open": (value: boolean) => (open.value = value),
+            snapPoints: ["120px", "400px"],
+            activeSnapPoint: snap.value,
+            "onUpdate:activeSnapPoint": (value: string | number | null) => (snap.value = value),
+          },
+          () => [
+            h(DrawerContent, { class: "h-[400px]" }, () => [
+              h(DrawerHeader, () => [h(DrawerTitle, () => "Title"), h(DrawerDescription, () => "Description")]),
+              h(DrawerBody, () => h("div", { style: "height: 900px" })),
+            ]),
+          ],
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  await settle();
+  const content = slot("drawer-content")!;
+  const body = slot("drawer-body")!;
+  expect(animations(content)).toContain("kappa-drawer-in-bottom");
+  await wait(500);
+  expect(translateY(content)).toBeCloseTo(280, 0);
+  expect(content.hasAttribute("data-expanded")).toBe(false);
+  expect(getComputedStyle(body).overflowY).toBe("hidden");
+
+  snap.value = "400px";
+  await settle();
+  await wait(400);
+  expect(translateY(content)).toBe(0);
+  expect(content.hasAttribute("data-expanded")).toBe(true);
+  expect(getComputedStyle(body).overflowY).toBe("auto");
+
+  snap.value = "120px";
+  await settle();
+  await wait(100);
+  const midway = translateY(content);
+  expect(midway).toBeGreaterThan(0);
+  expect(midway).toBeLessThan(280);
+  pointer("pointerdown", body, 100, 100);
+  await wait(30);
+  pointer("pointermove", body, 100, 85);
+  await wait(30);
+  expect(translateY(content)).toBeLessThan(280);
+  pointer("pointerup", body, 100, 85);
+  await settle();
+  await wait(400);
+  expect(snap.value).toBe("120px");
+  expect(translateY(content)).toBeCloseTo(280, 0);
+});

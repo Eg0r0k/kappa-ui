@@ -5340,6 +5340,25 @@
       ]
     },
     {
+      "name": "drawer-snap-points",
+      "type": "registry:block",
+      "title": "Drawer snap points",
+      "description": "A sheet that rests at three heights, with the overlay fading in only at the top one.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerSnapPoints.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "formisch-demo",
       "type": "registry:block",
       "title": "Formisch demo",
