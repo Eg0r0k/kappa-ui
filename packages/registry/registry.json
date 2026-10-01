@@ -8748,7 +8748,8 @@
         "utils",
         "tokens",
         "field-context",
-        "input"
+        "input",
+        "slider"
       ],
       "files": [
         {

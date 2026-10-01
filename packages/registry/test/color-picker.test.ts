@@ -221,10 +221,36 @@ it("takes its label, description, error and state from Field", async () => {
   expect(root().dataset.disabled).toBe("");
 });
 
+it("draws the sliders like Slider, with its variants and sizes", async () => {
+  await render({}, () => [
+    h(ColorPickerSlider, { channel: "hue" }),
+    h(ColorPickerSlider, { channel: "alpha", variant: "inset", touchTarget: "expand" }),
+  ]);
+  const plain = q("[data-slot=color-picker-slider][data-channel=hue]");
+  expect(plain.dataset.variant).toBe("default");
+  expect(sliderThumb("hue").className).toContain("state-halo");
+  expect(q("[data-slot=color-picker-slider-track]").getBoundingClientRect().height).toBe(6);
+  expect(sliderThumb("hue").getBoundingClientRect().width).toBe(16);
+  expect(getComputedStyle(q("[data-slot=color-picker-slider-handle]")).backgroundColor).toBe("rgb(0, 97, 255)");
+
+  const inset = q("[data-slot=color-picker-slider][data-channel=alpha]");
+  expect(inset.dataset.variant).toBe("inset");
+  expect(inset.dataset.touchTarget).toBe("expand");
+  expect(inset.querySelector("[data-slot=color-picker-slider-track]")!.getBoundingClientRect().height).toBe(20);
+  expect(sliderThumb("alpha").getBoundingClientRect().width).toBe(20);
+  expect(getComputedStyle(sliderThumb("alpha")).backgroundColor).toBe("rgb(59, 130, 246)");
+  expect(getComputedStyle(inset.querySelector("[data-slot=color-picker-slider-handle]")!).backgroundColor).toBe(
+    "rgb(255, 255, 255)",
+  );
+});
+
 it("scales the area, the sliders and the field from size", async () => {
   await render();
   expect(q("[data-slot=color-picker-area]").getBoundingClientRect().height).toBe(160);
   expect(sliderThumb("hue").getBoundingClientRect().width).toBe(16);
+  expect(areaThumb().getBoundingClientRect().width).toBe(16);
+  expect(areaThumb().className).toContain("state-halo");
+  expect(getComputedStyle(q("[data-slot=color-picker-area-handle]")).backgroundColor).toBe("rgb(59, 130, 246)");
   expect(input().getBoundingClientRect().height).toBe(36);
   reset();
 

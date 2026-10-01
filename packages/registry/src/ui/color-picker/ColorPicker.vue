@@ -55,6 +55,7 @@ const isDisabled = computed(() => Boolean(control.disabled.value));
 provideColorPickerContext({
   color,
   hex: computed(() => colorToString(color.value, "hex")),
+  opaque: computed(() => colorToString({ ...color.value, alpha: 1 }, "hex")),
   setColor,
   size: toRef(() => props.size),
   disabled: isDisabled,

@@ -5,6 +5,10 @@ props:
     description: "The channel the slider moves: `hue` by default, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue` or `alpha`. The track shows the channel's gradient through the current colour, and `alpha` draws a checkerboard under it."
   colorSpace:
     description: "The space `saturation` is read in, `hsb` by default, or `hsl`."
+  variant:
+    description: "As on `Slider`: `default` runs the thumb over a thin track, `inset` sets it inside a thick one."
+  touchTarget:
+    description: "As on `Slider`: `expand` grows the hit area of the track and the thumb to 48px without changing the layout, `wrapper` reserves that room."
   orientation:
     description: "`horizontal` by default, or `vertical`. Arrow keys follow the orientation."
   dir:
