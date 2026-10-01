@@ -161,7 +161,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
 
   const config = (towards: DragSide, touch: boolean): DragConfig => ({
     axis: axisOf(towards) === 0 ? "x" : "y",
-    filterTaps: true,
+    filterTaps: !touch,
     threshold: 10,
     pointer: touch ? { touch: true, capture: false } : { capture: false },
     eventOptions: { passive: false },

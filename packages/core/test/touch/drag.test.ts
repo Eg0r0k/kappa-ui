@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, ref } from "vue";
 
 import { type DragMove, useDrag } from "../../src/drag";
@@ -90,6 +91,25 @@ it("leaves fingers to touch events, which drag and own their touchmove once the 
   touch("touchend", element, 100, 160);
   await wait(30);
   expect(releases).toHaveLength(1);
+});
+
+it("lets a mouse click through before any gesture and right after a finger drag", async () => {
+  let clicks = 0;
+  const { element, releases } = host({}, () => h("button", { onClick: () => (clicks += 1) }, "Press"));
+  const button = element.querySelector("button")!;
+  await userEvent.click(button);
+  expect(clicks).toBe(1);
+  touch("touchstart", element, 100, 100);
+  for (const y of [130, 160]) {
+    await wait(30);
+    touch("touchmove", element, 100, y);
+  }
+  await wait(30);
+  touch("touchend", element, 100, 160);
+  await wait(30);
+  expect(releases).toHaveLength(1);
+  await userEvent.click(button);
+  expect(clicks).toBe(2);
 });
 
 it("ignores touch events that arrive while a pen drags", async () => {
