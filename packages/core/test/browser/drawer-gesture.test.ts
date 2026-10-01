@@ -61,6 +61,7 @@ const settle = async () => {
 const panel = () => document.querySelector<HTMLElement>("[role=dialog]")!;
 const body = () => document.getElementById("body")!;
 const handle = () => document.getElementById("handle")!;
+const area = () => document.getElementById("area")!;
 const variable = (name: string) => panel().style.getPropertyValue(name);
 
 it("closes after a drag past a quarter of its height, writing the variables on the way", async () => {
@@ -261,6 +262,35 @@ it("renders no overlay and keeps gestures in a non-modal drawer", async () => {
   await settle();
   expect(document.getElementById("overlay")).toBeNull();
   await drag(body(), [150, 50], [150, 350]);
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("opens from the swipe area following the finger and stays open past a quarter", async () => {
+  const open = harness({}, () => h("p", "Body"), false);
+  await settle();
+  expect(panel()).toBeNull();
+  pointer("pointerdown", area(), 150, 395);
+  await wait(30);
+  pointer("pointermove", area(), 150, 380);
+  await wait(30);
+  expect(open.value).toBe(true);
+  await settle();
+  expect(panel().hasAttribute("data-swiping")).toBe(true);
+  pointer("pointermove", area(), 150, 196);
+  await wait(30);
+  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(400 - 195, 0);
+  pointer("pointerup", area(), 150, 196);
+  await settle();
+  expect(open.value).toBe(true);
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
+  expect(document.getElementById("area")).toBeNull();
+});
+
+it("closes again when the swipe from the edge is released early", async () => {
+  const open = harness({}, () => h("p", "Body"), false);
+  await settle();
+  await drag(area(), [150, 395], [150, 365]);
   await settle();
   expect(open.value).toBe(false);
 });
