@@ -1,0 +1,7 @@
+component: InputNumberDecrement
+file: ui/input-number/InputNumberDecrement.vue
+props:
+  disabled:
+    description: Disables this button on its own. It is also disabled by the field, by `readonly` and at `min`.
+slots:
+  default: "The icon. A minus sign by default, or a chevron down in the vertical orientation."
