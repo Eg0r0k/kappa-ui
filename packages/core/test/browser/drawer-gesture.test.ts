@@ -35,6 +35,7 @@ const harness = (
   root: Partial<DrawerRootProps> = {},
   body: () => VNodeChild = () => h("p", "Body"),
   startOpen = true,
+  panelStyle = PANEL,
 ) => {
   const open = ref(startOpen);
   mount(
@@ -42,7 +43,7 @@ const harness = (
       setup: () => () =>
         h(DrawerRoot, { open: open.value, "onUpdate:open": (value: boolean) => (open.value = value), ...root }, () => [
           h(DrawerOverlay, { id: "overlay" }),
-          h(DrawerContent, { style: PANEL }, () => [
+          h(DrawerContent, { style: panelStyle }, () => [
             h(DrawerHandle, { id: "handle" }),
             h("div", { id: "body", style: BODY }, body() ?? undefined),
           ]),
@@ -308,7 +309,38 @@ it("opens from the swipe area following the finger and stays open past a quarter
 it("closes again when the swipe from the edge is released early", async () => {
   const open = harness({}, () => h("p", "Body"), false);
   await settle();
-  await drag(area(), [150, 395], [150, 365]);
+  pointer("pointerdown", area(), 150, 395);
+  await wait(40);
+  pointer("pointermove", area(), 150, 380);
+  await wait(40);
+  expect(open.value).toBe(true);
+  pointer("pointermove", area(), 150, 370);
+  await wait(40);
+  pointer("pointermove", area(), 150, 365);
+  await wait(40);
+  pointer("pointerup", area(), 150, 365);
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("drags a right-side drawer towards the right and closes it", async () => {
+  const open = harness(
+    { side: "right" },
+    undefined,
+    true,
+    "position: fixed; right: 0; top: 0; width: 300px; height: 400px",
+  );
+  await settle();
+  expect(variable("--drawer-size")).toBe("300px");
+  pointer("pointerdown", body(), 100, 100);
+  await wait(40);
+  pointer("pointermove", body(), 160, 100);
+  await wait(40);
+  expect(panel().dataset.side).toBe("right");
+  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeGreaterThan(0);
+  pointer("pointermove", body(), 280, 100);
+  await wait(40);
+  pointer("pointerup", body(), 280, 100);
   await settle();
   expect(open.value).toBe(false);
 });
