@@ -1,5 +1,39 @@
 # @kappa-ui/registry
 
+## 0.8.0
+
+### Minor Changes
+
+- [`8c1319e`](https://github.com/Eg0r0k/kappa-ui/commit/8c1319e37f914906fd00168368dc6685fa37d8e5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ColorPicker: `ColorPicker`, `ColorPickerArea`, `ColorPickerSlider`, `ColorPickerField`, `ColorPickerPreview`, `ColorPickerSwatches` and `ColorPickerSwatch` over Reka UI's colour primitives. One `v-model` string in `hex`, `rgb`, `hsl` or `hsb` feeds every part; the area, the sliders and the swatches work from the keyboard and read out as sliders and options; the sliders are drawn on `Slider`'s parts with its `variant`, `touch-target`, sizes, halo and press scale, one `size` from `xs` to `xl` scales the parts together, and a surrounding `Field` supplies the label, description, error and disabled state.
+
+- [`a455da4`](https://github.com/Eg0r0k/kappa-ui/commit/a455da46c658606f3a730a727226b3c82d740a2f) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Drawer: `DrawerIndent` scales the page behind an open drawer, and a drawer opened from another one stacks on top while the one below steps back.
+
+- [`154d2f7`](https://github.com/Eg0r0k/kappa-ui/commit/154d2f7703df25ba0547892224d84355ffa2b326) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Drawer: `openDrawer` and `defineDrawer` open a drawer from code, and `@/ui/drawer` re-exports `useDialogContext` for the component it opens.
+
+- [`63adf67`](https://github.com/Eg0r0k/kappa-ui/commit/63adf67aa521b59c82d20b3a1134b438e315247c) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Drawer: snap points through `snap-points`, `v-model:active-snap-point`, `snap-to-sequential-points` and `fade-from-index`; `DrawerBody` scrolls only at the largest point; a mouse drags the panel from anywhere; the swipe-to-open example shows a visible zone.
+
+- [`92a9ce3`](https://github.com/Eg0r0k/kappa-ui/commit/92a9ce36df18664245c379e59825f0af8e37167b) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Drawer: `Drawer`, `DrawerTrigger`, `DrawerContent`, `DrawerOverlay`, `DrawerHandle`, `DrawerSwipeArea`, `DrawerHeader`, `DrawerTitle`, `DrawerDescription`, `DrawerBody`, `DrawerFooter` and `DrawerClose` over `@kappa-ui/core/drawer`, shaped like Dialog's parts, on four sides.
+
+- [`b68c6ee`](https://github.com/Eg0r0k/kappa-ui/commit/b68c6ee46c7b5f19f2061414429bae495f2155af) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - InnerLoading: `InnerLoading`, `InnerLoadingContent` and `InnerLoadingOverlay`, a loading overlay for one region. The content turns `inert` while loading, so nothing behind the scrim can be clicked, focused or read; the overlay mounts only while loading with a `Spinner` by default, and focus returns to the control that had it when loading ends.
+
+- [`657321c`](https://github.com/Eg0r0k/kappa-ui/commit/657321c6dc0b503696fe3e51475ffcf9a283fbc2) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Stepper: `Stepper`, `StepperItem`, `StepperTrigger`, `StepperIndicator`, `StepperTitle`, `StepperDescription` and `StepperSeparator` over Reka UI's stepper, shaped after shadcn-vue. The indicator and the separator colour themselves from the step's state, the stepper is linear by default, and one `size` from `xs` to `xl` scales the indicator, its icon, the type, the gaps and the separator.
+
+### Patch Changes
+
+- [`74436ba`](https://github.com/Eg0r0k/kappa-ui/commit/74436bad47de374c328b5421edc4913c80ea7778) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ButtonGroupSeparator keeps its one-pixel width but no longer fills it with `bg-input`, so it parts the buttons with a gap rather than a line.
+
+- [`0f257de`](https://github.com/Eg0r0k/kappa-ui/commit/0f257de5ae878fa301d45a5e2828ee1be32de1c5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Card: `outline` and `subtle` draw their edge as a one-pixel ring outside the box instead of a border, so every variant has the same size, as Button's do, and content that reaches the sides, a flush image or a list of items, never covers it.
+
+- [`d169f4d`](https://github.com/Eg0r0k/kappa-ui/commit/d169f4d59ca0baa938f528fa3376f2f0119c6987) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - DataTable attaches row click, keyboard, context-menu and hover listeners only when the matching `onRow*` prop is set, instead of five listeners per row regardless.
+
+- [`686b10b`](https://github.com/Eg0r0k/kappa-ui/commit/686b10bba500234ad255f5dfc6d4b3e90bba54cf) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ImageLoading and ImageError leave the render tree (`display: none`) while their state is not showing, so the default Spinner stops animating behind loaded images. The fade still plays through `transition-behavior: allow-discrete` and `@starting-style`, and a display class passed to a layer still wins while it is shown.
+
+- [`a2a4d38`](https://github.com/Eg0r0k/kappa-ui/commit/a2a4d38ede7d7866443f9e0edde6f8f701c8cbc2) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Button and Alert: the `outline` variant no longer paints `bg-background`, so an outline button or alert on a tinted surface shows the surface through it, as Badge's `outline` already did.
+
+- [`c0234b2`](https://github.com/Eg0r0k/kappa-ui/commit/c0234b24727ba333a3f9598551133c900b4cc360) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ScrollArea moves its thumb with `transform` instead of `top` / `inset-inline-start`, so scrolling no longer lays out and repaints the bar on every frame, and the thumb drops its permanent `will-change` layer.
+- Updated dependencies [[`92a9ce3`](https://github.com/Eg0r0k/kappa-ui/commit/92a9ce36df18664245c379e59825f0af8e37167b), [`a455da4`](https://github.com/Eg0r0k/kappa-ui/commit/a455da46c658606f3a730a727226b3c82d740a2f), [`154d2f7`](https://github.com/Eg0r0k/kappa-ui/commit/154d2f7703df25ba0547892224d84355ffa2b326), [`63adf67`](https://github.com/Eg0r0k/kappa-ui/commit/63adf67aa521b59c82d20b3a1134b438e315247c), [`b9b2829`](https://github.com/Eg0r0k/kappa-ui/commit/b9b2829ca2c572654bd128d6f5bf1c475db02011)]:
+  - @kappa-ui/core@0.7.0
+
 ## 0.7.0
 
 ### Minor Changes
