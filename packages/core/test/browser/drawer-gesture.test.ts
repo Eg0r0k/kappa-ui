@@ -15,14 +15,19 @@ import { drag, flick, pointer, wait } from "./pointer";
 const PANEL = "position: fixed; left: 0; bottom: 0; width: 300px; height: 400px";
 const BODY = "height: 200px; overflow: auto";
 
-const exit = document.createElement("style");
-exit.textContent =
-  "@keyframes drawer-test-out { to { translate: 0 100% } } [role=dialog][data-state=closed] { animation: drawer-test-out 150ms forwards }";
-document.head.append(exit);
+const sheet = document.createElement("style");
+sheet.textContent = [
+  "@keyframes drawer-test-out { to { translate: 0 100% } }",
+  "[role=dialog][data-state=closed] { animation: drawer-test-out 150ms forwards }",
+  "@keyframes drawer-test-in { from { translate: 0 100% } }",
+  ".drawer-test-enter [role=dialog][data-state=open] { animation: drawer-test-in 300ms linear }",
+].join(" ");
+document.head.append(sheet);
 
 afterEach(() => {
   document.body.innerHTML = "";
   document.body.style.cssText = "";
+  document.documentElement.classList.remove("drawer-test-enter");
   window.scrollTo(0, 0);
 });
 
@@ -107,6 +112,31 @@ it("lets a scrolled body scroll and drags from its top", async () => {
   await drag(body(), [150, 100], [150, 300]);
   await settle();
   expect(open.value).toBe(false);
+});
+
+it("lets a body at its top scroll toward its end and drags upward only from its end", async () => {
+  const open = harness({}, () => h("div", { style: "height: 1000px" }));
+  await settle();
+  const upward = async () => {
+    let swiping = false;
+    pointer("pointerdown", body(), 150, 300);
+    for (const y of [250, 200, 150, 100]) {
+      await wait(40);
+      pointer("pointermove", body(), 150, y);
+      await settle();
+      swiping ||= panel().hasAttribute("data-swiping");
+    }
+    await wait(40);
+    pointer("pointerup", body(), 150, 100);
+    await settle();
+    return swiping;
+  };
+  expect(await upward()).toBe(false);
+  expect(open.value).toBe(true);
+  body().scrollTop = body().scrollHeight;
+  expect(await upward()).toBe(true);
+  expect(open.value).toBe(true);
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
 });
 
 it("drags from the handle even over scrolled content", async () => {
@@ -203,6 +233,27 @@ it("starts the next opening from zero", async () => {
   await settle();
   expect(variable("--drawer-swipe-movement")).toBe("0px");
   expect(panel().hasAttribute("data-swiping")).toBe(false);
+});
+
+it("picks a drag up where the enter animation left the panel and lets it be pulled open", async () => {
+  document.documentElement.classList.add("drawer-test-enter");
+  const open = harness();
+  await settle();
+  await wait(60);
+  pointer("pointerdown", handle(), 150, 300);
+  await wait(30);
+  pointer("pointermove", handle(), 150, 270);
+  await wait(30);
+  expect(panel().hasAttribute("data-swiping")).toBe(true);
+  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeGreaterThan(100);
+  pointer("pointermove", handle(), 150, 150);
+  await wait(30);
+  pointer("pointermove", handle(), 150, 20);
+  await wait(30);
+  pointer("pointerup", handle(), 150, 20);
+  await settle();
+  expect(open.value).toBe(true);
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
 });
 
 it("renders no overlay and keeps gestures in a non-modal drawer", async () => {

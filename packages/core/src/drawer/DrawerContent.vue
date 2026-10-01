@@ -5,7 +5,7 @@ import { type ComponentPublicInstance, computed, nextTick, ref, watch } from "vu
 
 import DialogContent from "../dialog/DialogContent.vue";
 import { useOwnDialogEntry } from "../dialog/entry";
-import { releaseVerdict, scrollBlocksDrag, useDrag } from "../drag";
+import { opposite, releaseVerdict, scrollBlocksDrag, useDrag } from "../drag";
 import { scrollFocusedIntoView, useVirtualKeyboardInset } from "../virtual-keyboard";
 import { injectDrawerRootContext } from "./context";
 
@@ -49,12 +49,17 @@ watch(inset, (value) => {
   if (element.value) scrollFocusedIntoView(element.value);
 });
 
+const lengthOf = (token: string, size: number) => {
+  const signed = token.replace(/-\s+/g, "-");
+  const sum = (pattern: RegExp) => [...signed.matchAll(pattern)].reduce((total, match) => total + Number(match[1]), 0);
+  return sum(/(-?\d*\.?\d+(?:e[-+]?\d+)?)px/gi) + (sum(/(-?\d*\.?\d+(?:e[-+]?\d+)?)%/gi) * size) / 100;
+};
+
 const axisTranslate = () => {
   const node = element.value;
   if (!node) return 0;
-  const parts = getComputedStyle(node).translate.split(" ");
-  const value = parseFloat((vertical.value ? parts[1] : parts[0]) ?? "0");
-  return Number.isNaN(value) ? 0 : value;
+  const parts = getComputedStyle(node).translate.match(/[a-z-]*\([^)]*\)|\S+/gi) ?? [];
+  return lengthOf((vertical.value ? parts[1] : parts[0]) ?? "", context.size.value);
 };
 
 const currentMovement = () => {
@@ -78,19 +83,13 @@ const finish = () => {
 useDrag(element, {
   towards: () => context.side.value,
   enabled: () => context.open.value,
-  bounds: { min: 0 },
+  bounds: () => ({ min: -currentMovement() }),
   canStart: (move) => {
     const handle = inHandle(move.target);
     if (context.handleOnly.value && !handle) return false;
-    if (
-      !handle &&
-      move.direction > 0 &&
-      element.value &&
-      scrollBlocksDrag(move.target, element.value, context.side.value)
-    ) {
-      return false;
-    }
-    return true;
+    if (handle || !element.value || move.direction === 0) return true;
+    const towards = move.direction > 0 ? context.side.value : opposite(context.side.value);
+    return !scrollBlocksDrag(move.target, element.value, towards);
   },
   mouseFrom: (target) => target.closest("[data-drawer-handle], [data-drawer-drag]") !== null,
   onStart: () => {
@@ -103,7 +102,8 @@ useDrag(element, {
   onRelease: (move) => {
     finish();
     const movement = seed + move.movement;
-    if (context.dismissible.value && releaseVerdict(movement, context.size.value, move.swipe) === "close") {
+    const closable = context.dismissible.value && !owner?.entry.loading;
+    if (closable && releaseVerdict(movement, context.size.value, move.swipe) === "close") {
       context.movement.value = Math.max(0, movement);
       if (owner) owner.entry.reason = "swipe";
       context.setOpen(false);
