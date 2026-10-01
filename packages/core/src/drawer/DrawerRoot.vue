@@ -38,7 +38,12 @@ const movement = ref(0);
 
 const { width, height } = useWindowSize({ initialWidth: 0, initialHeight: 0 });
 const viewport = computed(() => (props.side === "bottom" || props.side === "top" ? height.value : width.value));
-const snapPixels = computed(() => snapPoints.value.map((point) => toPixels(point, viewport.value)));
+const snapPixels = computed(() =>
+  snapPoints.value.map((point) => {
+    const pixels = toPixels(point, viewport.value);
+    return size.value > 0 ? Math.min(size.value, pixels) : pixels;
+  }),
+);
 const activeIndex = computed(() => {
   const index = snapPoints.value.indexOf(activeSnapPoint.value ?? snapPoints.value[0]!);
   return index === -1 ? 0 : index;
@@ -88,6 +93,7 @@ provideDrawerRootContext({
   snapPoints,
   snapPixels,
   activeSnapPoint,
+  activeSnapIndex: activeIndex,
   snapToSequentialPoints: computed(() => props.snapToSequentialPoints),
   expanded: computed(() => snapPoints.value.length === 0 || activeIndex.value === snapPoints.value.length - 1),
   snapOffset: computed(() => (isOpen.value ? liveSnapOffset.value : held.value.offset)),

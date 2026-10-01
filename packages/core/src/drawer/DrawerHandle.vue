@@ -11,7 +11,8 @@ const onClick = () => {
   if (context.dragged.value) return;
   const points = context.snapPoints.value;
   if (points.length > 0) {
-    context.activeSnapPoint.value = cycleSnapPoint(points, context.activeSnapPoint.value) ?? null;
+    const next = cycleSnapPoint(points, context.activeSnapPoint.value ?? context.snapPoints.value[0]!) ?? null;
+    if (context.activeSnapPoint.value !== next) context.activeSnapPoint.value = next;
     return;
   }
   if (context.dismissible.value) context.setOpen(false);

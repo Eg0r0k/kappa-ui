@@ -88,6 +88,48 @@ it("closes on a quick finger flick from the body", async () => {
   expect(open.value).toBe(false);
 });
 
+it("closes after a finger drag that pauses and then flicks, well short of half the height", async () => {
+  const open = harness();
+  await settle();
+  finger("start", text(), 150, 100);
+  let y = 100;
+  for (let i = 0; i < 6; i++) {
+    await wait(60);
+    y += 10;
+    finger("move", text(), 150, y);
+  }
+  for (let i = 0; i < 3; i++) {
+    await wait(16);
+    y += 30;
+    finger("move", text(), 150, y);
+  }
+  await wait(10);
+  finger("end", text(), 150, y);
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("closes after a mouse drag that pauses and then flicks, well short of half the height", async () => {
+  const open = harness();
+  await settle();
+  pointer("pointerdown", text(), 150, 100, "mouse");
+  let y = 100;
+  for (let i = 0; i < 6; i++) {
+    await wait(60);
+    y += 10;
+    pointer("pointermove", text(), 150, y, "mouse");
+  }
+  for (let i = 0; i < 3; i++) {
+    await wait(16);
+    y += 30;
+    pointer("pointermove", text(), 150, y, "mouse");
+  }
+  await wait(10);
+  pointer("pointerup", text(), 150, y, "mouse");
+  await settle();
+  expect(open.value).toBe(false);
+});
+
 it("drags with a mouse from the body on a touch-capable device", async () => {
   const open = harness();
   await settle();

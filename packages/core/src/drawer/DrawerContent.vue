@@ -139,9 +139,11 @@ useDrag(element, {
       const index = resolveSnapPoint(pixels, visible, -move.velocity, {
         sequential: context.snapToSequentialPoints.value,
         dismissible: closable,
+        active: context.activeSnapIndex.value,
       });
       if (index === null) return close(seed + move.movement);
-      context.activeSnapPoint.value = context.snapPoints.value[index]!;
+      const point = context.snapPoints.value[index]!;
+      if (context.activeSnapPoint.value !== point) context.activeSnapPoint.value = point;
       context.movement.value = 0;
       return;
     }

@@ -33,6 +33,7 @@ export interface DrawerRootContext {
   snapPoints: ComputedRef<SnapPoint[]>;
   snapPixels: ComputedRef<number[]>;
   activeSnapPoint: Ref<SnapPoint | null>;
+  activeSnapIndex: ComputedRef<number>;
   snapToSequentialPoints: ComputedRef<boolean>;
   expanded: ComputedRef<boolean>;
   snapOffset: ComputedRef<number>;

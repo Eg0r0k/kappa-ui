@@ -55,6 +55,13 @@ describe("resolveSnapPoint", () => {
     expect(resolveSnapPoint(points, 100, -2.5, { sequential: true })).toBeNull();
   });
 
+  it("clamps a sequential move to one step from the active point", () => {
+    expect(resolveSnapPoint(points, 290, 2.5, { sequential: true, active: 0 })).toBe(1);
+    expect(resolveSnapPoint(points, 390, 0, { sequential: true, active: 0 })).toBe(1);
+    expect(resolveSnapPoint(points, 40, 0, { sequential: true, active: 2 })).toBe(1);
+    expect(resolveSnapPoint(points, 40, 0, { sequential: true, active: 0 })).toBeNull();
+  });
+
   it("returns null without points", () => {
     expect(resolveSnapPoint([], 10, 0)).toBeNull();
   });

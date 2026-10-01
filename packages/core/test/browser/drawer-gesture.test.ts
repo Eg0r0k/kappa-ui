@@ -287,6 +287,35 @@ it("renders no overlay and keeps gestures in a non-modal drawer", async () => {
   expect(open.value).toBe(false);
 });
 
+it("stays closed after a sideways mouse drag on the swipe area", async () => {
+  const open = harness({}, undefined, false);
+  await settle();
+  pointer("pointerdown", area(), 150, 395, "mouse");
+  await wait(30);
+  pointer("pointermove", area(), 210, 392, "mouse");
+  await wait(30);
+  pointer("pointermove", area(), 270, 388, "mouse");
+  await wait(30);
+  pointer("pointerup", area(), 270, 388, "mouse");
+  await settle();
+  expect(open.value).toBe(false);
+  expect(document.querySelector("[role=dialog]")).toBeNull();
+});
+
+it("leaves --drawer-swipe-progress above zero while dragging without snap points", async () => {
+  const open = harness();
+  await settle();
+  pointer("pointerdown", body(), 150, 100);
+  await wait(30);
+  pointer("pointermove", body(), 150, 160);
+  await wait(30);
+  const overlay = document.getElementById("overlay")!;
+  expect(parseFloat(overlay.style.getPropertyValue("--drawer-swipe-progress"))).toBeGreaterThan(0);
+  pointer("pointerup", body(), 150, 160);
+  await settle();
+  expect(open.value).toBe(true);
+});
+
 it("opens from the swipe area following the finger and stays open after a long swipe", async () => {
   const open = harness({}, () => h("p", "Body"), false);
   await settle();

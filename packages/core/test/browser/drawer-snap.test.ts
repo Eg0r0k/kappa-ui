@@ -81,7 +81,7 @@ const area = () => document.getElementById("area")!;
 const variable = (name: string) => panel().style.getPropertyValue(name);
 const opacity = () => parseFloat(overlay().style.getPropertyValue("--drawer-overlay-opacity"));
 
-const creep = async (target: Element, from: number, to: number, step = 30, pause = 50) => {
+const creep = async (target: Element, from: number, to: number, step = 40, pause = 50) => {
   pointer("pointerdown", target, 150, from);
   const sign = Math.sign(to - from);
   for (let y = from + sign * step; sign > 0 ? y <= to : y >= to; y += sign * step) {
@@ -143,6 +143,18 @@ it("fades the overlay between the point below fadeFromIndex and the point at it"
   expect(opacity()).toBe(1);
 });
 
+it("keeps --drawer-swipe-progress at zero while dragging between snap points", async () => {
+  harness({ snapPoints: ["400px"] });
+  await settle();
+  pointer("pointerdown", text(), 150, 100);
+  await wait(30);
+  pointer("pointermove", text(), 150, 200);
+  await wait(30);
+  expect(overlay().style.getPropertyValue("--drawer-swipe-progress")).toBe("0");
+  pointer("pointerup", text(), 150, 200);
+  await settle();
+});
+
 it("follows a controlled active point", async () => {
   const { active } = harness({ snapPoints: POINTS, activeSnapPoint: "100px" });
   await settle();
@@ -180,10 +192,10 @@ it("settles a slow drag on the nearest point and reports it", async () => {
 it("moves one point in the direction of a quick swipe", async () => {
   const { changes } = harness({ snapPoints: POINTS });
   await settle();
-  await creep(text(), 300, 240);
+  await creep(text(), 300, 220);
   await settle();
   expect(changes.at(-1)).toBe("200px");
-  await creep(text(), 100, 160);
+  await creep(text(), 100, 180);
   await settle();
   expect(changes.at(-1)).toBe("100px");
   expect(variable("--drawer-snap-offset")).toBe("300px");
@@ -205,7 +217,7 @@ it("flings to the last point, and closes from a fling towards the edge", async (
 it("keeps a fling to one step with snapToSequentialPoints", async () => {
   const { changes } = harness({ snapPoints: POINTS, snapToSequentialPoints: true });
   await settle();
-  await flick(text(), [150, 300], [150, 220]);
+  await flick(text(), [150, 300], [150, 100]);
   await settle();
   expect(changes.at(-1)).toBe("200px");
 });

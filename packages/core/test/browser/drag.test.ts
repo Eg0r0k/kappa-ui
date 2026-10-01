@@ -190,6 +190,50 @@ it("scrollBlocksDrag reads the scroll chain for each side", () => {
   expect(scrollBlocksDrag(target, boundary, "left")).toBe(false);
 });
 
+it("ignores a sideways gesture on a fresh instance and still drags normally afterwards", async () => {
+  const { element, starts, releases } = host();
+  pointer("pointerdown", element, 100, 100);
+  for (const [x, y] of [
+    [160, 103],
+    [220, 108],
+    [280, 112],
+  ] as const) {
+    await wait(30);
+    pointer("pointermove", element, x, y);
+  }
+  await wait(30);
+  pointer("pointerup", element, 280, 112);
+  expect(starts).toHaveLength(0);
+
+  const selectstart = new Event("selectstart", { bubbles: true, cancelable: true });
+  document.body.dispatchEvent(selectstart);
+  expect(selectstart.defaultPrevented).toBe(false);
+
+  await drag(element, [100, 100], [100, 210], 4, 80);
+  expect(starts).toHaveLength(1);
+  expect(releases).toHaveLength(1);
+});
+
+it("keeps releasing fast after a drag that pauses and then flicks", async () => {
+  const { element, releases } = host();
+  pointer("pointerdown", element, 100, 100);
+  let y = 100;
+  for (let i = 0; i < 6; i++) {
+    await wait(60);
+    y += 10;
+    pointer("pointermove", element, 100, y);
+  }
+  for (let i = 0; i < 3; i++) {
+    await wait(16);
+    y += 30;
+    pointer("pointermove", element, 100, y);
+  }
+  await wait(10);
+  pointer("pointerup", element, 100, y);
+  expect(releases).toHaveLength(1);
+  expect(releases[0]!.velocity).toBeGreaterThan(0.5);
+});
+
 it("releaseVerdict closes at the swipe velocity or half of the size, on 10px while the size is unknown, never without net movement", () => {
   expect(releaseVerdict(10, 400, 0.5)).toBe("close");
   expect(releaseVerdict(199, 400, 0.49)).toBe("return");

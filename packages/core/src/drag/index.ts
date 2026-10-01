@@ -152,7 +152,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
       samples = [];
     }
     const move = normalise(state);
-    if (!decided && state.intentional && !state.last) {
+    if (!decided && state.active && state.intentional && !state.last) {
       decided = allowed(move) ? "drag" : "cancel";
       if (decided === "cancel") {
         state.cancel();

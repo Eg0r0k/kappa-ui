@@ -3,6 +3,7 @@ export type SnapPoint = number | string;
 export interface ResolveSnapPointOptions {
   sequential?: boolean;
   dismissible?: boolean;
+  active?: number;
 }
 
 export const STEP_VELOCITY = 0.4;
@@ -32,25 +33,34 @@ export const resolveSnapPoint = (
   points: readonly number[],
   position: number,
   velocity: number,
-  { sequential = false, dismissible = true }: ResolveSnapPointOptions = {},
+  { sequential = false, dismissible = true, active }: ResolveSnapPointOptions = {},
 ): number | null => {
   if (points.length === 0) return null;
   const last = points.length - 1;
   const speed = Math.abs(velocity);
   const opening = velocity > 0;
+  let target: number | null;
   if (speed >= FLING_VELOCITY && !sequential) {
-    if (opening) return last;
-    return dismissible ? null : 0;
-  }
-  if (speed >= STEP_VELOCITY) {
+    target = opening ? last : dismissible ? null : 0;
+  } else if (speed >= STEP_VELOCITY) {
     if (opening) {
       const next = points.findIndex((point) => point > position + EPSILON);
-      return next === -1 ? last : next;
+      target = next === -1 ? last : next;
+    } else {
+      target = dismissible ? null : 0;
+      for (let index = last; index >= 0; index--) {
+        if (points[index]! < position - EPSILON) {
+          target = index;
+          break;
+        }
+      }
     }
-    for (let index = last; index >= 0; index--) if (points[index]! < position - EPSILON) return index;
-    return dismissible ? null : 0;
+  } else {
+    target = nearest(points, position, dismissible);
   }
-  return nearest(points, position, dismissible);
+  if (!sequential || active === undefined) return target;
+  const limited = Math.max(active - 1, Math.min(active + 1, target ?? -1));
+  return limited < 0 ? (dismissible ? null : 0) : limited;
 };
 
 export const cycleSnapPoint = <T extends SnapPoint>(points: readonly T[], active: SnapPoint | null): T | undefined => {

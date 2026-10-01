@@ -8,7 +8,7 @@ const props = defineProps<DialogOverlayProps>();
 const context = injectDrawerRootContext();
 
 const style = computed(() => ({
-  "--drawer-swipe-progress": String(context.progress.value),
+  "--drawer-swipe-progress": context.snapPoints.value.length > 0 ? "0" : String(context.progress.value),
   "--drawer-overlay-opacity": String(context.overlayOpacity.value),
 }));
 </script>
