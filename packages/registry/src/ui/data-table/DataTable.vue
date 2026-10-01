@@ -505,19 +505,24 @@ const onRowKeydown = (event: KeyboardEvent, row: DataTableRow<T>) => {
   props.onRowClick(event, row);
 };
 
-const rowAttrs = (row: DataTableRow<T>, ariaIndex: number, pinned = false) => ({
-  "data-slot": row.getIsGrouped() ? "table-group" : "table-row",
-  "aria-rowindex": ariaIndex,
-  "data-state": pinned && selectAll.isSelected(row) ? "selected" : undefined,
-  "data-clickable": props.onRowClick ? "" : undefined,
-  tabindex: props.onRowClick ? 0 : undefined,
-  class: cn(tableStyles.row, props.ui?.tr),
-  onClick: (event: MouseEvent) => onRowClick(event, row),
-  onKeydown: (event: KeyboardEvent) => onRowKeydown(event, row),
-  onContextmenu: (event: MouseEvent) => props.onRowContextmenu?.(event, row),
-  onMouseenter: (event: MouseEvent) => props.onRowHover?.(event, row),
-  onMouseleave: (event: MouseEvent) => props.onRowHover?.(event, null),
-});
+const rowAttrs = (row: DataTableRow<T>, ariaIndex: number, pinned = false) => {
+  const click = props.onRowClick;
+  const contextmenu = props.onRowContextmenu;
+  const hover = props.onRowHover;
+  return {
+    "data-slot": row.getIsGrouped() ? "table-group" : "table-row",
+    "aria-rowindex": ariaIndex,
+    "data-state": pinned && selectAll.isSelected(row) ? "selected" : undefined,
+    "data-clickable": props.onRowClick ? "" : undefined,
+    tabindex: props.onRowClick ? 0 : undefined,
+    class: cn(tableStyles.row, props.ui?.tr),
+    onClick: click && ((event: MouseEvent) => onRowClick(event, row)),
+    onKeydown: click && ((event: KeyboardEvent) => onRowKeydown(event, row)),
+    onContextmenu: contextmenu && ((event: MouseEvent) => contextmenu(event, row)),
+    onMouseenter: hover && ((event: MouseEvent) => hover(event, row)),
+    onMouseleave: hover && ((event: MouseEvent) => hover(event, null)),
+  };
+};
 
 const onFocusin = (event: FocusEvent) => {
   const group = (event.target as Element).closest<HTMLElement>("[data-slot=table-row-group]");
