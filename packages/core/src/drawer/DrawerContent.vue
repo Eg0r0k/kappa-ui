@@ -20,10 +20,16 @@ const instance = ref<ComponentPublicInstance>();
 const element = ref<HTMLElement>();
 const vertical = computed(() => context.side.value === "bottom" || context.side.value === "top");
 
+const measure = () => {
+  const node = element.value;
+  if (node) context.size.value = vertical.value ? node.offsetHeight : node.offsetWidth;
+};
+
 const locate = async () => {
   await nextTick();
   const node = instance.value?.$el;
   element.value = node instanceof HTMLElement ? node : undefined;
+  measure();
 };
 
 watch(
@@ -35,10 +41,7 @@ watch(
   { immediate: true, flush: "post" },
 );
 
-useResizeObserver(element, () => {
-  const node = element.value;
-  if (node) context.size.value = vertical.value ? node.offsetHeight : node.offsetWidth;
-});
+useResizeObserver(element, measure);
 
 const inset = useVirtualKeyboardInset(() => context.open.value);
 watch(inset, (value) => {

@@ -15,6 +15,11 @@ import { drag, flick, pointer, wait } from "./pointer";
 const PANEL = "position: fixed; left: 0; bottom: 0; width: 300px; height: 400px";
 const BODY = "height: 200px; overflow: auto";
 
+const exit = document.createElement("style");
+exit.textContent =
+  "@keyframes drawer-test-out { to { translate: 0 100% } } [role=dialog][data-state=closed] { animation: drawer-test-out 150ms forwards }";
+document.head.append(exit);
+
 afterEach(() => {
   document.body.innerHTML = "";
   document.body.style.cssText = "";
@@ -125,6 +130,7 @@ it("with handleOnly drags from the handle alone, and a handle tap closes", async
 
   open.value = true;
   await settle();
+  await wait(0);
   handle().click();
   await settle();
   expect(open.value).toBe(false);
