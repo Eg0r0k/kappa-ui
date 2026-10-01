@@ -80,7 +80,7 @@ it("sizes the vertical thumb from the visible fraction", async () => {
   const { verticalThumb } = partsOf(wrapper.element);
 
   await vi.waitFor(() => expect(verticalThumb.style.height).toBe("75px"));
-  expect(verticalThumb.style.top).toBe("0px");
+  expect(verticalThumb.style.transform).toBe("translateY(0px)");
 
   wrapper.unmount();
 });
@@ -92,10 +92,10 @@ it("moves the thumb as the viewport scrolls", async () => {
   await vi.waitFor(() => expect(verticalThumb.style.height).toBe("75px"));
 
   viewport.scrollTop = 450;
-  await vi.waitFor(() => expect(verticalThumb.style.top).toBe("112.5px"));
+  await vi.waitFor(() => expect(verticalThumb.style.transform).toBe("translateY(112.5px)"));
 
   viewport.scrollTop = 900;
-  await vi.waitFor(() => expect(verticalThumb.style.top).toBe("225px"));
+  await vi.waitFor(() => expect(verticalThumb.style.transform).toBe("translateY(225px)"));
 
   wrapper.unmount();
 });
@@ -114,10 +114,10 @@ it("shrinks the track and shifts the thumb by the vertical offset", async () => 
   const { viewport, verticalThumb } = partsOf(wrapper.element);
 
   await vi.waitFor(() => expect(verticalThumb.style.height).toBe("52px"));
-  expect(verticalThumb.style.top).toBe("20px");
+  expect(verticalThumb.style.transform).toBe("translateY(20px)");
 
   viewport.scrollTop = 900;
-  await vi.waitFor(() => expect(verticalThumb.style.top).toBe("218px"));
+  await vi.waitFor(() => expect(verticalThumb.style.transform).toBe("translateY(218px)"));
 
   wrapper.unmount();
 });
@@ -131,10 +131,10 @@ it("positions the horizontal thumb from the inline start under rtl", async () =>
   const { viewport, horizontalThumb } = partsOf(wrapper.element);
 
   await vi.waitFor(() => expect(horizontalThumb.style.width).toBe("133px"));
-  expect(horizontalThumb.style.insetInlineStart).toBe("0px");
+  expect(horizontalThumb.style.transform).toBe("translateX(0px)");
 
   viewport.scrollLeft = -400;
-  await vi.waitFor(() => expect(horizontalThumb.style.insetInlineStart).toBe("133.5px"));
+  await vi.waitFor(() => expect(horizontalThumb.style.transform).toBe("translateX(-133.5px)"));
 
   wrapper.unmount();
 });
@@ -148,10 +148,10 @@ it("positions the horizontal thumb from the inline start under rtl with a non-ze
   const { viewport, horizontalThumb } = partsOf(wrapper.element);
 
   await vi.waitFor(() => expect(horizontalThumb.style.width).toBe("108px"));
-  expect(horizontalThumb.style.insetInlineStart).toBe("30px");
+  expect(horizontalThumb.style.transform).toBe("translateX(-30px)");
 
   viewport.scrollLeft = -400;
-  await vi.waitFor(() => expect(horizontalThumb.style.insetInlineStart).toBe("156px"));
+  await vi.waitFor(() => expect(horizontalThumb.style.transform).toBe("translateX(-156px)"));
 
   wrapper.unmount();
 });

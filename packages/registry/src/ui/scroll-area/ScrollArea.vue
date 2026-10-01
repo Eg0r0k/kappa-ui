@@ -142,12 +142,12 @@ const tabindex = computed(() => {
 });
 
 const thumbStyleVertical = computed(() => ({
-  top: `${thumbStartVertical.value}px`,
+  transform: `translateY(${thumbStartVertical.value}px)`,
   height: `${thumbSizeVertical.value}px`,
   insetInlineEnd: `${props.horizontalOffset[isRtl.value ? 0 : 1]}px`,
 }));
 const thumbStyleHorizontal = computed(() => ({
-  insetInlineStart: `${thumbStartHorizontal.value}px`,
+  transform: `translateX(${isRtl.value ? -thumbStartHorizontal.value : thumbStartHorizontal.value}px)`,
   width: `${thumbSizeHorizontal.value}px`,
   bottom: `${props.verticalOffset[1]}px`,
 }));

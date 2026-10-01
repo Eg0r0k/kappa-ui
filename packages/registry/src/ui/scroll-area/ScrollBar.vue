@@ -37,10 +37,10 @@ const barAxis: Record<ScrollAreaAxis, string> = {
 };
 
 const thumbBase =
-  "absolute select-none cursor-grab z-20 rounded-sm bg-foreground/20 transition-[opacity,background-color] duration-medium-2 ease-standard will-change-[opacity] hover:bg-foreground/30 active:bg-foreground/50 motion-reduce:transition-none pointer-coarse:pointer-events-none";
+  "absolute select-none cursor-grab z-20 rounded-sm bg-foreground/20 transition-[opacity,background-color] duration-medium-2 ease-standard hover:bg-foreground/30 active:bg-foreground/50 motion-reduce:transition-none pointer-coarse:pointer-events-none";
 const thumbAxis: Record<ScrollAreaAxis, string> = {
-  vertical: "w-1.5",
-  horizontal: "h-1.5",
+  vertical: "top-0 w-1.5",
+  horizontal: "start-0 h-1.5",
 };
 
 const hiddenBase = "pointer-events-none opacity-0";

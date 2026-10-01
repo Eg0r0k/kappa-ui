@@ -96,7 +96,7 @@ it("jumps backwards when the bar is pressed above the thumb", async () => {
   await vi.waitFor(() => expect(verticalThumb.style.height).toBe("75px"));
 
   viewport.scrollTop = 900;
-  await vi.waitFor(() => expect(verticalThumb.style.top).toBe("225px"));
+  await vi.waitFor(() => expect(verticalThumb.style.transform).toBe("translateY(225px)"));
 
   const bar = verticalBar.getBoundingClientRect();
   verticalBar.dispatchEvent(pointer("pointerdown", { clientX: bar.x + 5, clientY: bar.y + 40 }));
