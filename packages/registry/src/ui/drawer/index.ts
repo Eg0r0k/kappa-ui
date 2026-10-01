@@ -13,6 +13,8 @@ export { default as DrawerOverlay } from "./DrawerOverlay.vue";
 export { default as DrawerSwipeArea } from "./DrawerSwipeArea.vue";
 export { default as DrawerTitle } from "./DrawerTitle.vue";
 export { default as DrawerTrigger } from "./DrawerTrigger.vue";
+export { type DialogHandle, type DialogResult, useDialogContext } from "@kappa-ui/core/dialog";
+export { type DrawerOptions, defineDrawer, openDrawer } from "@kappa-ui/core/drawer";
 
 export const drawerSurface =
   "group/drawer fixed z-50 flex flex-col gap-4 bg-popover py-4 text-popover-foreground ring-1 ring-surface-border outline-none drawer-slide [--scroll-fade-color:var(--popover)]";

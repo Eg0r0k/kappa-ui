@@ -5401,6 +5401,29 @@
       ]
     },
     {
+      "name": "drawer-programmatic",
+      "type": "registry:block",
+      "title": "Drawer programmatic",
+      "description": "A share sheet defined once with defineDrawer, whose result says where it went or how it closed.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerProgrammatic.vue",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/examples/drawer/ShareDrawer.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "formisch-demo",
       "type": "registry:block",
       "title": "Formisch demo",
