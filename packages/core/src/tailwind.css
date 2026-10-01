@@ -447,6 +447,122 @@
   }
 }
 
+@keyframes kappa-drawer-in-bottom {
+  from {
+    translate: 0 100%;
+  }
+}
+
+@keyframes kappa-drawer-in-top {
+  from {
+    translate: 0 -100%;
+  }
+}
+
+@keyframes kappa-drawer-in-left {
+  from {
+    translate: -100% 0;
+  }
+}
+
+@keyframes kappa-drawer-in-right {
+  from {
+    translate: 100% 0;
+  }
+}
+
+@keyframes kappa-drawer-out-bottom {
+  to {
+    translate: 0 100%;
+  }
+}
+
+@keyframes kappa-drawer-out-top {
+  to {
+    translate: 0 -100%;
+  }
+}
+
+@keyframes kappa-drawer-out-left {
+  to {
+    translate: -100% 0;
+  }
+}
+
+@keyframes kappa-drawer-out-right {
+  to {
+    translate: 100% 0;
+  }
+}
+
+@utility drawer-slide {
+  --drawer-swipe-movement: 0px;
+  --drawer-snap-offset: 0px;
+  --drawer-keyboard-inset: 0px;
+  --drawer-offset: calc(var(--drawer-swipe-movement) + var(--drawer-snap-offset));
+  transition: translate var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  &[data-side="bottom"] {
+    translate: 0 calc(var(--drawer-offset) - var(--drawer-keyboard-inset));
+  }
+  &[data-side="top"] {
+    translate: 0 calc(-1 * var(--drawer-offset));
+  }
+  &[data-side="left"] {
+    translate: calc(-1 * var(--drawer-offset)) 0;
+  }
+  &[data-side="right"] {
+    translate: var(--drawer-offset) 0;
+  }
+  &[data-state="open"] {
+    animation: kappa-drawer-in-bottom var(--transition-duration-medium-4, 400ms)
+      var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
+  }
+  &[data-state="open"][data-side="top"] {
+    animation-name: kappa-drawer-in-top;
+  }
+  &[data-state="open"][data-side="left"] {
+    animation-name: kappa-drawer-in-left;
+  }
+  &[data-state="open"][data-side="right"] {
+    animation-name: kappa-drawer-in-right;
+  }
+  &[data-state="closed"] {
+    animation: kappa-drawer-out-bottom var(--transition-duration-short-4, 200ms)
+      var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
+  }
+  &[data-state="closed"][data-side="top"] {
+    animation-name: kappa-drawer-out-top;
+  }
+  &[data-state="closed"][data-side="left"] {
+    animation-name: kappa-drawer-out-left;
+  }
+  &[data-state="closed"][data-side="right"] {
+    animation-name: kappa-drawer-out-right;
+  }
+  &[data-swiping] {
+    transition: none;
+    animation: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    &[data-state] {
+      transition: none;
+      animation: none;
+    }
+  }
+}
+
+@utility drawer-overlay-fade {
+  opacity: calc(var(--drawer-overlay-opacity, 1) * (1 - var(--drawer-swipe-progress, 0)));
+  transition: opacity var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  &[data-swiping] {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
 @keyframes kappa-skeleton-wave {
   from {
     transform: translateX(-100%);
