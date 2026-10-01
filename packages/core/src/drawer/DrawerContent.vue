@@ -18,6 +18,7 @@ const owner = useOwnDialogEntry();
 
 const instance = ref<ComponentPublicInstance>();
 const element = ref<HTMLElement>();
+const interrupted = ref(false);
 const vertical = computed(() => context.side.value === "bottom" || context.side.value === "top");
 
 const measure = () => {
@@ -35,7 +36,11 @@ const locate = async () => {
 watch(
   () => context.open.value,
   (open) => {
-    if (open && !context.swiping.value) context.movement.value = 0;
+    if (open && context.swiping.value) interrupted.value = true;
+    if (open && !context.swiping.value) {
+      context.movement.value = 0;
+      interrupted.value = false;
+    }
     void locate();
   },
   { immediate: true, flush: "post" },
@@ -95,6 +100,7 @@ useDrag(element, {
   onStart: () => {
     seed = currentMovement();
     context.swiping.value = true;
+    interrupted.value = true;
   },
   onMove: (move) => {
     context.movement.value = seed + move.movement;
@@ -122,6 +128,7 @@ const style = computed(() => ({
   "--drawer-swipe-progress": String(context.progress.value),
   "--drawer-snap-offset": `${context.snapOffset.value}px`,
   "--drawer-keyboard-inset": `${context.keyboardInset.value}px`,
+  "--drawer-in": interrupted.value ? "none" : undefined,
 }));
 </script>
 

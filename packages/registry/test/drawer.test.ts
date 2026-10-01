@@ -17,7 +17,7 @@ import {
 } from "@/ui/drawer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 
-import { drag } from "./pointer";
+import { drag, pointer, wait } from "./pointer";
 
 let unmount: (() => void) | undefined;
 
@@ -57,6 +57,15 @@ const settle = async () => {
   await nextTick();
 };
 const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot=${name}]`);
+const translateY = (element: HTMLElement) => parseFloat(getComputedStyle(element).translate.split(" ")[1] ?? "0") || 0;
+const animations = (element: HTMLElement) =>
+  element
+    .getAnimations()
+    .map((animation) =>
+      animation instanceof CSSTransition
+        ? `transition:${animation.transitionProperty}`
+        : (animation as CSSAnimation).animationName,
+    );
 
 it("renders every part with its data-slot and the side on the content", async () => {
   render();
@@ -142,4 +151,63 @@ it("keeps a Select inside it open and usable", async () => {
   await settle();
   expect(open.value).toBe(true);
   expect(slot("select-trigger")!.textContent).toContain("B");
+});
+
+it("returns a released drag by its transition instead of replaying the enter animation, and enters again on reopen", async () => {
+  const open = render({}, {}, () => h("div", { style: "height: 300px" }));
+  await settle();
+  await wait(500);
+  const content = slot("drawer-content")!;
+  const body = slot("drawer-body")!;
+  pointer("pointerdown", body, 100, 100);
+  for (const y of [110, 120, 130, 140, 154]) {
+    await wait(50);
+    pointer("pointermove", body, 100, y);
+  }
+  await wait(50);
+  const held = translateY(content);
+  expect(held).toBeCloseTo(50, 0);
+  pointer("pointerup", body, 100, 154);
+  await settle();
+  await wait(30);
+  expect(open.value).toBe(true);
+  expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
+  expect(animations(content)).toContain("transition:translate");
+  expect(translateY(content)).toBeLessThan(held);
+  await wait(400);
+  expect(translateY(content)).toBe(0);
+
+  open.value = false;
+  await settle();
+  await wait(300);
+  open.value = true;
+  await settle();
+  expect(animations(slot("drawer-content")!)).toContain("kappa-drawer-in-bottom");
+});
+
+it("settles a swipe-to-open release by its transition instead of replaying the enter animation", async () => {
+  const open = render({}, {}, () => h("div", { style: "height: 300px" }));
+  await settle();
+  open.value = false;
+  await settle();
+  await wait(300);
+  const area = slot("drawer-swipe-area")!;
+  pointer("pointerdown", area, 100, 600);
+  for (const y of [580, 560, 540, 520, 500, 480, 460, 440, 420, 400]) {
+    await wait(50);
+    pointer("pointermove", area, 100, y);
+  }
+  await wait(50);
+  const content = slot("drawer-content")!;
+  const held = translateY(content);
+  expect(held).toBeGreaterThan(0);
+  pointer("pointerup", area, 100, 400);
+  await settle();
+  await wait(30);
+  expect(open.value).toBe(true);
+  expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
+  expect(animations(content)).toContain("transition:translate");
+  expect(translateY(content)).toBeLessThan(held);
+  await wait(400);
+  expect(translateY(content)).toBe(0);
 });
