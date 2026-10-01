@@ -1852,6 +1852,77 @@
       ]
     },
     {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A panel that slides in from an edge of the screen and swipes away, with a handle, a swipe-to-open edge and a bottom that stays above the virtual keyboard, on Reka UI's dialog.",
+      "dependencies": [
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/drawer/Drawer.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerBody.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerClose.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerHandle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerOverlay.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerSwipeArea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/DrawerTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "context-menu",
       "type": "registry:ui",
       "title": "Context Menu",
@@ -5102,6 +5173,168 @@
         },
         {
           "path": "src/examples/dialog/FeedbackDialog.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-demo",
+      "type": "registry:block",
+      "title": "Drawer demo",
+      "description": "A bottom drawer with a title, a form and a footer.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-sides",
+      "type": "registry:block",
+      "title": "Drawer sides",
+      "description": "One drawer per side of the screen.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerSides.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-scrollable",
+      "type": "registry:block",
+      "title": "Drawer scrollable",
+      "description": "A body that scrolls; a drag from its top closes the drawer.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerScrollable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-form",
+      "type": "registry:block",
+      "title": "Drawer form",
+      "description": "Inputs in a bottom drawer; on a phone the drawer lifts above the keyboard.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-not-dismissible",
+      "type": "registry:block",
+      "title": "Drawer not dismissible",
+      "description": "A drawer that closes only from its own button.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerNotDismissible.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-swipe-area",
+      "type": "registry:block",
+      "title": "Drawer swipe area",
+      "description": "A strip along the edge that opens the drawer with a swipe.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerSwipeArea.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-controlled",
+      "type": "registry:block",
+      "title": "Drawer controlled",
+      "description": "A drawer opened and closed from outside with v-model.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerControlled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-responsive",
+      "type": "registry:block",
+      "title": "Drawer responsive",
+      "description": "A dialog on wide screens, a drawer on narrow ones.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@vueuse/core"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "dialog",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerResponsive.vue",
           "type": "registry:component"
         }
       ]
