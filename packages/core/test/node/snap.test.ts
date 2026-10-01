@@ -32,6 +32,15 @@ describe("resolveSnapPoint", () => {
     expect(resolveSnapPoint(points, 40, 0, { dismissible: false })).toBe(0);
   });
 
+  it("breaks a tie between closing and the smallest point upwards", () => {
+    expect(resolveSnapPoint(points, 50, 0)).toBe(0);
+  });
+
+  it("opens to the smallest point from below the edge instead of closing", () => {
+    expect(resolveSnapPoint(points, -20, 0.6)).toBe(0);
+    expect(resolveSnapPoint(points, -20, 0.6, { sequential: true, active: 0 })).toBe(0);
+  });
+
   it("moves one point in the direction of travel above the step velocity", () => {
     expect(resolveSnapPoint(points, 100, 0.6)).toBe(1);
     expect(resolveSnapPoint(points, 130, 0.6)).toBe(1);
@@ -60,6 +69,7 @@ describe("resolveSnapPoint", () => {
     expect(resolveSnapPoint(points, 390, 0, { sequential: true, active: 0 })).toBe(1);
     expect(resolveSnapPoint(points, 40, 0, { sequential: true, active: 2 })).toBe(1);
     expect(resolveSnapPoint(points, 40, 0, { sequential: true, active: 0 })).toBeNull();
+    expect(resolveSnapPoint(points, 40, 0, { sequential: true, active: 0, dismissible: false })).toBe(0);
   });
 
   it("returns null without points", () => {
