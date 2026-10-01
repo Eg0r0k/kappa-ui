@@ -163,7 +163,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     axis: axisOf(towards) === 0 ? "x" : "y",
     filterTaps: !touch,
     threshold: 10,
-    pointer: touch ? { touch: true, capture: false } : { capture: false },
+    pointer: touch ? { touch: true, capture: false, keys: false } : { capture: false, keys: false },
     eventOptions: { passive: false },
     from: () => [0, 0],
     bounds,

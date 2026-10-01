@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, ref } from "vue";
 
 import { type DragMove, releaseVerdict, scrollBlocksDrag, useDrag } from "../../src/drag";
@@ -119,6 +120,15 @@ it("reads the direction from the finger when the threshold leaves no movement ye
   pointer("pointerup", element, 100, 115);
   expect(starts).toHaveLength(1);
   expect(releases).toHaveLength(1);
+});
+
+it("leaves arrow keys alone", async () => {
+  const { element, starts, releases } = host({}, () => h("button", "Focus"));
+  element.querySelector("button")!.focus();
+  await userEvent.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}");
+  await wait(30);
+  expect(starts).toHaveLength(0);
+  expect(releases).toHaveLength(0);
 });
 
 it("cancels a running drag once when its host unmounts", async () => {
