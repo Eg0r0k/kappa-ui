@@ -73,6 +73,10 @@ const currentMovement = () => {
   return Math.max(0, axisTranslate() * sign - context.snapOffset.value + keyboard);
 };
 
+const keepUnlessDismissible = (event: Event) => {
+  if (!context.dismissible.value) event.preventDefault();
+};
+
 const inHandle = (target: Element) => target.closest("[data-drawer-handle]") !== null;
 
 let seed = 0;
@@ -139,6 +143,8 @@ const style = computed(() => ({
     :data-side="context.side.value"
     :data-swiping="context.swiping.value ? '' : undefined"
     :style="style"
+    @escape-key-down="keepUnlessDismissible"
+    @interact-outside="keepUnlessDismissible"
   >
     <slot />
   </DialogContent>

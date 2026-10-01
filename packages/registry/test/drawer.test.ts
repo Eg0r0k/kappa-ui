@@ -7,6 +7,7 @@ import { Button } from "@/ui/button";
 import {
   Drawer,
   DrawerBody,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -132,6 +133,20 @@ it("closes on Escape and on a drag", async () => {
   open.value = true;
   await settle();
   await drag(slot("drawer-body")!, [100, 100], [100, 400]);
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("keeps a non-dismissible drawer open on Escape and an outside click, and closes it from DrawerClose", async () => {
+  const open = render({ dismissible: false }, {}, () => h(DrawerClose, () => "Close"));
+  await settle();
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(open.value).toBe(true);
+  await userEvent.click(slot("drawer-overlay")!, { position: { x: 5, y: 5 } } as never);
+  await settle();
+  expect(open.value).toBe(true);
+  await userEvent.click(slot("drawer-close")!);
   await settle();
   expect(open.value).toBe(false);
 });
