@@ -54,7 +54,7 @@ export interface DialogEntry {
   isOpen: boolean;
   loading: boolean;
   contents: number;
-  reason?: "escape" | "outside";
+  reason?: "escape" | "outside" | "swipe";
   settle?: (result: DialogResult<unknown>) => void;
   handle?: DialogHandle<unknown>;
 }
