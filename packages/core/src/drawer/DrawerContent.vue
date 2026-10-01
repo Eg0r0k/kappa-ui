@@ -46,6 +46,14 @@ watch(
   { immediate: true, flush: "post" },
 );
 
+watch(
+  () => context.open.value,
+  (open) => {
+    if (!open && context.swiping.value) context.swiping.value = false;
+  },
+  { flush: "sync" },
+);
+
 useResizeObserver(element, measure);
 
 const inset = useVirtualKeyboardInset(() => context.open.value);
@@ -122,7 +130,7 @@ useDrag(element, {
   },
   onCancel: () => {
     finish();
-    context.movement.value = 0;
+    if (context.open.value) context.movement.value = 0;
   },
 });
 

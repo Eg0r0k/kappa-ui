@@ -200,6 +200,26 @@ it("returns a released drag by its transition instead of replaying the enter ani
   expect(animations(slot("drawer-content")!)).toContain("kappa-drawer-in-bottom");
 });
 
+it("runs its exit animation when Escape closes it in the middle of a drag", async () => {
+  const open = render({}, {}, () => h("div", { style: "height: 300px" }));
+  await settle();
+  await wait(500);
+  const body = slot("drawer-body")!;
+  pointer("pointerdown", body, 100, 100);
+  for (const y of [110, 120, 130, 140, 154]) {
+    await wait(50);
+    pointer("pointermove", body, 100, y);
+  }
+  await wait(50);
+  expect(slot("drawer-content")!.hasAttribute("data-swiping")).toBe(true);
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(open.value).toBe(false);
+  const content = slot("drawer-content")!;
+  expect(content.hasAttribute("data-swiping")).toBe(false);
+  expect(animations(content)).toContain("kappa-drawer-out-bottom");
+});
+
 it("settles a swipe-to-open release by its transition instead of replaying the enter animation", async () => {
   const open = render({}, {}, () => h("div", { style: "height: 300px" }));
   await settle();

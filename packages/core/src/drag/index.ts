@@ -124,13 +124,20 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
 
   let bound: { element: HTMLElement | null | undefined; enabled: boolean; towards: DragSide } | undefined;
 
+  const detach = () => {
+    gesture?.destroy();
+    gesture = undefined;
+    const running = decided === "drag";
+    decided = undefined;
+    if (running) options.onCancel?.();
+  };
+
   const attach = (element: HTMLElement | null | undefined) => {
     const enabled = toValue(options.enabled ?? true);
     const towards = toValue(options.towards);
     if (bound && bound.element === element && bound.enabled === enabled && bound.towards === towards) return;
     bound = { element, enabled, towards };
-    gesture?.destroy();
-    gesture = undefined;
+    detach();
     if (!element || enabled === false) return;
     gesture = new DragGesture(element, handler, {
       axis: axisOf(towards) === 0 ? "x" : "y",
@@ -153,5 +160,5 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
       flush: "post",
     },
   );
-  onBeforeUnmount(() => gesture?.destroy());
+  onBeforeUnmount(detach);
 };

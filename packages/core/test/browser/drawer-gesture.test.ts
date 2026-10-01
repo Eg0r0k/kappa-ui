@@ -236,6 +236,24 @@ it("starts the next opening from zero", async () => {
   expect(panel().hasAttribute("data-swiping")).toBe(false);
 });
 
+it("drops a drag that a close interrupts and starts the next opening clean", async () => {
+  const open = harness();
+  await settle();
+  pointer("pointerdown", body(), 150, 100);
+  await wait(30);
+  pointer("pointermove", body(), 150, 160);
+  await wait(30);
+  expect(panel().hasAttribute("data-swiping")).toBe(true);
+  open.value = false;
+  await settle();
+  expect(panel().hasAttribute("data-swiping")).toBe(false);
+  await wait(250);
+  open.value = true;
+  await settle();
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
+  expect(panel().hasAttribute("data-swiping")).toBe(false);
+});
+
 it("picks a drag up where the enter animation left the panel and lets it be pulled open", async () => {
   document.documentElement.classList.add("drawer-test-enter");
   const open = harness();

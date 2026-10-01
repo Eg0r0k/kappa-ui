@@ -36,7 +36,14 @@ const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: ()
     }),
     { attachTo: document.body },
   );
-  return { element: wrapper.element as HTMLElement, moves, releases, starts, cancels: () => cancels };
+  return {
+    element: wrapper.element as HTMLElement,
+    moves,
+    releases,
+    starts,
+    cancels: () => cancels,
+    unmount: () => wrapper.unmount(),
+  };
 };
 
 it("reports movement towards the side as positive and calls release", async () => {
@@ -99,6 +106,20 @@ it("lets a mouse drag only from where mouseFrom allows", async () => {
   await wait(20);
   pointer("pointerup", grip!, 10, 60, "mouse");
   expect(starts).toHaveLength(1);
+});
+
+it("cancels a running drag once when its host unmounts", async () => {
+  const { element, starts, releases, cancels, unmount } = host();
+  pointer("pointerdown", element, 100, 100);
+  await wait(30);
+  pointer("pointermove", element, 100, 150);
+  await wait(30);
+  expect(starts).toHaveLength(1);
+  unmount();
+  expect(cancels()).toBe(1);
+  pointer("pointerup", element, 100, 150);
+  expect(releases).toHaveLength(0);
+  expect(cancels()).toBe(1);
 });
 
 it("keeps movement at or above the lower bound apart from the rubber band", async () => {
