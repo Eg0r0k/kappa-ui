@@ -2,7 +2,7 @@
 import { Primitive, type PrimitiveProps } from "reka-ui";
 import { type ComponentPublicInstance, computed, ref } from "vue";
 
-import { opposite, releaseVerdict, useDrag } from "../drag";
+import { opposite, useDrag } from "../drag";
 import { injectDrawerRootContext } from "./context";
 
 const props = withDefaults(defineProps<PrimitiveProps>(), { as: "div" });
@@ -34,7 +34,7 @@ useDrag(element, {
     const size = extent();
     const revealed = Math.min(size, Math.max(0, move.movement));
     context.swiping.value = false;
-    if (releaseVerdict(revealed, size, move.swipe) === "close") {
+    if (revealed >= 40 || (move.velocity >= 0.1 && move.direction > 0)) {
       context.movement.value = 0;
       return;
     }

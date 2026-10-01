@@ -175,14 +175,14 @@ it("returns a released drag by its transition instead of replaying the enter ani
   const content = slot("drawer-content")!;
   const body = slot("drawer-body")!;
   pointer("pointerdown", body, 100, 100);
-  for (const y of [110, 120, 130, 140, 154]) {
+  for (const y of [115, 125, 135, 145, 160]) {
     await wait(50);
     pointer("pointermove", body, 100, y);
   }
   await wait(50);
   const held = translateY(content);
   expect(held).toBeCloseTo(50, 0);
-  pointer("pointerup", body, 100, 154);
+  pointer("pointerup", body, 100, 160);
   await settle();
   await wait(30);
   expect(open.value).toBe(true);
@@ -206,7 +206,7 @@ it("runs its exit animation when Escape closes it in the middle of a drag", asyn
   await wait(500);
   const body = slot("drawer-body")!;
   pointer("pointerdown", body, 100, 100);
-  for (const y of [110, 120, 130, 140, 154]) {
+  for (const y of [115, 125, 135, 145, 160]) {
     await wait(50);
     pointer("pointermove", body, 100, y);
   }

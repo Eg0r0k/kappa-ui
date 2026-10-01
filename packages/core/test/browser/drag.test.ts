@@ -48,7 +48,7 @@ const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: ()
 
 it("reports movement towards the side as positive and calls release", async () => {
   const { element, starts, moves, releases } = host();
-  await drag(element, [100, 100], [100, 204], 4, 80);
+  await drag(element, [100, 100], [100, 210], 4, 80);
   expect(starts).toHaveLength(1);
   expect(moves.at(-1)!.movement).toBeCloseTo(100, 0);
   expect(releases).toHaveLength(1);
@@ -57,7 +57,7 @@ it("reports movement towards the side as positive and calls release", async () =
 
 it("mirrors the sign for the top side", async () => {
   const { element, moves } = host({ towards: "top" });
-  await drag(element, [100, 200], [100, 96]);
+  await drag(element, [100, 200], [100, 90]);
   expect(moves.at(-1)!.movement).toBeCloseTo(100, 0);
 });
 
@@ -146,9 +146,11 @@ it("scrollBlocksDrag reads the scroll chain for each side", () => {
   expect(scrollBlocksDrag(target, boundary, "left")).toBe(false);
 });
 
-it("releaseVerdict closes on a swipe or a quarter of the size", () => {
+it("releaseVerdict closes on a swipe or half of the size, and on 10px while the size is unknown", () => {
   expect(releaseVerdict(10, 400, 1)).toBe("close");
-  expect(releaseVerdict(99, 400, 0)).toBe("return");
-  expect(releaseVerdict(100, 400, 0)).toBe("close");
+  expect(releaseVerdict(199, 400, 0)).toBe("return");
+  expect(releaseVerdict(200, 400, 0)).toBe("close");
+  expect(releaseVerdict(9, 0, 0)).toBe("return");
+  expect(releaseVerdict(10, 0, 0)).toBe("close");
   expect(releaseVerdict(300, 400, -1)).toBe("close");
 });

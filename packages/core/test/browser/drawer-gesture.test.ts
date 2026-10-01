@@ -65,30 +65,30 @@ const handle = () => document.getElementById("handle")!;
 const area = () => document.getElementById("area")!;
 const variable = (name: string) => panel().style.getPropertyValue(name);
 
-it("closes after a drag past a quarter of its height, writing the variables on the way", async () => {
+it("closes after a drag past half of its height, writing the variables on the way", async () => {
   const open = harness();
   await settle();
   expect(variable("--drawer-size")).toBe("400px");
   pointer("pointerdown", body(), 150, 100);
   await wait(30);
-  pointer("pointermove", body(), 150, 164);
+  pointer("pointermove", body(), 150, 170);
   await wait(30);
   expect(panel().hasAttribute("data-swiping")).toBe(true);
   expect(parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(60, 0);
   expect(parseFloat(variable("--drawer-swipe-progress"))).toBeCloseTo(0.15, 2);
-  pointer("pointermove", body(), 150, 254);
-  await wait(30);
-  pointer("pointerup", body(), 150, 254);
+  pointer("pointermove", body(), 150, 320);
+  await wait(260);
+  pointer("pointerup", body(), 150, 320);
   await settle();
   expect(open.value).toBe(false);
   expect(panel().hasAttribute("data-swiping")).toBe(false);
-  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(150, 0);
+  expect(parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(210, 0);
 });
 
-it("returns after a short drag", async () => {
+it("returns after a drag short of half of its height", async () => {
   const open = harness();
   await settle();
-  await drag(body(), [150, 100], [150, 150]);
+  await drag(body(), [150, 100], [150, 260], 4, 80);
   await settle();
   expect(open.value).toBe(true);
   expect(variable("--drawer-swipe-movement")).toBe("0px");
@@ -285,7 +285,7 @@ it("renders no overlay and keeps gestures in a non-modal drawer", async () => {
   expect(open.value).toBe(false);
 });
 
-it("opens from the swipe area following the finger and stays open past a quarter", async () => {
+it("opens from the swipe area following the finger and stays open after a long swipe", async () => {
   const open = harness({}, () => h("p", "Body"), false);
   await settle();
   expect(panel()).toBeNull();
@@ -296,10 +296,10 @@ it("opens from the swipe area following the finger and stays open past a quarter
   expect(open.value).toBe(true);
   await settle();
   expect(panel().hasAttribute("data-swiping")).toBe(true);
-  pointer("pointermove", area(), 150, 196);
+  pointer("pointermove", area(), 150, 190);
   await wait(30);
   expect(parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(400 - 195, 0);
-  pointer("pointerup", area(), 150, 196);
+  pointer("pointerup", area(), 150, 190);
   await settle();
   expect(open.value).toBe(true);
   expect(variable("--drawer-swipe-movement")).toBe("0px");
@@ -319,6 +319,37 @@ it("closes again when the swipe from the edge is released early", async () => {
   pointer("pointermove", area(), 150, 365);
   await wait(40);
   pointer("pointerup", area(), 150, 365);
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("keeps the drawer open after a short quick swipe from the edge", async () => {
+  const open = harness({}, () => h("p", "Body"), false);
+  await settle();
+  pointer("pointerdown", area(), 150, 395);
+  await wait(30);
+  pointer("pointermove", area(), 150, 380);
+  await wait(30);
+  pointer("pointermove", area(), 150, 365);
+  await wait(10);
+  pointer("pointerup", area(), 150, 365);
+  await settle();
+  expect(open.value).toBe(true);
+  expect(variable("--drawer-swipe-movement")).toBe("0px");
+});
+
+it("closes again when a short swipe from the edge turns back towards it", async () => {
+  const open = harness({}, () => h("p", "Body"), false);
+  await settle();
+  pointer("pointerdown", area(), 150, 395);
+  await wait(30);
+  pointer("pointermove", area(), 150, 375);
+  await wait(30);
+  pointer("pointermove", area(), 150, 360);
+  await wait(30);
+  pointer("pointermove", area(), 150, 380);
+  await wait(10);
+  pointer("pointerup", area(), 150, 380);
   await settle();
   expect(open.value).toBe(false);
 });

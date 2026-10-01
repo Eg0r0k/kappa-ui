@@ -67,7 +67,7 @@ export const scrollBlocksDrag = (target: Element, boundary: Element, towards: Dr
 };
 
 export const releaseVerdict = (movement: number, size: number, swipe: number): "close" | "return" =>
-  swipe > 0 || (size > 0 && movement >= size * 0.25) ? "close" : "return";
+  swipe > 0 || movement >= Math.max(size * 0.5, 10) ? "close" : "return";
 
 export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: UseDragOptions) => {
   let pointerGesture: DragGesture | undefined;
@@ -162,7 +162,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
   const config = (towards: DragSide, touch: boolean): DragConfig => ({
     axis: axisOf(towards) === 0 ? "x" : "y",
     filterTaps: true,
-    threshold: 4,
+    threshold: 10,
     pointer: touch ? { touch: true, capture: false } : { capture: false },
     eventOptions: { passive: false },
     from: () => [0, 0],

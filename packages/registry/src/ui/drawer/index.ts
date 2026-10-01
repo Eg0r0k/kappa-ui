@@ -44,13 +44,13 @@ export const drawerHandleVariants = cva(
   },
 );
 
-export const drawerSwipeAreaVariants = cva("fixed z-40 touch-none", {
+export const drawerSwipeAreaVariants = cva("fixed z-40", {
   variants: {
     side: {
-      bottom: "inset-x-0 bottom-0 h-5",
-      top: "inset-x-0 top-0 h-5",
-      left: "inset-y-0 left-0 w-5",
-      right: "inset-y-0 right-0 w-5",
+      bottom: "inset-x-0 bottom-0 h-5 touch-pan-x",
+      top: "inset-x-0 top-0 h-5 touch-pan-x",
+      left: "inset-y-0 left-0 w-5 touch-pan-y",
+      right: "inset-y-0 right-0 w-5 touch-pan-y",
     },
   },
   defaultVariants: { side: "bottom" },
