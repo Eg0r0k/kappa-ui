@@ -15,7 +15,7 @@ export const alertVariants = cva(
         solid: "bg-tone text-tone-foreground",
         soft: "bg-tone-soft text-tone-soft-foreground",
         subtle: "bg-tone-soft text-tone-soft-foreground inset-ring inset-ring-tone-border-subtle",
-        outline: "bg-background text-tone-text inset-ring inset-ring-tone-border",
+        outline: "text-tone-text inset-ring inset-ring-tone-border",
         ghost: "text-tone-text",
         link: "text-tone-text underline-offset-4 hover:underline",
       },
