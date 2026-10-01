@@ -8552,6 +8552,168 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:ui",
+      "title": "Stepper",
+      "description": "Steps that mark progress through a multi-step flow: numbered or iconed indicators, titles, descriptions and separators coloured by state, linear by default, in one size from xs to xl. Built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/stepper/Stepper.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/stepper/StepperItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/stepper/StepperTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/stepper/StepperIndicator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/stepper/StepperTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/stepper/StepperDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/stepper/StepperSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/stepper/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "stepper-demo",
+      "type": "registry:block",
+      "title": "Stepper demo",
+      "description": "Four checkout steps with icons in the indicators.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "stepper"
+      ],
+      "files": [
+        {
+          "path": "src/examples/stepper/StepperDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "stepper-horizontal",
+      "type": "registry:block",
+      "title": "Stepper horizontal",
+      "description": "Buttons as triggers with an icon per state.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "stepper",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/stepper/StepperHorizontal.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "stepper-vertical",
+      "type": "registry:block",
+      "title": "Stepper vertical",
+      "description": "A column of steps with the separator running down from each button.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "stepper",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/stepper/StepperVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "stepper-sizes",
+      "type": "registry:block",
+      "title": "Stepper sizes",
+      "description": "The five sizes, from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "stepper"
+      ],
+      "files": [
+        {
+          "path": "src/examples/stepper/StepperSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "stepper-form",
+      "type": "registry:block",
+      "title": "Stepper form",
+      "description": "A Formisch form per step; each validates before the stepper moves on.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "stepper",
+        "button",
+        "field",
+        "input",
+        "select",
+        "toast"
+      ],
+      "files": [
+        {
+          "path": "src/examples/stepper/StepperForm.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
