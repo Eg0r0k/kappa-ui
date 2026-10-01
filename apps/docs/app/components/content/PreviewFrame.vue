@@ -31,11 +31,13 @@ provideOverlayPortalTarget(portalTarget)
         <slot />
       </div>
     </ConfigProvider>
-    <div
-      ref="portalTarget"
-      data-slot="preview-portal"
-      :dir="props.dir"
-      :class="cn('contents text-foreground', props.theme)"
-    />
+    <Teleport to="#teleports">
+      <div
+        ref="portalTarget"
+        data-slot="preview-portal"
+        :dir="props.dir"
+        :class="cn('contents text-foreground', props.theme)"
+      />
+    </Teleport>
   </div>
 </template>

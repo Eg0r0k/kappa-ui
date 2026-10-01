@@ -1,0 +1,4 @@
+component: DrawerIndent
+file: ui/drawer/DrawerIndent.vue
+slots:
+  default: "The page: the app's layout or router view."

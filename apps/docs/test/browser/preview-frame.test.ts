@@ -5,6 +5,10 @@ import { defineComponent, h, onMounted } from 'vue'
 import PreviewFrame from '~/components/content/PreviewFrame.vue'
 import { Tabs, TabsList, TabsTrigger } from '@/ui/tabs'
 
+const teleports = document.createElement('div')
+teleports.id = 'teleports'
+document.body.append(teleports)
+
 const LIGHT_BACKGROUND = 'oklch(0.98 0 0)'
 const DARK_BACKGROUND = 'oklch(0.145 0 0)'
 
@@ -44,6 +48,18 @@ describe('PreviewFrame', () => {
     await wrapper.setProps({ dir: 'rtl' })
     expect(mounts).toBe(2)
     expect(wrapper.attributes('dir')).toBe('rtl')
+
+    wrapper.unmount()
+  })
+
+  it('renders its overlay target outside the frame, with the frame theme and direction', () => {
+    const wrapper = mount(PreviewFrame, { props: { dir: 'rtl', theme: 'dark' }, attachTo: document.body })
+    const target = document.querySelector('[data-slot=preview-portal]')!
+
+    expect(target.parentElement).toBe(teleports)
+    expect(wrapper.element.contains(target)).toBe(false)
+    expect(target.classList.contains('dark')).toBe(true)
+    expect(target.getAttribute('dir')).toBe('rtl')
 
     wrapper.unmount()
   })
