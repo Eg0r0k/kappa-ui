@@ -296,11 +296,14 @@ it("plays the enter animation with snap points, lands on the first point and scr
   const midway = translateY(content);
   expect(midway).toBeGreaterThan(0);
   expect(midway).toBeLessThan(280);
+  const before = translateY(content);
   pointer("pointerdown", body, 100, 100);
   await wait(30);
   pointer("pointermove", body, 100, 85);
   await wait(30);
-  expect(translateY(content)).toBeLessThan(280);
+  const after = translateY(content);
+  expect(after).toBeGreaterThan(before - 20);
+  expect(after).toBeLessThan(before + 60);
   pointer("pointerup", body, 100, 85);
   await settle();
   await wait(400);
