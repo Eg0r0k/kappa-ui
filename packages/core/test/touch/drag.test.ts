@@ -55,9 +55,7 @@ const touch = (type: "touchstart" | "touchmove" | "touchend", target: Element, x
 
 it("drags with a mouse on a touch-capable device", async () => {
   expect("ontouchstart" in window).toBe(true);
-  const { element, starts, releases } = host({ mouseFrom: (target) => target.hasAttribute("data-drag") }, () =>
-    h("span", { "data-drag": "" }, "grip"),
-  );
+  const { element, starts, releases } = host({}, () => h("span", "grip"));
   const grip = element.querySelector("span")!;
   pointer("pointerdown", grip, 10, 10, "mouse");
   await wait(30);
