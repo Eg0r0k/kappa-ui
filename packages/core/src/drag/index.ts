@@ -180,7 +180,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     if (state.event.type === "pointerdown") {
       const type = state.event instanceof PointerEvent ? state.event.pointerType : "mouse";
       ignorePointer = touchGesture !== undefined && type === "touch";
-      pen = type === "pen";
+      if (!ignorePointer) pen = type === "pen";
     }
     if (ignorePointer) {
       if (state.first) state.cancel();

@@ -128,6 +128,28 @@ it("ignores touch events that arrive while a pen drags", async () => {
   expect(cancels()).toBe(0);
 });
 
+it("keeps the pen flag when an ignored touch press arrives mid-drag", async () => {
+  const { element, starts, cancels } = host();
+  pointer("pointerdown", element, 100, 100, "pen");
+  await wait(30);
+  pointer("pointermove", element, 100, 150, "pen");
+  await wait(30);
+  expect(starts).toHaveLength(1);
+
+  pointer("pointerdown", element, 100, 100, "touch");
+  touch("touchstart", element, 100, 100);
+  await wait(30);
+  touch("touchmove", element, 100, 130);
+  await wait(30);
+  touch("touchmove", element, 100, 160);
+  await wait(30);
+  touch("touchend", element, 100, 160);
+  await wait(30);
+
+  expect(starts).toHaveLength(1);
+  expect(cancels()).toBe(0);
+});
+
 it("keys the input model off the start event instead of a flag left over from the previous gesture", async () => {
   const { element, starts } = host({}, () => h("p", "Some text to select"));
   const text = element.querySelector("p")!;
