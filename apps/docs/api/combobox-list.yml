@@ -1,0 +1,64 @@
+component: ComboboxList
+file: ui/combobox/ComboboxList.vue
+props:
+  forceMount:
+    description: "Keeps the list mounted while closed, for animating it with a JavaScript library."
+  position:
+    description: "`popper` places the list against the anchor. `inline` leaves the placement to your CSS."
+  bodyLock:
+    description: "Stops the page from scrolling while the list is open."
+  hideWhenEmpty:
+    description: "Hides the list while no option matches the typed text, instead of showing `ComboboxEmpty`."
+  side:
+    description: "The side of the anchor to open on. Flips to the other side when there is no room, unless `avoidCollisions` is off."
+  sideOffset:
+    description: "Distance in pixels from the anchor."
+  sideFlip:
+    description: "Flips to the opposite side when the preferred one would overflow."
+  align:
+    description: "Alignment against the anchor along the chosen side. `start` by default."
+  alignOffset:
+    description: "Offset in pixels from the `align` position."
+  alignFlip:
+    description: "Flips the alignment when it would overflow."
+  avoidCollisions:
+    description: "Keeps the list inside the collision boundary by flipping and shifting it."
+  collisionBoundary:
+    description: "The element or elements used as the collision boundary. The viewport by default."
+  collisionPadding:
+    description: "Distance in pixels from the boundary edges where collisions start."
+  arrowPadding:
+    description: "Padding between an arrow and the list's corners."
+  hideShiftedArrow:
+    description: "Hides an arrow when the list is shifted so far that the arrow would not point at the anchor."
+  sticky:
+    description: "`partial` keeps the list attached to the anchor while scrolling; `always` also lets it detach from the anchor to stay in the boundary."
+  hideWhenDetached:
+    description: "Hides the list when the anchor is scrolled out of view."
+  positionStrategy:
+    description: "The CSS position used to place the list."
+  updatePositionStrategy:
+    description: "`always` recomputes the position on every animation frame instead of only on layout changes."
+  disableUpdateOnLayoutShift:
+    description: "Stops recomputing the position when the layout shifts."
+  prioritizePosition:
+    description: "Keeps the preferred side and alignment and lets the list overflow instead of flipping."
+  reference:
+    description: "A virtual element to position against instead of the anchor."
+  memoDependencies:
+    description: "Values that should re-run the position update when they change."
+  dir:
+    description: "Reading direction. Mirrors the placement in `rtl`."
+  disableOutsidePointerEvents:
+    description: "Makes the list modal, so an outside click only closes it. Off by default, so the page stays usable while it is open."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. Call `preventDefault()` to keep it open."
+  focusOutside: "Fires when focus moves outside. Call `preventDefault()` to keep it open."
+  interactOutside: "Fires on any press or focus outside. Call `preventDefault()` to keep it open."
+slots:
+  default: "A `ComboboxViewport` with the options, and a `ComboboxInput` above it when the anchor is a button."

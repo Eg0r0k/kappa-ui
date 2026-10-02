@@ -1,0 +1,21 @@
+component: ComboboxInput
+file: ui/combobox/ComboboxInput.vue
+props:
+  modelValue:
+    description: "The typed text, bound with `v-model`. Separate from the combobox's value."
+  displayValue:
+    description: "Turns the chosen value into the text shown in the input, for object values. Not used with `multiple`."
+  autoFocus:
+    description: "Focuses the input when it mounts."
+  disabled:
+    description: "Disables the input. A disabled combobox or field sets it too."
+  id:
+    description: "Overrides the `id` taken from a surrounding field."
+  required:
+    description: "Marks the input `aria-required`. A required field sets it too."
+  asChild:
+    description: "Render the single child instead of the input, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  update:modelValue: "Fires as the text changes."

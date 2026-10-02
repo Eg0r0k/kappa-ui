@@ -1,0 +1,11 @@
+component: ComboboxViewport
+file: ui/combobox/ComboboxViewport.vue
+props:
+  nonce:
+    description: "The `nonce` for the style tag that hides the scrollbar, for a Content Security Policy. Inherited from `ConfigProvider` when omitted."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The options, groups, labels, separators and `ComboboxEmpty`."

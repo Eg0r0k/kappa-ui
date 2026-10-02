@@ -1,0 +1,11 @@
+component: ComboboxTrigger
+file: ui/combobox/ComboboxTrigger.vue
+props:
+  disabled:
+    description: "Disables the button. A disabled combobox or field sets it too."
+  asChild:
+    description: "Render the single child instead of the chevron button. The child keeps its own look and is reached with Tab."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The icon, by default a chevron that turns over while the list is open. With `as-child`, the button to render."

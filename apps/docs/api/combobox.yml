@@ -1,0 +1,47 @@
+component: Combobox
+file: ui/combobox/Combobox.vue
+props:
+  open:
+    description: "Whether the list is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether the list starts open when `v-model:open` is not used."
+  modelValue:
+    description: "The chosen value, or an array with `multiple`, bound with `v-model`."
+  defaultValue:
+    description: "The starting value when `v-model` is not used."
+  multiple:
+    description: "Lets several options be chosen. The list stays open after each one."
+  by:
+    description: "Compares object values by this key, or with this function, instead of by reference."
+  resetSearchTermOnBlur:
+    description: "Puts the chosen value's text back in the input when the list closes. On by default."
+  resetSearchTermOnSelect:
+    description: "Replaces the typed text with the chosen value's text on selection. On by default."
+  resetModelValueOnClear:
+    description: "Makes `ComboboxCancel` clear the value too, to `null` or `[]`, not only the typed text."
+  openOnFocus:
+    description: "Opens the list when the input gets focus."
+  openOnClick:
+    description: "Opens the list when the input is clicked."
+  ignoreFilter:
+    description: "Turns off the built-in filter, for filtering the options yourself, for example on a server."
+  highlightOnHover:
+    description: "Moves the highlight with the pointer. On by default."
+  disabled:
+    description: "Disables the input, the buttons and every option. Also set by a disabled field."
+  required:
+    description: "Marks the hidden form input required. Also set by a required field."
+  name:
+    description: "Submits the value with its form under this name, through a hidden input."
+  dir:
+    description: "Reading direction. Mirrors the layout and arrow keys in `rtl`."
+  as:
+    description: "The element or component to render for the root."
+  asChild:
+    description: "Render the single child instead of the root, merging the root's attributes onto it."
+emits:
+  update:modelValue: "Fires when the value changes."
+  update:open: "Fires when the list opens or closes."
+  highlight: "Fires when the highlighted option changes, with `{ ref, value }`, or `undefined` when none is."
+slots:
+  default: "The anchor and the list. Receives `open` and `modelValue`."

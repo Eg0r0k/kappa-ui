@@ -1,0 +1,9 @@
+component: ComboboxGroup
+file: ui/combobox/ComboboxGroup.vue
+props:
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "A `ComboboxLabel` and the group's options. The group hides while none of them matches."

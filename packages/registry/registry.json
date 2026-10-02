@@ -9643,6 +9643,235 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "A text input that filters a list of options as you type, in the input's frame with its variants and sizes, or a search field inside the list behind a button. Single or multiple choice, groups, a clear button and Field integration, built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "popover",
+        "menu"
+      ],
+      "files": [
+        {
+          "path": "src/ui/combobox/Combobox.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxAnchor.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxCancel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxViewport.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxEmpty.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/ComboboxSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/combobox/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox-demo",
+      "type": "registry:block",
+      "title": "Combobox demo",
+      "description": "Frameworks filtered as you type.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "combobox"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox-popup",
+      "type": "registry:block",
+      "title": "Combobox behind a button",
+      "description": "A button opens the list, with the search field inside it.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "combobox",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxPopup.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox-groups",
+      "type": "registry:block",
+      "title": "Combobox groups",
+      "description": "Time zones grouped by region under labels.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "combobox"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxGroups.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox-multiple",
+      "type": "registry:block",
+      "title": "Combobox with multiple choice",
+      "description": "Several labels chosen from one list that stays open.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "combobox",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox-clear",
+      "type": "registry:block",
+      "title": "Combobox clear button",
+      "description": "A button that empties the text and the value.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "combobox"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxClear.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox-variants",
+      "type": "registry:block",
+      "title": "Combobox variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "combobox",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox-sizes",
+      "type": "registry:block",
+      "title": "Combobox sizes",
+      "description": "The frame from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "combobox"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox-field",
+      "type": "registry:block",
+      "title": "Combobox in a field",
+      "description": "A required combobox in a field that shows its error once the form is submitted.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "combobox",
+        "field",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/combobox/ComboboxFieldExample.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
