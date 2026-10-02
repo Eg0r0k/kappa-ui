@@ -124,3 +124,46 @@ it("slides between panels and follows the visible one's height", async () => {
   await wait(500);
   expect(slot("drawer-menu-sub-content")).toBeNull();
 });
+
+it("does not scroll while a taller panel leaves", async () => {
+  render(() => [
+    h(DrawerMenuItem, () => "Open"),
+    h(DrawerMenuSub, () => [
+      h(DrawerMenuSubTrigger, () => "Share"),
+      h(DrawerMenuSubContent, () => Array.from({ length: 10 }, (_, index) => h(DrawerMenuItem, () => `Row ${index}`))),
+    ]),
+  ]);
+  await wait(500);
+  slot("drawer-menu-sub-trigger")!.click();
+  await wait(500);
+  slot("drawer-menu-back")!.click();
+  await wait(80);
+  const menu = slot("drawer-menu")!;
+  expect(menu.scrollHeight).toBeGreaterThan(menu.clientHeight);
+  expect(["clip", "hidden"]).toContain(getComputedStyle(menu).overflowY);
+  await wait(500);
+  expect(getComputedStyle(menu).overflowY).toBe("auto");
+});
+
+it("brings a long root back to where it was scrolled", async () => {
+  render(() => [
+    ...Array.from({ length: 20 }, (_, index) => h(DrawerMenuItem, () => `Row ${index}`)),
+    h(DrawerMenuSub, () => [
+      h(DrawerMenuSubTrigger, () => "Share"),
+      h(DrawerMenuSubContent, () => h(DrawerMenuItem, () => "Mail")),
+    ]),
+  ]);
+  await wait(500);
+  const menu = slot("drawer-menu")!;
+  menu.scrollTop = menu.scrollHeight;
+  await wait(100);
+  const scrolled = menu.scrollTop;
+  expect(scrolled).toBeGreaterThan(0);
+  slot("drawer-menu-sub-trigger")!.click();
+  await wait(500);
+  expect(menu.scrollTop).toBe(0);
+  slot("drawer-menu-back")!.click();
+  await wait(500);
+  expect(menu.scrollTop).toBe(scrolled);
+  expect(document.activeElement).toBe(slot("drawer-menu-sub-trigger"));
+});

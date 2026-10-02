@@ -699,6 +699,9 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   transition: height var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  &:has([data-drawer-menu-panel][data-motion^="to-"]:not([hidden])) {
+    overflow-y: hidden;
+  }
   & [data-drawer-menu-panel] {
     grid-area: 1 / 1;
     animation-duration: var(--transition-duration-medium-2, 300ms);

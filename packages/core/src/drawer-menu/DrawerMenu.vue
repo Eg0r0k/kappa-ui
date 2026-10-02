@@ -34,7 +34,23 @@ const push = (entry: DrawerMenuSubEntry) => {
   void nextTick(() => firstItem(document.getElementById(entry.contentId))?.focus());
 };
 
-const remove = (entry: DrawerMenuSubEntry, restoreFocus = true) => {
+const visiblePanel = () => {
+  const top = stack.value.at(-1);
+  if (top) return document.getElementById(top.contentId);
+  const node = root.value?.$el;
+  return node instanceof HTMLElement ? node.querySelector<HTMLElement>(":scope > [data-drawer-menu-panel]") : null;
+};
+
+const restoreFocus = (entry: DrawerMenuSubEntry) => {
+  const trigger = document.getElementById(entry.triggerId);
+  if (trigger) {
+    trigger.focus();
+    return;
+  }
+  firstItem(visiblePanel())?.focus();
+};
+
+const remove = (entry: DrawerMenuSubEntry) => {
   const index = stack.value.indexOf(entry);
   if (index === -1) return;
   const above = stack.value.slice(index + 1);
@@ -42,7 +58,7 @@ const remove = (entry: DrawerMenuSubEntry, restoreFocus = true) => {
   stack.value = stack.value.slice(0, index);
   above.forEach((sub) => sub.close());
   resetScroll();
-  if (restoreFocus) void nextTick(() => document.getElementById(entry.triggerId)?.focus());
+  void nextTick(() => restoreFocus(entry));
 };
 
 const select = async (emit: (event: Event) => void) => {
@@ -68,9 +84,13 @@ provideDrawerMenuContext({
 
 const backKeys = computed(() => ["Escape", "Backspace", dir.value === "rtl" ? "ArrowRight" : "ArrowLeft"]);
 
+const editable = (target: EventTarget | null) =>
+  target instanceof HTMLElement && (target.isContentEditable || target.matches("input, textarea, select"));
+
 const onKeydown = (event: KeyboardEvent) => {
   const top = stack.value.at(-1);
   if (!top || !backKeys.value.includes(event.key)) return;
+  if (event.key !== "Escape" && editable(event.target)) return;
   event.preventDefault();
   event.stopPropagation();
   top.close();

@@ -68,7 +68,7 @@ export interface DrawerMenuContext {
   loop: ComputedRef<boolean>;
   dir: ComputedRef<DrawerMenuDirection>;
   push: (entry: DrawerMenuSubEntry) => void;
-  remove: (entry: DrawerMenuSubEntry, restoreFocus?: boolean) => void;
+  remove: (entry: DrawerMenuSubEntry) => void;
   select: (emit: (event: Event) => void) => Promise<void>;
   dragged: () => boolean;
 }
@@ -77,8 +77,9 @@ export const [injectDrawerMenuContext, provideDrawerMenuContext] = createContext
 
 export interface DrawerMenuSubContext {
   open: Ref<boolean>;
-  label: Ref<string>;
+  label: ComputedRef<string>;
   textValue: Ref<string | undefined>;
+  triggerText: Ref<string>;
   entry: DrawerMenuSubEntry;
 }
 

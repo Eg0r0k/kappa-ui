@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watchEffect } from "vue";
+import { type ComponentPublicInstance, onMounted, onUpdated, ref, watchEffect } from "vue";
 
 import { type DrawerMenuItemProps, injectDrawerMenuContext, injectDrawerMenuSubContext } from "./context";
 import DrawerMenuItemImpl from "./DrawerMenuItemImpl.vue";
@@ -9,9 +9,19 @@ const props = withDefaults(defineProps<DrawerMenuItemProps>(), { as: "div" });
 const menu = injectDrawerMenuContext();
 const sub = injectDrawerMenuSubContext();
 
+const instance = ref<ComponentPublicInstance>();
+
 watchEffect(() => {
   sub.textValue.value = props.textValue;
 });
+
+const readText = () => {
+  const node = instance.value?.$el;
+  sub.triggerText.value = node instanceof HTMLElement ? (node.textContent?.trim() ?? "") : "";
+};
+
+onMounted(readText);
+onUpdated(readText);
 
 const openSub = () => {
   if (props.disabled || menu.dragged()) return;
@@ -28,6 +38,7 @@ const onKeydown = (event: KeyboardEvent) => {
 
 <template>
   <DrawerMenuItemImpl
+    ref="instance"
     v-bind="props"
     :id="sub.entry.triggerId"
     role="menuitem"

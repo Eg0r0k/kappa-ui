@@ -435,3 +435,64 @@ it("follows the visible panel's height", async () => {
   await vi.waitFor(() => expect(menu.style.getPropertyValue("--drawer-menu-height")).toBe(`${sub.offsetHeight}px`));
   expect(sub.offsetHeight).not.toBe(0);
 });
+
+it("leaves Backspace and the arrows to a text field inside a submenu", async () => {
+  const open = render(() => [
+    h(DrawerMenuItem, () => "Open"),
+    h(DrawerMenuSub, () => [
+      h(DrawerMenuSubTrigger, () => "Share"),
+      h(DrawerMenuSubContent, () => [h(DrawerMenuBack), h("input", { id: "field", value: "abc" })]),
+    ]),
+  ]);
+  await settle();
+  item("Share").click();
+  await settle();
+  const field = document.getElementById("field") as HTMLInputElement;
+  field.focus();
+  field.setSelectionRange(3, 3);
+  await userEvent.keyboard("{Backspace}");
+  await userEvent.keyboard("{ArrowLeft}");
+  await settle();
+  expect(field.value).toBe("ab");
+  expect(field.selectionStart).toBe(1);
+  expect(visible()).toHaveLength(1);
+  expect(visible()[0]!.contains(field)).toBe(true);
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(visible()).toEqual([panels()[0]]);
+  expect(open.value).toBe(true);
+});
+
+it("names the back row of a submenu that starts open", async () => {
+  render(() => [
+    h(DrawerMenuItem, () => "Open"),
+    h(DrawerMenuSub, { defaultOpen: true }, () => [
+      h(DrawerMenuSubTrigger, () => "Share"),
+      h(DrawerMenuSubContent, () => [h(DrawerMenuBack), h(DrawerMenuItem, () => "Mail")]),
+    ]),
+  ]);
+  await settle();
+  await settle();
+  expect(document.querySelector("[data-drawer-menu-back]")!.textContent?.trim()).toBe("Share");
+});
+
+it("moves focus back into the menu when the open submenu is removed", async () => {
+  const shown = ref(true);
+  render(() => [
+    h(DrawerMenuItem, () => "Open"),
+    shown.value
+      ? h(DrawerMenuSub, () => [
+          h(DrawerMenuSubTrigger, () => "Share"),
+          h(DrawerMenuSubContent, () => [h(DrawerMenuBack), h(DrawerMenuItem, () => "Mail")]),
+        ])
+      : null,
+  ]);
+  await settle();
+  item("Share").click();
+  await settle();
+  expect(document.activeElement).toBe(item("Mail"));
+  shown.value = false;
+  await settle();
+  expect(visible()).toEqual([panels()[0]]);
+  expect(document.activeElement).toBe(item("Open"));
+});
