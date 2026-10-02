@@ -18,10 +18,7 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="select-scroll-up-button"
     :class="
-      cn(
-        'flex shrink-0 cursor-default items-center justify-center py-1 text-muted-foreground [&_svg:not([class*=size-])]:size-4',
-        props.class,
-      )
+      cn('flex shrink-0 cursor-default items-center justify-center py-1 text-muted-foreground icon-size-4', props.class)
     "
   >
     <slot>

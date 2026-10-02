@@ -55,9 +55,9 @@ export const inputGroupButtonVariants = cva(
   {
     variants: {
       size: {
-        xs: "h-6 gap-1 px-2 text-label-sm [--input-group-button-height:--spacing(6)] [&_svg:not([class*='size-'])]:size-3.5",
+        xs: "h-6 gap-1 px-2 text-label-sm [--input-group-button-height:--spacing(6)] icon-size-3.5",
         sm: "h-8 gap-1.5 px-2.5 text-label-md [--input-group-button-height:--spacing(8)]",
-        "icon-xs": "size-6 p-0 [--input-group-button-height:--spacing(6)] [&_svg:not([class*='size-'])]:size-3.5",
+        "icon-xs": "size-6 p-0 [--input-group-button-height:--spacing(6)] icon-size-3.5",
         "icon-sm": "size-8 p-0 [--input-group-button-height:--spacing(8)]",
       },
     },

@@ -45,7 +45,7 @@ export const tabsIndicatorVariants = cva(
 );
 
 export const tabsTrigger =
-  "relative z-1 inline-flex h-(--tabs-trigger-height) shrink-0 items-center justify-center gap-(--tabs-trigger-gap) rounded-md px-(--tabs-trigger-px) whitespace-nowrap text-muted-foreground outline-none transition-colors duration-short-4 ease-standard hover:text-foreground focus-visible:focus-ring data-[state=active]:text-foreground data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity) data-[orientation=vertical]:justify-start data-[orientation=horizontal]:group-data-[variant=pill]/tabs-list:flex-1 group-data-[variant=pill]/tabs-list:rounded-[max(0px,calc(var(--tabs-radius)-var(--spacing)))] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-(--tabs-icon)";
+  "relative z-1 inline-flex h-(--tabs-trigger-height) shrink-0 items-center justify-center gap-(--tabs-trigger-gap) rounded-md px-(--tabs-trigger-px) whitespace-nowrap text-muted-foreground outline-none transition-colors duration-short-4 ease-standard hover:text-foreground focus-visible:focus-ring data-[state=active]:text-foreground data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity) data-[orientation=vertical]:justify-start data-[orientation=horizontal]:group-data-[variant=pill]/tabs-list:flex-1 group-data-[variant=pill]/tabs-list:rounded-[max(0px,calc(var(--tabs-radius)-var(--spacing)))] [&_svg]:pointer-events-none [&_svg]:shrink-0 icon-size-(--tabs-icon)";
 
 export const tabsContent = "flex-1 rounded-md outline-none focus-visible:focus-ring";
 

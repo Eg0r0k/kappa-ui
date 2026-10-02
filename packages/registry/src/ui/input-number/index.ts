@@ -66,8 +66,8 @@ export const inputNumberButtonVariants = cva("p-0", {
   variants: {
     orientation: {
       horizontal:
-        "size-(--stepper-size) rounded-[max(0px,calc(var(--control-radius)-var(--stepper-inset)))] [&_svg:not([class*='size-'])]:size-(--stepper-icon)",
-      vertical: "h-full w-(--stepper-size) rounded-none [&_svg:not([class*='size-'])]:size-(--stepper-chevron)",
+        "size-(--stepper-size) rounded-[max(0px,calc(var(--control-radius)-var(--stepper-inset)))] icon-size-(--stepper-icon)",
+      vertical: "h-full w-(--stepper-size) rounded-none icon-size-(--stepper-chevron)",
     },
     part: {
       increment: "[grid-area:increment]",

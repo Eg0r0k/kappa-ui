@@ -11,11 +11,11 @@ export const avatarVariants = cva(
   {
     variants: {
       size: {
-        xs: "text-label-sm [--avatar-size:--spacing(6)] [&_svg:not([class*='size-'])]:size-3",
-        sm: "text-label-md [--avatar-size:--spacing(8)] [&_svg:not([class*='size-'])]:size-4",
-        md: "text-label-lg [--avatar-size:--spacing(10)] [&_svg:not([class*='size-'])]:size-5",
-        lg: "text-title-md [--avatar-size:--spacing(12)] [&_svg:not([class*='size-'])]:size-6",
-        xl: "text-title-lg [--avatar-size:--spacing(16)] [&_svg:not([class*='size-'])]:size-8",
+        xs: "text-label-sm [--avatar-size:--spacing(6)] icon-size-3",
+        sm: "text-label-md [--avatar-size:--spacing(8)] icon-size-4",
+        md: "text-label-lg [--avatar-size:--spacing(10)] icon-size-5",
+        lg: "text-title-md [--avatar-size:--spacing(12)] icon-size-6",
+        xl: "text-title-lg [--avatar-size:--spacing(16)] icon-size-8",
       },
     },
     defaultVariants: { size: "md" },

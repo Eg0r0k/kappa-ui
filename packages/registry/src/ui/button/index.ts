@@ -5,7 +5,7 @@ export { default as Button } from "./Button.vue";
 export type ButtonColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
 export const buttonVariants = cva(
-  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none forced-colors:border disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 aria-disabled:cursor-default aria-disabled:text-foreground/(--disabled-opacity)",
+  "relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-label-lg transition-colors duration-short-3 ease-standard outline-none forced-colors:border disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none [&_svg]:shrink-0 icon-size-4 aria-disabled:cursor-default aria-disabled:text-foreground/(--disabled-opacity)",
   {
     variants: {
       variant: {
@@ -20,12 +20,12 @@ export const buttonVariants = cva(
         link: "text-tone-text underline-offset-4 hover:underline aria-disabled:hover:no-underline",
       },
       size: {
-        xs: "h-7 gap-1 rounded-md px-2.5 text-label-sm [--touch-h:1.75rem] has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2 [&_svg:not([class*='size-'])]:size-3.5",
-        sm: "h-8 gap-1.5 px-3 text-label-md [--touch-h:2rem] has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
-        default: "h-9 px-4 py-2 [--touch-h:2.25rem] has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
-        lg: "h-10 px-6 [--touch-h:2.5rem] has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4",
-        xl: "h-12 rounded-xl px-8 text-title-md [--touch-h:3rem] has-data-[icon=inline-start]:pl-6 has-data-[icon=inline-end]:pr-6",
-        "icon-xs": "size-7 rounded-md [--touch-w:1.75rem] [--touch-h:1.75rem] [&_svg:not([class*='size-'])]:size-3.5",
+        xs: "h-7 gap-1 rounded-md px-2.5 text-label-sm [--touch-h:1.75rem] has-data-[icon=inline-start]:ps-2 has-data-[icon=inline-end]:pe-2 icon-size-3.5",
+        sm: "h-8 gap-1.5 px-3 text-label-md [--touch-h:2rem] has-data-[icon=inline-start]:ps-2.5 has-data-[icon=inline-end]:pe-2.5",
+        default: "h-9 px-4 py-2 [--touch-h:2.25rem] has-data-[icon=inline-start]:ps-3 has-data-[icon=inline-end]:pe-3",
+        lg: "h-10 px-6 [--touch-h:2.5rem] has-data-[icon=inline-start]:ps-4 has-data-[icon=inline-end]:pe-4",
+        xl: "h-12 rounded-xl px-8 text-title-md [--touch-h:3rem] has-data-[icon=inline-start]:ps-6 has-data-[icon=inline-end]:pe-6",
+        "icon-xs": "size-7 rounded-md [--touch-w:1.75rem] [--touch-h:1.75rem] icon-size-3.5",
         "icon-sm": "size-8 [--touch-w:2rem] [--touch-h:2rem]",
         icon: "size-9 [--touch-w:2.25rem] [--touch-h:2.25rem]",
         "icon-lg": "size-10 [--touch-w:2.5rem] [--touch-h:2.5rem]",
