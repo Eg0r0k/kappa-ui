@@ -6,7 +6,7 @@ const targets = ["none", "expand", "wrapper"] as const;
 
 <template>
   <div
-    class="flex flex-col items-center gap-6 [&_button::after]:outline [&_button::after]:outline-dashed [&_button::after]:outline-pink-500/70"
+    class="flex flex-col items-center gap-10 [&_button::after]:outline [&_button::after]:outline-dashed [&_button::after]:outline-pink-500/70"
   >
     <PageIndicator
       v-for="target in targets"
