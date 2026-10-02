@@ -143,3 +143,77 @@ it("drags with a mouse from the body on a touch-capable device", async () => {
   await settle();
   expect(open.value).toBe(false);
 });
+
+const scrolledHarness = () => {
+  const open = ref(true);
+  mount(
+    defineComponent({
+      setup: () => () =>
+        h(DrawerRoot, { open: open.value, "onUpdate:open": (value: boolean) => (open.value = value) }, () =>
+          h(DrawerContent, { style: PANEL }, () =>
+            h(
+              "div",
+              { id: "body", style: "height: 200px; overflow: auto" },
+              h("p", { id: "text", style: "height: 600px" }, "Body"),
+            ),
+          ),
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  return open;
+};
+
+it("takes over a scroll that reaches the top during the same finger gesture", async () => {
+  const open = scrolledHarness();
+  await settle();
+  const body = document.getElementById("body")!;
+  body.scrollTop = 60;
+  finger("start", text(), 150, 100);
+  for (const y of [115, 130]) {
+    await wait(30);
+    finger("move", text(), 150, y);
+  }
+  await settle();
+  expect(panel().hasAttribute("data-swiping")).toBe(false);
+  body.scrollTop = 0;
+  for (const y of [160, 220, 280, 330]) {
+    await wait(30);
+    finger("move", text(), 150, y);
+  }
+  await settle();
+  expect(panel().hasAttribute("data-swiping")).toBe(true);
+  await wait(30);
+  finger("end", text(), 150, 330);
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("leaves a gesture to the browser once its moves cannot be cancelled", async () => {
+  const open = scrolledHarness();
+  await settle();
+  const body = document.getElementById("body")!;
+  body.scrollTop = 60;
+  finger("start", text(), 150, 100);
+  await wait(30);
+  finger("move", text(), 150, 130);
+  body.scrollTop = 0;
+  for (const y of [160, 220, 280, 330]) {
+    await wait(30);
+    const point = new Touch({ identifier: 1, target: text(), clientX: 150, clientY: y, pageX: 150, pageY: y });
+    text().dispatchEvent(
+      new TouchEvent("touchmove", {
+        bubbles: true,
+        cancelable: false,
+        touches: [point],
+        targetTouches: [point],
+        changedTouches: [point],
+      }),
+    );
+  }
+  await settle();
+  expect(panel().hasAttribute("data-swiping")).toBe(false);
+  finger("end", text(), 150, 330);
+  await settle();
+  expect(open.value).toBe(true);
+});
