@@ -1,0 +1,15 @@
+component: DrawerMenuSubTrigger
+file: ui/drawer-menu/DrawerMenuSubTrigger.vue
+props:
+  disabled:
+    description: "Disables the item: it is skipped by the keyboard and cannot open its submenu."
+  textValue:
+    description: "The label of the back row in its submenu, instead of the trigger's text."
+  inset:
+    description: "Indents the text to line up with items that have an indicator."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The label, with an optional leading icon; a chevron follows it."

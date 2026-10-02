@@ -1,0 +1,15 @@
+component: DrawerMenu
+file: ui/drawer-menu/DrawerMenu.vue
+props:
+  size:
+    description: "Item height and icon size: `sm` 40px, `md` 48px (default) or `lg` 56px."
+  loop:
+    description: "Whether the arrow keys wrap from the last item to the first and back."
+  dir:
+    description: "Reading direction, `ltr` or `rtl`; it swaps the keys that open and close a submenu. Defaults to the `ConfigProvider` direction."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "Items, groups, labels, separators and submenus."

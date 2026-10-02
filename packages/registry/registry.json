@@ -2011,6 +2011,73 @@
       ]
     },
     {
+      "name": "drawer-menu",
+      "type": "registry:ui",
+      "title": "Drawer Menu",
+      "description": "A menu inside a drawer for touch screens, with checkbox and radio items and submenus that drill down in the same sheet; its parts take the same props as the dropdown and context menu ones.",
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "drawer"
+      ],
+      "files": [
+        {
+          "path": "src/ui/drawer-menu/DrawerMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuCheckboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuRadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuRadioItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSub.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSubContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSubTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "context-menu",
       "type": "registry:ui",
       "title": "Context Menu",
@@ -5564,6 +5631,26 @@
       ]
     },
     {
+      "name": "drawer-scroll-area",
+      "type": "registry:block",
+      "title": "Drawer scroll area",
+      "description": "A tall drawer whose text scrolls in a scroll area; dragging its thumb scrolls and leaves the drawer in place.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button",
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerScrollArea.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "drawer-form",
       "type": "registry:block",
       "title": "Drawer form",
@@ -5662,6 +5749,119 @@
       "files": [
         {
           "path": "src/examples/drawer/DrawerResponsive.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-demo",
+      "type": "registry:block",
+      "title": "Drawer menu demo",
+      "description": "A file menu in a drawer: open, rename, duplicate and delete.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-selection",
+      "type": "registry:block",
+      "title": "Drawer menu selection",
+      "description": "Checkbox items and a radio group that keep the drawer open while they change.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuSelection.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-submenus",
+      "type": "registry:block",
+      "title": "Drawer menu submenus",
+      "description": "Submenus that drill down in the same sheet, two levels deep, with a back row.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuSubmenus.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-sizes",
+      "type": "registry:block",
+      "title": "Drawer menu sizes",
+      "description": "The sm, md and lg row heights.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-responsive",
+      "type": "registry:block",
+      "title": "Drawer menu responsive",
+      "description": "One menu definition rendered as a dropdown and a context menu on wide screens and as a drawer menu on narrow ones, by swapping a set of parts.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@vueuse/core"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "dropdown-menu",
+        "context-menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuResponsive.vue",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/examples/drawer-menu/FileMenuItems.vue",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/examples/drawer-menu/menu-parts.ts",
           "type": "registry:component"
         }
       ]

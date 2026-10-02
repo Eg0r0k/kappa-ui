@@ -1,0 +1,19 @@
+component: DrawerMenuCheckboxItem
+file: ui/drawer-menu/DrawerMenuCheckboxItem.vue
+props:
+  modelValue:
+    description: "Whether it is checked, `true`, `false` or `indeterminate`, bound with `v-model`."
+  disabled:
+    description: "Disables the item: it is skipped by the keyboard and cannot be chosen."
+  textValue:
+    description: "Kept for parity with the dropdown and context menu items; the drawer menu has no typeahead."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  select: "Fires when the item is chosen. Call `event.preventDefault()` to keep the drawer open."
+  update:modelValue: "Fires when the item is toggled."
+slots:
+  indicator-icon: "The icon shown while checked, a check by default."
+  default: "The label."

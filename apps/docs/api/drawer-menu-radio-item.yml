@@ -1,0 +1,18 @@
+component: DrawerMenuRadioItem
+file: ui/drawer-menu/DrawerMenuRadioItem.vue
+props:
+  value:
+    description: "The value the group takes when this item is chosen."
+  disabled:
+    description: "Disables the item: it is skipped by the keyboard and cannot be chosen."
+  textValue:
+    description: "Kept for parity with the dropdown and context menu items; the drawer menu has no typeahead."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  select: "Fires when the item is chosen. Call `event.preventDefault()` to keep the drawer open."
+slots:
+  indicator-icon: "The mark shown while checked, a dot by default."
+  default: "The label."

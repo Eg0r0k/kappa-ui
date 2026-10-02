@@ -1,0 +1,4 @@
+component: DrawerMenuSubContent
+file: ui/drawer-menu/DrawerMenuSubContent.vue
+slots:
+  default: "The submenu's items. A back row naming the trigger comes first."

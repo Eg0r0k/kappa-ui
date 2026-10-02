@@ -49,6 +49,7 @@ const hiddenBase = "pointer-events-none opacity-0";
 <template>
   <div
     data-slot="scroll-area-bar"
+    data-no-drag
     :data-axis="props.axis"
     aria-hidden="true"
     :class="cn(barBase, barAxis[props.axis], thumbHidden && hiddenBase, props.class)"
@@ -59,6 +60,7 @@ const hiddenBase = "pointer-events-none opacity-0";
   />
   <div
     data-slot="scroll-area-thumb"
+    data-no-drag
     :data-axis="props.axis"
     aria-hidden="true"
     :style="thumbStyle"
