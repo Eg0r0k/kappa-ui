@@ -1,0 +1,11 @@
+component: ComboboxLabel
+file: ui/combobox/ComboboxLabel.vue
+props:
+  for:
+    description: "Sets the `for` attribute, for when the label renders as a `<label>` with `as`."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The group's name."

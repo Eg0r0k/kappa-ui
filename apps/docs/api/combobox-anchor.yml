@@ -1,0 +1,15 @@
+component: ComboboxAnchor
+file: ui/combobox/ComboboxAnchor.vue
+props:
+  variant:
+    description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`."
+  size:
+    description: "Height, matching the input sizes of the same name."
+  reference:
+    description: "A virtual element to position the list against instead of the anchor."
+  asChild:
+    description: "Render the single child instead of the frame. The child keeps its own look and becomes the element the list opens against."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "A `ComboboxInput` followed by a `ComboboxCancel` or a `ComboboxTrigger`, or, with `as-child`, the button that opens the list."

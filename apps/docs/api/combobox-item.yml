@@ -1,0 +1,18 @@
+component: ComboboxItem
+file: ui/combobox/ComboboxItem.vue
+props:
+  value:
+    description: "The value this option puts in `v-model`."
+  textValue:
+    description: "The text the filter matches, for an option whose content is not plain text."
+  disabled:
+    description: "Disables the option: it is skipped by the keyboard and cannot be chosen."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  select: "Fires when the option is chosen. Call `event.preventDefault()` to keep the list open without choosing it."
+slots:
+  default: "The option's content."
+  indicator-icon: "The icon shown at the end of a chosen option, a check by default."
