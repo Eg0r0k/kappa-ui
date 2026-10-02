@@ -9872,6 +9872,217 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert dialog",
+      "description": "A modal that interrupts with a question that needs an answer: no outside dismissal, focus on Cancel, Button-styled actions and a small size, built on Reka UI's AlertDialog and Dialog's surface.",
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "dialog",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/alert-dialog/AlertDialog.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogMedia.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogAction.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/AlertDialogCancel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert-dialog/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "confirm",
+      "type": "registry:ui",
+      "title": "Confirm",
+      "description": "useConfirm(): confirm, alert and prompt dialogs opened from code that resolve with how they closed, with an async onConfirm that holds the dialog while it runs and prompt validation.",
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "alert-dialog",
+        "button",
+        "field",
+        "input",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/ui/confirm/ConfirmDialog.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/confirm/PromptDialog.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/confirm/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog-demo",
+      "type": "registry:block",
+      "title": "Alert dialog demo",
+      "description": "A question with Cancel and Continue, opened from a button.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "alert-dialog",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert-dialog/AlertDialogDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog-small",
+      "type": "registry:block",
+      "title": "Small alert dialog",
+      "description": "The small size with an icon and a destructive action.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "alert-dialog",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert-dialog/AlertDialogSmall.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "confirm-demo",
+      "type": "registry:block",
+      "title": "Confirm demo",
+      "description": "A confirmation opened from code, whose result says how it closed.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "confirm",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/confirm/ConfirmDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "confirm-async",
+      "type": "registry:block",
+      "title": "Confirm with async work",
+      "description": "onConfirm deletes the project while the dialog holds with a spinner.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "confirm",
+        "button",
+        "item"
+      ],
+      "files": [
+        {
+          "path": "src/examples/confirm/ConfirmAsync.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "confirm-alert",
+      "type": "registry:block",
+      "title": "Alert from code",
+      "description": "A message with one button.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "confirm",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/confirm/ConfirmAlert.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "confirm-prompt",
+      "type": "registry:block",
+      "title": "Prompt from code",
+      "description": "A rename prompt that validates its value before it closes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "confirm",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/confirm/ConfirmPrompt.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
