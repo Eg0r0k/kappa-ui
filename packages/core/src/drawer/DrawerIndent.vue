@@ -62,26 +62,35 @@ watch(
 
 onBeforeUnmount(() => clearTimeout(timer));
 
-const style = computed(() =>
-  active.value
-    ? {
-        "--drawer-indent-progress": String(first.value?.presence.value ?? 0),
-        "--drawer-indent-top": `${visible.value.top}px`,
-        "--drawer-indent-bottom": `${visible.value.bottom}px`,
-      }
-    : undefined,
-);
+// Nothing reactive in the template: a re-render here re-renders the whole page slot.
+const attr = (node: HTMLElement, name: string, value: string | undefined) => {
+  if (value === undefined) node.removeAttribute(name);
+  else if (node.getAttribute(name) !== value) node.setAttribute(name, value);
+};
+const variable = (node: HTMLElement, name: string, value: string | undefined) => {
+  if (value === undefined) node.style.removeProperty(name);
+  else node.style.setProperty(name, value);
+};
+
+watchEffect(() => {
+  const node = element.value;
+  if (!node) return;
+  attr(node, "data-open", first.value ? "" : undefined);
+  attr(node, "data-side", active.value ? side.value : undefined);
+  attr(node, "data-swiping", active.value && first.value?.swiping.value ? "" : undefined);
+  variable(node, "--drawer-indent-top", active.value ? `${visible.value.top}px` : undefined);
+  variable(node, "--drawer-indent-bottom", active.value ? `${visible.value.bottom}px` : undefined);
+});
+
+watchEffect(() => {
+  const node = element.value;
+  if (!node) return;
+  variable(node, "--drawer-indent-progress", active.value ? String(first.value?.presence.value ?? 0) : undefined);
+});
 </script>
 
 <template>
-  <Primitive
-    :ref="setInstance"
-    v-bind="props"
-    :data-open="first ? '' : undefined"
-    :data-side="active ? side : undefined"
-    :data-swiping="active && first?.swiping.value ? '' : undefined"
-    :style="style"
-  >
+  <Primitive :ref="setInstance" v-bind="props">
     <slot />
   </Primitive>
 </template>

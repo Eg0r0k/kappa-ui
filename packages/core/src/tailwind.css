@@ -510,6 +510,31 @@
   initial-value: 0;
 }
 
+/* Per-frame values: inheriting, each change would restyle the whole panel subtree. */
+@property --drawer-swipe-movement {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --drawer-swipe-progress {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --drawer-offset {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --drawer-stack-shift {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 @utility drawer-slide {
   --drawer-swipe-movement: 0px;
   --drawer-snap-offset: 0px;
@@ -559,6 +584,7 @@
   &[data-swiping] {
     transition: none;
     animation: none;
+    will-change: translate;
     user-select: none;
     -webkit-user-select: none;
   }
@@ -589,6 +615,13 @@
   syntax: "<number>";
   inherits: false;
   initial-value: 0;
+}
+
+/* Derived from the progress; inheriting, it would restyle the whole page every frame. */
+@property --drawer-indent-gap {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
 }
 
 @utility drawer-indent {

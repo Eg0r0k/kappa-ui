@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useResizeObserver } from "@vueuse/core";
 import { type DialogContentEmits, type DialogContentProps, useForwardPropsEmits } from "reka-ui";
-import { type ComponentPublicInstance, computed, nextTick, ref, watch } from "vue";
+import { type ComponentPublicInstance, computed, nextTick, ref, watch, watchEffect } from "vue";
 
 import DialogContent from "../dialog/DialogContent.vue";
 import { useOwnDialogEntry } from "../dialog/entry";
@@ -167,14 +167,23 @@ useDrag(element, {
 
 const style = computed(() => ({
   "--drawer-size": `${context.size.value}px`,
-  "--drawer-swipe-movement": `${context.movement.value}px`,
-  "--drawer-swipe-progress": String(context.progress.value),
   "--drawer-snap-offset": `${context.snapOffset.value}px`,
   "--drawer-keyboard-inset": `${context.keyboardInset.value}px`,
   "--drawer-nested": String(above.value.length),
-  "--drawer-nested-progress": String(above.value.reduce((depth, entry) => depth + entry.presence.value, 0)),
   "--drawer-in": interrupted.value ? "none" : undefined,
 }));
+
+// Per-frame values skip :style so a drag does not re-render the slot.
+watchEffect(() => {
+  const node = element.value;
+  if (!node) return;
+  node.style.setProperty("--drawer-swipe-movement", `${context.movement.value}px`);
+  node.style.setProperty("--drawer-swipe-progress", String(context.progress.value));
+  node.style.setProperty(
+    "--drawer-nested-progress",
+    String(above.value.reduce((depth, entry) => depth + entry.presence.value, 0)),
+  );
+});
 </script>
 
 <template>
