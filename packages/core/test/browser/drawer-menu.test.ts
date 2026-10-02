@@ -7,6 +7,7 @@ import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
 import { DrawerContent, DrawerRoot } from "../../src/drawer";
 import {
   DrawerMenu,
+  DrawerMenuBack,
   DrawerMenuCheckboxItem,
   DrawerMenuGroup,
   DrawerMenuItem,
@@ -15,6 +16,9 @@ import {
   DrawerMenuRadioGroup,
   DrawerMenuRadioItem,
   DrawerMenuSeparator,
+  DrawerMenuSub,
+  DrawerMenuSubContent,
+  DrawerMenuSubTrigger,
 } from "../../src/drawer-menu";
 import { pointer, wait } from "./pointer";
 
@@ -278,4 +282,156 @@ it("keeps a force-mounted indicator and marks its state", async () => {
   );
   await settle();
   expect(document.getElementById("indicator")!.dataset.state).toBe("unchecked");
+});
+
+const visible = () => panels().filter((panel) => !panel.hidden);
+
+const share = (shareOpen?: { value: boolean }) => () => [
+  h(DrawerMenuItem, () => "Open"),
+  h(
+    DrawerMenuSub,
+    shareOpen ? { open: shareOpen.value, "onUpdate:open": (value: boolean) => (shareOpen.value = value) } : null,
+    () => [
+      h(DrawerMenuSubTrigger, () => "Share"),
+      h(DrawerMenuSubContent, () => [
+        h(DrawerMenuBack),
+        h(DrawerMenuItem, () => "Mail"),
+        h(DrawerMenuItem, () => "Messages"),
+        h(DrawerMenuSub, () => [
+          h(DrawerMenuSubTrigger, () => "More"),
+          h(DrawerMenuSubContent, () => [h(DrawerMenuBack), h(DrawerMenuItem, () => "Print")]),
+        ]),
+      ]),
+    ],
+  ),
+];
+
+it("drills into a submenu and back", async () => {
+  const open = render(share());
+  await settle();
+  const trigger = item("Share");
+  expect(trigger.getAttribute("aria-haspopup")).toBe("menu");
+  expect(trigger.getAttribute("aria-expanded")).toBe("false");
+  expect(trigger.dataset.state).toBe("closed");
+  trigger.click();
+  await settle();
+  const [root, sub] = panels();
+  expect(root!.hidden).toBe(true);
+  expect(root!.hasAttribute("inert")).toBe(true);
+  expect(sub!.hidden).toBe(false);
+  expect(sub!.getAttribute("role")).toBe("menu");
+  expect(sub!.getAttribute("aria-labelledby")).toBe(trigger.id);
+  expect(trigger.getAttribute("aria-expanded")).toBe("true");
+  expect(trigger.getAttribute("aria-controls")).toBe(sub!.id);
+  expect(trigger.dataset.state).toBe("open");
+  expect(document.activeElement).toBe(item("Mail"));
+  const back = sub!.querySelector<HTMLElement>("[data-drawer-menu-back]")!;
+  expect(back.getAttribute("role")).toBe("menuitem");
+  expect(back.textContent?.trim()).toBe("Share");
+  back.click();
+  await settle();
+  expect(panels()).toHaveLength(1);
+  expect(panels()[0]!.hidden).toBe(false);
+  expect(document.activeElement).toBe(item("Share"));
+  expect(open.value).toBe(true);
+});
+
+it.each(["{ArrowLeft}", "{Backspace}", "{Escape}"])("goes back with %s and keeps the drawer open", async (key) => {
+  const open = render(share());
+  await settle();
+  item("Share").focus();
+  await userEvent.keyboard("{ArrowRight}");
+  await settle();
+  expect(document.activeElement).toBe(item("Mail"));
+  await userEvent.keyboard(key);
+  await settle();
+  expect(visible()).toEqual([panels()[0]]);
+  expect(document.activeElement).toBe(item("Share"));
+  expect(open.value).toBe(true);
+});
+
+it("opens a submenu with Enter and closes the drawer with Escape at the root", async () => {
+  const open = render(share());
+  await settle();
+  item("Share").focus();
+  await userEvent.keyboard("{Enter}");
+  await settle();
+  expect(document.activeElement).toBe(item("Mail"));
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(open.value).toBe(true);
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("swaps the arrow keys in a right-to-left menu", async () => {
+  render(share(), { dir: "rtl" });
+  await settle();
+  item("Share").focus();
+  await userEvent.keyboard("{ArrowRight}");
+  await settle();
+  expect(panels()).toHaveLength(1);
+  await userEvent.keyboard("{ArrowLeft}");
+  await settle();
+  expect(document.activeElement).toBe(item("Mail"));
+  await userEvent.keyboard("{ArrowRight}");
+  await settle();
+  expect(document.activeElement).toBe(item("Share"));
+});
+
+it("goes two levels deep and closes the levels above a closed one", async () => {
+  const shareOpen = ref(false);
+  render(share(shareOpen));
+  await settle();
+  item("Share").click();
+  await settle();
+  item("More").click();
+  await settle();
+  expect(panels()).toHaveLength(3);
+  expect(visible().map((panel) => panel.getAttribute("aria-labelledby"))).toEqual([item("More").id]);
+  expect(item("Print").closest<HTMLElement>("[data-drawer-menu-panel]")!.hidden).toBe(false);
+  shareOpen.value = false;
+  await settle();
+  expect(panels()).toHaveLength(1);
+  item("Share").click();
+  await settle();
+  expect(panels()).toHaveLength(2);
+});
+
+it("closes the drawer when an item of a submenu is chosen", async () => {
+  const open = render(share());
+  await settle();
+  item("Share").click();
+  await settle();
+  item("Mail").click();
+  await settle();
+  expect(open.value).toBe(false);
+});
+
+it("marks the panels with the direction of travel", async () => {
+  render(share());
+  await settle();
+  const [root] = panels();
+  expect(root!.dataset.motion).toBeUndefined();
+  item("Share").click();
+  await settle();
+  expect(root!.dataset.motion).toBe("to-start");
+  expect(panels()[1]!.dataset.motion).toBe("from-end");
+  panels()[1]!.querySelector<HTMLElement>("[data-drawer-menu-back]")!.click();
+  await settle();
+  expect(root!.dataset.motion).toBe("from-start");
+});
+
+it("follows the visible panel's height", async () => {
+  render(share());
+  await settle();
+  const [root] = panels();
+  const menu = root!.parentElement!;
+  await vi.waitFor(() => expect(menu.style.getPropertyValue("--drawer-menu-height")).toBe(`${root!.offsetHeight}px`));
+  item("Share").click();
+  await settle();
+  const sub = panels()[1]!;
+  await vi.waitFor(() => expect(menu.style.getPropertyValue("--drawer-menu-height")).toBe(`${sub.offsetHeight}px`));
+  expect(sub.offsetHeight).not.toBe(0);
 });
