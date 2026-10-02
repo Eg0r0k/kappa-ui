@@ -5631,6 +5631,26 @@
       ]
     },
     {
+      "name": "drawer-scroll-area",
+      "type": "registry:block",
+      "title": "Drawer scroll area",
+      "description": "A tall drawer whose text scrolls in a scroll area; dragging its thumb scrolls and leaves the drawer in place.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "button",
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer/DrawerScrollArea.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "drawer-form",
       "type": "registry:block",
       "title": "Drawer form",
