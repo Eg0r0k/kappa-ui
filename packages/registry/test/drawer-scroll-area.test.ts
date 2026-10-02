@@ -7,6 +7,8 @@ import { ScrollArea } from "@/ui/scroll-area";
 
 import { pointer, wait } from "./pointer";
 
+const area: Record<string, unknown> = { class: "min-h-0 flex-1" };
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -18,7 +20,7 @@ it("scrolls instead of moving the drawer when a mouse drags the scroll thumb", a
         h(Drawer, { open: true }, () =>
           h(DrawerContent, { class: "h-[60dvh]" }, () => [
             h(DrawerHeader, () => h(DrawerTitle, () => "Terms")),
-            h(ScrollArea, { class: "min-h-0 flex-1" }, () => h("div", { style: "height: 2000px" })),
+            h(ScrollArea, area, { default: () => h("div", { style: "height: 2000px" }) }),
           ]),
         ),
     },
