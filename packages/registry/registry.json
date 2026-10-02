@@ -5734,6 +5734,86 @@
       ]
     },
     {
+      "name": "drawer-menu-demo",
+      "type": "registry:block",
+      "title": "Drawer menu demo",
+      "description": "A file menu in a drawer: open, rename, duplicate and delete.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-selection",
+      "type": "registry:block",
+      "title": "Drawer menu selection",
+      "description": "Checkbox items and a radio group that keep the drawer open while they change.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuSelection.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-submenus",
+      "type": "registry:block",
+      "title": "Drawer menu submenus",
+      "description": "Submenus that drill down in the same sheet, two levels deep, with a back row.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuSubmenus.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drawer-menu-sizes",
+      "type": "registry:block",
+      "title": "Drawer menu sizes",
+      "description": "The sm, md and lg row heights.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "drawer-snap-points",
       "type": "registry:block",
       "title": "Drawer snap points",
