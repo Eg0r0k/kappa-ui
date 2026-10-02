@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Direction, RovingFocusGroup, useDirection } from "reka-ui";
-import { type HTMLAttributes, computed, toRef } from "vue";
+import { type HTMLAttributes, computed, ref, toRef } from "vue";
 
 import { cn } from "@/lib/utils";
 import {
@@ -15,6 +15,7 @@ import {
 
 const props = withDefaults(
   defineProps<{
+    page?: number;
     defaultPage?: number;
     count: number;
     variant?: PageIndicatorVariant;
@@ -31,8 +32,10 @@ const props = withDefaults(
   { defaultPage: 1, variant: "dot", size: "md", color: "primary", orientation: "horizontal", touchTarget: "none" },
 );
 
-const model = defineModel<number>("page");
-const page = computed(() => model.value ?? props.defaultPage);
+const emits = defineEmits<{ "update:page": [value: number] }>();
+
+const local = ref(props.defaultPage);
+const page = computed(() => props.page ?? local.value);
 const pages = computed(() => Array.from({ length: props.count }, (_, index) => index + 1));
 const dir = useDirection(toRef(() => props.dir));
 
@@ -46,7 +49,9 @@ providePageIndicatorContext({
     readonly: props.readonly,
   })),
   select: (value) => {
-    if (value !== page.value) model.value = value;
+    if (value === page.value) return;
+    local.value = value;
+    emits("update:page", value);
   },
 });
 
