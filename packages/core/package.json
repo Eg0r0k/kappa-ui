@@ -30,6 +30,7 @@
     "./dialog": "./src/dialog/index.ts",
     "./drag": "./src/drag/index.ts",
     "./drawer": "./src/drawer/index.ts",
+    "./drawer-menu": "./src/drawer-menu/index.ts",
     "./hover-card": "./src/hover-card/index.ts",
     "./menu": "./src/menu/index.ts",
     "./overlay": "./src/overlay/index.ts",
@@ -55,6 +56,10 @@
       "./drawer": {
         "types": "./dist/drawer/index.d.ts",
         "default": "./dist/drawer/index.js"
+      },
+      "./drawer-menu": {
+        "types": "./dist/drawer-menu/index.d.ts",
+        "default": "./dist/drawer-menu/index.js"
       },
       "./hover-card": {
         "types": "./dist/hover-card/index.d.ts",
