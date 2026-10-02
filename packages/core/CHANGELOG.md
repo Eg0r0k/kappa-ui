@@ -1,5 +1,25 @@
 # @kappa-ui/core
 
+## 0.8.0
+
+### Minor Changes
+
+- [`e60d032`](https://github.com/Eg0r0k/kappa-ui/commit/e60d0324dc8dbb9421bdfbf2710729f2d7b9e89e) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `@kappa-ui/core/dialog` exports `AlertDialogContent`: Reka UI's alert dialog content with the duties of `DialogContent`, so an alert dialog opened with `openDialog` reports `"escape"` and `"close-button"`, holds while `loading` is on, ignores Escape during IME composition and gets the hidden title and description fallback. `DialogContent` now shares that code.
+
+- [`f4a4e02`](https://github.com/Eg0r0k/kappa-ui/commit/f4a4e02a0589a2b928f0688ef8bd00f35a6a2e2c) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `@kappa-ui/core/drawer-menu`: a menu that lives inside a drawer. `DrawerMenu` holds panels with `role="menu"` and roving focus; `DrawerMenuItem`, `DrawerMenuCheckboxItem`, `DrawerMenuRadioGroup`, `DrawerMenuRadioItem`, `DrawerMenuItemIndicator`, `DrawerMenuGroup`, `DrawerMenuLabel` and `DrawerMenuSeparator` take the props and events of Reka UI's menu parts, so a select closes the drawer unless prevented. `DrawerMenuSub`, `DrawerMenuSubTrigger` and `DrawerMenuSubContent` drill down in the same sheet, with `DrawerMenuBack` at the top of a sub panel; ArrowLeft, Backspace and Escape go back. `tailwind.css` adds the `drawer-menu` utility, which slides between panels and follows the visible panel's height.
+
+- [`ddb5d57`](https://github.com/Eg0r0k/kappa-ui/commit/ddb5d5792dadf9bbb20e65631040c4484b732aec) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `icon-size-*` in `tailwind.css` sizes every `svg` inside an element that has no `size-*` class of its own, from the spacing scale (`icon-size-4`), a length (`icon-size-[18px]`) or a variable (`icon-size-(--menu-icon)`).
+
+### Patch Changes
+
+- [`196be12`](https://github.com/Eg0r0k/kappa-ui/commit/196be12e9916c2a2818747cfcef3cd46b7284271) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A finger drags a drawer through touch events whenever the device reports touch at the moment of the press (`ontouchstart` or `navigator.maxTouchPoints`), as Base UI's Drawer does, instead of only when `ontouchstart` existed at page load. A swipe from the top of a scrolled body now closes the drawer after DevTools switches on touch emulation. A finger whose scroll reaches the edge mid-gesture hands the gesture to the drawer while the browser still lets its moves be cancelled.
+
+- [`8f50769`](https://github.com/Eg0r0k/kappa-ui/commit/8f50769faf376825639de86c3ec62f5f55d98fc4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `DrawerMenuBack` follows its `DrawerMenuSubTrigger`'s text when that text changes while the submenu is open, such as a live count in the label. Before, it kept the text from when the submenu opened.
+
+- [`4b4d53a`](https://github.com/Eg0r0k/kappa-ui/commit/4b4d53ae6ddaa013b86f73d22070507f9e7ef1a3) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A drag no longer re-renders the drawer's content or the page in `DrawerIndent`: `DrawerContent`, `DrawerOverlay` and `DrawerIndent` write the values that change every frame straight to their elements, and `tailwind.css` registers `--drawer-swipe-movement`, `--drawer-swipe-progress` and the variables derived from them with `inherits: false`, so a frame restyles one element rather than its subtree. Read `--drawer-swipe-movement` and `--drawer-swipe-progress` on the panel or the overlay itself; its children now see `0`.
+
+- [`266a60e`](https://github.com/Eg0r0k/kappa-ui/commit/266a60e10267cebbb08a1da222ea8062e56d8a2a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `v-tooltip` no longer re-renders its tooltip each time the component holding the element re-renders. It renders again only when its text, arg, `.label` modifier or options change, so a table with a tooltip in every row stays cheap to update.
+
 ## 0.7.0
 
 ### Minor Changes
