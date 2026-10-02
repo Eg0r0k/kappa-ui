@@ -3,7 +3,6 @@ import { ConfigProvider } from 'reka-ui'
 
 import { fontOf, fontUrl, isDefaultTheme, siteCss } from '~/lib/theme'
 import { DialogHost } from '@/ui/dialog'
-import { DrawerIndent } from '@/ui/drawer'
 import { Toaster } from '@/ui/toast'
 import { TooltipProvider } from '@/ui/tooltip'
 
@@ -23,12 +22,10 @@ useHead({
 <template>
   <ConfigProvider :scroll-body="false">
     <TooltipProvider>
-      <DrawerIndent>
-        <NuxtLayout>
-          <NuxtPage />
-        </NuxtLayout>
-        <DialogHost />
-      </DrawerIndent>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+      <DialogHost />
     </TooltipProvider>
     <Toaster />
   </ConfigProvider>
