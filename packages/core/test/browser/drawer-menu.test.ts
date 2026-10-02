@@ -189,6 +189,7 @@ it("highlights the item under a mouse and not the one under a touch", async () =
   await settle();
   expect(rename.hasAttribute("data-highlighted")).toBe(false);
 });
+
 it("toggles a checkbox item through v-model and reports its state", async () => {
   const checked = ref<boolean | "indeterminate">(false);
   const open = render(() =>
@@ -224,11 +225,14 @@ it("toggles a checkbox item through v-model and reports its state", async () => 
 });
 
 it("closes the drawer after a checkbox item toggles", async () => {
-  const checked = ref(false);
+  const checked = ref<boolean | "indeterminate">(false);
   const open = render(() =>
     h(
       DrawerMenuCheckboxItem,
-      { modelValue: checked.value, "onUpdate:modelValue": (value: boolean) => (checked.value = value) },
+      {
+        modelValue: checked.value,
+        "onUpdate:modelValue": (value: boolean | "indeterminate") => (checked.value = value),
+      },
       () => "Starred",
     ),
   );
@@ -244,7 +248,7 @@ it("selects a radio item of its group", async () => {
   const open = render(() =>
     h(
       DrawerMenuRadioGroup,
-      { modelValue: sort.value, "onUpdate:modelValue": (value: string) => (sort.value = value) },
+      { modelValue: sort.value, "onUpdate:modelValue": (value: unknown) => (sort.value = String(value)) },
       () => [
         h(DrawerMenuRadioItem, { value: "name" }, () => [h(DrawerMenuItemIndicator, () => "•"), "Name"]),
         h(DrawerMenuRadioItem, { value: "date" }, () => [h(DrawerMenuItemIndicator, () => "•"), "Date"]),
