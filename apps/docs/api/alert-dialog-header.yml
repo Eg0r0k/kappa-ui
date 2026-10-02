@@ -1,0 +1,4 @@
+component: AlertDialogHeader
+file: ui/alert-dialog/AlertDialogHeader.vue
+slots:
+  default: "An optional `AlertDialogMedia`, the title and the description."

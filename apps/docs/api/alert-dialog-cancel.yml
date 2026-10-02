@@ -1,0 +1,11 @@
+component: AlertDialogCancel
+file: ui/alert-dialog/AlertDialogCancel.vue
+props:
+  variant:
+    description: "The button's variant, `outline` by default."
+  color:
+    description: "The button's colour, `neutral` by default."
+  size:
+    description: "The button's size."
+slots:
+  default: "The answer that backs out. It takes focus when the dialog opens."

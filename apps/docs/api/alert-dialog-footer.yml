@@ -1,0 +1,4 @@
+component: AlertDialogFooter
+file: ui/alert-dialog/AlertDialogFooter.vue
+slots:
+  default: "`AlertDialogCancel` and `AlertDialogAction`. They stack, action on top, below 640px."

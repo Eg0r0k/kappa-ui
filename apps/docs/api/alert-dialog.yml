@@ -1,0 +1,13 @@
+component: AlertDialog
+file: ui/alert-dialog/AlertDialog.vue
+props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether the dialog starts open when `v-model:open` is not used."
+  unmountOnHide:
+    description: "Removes the window from the DOM while closed. Turn it off to keep its state between openings."
+emits:
+  update:open: "Fires when the dialog opens or closes."
+slots:
+  default: "The trigger and the content. Receives `open` and `close`."

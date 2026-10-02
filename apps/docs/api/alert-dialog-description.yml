@@ -1,0 +1,9 @@
+component: AlertDialogDescription
+file: ui/alert-dialog/AlertDialogDescription.vue
+props:
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "What happens on each answer, which screen readers announce with the title."

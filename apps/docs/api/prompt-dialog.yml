@@ -1,0 +1,27 @@
+component: PromptDialog
+file: ui/confirm/PromptDialog.vue
+props:
+  title:
+    description: "The question. It also labels the input when there is no `label`."
+  description:
+    description: "Text under the title."
+  label:
+    description: "The input's visible label."
+  placeholder:
+    description: "Text shown while the input is empty."
+  defaultValue:
+    description: "The input's starting value."
+  type:
+    description: "The input's `type`: `text`, `email`, `password`, `search`, `tel` or `url`."
+  action:
+    description: "The submit button's text, “OK” by default."
+  cancel:
+    description: "The cancel button's text, “Cancel” by default."
+  color:
+    description: "The submit button's colour."
+  size:
+    description: "`default` or `sm`, as on `AlertDialogContent`."
+  validate:
+    description: "Checks the value on submit and returns an error message to keep the dialog open, or nothing to go on. May return a promise."
+  onConfirm:
+    description: "Runs with the value once it is valid, before the dialog closes. While its promise is pending the buttons are disabled and Escape is ignored; if it throws, the dialog stays open."
