@@ -663,6 +663,85 @@
   }
 }
 
+@keyframes kappa-drawer-menu-from-end {
+  from {
+    translate: 25% 0;
+    opacity: 0;
+  }
+}
+
+@keyframes kappa-drawer-menu-from-start {
+  from {
+    translate: -25% 0;
+    opacity: 0;
+  }
+}
+
+@keyframes kappa-drawer-menu-to-start {
+  to {
+    translate: -25% 0;
+    opacity: 0;
+  }
+}
+
+@keyframes kappa-drawer-menu-to-end {
+  to {
+    translate: 25% 0;
+    opacity: 0;
+  }
+}
+
+@utility drawer-menu {
+  display: grid;
+  align-items: start;
+  height: var(--drawer-menu-height, auto);
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: height var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  & [data-drawer-menu-panel] {
+    grid-area: 1 / 1;
+    animation-duration: var(--transition-duration-medium-2, 300ms);
+    animation-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    animation-fill-mode: both;
+  }
+  & [data-drawer-menu-panel]:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--drawer-menu-gap, 0px);
+  }
+  & [data-motion="from-end"] {
+    animation-name: kappa-drawer-menu-from-end;
+  }
+  & [data-motion="from-start"] {
+    animation-name: kappa-drawer-menu-from-start;
+  }
+  & [data-motion="to-start"] {
+    animation-name: kappa-drawer-menu-to-start;
+  }
+  & [data-motion="to-end"] {
+    animation-name: kappa-drawer-menu-to-end;
+  }
+  &:dir(rtl) [data-motion="from-end"] {
+    animation-name: kappa-drawer-menu-from-start;
+  }
+  &:dir(rtl) [data-motion="from-start"] {
+    animation-name: kappa-drawer-menu-from-end;
+  }
+  &:dir(rtl) [data-motion="to-start"] {
+    animation-name: kappa-drawer-menu-to-end;
+  }
+  &:dir(rtl) [data-motion="to-end"] {
+    animation-name: kappa-drawer-menu-to-start;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    & [data-drawer-menu-panel] {
+      animation: none;
+    }
+  }
+}
+
 @keyframes kappa-skeleton-wave {
   from {
     transform: translateX(-100%);
