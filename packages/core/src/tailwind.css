@@ -145,6 +145,15 @@
   }
 }
 
+@utility icon-size-* {
+  & svg:not([class*="size-"]) {
+    width: calc(var(--spacing) * --value(number));
+    height: calc(var(--spacing) * --value(number));
+    width: --value([length], [*]);
+    height: --value([length], [*]);
+  }
+}
+
 @utility choice-row {
   & > [data-slot="field"] {
     position: relative;

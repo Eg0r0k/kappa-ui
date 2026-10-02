@@ -17,11 +17,11 @@ export const badgeVariants = cva(
         link: "text-tone-text underline-offset-4 hover:underline",
       },
       size: {
-        xs: "h-4 gap-0.5 rounded-sm text-label-sm [--touch-h:1rem] [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-5 gap-1 rounded-sm text-label-sm [--touch-h:1.25rem] [&_svg:not([class*='size-'])]:size-3",
-        md: "h-6 gap-1 rounded-md text-label-md [--touch-h:1.5rem] [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-7 gap-1.5 rounded-md text-label-lg [--touch-h:1.75rem] [&_svg:not([class*='size-'])]:size-4",
-        xl: "h-8 gap-1.5 rounded-lg text-label-lg [--touch-h:2rem] [&_svg:not([class*='size-'])]:size-4",
+        xs: "h-4 gap-0.5 rounded-sm text-label-sm [--touch-h:1rem] icon-size-3",
+        sm: "h-5 gap-1 rounded-sm text-label-sm [--touch-h:1.25rem] icon-size-3",
+        md: "h-6 gap-1 rounded-md text-label-md [--touch-h:1.5rem] icon-size-3.5",
+        lg: "h-7 gap-1.5 rounded-md text-label-lg [--touch-h:1.75rem] icon-size-4",
+        xl: "h-8 gap-1.5 rounded-lg text-label-lg [--touch-h:2rem] icon-size-4",
       },
       square: {
         true: "",

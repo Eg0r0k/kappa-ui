@@ -29,7 +29,7 @@ export const stepperTrigger =
   "flex flex-col items-center gap-1 rounded-md p-1 text-center outline-none focus-visible:focus-ring";
 
 export const stepperIndicator =
-  "inline-flex size-(--stepper-indicator) shrink-0 items-center justify-center rounded-full text-label-lg text-muted-foreground/50 group-data-[size=xs]/stepper:text-label-sm group-data-[size=sm]/stepper:text-label-md group-data-[size=xl]/stepper:text-title-md group-data-disabled:text-muted-foreground group-data-disabled:opacity-(--disabled-opacity) group-data-[state=active]:bg-primary group-data-[state=active]:text-primary-foreground group-data-[state=completed]:bg-accent group-data-[state=completed]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-(--stepper-icon)";
+  "inline-flex size-(--stepper-indicator) shrink-0 items-center justify-center rounded-full text-label-lg text-muted-foreground/50 group-data-[size=xs]/stepper:text-label-sm group-data-[size=sm]/stepper:text-label-md group-data-[size=xl]/stepper:text-title-md group-data-disabled:text-muted-foreground group-data-disabled:opacity-(--disabled-opacity) group-data-[state=active]:bg-primary group-data-[state=active]:text-primary-foreground group-data-[state=completed]:bg-accent group-data-[state=completed]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 icon-size-(--stepper-icon)";
 
 export const stepperTitle =
   "text-title-sm whitespace-nowrap group-data-[size=xs]/stepper:text-label-md group-data-[size=sm]/stepper:text-label-lg group-data-[size=lg]/stepper:text-title-md group-data-[size=xl]/stepper:text-title-lg";
