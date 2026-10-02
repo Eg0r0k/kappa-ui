@@ -46,7 +46,7 @@ export const pageIndicatorVariants = cva(
 );
 
 export const pageIndicatorItemVariants = cva(
-  "relative shrink-0 rounded-full bg-tone/25 outline-none transition-[width,height,margin,background-color] duration-short-4 ease-standard [--page-indicator-fill:0] before:absolute before:start-0 before:top-0 before:rounded-full before:bg-tone before:transition-[width,height] before:duration-short-4 before:ease-standard data-[state=active]:[--page-indicator-fill:clamp(0,var(--page-indicator-progress,1),1)] focus-visible:focus-ring enabled:cursor-pointer enabled:hover:bg-tone/40 motion-reduce:transition-none motion-reduce:before:transition-none",
+  "relative shrink-0 rounded-full bg-tone/25 outline-none transition-[width,height,margin,background-color] duration-short-4 ease-standard [--page-indicator-fill:0] before:absolute before:start-0 before:top-0 before:rounded-full before:bg-tone data-[state=active]:[--page-indicator-fill:clamp(0,var(--page-indicator-progress,1),1)] focus-visible:focus-ring enabled:cursor-pointer enabled:hover:bg-tone/40 motion-reduce:transition-none",
   {
     variants: {
       variant: {

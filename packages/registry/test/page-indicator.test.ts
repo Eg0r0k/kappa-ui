@@ -14,9 +14,7 @@ const style = (css: string) => {
   cleanups.push(() => element.remove());
 };
 
-beforeEach(() =>
-  style("[data-slot=page-indicator-item], [data-slot=page-indicator-item]::before { transition: none !important; }"),
-);
+beforeEach(() => style("[data-slot=page-indicator-item] { transition: none !important; }"));
 
 afterEach(() => {
   cleanups.splice(0).forEach((cleanup) => cleanup());
@@ -221,6 +219,20 @@ it("fills the current page up to progress, along the axis", () => {
   expect(current(1).width).toBe("24px");
   expect(current(2).height).toBe("12px");
   expect(current(2).width).toBe("8px");
+});
+
+it("follows progress and a new page at once, without easing the fill", async () => {
+  const page = ref(3);
+  const progress = ref(0.25);
+  render(() => ({ variant: "pill", cumulative: true, page: page.value, progress: progress.value }));
+  const widths = () => all().map((element) => fill(element).width);
+  expect(widths()).toEqual(["8px", "8px", "6px", "0px"]);
+  progress.value = 0.75;
+  await nextTick();
+  expect(widths()).toEqual(["8px", "8px", "18px", "0px"]);
+  page.value = 1;
+  await nextTick();
+  expect(widths()).toEqual(["18px", "0px", "0px", "0px"]);
 });
 
 it("paints the fill from the tone and the track from a fainter tone", () => {
