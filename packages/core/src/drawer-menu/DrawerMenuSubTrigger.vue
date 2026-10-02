@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type ComponentPublicInstance, onMounted, onUpdated, ref, watchEffect } from "vue";
+import { useMutationObserver } from "@vueuse/core";
+import { type ComponentPublicInstance, onMounted, ref, watchEffect } from "vue";
 
 import { type DrawerMenuItemProps, injectDrawerMenuContext, injectDrawerMenuSubContext } from "./context";
 import DrawerMenuItemImpl from "./DrawerMenuItemImpl.vue";
@@ -21,7 +22,7 @@ const readText = () => {
 };
 
 onMounted(readText);
-onUpdated(readText);
+useMutationObserver(instance, readText, { subtree: true, childList: true, characterData: true });
 
 const openSub = () => {
   if (props.disabled || menu.dragged()) return;

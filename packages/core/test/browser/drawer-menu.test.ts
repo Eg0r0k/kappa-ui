@@ -336,6 +336,22 @@ it("drills into a submenu and back", async () => {
   expect(open.value).toBe(true);
 });
 
+it("keeps the back label in step with the trigger's text", async () => {
+  const label = ref("Share");
+  render(() => [
+    h(DrawerMenuSub, () => [
+      h(DrawerMenuSubTrigger, () => label.value),
+      h(DrawerMenuSubContent, () => [h(DrawerMenuBack), h(DrawerMenuItem, () => "Mail")]),
+    ]),
+  ]);
+  await settle();
+  item("Share").click();
+  await settle();
+  label.value = "Send";
+  const back = document.querySelector<HTMLElement>("[data-drawer-menu-back]")!;
+  await expect.poll(() => back.textContent?.trim()).toBe("Send");
+});
+
 it.each(["{ArrowLeft}", "{Backspace}", "{Escape}"])("goes back with %s and keeps the drawer open", async (key) => {
   const open = render(share());
   await settle();

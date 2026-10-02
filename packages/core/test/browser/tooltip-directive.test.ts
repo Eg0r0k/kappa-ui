@@ -79,6 +79,33 @@ it("renders nothing for an empty value and follows the value as it changes", asy
   await expect.poll(() => content()).toBeNull();
 });
 
+it("leaves its tooltip alone when the component re-renders with the same options", async () => {
+  let renders = 0;
+  const Counted = defineComponent({
+    setup:
+      (_, { slots }) =>
+      () => {
+        renders += 1;
+        return h("span", slots.default?.());
+      },
+  });
+  const vCounted = createTooltipDirective(Counted);
+  const count = ref(0);
+  const text = ref("Save");
+  render(() => [
+    h("output", count.value),
+    withDirectives(h("button", "Save"), [[vCounted, { content: text.value, side: "right" }]]),
+  ]);
+  await nextTick();
+  const initial = renders;
+  count.value += 1;
+  await nextTick();
+  expect(renders).toBe(initial);
+  text.value = "Saved";
+  await nextTick();
+  expect(renders).toBe(initial + 1);
+});
+
 it("adds its description to the element's own while open", async () => {
   render(() => [
     h("p", { id: "note" }, "Note"),

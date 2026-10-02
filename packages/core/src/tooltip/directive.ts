@@ -32,7 +32,7 @@ export type TooltipDirectiveValue = string | TooltipDirectiveOptions | false | n
 type Side = NonNullable<TooltipContentProps["side"]>;
 type Provides = Record<PropertyKey, unknown>;
 type Instance = ComponentInternalInstance & { provides: Provides };
-type Host = HTMLElement & { _kappaTooltip?: { container: HTMLElement; provides?: Provides } };
+type Host = HTMLElement & { _kappaTooltip?: { container: HTMLElement; provides?: Provides; signature?: string } };
 
 const sides: string[] = ["top", "right", "bottom", "left"];
 
@@ -102,13 +102,17 @@ export const createTooltipDirective = (content: Component): Directive<HTMLElemen
   };
 
   const show = (el: Host, binding: DirectiveBinding<TooltipDirectiveValue>, vnode: VNode) => {
-    const { text, root, content: contentProps } = resolve(binding);
+    const options = resolve(binding);
+    const { text, root, content: contentProps } = options;
     if (!text) {
       hide(el);
       return;
     }
+    const signature = JSON.stringify(options);
+    if (el._kappaTooltip?.signature === signature) return;
     const instance = binding.instance?.$ as Instance | undefined;
     el._kappaTooltip ??= { container: document.createElement("div"), provides: providesAt(instance, vnode) };
+    el._kappaTooltip.signature = signature;
     const node = h(TooltipRoot, root, () => [
       h(TooltipElementTrigger, { element: el, label: root.role === "label" ? text : undefined }),
       h(content, contentProps, () => text),
