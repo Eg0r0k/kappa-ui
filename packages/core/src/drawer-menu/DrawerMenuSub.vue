@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useVModel } from "@vueuse/core";
 import { useId } from "reka-ui";
-import { type Ref, onBeforeUnmount, ref, watch } from "vue";
+import { type Ref, computed, onBeforeUnmount, ref, watch } from "vue";
 
 import {
   type DrawerMenuSubEmits,
@@ -20,8 +20,9 @@ const open = useVModel(props, "open", emits, {
   passive: (props.open === undefined) as false,
 }) as Ref<boolean>;
 
-const label = ref("");
 const textValue = ref<string>();
+const triggerText = ref("");
+const label = computed(() => textValue.value ?? triggerText.value);
 const entry: DrawerMenuSubEntry = {
   triggerId: useId(undefined, "kappa-drawer-menu-sub-trigger"),
   contentId: useId(undefined, "kappa-drawer-menu-sub-content"),
@@ -34,15 +35,14 @@ watch(
   open,
   (value) => {
     if (!value) return menu.remove(entry);
-    label.value = textValue.value ?? document.getElementById(entry.triggerId)?.textContent?.trim() ?? "";
     menu.push(entry);
   },
   { immediate: true, flush: "post" },
 );
 
-onBeforeUnmount(() => menu.remove(entry, false));
+onBeforeUnmount(() => menu.remove(entry));
 
-provideDrawerMenuSubContext({ open, label, textValue, entry });
+provideDrawerMenuSubContext({ open, label, textValue, triggerText, entry });
 </script>
 
 <template>
