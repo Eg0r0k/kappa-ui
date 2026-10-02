@@ -8356,6 +8356,26 @@
       ]
     },
     {
+      "name": "drawer-menu-custom-motion",
+      "type": "registry:block",
+      "title": "Drawer menu custom motion",
+      "description": "Two drawer menus that replace the slide between panels: a zoom through keyframes and a blurred fade through a transition.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drawer-menu",
+        "drawer",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drawer-menu/DrawerMenuCustomMotion.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "drawer-snap-points",
       "type": "registry:block",
       "title": "Drawer snap points",

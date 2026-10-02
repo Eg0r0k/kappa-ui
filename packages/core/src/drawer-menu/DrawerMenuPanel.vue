@@ -34,10 +34,10 @@ watch(leaving, async (value) => {
   if (!value) return;
   await nextTick();
   const node = element.value;
-  if (!node || getComputedStyle(node).animationName === "none") settle();
+  if (!node || node.getAnimations().length === 0) settle();
 });
 
-const onAnimationEnd = (event: AnimationEvent) => {
+const onMotionEnd = (event: Event) => {
   if (event.target === event.currentTarget && leaving.value) settle();
 };
 
@@ -62,8 +62,10 @@ watch(() => props.active, measure, { flush: "post" });
       :data-motion="motion"
       :hidden="!props.active && !leaving"
       :inert="!props.active || undefined"
-      @animationend="onAnimationEnd"
-      @animationcancel="onAnimationEnd"
+      @animationend="onMotionEnd"
+      @animationcancel="onMotionEnd"
+      @transitionend="onMotionEnd"
+      @transitioncancel="onMotionEnd"
     >
       <slot />
     </div>
