@@ -2011,6 +2011,73 @@
       ]
     },
     {
+      "name": "drawer-menu",
+      "type": "registry:ui",
+      "title": "Drawer Menu",
+      "description": "A menu inside a drawer for touch screens, with checkbox and radio items and submenus that drill down in the same sheet; its parts take the same props as the dropdown and context menu ones.",
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "drawer"
+      ],
+      "files": [
+        {
+          "path": "src/ui/drawer-menu/DrawerMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuCheckboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuRadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuRadioItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSub.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSubContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/DrawerMenuSubTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/drawer-menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "context-menu",
       "type": "registry:ui",
       "title": "Context Menu",
