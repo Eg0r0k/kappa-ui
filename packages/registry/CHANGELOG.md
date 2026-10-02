@@ -1,5 +1,31 @@
 # @kappa-ui/registry
 
+## 0.9.0
+
+### Minor Changes
+
+- [`f3e1bd4`](https://github.com/Eg0r0k/kappa-ui/commit/f3e1bd40e8fbea9611e6bcab8b5f1654e44c8dff) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `AlertDialog`: shadcn's parts over Reka UI's AlertDialog on Dialog's window and overlay, with `AlertDialogMedia`, a `sm` size, and `AlertDialogAction` / `AlertDialogCancel` that take Button's `variant`, `color` and `size`. New `confirm` item: `useConfirm()` returns `confirm`, `alert` and `prompt`, which open alert dialogs from code and resolve with a `DialogResult`; `onConfirm` holds the dialog with a spinner while it runs and keeps it open if it throws, and `prompt` validates its value.
+
+- [`3724c06`](https://github.com/Eg0r0k/kappa-ui/commit/3724c06d7b4ea6f78c8d7dc6b865553aa2ab1825) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `Combobox`: a text input that filters a list of options as you type, over Reka UI's Combobox. `ComboboxAnchor` is Input's frame with its variants and sizes and holds `ComboboxInput`, `ComboboxCancel` and the chevron `ComboboxTrigger`; with `as-child` the anchor and trigger become a button of your own and the input moves into the list. `ComboboxList`, `ComboboxViewport`, `ComboboxItem`, `ComboboxGroup`, `ComboboxLabel`, `ComboboxSeparator` and `ComboboxEmpty` take Select's list styles. Single or multiple choice, wired to a surrounding Field.
+
+- [`74f9dd1`](https://github.com/Eg0r0k/kappa-ui/commit/74f9dd1551e6326dac7b612eae10b844714acc77) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `DrawerMenu`: a menu inside a drawer for touch screens, with `DrawerMenuItem`, `DrawerMenuCheckboxItem`, `DrawerMenuRadioGroup`, `DrawerMenuRadioItem`, `DrawerMenuGroup`, `DrawerMenuLabel`, `DrawerMenuSeparator` and submenus (`DrawerMenuSub`, `DrawerMenuSubTrigger`, `DrawerMenuSubContent`) that drill down in the same sheet with a back row, in `sm`, `md` and `lg`. Its parts take the props and events of the dropdown and context menu parts, so one menu definition renders through any of the three.
+
+- [`0c326fd`](https://github.com/Eg0r0k/kappa-ui/commit/0c326fd260f5f1e163e922a61e1b5ea7935ce1cb) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `InputNumber`: a number field over Reka UI's NumberField with `InputNumberInput`, `InputNumberIncrement` and `InputNumberDecrement` parts inside one frame, in Input's variants and sizes, horizontal or vertical, with `min`, `max`, `step`, `formatOptions` and `locale`, wired to a surrounding Field.
+  
+  `Input` now exports `textControlFrameVariant`, the text control variants for a frame around a control, read from the control's focus, invalid and disabled state. `InputGroup` draws its frame from it; its radius variable is renamed from `--input-group-radius` to `--control-radius`.
+
+- [`3fcff02`](https://github.com/Eg0r0k/kappa-ui/commit/3fcff0240983a56fc3bb22db592f46071131cbe0) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `PageIndicator`: marks the current page among `count` as dots, a stretched pill or line segments, with a `PageIndicatorItem` per page. `v-model:page` counts from 1; five sizes, any tone, both orientations; `cumulative` and `progress` fill story bars and autoplay; `readonly` turns it into a labelled picture; `touchTarget` grows the pressable areas. The items are buttons with roving focus.
+
+- [`a7aad5f`](https://github.com/Eg0r0k/kappa-ui/commit/a7aad5f647b9dee6c64049465d2815832d9ecc4f) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `TagsInput`: tags typed into one text control frame over Reka UI's TagsInput, with `TagsInputItem` chips drawn as badges, `TagsInputItemText`, `TagsInputItemDelete` and `TagsInputInput` parts, in Input's variants and sizes, with delimiter, paste, max and duplicate handling, wired to a surrounding Field.
+
+### Patch Changes
+
+- [`99c55af`](https://github.com/Eg0r0k/kappa-ui/commit/99c55af35b145a6c23a7a07d773b46a63fdd50b6) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Components size their icons with core's `icon-size-*` instead of `[&_svg:not([class*='size-'])]:size-*`, so `class="icon-size-5"` resizes the icons in a Button, a Badge or a menu item, and `cn` lets the later of two `icon-size-*` classes win. A Button tightens its padding beside a `data-icon="inline-start"` or `"inline-end"` icon on the logical side, so the right side in right-to-left text.
+
+- [`f4d7e8e`](https://github.com/Eg0r0k/kappa-ui/commit/f4d7e8e861f4e8923e721596d3001b44923e5335) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ScrollArea's scrollbar carries `data-no-drag`, so dragging its thumb with a mouse inside a Drawer scrolls instead of moving the drawer.
+- Updated dependencies [[`e60d032`](https://github.com/Eg0r0k/kappa-ui/commit/e60d0324dc8dbb9421bdfbf2710729f2d7b9e89e), [`196be12`](https://github.com/Eg0r0k/kappa-ui/commit/196be12e9916c2a2818747cfcef3cd46b7284271), [`8f50769`](https://github.com/Eg0r0k/kappa-ui/commit/8f50769faf376825639de86c3ec62f5f55d98fc4), [`f4a4e02`](https://github.com/Eg0r0k/kappa-ui/commit/f4a4e02a0589a2b928f0688ef8bd00f35a6a2e2c), [`4b4d53a`](https://github.com/Eg0r0k/kappa-ui/commit/4b4d53ae6ddaa013b86f73d22070507f9e7ef1a3), [`ddb5d57`](https://github.com/Eg0r0k/kappa-ui/commit/ddb5d5792dadf9bbb20e65631040c4484b732aec), [`266a60e`](https://github.com/Eg0r0k/kappa-ui/commit/266a60e10267cebbb08a1da222ea8062e56d8a2a)]:
+  - @kappa-ui/core@0.8.0
+
 ## 0.8.0
 
 ### Minor Changes
