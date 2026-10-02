@@ -1,3 +1,4 @@
+export { default as AlertDialogContent } from "./AlertDialogContent.vue";
 export { default as DialogContent } from "./DialogContent.vue";
 export { default as DialogDescription } from "./DialogDescription.vue";
 export { default as DialogHost } from "./DialogHost.vue";
@@ -19,6 +20,8 @@ export {
 } from "./manager";
 export { DialogClose, DialogOverlay, DialogPortal, DialogRoot, DialogTrigger } from "reka-ui";
 export type {
+  AlertDialogContentEmits,
+  AlertDialogContentProps,
   DialogCloseProps,
   DialogContentEmits,
   DialogContentProps,

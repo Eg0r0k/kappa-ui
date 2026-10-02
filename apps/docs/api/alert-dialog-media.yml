@@ -1,0 +1,4 @@
+component: AlertDialogMedia
+file: ui/alert-dialog/AlertDialogMedia.vue
+slots:
+  default: "An icon, drawn at 24px on a muted tile. Tint the tile with a class."

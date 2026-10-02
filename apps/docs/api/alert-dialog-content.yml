@@ -1,0 +1,22 @@
+component: AlertDialogContent
+file: ui/alert-dialog/AlertDialogContent.vue
+props:
+  size:
+    description: "`default` is as wide as a dialog. `sm` is 320px wide, centres the header and splits the footer into two equal buttons."
+  forceMount:
+    description: "Keeps the window mounted while closed, for animating it with a JavaScript library."
+  disableOutsidePointerEvents:
+    description: "Blocks pointer events outside the window. On by default, as an alert dialog is always modal."
+  asChild:
+    description: "Not supported on this part: core adds the hidden title fallback next to your content, so there is more than one node to merge onto a single child."
+  as:
+    description: "The element or component to render."
+emits:
+  escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. An outside press never closes an alert dialog."
+  focusOutside: "Fires when focus moves outside."
+  interactOutside: "Fires on any press or focus outside."
+  openAutoFocus: "Fires when focus moves into the window on open, before it moves on to `AlertDialogCancel`."
+  closeAutoFocus: "Fires when focus returns to the trigger on close. Call `preventDefault()` to keep focus where it is."
+slots:
+  default: "`AlertDialogHeader` and `AlertDialogFooter`."

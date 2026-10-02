@@ -1,0 +1,11 @@
+component: AlertDialogAction
+file: ui/alert-dialog/AlertDialogAction.vue
+props:
+  variant:
+    description: "The button's variant."
+  color:
+    description: "The button's colour, `destructive` for an action that deletes."
+  size:
+    description: "The button's size."
+slots:
+  default: "The answer that goes ahead. Pressing it closes the dialog."

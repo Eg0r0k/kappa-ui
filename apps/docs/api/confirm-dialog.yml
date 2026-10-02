@@ -1,0 +1,17 @@
+component: ConfirmDialog
+file: ui/confirm/ConfirmDialog.vue
+props:
+  title:
+    description: "The question."
+  description:
+    description: "What happens on each answer."
+  action:
+    description: "The action button's text. `useConfirm` passes “Confirm” for `confirm` and “OK” for `alert`."
+  cancel:
+    description: "The cancel button's text. Without it there is no cancel button, as in `alert`."
+  color:
+    description: "The action button's colour."
+  size:
+    description: "`default` or `sm`, as on `AlertDialogContent`."
+  onConfirm:
+    description: "Runs when the action is pressed, before the dialog closes. While its promise is pending the buttons are disabled and Escape is ignored; if it throws, the dialog stays open."
