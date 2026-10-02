@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RovingFocusGroup, type RovingFocusGroupProps, useDirection } from "reka-ui";
+import { type Direction, RovingFocusGroup, useDirection } from "reka-ui";
 import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { cn } from "@/lib/utils";
@@ -25,7 +25,7 @@ const props = withDefaults(
     progress?: number;
     readonly?: boolean;
     touchTarget?: PageIndicatorTouchTarget;
-    dir?: RovingFocusGroupProps["dir"];
+    dir?: Direction;
     class?: HTMLAttributes["class"];
   }>(),
   { defaultPage: 1, variant: "dot", size: "md", color: "primary", orientation: "horizontal", touchTarget: "none" },
