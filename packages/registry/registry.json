@@ -9485,6 +9485,164 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "page-indicator",
+      "type": "registry:ui",
+      "title": "Page Indicator",
+      "description": "Marks the current page among a count: dots, a stretched pill or line segments, filled up to a progress for autoplay and stories, in five sizes, any tone and both orientations. Buttons with roving focus, or a readonly picture. Built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/page-indicator/PageIndicator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/page-indicator/PageIndicatorItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/page-indicator/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "page-indicator-demo",
+      "type": "registry:block",
+      "title": "Page Indicator demo",
+      "description": "A scroll-snap gallery and a pill indicator that follow each other, with the slides named.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/page-indicator/PageIndicatorDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "page-indicator-variants",
+      "type": "registry:block",
+      "title": "Page Indicator variants",
+      "description": "Dots, a pill and line segments.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/page-indicator/PageIndicatorVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "page-indicator-sizes",
+      "type": "registry:block",
+      "title": "Page Indicator sizes",
+      "description": "Five sizes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/page-indicator/PageIndicatorSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "page-indicator-colors",
+      "type": "registry:block",
+      "title": "Page Indicator colors",
+      "description": "The theme tones, and white over a picture through the tone variable.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/page-indicator/PageIndicatorColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "page-indicator-vertical",
+      "type": "registry:block",
+      "title": "Vertical page indicator",
+      "description": "A pill and line segments down a column.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/page-indicator/PageIndicatorVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "page-indicator-stories",
+      "type": "registry:block",
+      "title": "Page Indicator stories",
+      "description": "Readonly story bars that fill one after another while playing.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "page-indicator",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/page-indicator/PageIndicatorStories.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "page-indicator-touch-target",
+      "type": "registry:block",
+      "title": "Page Indicator touch target",
+      "description": "No touch target, an expanded one and a wrapper, with the pressable areas outlined.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/page-indicator/PageIndicatorTouchTarget.vue",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }

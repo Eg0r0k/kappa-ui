@@ -1,0 +1,31 @@
+component: PageIndicator
+file: ui/page-indicator/PageIndicator.vue
+props:
+  page:
+    description: "The current page, counted from 1, bound with `v-model:page`."
+  defaultPage:
+    description: "The page shown at first when `v-model:page` is not used."
+  count:
+    description: "How many pages there are. The default slot receives them as `pages`."
+  variant:
+    description: "`dot` marks the current page by colour, `pill` also stretches it, `line` shares the length between segments."
+  size:
+    description: "Dot and line thickness from 4px for `xs` to 12px for `xl`, with the gap and the pill length to match."
+  color:
+    description: "The tone of the fill; the track is a fainter shade of it. Any name declared on `[data-slot][data-color]` works too."
+  orientation:
+    description: "`horizontal` lays the pages out in a row, `vertical` in a column. Arrow keys follow the orientation."
+  cumulative:
+    description: "Fills the pages before the current one as well, as story bars and step dots do."
+  progress:
+    description: "How much of the current page is filled, from 0 to 1, for autoplay. Without it the current page is full."
+  readonly:
+    description: "Shows the page without buttons or focus: the root becomes an image labelled \"Page n of m\"."
+  touchTarget:
+    description: "Grows each page's pressable area to at least 48px without changing how it looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours."
+  dir:
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`."
+emits:
+  update:page: "Fires with the page a click, Enter or Space selects."
+slots:
+  default: "The items. Receives `pages`, the numbers from 1 to `count`, and the current `page`."

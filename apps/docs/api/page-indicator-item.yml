@@ -1,0 +1,5 @@
+component: PageIndicatorItem
+file: ui/page-indicator/PageIndicatorItem.vue
+props:
+  value:
+    description: "The page this item stands for, counted from 1."
