@@ -86,6 +86,45 @@
   --halo-color: var(--tone);
 }
 
+@property --swipe-x {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --swipe-progress-start {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --swipe-progress-end {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --swipe-spread {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@utility swipe-item {
+  transition:
+    --swipe-x var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    --swipe-progress-start var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    --swipe-progress-end var(--transition-duration-medium-2, 300ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    --swipe-spread var(--transition-duration-short-4, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  &[data-dragging] {
+    transition: --swipe-spread var(--transition-duration-short-4, 200ms)
+      var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
 @property --touch-w {
   syntax: "*";
   inherits: false;

@@ -35,6 +35,20 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
   - `packages/registry/src/ui/scroll-area/ScrollBar.vue` — the scrollbar's track and thumb styling and states
   - `packages/registry/src/ui/scroll-area/useInfiniteScroll.ts` — the load index and the poll/trigger/stop/resume cycle of `QInfiniteScroll`, and its reverse-mode scroll anchoring
 
+## React Swipe Actions
+
+- Source: https://github.com/ncdai/react-primitives
+- Licence: MIT, full text below
+- Copyright (c) 2025 ncdai
+- Adapted in:
+  - `packages/core/src/swipe-actions/SwipeRoot.vue` — one open row at a time
+  - `packages/core/src/swipe-actions/SwipeItem.vue` — the open threshold, release velocity projection, full-swipe arming, drag-ending click swallowing, dismissal and arrow keys
+  - `packages/core/src/swipe-actions/SwipeActions.vue` — the strip parked outside the row and its width summed from the action contents
+  - `packages/core/src/swipe-actions/SwipeAction.vue` — the stacked full-row action panels and their spread, and the full swipe as a real click
+  - `packages/core/src/swipe-actions/SwipeActionContent.vue` — the measured visible slice of an action
+  - `packages/core/src/swipe-actions/SwipeContent.vue` — the moving layer
+  - `packages/registry/src/ui/swipe-actions/SwipeAction.vue` — paint on the action, layout on its content
+
 ---
 
 ## Apache License 2.0
@@ -276,6 +290,20 @@ THE SOFTWARE.
 MIT License
 
 Copyright (c) 2023 Nuxt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+## MIT License (React Swipe Actions)
+
+```
+MIT License
+
+Copyright (c) 2025 ncdai
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
