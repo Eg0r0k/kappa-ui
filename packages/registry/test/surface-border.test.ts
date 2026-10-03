@@ -3,7 +3,7 @@ import { afterEach, expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { Card } from "@/ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu";
+import { Menu, MenuItem } from "@/ui/menu";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -38,17 +38,13 @@ it("draws menus with the surface border", async () => {
   document.documentElement.style.setProperty("--surface-border", "transparent");
   mount(
     {
-      render: () =>
-        h(DropdownMenu, { defaultOpen: true }, () => [
-          h(DropdownMenuTrigger, () => "Open"),
-          h(DropdownMenuContent, () => h(DropdownMenuItem, () => "Item")),
-        ]),
+      render: () => h("button", ["Open", h(Menu, { modelValue: true }, () => h(MenuItem, () => "Item"))]),
     },
     { attachTo: document.body },
   );
 
   await vi.waitFor(() => {
-    const content = document.querySelector<HTMLElement>("[data-slot=dropdown-menu-content]")!;
+    const content = document.querySelector<HTMLElement>("[data-slot=menu]")!;
     expect(getComputedStyle(content).borderTopColor).toBe("rgba(0, 0, 0, 0)");
   });
   document.documentElement.style.removeProperty("--surface-border");

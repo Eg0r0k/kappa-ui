@@ -4,18 +4,15 @@ import { userEvent } from "vitest/browser";
 import { defineComponent, h } from "vue";
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
-import { Menu, MenuItem } from "@/ui/menu";
+  Menu,
+  MenuItem,
+  MenuLabel,
+  MenuRadioGroup,
+  MenuRadioItem,
+  MenuSub,
+  MenuSubContent,
+  MenuSubTrigger,
+} from "@/ui/menu";
 import type { MenuSize } from "@/ui/menu";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
@@ -29,23 +26,19 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const openDropdown = async (size?: MenuSize, subSize?: MenuSize) => {
+const openMenu = async (size?: MenuSize, subSize?: MenuSize) => {
   const wrapper = mount(
     defineComponent({
       setup: () => () =>
-        h(DropdownMenu, () => [
-          h(DropdownMenuTrigger, () => "Open"),
-          h(DropdownMenuContent, { size }, () => [
-            h(DropdownMenuLabel, () => "Account"),
-            h(DropdownMenuItem, () => "Profile"),
-            h(DropdownMenuRadioGroup, { modelValue: "list" }, () => [
-              h(DropdownMenuRadioItem, { value: "list" }, () => "List"),
-            ]),
-            h(DropdownMenuSub, () => [
-              h(DropdownMenuSubTrigger, () => "More"),
-              h(DropdownMenuSubContent, { size: subSize }, () =>
-                h(DropdownMenuItem, { class: "sub-item" }, () => "Email"),
-              ),
+        h("button", [
+          "Open",
+          h(Menu, { size }, () => [
+            h(MenuLabel, () => "Account"),
+            h(MenuItem, () => "Profile"),
+            h(MenuRadioGroup, { modelValue: "list" }, () => [h(MenuRadioItem, { value: "list" }, () => "List")]),
+            h(MenuSub, () => [
+              h(MenuSubTrigger, () => "More"),
+              h(MenuSubContent, { size: subSize }, () => h(MenuItem, { class: "sub-item" }, () => "Email")),
             ]),
           ]),
         ]),
@@ -58,7 +51,7 @@ const openDropdown = async (size?: MenuSize, subSize?: MenuSize) => {
 };
 
 const openSubmenu = async () => {
-  await userEvent.hover(query("[data-slot=dropdown-menu-sub-trigger]"));
+  await userEvent.hover(query("[data-slot=menu-sub-trigger]"));
   await settle();
 };
 
@@ -70,43 +63,28 @@ describe("menu sizes", () => {
     ["lg", 40, 20],
     ["xl", 48, 20],
   ] as const)("%s items are %ipx tall with %ipx indicators", async (size, itemHeight, icon) => {
-    await openDropdown(size);
+    await openMenu(size);
     await Promise.all(document.getAnimations().map((animation) => animation.finished));
 
-    expect(query("[data-slot=dropdown-menu-content]").dataset.size).toBe(size);
-    expect(minHeight("[data-slot=dropdown-menu-item]")).toBe(`${itemHeight}px`);
-    expect(query("[data-slot=dropdown-menu-radio-item] > span").getBoundingClientRect().width).toBe(icon);
+    expect(query("[data-slot=menu]").dataset.size).toBe(size);
+    expect(minHeight("[data-slot=menu-item]")).toBe(`${itemHeight}px`);
+    expect(query("[data-slot=menu-radio-item] > span").getBoundingClientRect().width).toBe(icon);
   });
 
   it("defaults to md, and a submenu follows its parent unless it has its own size", async () => {
-    await openDropdown();
-    expect(query("[data-slot=dropdown-menu-content]").dataset.size).toBe("md");
+    await openMenu();
+    expect(query("[data-slot=menu]").dataset.size).toBe("md");
     unmount?.();
 
-    await openDropdown("xs");
+    await openMenu("xs");
     await openSubmenu();
-    expect(query("[data-slot=dropdown-menu-sub-content]").dataset.size).toBe("xs");
+    expect(query("[data-slot=menu-sub-content]").dataset.size).toBe("xs");
     expect(minHeight(".sub-item")).toBe("28px");
     unmount?.();
 
-    await openDropdown("xs", "xl");
+    await openMenu("xs", "xl");
     await openSubmenu();
     expect(minHeight(".sub-item")).toBe("48px");
-  });
-
-  it("sizes the Quasar-style menu", async () => {
-    const wrapper = mount(
-      defineComponent({
-        setup: () => () => h("button", ["Open", h(Menu, { size: "lg" }, () => h(MenuItem, () => "Rename"))]),
-      }),
-      { attachTo: document.body },
-    );
-    unmount = () => wrapper.unmount();
-    await userEvent.click(wrapper.get("button").element);
-    await settle();
-
-    expect(query("[data-slot=menu]").dataset.size).toBe("lg");
-    expect(minHeight("[data-slot=menu-item]")).toBe("40px");
   });
 
   it("rounds items with the radius tokens: md for xs, lg for every other size", async () => {
@@ -116,8 +94,8 @@ describe("menu sizes", () => {
       ["md", "12px"],
       ["xl", "12px"],
     ] as const) {
-      await openDropdown(size);
-      expect(getComputedStyle(query("[data-slot=dropdown-menu-item]")).borderRadius, size).toBe(radius);
+      await openMenu(size);
+      expect(getComputedStyle(query("[data-slot=menu-item]")).borderRadius, size).toBe(radius);
       unmount?.();
       document.body.innerHTML = "";
     }

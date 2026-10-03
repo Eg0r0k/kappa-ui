@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/ui/breadcrumb";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu";
+import { Menu, MenuItem } from "@/ui/menu";
 </script>
 
 <template>
@@ -19,19 +19,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            class="flex items-center gap-1 rounded-xs outline-none focus-visible:focus-ring"
-            aria-label="Toggle menu"
-          >
-            <BreadcrumbEllipsis class="size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuItem>Documentation</DropdownMenuItem>
-            <DropdownMenuItem>Themes</DropdownMenuItem>
-            <DropdownMenuItem>GitHub</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <button
+          type="button"
+          class="flex items-center gap-1 rounded-xs outline-none focus-visible:focus-ring"
+          aria-label="Toggle menu"
+        >
+          <BreadcrumbEllipsis class="size-4" />
+          <Menu>
+            <MenuItem>Documentation</MenuItem>
+            <MenuItem>Themes</MenuItem>
+            <MenuItem>GitHub</MenuItem>
+          </Menu>
+        </button>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
