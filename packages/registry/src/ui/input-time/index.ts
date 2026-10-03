@@ -41,7 +41,7 @@ export const inputTimeGroupedVariants = cva(
 );
 
 export const inputTimeSegment = `
-  min-w-[calc(2ch+--spacing(1))] rounded-sm px-0.5 text-center tabular-nums tone-control outline-none
+  min-w-[calc(2ch+--spacing(1))] rounded-sm px-0.5 text-end tabular-nums tone-control outline-none
   focus:bg-tone focus:text-tone-foreground
   aria-invalid:tone-invalid
   data-placeholder:text-muted-foreground
