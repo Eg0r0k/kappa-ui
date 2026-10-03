@@ -29,11 +29,26 @@ export const [injectColorPickerContext, provideColorPickerContext] = createConte
 export const colorPickerVariants = cva("group/color-picker flex flex-col gap-(--color-picker-gap)", {
   variants: {
     size: {
-      xs: "[--color-picker-area:--spacing(24)] [--color-picker-control:--spacing(7)] [--color-picker-gap:--spacing(2)] [--color-picker-radius:--theme(--radius-md)] [--color-picker-swatch:--spacing(5)] [--slider-thumb:0.75rem]",
-      sm: "[--color-picker-area:--spacing(32)] [--color-picker-control:--spacing(8)] [--color-picker-gap:--spacing(2)] [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(6)] [--slider-thumb:0.875rem]",
-      md: "[--color-picker-area:--spacing(40)] [--color-picker-control:--spacing(9)] [--color-picker-gap:--spacing(3)] [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(7)] [--slider-thumb:1rem]",
-      lg: "[--color-picker-area:--spacing(48)] [--color-picker-control:--spacing(10)] [--color-picker-gap:--spacing(3)] [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(8)] [--slider-thumb:1.25rem]",
-      xl: "[--color-picker-area:--spacing(56)] [--color-picker-control:--spacing(12)] [--color-picker-gap:--spacing(4)] [--color-picker-radius:--theme(--radius-xl)] [--color-picker-swatch:--spacing(9)] [--slider-thumb:1.5rem]",
+      xs: `
+        [--color-picker-area:--spacing(24)] [--color-picker-control:--spacing(7)] [--color-picker-gap:--spacing(2)]
+        [--color-picker-radius:--theme(--radius-md)] [--color-picker-swatch:--spacing(5)] [--slider-thumb:0.75rem]
+      `,
+      sm: `
+        [--color-picker-area:--spacing(32)] [--color-picker-control:--spacing(8)] [--color-picker-gap:--spacing(2)]
+        [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(6)] [--slider-thumb:0.875rem]
+      `,
+      md: `
+        [--color-picker-area:--spacing(40)] [--color-picker-control:--spacing(9)] [--color-picker-gap:--spacing(3)]
+        [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(7)] [--slider-thumb:1rem]
+      `,
+      lg: `
+        [--color-picker-area:--spacing(48)] [--color-picker-control:--spacing(10)] [--color-picker-gap:--spacing(3)]
+        [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(8)] [--slider-thumb:1.25rem]
+      `,
+      xl: `
+        [--color-picker-area:--spacing(56)] [--color-picker-control:--spacing(12)] [--color-picker-gap:--spacing(4)]
+        [--color-picker-radius:--theme(--radius-xl)] [--color-picker-swatch:--spacing(9)] [--slider-thumb:1.5rem]
+      `,
     },
   },
   defaultVariants: { size: "md" },
@@ -44,8 +59,10 @@ export type ColorPickerVariants = VariantProps<typeof colorPickerVariants>;
 export const colorPickerChecker =
   "bg-[repeating-conic-gradient(var(--color-border)_0_25%,transparent_0_50%)] bg-size-[0.75rem_0.75rem]";
 
-export const colorPickerArea =
-  "group/slider relative h-(--color-picker-area) w-full [--slider-size:var(--slider-thumb)] data-disabled:opacity-(--disabled-opacity)";
+export const colorPickerArea = `
+  group/slider relative h-(--color-picker-area) w-full [--slider-size:var(--slider-thumb)]
+  data-disabled:opacity-(--disabled-opacity)
+`;
 
 export const colorPickerAreaCanvas = "absolute inset-0 rounded-(--color-picker-radius)";
 
@@ -60,10 +77,17 @@ export const colorPickerPreviewColor =
 
 export const colorPickerSwatches = "flex flex-wrap gap-2 outline-none data-disabled:opacity-(--disabled-opacity)";
 
-export const colorPickerSwatch = `relative size-(--color-picker-swatch) shrink-0 cursor-pointer rounded-full outline-none focus-visible:focus-ring data-disabled:cursor-not-allowed data-disabled:opacity-(--disabled-opacity) ${colorPickerChecker}`;
+export const colorPickerSwatch = `
+  relative size-(--color-picker-swatch) shrink-0 cursor-pointer rounded-full outline-none
+  focus-visible:focus-ring
+  data-disabled:cursor-not-allowed data-disabled:opacity-(--disabled-opacity)
+  ${colorPickerChecker}`;
 
 export const colorPickerSwatchColor =
   "peer/swatch absolute inset-0 rounded-[inherit] bg-(--reka-color-swatch-color) inset-ring inset-ring-surface-border";
 
-export const colorPickerSwatchIndicator =
-  "absolute inset-0 flex items-center justify-center text-white peer-data-[color-contrast=dark]/swatch:text-black [&_svg]:size-[55%]";
+export const colorPickerSwatchIndicator = `
+  absolute inset-0 flex items-center justify-center text-white
+  peer-data-[color-contrast=dark]/swatch:text-black
+  [&_svg]:size-[55%]
+`;

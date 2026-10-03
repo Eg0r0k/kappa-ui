@@ -21,7 +21,10 @@ export const [injectComboboxAnchorContext, provideComboboxAnchorContext] =
   createContext<ComputedRef<{ size: TextControlSize }>>("ComboboxAnchor");
 
 export const comboboxAnchorVariants = cva(
-  "group/combobox-anchor flex w-full min-w-0 items-center transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard",
+  `
+    group/combobox-anchor flex w-full min-w-0 items-center transition-[color,background-color,border-color,box-shadow]
+    duration-short-3 ease-standard
+  `,
   {
     variants: {
       variant: textControlFrameVariant,
@@ -38,7 +41,14 @@ export const comboboxAnchorVariants = cva(
 );
 
 export const comboboxInputVariants = cva(
-  `${textControlBase} peer/combobox-input h-full flex-1 rounded-none px-(--control-padding) not-last:pe-1 in-data-[slot=combobox-list]:h-[calc(var(--menu-item-height)+var(--menu-pad)*2)] in-data-[slot=combobox-list]:flex-none in-data-[slot=combobox-list]:border-b in-data-[slot=combobox-list]:border-border in-data-[slot=combobox-list]:px-[calc(var(--menu-pad)+var(--menu-item-px))]`,
+  `${textControlBase}
+    peer/combobox-input h-full flex-1 rounded-none px-(--control-padding)
+    not-last:pe-1
+    in-data-[slot=combobox-list]:h-[calc(var(--menu-item-height)+var(--menu-pad)*2)]
+    in-data-[slot=combobox-list]:flex-none in-data-[slot=combobox-list]:border-b
+    in-data-[slot=combobox-list]:border-border
+    in-data-[slot=combobox-list]:px-[calc(var(--menu-pad)+var(--menu-item-px))]
+  `,
   {
     variants: {
       size: { xs: "md:text-body-sm", sm: "", md: "", lg: "", xl: "md:text-body-lg" },
@@ -47,10 +57,22 @@ export const comboboxInputVariants = cva(
   },
 );
 
-export const comboboxTrigger =
-  "group/combobox-trigger flex h-full shrink-0 cursor-default items-center ps-1 pe-(--control-padding) text-muted-foreground outline-none disabled:text-foreground/(--disabled-opacity) [&_svg]:pointer-events-none icon-size-4";
+export const comboboxTrigger = `
+  group/combobox-trigger flex h-full shrink-0 cursor-default items-center ps-1 pe-(--control-padding)
+  text-muted-foreground outline-none
+  disabled:text-foreground/(--disabled-opacity)
+  [&_svg]:pointer-events-none
+  icon-size-4
+`;
 
-export const comboboxCancel =
-  "state-layer relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full p-0.5 text-muted-foreground outline-none peer-placeholder-shown/combobox-input:hidden group-has-[>input:disabled]/combobox-anchor:hidden last:me-[calc(var(--control-padding)-var(--spacing)*0.5)] [&_svg]:pointer-events-none icon-size-3.5";
+export const comboboxCancel = `
+  state-layer relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full p-0.5
+  text-muted-foreground outline-none
+  peer-placeholder-shown/combobox-input:hidden
+  group-has-[>input:disabled]/combobox-anchor:hidden
+  last:me-[calc(var(--control-padding)-var(--spacing)*0.5)]
+  [&_svg]:pointer-events-none
+  icon-size-3.5
+`;
 
 export type ComboboxAnchorVariants = VariantProps<typeof comboboxAnchorVariants>;

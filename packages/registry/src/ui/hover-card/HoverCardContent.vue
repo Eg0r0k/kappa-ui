@@ -35,7 +35,10 @@ const portalTarget = injectOverlayPortalTarget(null);
       :class="
         cn(
           overlaySurface,
-          'w-64 max-w-(--reka-hover-card-content-available-width) p-4 origin-(--reka-hover-card-content-transform-origin)',
+          `
+            w-64 max-w-(--reka-hover-card-content-available-width) p-4
+            origin-(--reka-hover-card-content-transform-origin)
+          `,
           props.class,
         )
       "

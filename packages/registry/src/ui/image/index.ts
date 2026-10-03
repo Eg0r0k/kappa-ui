@@ -33,5 +33,9 @@ export const imageImgVariants = cva(
 
 export type ImageFit = NonNullable<VariantProps<typeof imageImgVariants>["fit"]>;
 
-export const imageLayer =
-  "invisible absolute inset-0 grid place-items-center bg-muted text-muted-foreground opacity-0 transition-[opacity,visibility,display] transition-discrete duration-short-4 ease-standard starting:opacity-0 motion-reduce:transition-none";
+export const imageLayer = `
+  invisible absolute inset-0 grid place-items-center bg-muted text-muted-foreground opacity-0
+  transition-[opacity,visibility,display] transition-discrete duration-short-4 ease-standard
+  starting:opacity-0
+  motion-reduce:transition-none
+`;

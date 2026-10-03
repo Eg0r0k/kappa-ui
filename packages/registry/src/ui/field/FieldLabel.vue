@@ -24,7 +24,11 @@ onBeforeUnmount(() => {
     :for="props.for ?? field?.id"
     :class="
       cn(
-        'group-data-disabled/field:text-foreground/(--disabled-opacity) group-data-disabled/fieldset:text-foreground/(--disabled-opacity) group-data-invalid/field:text-destructive',
+        `
+          group-data-disabled/field:text-foreground/(--disabled-opacity)
+          group-data-disabled/fieldset:text-foreground/(--disabled-opacity)
+          group-data-invalid/field:text-destructive
+        `,
         props.class,
       )
     "

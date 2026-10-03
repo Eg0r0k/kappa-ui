@@ -6,7 +6,11 @@ export { default as Radio } from "./Radio.vue";
 export { default as RadioGroup } from "./RadioGroup.vue";
 
 export const radioVariants = cva(
-  `${choiceControl} group/radio rounded-full transition-[border-color] duration-short-1 ease-linear disabled:border-foreground/(--disabled-opacity) disabled:data-[state=checked]:border-foreground/(--disabled-opacity)`,
+  `${choiceControl}
+    group/radio rounded-full transition-[border-color] duration-short-1 ease-linear
+    disabled:border-foreground/(--disabled-opacity)
+    disabled:data-[state=checked]:border-foreground/(--disabled-opacity)
+  `,
   {
     variants: choiceControlVariants,
     defaultVariants: {

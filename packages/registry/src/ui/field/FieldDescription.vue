@@ -19,7 +19,11 @@ onBeforeUnmount(() => {
     :id="field?.descriptionId"
     :class="
       cn(
-        'text-body-sm text-muted-foreground group-data-disabled/field:text-foreground/(--disabled-opacity) group-data-disabled/fieldset:text-foreground/(--disabled-opacity)',
+        `
+          text-body-sm text-muted-foreground
+          group-data-disabled/field:text-foreground/(--disabled-opacity)
+          group-data-disabled/fieldset:text-foreground/(--disabled-opacity)
+        `,
         props.class,
       )
     "

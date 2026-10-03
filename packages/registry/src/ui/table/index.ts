@@ -20,8 +20,13 @@ export type TablePinned = "start" | "end";
 
 export type TableParity = "even" | "odd";
 
-const cellBase =
-  "bg-(--table-row-bg) px-3 align-middle whitespace-nowrap data-[align=center]:text-center data-[align=end]:text-end [&:has([role=checkbox])]:pe-0 [&>[role=checkbox]]:translate-y-[2px]";
+const cellBase = `
+  bg-(--table-row-bg) px-3 align-middle whitespace-nowrap
+  data-[align=center]:text-center
+  data-[align=end]:text-end
+  [&:has([role=checkbox])]:pe-0
+  [&>[role=checkbox]]:translate-y-[2px]
+`;
 
 export const tableStyles = {
   container: "relative w-full data-[overflow=x]:overflow-x-auto data-[overflow=visible]:overflow-visible",

@@ -51,7 +51,10 @@ const portalTarget = injectOverlayPortalTarget(null);
       :class="
         cn(
           overlaySurface,
-          'relative flex max-h-(--reka-select-content-available-height) min-w-32 flex-col overflow-hidden origin-(--reka-select-content-transform-origin)',
+          `
+            relative flex max-h-(--reka-select-content-available-height) min-w-32 flex-col overflow-hidden
+            origin-(--reka-select-content-transform-origin)
+          `,
           props.class,
         )
       "

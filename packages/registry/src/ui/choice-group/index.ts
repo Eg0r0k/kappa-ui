@@ -2,8 +2,23 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as ChoiceGroup } from "./ChoiceGroup.vue";
 
-export const choiceControl =
-  "relative inline-flex size-(--choice-size) shrink-0 items-center justify-center border-2 border-tone-border outline-none state-halo [--touch-w:var(--choice-size)] [--touch-h:var(--choice-size)] [--halo-size:calc(var(--choice-size)*20/9)] [--tone:--theme(--color-primary)] [--tone-foreground:--theme(--color-primary-foreground)] [--tone-border:--theme(--color-input)] [--halo-color:--theme(--color-foreground)] aria-invalid:[--tone:--theme(--color-destructive)] aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)] aria-invalid:[--tone-border:var(--tone)] aria-invalid:[--halo-color:var(--tone)] in-aria-invalid:[--tone:--theme(--color-destructive)] in-aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)] in-aria-invalid:[--tone-border:var(--tone)] in-aria-invalid:[--halo-color:var(--tone)] data-[state=checked]:[--halo-color:var(--tone)] data-[state=checked]:border-tone not-data-[touch-target=wrapper]:has-[+[data-slot=field-label],+[data-slot=field-content],+[data-slot=label]]:me-[calc(var(--choice-size)*11/18-0.25rem)] focus-visible:focus-ring disabled:cursor-not-allowed";
+export const choiceControl = `
+  relative inline-flex size-(--choice-size) shrink-0 items-center justify-center border-2 border-tone-border
+  outline-none state-halo [--touch-w:var(--choice-size)] [--touch-h:var(--choice-size)]
+  [--halo-size:calc(var(--choice-size)*20/9)] [--tone:--theme(--color-primary)]
+  [--tone-foreground:--theme(--color-primary-foreground)] [--tone-border:--theme(--color-input)]
+  [--halo-color:--theme(--color-foreground)]
+  aria-invalid:[--tone:--theme(--color-destructive)]
+  aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)] aria-invalid:[--tone-border:var(--tone)]
+  aria-invalid:[--halo-color:var(--tone)]
+  in-aria-invalid:[--tone:--theme(--color-destructive)]
+  in-aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)]
+  in-aria-invalid:[--tone-border:var(--tone)] in-aria-invalid:[--halo-color:var(--tone)]
+  data-[state=checked]:[--halo-color:var(--tone)] data-[state=checked]:border-tone
+  not-data-[touch-target=wrapper]:has-[+[data-slot=field-label],+[data-slot=field-content],+[data-slot=label]]:me-[calc(var(--choice-size)*11/18-0.25rem)]
+  focus-visible:focus-ring
+  disabled:cursor-not-allowed
+`;
 
 export const choiceControlVariants = {
   size: {
@@ -24,8 +39,18 @@ export const choiceGroupVariants = cva("flex", {
   variants: {
     variant: {
       default: "",
-      card: "choice-row gap-3 [&>[data-slot=field]]:rounded-lg [&>[data-slot=field]]:border [&>[data-slot=field]]:border-border [&>[data-slot=field]]:p-4 [&>[data-slot=field]:has([data-state=checked])]:border-primary [&>[data-slot=field]:has(:focus-visible)]:focus-ring [&>[data-slot=field][data-invalid]]:border-destructive",
-      list: "choice-row overflow-hidden rounded-lg border border-border [&>[data-slot=field]]:px-4 [&>[data-slot=field]]:py-3",
+      card: `
+        choice-row gap-3
+        [&>[data-slot=field]]:rounded-lg [&>[data-slot=field]]:border [&>[data-slot=field]]:border-border
+        [&>[data-slot=field]]:p-4
+        [&>[data-slot=field]:has([data-state=checked])]:border-primary
+        [&>[data-slot=field]:has(:focus-visible)]:focus-ring
+        [&>[data-slot=field][data-invalid]]:border-destructive
+      `,
+      list: `
+        choice-row overflow-hidden rounded-lg border border-border
+        [&>[data-slot=field]]:px-4 [&>[data-slot=field]]:py-3
+      `,
       table:
         "choice-row overflow-hidden rounded-lg border border-border [&_[data-slot=field-description]]:text-body-sm",
     },
@@ -43,14 +68,20 @@ export const choiceGroupVariants = cva("flex", {
     {
       variant: "table",
       orientation: "vertical",
-      class:
-        "[&>[data-slot=field]]:grid [&>[data-slot=field]]:grid-cols-[auto_minmax(0,1fr)_minmax(0,2fr)] [&>[data-slot=field]]:items-center [&>[data-slot=field]]:gap-x-4 [&>[data-slot=field]]:px-4 [&>[data-slot=field]]:py-2.5 [&_[data-slot=field-content]]:contents",
+      class: `
+        [&>[data-slot=field]]:grid [&>[data-slot=field]]:grid-cols-[auto_minmax(0,1fr)_minmax(0,2fr)]
+        [&>[data-slot=field]]:items-center [&>[data-slot=field]]:gap-x-4 [&>[data-slot=field]]:px-4
+        [&>[data-slot=field]]:py-2.5
+        [&_[data-slot=field-content]]:contents
+      `,
     },
     {
       variant: "table",
       orientation: "horizontal",
-      class:
-        "[&>[data-slot=field]]:flex-col [&>[data-slot=field]]:items-start [&>[data-slot=field]]:gap-3 [&>[data-slot=field]]:p-4",
+      class: `
+        [&>[data-slot=field]]:flex-col [&>[data-slot=field]]:items-start [&>[data-slot=field]]:gap-3
+        [&>[data-slot=field]]:p-4
+      `,
     },
   ],
   defaultVariants: {

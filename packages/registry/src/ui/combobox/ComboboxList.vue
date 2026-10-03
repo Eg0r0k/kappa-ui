@@ -40,7 +40,10 @@ const portalTarget = injectOverlayPortalTarget(null);
         cn(
           overlaySurface,
           menuSizeVariants(),
-          'flex max-h-(--reka-combobox-content-available-height) w-(--reka-combobox-trigger-width) min-w-32 flex-col overflow-hidden p-0 origin-(--reka-combobox-content-transform-origin)',
+          `
+            flex max-h-(--reka-combobox-content-available-height) w-(--reka-combobox-trigger-width) min-w-32 flex-col
+            overflow-hidden p-0 origin-(--reka-combobox-content-transform-origin)
+          `,
           props.class,
         )
       "

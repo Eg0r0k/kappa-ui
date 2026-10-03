@@ -18,7 +18,13 @@ export const [injectItemGroupContext, provideItemGroupContext] = createContext<{
 );
 
 export const itemVariants = cva(
-  "group/item relative flex flex-wrap items-center border border-transparent outline-none transition-colors duration-short-4 ease-standard focus-visible:focus-ring [a&]:cursor-pointer [a&]:state-layer [button&]:cursor-pointer [button&]:state-layer [button&]:text-start",
+  `
+    group/item relative flex flex-wrap items-center border border-transparent outline-none transition-colors
+    duration-short-4 ease-standard
+    focus-visible:focus-ring
+    [a&]:cursor-pointer [a&]:state-layer
+    [button&]:cursor-pointer [button&]:state-layer [button&]:text-start
+  `,
   {
     variants: {
       variant: {
@@ -45,14 +51,34 @@ export const itemVariants = cva(
 );
 
 export const itemMediaVariants = cva(
-  "flex shrink-0 items-center justify-center gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start [&_svg]:pointer-events-none",
+  `
+    flex shrink-0 items-center justify-center gap-2
+    group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start
+    [&_svg]:pointer-events-none
+  `,
   {
     variants: {
       variant: {
         default: "",
-        icon: "size-8 rounded-md border border-border bg-muted group-data-[size=xs]/item:size-6 group-data-[size=sm]/item:size-7 group-data-[size=lg]/item:size-9 group-data-[size=xl]/item:size-10 icon-size-4 group-data-[size=xs]/item:icon-size-3.5 group-data-[size=lg]/item:icon-size-5 group-data-[size=xl]/item:icon-size-5",
-        image:
-          "size-10 overflow-hidden rounded-md group-data-[size=xs]/item:size-8 group-data-[size=sm]/item:size-9 group-data-[size=lg]/item:size-12 group-data-[size=xl]/item:size-14 [&_img]:size-full [&_img]:object-cover",
+        icon: `
+          size-8 rounded-md border border-border bg-muted
+          group-data-[size=xs]/item:size-6
+          group-data-[size=sm]/item:size-7
+          group-data-[size=lg]/item:size-9
+          group-data-[size=xl]/item:size-10
+          icon-size-4
+          group-data-[size=xs]/item:icon-size-3.5
+          group-data-[size=lg]/item:icon-size-5
+          group-data-[size=xl]/item:icon-size-5
+        `,
+        image: `
+          size-10 overflow-hidden rounded-md
+          group-data-[size=xs]/item:size-8
+          group-data-[size=sm]/item:size-9
+          group-data-[size=lg]/item:size-12
+          group-data-[size=xl]/item:size-14
+          [&_img]:size-full [&_img]:object-cover
+        `,
       },
     },
     defaultVariants: {

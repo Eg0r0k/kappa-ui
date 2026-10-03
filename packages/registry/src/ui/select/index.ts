@@ -15,7 +15,13 @@ export { default as SelectTrigger } from "./SelectTrigger.vue";
 export { default as SelectValue } from "./SelectValue.vue";
 
 export const selectTriggerVariants = cva(
-  `${textControlBase} group/select-trigger flex cursor-default items-center justify-between gap-2 text-start whitespace-nowrap data-placeholder:text-muted-foreground *:data-[slot=select-value]:truncate [&_svg]:pointer-events-none [&_svg]:shrink-0 icon-size-4`,
+  `${textControlBase}
+    group/select-trigger flex cursor-default items-center justify-between gap-2 text-start whitespace-nowrap
+    data-placeholder:text-muted-foreground
+    *:data-[slot=select-value]:truncate
+    [&_svg]:pointer-events-none [&_svg]:shrink-0
+    icon-size-4
+  `,
   {
     variants: {
       variant: textControlVariant,

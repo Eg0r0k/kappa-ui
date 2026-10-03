@@ -28,6 +28,9 @@ const fromRoot = (path) => fileURLToPath(new URL(path, import.meta.url))
 const notClasses = ['interactive', 'pendingSource', 'rest', 'track']
 const uiSelectors = [...getDefaultSelectors(), { kind: 'variable', name: `^(?!(?:${notClasses.join('|')})$).+$` }]
 
+// Prettier prints a static class attribute on one line, so wrapping leaves attributes to it
+const withoutAttributes = (selectors) => selectors.filter((selector) => selector.kind !== 'attribute')
+
 const tailwind = (files, entryPoint, cwd, ignore, selectors) => ({
   files,
   plugins: { 'better-tailwindcss': betterTailwindcss },
@@ -37,6 +40,15 @@ const tailwind = (files, entryPoint, cwd, ignore, selectors) => ({
   rules: {
     ...betterTailwindcss.configs['correctness-error'].rules,
     'better-tailwindcss/no-unknown-classes': ['error', { ignore }],
+    'better-tailwindcss/enforce-consistent-line-wrapping': [
+      'error',
+      {
+        printWidth: 120,
+        preferSingleLine: true,
+        strictness: 'loose',
+        selectors: withoutAttributes(selectors ?? getDefaultSelectors()),
+      },
+    ],
   },
 })
 

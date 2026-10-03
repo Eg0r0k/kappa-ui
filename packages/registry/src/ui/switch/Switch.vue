@@ -59,7 +59,11 @@ const onPointerLeave = () => {
           :class="
             cn(
               switchIconClass,
-              'text-tone opacity-0 group-data-[state=checked]/switch:opacity-100 group-disabled/switch:text-foreground/(--disabled-opacity)',
+              `
+                text-tone opacity-0
+                group-data-[state=checked]/switch:opacity-100
+                group-disabled/switch:text-foreground/(--disabled-opacity)
+              `,
               !slots['unchecked-icon'] && '-rotate-45 group-data-[state=checked]/switch:rotate-0',
             )
           "

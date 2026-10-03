@@ -11,7 +11,11 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     data-slot="field-legend"
     :class="
       cn(
-        'mb-4 text-title-md group-data-disabled/fieldset:text-foreground/(--disabled-opacity) group-data-invalid/fieldset:text-destructive',
+        `
+          mb-4 text-title-md
+          group-data-disabled/fieldset:text-foreground/(--disabled-opacity)
+          group-data-invalid/fieldset:text-destructive
+        `,
         props.class,
       )
     "

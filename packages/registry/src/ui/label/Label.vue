@@ -15,7 +15,10 @@ const props = defineProps<LabelProps & { class?: HTMLAttributes["class"] }>();
     :as-child="props.asChild"
     :class="
       cn(
-        'inline-flex items-center gap-1 text-label-lg text-foreground select-none peer-disabled:cursor-not-allowed peer-disabled:text-foreground/(--disabled-opacity)',
+        `
+          inline-flex items-center gap-1 text-label-lg text-foreground select-none
+          peer-disabled:cursor-not-allowed peer-disabled:text-foreground/(--disabled-opacity)
+        `,
         props.class,
       )
     "

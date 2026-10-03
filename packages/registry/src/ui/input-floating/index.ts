@@ -52,16 +52,35 @@ export const inputFloatingInputVariants = cva(
   },
 );
 
-const floatInside =
-  "peer-focus:translate-y-0 peer-focus:text-body-sm peer-not-placeholder-shown:translate-y-0 peer-not-placeholder-shown:text-body-sm peer-autofill:translate-y-0 peer-autofill:text-body-sm group-data-float/floating:translate-y-0 group-data-float/floating:text-body-sm";
+const floatInside = `
+  peer-focus:translate-y-0 peer-focus:text-body-sm
+  peer-not-placeholder-shown:translate-y-0 peer-not-placeholder-shown:text-body-sm
+  peer-autofill:translate-y-0 peer-autofill:text-body-sm
+  group-data-float/floating:translate-y-0 group-data-float/floating:text-body-sm
+`;
 
 export const inputFloatingLabelVariants = cva(
-  "pointer-events-none absolute top-1/2 -translate-y-1/2 truncate text-body-lg text-muted-foreground md:text-body-md transition-[top,translate,font-size,line-height,color] duration-short-4 ease-standard motion-reduce:transition-none peer-focus:text-primary peer-user-invalid:text-destructive peer-user-invalid:peer-focus:text-destructive peer-disabled:text-foreground/(--disabled-opacity) peer-aria-invalid:text-destructive peer-aria-invalid:peer-focus:text-destructive",
+  `
+    pointer-events-none absolute top-1/2 -translate-y-1/2 truncate text-body-lg text-muted-foreground
+    md:text-body-md
+    transition-[top,translate,font-size,line-height,color] duration-short-4 ease-standard
+    motion-reduce:transition-none
+    peer-focus:text-primary
+    peer-user-invalid:text-destructive
+    peer-user-invalid:peer-focus:text-destructive
+    peer-disabled:text-foreground/(--disabled-opacity)
+    peer-aria-invalid:text-destructive
+    peer-aria-invalid:peer-focus:text-destructive
+  `,
   {
     variants: {
       variant: {
-        outline:
-          "peer-focus:top-0 peer-focus:text-body-sm peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:text-body-sm peer-autofill:top-0 peer-autofill:text-body-sm group-data-float/floating:top-0 group-data-float/floating:text-body-sm",
+        outline: `
+          peer-focus:top-0 peer-focus:text-body-sm
+          peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:text-body-sm
+          peer-autofill:top-0 peer-autofill:text-body-sm
+          group-data-float/floating:top-0 group-data-float/floating:text-body-sm
+        `,
         soft: floatInside,
         filled: floatInside,
         ghost: floatInside,
@@ -79,8 +98,12 @@ export const inputFloatingLabelVariants = cva(
       {
         variant: insideLabel,
         size: "xs",
-        class:
-          "peer-focus:top-0.5 peer-not-placeholder-shown:top-0.5 peer-autofill:top-0.5 group-data-float/floating:top-0.5",
+        class: `
+          peer-focus:top-0.5
+          peer-not-placeholder-shown:top-0.5
+          peer-autofill:top-0.5
+          group-data-float/floating:top-0.5
+        `,
       },
       {
         variant: insideLabel,
@@ -90,8 +113,12 @@ export const inputFloatingLabelVariants = cva(
       {
         variant: insideLabel,
         size: "md",
-        class:
-          "peer-focus:top-1.5 peer-not-placeholder-shown:top-1.5 peer-autofill:top-1.5 group-data-float/floating:top-1.5",
+        class: `
+          peer-focus:top-1.5
+          peer-not-placeholder-shown:top-1.5
+          peer-autofill:top-1.5
+          group-data-float/floating:top-1.5
+        `,
       },
       {
         variant: insideLabel,
@@ -107,7 +134,16 @@ export const inputFloatingLabelVariants = cva(
 );
 
 export const inputFloatingOutlineVariants = cva(
-  "pointer-events-none absolute inset-x-0 -top-[5px] bottom-0 m-0 min-w-0 rounded-(--control-radius) border border-input transition-[border-color] duration-short-3 ease-standard peer-focus-visible:border-2 peer-focus-visible:border-primary peer-user-invalid:border-destructive peer-user-invalid:peer-focus-visible:border-destructive peer-disabled:border-foreground/(--disabled-container-opacity) peer-aria-invalid:border-destructive peer-aria-invalid:peer-focus-visible:border-destructive",
+  `
+    pointer-events-none absolute inset-x-0 -top-[5px] bottom-0 m-0 min-w-0 rounded-(--control-radius) border
+    border-input transition-[border-color] duration-short-3 ease-standard
+    peer-focus-visible:border-2 peer-focus-visible:border-primary
+    peer-user-invalid:border-destructive
+    peer-user-invalid:peer-focus-visible:border-destructive
+    peer-disabled:border-foreground/(--disabled-container-opacity)
+    peer-aria-invalid:border-destructive
+    peer-aria-invalid:peer-focus-visible:border-destructive
+  `,
   {
     variants: {
       size: { xs: "px-1", sm: "px-1.5", md: "px-2", lg: "px-2", xl: "px-3" },
@@ -117,7 +153,16 @@ export const inputFloatingOutlineVariants = cva(
 );
 
 export const inputFloatingLegendVariants = cva(
-  "invisible float-none h-2.5 max-w-0 overflow-hidden p-0 text-body-sm whitespace-nowrap transition-[max-width] duration-short-2 ease-standard motion-reduce:transition-none group-data-float/floating:max-w-full group-data-float/floating:px-1 group-has-[input:focus]/floating:max-w-full group-has-[input:focus]/floating:px-1 group-has-[input:not(:placeholder-shown)]/floating:max-w-full group-has-[input:not(:placeholder-shown)]/floating:px-1 group-has-[input:autofill]/floating:max-w-full group-has-[input:autofill]/floating:px-1",
+  `
+    invisible float-none h-2.5 max-w-0 overflow-hidden p-0 text-body-sm whitespace-nowrap transition-[max-width]
+    duration-short-2 ease-standard
+    motion-reduce:transition-none
+    group-data-float/floating:max-w-full group-data-float/floating:px-1
+    group-has-[input:focus]/floating:max-w-full group-has-[input:focus]/floating:px-1
+    group-has-[input:not(:placeholder-shown)]/floating:max-w-full
+    group-has-[input:not(:placeholder-shown)]/floating:px-1
+    group-has-[input:autofill]/floating:max-w-full group-has-[input:autofill]/floating:px-1
+  `,
 );
 
 export type InputFloatingVariants = VariantProps<typeof inputFloatingVariants>;

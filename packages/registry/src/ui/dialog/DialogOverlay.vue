@@ -18,7 +18,13 @@ const delegated = computed(() => {
     data-slot="dialog-overlay"
     :class="
       cn(
-        'fixed inset-0 bg-scrim animate-overlay [--overlay-scale:1] transition-[background-color] duration-short-4 ease-standard motion-reduce:transition-none has-[~[data-slot=dialog-overlay][data-state=open]]:bg-transparent z-50',
+        `
+          fixed inset-0 bg-scrim animate-overlay [--overlay-scale:1] transition-[background-color] duration-short-4
+          ease-standard
+          motion-reduce:transition-none
+          has-[~[data-slot=dialog-overlay][data-state=open]]:bg-transparent
+          z-50
+        `,
         props.class,
       )
     "

@@ -8,7 +8,10 @@ export { default as CardHeader } from "./CardHeader.vue";
 export { default as CardTitle } from "./CardTitle.vue";
 
 export const cardVariants = cva(
-  "group/card flex flex-col gap-(--card-spacing) py-(--card-spacing) text-card-foreground [--scroll-fade-color:var(--card)]",
+  `
+    group/card flex flex-col gap-(--card-spacing) py-(--card-spacing) text-card-foreground
+    [--scroll-fade-color:var(--card)]
+  `,
   {
     variants: {
       variant: {

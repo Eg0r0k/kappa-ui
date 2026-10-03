@@ -15,7 +15,12 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     :class="
       cn(
         imageLayer,
-        '[[data-slot=image]:not([data-state=loading])>&]:hidden group-data-[state=loading]/image:visible group-data-[state=loading]/image:opacity-100 group-data-[state=error]/image:delay-0 group-data-[state=loaded]/image:delay-0',
+        `
+          [[data-slot=image]:not([data-state=loading])>&]:hidden
+          group-data-[state=loading]/image:visible group-data-[state=loading]/image:opacity-100
+          group-data-[state=error]/image:delay-0
+          group-data-[state=loaded]/image:delay-0
+        `,
         props.class,
       )
     "

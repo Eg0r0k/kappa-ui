@@ -14,7 +14,10 @@ export { default as AlertDialogTitle } from "./AlertDialogTitle.vue";
 export { default as AlertDialogTrigger } from "./AlertDialogTrigger.vue";
 
 export const alertDialogContentVariants = cva(
-  `${dialogSurface} group/alert-dialog fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2`,
+  `${dialogSurface}
+    group/alert-dialog fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] -translate-x-1/2
+    -translate-y-1/2
+  `,
   {
     variants: {
       size: { default: "max-w-lg", sm: "max-w-xs" },
