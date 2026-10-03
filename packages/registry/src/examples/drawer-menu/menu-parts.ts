@@ -1,18 +1,6 @@
 import type { Component } from "vue";
 
 import {
-  ContextMenuCheckboxItem,
-  ContextMenuGroup,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-  ContextMenuSeparator,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-} from "@/ui/context-menu";
-import {
   DrawerMenuCheckboxItem,
   DrawerMenuGroup,
   DrawerMenuItem,
@@ -25,17 +13,17 @@ import {
   DrawerMenuSubTrigger,
 } from "@/ui/drawer-menu";
 import {
-  DropdownMenuCheckboxItem,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-} from "@/ui/dropdown-menu";
+  MenuCheckboxItem,
+  MenuGroup,
+  MenuItem,
+  MenuLabel,
+  MenuRadioGroup,
+  MenuRadioItem,
+  MenuSeparator,
+  MenuSub,
+  MenuSubContent,
+  MenuSubTrigger,
+} from "@/ui/menu";
 
 export interface MenuPartSet {
   Item: Component;
@@ -50,30 +38,17 @@ export interface MenuPartSet {
   CheckboxItem: Component;
 }
 
-export const dropdownParts: MenuPartSet = {
-  Item: DropdownMenuItem,
-  Separator: DropdownMenuSeparator,
-  Label: DropdownMenuLabel,
-  Group: DropdownMenuGroup,
-  Sub: DropdownMenuSub,
-  SubTrigger: DropdownMenuSubTrigger,
-  SubContent: DropdownMenuSubContent,
-  RadioGroup: DropdownMenuRadioGroup,
-  RadioItem: DropdownMenuRadioItem,
-  CheckboxItem: DropdownMenuCheckboxItem,
-};
-
-export const contextParts: MenuPartSet = {
-  Item: ContextMenuItem,
-  Separator: ContextMenuSeparator,
-  Label: ContextMenuLabel,
-  Group: ContextMenuGroup,
-  Sub: ContextMenuSub,
-  SubTrigger: ContextMenuSubTrigger,
-  SubContent: ContextMenuSubContent,
-  RadioGroup: ContextMenuRadioGroup,
-  RadioItem: ContextMenuRadioItem,
-  CheckboxItem: ContextMenuCheckboxItem,
+export const menuParts: MenuPartSet = {
+  Item: MenuItem,
+  Separator: MenuSeparator,
+  Label: MenuLabel,
+  Group: MenuGroup,
+  Sub: MenuSub,
+  SubTrigger: MenuSubTrigger,
+  SubContent: MenuSubContent,
+  RadioGroup: MenuRadioGroup,
+  RadioItem: MenuRadioItem,
+  CheckboxItem: MenuCheckboxItem,
 };
 
 export const sheetParts: MenuPartSet = {

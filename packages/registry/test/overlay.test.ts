@@ -3,16 +3,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/ui/context-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
+import { Menu, MenuItem, MenuSub, MenuSubContent, MenuSubTrigger } from "@/ui/menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 
@@ -57,25 +48,21 @@ const overlays: Record<string, { open: () => Promise<void>; render: () => VNode;
     content: "select-content",
     scrim: "select-scrim",
   },
-  "dropdown menu": {
-    render: () =>
-      h(DropdownMenu, () => [
-        h(DropdownMenuTrigger, { "data-test": "trigger" }, () => "Open"),
-        h(DropdownMenuContent, () => h(DropdownMenuItem, () => "Item")),
-      ]),
+  menu: {
+    render: () => h("button", { "data-test": "trigger" }, ["Open", h(Menu, () => h(MenuItem, () => "Item"))]),
     open: () => clickAt(byTest("trigger")),
-    content: "dropdown-menu-content",
-    scrim: "dropdown-menu-scrim",
+    content: "menu",
+    scrim: "menu-scrim",
   },
   "context menu": {
     render: () =>
-      h(ContextMenu, () => [
-        h(ContextMenuTrigger, { "data-test": "trigger", style: "display:block;width:200px;height:80px" }, () => "Area"),
-        h(ContextMenuContent, () => h(ContextMenuItem, () => "Item")),
+      h("div", { "data-test": "trigger", style: "width:200px;height:80px" }, [
+        "Area",
+        h(Menu, { contextMenu: true }, () => h(MenuItem, () => "Item")),
       ]),
     open: () => clickAt(byTest("trigger"), "right"),
-    content: "context-menu-content",
-    scrim: "context-menu-scrim",
+    content: "menu",
+    scrim: "menu-scrim",
   },
   "modal popover": {
     render: () =>
@@ -128,17 +115,14 @@ describe("modal scrim", () => {
     wrapper.unmount();
   });
 
-  it("is left out of a dropdown menu with modal off", async () => {
+  it("is left out of a menu with modal off", async () => {
     const wrapper = host(() =>
-      h(DropdownMenu, { modal: false }, () => [
-        h(DropdownMenuTrigger, { "data-test": "trigger" }, () => "Open"),
-        h(DropdownMenuContent, () => h(DropdownMenuItem, () => "Item")),
-      ]),
+      h("button", { "data-test": "trigger" }, ["Open", h(Menu, { modal: false }, () => h(MenuItem, () => "Item"))]),
     );
 
     await clickAt(byTest("trigger"));
-    expect(document.querySelector("[data-slot=dropdown-menu-content]")).not.toBeNull();
-    expect(document.querySelector("[data-slot=dropdown-menu-scrim]")).toBeNull();
+    expect(document.querySelector("[data-slot=menu]")).not.toBeNull();
+    expect(document.querySelector("[data-slot=menu-scrim]")).toBeNull();
     wrapper.unmount();
   });
 
@@ -156,24 +140,24 @@ describe("modal scrim", () => {
 
   it("stays single for a menu with an open submenu and closes both on an outside click", async () => {
     const wrapper = host(() =>
-      h(DropdownMenu, () => [
-        h(DropdownMenuTrigger, { "data-test": "trigger" }, () => "Open"),
-        h(DropdownMenuContent, () =>
-          h(DropdownMenuSub, { defaultOpen: true }, () => [
-            h(DropdownMenuSubTrigger, () => "More"),
-            h(DropdownMenuSubContent, () => h(DropdownMenuItem, () => "Nested")),
+      h("button", { "data-test": "trigger" }, [
+        "Open",
+        h(Menu, () =>
+          h(MenuSub, { defaultOpen: true }, () => [
+            h(MenuSubTrigger, () => "More"),
+            h(MenuSubContent, () => h(MenuItem, () => "Nested")),
           ]),
         ),
       ]),
     );
 
     await clickAt(byTest("trigger"));
-    expect(document.querySelectorAll("[data-slot=dropdown-menu-scrim]")).toHaveLength(1);
+    expect(document.querySelectorAll("[data-slot=menu-scrim]")).toHaveLength(1);
 
     await clickAt(byTest("auto"));
     expect(clicks).toEqual([]);
-    await expect.poll(() => document.querySelector("[data-slot=dropdown-menu-content]")).toBeNull();
-    await expect.poll(() => document.querySelector("[data-slot=dropdown-menu-sub-content]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-slot=menu]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-slot=menu-sub-content]")).toBeNull();
     wrapper.unmount();
   });
 

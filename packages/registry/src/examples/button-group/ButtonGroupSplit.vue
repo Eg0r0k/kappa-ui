@@ -3,21 +3,19 @@ import { ChevronDown } from "@lucide/vue";
 
 import { Button } from "@/ui/button";
 import { ButtonGroup, ButtonGroupSeparator } from "@/ui/button-group";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu";
+import { Menu, MenuItem } from "@/ui/menu";
 </script>
 
 <template>
   <ButtonGroup aria-label="Send">
     <Button>Send</Button>
     <ButtonGroupSeparator />
-    <DropdownMenu>
-      <DropdownMenuTrigger as-child>
-        <Button size="icon" aria-label="More send options"><ChevronDown /></Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" size="sm">
-        <DropdownMenuItem>Schedule send</DropdownMenuItem>
-        <DropdownMenuItem>Send without notification</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button size="icon" aria-label="More send options">
+      <ChevronDown />
+      <Menu anchor="bottom end" self="top end" size="sm">
+        <MenuItem>Schedule send</MenuItem>
+        <MenuItem>Send without notification</MenuItem>
+      </Menu>
+    </Button>
   </ButtonGroup>
 </template>

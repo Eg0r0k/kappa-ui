@@ -6,8 +6,8 @@ import { previewGroup } from '~/lib/theme-preview'
 import { Button } from '@/ui/button'
 import { ButtonGroup, ButtonGroupSeparator } from '@/ui/button-group'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/ui/card'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/ui/dropdown-menu'
 import { Kbd } from '@/ui/kbd'
+import { Menu, MenuItem } from '@/ui/menu'
 import { Textarea } from '@/ui/textarea'
 import { useToast } from '@/ui/toast'
 
@@ -71,16 +71,14 @@ const send = () =>
       <ButtonGroup aria-label="Send">
         <Button @click="send">Send</Button>
         <ButtonGroupSeparator />
-        <DropdownMenu>
-          <DropdownMenuTrigger as-child>
-            <Button size="icon" aria-label="More send options"><ChevronDown /></Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem @select="send">Send now</DropdownMenuItem>
-            <DropdownMenuItem>Schedule for tomorrow</DropdownMenuItem>
-            <DropdownMenuItem>Send without notifying</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button size="icon" aria-label="More send options">
+          <ChevronDown />
+          <Menu anchor="bottom end" self="top end">
+            <MenuItem @select="send">Send now</MenuItem>
+            <MenuItem>Schedule for tomorrow</MenuItem>
+            <MenuItem>Send without notifying</MenuItem>
+          </Menu>
+        </Button>
       </ButtonGroup>
     </CardFooter>
   </Card>

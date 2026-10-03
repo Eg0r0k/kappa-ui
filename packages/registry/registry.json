@@ -593,7 +593,7 @@
       ],
       "registryDependencies": [
         "breadcrumb",
-        "dropdown-menu"
+        "menu"
       ],
       "files": [
         {
@@ -2078,164 +2078,6 @@
       ]
     },
     {
-      "name": "context-menu",
-      "type": "registry:ui",
-      "title": "Context Menu",
-      "description": "A menu that opens on right-click or long-press, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": [
-        "class-variance-authority",
-        "@kappa-ui/core",
-        "@lucide/vue",
-        "reka-ui"
-      ],
-      "registryDependencies": [
-        "utils",
-        "tokens",
-        "popover"
-      ],
-      "files": [
-        {
-          "path": "src/ui/context-menu/ContextMenu.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuCheckboxItem.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuContent.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuGroup.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuItem.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuLabel.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuRadioGroup.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuRadioItem.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuSeparator.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuShortcut.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuSub.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuSubContent.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuSubTrigger.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/ContextMenuTrigger.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/context-menu/index.ts",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu",
-      "type": "registry:ui",
-      "title": "Dropdown Menu",
-      "description": "A menu opened from a button, with checkbox and radio items, submenus and shortcuts, built on Reka UI.",
-      "dependencies": [
-        "class-variance-authority",
-        "@kappa-ui/core",
-        "@lucide/vue",
-        "reka-ui"
-      ],
-      "registryDependencies": [
-        "utils",
-        "tokens",
-        "popover"
-      ],
-      "files": [
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenu.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuCheckboxItem.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuContent.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuGroup.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuItem.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuLabel.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuRadioGroup.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuRadioItem.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuSeparator.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuShortcut.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuSub.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuSubContent.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuSubTrigger.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/DropdownMenuTrigger.vue",
-          "type": "registry:ui"
-        },
-        {
-          "path": "src/ui/dropdown-menu/index.ts",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
@@ -2751,8 +2593,8 @@
       ],
       "registryDependencies": [
         "button-group",
-        "button",
-        "dropdown-menu"
+        "menu",
+        "button"
       ],
       "files": [
         {
@@ -5837,7 +5679,7 @@
       "name": "drawer-menu-responsive",
       "type": "registry:block",
       "title": "Drawer menu responsive",
-      "description": "One menu definition rendered as a dropdown and a context menu on wide screens and as a drawer menu on narrow ones, by swapping a set of parts.",
+      "description": "One menu definition rendered as a click menu and a context menu on wide screens and as a drawer menu on narrow ones, by swapping a set of parts.",
       "categories": [
         "example"
       ],
@@ -5847,8 +5689,7 @@
       "registryDependencies": [
         "drawer-menu",
         "drawer",
-        "dropdown-menu",
-        "context-menu",
+        "menu",
         "button"
       ],
       "files": [
@@ -6118,6 +5959,44 @@
       "files": [
         {
           "path": "src/examples/menu/MenuSizing.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menu-checkboxes",
+      "type": "registry:block",
+      "title": "Menu checkboxes",
+      "description": "Checkbox items that toggle settings, bound with v-model.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menu/MenuCheckboxes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menu-radio-group",
+      "type": "registry:block",
+      "title": "Menu radio group",
+      "description": "Radio items that pick one option, bound with v-model on the group.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menu/MenuRadioGroup.vue",
           "type": "registry:component"
         }
       ]
@@ -6419,213 +6298,6 @@
       "files": [
         {
           "path": "src/examples/select/SelectField.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu-demo",
-      "type": "registry:block",
-      "title": "Dropdown menu demo",
-      "description": "An account menu with a label, groups, shortcuts, a submenu and a destructive item.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "dropdown-menu",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/dropdown-menu/DropdownMenuDemo.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu-checkboxes",
-      "type": "registry:block",
-      "title": "Dropdown menu checkboxes",
-      "description": "Checkbox items that toggle settings.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "dropdown-menu",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/dropdown-menu/DropdownMenuCheckboxes.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu-radio-group",
-      "type": "registry:block",
-      "title": "Dropdown menu radio group",
-      "description": "Radio items that pick one of several options.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "dropdown-menu",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/dropdown-menu/DropdownMenuRadioGroup.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu-sizes",
-      "type": "registry:block",
-      "title": "Dropdown menu sizes",
-      "description": "The same menu in every size, from xs to xl; submenus follow their parent.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "dropdown-menu",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/dropdown-menu/DropdownMenuSizes.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu-open-state",
-      "type": "registry:block",
-      "title": "Dropdown menu open state",
-      "description": "A row that stays highlighted while its actions menu is open, styled from the trigger's data-state.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "dropdown-menu",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/dropdown-menu/DropdownMenuOpenState.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu-non-modal",
-      "type": "registry:block",
-      "title": "Non-modal dropdown menu",
-      "description": "Row menus that leave the list scrolling and the page live.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "dropdown-menu",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/dropdown-menu/DropdownMenuNonModal.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "context-menu-demo",
-      "type": "registry:block",
-      "title": "Context menu demo",
-      "description": "A browser-style context menu with shortcuts, a submenu, checkbox and radio items.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "context-menu"
-      ],
-      "files": [
-        {
-          "path": "src/examples/context-menu/ContextMenuDemo.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "context-menu-sizes",
-      "type": "registry:block",
-      "title": "Context menu sizes",
-      "description": "The same context menu in every size, from xs to xl.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "context-menu"
-      ],
-      "files": [
-        {
-          "path": "src/examples/context-menu/ContextMenuSizes.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "context-menu-open-state",
-      "type": "registry:block",
-      "title": "Context menu open state",
-      "description": "File tiles that stay highlighted while their context menu is open.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "context-menu"
-      ],
-      "files": [
-        {
-          "path": "src/examples/context-menu/ContextMenuOpenState.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "context-menu-non-modal",
-      "type": "registry:block",
-      "title": "Non-modal context menu",
-      "description": "A context menu that moves to the row you right-click next.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "context-menu"
-      ],
-      "files": [
-        {
-          "path": "src/examples/context-menu/ContextMenuNonModal.vue",
           "type": "registry:component"
         }
       ]
@@ -6986,7 +6658,7 @@
       ],
       "registryDependencies": [
         "select",
-        "dropdown-menu",
+        "menu",
         "button"
       ],
       "files": [
