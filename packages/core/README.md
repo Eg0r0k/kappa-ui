@@ -4,7 +4,7 @@ The npm half of [kappa-ui](https://kappa-ui.pages.dev), a shadcn-style component
 
 kappa-ui components are copied into your project by the shadcn-vue CLI. Their mechanism lives here instead, so it receives fixes through npm:
 
-- the overlay scrim and portal target, the `vRipple` and `vScrollFade` directives, the toast manager, programmatic dialogs and the tooltip behaviour (rest delay, long press on touch, close reasons);
+- the overlay scrim and portal target, the `vRipple` and `vScrollFade` directives, the toast manager, programmatic dialogs, the tooltip behaviour (rest delay, long press on touch, close reasons), and the `drag` gesture with the swipe actions row built on it;
 - `@kappa-ui/core/menu`, the menu parts [Reka UI](https://reka-ui.com) keeps internal, checked in development so a Reka upgrade that drops one fails with a message naming it;
 - `@kappa-ui/core/tailwind.css`, the utilities and keyframes the components are drawn with.
 

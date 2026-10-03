@@ -96,6 +96,21 @@
       }
     },
     {
+      "name": "drag",
+      "type": "registry:lib",
+      "title": "Drag",
+      "description": "A one-axis drag gesture for mouse, pen and touch that leaves vertical scrolling to the browser on touch screens.",
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "files": [
+        {
+          "path": "src/lib/drag/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "scroll",
       "type": "registry:lib",
       "title": "Scroll",
@@ -2014,7 +2029,7 @@
       "name": "drawer-menu",
       "type": "registry:ui",
       "title": "Drawer Menu",
-      "description": "A menu inside a drawer for touch screens, with checkbox and radio items and submenus that drill down in the same sheet; its parts take the same props as the dropdown and context menu ones.",
+      "description": "A menu inside a drawer for touch screens, with checkbox and radio items and submenus that drill down in the same sheet; its parts take the same props as the menu ones.",
       "dependencies": [
         "class-variance-authority",
         "@kappa-ui/core",
@@ -2099,6 +2114,91 @@
         {
           "path": "src/ui/switch/index.ts",
           "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "swipe-actions",
+      "type": "registry:ui",
+      "title": "Swipe Actions",
+      "description": "A list row that slides sideways to reveal actions, the way Mail does on iOS: it holds open on its strip, a full swipe can run the outermost action, and one row stays open at a time.",
+      "dependencies": [
+        "@kappa-ui/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/swipe-actions/SwipeAction.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeRoot.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "swipe-actions-demo",
+      "type": "registry:block",
+      "title": "Swipe actions demo",
+      "description": "A mail list: swipe a row right to archive it, left to flag or delete it, all the way across to run the outermost action.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "swipe-actions",
+        "item"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-actions/SwipeActionsDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "swipe-actions-state",
+      "type": "registry:block",
+      "title": "Swipe actions state",
+      "description": "A row opened and closed from code through v-model:state.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "swipe-actions",
+        "item",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-actions/SwipeActionsState.vue",
+          "type": "registry:component"
         }
       ]
     },
@@ -3634,6 +3734,25 @@
       "files": [
         {
           "path": "src/examples/ripple/RippleDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "drag-demo",
+      "type": "registry:block",
+      "title": "Drag demo",
+      "description": "A card that is dismissed when dragged past half its width or flicked, and springs back otherwise.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "drag",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/drag/DragDemo.vue",
           "type": "registry:component"
         }
       ]
