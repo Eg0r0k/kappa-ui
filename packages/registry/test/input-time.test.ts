@@ -1,4 +1,5 @@
 import { Time } from "@internationalized/date";
+import { Clock } from "@lucide/vue";
 import { mount } from "@vue/test-utils";
 import type { TimeValue } from "reka-ui";
 import { afterEach, expect, it } from "vitest";
@@ -6,6 +7,7 @@ import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
 import { Field, FieldError, FieldLabel } from "@/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupButton } from "@/ui/input-group";
 import { InputTime, InputTimeRange } from "@/ui/input-time";
 
 afterEach(() => {
@@ -175,4 +177,43 @@ it("emits the range once both ends are typed", async () => {
   await userEvent.click(editable()[0]!);
   await userEvent.keyboard("09001730");
   expect(updates.at(-1)).toBe("09:00:00-17:30:00");
+});
+
+const groupFrame = () => document.querySelector<HTMLElement>("[data-slot=input-group]")!;
+const groupControl = () => document.querySelector<HTMLElement>("[data-slot=input-group-control]")!;
+
+it("becomes the frameless control of an InputGroup at the group's size", async () => {
+  render(
+    h(InputGroup, { size: "sm", style: colors }, () => [
+      h(InputGroupAddon, () => h(Clock)),
+      h(InputTime, { hourCycle: 24, defaultValue: new Time(9, 30) }),
+      h(InputGroupAddon, { align: "inline-end" }, () => h(InputGroupButton, () => "Now")),
+    ]),
+  );
+  expect(groupControl().getAttribute("role")).toBe("group");
+  expect(groupControl().dataset.size).toBe("sm");
+  expect(getComputedStyle(groupControl()).borderTopWidth).toBe("0px");
+  expect(groupFrame().offsetHeight).toBe(32);
+  editable()[0]!.focus();
+  await settle();
+  expect(getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 128, 0)");
+  document.querySelector<HTMLElement>("[data-slot=input-group-button]")!.focus();
+  await settle();
+  expect(getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 0, 255)");
+});
+
+it("focuses its first segment when an addon of its group is clicked", async () => {
+  render(h(InputGroup, () => [h(InputGroupAddon, () => h(Clock)), h(InputTimeRange, { hourCycle: 24 })]));
+  document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!.click();
+  await nextTick();
+  expect(document.activeElement).toBe(editable()[0]);
+});
+
+it("fades the group when disabled inside it", () => {
+  render(
+    h(InputGroup, { style: colors }, () => [h(InputGroupAddon, () => h(Clock)), h(InputTime, { disabled: true })]),
+  );
+  const addon = document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!;
+  expect(Number(getComputedStyle(addon).opacity)).toBeLessThan(1);
+  expect(getComputedStyle(groupFrame()).borderTopColor).not.toBe("rgb(0, 0, 255)");
 });

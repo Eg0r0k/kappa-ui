@@ -26,6 +26,20 @@ export const inputTimeVariants = cva(
   },
 );
 
+export const inputTimeGroupedVariants = cva(
+  `
+    flex h-full min-w-0 flex-1 items-center px-(--input-group-padding) text-body-lg text-foreground
+    icon-size-(--input-group-icon)
+    md:text-body-md
+  `,
+  {
+    variants: {
+      size: { xs: "md:text-body-sm", sm: "", md: "", lg: "", xl: "md:text-body-lg" },
+    },
+    defaultVariants: { size: "md" },
+  },
+);
+
 export const inputTimeSegment = `
   min-w-[calc(2ch+--spacing(1))] rounded-sm px-0.5 text-center tabular-nums tone-control outline-none
   focus:bg-tone focus:text-tone-foreground

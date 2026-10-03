@@ -1658,6 +1658,7 @@
         "tokens",
         "field-context",
         "input",
+        "input-group",
         "spinner"
       ],
       "files": [
