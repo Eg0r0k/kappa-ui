@@ -3,6 +3,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { textControlFrameVariant, textControlRadius } from "@/ui/input";
 
 export { default as InputTime } from "./InputTime.vue";
+export { default as InputTimeRange } from "./InputTimeRange.vue";
 
 export const inputTimeVariants = cva(
   `

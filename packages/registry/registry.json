@@ -1666,6 +1666,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/input-time/InputTimeRange.vue",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/input-time/index.ts",
           "type": "registry:ui"
         }

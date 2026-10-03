@@ -6,7 +6,7 @@ import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
 import { Field, FieldError, FieldLabel } from "@/ui/field";
-import { InputTime } from "@/ui/input-time";
+import { InputTime, InputTimeRange } from "@/ui/input-time";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -142,4 +142,37 @@ it("shows a spinner at the end and marks the field busy while loading", () => {
 it("submits the time under its name", () => {
   render(h("form", [h(InputTime, { name: "start", defaultValue: new Time(9, 30) })]));
   expect(new FormData(document.querySelector("form")!).get("start")).toBe("09:30:00");
+});
+
+const range = () => document.querySelector<HTMLElement>("[data-slot=input-time-range]")!;
+
+it("renders start and end segments around a hidden separator", () => {
+  render(
+    h(InputTimeRange, {
+      style: colors,
+      hourCycle: 24,
+      defaultValue: { start: new Time(9, 0), end: new Time(17, 30) },
+    }),
+  );
+  expect(range().getAttribute("role")).toBe("group");
+  expect(range().offsetHeight).toBe(36);
+  expect(editable().map((segment) => segment.textContent)).toEqual(["09", "00", "17", "30"]);
+  const separator = range().querySelector<HTMLElement>("[data-slot=input-time-range-separator]")!;
+  expect(separator.getAttribute("aria-hidden")).toBe("true");
+  expect(separator.getBoundingClientRect().left).toBeGreaterThan(editable()[1]!.getBoundingClientRect().right - 1);
+  expect(separator.getBoundingClientRect().right).toBeLessThan(editable()[2]!.getBoundingClientRect().left + 1);
+});
+
+it("emits the range once both ends are typed", async () => {
+  const updates: string[] = [];
+  render(
+    h(InputTimeRange, {
+      hourCycle: 24,
+      "onUpdate:modelValue": (value: { start?: TimeValue; end?: TimeValue }) =>
+        updates.push(`${String(value.start)}-${String(value.end)}`),
+    }),
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard("09001730");
+  expect(updates.at(-1)).toBe("09:00:00-17:30:00");
 });
