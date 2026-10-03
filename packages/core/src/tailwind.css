@@ -73,6 +73,19 @@
   --color-tone-border-subtle: var(--tone-border-subtle);
 }
 
+@utility tone-control {
+  --tone: --theme(--color-primary);
+  --tone-foreground: --theme(--color-primary-foreground);
+  --tone-border: --theme(--color-input);
+}
+
+@utility tone-invalid {
+  --tone: --theme(--color-destructive);
+  --tone-foreground: --theme(--color-destructive-foreground);
+  --tone-border: var(--tone);
+  --halo-color: var(--tone);
+}
+
 @property --touch-w {
   syntax: "*";
   inherits: false;

@@ -5,15 +5,9 @@ export { default as ChoiceGroup } from "./ChoiceGroup.vue";
 export const choiceControl = `
   relative inline-flex size-(--choice-size) shrink-0 items-center justify-center border-2 border-tone-border
   outline-none state-halo [--touch-w:var(--choice-size)] [--touch-h:var(--choice-size)]
-  [--halo-size:calc(var(--choice-size)*20/9)] [--tone:--theme(--color-primary)]
-  [--tone-foreground:--theme(--color-primary-foreground)] [--tone-border:--theme(--color-input)]
-  [--halo-color:--theme(--color-foreground)]
-  aria-invalid:[--tone:--theme(--color-destructive)]
-  aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)] aria-invalid:[--tone-border:var(--tone)]
-  aria-invalid:[--halo-color:var(--tone)]
-  in-aria-invalid:[--tone:--theme(--color-destructive)]
-  in-aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)]
-  in-aria-invalid:[--tone-border:var(--tone)] in-aria-invalid:[--halo-color:var(--tone)]
+  [--halo-size:calc(var(--choice-size)*20/9)] tone-control [--halo-color:--theme(--color-foreground)]
+  aria-invalid:tone-invalid
+  in-aria-invalid:tone-invalid
   data-[state=checked]:[--halo-color:var(--tone)] data-[state=checked]:border-tone
   not-data-[touch-target=wrapper]:has-[+[data-slot=field-label],+[data-slot=field-content],+[data-slot=label]]:me-[calc(var(--choice-size)*11/18-0.25rem)]
   focus-visible:focus-ring

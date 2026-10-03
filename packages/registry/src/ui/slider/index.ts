@@ -5,9 +5,8 @@ export { default as Slider } from "./Slider.vue";
 export const sliderVariants = cva(
   `
     group/slider relative flex h-(--slider-h) w-(--slider-w) touch-none items-center select-none slider-axis
-    [--tone:--theme(--color-primary)] [--tone-foreground:--theme(--color-primary-foreground)]
-    has-[[aria-invalid=true]]:[--tone:--theme(--color-destructive)]
-    has-[[aria-invalid=true]]:[--tone-foreground:--theme(--color-destructive-foreground)]
+    tone-control
+    has-[[aria-invalid=true]]:tone-invalid
     data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:flex-col
     data-disabled:cursor-not-allowed
   `,

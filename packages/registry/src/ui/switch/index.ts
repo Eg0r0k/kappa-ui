@@ -7,12 +7,8 @@ export const switchVariants = cva(
     group/switch relative inline-flex h-(--switch-h) w-(--switch-w) shrink-0 items-center rounded-full border-2
     border-tone-border bg-muted outline-none transition-[background-color,border-color] duration-short-1 ease-linear
     [--switch-w:calc(var(--switch-h)*1.625)] [--touch-w:var(--switch-w)] [--touch-h:var(--switch-h)]
-    [--halo-size:calc(var(--switch-h)*1.25)] [--tone:--theme(--color-primary)]
-    [--tone-foreground:--theme(--color-primary-foreground)] [--tone-border:--theme(--color-input)]
-    [--halo-color:--theme(--color-foreground)]
-    aria-invalid:[--tone:--theme(--color-destructive)]
-    aria-invalid:[--tone-foreground:--theme(--color-destructive-foreground)] aria-invalid:[--tone-border:var(--tone)]
-    aria-invalid:[--halo-color:var(--tone)]
+    [--halo-size:calc(var(--switch-h)*1.25)] tone-control [--halo-color:--theme(--color-foreground)]
+    aria-invalid:tone-invalid
     data-[state=checked]:[--halo-color:var(--tone)]
     focus-visible:focus-ring
     data-[state=checked]:border-tone data-[state=checked]:bg-tone
