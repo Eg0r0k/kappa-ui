@@ -15,7 +15,11 @@ const props = withDefaults(
 const focusControl = (event: MouseEvent) => {
   if (event.target instanceof Element && event.target.closest("button, a, input, textarea, select")) return;
   const group = (event.currentTarget as HTMLElement).closest("[data-slot=input-group]");
-  group?.querySelector<HTMLElement>("[data-slot=input-group-control]")?.focus();
+  group
+    ?.querySelector<HTMLElement>(
+      "[data-slot=input-group-control]:is(input, textarea), [data-slot=input-group-control] [role=spinbutton]",
+    )
+    ?.focus();
 };
 </script>
 

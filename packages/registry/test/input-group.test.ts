@@ -165,6 +165,25 @@ describe("InputGroup", () => {
     expect(Number(getComputedStyle(addon).opacity)).toBeLessThan(1);
   });
 
+  it("focuses the first spinbutton of a nested control when an addon is clicked", async () => {
+    render({}, () => [
+      h(InputGroupAddon, () => h(Search)),
+      h("div", { "data-slot": "input-group-control" }, [
+        h("span", { role: "spinbutton", tabindex: 0 }, "12"),
+        h("span", { role: "spinbutton", tabindex: 0 }, "30"),
+      ]),
+    ]);
+    document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!.click();
+    await nextTick();
+    expect(document.activeElement).toBe(document.querySelector("[role=spinbutton]"));
+  });
+
+  it("fades the addons when a nested input is disabled", () => {
+    render({}, () => [h("div", [h("input", { disabled: true, tabindex: -1 })]), h(InputGroupAddon, () => h(Search))]);
+    const addon = document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!;
+    expect(Number(getComputedStyle(addon).opacity)).toBeLessThan(1);
+  });
+
   it("binds v-model and takes its id from a Field", async () => {
     const value = ref("draft");
     mount(
