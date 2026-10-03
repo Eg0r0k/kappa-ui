@@ -51,7 +51,10 @@ const run = async (items: unknown[], env: Record<string, string> = {}, files: Re
     await writeFile(join(root, path), content)
   }
   await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'fixture', items }))
-  await writeFile(join(root, 'core.json'), JSON.stringify({ name: '@kappa-ui/core', version: '1.2.3' }))
+  await writeFile(
+    join(root, 'core.json'),
+    JSON.stringify({ name: '@kappa-ui/core', version: '1.2.3', peerDependencies: { 'reka-ui': '^4.5.6' } }),
+  )
   const out = join(root, 'out')
   const css = join(root, 'registry.css')
   const result = spawnSync(
@@ -243,6 +246,12 @@ test('writes @kappa-ui/core with the caret range of the core version', async () 
   assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, ['@kappa-ui/core@^1.2.3', 'clsx'])
 })
 
+test('writes reka-ui with the range core takes it as a peer in', async () => {
+  const { status, stderr, out } = await run([{ ...component, dependencies: ['reka-ui', '@kappa-ui/core'] }, example])
+  assert.equal(status, 0, stderr)
+  assert.deepEqual((await published(out, 'demo')).dependencies, ['reka-ui@^4.5.6', '@kappa-ui/core@^1.2.3'])
+})
+
 test('publishes example files under components/examples, where the CLI keeps their folder', async () => {
   const { status, stderr, out } = await run([component, example])
   assert.equal(status, 0, stderr)
@@ -261,6 +270,12 @@ test('rejects a version written on @kappa-ui/core in the manifest', async () => 
   const { status, stderr } = await run([{ ...component, dependencies: ['@kappa-ui/core@^0.1.0'] }, example])
   assert.equal(status, 1)
   assert.match(stderr, /item "demo": list "@kappa-ui\/core" without a version/)
+})
+
+test('rejects a version written on reka-ui in the manifest', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['reka-ui@^2.0.0'] }, example])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "demo": list "reka-ui" without a version/)
 })
 
 test('rejects an import of a package the item does not list', async () => {

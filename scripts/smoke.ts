@@ -187,7 +187,6 @@ const smoke = async (template: Template) => {
   await writeFile(templatePackage, `${JSON.stringify(pinned, null, 2)}\n`)
   await writeFile(join(dir, '.npmrc'), `@kappa-ui:registry=${origin}/npm/\n`)
   await run(label('install'), 'pnpm install', dir)
-  await run(label('reka-ui latest'), 'pnpm add reka-ui@latest', dir)
   await run(label('shadcn-vue init'), `pnpm exec shadcn-vue init --preset ${origin}/r/init.json`, dir)
   const config = await readJson<{ registries?: Record<string, string> }>(join(dir, 'components.json'))
   if (config.registries?.['@kappa-ui'] !== `${origin}/r/{name}.json`) {
@@ -211,6 +210,11 @@ const smoke = async (template: Template) => {
   }
   const missing = missingIn(examples)
   if (missing.length > 0) fail(label('examples'), `not installed:\n${missing.join('\n')}`)
+  const { dependencies: installed = {} } = await readJson<{ dependencies?: Record<string, string> }>(templatePackage)
+  const rekaRange = core.peerDependencies?.['reka-ui']
+  if (installed['reka-ui'] !== rekaRange) {
+    fail(label('reka-ui'), `package.json has reka-ui ${installed['reka-ui']}, core takes ${rekaRange}`)
+  }
   await writeFile(join(dir, template.page), examplesPage(exampleEntries))
   for (const [step, command] of template.checks) {
     const output = await run(label(step), command, dir)
