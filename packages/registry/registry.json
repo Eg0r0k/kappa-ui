@@ -2143,6 +2143,51 @@
       ]
     },
     {
+      "name": "swipe-actions-demo",
+      "type": "registry:block",
+      "title": "Swipe actions demo",
+      "description": "A mail list: swipe a row right to archive it, left to flag or delete it, all the way across to run the outermost action.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "swipe-actions",
+        "item"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-actions/SwipeActionsDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "swipe-actions-state",
+      "type": "registry:block",
+      "title": "Swipe actions state",
+      "description": "A row opened and closed from code through v-model:state.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "swipe-actions",
+        "item",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-actions/SwipeActionsState.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "table",
       "type": "registry:ui",
       "title": "Table",
