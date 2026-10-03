@@ -9788,6 +9788,68 @@
       ]
     },
     {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "A filterable list of commands with groups, shortcuts and Menu's sizes, inline or in a dialog. Built on Reka UI's Listbox.",
+      "dependencies": [
+        "reka-ui",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "menu",
+        "dialog"
+      ],
+      "files": [
+        {
+          "path": "src/ui/command/Command.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandEmpty.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandShortcut.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/CommandDialog.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/command/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "combobox-demo",
       "type": "registry:block",
       "title": "Combobox demo",
