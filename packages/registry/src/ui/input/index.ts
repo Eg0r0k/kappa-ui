@@ -31,22 +31,23 @@ export const textControlVariant = {
 };
 
 const frameFocusRing = `
-  has-[>:is(input,textarea):focus-visible]:border-primary has-[>:is(input,textarea):focus-visible]:inset-ring
-  has-[>:is(input,textarea):focus-visible]:inset-ring-primary
-  has-[>:is(input,textarea)[aria-invalid=true]]:border-destructive
-  has-[>:is(input,textarea)[aria-invalid=true]:focus-visible]:inset-ring-destructive
-  has-[>:is(input,textarea):user-invalid]:border-destructive
-  has-[>:is(input,textarea):user-invalid:focus-visible]:inset-ring-destructive
+  has-[:is(input,textarea,[role=spinbutton]):focus-visible]:border-primary
+  has-[:is(input,textarea,[role=spinbutton]):focus-visible]:inset-ring
+  has-[:is(input,textarea,[role=spinbutton]):focus-visible]:inset-ring-primary
+  has-[:is(input,textarea,[role=spinbutton])[aria-invalid=true]]:border-destructive
+  has-[:is(input,textarea,[role=spinbutton])[aria-invalid=true]:focus-visible]:inset-ring-destructive
+  has-[:is(input,textarea):user-invalid]:border-destructive
+  has-[:is(input,textarea):user-invalid:focus-visible]:inset-ring-destructive
 `;
 
-const frameDisabledBorder = "has-[>:is(input,textarea):disabled]:border-foreground/(--disabled-container-opacity)";
+const frameDisabledBorder = "has-[:is(input,textarea):disabled]:border-foreground/(--disabled-container-opacity)";
 
 export const textControlFrameVariant = {
   outline: `rounded-(--control-radius) border border-input ${frameFocusRing} ${frameDisabledBorder}`,
   soft: `rounded-(--control-radius) border border-transparent bg-muted ${frameFocusRing}`,
   filled:
-    "rounded-t-(--control-radius) border-b border-input bg-muted has-[>:is(input,textarea):focus-visible]:border-primary has-[>:is(input,textarea):focus-visible]:shadow-[inset_0_-1px_0_var(--color-primary)] has-[>:is(input,textarea)[aria-invalid=true]]:border-destructive has-[>:is(input,textarea)[aria-invalid=true]:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[>:is(input,textarea):user-invalid]:border-destructive has-[>:is(input,textarea):user-invalid:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[>:is(input,textarea):disabled]:border-foreground/(--disabled-container-opacity)",
-  ghost: `rounded-(--control-radius) border border-transparent hover:bg-muted has-[>:is(input,textarea):focus-visible]:bg-muted ${frameFocusRing} has-[>:is(input,textarea):disabled]:bg-transparent`,
+    "rounded-t-(--control-radius) border-b border-input bg-muted has-[:is(input,textarea,[role=spinbutton]):focus-visible]:border-primary has-[:is(input,textarea,[role=spinbutton]):focus-visible]:shadow-[inset_0_-1px_0_var(--color-primary)] has-[:is(input,textarea,[role=spinbutton])[aria-invalid=true]]:border-destructive has-[:is(input,textarea,[role=spinbutton])[aria-invalid=true]:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:is(input,textarea):user-invalid]:border-destructive has-[:is(input,textarea):user-invalid:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:is(input,textarea):disabled]:border-foreground/(--disabled-container-opacity)",
+  ghost: `rounded-(--control-radius) border border-transparent hover:bg-muted has-[:is(input,textarea,[role=spinbutton]):focus-visible]:bg-muted ${frameFocusRing} has-[:is(input,textarea):disabled]:bg-transparent`,
   subtle: `rounded-(--control-radius) border border-input bg-muted ${frameFocusRing} ${frameDisabledBorder}`,
 };
 

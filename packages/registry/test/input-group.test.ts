@@ -98,6 +98,26 @@ describe("InputGroup", () => {
     expect(getComputedStyle(group()).borderTopColor).toBe("rgb(255, 0, 0)");
   });
 
+  it("rings the frame for a spinbutton nested in a control and reads its invalid state", async () => {
+    render({}, () => [
+      h("div", { "data-slot": "input-group-control" }, [
+        h("span", { role: "spinbutton", tabindex: 0, contenteditable: "true" }, "12"),
+      ]),
+    ]);
+    document.querySelector<HTMLElement>("[role=spinbutton]")!.focus();
+    await settle();
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 128, 0)");
+    document.body.innerHTML = "";
+
+    render({}, () => [h("div", [h("span", { role: "spinbutton", tabindex: 0, "aria-invalid": "true" }, "12")])]);
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(255, 0, 0)");
+  });
+
+  it("fades the frame for a disabled input nested in a control", () => {
+    render({}, () => [h("div", [h("input", { disabled: true, tabindex: -1 })])]);
+    expect(getComputedStyle(group()).borderTopColor).not.toBe("rgb(0, 0, 255)");
+  });
+
   it("orders inline addons around the control and focuses it when an addon is clicked", async () => {
     render({}, () => [
       h(InputGroupInput),
