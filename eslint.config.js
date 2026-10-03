@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'eslint/config'
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss'
+import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
 import vue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
 
@@ -23,10 +24,16 @@ const internalInCore = {
 
 const fromRoot = (path) => fileURLToPath(new URL(path, import.meta.url))
 
-const tailwind = (files, entryPoint, cwd, ignore) => ({
+// a selector list, a selection source and CSS lengths: the only ui strings in variables that are not classes
+const notClasses = ['interactive', 'pendingSource', 'rest', 'track']
+const uiSelectors = [...getDefaultSelectors(), { kind: 'variable', name: `^(?!(?:${notClasses.join('|')})$).+$` }]
+
+const tailwind = (files, entryPoint, cwd, ignore, selectors) => ({
   files,
   plugins: { 'better-tailwindcss': betterTailwindcss },
-  settings: { 'better-tailwindcss': { entryPoint: fromRoot(entryPoint), cwd: fromRoot(cwd) } },
+  settings: {
+    'better-tailwindcss': { entryPoint: fromRoot(entryPoint), cwd: fromRoot(cwd), ...(selectors && { selectors }) },
+  },
   rules: {
     ...betterTailwindcss.configs['correctness-error'].rules,
     'better-tailwindcss/no-unknown-classes': ['error', { ignore }],
@@ -56,6 +63,13 @@ export default defineConfig([
   tailwind(['packages/registry/src/**/*.{ts,vue}'], './packages/registry/test/setup.css', './packages/registry/', [
     '^kappa-',
   ]),
+  tailwind(
+    ['packages/registry/src/ui/**/*.{ts,vue}'],
+    './packages/registry/test/setup.css',
+    './packages/registry/',
+    ['^kappa-'],
+    uiSelectors,
+  ),
   tailwind(['apps/docs/app/**/*.{ts,vue}'], './apps/docs/app/assets/css/globals.css', './apps/docs/', [
     '^kappa-',
     '^not-prose$',

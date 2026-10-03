@@ -69,6 +69,25 @@ test('accepts theme tokens and hook classes in a registry component', async () =
   )
 })
 
+test('rejects an unknown Tailwind class in a string constant of a registry component', async () => {
+  const unknown = (code: string, file: string) => errors(code, file, 'better-tailwindcss/no-unknown-classes')
+  assert.equal(
+    (await unknown('export const probe = "flex text-body-xxl";\n', 'packages/registry/src/ui/probe/index.ts')).length,
+    1,
+  )
+  assert.equal(
+    (await unknown(sfc('const probe = `flex text-body-xxl`;'), 'packages/registry/src/ui/probe/Probe.vue')).length,
+    1,
+  )
+})
+
+test('leaves the ui variables that hold no classes alone', async () => {
+  assert.deepEqual(
+    await errors('export const interactive = "a, button";\n', 'packages/registry/src/ui/probe/index.ts'),
+    [],
+  )
+})
+
 test('rejects an unknown Tailwind class in a docs component', async () => {
   const found = await errors(
     template('<div class="text-body-xxl" />'),
