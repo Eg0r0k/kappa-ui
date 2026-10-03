@@ -22,7 +22,13 @@ const group = injectInputGroupContext();
     :size="group.size.value"
     :class="
       cn(
-        'flex-1 resize-none rounded-none border-0 bg-transparent hover:bg-transparent focus-visible:bg-transparent focus-visible:inset-ring-0 aria-invalid:focus-visible:inset-ring-0 user-invalid:focus-visible:inset-ring-0',
+        `
+          flex-1 resize-none rounded-none border-0 bg-transparent
+          hover:bg-transparent
+          focus-visible:bg-transparent focus-visible:inset-ring-0
+          aria-invalid:focus-visible:inset-ring-0
+          user-invalid:focus-visible:inset-ring-0
+        `,
         props.class,
       )
     "

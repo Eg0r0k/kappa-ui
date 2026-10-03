@@ -19,7 +19,10 @@ const delegated = computed(() => {
     data-slot="drawer-overlay"
     :class="
       cn(
-        'fixed inset-0 z-50 bg-scrim animate-overlay drawer-overlay-fade [--overlay-scale:1] motion-reduce:transition-none',
+        `
+          fixed inset-0 z-50 bg-scrim animate-overlay drawer-overlay-fade [--overlay-scale:1]
+          motion-reduce:transition-none
+        `,
         props.class,
       )
     "

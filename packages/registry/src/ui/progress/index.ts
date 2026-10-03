@@ -142,7 +142,11 @@ export const progressStepsVariants = cva("grid items-end", {
 });
 
 export const progressStepVariants = cva(
-  "col-start-1 row-start-1 truncate text-end transition-opacity duration-short-3 ease-standard data-[state=first]:text-muted-foreground data-[state=other]:opacity-0",
+  `
+    col-start-1 row-start-1 truncate text-end transition-opacity duration-short-3 ease-standard
+    data-[state=first]:text-muted-foreground
+    data-[state=other]:opacity-0
+  `,
   {
     variants: {
       orientation: {

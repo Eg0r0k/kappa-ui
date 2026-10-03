@@ -11,7 +11,12 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     data-slot="item-title"
     :class="
       cn(
-        'flex w-fit items-center gap-2 text-label-lg group-data-[size=xs]/item:text-label-md group-data-[size=lg]/item:text-title-md group-data-[size=xl]/item:text-title-md',
+        `
+          flex w-fit items-center gap-2 text-label-lg
+          group-data-[size=xs]/item:text-label-md
+          group-data-[size=lg]/item:text-title-md
+          group-data-[size=xl]/item:text-title-md
+        `,
         props.class,
       )
     "

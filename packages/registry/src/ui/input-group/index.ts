@@ -12,7 +12,15 @@ export { default as InputGroupText } from "./InputGroupText.vue";
 export { default as InputGroupTextarea } from "./InputGroupTextarea.vue";
 
 export const inputGroupVariants = cva(
-  "group/input-group relative flex w-full min-w-0 items-center transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard has-[>textarea]:h-auto has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=inline-start]]:*:data-[slot=input-group-control]:ps-2 has-[>[data-align=inline-end]]:*:data-[slot=input-group-control]:pe-2",
+  `
+    group/input-group relative flex w-full min-w-0 items-center
+    transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard
+    has-[>textarea]:h-auto
+    has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col
+    has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col
+    has-[>[data-align=inline-start]]:*:data-[slot=input-group-control]:ps-2
+    has-[>[data-align=inline-end]]:*:data-[slot=input-group-control]:pe-2
+  `,
   {
     variants: {
       variant: textControlFrameVariant,
@@ -32,16 +40,27 @@ export const inputGroupVariants = cva(
 );
 
 export const inputGroupAddonVariants = cva(
-  "flex cursor-text items-center gap-2 text-body-md text-muted-foreground select-none [&>svg]:pointer-events-none [&>svg:not([class*='size-'])]:size-(--input-group-icon) group-has-[>:is(input,textarea):disabled]/input-group:opacity-(--disabled-opacity)",
+  `
+    flex cursor-text items-center gap-2 text-body-md text-muted-foreground select-none
+    [&>svg]:pointer-events-none
+    [&>svg:not([class*='size-'])]:size-(--input-group-icon)
+    group-has-[>:is(input,textarea):disabled]/input-group:opacity-(--disabled-opacity)
+  `,
   {
     variants: {
       align: {
         "inline-start": "order-first ps-(--input-group-padding)",
         "inline-end": "order-last pe-(--input-group-padding)",
-        "block-start":
-          "order-first w-full justify-start p-2 *:data-[slot=input-group-button]:[--input-group-button-inset:calc(var(--spacing)*2+1px)] *:data-[slot=input-group-text]:px-1",
-        "block-end":
-          "order-last w-full justify-start p-2 *:data-[slot=input-group-button]:[--input-group-button-inset:calc(var(--spacing)*2+1px)] *:data-[slot=input-group-text]:px-1",
+        "block-start": `
+          order-first w-full justify-start p-2
+          *:data-[slot=input-group-button]:[--input-group-button-inset:calc(var(--spacing)*2+1px)]
+          *:data-[slot=input-group-text]:px-1
+        `,
+        "block-end": `
+          order-last w-full justify-start p-2
+          *:data-[slot=input-group-button]:[--input-group-button-inset:calc(var(--spacing)*2+1px)]
+          *:data-[slot=input-group-text]:px-1
+        `,
       },
     },
     defaultVariants: {
@@ -51,7 +70,12 @@ export const inputGroupAddonVariants = cva(
 );
 
 export const inputGroupButtonVariants = cva(
-  "rounded-[max(0px,calc(var(--control-radius)-var(--input-group-button-inset)))] shadow-none [--input-group-button-inset:calc((var(--input-group-height)-var(--input-group-button-height))/2)] in-data-[align=inline-start]:first:-ms-[calc(var(--input-group-padding)-var(--input-group-button-inset)+1px)] in-data-[align=inline-end]:last:-me-[calc(var(--input-group-padding)-var(--input-group-button-inset)+1px)]",
+  `
+    rounded-[max(0px,calc(var(--control-radius)-var(--input-group-button-inset)))] shadow-none
+    [--input-group-button-inset:calc((var(--input-group-height)-var(--input-group-button-height))/2)]
+    in-data-[align=inline-start]:first:-ms-[calc(var(--input-group-padding)-var(--input-group-button-inset)+1px)]
+    in-data-[align=inline-end]:last:-me-[calc(var(--input-group-padding)-var(--input-group-button-inset)+1px)]
+  `,
   {
     variants: {
       size: {

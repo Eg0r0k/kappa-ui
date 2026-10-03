@@ -14,7 +14,11 @@ const props = withDefaults(defineProps<PrimitiveProps & { class?: HTMLAttributes
     :as-child="asChild"
     :class="
       cn(
-        'rounded-xs transition-colors duration-short-3 ease-standard outline-none hover:text-foreground focus-visible:focus-ring',
+        `
+          rounded-xs transition-colors duration-short-3 ease-standard outline-none
+          hover:text-foreground
+          focus-visible:focus-ring
+        `,
         props.class,
       )
     "

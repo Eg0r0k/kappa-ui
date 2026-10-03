@@ -3,13 +3,21 @@ import { type VariantProps, cva } from "class-variance-authority";
 export { default as Slider } from "./Slider.vue";
 
 export const sliderVariants = cva(
-  "group/slider relative flex h-(--slider-h) w-(--slider-w) touch-none items-center select-none slider-axis [--tone:--theme(--color-primary)] [--tone-foreground:--theme(--color-primary-foreground)] has-[[aria-invalid=true]]:[--tone:--theme(--color-destructive)] has-[[aria-invalid=true]]:[--tone-foreground:--theme(--color-destructive-foreground)] data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:flex-col data-disabled:cursor-not-allowed",
+  `
+    group/slider relative flex h-(--slider-h) w-(--slider-w) touch-none items-center select-none slider-axis
+    tone-control
+    has-[[aria-invalid=true]]:tone-invalid
+    data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:flex-col
+    data-disabled:cursor-not-allowed
+  `,
   {
     variants: {
       variant: {
         default: "[--slider-size:var(--slider-thumb)] [--slider-track:var(--slider-bar)]",
-        inset:
-          "[--slider-size:var(--slider-track)] [--slider-track:calc(var(--slider-thumb)+0.25rem)] [--slider-half:calc(var(--slider-track)/2)]",
+        inset: `
+          [--slider-size:var(--slider-track)] [--slider-track:calc(var(--slider-thumb)+0.25rem)]
+          [--slider-half:calc(var(--slider-track)/2)]
+        `,
       },
       size: {
         xs: "[--slider-thumb:0.75rem] [--slider-bar:0.25rem]",
@@ -49,21 +57,28 @@ export const sliderRangeVariants = cva("absolute h-(--range-h) w-(--range-w) bg-
   variants: {
     variant: {
       default: "rounded-full data-disabled:bg-foreground/(--disabled-opacity)",
-      inset:
-        "slider-range-inset data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
+      inset: `
+        slider-range-inset
+        data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
+      `,
     },
   },
   defaultVariants: { variant: "default" },
 });
 
 export const sliderThumbVariants = cva(
-  "group/thumb relative flex size-(--slider-size) shrink-0 items-center justify-center rounded-full outline-none focus-visible:focus-ring",
+  `
+    group/thumb relative flex size-(--slider-size) shrink-0 items-center justify-center rounded-full outline-none
+    focus-visible:focus-ring
+  `,
   {
     variants: {
       variant: {
         default: "state-halo [--halo-size:calc(var(--slider-thumb)+1.5rem)]",
-        inset:
-          "bg-tone data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
+        inset: `
+          bg-tone
+          data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
+        `,
       },
       touchTarget: {
         none: "",
@@ -79,14 +94,25 @@ export const sliderThumbVariants = cva(
 );
 
 export const sliderHandleVariants = cva(
-  "pointer-events-none block size-(--slider-thumb) rounded-full shadow-shadow-sm transition-[scale,background-color] duration-short-4 ease-standard group-data-disabled/thumb:shadow-none motion-reduce:transition-none",
+  `
+    pointer-events-none block size-(--slider-thumb) rounded-full shadow-shadow-sm transition-[scale,background-color]
+    duration-short-4 ease-standard
+    group-data-disabled/thumb:shadow-none
+    motion-reduce:transition-none
+  `,
   {
     variants: {
       variant: {
-        default:
-          "bg-tone group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-short-2 group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]",
-        inset:
-          "bg-tone-foreground group-active/slider:group-focus/thumb:scale-90 group-active/slider:group-focus/thumb:duration-short-2 group-data-disabled/thumb:bg-background",
+        default: `
+          bg-tone
+          group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-short-2
+          group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
+        `,
+        inset: `
+          bg-tone-foreground
+          group-active/slider:group-focus/thumb:scale-90 group-active/slider:group-focus/thumb:duration-short-2
+          group-data-disabled/thumb:bg-background
+        `,
       },
     },
     defaultVariants: { variant: "default" },

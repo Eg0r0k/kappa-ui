@@ -14,7 +14,10 @@ const props = withDefaults(defineProps<PrimitiveProps & { class?: HTMLAttributes
     :as-child="props.asChild"
     :class="
       cn(
-        'flex items-center -space-x-[calc(var(--avatar-size)/4)] [--avatar-ring:--theme(--color-background)] *:ring-2 *:ring-(--avatar-ring)',
+        `
+          flex items-center -space-x-[calc(var(--avatar-size)/4)] [--avatar-ring:--theme(--color-background)]
+          *:ring-2 *:ring-(--avatar-ring)
+        `,
         props.class,
       )
     "

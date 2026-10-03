@@ -574,7 +574,11 @@ const scrollerAttrs = computed(() =>
         orientation: "both" as const,
         style: heightStyle.value,
         class: cn(
-          "rounded-[inherit] [--table-sticky-top:0px] [--table-sticky-bottom:0px] [&>[data-slot=scroll-area-viewport]]:scroll-pt-[calc(var(--table-thead-h)+var(--table-pinned-top-h))] [&>[data-slot=scroll-area-viewport]]:scroll-pb-[calc(var(--table-tfoot-h)+var(--table-pinned-bottom-h))]",
+          `
+            rounded-[inherit] [--table-sticky-top:0px] [--table-sticky-bottom:0px]
+            [&>[data-slot=scroll-area-viewport]]:scroll-pt-[calc(var(--table-thead-h)+var(--table-pinned-top-h))]
+            [&>[data-slot=scroll-area-viewport]]:scroll-pb-[calc(var(--table-tfoot-h)+var(--table-pinned-bottom-h))]
+          `,
           props.ui?.scroll,
         ),
       }

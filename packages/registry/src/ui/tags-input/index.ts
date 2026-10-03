@@ -29,7 +29,10 @@ export const [injectTagsInputContext, provideTagsInputContext] =
   createContext<ComputedRef<TagsInputContext>>("TagsInput");
 
 export const tagsInputVariants = cva(
-  "flex w-full min-w-0 flex-wrap items-center p-[calc(var(--tags-inset)-1px)] transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard",
+  `
+    flex w-full min-w-0 flex-wrap items-center p-[calc(var(--tags-inset)-1px)]
+    transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard
+  `,
   {
     variants: {
       variant: textControlFrameVariant,
@@ -53,11 +56,19 @@ export const tagsInputBadgeSize: Record<TextControlSize, NonNullable<BadgeVarian
   xl: "xl",
 };
 
-export const tagsInputItemClass =
-  "max-w-full cursor-default rounded-[max(0px,calc(var(--control-radius)-var(--tags-inset)))] data-[state=active]:focus-ring data-disabled:opacity-(--disabled-opacity)";
+export const tagsInputItemClass = `
+  max-w-full cursor-default rounded-[max(0px,calc(var(--control-radius)-var(--tags-inset)))]
+  data-[state=active]:focus-ring
+  data-disabled:opacity-(--disabled-opacity)
+`;
 
 export const tagsInputItemDeleteVariants = cva(
-  "state-layer relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:focus-ring data-disabled:pointer-events-none [&_svg]:pointer-events-none",
+  `
+    state-layer relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full outline-none
+    focus-visible:focus-ring
+    data-disabled:pointer-events-none
+    [&_svg]:pointer-events-none
+  `,
   {
     variants: {
       size: { xs: "size-4", sm: "size-4", md: "size-4", lg: "size-5", xl: "size-5" },

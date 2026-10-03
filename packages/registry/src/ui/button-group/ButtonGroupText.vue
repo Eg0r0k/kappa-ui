@@ -14,7 +14,11 @@ const props = withDefaults(defineProps<PrimitiveProps & { class?: HTMLAttributes
     :as-child="asChild"
     :class="
       cn(
-        'flex items-center gap-2 rounded-lg border border-input bg-muted px-4 text-label-lg text-muted-foreground [&_svg]:pointer-events-none icon-size-4',
+        `
+          flex items-center gap-2 rounded-lg border border-input bg-muted px-4 text-label-lg text-muted-foreground
+          [&_svg]:pointer-events-none
+          icon-size-4
+        `,
         props.class,
       )
     "

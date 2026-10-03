@@ -12,7 +12,12 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     aria-hidden="true"
     :class="
       cn(
-        'flex shrink-0 items-center justify-center text-muted-foreground group-data-[state=checked]/listbox-item:text-primary group-data-disabled/listbox-item:text-foreground/(--disabled-opacity) group-data-disabled/listbox:text-foreground/(--disabled-opacity)',
+        `
+          flex shrink-0 items-center justify-center text-muted-foreground
+          group-data-[state=checked]/listbox-item:text-primary
+          group-data-disabled/listbox-item:text-foreground/(--disabled-opacity)
+          group-data-disabled/listbox:text-foreground/(--disabled-opacity)
+        `,
         props.class,
       )
     "

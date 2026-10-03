@@ -5,7 +5,12 @@ export { default as Badge } from "./Badge.vue";
 export type BadgeColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
 export const badgeVariants = cva(
-  "relative inline-flex w-fit shrink-0 items-center justify-center whitespace-nowrap outline-none transition-colors duration-short-3 ease-standard focus-visible:focus-ring [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  `
+    relative inline-flex w-fit shrink-0 items-center justify-center whitespace-nowrap outline-none transition-colors
+    duration-short-3 ease-standard
+    focus-visible:focus-ring
+    [&_svg]:pointer-events-none [&_svg]:shrink-0
+  `,
   {
     variants: {
       variant: {

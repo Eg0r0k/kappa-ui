@@ -36,9 +36,15 @@ export const pageIndicatorVariants = cva(
       },
       size: {
         xs: "[--page-indicator-dot:--spacing(1)] [--page-indicator-gap:--spacing(1)] [--page-indicator-pill:--spacing(3)]",
-        sm: "[--page-indicator-dot:--spacing(1.5)] [--page-indicator-gap:--spacing(1.5)] [--page-indicator-pill:--spacing(4)]",
+        sm: `
+          [--page-indicator-dot:--spacing(1.5)] [--page-indicator-gap:--spacing(1.5)]
+          [--page-indicator-pill:--spacing(4)]
+        `,
         md: "[--page-indicator-dot:--spacing(2)] [--page-indicator-gap:--spacing(2)] [--page-indicator-pill:--spacing(6)]",
-        lg: "[--page-indicator-dot:--spacing(2.5)] [--page-indicator-gap:--spacing(2.5)] [--page-indicator-pill:--spacing(7)]",
+        lg: `
+          [--page-indicator-dot:--spacing(2.5)] [--page-indicator-gap:--spacing(2.5)]
+          [--page-indicator-pill:--spacing(7)]
+        `,
         xl: "[--page-indicator-dot:--spacing(3)] [--page-indicator-gap:--spacing(3)] [--page-indicator-pill:--spacing(8)]",
       },
     },
@@ -46,19 +52,35 @@ export const pageIndicatorVariants = cva(
 );
 
 export const pageIndicatorItemVariants = cva(
-  "relative shrink-0 rounded-full bg-tone/25 outline-none transition-[width,height,margin,background-color] duration-short-4 ease-standard [--page-indicator-fill:0] before:absolute before:start-0 before:top-0 before:rounded-full before:bg-tone data-[state=active]:[--page-indicator-fill:clamp(0,var(--page-indicator-progress,1),1)] focus-visible:focus-ring enabled:cursor-pointer enabled:hover:bg-tone/40 motion-reduce:transition-none",
+  `
+    relative shrink-0 rounded-full bg-tone/25 outline-none transition-[width,height,margin,background-color]
+    duration-short-4 ease-standard [--page-indicator-fill:0]
+    before:absolute before:start-0 before:top-0 before:rounded-full before:bg-tone
+    data-[state=active]:[--page-indicator-fill:clamp(0,var(--page-indicator-progress,1),1)]
+    focus-visible:focus-ring
+    enabled:cursor-pointer
+    enabled:hover:bg-tone/40
+    motion-reduce:transition-none
+  `,
   {
     variants: {
       variant: {
         dot: "[--page-indicator-length:var(--page-indicator-dot)]",
-        pill: "[--page-indicator-length:var(--page-indicator-dot)] data-[state=active]:[--page-indicator-length:var(--page-indicator-pill)]",
+        pill: `
+          [--page-indicator-length:var(--page-indicator-dot)]
+          data-[state=active]:[--page-indicator-length:var(--page-indicator-pill)]
+        `,
         line: "flex-1",
       },
       orientation: {
-        horizontal:
-          "h-(--page-indicator-dot) [--touch-h:var(--page-indicator-dot)] before:h-full before:w-[calc(var(--page-indicator-fill)*100%)]",
-        vertical:
-          "w-(--page-indicator-dot) [--touch-w:var(--page-indicator-dot)] before:h-[calc(var(--page-indicator-fill)*100%)] before:w-full",
+        horizontal: `
+          h-(--page-indicator-dot) [--touch-h:var(--page-indicator-dot)]
+          before:h-full before:w-[calc(var(--page-indicator-fill)*100%)]
+        `,
+        vertical: `
+          w-(--page-indicator-dot) [--touch-w:var(--page-indicator-dot)]
+          before:h-[calc(var(--page-indicator-fill)*100%)] before:w-full
+        `,
       },
       cumulative: {
         true: "data-[state=completed]:[--page-indicator-fill:1]",

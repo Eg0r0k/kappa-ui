@@ -11,7 +11,11 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     data-slot="alert-dialog-media"
     :class="
       cn(
-        'mb-2 inline-flex size-12 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground [&_svg]:pointer-events-none icon-size-6',
+        `
+          mb-2 inline-flex size-12 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground
+          [&_svg]:pointer-events-none
+          icon-size-6
+        `,
         props.class,
       )
     "

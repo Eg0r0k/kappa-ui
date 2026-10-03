@@ -18,7 +18,13 @@ const props = withDefaults(defineProps<Props>(), { as: "h3" });
     :as-child="props.asChild"
     :class="
       cn(
-        'text-title-md group-data-[size=xs]/empty:text-label-lg group-data-[size=sm]/empty:text-title-sm group-data-[size=lg]/empty:text-title-lg group-data-[size=xl]/empty:text-headline-sm',
+        `
+          text-title-md
+          group-data-[size=xs]/empty:text-label-lg
+          group-data-[size=sm]/empty:text-title-sm
+          group-data-[size=lg]/empty:text-title-lg
+          group-data-[size=xl]/empty:text-headline-sm
+        `,
         props.class,
       )
     "

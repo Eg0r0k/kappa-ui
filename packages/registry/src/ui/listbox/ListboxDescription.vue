@@ -11,7 +11,11 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     data-slot="listbox-description"
     :class="
       cn(
-        'text-body-sm text-muted-foreground group-data-disabled/listbox-item:text-foreground/(--disabled-opacity) group-data-disabled/listbox:text-foreground/(--disabled-opacity)',
+        `
+          text-body-sm text-muted-foreground
+          group-data-disabled/listbox-item:text-foreground/(--disabled-opacity)
+          group-data-disabled/listbox:text-foreground/(--disabled-opacity)
+        `,
         props.class,
       )
     "

@@ -2,11 +2,24 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Input } from "./Input.vue";
 
-export const textControlBase =
-  "w-full min-w-0 bg-transparent text-body-lg text-foreground outline-none transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:text-foreground/(--disabled-opacity) disabled:placeholder:text-foreground/(--disabled-opacity) md:text-body-md";
+export const textControlBase = `
+  w-full min-w-0 bg-transparent text-body-lg text-foreground outline-none
+  transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard
+  selection:bg-primary selection:text-primary-foreground
+  placeholder:text-muted-foreground
+  disabled:cursor-not-allowed disabled:text-foreground/(--disabled-opacity)
+  disabled:placeholder:text-foreground/(--disabled-opacity)
+  md:text-body-md
+`;
 
-const focusRing =
-  "focus-visible:border-primary focus-visible:inset-ring focus-visible:inset-ring-primary data-[state=open]:border-primary data-[state=open]:inset-ring data-[state=open]:inset-ring-primary aria-invalid:border-destructive aria-invalid:focus-visible:inset-ring-destructive user-invalid:border-destructive user-invalid:focus-visible:inset-ring-destructive";
+const focusRing = `
+  focus-visible:border-primary focus-visible:inset-ring focus-visible:inset-ring-primary
+  data-[state=open]:border-primary data-[state=open]:inset-ring data-[state=open]:inset-ring-primary
+  aria-invalid:border-destructive
+  aria-invalid:focus-visible:inset-ring-destructive
+  user-invalid:border-destructive
+  user-invalid:focus-visible:inset-ring-destructive
+`;
 
 export const textControlVariant = {
   outline: `rounded-(--control-radius) border border-input ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
@@ -17,8 +30,14 @@ export const textControlVariant = {
   subtle: `rounded-(--control-radius) border border-input bg-muted ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
 };
 
-const frameFocusRing =
-  "has-[>:is(input,textarea):focus-visible]:border-primary has-[>:is(input,textarea):focus-visible]:inset-ring has-[>:is(input,textarea):focus-visible]:inset-ring-primary has-[>:is(input,textarea)[aria-invalid=true]]:border-destructive has-[>:is(input,textarea)[aria-invalid=true]:focus-visible]:inset-ring-destructive has-[>:is(input,textarea):user-invalid]:border-destructive has-[>:is(input,textarea):user-invalid:focus-visible]:inset-ring-destructive";
+const frameFocusRing = `
+  has-[>:is(input,textarea):focus-visible]:border-primary has-[>:is(input,textarea):focus-visible]:inset-ring
+  has-[>:is(input,textarea):focus-visible]:inset-ring-primary
+  has-[>:is(input,textarea)[aria-invalid=true]]:border-destructive
+  has-[>:is(input,textarea)[aria-invalid=true]:focus-visible]:inset-ring-destructive
+  has-[>:is(input,textarea):user-invalid]:border-destructive
+  has-[>:is(input,textarea):user-invalid:focus-visible]:inset-ring-destructive
+`;
 
 const frameDisabledBorder = "has-[>:is(input,textarea):disabled]:border-foreground/(--disabled-container-opacity)";
 

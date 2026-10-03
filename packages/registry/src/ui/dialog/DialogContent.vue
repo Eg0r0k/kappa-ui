@@ -41,7 +41,10 @@ const portalTarget = injectOverlayPortalTarget(null);
       data-slot="dialog-content"
       :class="
         cn(
-          'fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2',
+          `
+            fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-lg -translate-x-1/2
+            -translate-y-1/2
+          `,
           dialogSurface,
           props.class,
         )

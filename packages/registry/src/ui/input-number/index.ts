@@ -30,22 +30,45 @@ export const [injectInputNumberContext, provideInputNumberContext] =
   createContext<ComputedRef<InputNumberContext>>("InputNumber");
 
 export const inputNumberVariants = cva(
-  "grid w-full min-w-0 items-center transition-[color,background-color,border-color,box-shadow] duration-short-3 ease-standard",
+  `
+    grid w-full min-w-0 items-center transition-[color,background-color,border-color,box-shadow] duration-short-3
+    ease-standard
+  `,
   {
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `h-7 ${textControlRadius.xs} [--control-padding:--spacing(2)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(0.5)] [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]`,
-        sm: `h-8 ${textControlRadius.sm} [--control-padding:--spacing(2.5)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(1)] [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]`,
-        md: `h-9 ${textControlRadius.md} [--control-padding:--spacing(3)] [--stepper-size:--spacing(7)] [--stepper-inset:--spacing(1)] [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]`,
-        lg: `h-10 ${textControlRadius.lg} [--control-padding:--spacing(3)] [--stepper-size:--spacing(8)] [--stepper-inset:--spacing(1)] [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]`,
-        xl: `h-12 ${textControlRadius.xl} [--control-padding:--spacing(4)] [--stepper-size:--spacing(10)] [--stepper-inset:--spacing(1)] [--stepper-icon:--spacing(5)] [--stepper-chevron:--spacing(4)]`,
+        xs: `h-7 ${textControlRadius.xs}
+          [--control-padding:--spacing(2)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(0.5)]
+          [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]
+        `,
+        sm: `h-8 ${textControlRadius.sm}
+          [--control-padding:--spacing(2.5)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(1)]
+          [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]
+        `,
+        md: `h-9 ${textControlRadius.md}
+          [--control-padding:--spacing(3)] [--stepper-size:--spacing(7)] [--stepper-inset:--spacing(1)]
+          [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]
+        `,
+        lg: `h-10 ${textControlRadius.lg}
+          [--control-padding:--spacing(3)] [--stepper-size:--spacing(8)] [--stepper-inset:--spacing(1)]
+          [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]
+        `,
+        xl: `h-12 ${textControlRadius.xl}
+          [--control-padding:--spacing(4)] [--stepper-size:--spacing(10)] [--stepper-inset:--spacing(1)]
+          [--stepper-icon:--spacing(5)] [--stepper-chevron:--spacing(4)]
+        `,
       },
       orientation: {
-        horizontal:
-          "grid-cols-[auto_minmax(0,1fr)_auto] [grid-template-areas:'decrement_input_increment'] has-[>[data-slot=input-number-decrement]]:*:data-[slot=input-number-input]:ps-1.5 has-[>[data-slot=input-number-increment]]:*:data-[slot=input-number-input]:pe-1.5",
-        vertical:
-          "grid-cols-[minmax(0,1fr)_auto] grid-rows-2 [grid-template-areas:'input_increment'_'input_decrement'] has-[>:is([data-slot=input-number-increment],[data-slot=input-number-decrement])]:*:data-[slot=input-number-input]:pe-1.5",
+        horizontal: `
+          grid-cols-[auto_minmax(0,1fr)_auto] [grid-template-areas:'decrement_input_increment']
+          has-[>[data-slot=input-number-decrement]]:*:data-[slot=input-number-input]:ps-1.5
+          has-[>[data-slot=input-number-increment]]:*:data-[slot=input-number-input]:pe-1.5
+        `,
+        vertical: `
+          grid-cols-[minmax(0,1fr)_auto] grid-rows-2 [grid-template-areas:'input_increment'_'input_decrement']
+          has-[>:is([data-slot=input-number-increment],[data-slot=input-number-decrement])]:*:data-[slot=input-number-input]:pe-1.5
+        `,
       },
     },
     defaultVariants: { variant: "outline", size: "md", orientation: "horizontal" },
@@ -65,8 +88,10 @@ export const inputNumberInputVariants = cva(
 export const inputNumberButtonVariants = cva("p-0", {
   variants: {
     orientation: {
-      horizontal:
-        "size-(--stepper-size) rounded-[max(0px,calc(var(--control-radius)-var(--stepper-inset)))] icon-size-(--stepper-icon)",
+      horizontal: `
+        size-(--stepper-size) rounded-[max(0px,calc(var(--control-radius)-var(--stepper-inset)))]
+        icon-size-(--stepper-icon)
+      `,
       vertical: "h-full w-(--stepper-size) rounded-none icon-size-(--stepper-chevron)",
     },
     part: {

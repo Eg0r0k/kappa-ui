@@ -22,5 +22,7 @@ export {
   useDialogContext,
 } from "@kappa-ui/core/dialog";
 
-export const dialogSurface =
-  "group/dialog flex flex-col gap-4 rounded-2xl border border-surface-border bg-popover py-6 text-popover-foreground shadow-shadow-xl outline-none animate-overlay [--scroll-fade-color:var(--popover)]";
+export const dialogSurface = `
+  group/dialog flex flex-col gap-4 rounded-2xl border border-surface-border bg-popover py-6 text-popover-foreground
+  shadow-shadow-xl outline-none animate-overlay [--scroll-fade-color:var(--popover)]
+`;

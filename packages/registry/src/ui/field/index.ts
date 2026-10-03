@@ -13,10 +13,21 @@ export const fieldVariants = cva("group/field flex w-full gap-2", {
   variants: {
     orientation: {
       vertical: "flex-col [&>*]:w-full",
-      horizontal:
-        "flex-row items-center [&>[data-slot=field-label]]:flex-auto has-[>[data-slot=field-content]]:items-start has-[>[data-slot=field-content]]:[&>:is([data-slot=checkbox],[data-slot=radio]):not([data-touch-target=wrapper])]:mt-[calc((var(--typescale-label-lg-line-height,1.25rem)-var(--choice-size))/2)] has-[>[data-slot=field-content]]:[&>[data-slot=switch]:not([data-touch-target=wrapper])]:mt-[calc((var(--typescale-label-lg-line-height,1.25rem)-var(--switch-h))/2)] has-[>[data-touch-target=wrapper]]:[&>[data-slot=field-content]]:pt-[calc((3rem-var(--typescale-label-lg-line-height,1.25rem))/2)]",
-      responsive:
-        "flex-col [&>*]:w-full @md/field-group:flex-row @md/field-group:items-center @md/field-group:[&>*]:w-auto @md/field-group:[&>[data-slot=field-label]]:flex-auto",
+      horizontal: `
+        flex-row items-center
+        [&>[data-slot=field-label]]:flex-auto
+        has-[>[data-slot=field-content]]:items-start
+        has-[>[data-slot=field-content]]:[&>:is([data-slot=checkbox],[data-slot=radio]):not([data-touch-target=wrapper])]:mt-[calc((var(--typescale-label-lg-line-height,1.25rem)-var(--choice-size))/2)]
+        has-[>[data-slot=field-content]]:[&>[data-slot=switch]:not([data-touch-target=wrapper])]:mt-[calc((var(--typescale-label-lg-line-height,1.25rem)-var(--switch-h))/2)]
+        has-[>[data-touch-target=wrapper]]:[&>[data-slot=field-content]]:pt-[calc((3rem-var(--typescale-label-lg-line-height,1.25rem))/2)]
+      `,
+      responsive: `
+        flex-col
+        [&>*]:w-full
+        @md/field-group:flex-row @md/field-group:items-center
+        @md/field-group:[&>*]:w-auto
+        @md/field-group:[&>[data-slot=field-label]]:flex-auto
+      `,
     },
   },
   defaultVariants: {

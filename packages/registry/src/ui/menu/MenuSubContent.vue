@@ -34,7 +34,10 @@ provideMenuSize(size);
       :class="
         cn(
           overlaySurface,
-          'max-h-(--reka-popper-available-height) flex min-w-32 flex-col gap-0.5 overflow-x-hidden overflow-y-auto origin-(--reka-popper-transform-origin)',
+          `
+            max-h-(--reka-popper-available-height) flex min-w-32 flex-col gap-0.5 overflow-x-hidden overflow-y-auto
+            origin-(--reka-popper-transform-origin)
+          `,
           menuSizeVariants({ size }),
           props.class,
         )
