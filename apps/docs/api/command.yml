@@ -1,0 +1,38 @@
+component: Command
+file: ui/command/Command.vue
+props:
+  modelValue:
+    description: "The last selected item's value, bound with `v-model`. Empty by default, so no item stays selected."
+  defaultValue:
+    description: The starting value when `v-model` is not used.
+  multiple:
+    description: Lets several items be selected at once.
+  orientation:
+    description: "The arrow keys' axis: `vertical` (the default) or `horizontal`."
+  dir:
+    description: The reading direction. Defaults to the one Reka UI's `ConfigProvider` sets.
+  disabled:
+    description: Disables every item.
+  selectionBehavior:
+    description: "`toggle` deselects a selected item on a second select; `replace` keeps it."
+  highlightOnHover:
+    description: Moves the highlight with the pointer. On by default.
+  by:
+    description: A key or a function that compares item values, for object values.
+  size:
+    description: "Menu's scale, `xs` to `xl`: item heights from 28px to 48px, with the search row, icons and type to match."
+  name:
+    description: Submits the selected value with the form under this name.
+  required:
+    description: Marks the selection required in a form.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  update:modelValue: Fires when an item is selected.
+  highlight: Fires when the highlight moves, with the item's value and element.
+  entryFocus: Fires when focus enters the list.
+  leave: Fires when the pointer leaves the list.
+slots:
+  default: "The `CommandInput` and the `CommandList`."

@@ -1,0 +1,15 @@
+component: CommandItem
+file: ui/command/CommandItem.vue
+props:
+  value:
+    description: The item's value, emitted with `select` and stored in `Command`'s `v-model`. The search matches the item's text.
+  disabled:
+    description: Keeps the item visible but out of the highlight and selection.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  select: Fires when the item is clicked or Enter is pressed on it. The search clears after it.
+slots:
+  default: "The item's icon, text and an optional `CommandShortcut`."

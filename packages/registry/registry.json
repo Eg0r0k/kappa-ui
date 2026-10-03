@@ -10005,6 +10005,71 @@
       ]
     },
     {
+      "name": "command-demo",
+      "type": "registry:block",
+      "title": "Command demo",
+      "description": "An inline command list with groups, icons, shortcuts and a disabled item.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "command"
+      ],
+      "files": [
+        {
+          "path": "src/examples/command/CommandDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "command-dialog",
+      "type": "registry:block",
+      "title": "Command dialog",
+      "description": "A command palette opened with ⌘K or Ctrl+K, or with a button.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "command",
+        "button",
+        "kbd"
+      ],
+      "files": [
+        {
+          "path": "src/examples/command/CommandDialogDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "command-sizes",
+      "type": "registry:block",
+      "title": "Command sizes",
+      "description": "The list at xs, md and xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "command"
+      ],
+      "files": [
+        {
+          "path": "src/examples/command/CommandSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "alert-dialog",
       "type": "registry:ui",
       "title": "Alert dialog",

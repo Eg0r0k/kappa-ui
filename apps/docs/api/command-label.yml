@@ -1,0 +1,11 @@
+component: CommandLabel
+file: ui/command/CommandLabel.vue
+props:
+  for:
+    description: "Sets the `for` attribute, for when the label renders as a `<label>` with `as`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: The group's name.

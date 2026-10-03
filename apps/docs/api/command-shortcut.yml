@@ -1,0 +1,4 @@
+component: CommandShortcut
+file: ui/command/CommandShortcut.vue
+slots:
+  default: "The key combination, for display only. It does not register the shortcut."

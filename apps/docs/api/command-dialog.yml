@@ -1,0 +1,23 @@
+component: CommandDialog
+file: ui/command/CommandDialog.vue
+props:
+  open:
+    description: Whether the dialog is open, bound with `v-model:open`.
+  defaultOpen:
+    description: Opens the dialog on mount when `v-model:open` is not used.
+  modal:
+    description: Blocks the page behind the dialog. On by default.
+  unmountOnHide:
+    description: "Removes the window from the DOM while closed. Turn it off to keep its state between openings."
+  title:
+    description: The dialog's name for screen readers, "Command Palette" by default.
+  description:
+    description: The dialog's description for screen readers, "Search for a command to run..." by default.
+  size:
+    description: "The command's size, `xs` to `xl`."
+  showCloseButton:
+    description: Adds the dialog's close button. Off by default; Escape and a click outside close the dialog.
+emits:
+  update:open: Fires when the dialog opens or closes.
+slots:
+  default: "The `CommandInput` and the `CommandList`, given the dialog's `close` function."

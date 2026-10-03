@@ -1,0 +1,13 @@
+component: CommandInput
+file: ui/command/CommandInput.vue
+props:
+  modelValue:
+    description: Ignored; the search is held by `Command`.
+  autoFocus:
+    description: Focuses the search on mount. Off by default, since `CommandDialog` focuses it on open.
+  disabled:
+    description: Disables the search field.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
