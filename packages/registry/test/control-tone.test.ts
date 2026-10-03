@@ -17,7 +17,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const render = async (node: () => VNode) => {
+const render = async (node: () => VNode | VNode[]) => {
   mount(defineComponent({ setup: () => () => h("div", { style: palette }, node()) }), { attachTo: document.body });
   await nextTick();
 };
