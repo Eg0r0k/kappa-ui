@@ -2029,7 +2029,7 @@
       "name": "drawer-menu",
       "type": "registry:ui",
       "title": "Drawer Menu",
-      "description": "A menu inside a drawer for touch screens, with checkbox and radio items and submenus that drill down in the same sheet; its parts take the same props as the dropdown and context menu ones.",
+      "description": "A menu inside a drawer for touch screens, with checkbox and radio items and submenus that drill down in the same sheet; its parts take the same props as the menu ones.",
       "dependencies": [
         "class-variance-authority",
         "@kappa-ui/core",
