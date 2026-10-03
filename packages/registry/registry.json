@@ -1645,6 +1645,33 @@
       ]
     },
     {
+      "name": "input-time",
+      "type": "registry:ui",
+      "title": "Input time",
+      "description": "A segmented time field in Input's variants and sizes, with a range variant, 12- or 24-hour cycles, min, max, step and a loading spinner, nestable in an input group. Built on Reka UI.",
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/ui/input-time/InputTime.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-time/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "tags-input",
       "type": "registry:ui",
       "title": "Tags input",
