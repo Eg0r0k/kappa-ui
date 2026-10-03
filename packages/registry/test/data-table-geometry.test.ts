@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, expect, it, onTestFinished, vi } from "vitest";
 import { type Component, createSSRApp, defineComponent, h, ref } from "vue";
 import { renderToString } from "vue/server-renderer";
 
@@ -203,21 +203,62 @@ it("measures the row group with its detail under virtualization without drift", 
     { virtualize: true, expandable: true, expanded },
     { expanded: () => h("div", { style: "height: 120px" }, "detail") },
   );
-  await t.settle();
-  expect(t.groups()[0]!.querySelector("tr[data-slot=table-expanded]")).not.toBeNull();
-  expect(t.groups()[0]!.getBoundingClientRect().height).toBeGreaterThan(44 + 120);
+  await vi.waitFor(() => expect(t.groups()[0]!.querySelector("tr[data-slot=table-expanded]")).not.toBeNull());
+  const expandedSize = t.groups()[0]!.getBoundingClientRect().height;
+  expect(expandedSize).toBeGreaterThan(44 + 120);
+  let plainSize = 44;
   expect(spy.mock.calls.some(([el]) => (el as Element).matches("[data-slot=table-row-group]"))).toBe(true);
-  for (const top of [1000, 3000, 6000, 9000, 6000, 3000, 0]) {
+  const first = () => Number(t.groups()[0]!.dataset.index);
+  const gapAbove = () => {
+    const head = t.groups()[0]!;
+    const spacer = t.spacers().find((el) => el.compareDocumentPosition(head) & Node.DOCUMENT_POSITION_FOLLOWING);
+    return spacer?.getBoundingClientRect().height ?? 0;
+  };
+  let frames = 0;
+  let frame = 0;
+  const tick = () => {
+    frames++;
+    frame = requestAnimationFrame(tick);
+  };
+  frame = requestAnimationFrame(tick);
+  onTestFinished(() => cancelAnimationFrame(frame));
+  const scrollTo = (top: number) => {
     t.viewport().scrollTop = top;
-    await t.settle();
-  }
+    let last = "";
+    let since = { frames: 0, time: 0 };
+    return vi.waitFor(
+      () => {
+        const now = `${t.viewport().scrollTop}|${t.viewport().scrollHeight}|${t.groups().map((g) => g.dataset.index)}`;
+        if (now !== last) {
+          last = now;
+          since = { frames, time: performance.now() };
+        }
+        expect(frames - since.frames).toBeGreaterThanOrEqual(10);
+        expect(performance.now() - since.time).toBeGreaterThanOrEqual(200);
+        const view = t.viewport().getBoundingClientRect();
+        const inView = t.groups().some((group) => {
+          const box = group.getBoundingClientRect();
+          return box.bottom > view.top && box.top < view.bottom;
+        });
+        expect(inView).toBe(true);
+        const plain = t.groups().find((group) => Number(group.dataset.index) >= 50);
+        if (plain) plainSize = plain.getBoundingClientRect().height;
+        const above = Math.min(first(), 50) * expandedSize + Math.max(0, first() - 50) * plainSize;
+        expect(near(gapAbove(), above, 1)).toBe(true);
+      },
+      { timeout: 10_000, interval: 20 },
+    );
+  };
+  for (let top = 800; first() < 50 && top < 20_000; top += 800) await scrollTo(top);
+  expect(first()).toBeGreaterThanOrEqual(50);
+  for (const top of [6000, 3000, 0]) await scrollTo(top);
+  expect(first()).toBe(0);
   const theadH = t.thead().getBoundingClientRect().height;
   expect(t.viewport().scrollHeight).toBeGreaterThan(theadH + 10_000 * 44 + 50 * 120);
   const painted = [...t.groups(), ...t.spacers()].reduce((sum, el) => sum + el.getBoundingClientRect().height, 0);
   expect(near(painted + theadH, t.viewport().scrollHeight, 2)).toBe(true);
   expect(t.viewport().scrollTop).toBe(0);
-  expect(t.groups()[0]!.dataset.index).toBe("0");
-});
+}, 30_000);
 
 it("pins columns at offsets from the width model, on both sides, with the edge shadows and the corner", async () => {
   const pinning: ColumnPinningState = { start: ["name", "a"], end: ["note"] };
