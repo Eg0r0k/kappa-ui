@@ -4407,6 +4407,252 @@
       ]
     },
     {
+      "name": "input-time-demo",
+      "type": "registry:block",
+      "title": "Input time demo",
+      "description": "A start time in a field, bound with v-model.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-range",
+      "type": "registry:block",
+      "title": "Input time range",
+      "description": "Opening hours as a start and an end time in one field.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeRangeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-hour-cycle",
+      "type": "registry:block",
+      "title": "Input time hour cycle",
+      "description": "The same time in the 24-hour and the 12-hour cycle.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeHourCycle.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-granularity",
+      "type": "registry:block",
+      "title": "Input time granularity",
+      "description": "Fields that stop at the hour, the minute and the second.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeGranularity.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-step",
+      "type": "registry:block",
+      "title": "Input time step",
+      "description": "A meeting slot whose minutes step by 15.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeStep.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-min-max",
+      "type": "registry:block",
+      "title": "Input time min and max",
+      "description": "A delivery time that turns invalid outside 09:00–18:00.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeMinMax.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-variants",
+      "type": "registry:block",
+      "title": "Input time variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-time"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-sizes",
+      "type": "registry:block",
+      "title": "Input time sizes",
+      "description": "The field from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-time"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-loading",
+      "type": "registry:block",
+      "title": "Input time loading",
+      "description": "A spinner at the end while availability is checked.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeLoading.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-group",
+      "type": "registry:block",
+      "title": "Input time in a group",
+      "description": "A clock icon and a Now button around the field in an input group.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "input-group",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeGroup.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-time-states",
+      "type": "registry:block",
+      "title": "Input time states",
+      "description": "Disabled and read-only fields.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-time",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-time/InputTimeStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "tags-input-demo",
       "type": "registry:block",
       "title": "Tags input demo",

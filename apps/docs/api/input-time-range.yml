@@ -1,0 +1,52 @@
+component: InputTimeRange
+file: ui/input-time/InputTimeRange.vue
+props:
+  modelValue:
+    description: "The range, bound with `v-model`, as `{ start, end }`. Both are `Time` values from `@internationalized/date`."
+  defaultValue:
+    description: The starting range when `v-model` is not used.
+  placeholder:
+    description: The time the segments step from while they are empty. Bound with `v-model:placeholder`.
+  defaultPlaceholder:
+    description: The starting placeholder when `v-model:placeholder` is not used.
+  hourCycle:
+    description: "`12` or `24`. Defaults to the locale's cycle; `12` adds an AM/PM segment."
+  granularity:
+    description: "The last segment shown: `hour`, `minute` (the default) or `second`."
+  step:
+    description: "How far the arrow keys move each segment, as `{ hour, minute, second }`. `1` by default."
+  minValue:
+    description: The earliest valid time. An earlier one marks the segments invalid.
+  maxValue:
+    description: The latest valid time. A later one marks the segments invalid.
+  hideTimeZone:
+    description: Hides the time zone segment that a `ZonedDateTime` value shows.
+  locale:
+    description: The locale for the segment order and the literals. Defaults to the one Reka UI's `ConfigProvider` sets.
+  dir:
+    description: The reading direction. Defaults to the one Reka UI's `ConfigProvider` sets.
+  variant:
+    description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`. Inside an input group, the group's."
+  size:
+    description: The field's height, from 28px at `xs` to 48px at `xl`. Inside an input group, the group's.
+  loading:
+    description: Shows a spinner at the end of the field and marks it `aria-busy`.
+  readonly:
+    description: Keeps the segments focusable but not editable.
+  disabled:
+    description: Disables every segment. Also set by a disabled field.
+  required:
+    description: Marks the hidden form input required. Also set by a required field.
+  id:
+    description: Overrides the `id` taken from a surrounding field. It lands on the hidden input, so the field's label focuses the first segment.
+  name:
+    description: Submits `start - end` with the form under this name, through a hidden input.
+  isTimeUnavailable:
+    description: A function that returns `true` for a time that cannot be picked.
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
+emits:
+  update:modelValue: Fires with `{ start, end }` when a segment of either end changes.
+  update:placeholder: Fires when the placeholder time changes.
