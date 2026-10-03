@@ -1,0 +1,13 @@
+component: SwipeAction
+file: ui/swipe-actions/SwipeAction.vue
+props:
+  color:
+    description: "Colour role the action is filled with. Any other name picks up a colour you declare on `[data-slot][data-color=\"<name>\"]`."
+  closeOnClick:
+    description: "Close the row once the click handler has run."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a button, merging this part's attributes and classes onto it."
+slots:
+  default: "The icon and label, stacked."

@@ -1,0 +1,13 @@
+component: SwipeActions
+file: ui/swipe-actions/SwipeActions.vue
+props:
+  side:
+    description: "The side of the row the strip sits on, `start` or `end`, in the reading direction."
+  fullSwipe:
+    description: "Let a drag past `fullSwipeThreshold` run the outermost action on release, which floods the row while armed."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The `SwipeAction`s, from the one nearest the content outwards."

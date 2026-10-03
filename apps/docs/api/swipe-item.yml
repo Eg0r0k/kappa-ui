@@ -1,0 +1,26 @@
+component: SwipeItem
+file: ui/swipe-actions/SwipeItem.vue
+props:
+  state:
+    description: "Which side is open: `closed`, `start` or `end`, bound with `v-model:state`. Setting it opens or closes the row. `closed` by default."
+  threshold:
+    description: "Fraction of a strip's width the release position must pass to open that side. `0.5` by default."
+  velocityFactor:
+    description: "Seconds of release velocity added to the release position, so a quick flick opens the row without dragging all the way. `0.2` by default."
+  fullSwipeThreshold:
+    description: "Fraction of the row's width a drag must pass to arm a side's full swipe. `0.5` by default."
+  closeOnScroll:
+    description: "Close the row on any scroll on the page."
+  disabled:
+    description: "Turn off the gesture and the arrow keys."
+  as:
+    description: "The element or component to render, such as `li` in a list."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  update:state: "Fires when the row opens on a side or closes."
+slots:
+  default: "Up to one `SwipeActions` per side, and the `SwipeContent`."
+exposed:
+  open: "Opens the given side, `start` or `end`."
+  close: "Closes the row."

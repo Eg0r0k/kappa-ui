@@ -2103,6 +2103,46 @@
       ]
     },
     {
+      "name": "swipe-actions",
+      "type": "registry:ui",
+      "title": "Swipe Actions",
+      "description": "A list row that slides sideways to reveal actions, the way Mail does on iOS: it holds open on its strip, a full swipe can run the outermost action, and one row stays open at a time.",
+      "dependencies": [
+        "@kappa-ui/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/swipe-actions/SwipeAction.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/SwipeRoot.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-actions/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "table",
       "type": "registry:ui",
       "title": "Table",

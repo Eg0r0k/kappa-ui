@@ -1,0 +1,9 @@
+component: SwipeRoot
+file: ui/swipe-actions/SwipeRoot.vue
+props:
+  as:
+    description: "The element or component to render, such as `ul` for a list."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The `SwipeItem`s, at any depth. Opening one closes the others."
