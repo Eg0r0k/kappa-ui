@@ -14,6 +14,7 @@ const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
 const CORE_PACKAGE = '@kappa-ui/core'
+const REKA_PACKAGE = 'reka-ui'
 const REGISTRY_NAMESPACE = '@kappa-ui'
 const PUBLISHED_ALIAS = '@/registry/kappa-ui/'
 const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
@@ -152,10 +153,24 @@ const resolveCssSource = async (item: RegistryItem): Promise<RegistryItem> => {
 
 registry.items = await Promise.all(registry.items.map(resolveCssSource))
 
-const coreVersion = (JSON.parse(await readFile(corePath, 'utf8')) as { version: string }).version
+const corePackage = JSON.parse(await readFile(corePath, 'utf8')) as {
+  version: string
+  peerDependencies?: Record<string, string>
+}
+const rekaRange =
+  corePackage.peerDependencies?.[REKA_PACKAGE] ??
+  abort([`core package has no peerDependencies["${REKA_PACKAGE}"]: ${values.core}`])
+
+const stampedRanges = new Map([
+  [CORE_PACKAGE, `^${corePackage.version}`],
+  [REKA_PACKAGE, rekaRange],
+])
 
 const stamp = (dependencies?: string[]) =>
-  dependencies?.map((dependency) => (dependency === CORE_PACKAGE ? `${CORE_PACKAGE}@^${coreVersion}` : dependency))
+  dependencies?.map((dependency) => {
+    const range = stampedRanges.get(dependency)
+    return range === undefined ? dependency : `${dependency}@${range}`
+  })
 
 const publishedConfig = (item: RegistryItem) =>
   item.type === 'registry:base'
@@ -206,9 +221,10 @@ for (const item of registry.items) {
   }
 
   for (const dependency of item.dependencies ?? []) {
-    if (dependency.startsWith(`${CORE_PACKAGE}@`)) {
+    const name = withoutVersion(dependency)
+    if (name !== dependency && stampedRanges.has(name)) {
       errors.push(
-        `item "${item.name}": list "${CORE_PACKAGE}" without a version; the build stamps it from packages/core/package.json`,
+        `item "${item.name}": list "${name}" without a version; the build stamps it from packages/core/package.json`,
       )
     }
   }
