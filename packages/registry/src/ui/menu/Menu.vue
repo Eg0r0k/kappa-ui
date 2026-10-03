@@ -233,6 +233,8 @@ const attach = (element: HTMLElement) => {
 
   const touchCallout = element.style.getPropertyValue("-webkit-touch-callout");
   if (props.contextMenu) element.style.setProperty("-webkit-touch-callout", "none");
+  const longPress = props.contextMenu && !element.hasAttribute("data-kappa-longpress");
+  if (longPress) element.setAttribute("data-kappa-longpress", "");
 
   const target = targets.get(element) ?? { attached: 0, open: 0 };
   targets.set(element, target);
@@ -260,6 +262,7 @@ const attach = (element: HTMLElement) => {
   return () => {
     for (const [type, listener] of listeners) element.removeEventListener(type, listener);
     element.style.setProperty("-webkit-touch-callout", touchCallout);
+    if (longPress) element.removeAttribute("data-kappa-longpress");
     clearPress();
     stopExpanded?.();
     stopState();

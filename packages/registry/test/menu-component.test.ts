@@ -256,6 +256,53 @@ describe("Menu", () => {
     expect(Math.abs(menuY - coverY)).toBeLessThan(1);
     wrapper.unmount();
   });
+
+  it("keeps a tooltip's long press off a context menu's target while it is attached", async () => {
+    const contextMenu = ref(true);
+    const shown = ref(true);
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h("div", [
+            "Area",
+            shown.value ? h(Menu, { contextMenu: contextMenu.value }, () => h(MenuItem, () => "Copy")) : null,
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    const area = wrapper.get("div").element;
+    await nextTick();
+    expect(area.hasAttribute("data-kappa-longpress")).toBe(true);
+
+    contextMenu.value = false;
+    await nextTick();
+    expect(area.hasAttribute("data-kappa-longpress")).toBe(false);
+
+    contextMenu.value = true;
+    await nextTick();
+    shown.value = false;
+    await nextTick();
+    expect(area.hasAttribute("data-kappa-longpress")).toBe(false);
+    wrapper.unmount();
+  });
+
+  it("leaves an author's data-kappa-longpress in place", async () => {
+    const shown = ref(true);
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h("div", { "data-kappa-longpress": "" }, [
+            "Area",
+            shown.value ? h(Menu, { contextMenu: true }, () => h(MenuItem, () => "Copy")) : null,
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    shown.value = false;
+    await nextTick();
+    expect(wrapper.get("div").element.hasAttribute("data-kappa-longpress")).toBe(true);
+    wrapper.unmount();
+  });
 });
 
 describe("MenuTrigger", () => {

@@ -8,7 +8,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 </script>
 
 <template>
-  <span data-slot="menu-shortcut" :class="cn(menuShortcut, props.class)">
+  <span data-slot="menu-shortcut" dir="ltr" :class="cn(menuShortcut, props.class)">
     <slot />
   </span>
 </template>

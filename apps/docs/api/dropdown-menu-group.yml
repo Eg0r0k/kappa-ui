@@ -1,9 +1,0 @@
-component: DropdownMenuGroup
-file: ui/dropdown-menu/DropdownMenuGroup.vue
-props:
-  asChild:
-    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
-  as:
-    description: "The element or component to render."
-slots:
-  default: "Related items."
