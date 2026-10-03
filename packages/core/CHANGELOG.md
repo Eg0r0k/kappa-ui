@@ -1,5 +1,13 @@
 # @kappa-ui/core
 
+## 0.9.0
+
+### Minor Changes
+
+- [`7e11882`](https://github.com/Eg0r0k/kappa-ui/commit/7e11882c03ffeb0dd739a984550cb337d950a9d4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `@kappa-ui/core/swipe-actions`: `SwipeRoot`, `SwipeItem`, `SwipeActions`, `SwipeAction`, `SwipeActionContent` and `SwipeContent`, a row that slides sideways on `useDrag` to reveal a strip of actions on its `start` or `end` side and holds open on it, with a velocity-projected threshold, an optional full swipe that clicks the outermost action, one open row per `SwipeRoot`, `v-model:state`, outside-press, `Escape` and scroll dismissal, arrow keys and inert closed strips. `tailwind.css` adds the `swipe-item` utility that animates them.
+
+- [`0f38faa`](https://github.com/Eg0r0k/kappa-ui/commit/0f38faa4ec4529669e97974dbed9b359a2454d15) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `tailwind.css` adds two utilities for controls without a `color` prop: `tone-control` sets the `primary` tone with `--input` as the unchecked edge, and `tone-invalid` switches the tone, the edge and the halo to `destructive`. Put `tone-invalid` under the variant that marks the control invalid, such as `aria-invalid:tone-invalid`.
+
 ## 0.8.0
 
 ### Minor Changes

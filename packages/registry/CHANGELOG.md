@@ -1,5 +1,29 @@
 # @kappa-ui/registry
 
+## 0.10.0
+
+### Minor Changes
+
+- [`8f31bd2`](https://github.com/Eg0r0k/kappa-ui/commit/8f31bd2f656e19ec0403ca3cc41ff0615a0b2966) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `Command`: a filterable list of commands over Reka UI's Listbox, ported from shadcn-vue, in Menu's five sizes: `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandLabel`, `CommandItem`, `CommandSeparator`, `CommandShortcut` and `CommandDialog`.
+
+- [`e03458c`](https://github.com/Eg0r0k/kappa-ui/commit/e03458c4fca12fc7aaad6cb44ca30b95c7c9397a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `InputTime` and `InputTimeRange`: segmented time fields over Reka UI's `TimeField` and `TimeRangeField`, in Input's five variants and five sizes, with 12- or 24-hour cycles, hour, minute or second granularity, `step`, `min-value`/`max-value`, `loading` and Field wiring. Inside an `InputGroup` they drop their own frame and take the group's variant and size.
+
+- [`7e11882`](https://github.com/Eg0r0k/kappa-ui/commit/7e11882c03ffeb0dd739a984550cb337d950a9d4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `SwipeActions` item: the core swipe parts with tone-coloured actions (`color`, icon over label) and an opaque content layer. New `drag` lib item re-exporting core's `useDrag`, with a docs page.
+
+- [`0a9aa94`](https://github.com/Eg0r0k/kappa-ui/commit/0a9aa94f326503b39d7a8d70e5087b642c711187) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `DropdownMenu` and `ContextMenu` are removed: `Menu` covers both, opening on click from the element it sits in or from a `MenuTrigger`, and with `context-menu` on right-click and long-press. It has the same parts (`MenuItem`, `MenuCheckboxItem`, `MenuRadioGroup`, `MenuRadioItem`, `MenuLabel`, `MenuSeparator`, `MenuShortcut`, `MenuGroup`, `MenuSub`, `MenuSubTrigger`, `MenuSubContent`), sizes and styles, so moving over means renaming the parts and replacing `DropdownMenuTrigger`/`ContextMenuTrigger` and the content part with a `Menu` inside the element that opens it; `align="end"` becomes `anchor="bottom end" self="top end"`. Copies already in a project keep working. The Breadcrumb, ButtonGroup, DrawerMenu and overlay examples use `Menu`.
+
+### Patch Changes
+
+- [`93791d7`](https://github.com/Eg0r0k/kappa-ui/commit/93791d7068e162e65536fb7fd195d07058183df8) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A `Menu` with `context-menu` marks its target with `data-kappa-longpress` while it is attached, so a tooltip on that target leaves the long press to the menu, as it already did for the context menu trigger. `MenuShortcut` renders left to right in right-to-left text, as the dropdown menu's shortcut did.
+
+- [`e03458c`](https://github.com/Eg0r0k/kappa-ui/commit/e03458c4fca12fc7aaad6cb44ca30b95c7c9397a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The text control frame of `InputGroup`, `InputNumber`, `TagsInput` and the `Combobox` anchor reads focus, invalid and disabled from any `input`, `textarea` or `role="spinbutton"` inside it, not only from a direct child. An `InputGroupAddon` click focuses the first segment of a segmented control, and addons fade when any input inside the group is disabled.
+
+- [`0f38faa`](https://github.com/Eg0r0k/kappa-ui/commit/0f38faa4ec4529669e97974dbed9b359a2454d15) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Switch, Checkbox, Radio and Slider take their tone from core's `tone-control` and `tone-invalid` utilities instead of a dozen variable assignments each, so they need the `@kappa-ui/core` release that adds them. They look the same, and a `[--tone:…]` class still recolours them. Long class strings across the components are now wrapped by variant group.
+
+- [`9cf316b`](https://github.com/Eg0r0k/kappa-ui/commit/9cf316b66b76ee3188d87dfe139e09540b163212) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Items that use Reka UI now install `reka-ui` with the range `@kappa-ui/core` takes it as a peer in (`^2.10.5`) instead of the latest release, so a Reka major that the components were not written for no longer reaches new projects or fails the install against core's peer.
+- Updated dependencies [[`7e11882`](https://github.com/Eg0r0k/kappa-ui/commit/7e11882c03ffeb0dd739a984550cb337d950a9d4), [`0f38faa`](https://github.com/Eg0r0k/kappa-ui/commit/0f38faa4ec4529669e97974dbed9b359a2454d15)]:
+  - @kappa-ui/core@0.9.0
+
 ## 0.9.0
 
 ### Minor Changes
