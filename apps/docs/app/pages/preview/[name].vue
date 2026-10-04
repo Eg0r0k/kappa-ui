@@ -45,7 +45,7 @@ useResizeObserver(content, () => {
 
 <template>
   <ConfigProvider :dir="dir">
-    <ScrollArea orientation="both" class="h-svh w-full">
+    <ScrollArea orientation="both" data-preview-chrome class="h-svh w-full">
       <div
         data-slot="preview-canvas"
         :class="[
@@ -54,7 +54,7 @@ useResizeObserver(content, () => {
           inspect && 'bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[1rem_1rem]',
         ]"
       >
-        <div ref="content" data-slot="preview-content" class="flex w-full justify-center">
+        <div ref="content" data-slot="preview-content" class="flex w-full justify-center-safe">
           <ExampleBoundary :key="key" @error="(message) => post({ type: 'kappa:error', message })">
             <Example />
           </ExampleBoundary>
