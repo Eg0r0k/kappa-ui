@@ -1,12 +1,12 @@
 <script setup lang="ts">
 useHead({
   htmlAttrs: { style: 'scrollbar-gutter: auto; overflow: hidden' },
-  bodyAttrs: { class: 'bg-background text-foreground' },
+  bodyAttrs: { class: 'bg-card text-foreground' },
 })
 </script>
 
 <template>
-  <div data-slot="preview-root" class="min-h-svh bg-background text-foreground">
+  <div data-slot="preview-root" class="min-h-svh bg-card text-foreground">
     <slot />
   </div>
 </template>
