@@ -44,6 +44,7 @@ const grid = (name: string, children: SceneNode[]) => {
   for (const child of children) frame.appendChild(child)
   frame.primaryAxisSizingMode = 'FIXED'
   frame.resize(COLUMNS * SWATCH + (COLUMNS - 1) * GAP, frame.height)
+  frame.counterAxisSizingMode = 'AUTO'
   return frame
 }
 
