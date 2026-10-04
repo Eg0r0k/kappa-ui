@@ -1,12 +1,11 @@
-import { type Direction, type PreviewEvent, isPreviewState } from '~/lib/preview-protocol'
+import { type Direction, type PreviewEvent, type Tone, isPreviewState } from '~/lib/preview-protocol'
 
 export const usePreviewClient = () => {
   const colorMode = useColorMode()
   const dir = ref<Direction>('ltr')
-  const restart = ref(0)
-  const retries = ref(0)
-  const error = ref<string>()
-  const key = computed(() => `${restart.value}:${retries.value}`)
+  const color = ref<Tone>('primary')
+  const inspect = ref(false)
+  const key = ref(0)
   let siteTheme: string | undefined
 
   const post = (event: PreviewEvent) => {
@@ -18,13 +17,12 @@ export const usePreviewClient = () => {
     if (!isPreviewState(event.data)) return
     const state = event.data
     dir.value = state.dir
+    color.value = state.color
+    inspect.value = state.inspect
+    key.value = state.restart
     colorMode.forced = true
     // color-mode's page-level forcing writes the same reactive field
     ;(colorMode as { value: string }).value = state.colorScheme
-    if (state.restart !== restart.value) {
-      restart.value = state.restart
-      error.value = undefined
-    }
     if (siteTheme !== undefined && state.siteTheme !== siteTheme) refreshCookie('kappa-theme')
     siteTheme = state.siteTheme
   }
@@ -33,16 +31,6 @@ export const usePreviewClient = () => {
     if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'k' || event.defaultPrevented) return
     event.preventDefault()
     post({ type: 'kappa:shortcut' })
-  }
-
-  const fail = (message: string) => {
-    error.value = message
-    post({ type: 'kappa:error', message })
-  }
-
-  const retry = () => {
-    error.value = undefined
-    retries.value += 1
   }
 
   onMounted(() => {
@@ -55,5 +43,5 @@ export const usePreviewClient = () => {
     window.removeEventListener('keydown', onKeydown)
   })
 
-  return { dir, key, error, fail, retry, post }
+  return { dir, color, inspect, key, post }
 }
