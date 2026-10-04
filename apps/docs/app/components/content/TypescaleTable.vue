@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TableFrame from '~/components/TableFrame.vue'
 import { onMounted, ref } from 'vue'
 
 const roles = [
@@ -34,16 +35,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="not-prose my-6 divide-y overflow-hidden rounded-lg border">
-    <div
-      v-for="role in roles"
-      :key="role.name"
-      class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-4 py-3"
-    >
-      <span :class="[role.class, 'min-w-0 break-words']">{{ role.name.replace('-', ' ') }}</span>
-      <span class="shrink-0 font-mono text-xs text-muted-foreground">
-        text-{{ role.name }} <span class="ml-2">{{ resolved[role.name] }}</span>
-      </span>
+  <TableFrame class="my-6">
+    <div class="divide-y">
+      <div
+        v-for="role in roles"
+        :key="role.name"
+        class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-4 py-3"
+      >
+        <span :class="[role.class, 'min-w-0 break-words']">{{ role.name.replace('-', ' ') }}</span>
+        <span class="shrink-0 font-mono text-xs text-muted-foreground">
+          text-{{ role.name }} <span class="ml-2">{{ resolved[role.name] }}</span>
+        </span>
+      </div>
     </div>
-  </div>
+  </TableFrame>
 </template>
