@@ -14,7 +14,7 @@ const root = join(import.meta.dirname, '../..')
 const PORT = 9232
 const LIFETIME = 120_000
 const USAGE =
-  'Usage: node scripts/figma/cli.ts tokens [--theme light|dark] [--prune] | icons [name…] | run <file.ts> [--call build] [--payload <json>]'
+  'Usage: node scripts/figma/cli.ts tokens [--theme light|dark] [--prune] | icons [name…] | run <file.ts…> [--call build] [--payload <json>]'
 
 const read = (path: string) => readFileSync(join(root, path), 'utf8')
 
@@ -70,10 +70,9 @@ const runBundle = (args: string[]) => {
     allowPositionals: true,
     options: { call: { type: 'string', default: 'build' }, payload: { type: 'string', default: '{}' } },
   })
-  const [file] = positionals
-  if (!file) throw new Error(USAGE)
-  const entry = { file, source: readFileSync(resolve(file), 'utf8') }
-  return bundleOf([...runtime('shared.ts'), entry], values.call, JSON.parse(values.payload))
+  if (positionals.length === 0) throw new Error(USAGE)
+  const entries = positionals.map((file) => ({ file, source: readFileSync(resolve(file), 'utf8') }))
+  return bundleOf([...runtime('shared.ts'), ...entries], values.call, JSON.parse(values.payload))
 }
 
 const serve = (kind: string, bundle: string) => {
