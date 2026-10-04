@@ -29,11 +29,11 @@ const current = (preset: { hue: number; chroma: number }) =>
   <Popover>
     <Tooltip>
       <TooltipTrigger as-child>
-      <PopoverTrigger as-child>
-        <Button variant="ghost" color="neutral" size="icon" aria-label="Customise the theme">
-          <Palette />
-        </Button>
-      </PopoverTrigger>
+        <PopoverTrigger as-child>
+          <Button variant="ghost" color="neutral" size="icon" aria-label="Customise the theme">
+            <Palette />
+          </Button>
+        </PopoverTrigger>
       </TooltipTrigger>
       <TooltipContent>Theme</TooltipContent>
     </Tooltip>

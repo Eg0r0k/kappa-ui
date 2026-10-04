@@ -2,7 +2,14 @@
 import { Tag } from '@lucide/vue'
 
 import { Badge } from '@/ui/badge'
-import { Stepper, StepperDescription, StepperIndicator, StepperItem, StepperSeparator, StepperTitle } from '@/ui/stepper'
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperSeparator,
+  StepperTitle,
+} from '@/ui/stepper'
 import InlineText from '~/components/content/InlineText.vue'
 
 type Release = {
