@@ -12,9 +12,9 @@ const delegated = computed(() => {
   return rest;
 });
 
-const { allGroups, filterState } = injectCommandContext();
+const { allGroups, filterState, filtering } = injectCommandContext();
 const id = useId();
-const visible = computed(() => !filterState.search || filterState.filtered.groups.has(id));
+const visible = computed(() => !filtering.value || filterState.filtered.groups.has(id));
 
 provideCommandGroupContext({ id });
 onMounted(() => {

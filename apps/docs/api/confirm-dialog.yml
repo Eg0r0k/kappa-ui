@@ -1,5 +1,6 @@
 component: ConfirmDialog
 file: ui/confirm/ConfirmDialog.vue
+description: "The options of `confirm()` and `alert()`."
 props:
   title:
     description: "The question."

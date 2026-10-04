@@ -1,5 +1,6 @@
 component: Badge
 file: ui/badge/Badge.vue
+description: "`class` is also accepted and merged over the variant classes with tailwind-merge."
 props:
   variant:
     description: Appearance, independent of colour. `link` underlines on hover, for a badge rendered as a link.

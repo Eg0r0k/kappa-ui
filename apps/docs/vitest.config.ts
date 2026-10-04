@@ -25,7 +25,7 @@ export default defineConfig({
       },
       {
         plugins: [vue(), tailwindcss()],
-        optimizeDeps: { include: ['reka-ui', 'reka-ui/internal'] },
+        optimizeDeps: { include: ['reka-ui', 'reka-ui/internal', '@lucide/vue', '@vueuse/core'] },
         resolve: { alias, dedupe: ['vue'] },
         test: {
           name: 'browser',

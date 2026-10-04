@@ -29,8 +29,10 @@
   scroll-margin-top: 5rem;
 }
 
-.preview-page-sticky {
-  --table-sticky-top: 3.5rem;
+@media (width < 48rem) {
+  .prose :where(h2, h3, h4) {
+    scroll-margin-top: 7.5rem;
+  }
 }
 
 .prose :where(h2, h3, h4) a {

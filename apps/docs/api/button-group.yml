@@ -1,5 +1,6 @@
 component: ButtonGroup
 file: ui/button-group/ButtonGroup.vue
+description: "`class` is also accepted and merged over the group's classes with tailwind-merge. `--button-group-radius` sets the radius of the corners where children meet, `0px` by default."
 props:
   orientation:
     description: Lays the children in a row or a column and squares the corners where they meet.

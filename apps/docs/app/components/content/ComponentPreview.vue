@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { Moon, Sun } from '@lucide/vue'
-import { defineAsyncComponent, ref, watch, type HTMLAttributes } from 'vue'
+import { computed, ref, watch, type HTMLAttributes } from 'vue'
 
 import { Button } from '@/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
-import PreviewFrame from '~/components/content/PreviewFrame.vue'
-import { consumerFilename, consumerSource } from '~/lib/consumer'
+import DeferredPreview from '~/components/DeferredPreview.vue'
+import MiniPreview from '~/components/MiniPreview.vue'
+import { cn } from '@/lib/utils'
+import { exampleSlug, pageSlugOf } from '~/lib/examples'
 import { addCommand, registryItemUrl } from '~/lib/install'
 import { registryItems, resolveExample } from '~/lib/registry'
-import { exampleModules, loadSource } from '~/lib/sources'
+import { exampleModules } from '~/lib/sources'
+import { themeToQuery } from '~/lib/theme'
 
-const props = defineProps<{ name: string; class?: HTMLAttributes['class'] }>()
+const props = defineProps<{ name: string; height?: string; class?: HTMLAttributes['class'] }>()
 
 const resolve = () => {
   try {
@@ -22,19 +25,16 @@ const resolve = () => {
   }
 }
 
-const { item, key } = resolve()
-const Example = defineAsyncComponent(exampleModules[key]!)
+const { item } = resolve()
+const slug = exampleSlug(props.name, pageSlugOf(useRoute().path))
 const exampleCommand = addCommand('npm', registryItemUrl(useRuntimeConfig().public.siteUrl, item.name))
 
-const { data: code } = useAsyncData(`example-code:${props.name}`, async () => {
-  const { highlight } = await import('~/lib/highlight')
-  return Promise.all(
-    item.files.map(async (file) => {
-      const source = consumerSource(await loadSource(file.path))
-      return { filename: consumerFilename(file.path), source, html: await highlight(source, 'vue') }
-    }),
-  )
-})
+const { data: code } = useExampleCode(() => props.name)
+
+const demo = injectDemo(null)
+const docked = computed(() => demo?.active.value ?? false)
+const selected = computed(() => demo?.selected.value?.name === props.name)
+const label = computed(() => demo?.examples.value.find((example) => example.name === props.name)?.title ?? item.title)
 
 const colorMode = useColorMode()
 const theme = ref<'light' | 'dark'>()
@@ -55,11 +55,26 @@ watch(
     theme.value = undefined
   },
 )
+
+const { theme: siteThemeConfig } = useSiteTheme()
+const siteTheme = computed(() => JSON.stringify(themeToQuery(siteThemeConfig.value)))
+const colorScheme = computed(() => theme.value ?? (colorMode.value === 'dark' ? 'dark' : 'light'))
+const { show } = useSearchDialog()
 </script>
 
 <template>
-  <div class="not-prose my-6">
-    <Tabs default-value="preview" class="gap-4">
+  <div :data-example="slug" class="not-prose my-6 scroll-mt-20 max-md:scroll-mt-30">
+    <MiniPreview
+      v-if="docked"
+      :name="props.name"
+      :title="label"
+      :selected="selected"
+      :color-scheme="colorMode.value === 'dark' ? 'dark' : 'light'"
+      :site-theme="siteTheme"
+      class="hidden md:flex"
+      @select="demo?.select(slug)"
+    />
+    <Tabs default-value="preview" :class="['gap-4', docked && 'md:hidden']">
       <div class="flex items-end justify-between gap-2 border-b">
         <TabsList variant="line" size="sm" class="-mb-px" aria-label="Example view">
           <TabsTrigger value="preview">Preview</TabsTrigger>
@@ -95,9 +110,17 @@ watch(
         </div>
       </div>
       <TabsContent value="preview">
-        <PreviewFrame :theme="theme" :dir="dir" :class="props.class">
-          <Example />
-        </PreviewFrame>
+        <div :class="cn('overflow-hidden rounded-lg border', props.class)">
+          <DeferredPreview
+            :name="props.name"
+            :title="item.title"
+            :color-scheme="colorScheme"
+            :dir="dir"
+            :site-theme="siteTheme"
+            :height="props.height"
+            @shortcut="show()"
+          />
+        </div>
       </TabsContent>
       <TabsContent value="code">
         <div v-if="code" class="grid gap-3">

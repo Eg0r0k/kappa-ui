@@ -89,10 +89,10 @@ describe("menu sizes", () => {
 
   it("rounds items with the radius tokens: md for xs, lg for every other size", async () => {
     for (const [size, radius] of [
-      ["xs", "9.6px"],
-      ["sm", "12px"],
-      ["md", "12px"],
-      ["xl", "12px"],
+      ["xs", "6.4px"],
+      ["sm", "8px"],
+      ["md", "8px"],
+      ["xl", "8px"],
     ] as const) {
       await openMenu(size);
       expect(getComputedStyle(query("[data-slot=menu-item]")).borderRadius, size).toBe(radius);

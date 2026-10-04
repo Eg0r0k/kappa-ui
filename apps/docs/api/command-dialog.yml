@@ -15,6 +15,8 @@ props:
     description: The dialog's description for screen readers, "Search for a command to run..." by default.
   size:
     description: "The command's size, `xs` to `xl`."
+  ignoreFilter:
+    description: Turns the built-in filter off, for items you filter yourself. Every item, group and separator stays visible, and `CommandEmpty` never shows.
   showCloseButton:
     description: Adds the dialog's close button. Off by default; Escape and a click outside close the dialog.
 emits:

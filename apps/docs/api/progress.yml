@@ -1,5 +1,6 @@
 component: Progress
 file: ui/progress/Progress.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
 props:
   modelValue:
     description: The value, bound with `v-model`. `null` makes the bar indeterminate and animated.

@@ -1,5 +1,5 @@
 import { createContext } from "reka-ui";
-import type { Ref } from "vue";
+import type { ComputedRef, Ref } from "vue";
 
 export { default as Command } from "./Command.vue";
 export { default as CommandDialog } from "./CommandDialog.vue";
@@ -21,6 +21,7 @@ export const [injectCommandContext, provideCommandContext] = createContext<{
   allItems: Ref<Map<string, string>>;
   allGroups: Ref<Map<string, Set<string>>>;
   filterState: CommandFilterState;
+  filtering: ComputedRef<boolean>;
 }>("Command");
 
 export const [injectCommandGroupContext, provideCommandGroupContext] = createContext<{ id: string }>("CommandGroup");

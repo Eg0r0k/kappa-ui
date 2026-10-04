@@ -6,15 +6,19 @@ import { cn } from "@/lib/utils";
 import { type MenuSize, menuSizeVariants } from "@/ui/menu";
 import { type CommandFilterState, provideCommandContext } from ".";
 
-const props = withDefaults(defineProps<ListboxRootProps & { size?: MenuSize; class?: HTMLAttributes["class"] }>(), {
-  modelValue: "",
-  highlightOnHover: true,
-  size: "md",
-});
+const props = withDefaults(
+  defineProps<ListboxRootProps & { size?: MenuSize; ignoreFilter?: boolean; class?: HTMLAttributes["class"] }>(),
+  {
+    modelValue: "",
+    highlightOnHover: true,
+    size: "md",
+    ignoreFilter: false,
+  },
+);
 const emits = defineEmits<ListboxRootEmits>();
 
 const delegated = computed(() => {
-  const { class: _, size: __, ...rest } = props;
+  const { class: _, size: __, ignoreFilter: ___, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
@@ -28,8 +32,10 @@ const filterState = reactive<CommandFilterState>({
 
 const { contains } = useFilter({ sensitivity: "base" });
 
+const filtering = computed(() => Boolean(filterState.search) && !props.ignoreFilter);
+
 const filterItems = () => {
-  if (!filterState.search) {
+  if (!filtering.value) {
     filterState.filtered.count = allItems.value.size;
     return;
   }
@@ -47,9 +53,9 @@ const filterItems = () => {
   filterState.filtered.count = count;
 };
 
-watch(() => filterState.search, filterItems);
+watch(() => [filterState.search, filtering.value, allItems.value.size], filterItems);
 
-provideCommandContext({ allItems, allGroups, filterState });
+provideCommandContext({ allItems, allGroups, filterState, filtering });
 </script>
 
 <template>

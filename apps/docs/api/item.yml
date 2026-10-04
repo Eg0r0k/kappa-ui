@@ -1,5 +1,6 @@
 component: Item
 file: ui/item/Item.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
 props:
   variant:
     description: "Surface of the row, Select's set: `outline`, `soft`, `filled`, `ghost` and `subtle`."

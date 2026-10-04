@@ -16,10 +16,16 @@ const borderColor = () => {
   return getComputedStyle(probe).borderTopColor;
 };
 
-it("draws cards with the surface border, --border by default", () => {
-  const card = mount(Card, { attachTo: document.body, slots: { default: () => "Card" } }).element as HTMLElement;
+it("draws cards without an edge by default, and with the surface border once it is set", () => {
+  const plain = mount(Card, { attachTo: document.body, slots: { default: () => "Card" } }).element as HTMLElement;
+  expect(getComputedStyle(plain).boxShadow).toContain("rgba(0, 0, 0, 0) 0px 0px 0px 1px");
 
-  expect(getComputedStyle(card).boxShadow).toContain(`${borderColor()} 0px 0px 0px 1px`);
+  const edged = mount(Card, {
+    attachTo: document.body,
+    attrs: { style: "--surface-border: var(--border)" },
+    slots: { default: () => "Card" },
+  }).element as HTMLElement;
+  expect(getComputedStyle(edged).boxShadow).toContain(`${borderColor()} 0px 0px 0px 1px`);
 });
 
 it("hides a card's edge with --surface-border: transparent, and the box never had a border to lose", () => {

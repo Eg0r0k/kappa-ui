@@ -22,7 +22,7 @@ describe("Checkbox", () => {
   it("rounds the box with the xs radius token at every size", () => {
     for (const size of ["xs", "md", "xl"] as const) {
       const wrapper = mount(Checkbox, { props: { size }, attachTo: document.body });
-      expect(getComputedStyle(wrapper.get("[data-slot=checkbox]").element).borderRadius, size).toBe("2.4px");
+      expect(getComputedStyle(wrapper.get("[data-slot=checkbox]").element).borderRadius, size).toBe("1.6px");
       wrapper.unmount();
     }
   });

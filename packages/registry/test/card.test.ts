@@ -62,6 +62,7 @@ describe("Card sizes", () => {
 
 describe("Card variants", () => {
   it("draws the edge as a ring for outline and subtle only, a shadow for solid only, and no border anywhere", () => {
+    document.documentElement.style.setProperty("--surface-border", "var(--border)");
     const probe = document.createElement("div");
     probe.style.cssText = "border: 1px solid var(--border)";
     document.body.append(probe);
@@ -82,6 +83,7 @@ describe("Card variants", () => {
       soft: ["soft", "0px", false, false],
       subtle: ["subtle", "0px", true, false],
     });
+    document.documentElement.style.removeProperty("--surface-border");
   });
 
   it("tints soft and subtle with --muted", () => {

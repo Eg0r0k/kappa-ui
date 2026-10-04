@@ -13,6 +13,7 @@ const component = {
   type: 'registry:ui',
   title: 'Demo',
   description: 'A demo component.',
+  categories: ['actions'],
   files: [{ path: 'src/ui/demo/Demo.vue', type: 'registry:ui' }],
 }
 
@@ -71,6 +72,40 @@ const run = async (items: unknown[], env: Record<string, string> = {}, files: Re
 test('accepts an example that depends on the component it shows', async () => {
   const { status, stderr } = await run([component, example])
   assert.equal(status, 0, stderr)
+})
+
+test('rejects a ui item without exactly one category', async () => {
+  for (const categories of [undefined, [], ['actions', 'forms']]) {
+    const { status, stderr } = await run([{ ...component, categories }, example])
+    assert.equal(status, 1, String(categories))
+    assert.match(stderr, /item "demo": a ui item needs exactly one category/)
+  }
+})
+
+test('accepts demo settings on an example', async () => {
+  const { status, stderr } = await run([
+    component,
+    { ...example, meta: { demo: { height: 0.5, padding: false, swipe: false } } },
+  ])
+  assert.equal(status, 0, stderr)
+})
+
+test('rejects unknown or out-of-range demo settings', async () => {
+  for (const [demo, message] of [
+    [{ height: 1 }, /meta\.demo\.height must be a number from 0\.2 to 0\.9/],
+    [{ padding: 'no' }, /meta\.demo\.padding must be a boolean/],
+    [{ zoom: 2 }, /meta\.demo has an unknown key "zoom"/],
+  ] as const) {
+    const { status, stderr } = await run([component, { ...example, meta: { demo } }])
+    assert.equal(status, 1, JSON.stringify(demo))
+    assert.match(stderr, message)
+  }
+})
+
+test('rejects demo settings on an item that is not an example', async () => {
+  const { status, stderr } = await run([{ ...component, meta: { demo: { height: 0.5 } } }, example])
+  assert.equal(status, 1)
+  assert.match(stderr, /item "demo": meta\.demo is only allowed on examples/)
 })
 
 test('accepts a theme with no files', async () => {

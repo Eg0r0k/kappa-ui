@@ -5,11 +5,8 @@ import { describe, expect, it } from 'vitest'
 import {
   chromaRange,
   defaultTheme,
-  fonts,
   isDefaultTheme,
   neutrals,
-  radii,
-  randomTheme,
   shadowTokens,
   shadows,
   siteCss,
@@ -71,16 +68,18 @@ describe('theme', () => {
   it('writes site CSS one step more specific than the stylesheet, with the font', () => {
     const css = siteCss({ ...defaultTheme, hue: 150, font: 'geist' })
 
-    expect(css).toContain(':root:root, :root .light {\n  --radius: 0.75rem;\n  --brand: oklch(0.48 0.2 150);')
+    expect(css).toContain(':root:root, :root .light {\n  --radius: 0.5rem;\n  --brand: oklch(0.48 0.2 150);')
     expect(css).toContain('--font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;')
     expect(css).toContain(':root.dark, :root .dark {\n  --primary: oklch(0.78 0.1 150);')
   })
 
-  it('sets the surface border in both themes, and leaves it to --border by default', () => {
-    expect(surfaceBorders.map((option) => option.key)).toEqual(['default', 'strong', 'brand', 'none'])
+  it('leaves the static transparent edge by default, and sets a chosen one in both themes', () => {
+    expect(surfaceBorders.map((option) => option.key)).toEqual(['none', 'subtle', 'strong', 'brand'])
+    expect(defaultTheme.surfaceBorder).toBe('none')
+    expect(staticToken(':root', 'surface-border')).toBe('transparent')
     expect(themeTokens(defaultTheme).light['surface-border']).toBeUndefined()
     for (const [key, value] of [
-      ['none', 'transparent'],
+      ['subtle', 'var(--border)'],
       ['strong', 'var(--input)'],
       ['brand', 'color-mix(in oklab, var(--primary) 35%, var(--border))'],
     ] as const) {
@@ -107,7 +106,7 @@ describe('theme', () => {
 
   it('tells the default theme apart', () => {
     expect(isDefaultTheme({ ...defaultTheme })).toBe(true)
-    expect(isDefaultTheme({ ...defaultTheme, radius: 0.5 })).toBe(false)
+    expect(isDefaultTheme({ ...defaultTheme, radius: 1 })).toBe(false)
   })
 
   it('raises the light surfaces by default, and can flatten or tint them', () => {
@@ -194,40 +193,12 @@ describe('theme', () => {
     expect(themeTokens({ ...defaultTheme, destructiveLightness: 0.95 }).dark.destructive).toBe('oklch(1 0.14 25)')
   })
 
-  it('draws random themes from the allowed values', () => {
-    for (let index = 0; index < 50; index++) {
-      const theme = randomTheme()
-      expect(theme.hue).toBeGreaterThanOrEqual(0)
-      expect(theme.hue).toBeLessThanOrEqual(360)
-      expect(theme.chroma).toBeGreaterThanOrEqual(chromaRange.min)
-      expect(theme.chroma).toBeLessThanOrEqual(chromaRange.max)
-      expect(radii).toContain(theme.radius)
-      expect(neutrals.map((neutral) => neutral.key)).toContain(theme.neutral)
-      expect(fonts.map((font) => font.key)).toContain(theme.font)
-    }
-    expect(randomTheme(() => 0.999)).toEqual({
-      ...defaultTheme,
-      hue: 360,
-      chroma: 0.26,
-      neutral: 'brand',
-      radius: 1.25,
-      font: 'source-sans-3',
-      surfaceBorder: 'none',
-      surfaces: 'tinted',
-      shadows: 'strong',
-    })
-  })
-
-  it('keeps the status colours of the theme it randomises', () => {
-    expect(randomTheme(Math.random, { ...defaultTheme, infoHue: 200 }).infoHue).toBe(200)
-  })
-
   it('round-trips through the query string, keeping only what differs from the default', () => {
     const theme = {
       ...defaultTheme,
       hue: 150,
       font: 'outfit',
-      surfaceBorder: 'none' as const,
+      surfaceBorder: 'strong' as const,
       shadows: 'subtle' as const,
       infoChroma: 0.2,
     }
@@ -236,7 +207,7 @@ describe('theme', () => {
     expect(themeToQuery(theme)).toEqual({
       hue: '150',
       font: 'outfit',
-      surfaceBorder: 'none',
+      surfaceBorder: 'strong',
       shadows: 'subtle',
       infoChroma: '0.2',
     })

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Search } from "@lucide/vue";
 import { ListboxFilter, type ListboxFilterProps, useForwardProps } from "reka-ui";
-import { type HTMLAttributes, computed } from "vue";
+import { type HTMLAttributes, computed, watch } from "vue";
 
 import { cn } from "@/lib/utils";
 import { injectCommandContext } from ".";
@@ -11,12 +11,28 @@ defineOptions({ inheritAttrs: false });
 const props = defineProps<ListboxFilterProps & { class?: HTMLAttributes["class"] }>();
 
 const delegated = computed(() => {
-  const { class: _, ...rest } = props;
+  const { class: _, modelValue: __, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardProps(delegated);
 
 const { filterState } = injectCommandContext();
+
+const emits = defineEmits<{ "update:modelValue": [value: string] }>();
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    if (value !== undefined && value !== filterState.search) filterState.search = value;
+  },
+  { immediate: true },
+);
+watch(
+  () => filterState.search,
+  (value) => {
+    if (value !== props.modelValue) emits("update:modelValue", value);
+  },
+);
 </script>
 
 <template>

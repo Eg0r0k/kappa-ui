@@ -6,10 +6,11 @@
   "scripts": {
     "postinstall": "nuxt prepare",
     "api:build": "node scripts/build-api.ts",
-    "dev": "pnpm api:build && nuxt dev",
-    "build": "pnpm api:build && nuxt generate && node scripts/check-output.ts",
+    "changelog:build": "node scripts/build-changelog.ts",
+    "dev": "pnpm api:build && pnpm changelog:build && nuxt dev",
+    "build": "pnpm api:build && pnpm changelog:build && nuxt generate && node scripts/check-output.ts",
     "preview": "nuxt preview",
-    "typecheck": "pnpm api:build && nuxt typecheck && vue-tsc --noEmit -p tsconfig.scripts.json",
+    "typecheck": "pnpm api:build && pnpm changelog:build && nuxt typecheck && vue-tsc --noEmit -p tsconfig.scripts.json",
     "test": "vitest run"
   },
   "dependencies": {

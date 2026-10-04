@@ -12,8 +12,8 @@ const delegated = computed(() => {
   return rest;
 });
 
-const { filterState } = injectCommandContext();
-const visible = computed(() => Boolean(filterState.search) && filterState.filtered.count === 0);
+const { filterState, filtering } = injectCommandContext();
+const visible = computed(() => filtering.value && filterState.filtered.count === 0);
 </script>
 
 <template>

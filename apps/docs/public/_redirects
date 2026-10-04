@@ -1,2 +1,3 @@
 /docs/components/dropdown-menu /docs/components/menu 301
 /docs/components/context-menu /docs/components/menu#context-menu 301
+/docs/utilities/* /docs/components/:splat 301

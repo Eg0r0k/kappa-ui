@@ -76,6 +76,9 @@
       "type": "registry:lib",
       "title": "Ripple",
       "description": "Vue directive for a Material-style press ripple that grows from the press point and drifts to the centre.",
+      "categories": [
+        "utilities"
+      ],
       "docs": "This is a Vue directive, so it does nothing until you register it. Add it once in your app entry:\n\n  import vRipple from '@/lib/ripple'\n  app.directive('ripple', vRipple)\n\nThen use it anywhere: <Button v-ripple>Press me</Button>. Pass false to disable it, or an object to tint it: v-ripple=\"{ color: 'red', opacity: 0.3 }\".\n\nThe host element must establish a containing block; the directive sets position: relative on it only if it is still static.",
       "dependencies": [
         "@kappa-ui/core"
@@ -100,6 +103,9 @@
       "type": "registry:lib",
       "title": "Drag",
       "description": "A one-axis drag gesture for mouse, pen and touch that leaves vertical scrolling to the browser on touch screens.",
+      "categories": [
+        "utilities"
+      ],
       "dependencies": [
         "@kappa-ui/core"
       ],
@@ -115,6 +121,9 @@
       "type": "registry:lib",
       "title": "Scroll",
       "description": "Read and write the scroll position of an element or the window, optionally animated.",
+      "categories": [
+        "utilities"
+      ],
       "files": [
         {
           "path": "src/lib/scroll/index.ts",
@@ -127,6 +136,9 @@
       "type": "registry:item",
       "title": "Scroll fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
+      "categories": [
+        "utilities"
+      ],
       "docs": "Put v-scroll-fade from @kappa-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
       "dependencies": [
         "@kappa-ui/core"
@@ -141,6 +153,9 @@
       "type": "registry:ui",
       "title": "Accordion",
       "description": "Stacked sections that expand one at a time or several at once, whose closed answers the browser's find in page can search and open.",
+      "categories": [
+        "layout"
+      ],
       "dependencies": [
         "@lucide/vue",
         "reka-ui"
@@ -177,6 +192,9 @@
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Constrains its content to a given width-to-height ratio.",
+      "categories": [
+        "layout"
+      ],
       "dependencies": [
         "reka-ui"
       ],
@@ -196,6 +214,9 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "A picture of a person or a thing in a circle, with initials or an icon while it loads or when it fails, five sizes, and a group that overlaps them with a count.",
+      "categories": [
+        "data-display"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -331,6 +352,9 @@
       "type": "registry:ui",
       "title": "Scroll Area",
       "description": "Scrollable region that hides the native scrollbar and draws its own, with thumb offsets and an imperative scroll API.",
+      "categories": [
+        "layout"
+      ],
       "docs": "The root is contain: size, so it takes no height from its content by default. Give it an explicit height (h-72, or any other value) or it collapses to nothing.\n\nPut padding on a wrapper inside the slot, not on the root's class. The bars are positioned against the root while the geometry that drives them is measured from the scrolling viewport inside it, so padding on the root shifts the bars out of alignment with the content they represent. A border on the root is fine — only padding shifts them.\n\nSet virtualize and pass items to render long lists. The default slot then receives { item, index } and is rendered once per row in the rendered window, which is the visible rows plus a small overscan buffer. Without virtualize the slot renders once and its scope carries no item.\n\norientation sets the axis: vertical (default), horizontal, or both. It sets the viewport's overflow, the virtualized axis (both virtualizes the vertical one) and which bars render, so content that must scroll sideways needs orientation=\"horizontal\" or \"both\". virtualize also accepts an options object: estimateSize, overscan, lanes, gap, scrollMargin and getScrollElement.\n\nInfiniteScroll and useInfiniteScroll load more content as the scroll nears an edge; see the Infinite Scroll page.",
       "dependencies": [
         "@tanstack/vue-virtual"
@@ -373,6 +397,9 @@
       "type": "registry:ui",
       "title": "Spinner",
       "description": "Loading indicator driven by clip-path, inheriting colour from currentColor.",
+      "categories": [
+        "feedback"
+      ],
       "registryDependencies": [
         "utils"
       ],
@@ -392,6 +419,9 @@
       "type": "registry:ui",
       "title": "Alert",
       "description": "A callout with Button's variants and colours, five sizes, and actions under the text or beside it.",
+      "categories": [
+        "feedback"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -531,6 +561,9 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "A small label with Button's variants and colours, five sizes, side-aware icon padding and a square form.",
+      "categories": [
+        "data-display"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -555,6 +588,9 @@
       "type": "registry:ui",
       "title": "Breadcrumb",
       "description": "The path to the current page, as links separated by chevrons.",
+      "categories": [
+        "navigation"
+      ],
       "dependencies": [
         "@lucide/vue",
         "reka-ui"
@@ -679,6 +715,9 @@
       "type": "registry:ui",
       "title": "Button group",
       "description": "Buttons joined into one control, horizontal or vertical, with an optional separator and text.",
+      "categories": [
+        "actions"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -711,6 +750,9 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Page navigation with previous and next, ellipses for skipped pages, Button's variants and five sizes.",
+      "categories": [
+        "navigation"
+      ],
       "dependencies": [
         "@lucide/vue",
         "reka-ui"
@@ -759,6 +801,9 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "A row of media, title, description and actions, with Select's variants, five sizes and list semantics.",
+      "categories": [
+        "data-display"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -820,6 +865,9 @@
       "type": "registry:ui",
       "title": "Toast",
       "description": "Brief messages from a useToast() service: ids to update and remove, promises, groups, and a stacked Toaster that expands on hover.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "@kappa-ui/core",
         "@lucide/vue",
@@ -867,6 +915,9 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Button with style and size variants, an optional expanded touch target, and as / as-child support.",
+      "categories": [
+        "actions"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -898,6 +949,9 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "Surface that groups related content, with header, title, description, content and footer parts.",
+      "categories": [
+        "layout"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -942,6 +996,9 @@
       "type": "registry:ui",
       "title": "Kbd",
       "description": "A keyboard key, and a group of keys for a shortcut. Takes on a button's colour when placed inside one.",
+      "categories": [
+        "data-display"
+      ],
       "registryDependencies": [
         "utils",
         "tokens"
@@ -966,6 +1023,9 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Accessible label for a form control.",
+      "categories": [
+        "forms"
+      ],
       "dependencies": [
         "reka-ui"
       ],
@@ -989,6 +1049,9 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A horizontal or vertical line between content, in five thicknesses, with an optional label in the middle.",
+      "categories": [
+        "layout"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1013,6 +1076,9 @@
       "type": "registry:ui",
       "title": "Skeleton",
       "description": "A placeholder for content that is loading: a block, a line of text or a circle, with a pulse, a wave or no animation.",
+      "categories": [
+        "feedback"
+      ],
       "dependencies": [
         "class-variance-authority"
       ],
@@ -1036,6 +1102,9 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Rich content in a floating panel anchored to a trigger, optionally modal, built on Reka UI.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "@kappa-ui/core",
         "reka-ui"
@@ -1072,6 +1141,9 @@
       "type": "registry:ui",
       "title": "Listbox",
       "description": "A list to pick one or more options from, with icons, titles, descriptions, groups and a replaceable check, built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "@lucide/vue",
@@ -1130,6 +1202,9 @@
       "type": "registry:ui",
       "title": "Menu",
       "description": "A Quasar-style menu that attaches to the element it is placed in and opens on click or as a context menu, with anchor and self positioning, cover, fit and touch position, built on Reka UI.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "class-variance-authority",
         "@kappa-ui/core",
@@ -1209,6 +1284,9 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Label, description and error for one form control, wired to it automatically, plus group and fieldset layout.",
+      "categories": [
+        "forms"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1263,6 +1341,9 @@
       "type": "registry:ui",
       "title": "Hover Card",
       "description": "A card of content shown on hover or focus of a link, on the popover surface.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "@kappa-ui/core",
         "reka-ui"
@@ -1338,6 +1419,9 @@
       "type": "registry:ui",
       "title": "Image",
       "description": "An image in a ratio box with loading and error layers, native srcset, sizes and picture sources, and load tracking that survives SSR, after Nuxt Image and Quasar's QImg.",
+      "categories": [
+        "data-display"
+      ],
       "dependencies": [
         "class-variance-authority",
         "@lucide/vue"
@@ -1491,6 +1575,9 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Text input in outline, soft, filled, ghost and subtle variants and five sizes, that picks up its id, description, error and state from a surrounding Field.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1516,6 +1603,9 @@
       "type": "registry:ui",
       "title": "Input floating",
       "description": "A text input with a label that floats inside it, as in Material's text fields, in Input's variants and sizes, wired to a surrounding Field.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1561,6 +1651,9 @@
       "type": "registry:ui",
       "title": "Input group",
       "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1609,6 +1702,9 @@
       "type": "registry:ui",
       "title": "Input number",
       "description": "A number field with stepper buttons inside the frame, in Input's variants and sizes, laid out horizontally or vertically, with min, max, step and Intl formatting. Built on Reka UI.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui",
@@ -1649,6 +1745,9 @@
       "type": "registry:ui",
       "title": "Input time",
       "description": "A segmented time field in Input's variants and sizes, with a range variant, 12- or 24-hour cycles, min, max, step and a loading spinner, nestable in an input group. Built on Reka UI.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1681,6 +1780,9 @@
       "type": "registry:ui",
       "title": "Tags input",
       "description": "Tags typed into one text control frame, drawn as badges, with delimiter, paste, max and duplicate handling and Field integration. Built on Reka UI.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui",
@@ -1725,6 +1827,9 @@
       "type": "registry:ui",
       "title": "Textarea",
       "description": "Multi-line text field with the input's variants and sizes, a row count and optional auto-resize, that picks up its state from a surrounding Field.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority"
       ],
@@ -1750,6 +1855,9 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Checkbox with checked, unchecked and indeterminate states, five sizes, an optional touch target and a group, built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1780,6 +1888,9 @@
       "type": "registry:ui",
       "title": "Choice group",
       "description": "The layouts a checkbox group or radio group lays its options out in: plain, cards, one bordered list or a table, in a column or a row, with the whole card or row clickable.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -1844,6 +1955,9 @@
       "type": "registry:ui",
       "title": "Data Table",
       "description": "A table over TanStack Table: columns and data, column slots, sorting, sticky header and footer, pinned columns, density, row events, pagination, loading and empty states, and row virtualization.",
+      "categories": [
+        "data-display"
+      ],
       "dependencies": [
         "@tanstack/vue-table",
         "@tanstack/vue-virtual",
@@ -1921,6 +2035,9 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A modal window built from parts: a header, a body that scrolls, and a footer, opened from a template or from code, on Reka UI.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "@kappa-ui/core",
         "@lucide/vue",
@@ -1987,6 +2104,9 @@
       "type": "registry:ui",
       "title": "Drawer",
       "description": "A panel that slides in from an edge of the screen and swipes away, with a handle, a swipe-to-open edge, a bottom that stays above the virtual keyboard, a page that steps back behind it and nesting, on Reka UI's dialog.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "@kappa-ui/core",
         "@lucide/vue",
@@ -2062,6 +2182,9 @@
       "type": "registry:ui",
       "title": "Drawer Menu",
       "description": "A menu inside a drawer for touch screens, with checkbox and radio items and submenus that drill down in the same sheet; its parts take the same props as the menu ones.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "class-variance-authority",
         "@kappa-ui/core",
@@ -2129,6 +2252,9 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Material-style switch with five sizes, an optional touch target and custom icons in the handle, built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -2154,6 +2280,9 @@
       "type": "registry:ui",
       "title": "Swipe Actions",
       "description": "A list row that slides sideways to reveal actions, the way Mail does on iOS: it holds open on its strip, a full swipe can run the outermost action, and one row stays open at a time.",
+      "categories": [
+        "layout"
+      ],
       "dependencies": [
         "@kappa-ui/core",
         "reka-ui"
@@ -2239,6 +2368,9 @@
       "type": "registry:ui",
       "title": "Table",
       "description": "Semantic table parts with borders on the cells, sticky header and footer, pinned cells, density and striping, sharing their classes with the data table.",
+      "categories": [
+        "data-display"
+      ],
       "registryDependencies": [
         "utils",
         "tokens"
@@ -2291,6 +2423,9 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "Panels switched by a row or column of tabs, in pill and line variants and five sizes, with an indicator that slides to the active tab.",
+      "categories": [
+        "navigation"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -2327,6 +2462,9 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "Radio buttons in a group, with five sizes, an optional touch target and card, list and table layouts, built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -2357,6 +2495,9 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "A select with the input's variants and sizes, groups, scroll buttons and a replaceable check, that picks up its state from a surrounding Field, built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "@kappa-ui/core",
@@ -2427,6 +2568,9 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "Slider with one or more thumbs, a default and an inset look, five sizes, vertical and inverted layouts and an optional touch target, built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -6874,6 +7018,9 @@
       "type": "registry:ui",
       "title": "Progress",
       "description": "A progress bar with Nuxt UI's indeterminate animations, status, steps and seven sizes, and shadcn's label and value.",
+      "categories": [
+        "feedback"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -8002,6 +8149,9 @@
       "type": "registry:ui",
       "title": "Toggle",
       "description": "A two-state button with Button's variants, colours and sizes, and its own look when on: activeVariant and activeColor.",
+      "categories": [
+        "actions"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -8132,6 +8282,9 @@
       "type": "registry:ui",
       "title": "Toggle Group",
       "description": "A set of toggles joined like a button group, with single or multiple selection and arrow-key navigation.",
+      "categories": [
+        "actions"
+      ],
       "dependencies": [
         "reka-ui"
       ],
@@ -8242,6 +8395,9 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "A short hint about a control, shown after the pointer rests on it, on keyboard focus or on a long press, with a shared warm-up and close reasons.",
+      "categories": [
+        "overlays"
+      ],
       "docs": "The v-tooltip directive comes with the component. Import it where you use it:\n\n  import { vTooltip } from '@/components/ui/tooltip'\n\nor register it once in your app entry: app.directive('tooltip', vTooltip). Then <Button v-tooltip=\"'Save'\">, v-tooltip:bottom for a side, v-tooltip.label on an icon button, or an object with the Tooltip options. Wrap the app in one <TooltipProvider> so tooltips share their warm-up.",
       "dependencies": [
         "@kappa-ui/core",
@@ -8426,6 +8582,9 @@
       "type": "registry:ui",
       "title": "Splitter",
       "description": "Resizable panels separated by draggable handles: a line or a gutter that lights up under the pointer, an optional grip, and a double-click that puts the panels beside a handle back to their starting sizes. Built on Reka UI.",
+      "categories": [
+        "layout"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui",
@@ -8586,6 +8745,9 @@
       "type": "registry:ui",
       "title": "Collapsible",
       "description": "A trigger that shows and hides a block of content, animated with the accordion timing; closed content stays in the page as hidden until found unless unmount-on-hide is set. Built on Reka UI.",
+      "categories": [
+        "layout"
+      ],
       "dependencies": [
         "reka-ui"
       ],
@@ -8740,6 +8902,9 @@
       "type": "registry:ui",
       "title": "Empty",
       "description": "An empty state: media, title, description and actions, centred and scaled by one size prop, with no surface of its own so it fits a card, a table or a page.",
+      "categories": [
+        "feedback"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -8920,6 +9085,9 @@
       "type": "registry:ui",
       "title": "Pin Input",
       "description": "One box per character for codes and PINs, with the text control variants and sizes of Input, one-time-code autofill and Field integration. Built on Reka UI.",
+      "categories": [
+        "text-input"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui",
@@ -9050,6 +9218,9 @@
       "type": "registry:ui",
       "title": "Toolbar",
       "description": "A row or column of buttons, toggle groups, links and separators with one tab stop and arrow-key focus, framed or ghost. Built on Reka UI over Button and ToggleGroup.",
+      "categories": [
+        "actions"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -9160,6 +9331,9 @@
       "type": "registry:ui",
       "title": "Inner loading",
       "description": "A loading overlay for one region: a translucent scrim with an indicator over content that turns inert, so nothing behind it can be clicked, focused or read until it is done.",
+      "categories": [
+        "feedback"
+      ],
       "dependencies": [
         "reka-ui"
       ],
@@ -9234,6 +9408,9 @@
       "type": "registry:ui",
       "title": "Stepper",
       "description": "Steps that mark progress through a multi-step flow: numbered or iconed indicators, titles, descriptions and separators coloured by state, linear by default, in one size from xs to xl. Built on Reka UI.",
+      "categories": [
+        "navigation"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -9396,6 +9573,9 @@
       "type": "registry:ui",
       "title": "Color picker",
       "description": "A colour picker from parts: a saturation and brightness area, channel sliders with hue and alpha, a hex or channel field, a preview and preset swatches, bound to one v-model string in hex, rgb, hsl or hsb. Keyboard and screen-reader support from Reka UI, one size from xs to xl, wired to Field.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "@lucide/vue",
         "class-variance-authority",
@@ -9560,6 +9740,9 @@
       "type": "registry:ui",
       "title": "Page Indicator",
       "description": "Marks the current page among a count: dots, a stretched pill or line segments, filled up to a progress for autoplay and stories, in five sizes, any tone and both orientations. Buttons with roving focus, or a readonly picture. Built on Reka UI.",
+      "categories": [
+        "navigation"
+      ],
       "dependencies": [
         "class-variance-authority",
         "reka-ui"
@@ -9718,6 +9901,9 @@
       "type": "registry:ui",
       "title": "Combobox",
       "description": "A text input that filters a list of options as you type, in the input's frame with its variants and sizes, or a search field inside the list behind a button. Single or multiple choice, groups, a clear button and Field integration, built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
       "dependencies": [
         "class-variance-authority",
         "@kappa-ui/core",
@@ -9792,6 +9978,9 @@
       "type": "registry:ui",
       "title": "Command",
       "description": "A filterable list of commands with groups, shortcuts and Menu's sizes, inline or in a dialog. Built on Reka UI's Listbox.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "reka-ui",
         "@lucide/vue"
@@ -10074,6 +10263,9 @@
       "type": "registry:ui",
       "title": "Alert dialog",
       "description": "A modal that interrupts with a question that needs an answer: no outside dismissal, focus on Cancel, Button-styled actions and a small size, built on Reka UI's AlertDialog and Dialog's surface.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "class-variance-authority",
         "@kappa-ui/core",
@@ -10137,6 +10329,9 @@
       "type": "registry:ui",
       "title": "Confirm",
       "description": "useConfirm(): confirm, alert and prompt dialogs opened from code that resolve with how they closed, with an async onConfirm that holds the dialog while it runs and prompt validation.",
+      "categories": [
+        "overlays"
+      ],
       "dependencies": [
         "@kappa-ui/core"
       ],

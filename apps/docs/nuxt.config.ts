@@ -1,15 +1,35 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
 import tailwindcss from '@tailwindcss/vite'
 import type { Nuxt } from 'nuxt/schema'
 
+import { contentFileToRoute } from './scripts/lib/routes.ts'
+
 const siteUrl = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
 
 const coreVersion = (
   JSON.parse(readFileSync(new URL('../../packages/core/package.json', import.meta.url), 'utf8')) as { version: string }
 ).version
+
+const registryVersion = (
+  JSON.parse(readFileSync(new URL('../../packages/registry/package.json', import.meta.url), 'utf8')) as {
+    version: string
+  }
+).version
+
+const previewRoutes = (
+  JSON.parse(readFileSync(new URL('../../packages/registry/registry.json', import.meta.url), 'utf8')) as {
+    items: { name: string; categories?: string[] }[]
+  }
+).items
+  .filter((item) => item.categories?.includes('example'))
+  .map((item) => `/preview/${item.name}`)
+
+const rawRoutes = (readdirSync(new URL('./content/docs', import.meta.url), { recursive: true }) as string[])
+  .filter((file) => file.endsWith('.md'))
+  .map((file) => `/raw${contentFileToRoute(file)}.md`)
 
 // Nitro's replace plugin rewrites `typeof window` inside every server chunk, raw source strings included
 const encodedRawSources = () => ({
@@ -67,7 +87,7 @@ export default defineNuxtConfig({
       autoSubfolderIndex: false,
       crawlLinks: true,
       failOnError: true,
-      routes: ['/', '/search.json'],
+      routes: ['/', '/search.json', ...previewRoutes, ...rawRoutes],
     },
   },
   alias: {
@@ -76,7 +96,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/globals.css'],
   runtimeConfig: {
-    public: { siteUrl, coreVersion },
+    public: { siteUrl, coreVersion, registryVersion },
   },
   app: {
     head: {
