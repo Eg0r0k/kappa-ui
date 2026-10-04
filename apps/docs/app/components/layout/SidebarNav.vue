@@ -14,6 +14,7 @@ const props = defineProps<{
   query: string
   outline?: PageOutline
   activeHeading?: string
+  currentExample?: string
   badges: Record<string, 'new' | 'updated'>
   mod: string
 }>()
@@ -117,6 +118,12 @@ const anchorLink = `
                 <ul v-if="heading.id === 'examples' && props.outline.examples.length" class="ms-3 flex flex-col">
                   <li v-for="example in props.outline.examples" :key="example.slug">
                     <NuxtLink :to="`#${example.slug}`" :class="anchorLink" @click="emit('navigate')">
+                      <span
+                        v-if="example.slug === props.currentExample"
+                        data-slot="sidebar-example-dot"
+                        class="me-1.5 hidden size-1.5 rounded-full bg-primary align-middle md:inline-block"
+                        aria-hidden="true"
+                      />
                       {{ example.title }}
                     </NuxtLink>
                   </li>

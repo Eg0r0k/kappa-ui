@@ -12,6 +12,7 @@ const emit = defineEmits<{ navigate: [] }>()
 const route = useRoute()
 const nav = useDocsNavigation()
 const { show } = useSearchDialog()
+const demo = injectDemo(null)
 
 const groups = computed<SidebarGroup[]>(() =>
   sectionOf(route.path) === 'components' ? componentGroups(nav.value) : docsGroups(nav.value),
@@ -72,6 +73,7 @@ const search = (value: string) => {
           :query="query"
           :outline="props.outline"
           :active-heading="activeHeading"
+          :current-example="demo?.selected.value?.slug"
           :badges="badges"
           :mod="mod"
           @navigate="emit('navigate')"

@@ -17,7 +17,7 @@ const measure = () => {
     const slot = element.dataset.slot ?? ''
     if (own(slot) || !element.checkVisibility()) return []
     const rect = element.getBoundingClientRect()
-    if (rect.width === 0 && rect.height === 0) return []
+    if (rect.width === 0 || rect.height === 0) return []
     const { variant, size, color } = element.dataset
     const detail = [variant, size, color].filter(Boolean).join(' · ')
     return [{ key, top: rect.top, left: rect.left, width: rect.width, height: rect.height, slot, detail }]
@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
       :style="{ top: `${box.top}px`, left: `${box.left}px`, width: `${box.width}px`, height: `${box.height}px` }"
     >
       <span
-        class="absolute start-0 top-0 flex max-w-full flex-col overflow-hidden bg-info px-1 font-mono text-[10px] leading-3.5 whitespace-nowrap text-info-foreground"
+        class="absolute start-0 bottom-full flex max-w-full flex-col overflow-hidden bg-info px-1 font-mono text-[10px] leading-3.5 whitespace-nowrap text-info-foreground"
       >
         <span>{{ box.slot }}</span>
         <span v-if="box.detail" class="opacity-80">{{ box.detail }}</span>

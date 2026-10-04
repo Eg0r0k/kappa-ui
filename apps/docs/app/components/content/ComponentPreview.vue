@@ -6,13 +6,13 @@ import { Button } from '@/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
-import PreviewIframe from '~/components/PreviewIframe.vue'
+import DeferredPreview from '~/components/DeferredPreview.vue'
+import MiniPreview from '~/components/MiniPreview.vue'
 import { cn } from '@/lib/utils'
-import { consumerFilename, consumerSource } from '~/lib/consumer'
 import { exampleSlug, pageSlugOf } from '~/lib/examples'
 import { addCommand, registryItemUrl } from '~/lib/install'
 import { registryItems, resolveExample } from '~/lib/registry'
-import { exampleModules, loadSource } from '~/lib/sources'
+import { exampleModules } from '~/lib/sources'
 import { themeToQuery } from '~/lib/theme'
 
 const props = defineProps<{ name: string; height?: string; class?: HTMLAttributes['class'] }>()
@@ -29,15 +29,12 @@ const { item } = resolve()
 const slug = exampleSlug(props.name, pageSlugOf(useRoute().path))
 const exampleCommand = addCommand('npm', registryItemUrl(useRuntimeConfig().public.siteUrl, item.name))
 
-const { data: code } = useAsyncData(`example-code:${props.name}`, async () => {
-  const { highlight } = await import('~/lib/highlight')
-  return Promise.all(
-    item.files.map(async (file) => {
-      const source = consumerSource(await loadSource(file.path))
-      return { filename: consumerFilename(file.path), source, html: await highlight(source, 'vue') }
-    }),
-  )
-})
+const { data: code } = useExampleCode(() => props.name)
+
+const demo = injectDemo(null)
+const docked = computed(() => demo?.active.value ?? false)
+const selected = computed(() => demo?.selected.value?.name === props.name)
+const label = computed(() => demo?.examples.value.find((example) => example.name === props.name)?.title ?? item.title)
 
 const colorMode = useColorMode()
 const theme = ref<'light' | 'dark'>()
@@ -67,7 +64,17 @@ const { show } = useSearchDialog()
 
 <template>
   <div :data-example="slug" class="not-prose my-6 scroll-mt-20 max-md:scroll-mt-30">
-    <Tabs default-value="preview" class="gap-4">
+    <MiniPreview
+      v-if="docked"
+      :name="props.name"
+      :title="label"
+      :selected="selected"
+      :color-scheme="colorMode.value === 'dark' ? 'dark' : 'light'"
+      :site-theme="siteTheme"
+      class="hidden md:flex"
+      @select="demo?.select(slug)"
+    />
+    <Tabs default-value="preview" :class="['gap-4', docked && 'md:hidden']">
       <div class="flex items-end justify-between gap-2 border-b">
         <TabsList variant="line" size="sm" class="-mb-px" aria-label="Example view">
           <TabsTrigger value="preview">Preview</TabsTrigger>
@@ -104,7 +111,7 @@ const { show } = useSearchDialog()
       </div>
       <TabsContent value="preview">
         <div :class="cn('overflow-hidden rounded-lg border', props.class)">
-          <PreviewIframe
+          <DeferredPreview
             :name="props.name"
             :title="item.title"
             :color-scheme="colorScheme"

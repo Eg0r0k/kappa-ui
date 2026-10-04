@@ -5,6 +5,7 @@ import { onBeforeUnmount, ref } from 'vue'
 import { Button } from '@/ui/button'
 
 const props = defineProps<{ value: string }>()
+const emit = defineEmits<{ copied: [] }>()
 
 const copied = ref(false)
 let timer: ReturnType<typeof setTimeout> | undefined
@@ -12,6 +13,7 @@ let timer: ReturnType<typeof setTimeout> | undefined
 const copy = async () => {
   await navigator.clipboard.writeText(props.value)
   copied.value = true
+  emit('copied')
   clearTimeout(timer)
   timer = setTimeout(() => (copied.value = false), 1500)
 }

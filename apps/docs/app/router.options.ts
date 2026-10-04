@@ -11,7 +11,11 @@ const positionOf = (to: RouteLocationNormalized) => {
 
 export default {
   scrollBehavior: (to, from, savedPosition) => {
-    if (to.path === from.path) return to.hash ? positionOf(to) : false
+    if (to.path === from.path) {
+      if (savedPosition) return savedPosition
+      if ((window.history.state as { demo?: boolean } | null)?.demo) return false
+      return to.hash ? positionOf(to) : false
+    }
     const nuxtApp = useNuxtApp()
     return new Promise((resolve) => {
       nuxtApp.hooks.hookOnce('page:finish', () => {

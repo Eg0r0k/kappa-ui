@@ -66,7 +66,9 @@ describe('hasColorProp', () => {
   it('looks for a color prop on the item parts', () => {
     expect(hasColorProp([{ path: 'src/ui/button/Button.vue' }, { path: 'src/ui/button/index.ts' }], api)).toBe(true)
     expect(hasColorProp([{ path: 'src/ui/kbd/Kbd.vue' }, { path: 'src/ui/kbd/KbdGroup.vue' }], api)).toBe(false)
-    expect(hasColorProp([{ path: 'src/examples/button/Demo.vue' }], { Demo: { props: [{ name: 'color' }] } })).toBe(false)
+    expect(hasColorProp([{ path: 'src/examples/button/Demo.vue' }], { Demo: { props: [{ name: 'color' }] } })).toBe(
+      false,
+    )
     expect(hasColorProp([{ path: 'src/ui/missing/Missing.vue' }], api)).toBe(false)
   })
 })
