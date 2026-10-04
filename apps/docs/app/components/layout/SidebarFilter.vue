@@ -32,7 +32,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       </InputGroupAddon>
       <InputGroupInput
         v-model="model"
-        type="search"
+        enterkeyhint="search"
         placeholder="Filter"
         aria-label="Filter the navigation"
         aria-keyshortcuts="/"

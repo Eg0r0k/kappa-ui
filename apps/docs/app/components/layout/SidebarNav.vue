@@ -64,11 +64,16 @@ const anchorLink = `
       @update:open="toggle(group.key, $event)"
     >
       <CollapsibleTrigger as-child>
-        <Button variant="ghost" color="neutral" size="sm" class="w-full justify-between font-medium max-md:min-h-11">
+        <Button
+          variant="ghost"
+          color="neutral"
+          size="sm"
+          class="group/trigger w-full justify-between font-medium max-md:min-h-11"
+        >
           {{ group.title }}
           <ChevronRight
             data-icon="inline-end"
-            class="transition-transform duration-short-4 ease-standard in-data-[state=open]:rotate-90 motion-reduce:transition-none"
+            class="transition-transform duration-short-4 ease-standard group-data-[state=open]/trigger:rotate-90 motion-reduce:transition-none"
           />
         </Button>
       </CollapsibleTrigger>

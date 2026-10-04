@@ -103,6 +103,22 @@ describe('SidebarNav', () => {
     expect(open.value).toEqual(['forms'])
   })
 
+  it('turns the chevron of an open group only, even inside an open dialog', async () => {
+    mount(
+      {
+        setup: () => () =>
+          h('div', { 'data-state': 'open' }, [
+            h(SidebarNav, { groups, activePath: '', query: '', badges: {}, mod: 'Ctrl', open: ['actions'] }),
+          ]),
+      },
+      { attachTo: document.body, global: { components: { NuxtLink } } },
+    )
+    const rotation = (group: string) =>
+      getComputedStyle(document.querySelector(`[data-group=${group}] button svg`)!).rotate
+    await expect.poll(() => rotation('actions')).toBe('90deg')
+    expect(rotation('forms')).toBe('none')
+  })
+
   it('filters with highlighted matches, opening the groups that match', async () => {
     renderNav({ query: 'gro', open: [] })
     await expect.poll(visibleTexts).toEqual(['Toggle Group new'])
@@ -135,7 +151,7 @@ describe('SidebarFilter', () => {
       },
       { attachTo: document.body },
     )
-    const filter = document.querySelector<HTMLInputElement>('input[type=search]')!
+    const filter = document.querySelector<HTMLInputElement>('[data-slot=sidebar-filter] input')!
     await userEvent.keyboard('/')
     expect(document.activeElement).toBe(filter)
     await userEvent.keyboard('tog')
