@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Button } from '@/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
+import { ToggleGroup, ToggleGroupItem } from '@/ui/toggle-group'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
 import { consumerDependencies, consumerSource } from '~/lib/consumer'
@@ -29,7 +29,10 @@ if (!found) {
 }
 const item = found
 
-const pm = useState<PackageManager>('package-manager', () => 'pnpm')
+const pm = usePackageManager()
+const choose = (value: unknown) => {
+  if (typeof value === 'string' && value) pm.value = value as PackageManager
+}
 const url = registryItemUrl(useRuntimeConfig().public.siteUrl, item.name)
 
 const dependencies = computed(() =>
@@ -85,19 +88,19 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
         <TabsTrigger value="cli">CLI</TabsTrigger>
         <TabsTrigger value="manual">Manual</TabsTrigger>
       </TabsList>
-      <div class="mt-1 flex flex-wrap gap-1" role="group" aria-label="Package manager">
-        <Button
-          v-for="manager in packageManagers"
-          :key="manager"
-          size="sm"
-          :variant="pm === manager ? 'soft' : 'ghost'"
-          color="neutral"
-          :aria-pressed="pm === manager"
-          @click="pm = manager"
-        >
+      <ToggleGroup
+        type="single"
+        variant="outline"
+        size="sm"
+        aria-label="Package manager"
+        class="mt-1 self-start"
+        :model-value="pm"
+        @update:model-value="choose"
+      >
+        <ToggleGroupItem v-for="manager in packageManagers" :key="manager" :value="manager">
           {{ manager }}
-        </Button>
-      </div>
+        </ToggleGroupItem>
+      </ToggleGroup>
       <TabsContent value="cli">
         <CommandLine :command="addCommand(pm, url)" />
       </TabsContent>
