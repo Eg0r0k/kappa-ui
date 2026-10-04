@@ -6,6 +6,7 @@ import {
   type ColorScheme,
   type Direction,
   type PreviewState,
+  type Tone,
   isPreviewEvent,
   previewPath,
 } from '~/lib/preview-protocol'
@@ -17,12 +18,14 @@ const props = withDefaults(
     dir: Direction
     siteTheme: string
     restart?: number
+    color?: Tone
+    inspect?: boolean
     minHeight?: number
     height?: string
     src?: string
     title?: string
   }>(),
-  { restart: 0, minHeight: 288, height: undefined, src: undefined, title: undefined },
+  { restart: 0, color: 'primary', inspect: false, minHeight: 288, height: undefined, src: undefined, title: undefined },
 )
 const emit = defineEmits<{ ready: []; error: [message: string]; shortcut: [] }>()
 
@@ -36,6 +39,8 @@ const state = computed<PreviewState>(() => ({
   dir: props.dir,
   restart: props.restart,
   siteTheme: props.siteTheme,
+  color: props.color,
+  inspect: props.inspect,
 }))
 
 const send = () => {

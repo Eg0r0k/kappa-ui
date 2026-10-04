@@ -1,12 +1,17 @@
 export type ColorScheme = 'light' | 'dark'
 export type Direction = 'ltr' | 'rtl'
 
+export const tones = ['primary', 'neutral', 'destructive', 'success', 'warning', 'info'] as const
+export type Tone = (typeof tones)[number]
+
 export type PreviewState = {
   type: 'kappa:state'
   colorScheme: ColorScheme
   dir: Direction
   restart: number
   siteTheme: string
+  color: Tone
+  inspect: boolean
 }
 
 export type PreviewEvent =
@@ -23,7 +28,9 @@ export const isPreviewState = (data: unknown): data is PreviewState =>
   (data.colorScheme === 'light' || data.colorScheme === 'dark') &&
   (data.dir === 'ltr' || data.dir === 'rtl') &&
   typeof data.restart === 'number' &&
-  typeof data.siteTheme === 'string'
+  typeof data.siteTheme === 'string' &&
+  tones.includes(data.color as Tone) &&
+  typeof data.inspect === 'boolean'
 
 export const isPreviewEvent = (data: unknown): data is PreviewEvent => {
   if (!record(data)) return false

@@ -4,8 +4,19 @@ import { isPreviewEvent, isPreviewState, previewPath } from '~/lib/preview-proto
 
 describe('isPreviewState', () => {
   it('accepts a complete state message only', () => {
-    const state = { type: 'kappa:state', colorScheme: 'dark', dir: 'rtl', restart: 2, siteTheme: '{"hue":"150"}' }
+    const state = {
+      type: 'kappa:state',
+      colorScheme: 'dark',
+      dir: 'rtl',
+      restart: 2,
+      siteTheme: '{"hue":"150"}',
+      color: 'success',
+      inspect: true,
+    }
     expect(isPreviewState(state)).toBe(true)
+    expect(isPreviewState({ ...state, color: 'teal' })).toBe(false)
+    expect(isPreviewState({ ...state, color: undefined })).toBe(false)
+    expect(isPreviewState({ ...state, inspect: 'yes' })).toBe(false)
     expect(isPreviewState({ ...state, colorScheme: 'system' })).toBe(false)
     expect(isPreviewState({ ...state, dir: 'up' })).toBe(false)
     expect(isPreviewState({ ...state, restart: '2' })).toBe(false)
