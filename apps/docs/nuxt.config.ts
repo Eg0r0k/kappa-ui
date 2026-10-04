@@ -17,6 +17,14 @@ const registryVersion = (
   }
 ).version
 
+const previewRoutes = (
+  JSON.parse(readFileSync(new URL('../../packages/registry/registry.json', import.meta.url), 'utf8')) as {
+    items: { name: string; categories?: string[] }[]
+  }
+).items
+  .filter((item) => item.categories?.includes('example'))
+  .map((item) => `/preview/${item.name}`)
+
 // Nitro's replace plugin rewrites `typeof window` inside every server chunk, raw source strings included
 const encodedRawSources = () => ({
   name: 'kappa:encoded-raw-sources',
@@ -73,7 +81,7 @@ export default defineNuxtConfig({
       autoSubfolderIndex: false,
       crawlLinks: true,
       failOnError: true,
-      routes: ['/', '/search.json'],
+      routes: ['/', '/search.json', ...previewRoutes],
     },
   },
   alias: {

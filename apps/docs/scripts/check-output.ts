@@ -37,6 +37,14 @@ for (const file of registryFiles) {
   if (!existsSync(join(outDir, 'r', file))) missing.push(`registry file /r/${file}`)
 }
 
+const manifest = JSON.parse(await readFile(resolve(docsRoot, '../../packages/registry/registry.json'), 'utf8')) as {
+  items: { name: string; categories?: string[] }[]
+}
+const examples = manifest.items.filter((item) => item.categories?.includes('example'))
+for (const example of examples) {
+  if (!existsSync(join(outDir, 'preview', `${example.name}.html`))) missing.push(`preview /preview/${example.name}`)
+}
+
 if (!existsSync(join(outDir, 'search.json'))) missing.push('search index /search.json')
 
 if (missing.length > 0) {
@@ -45,4 +53,6 @@ if (missing.length > 0) {
   process.exit(1)
 }
 
-console.log(`check-output: ${pages.length} page(s) and ${registryFiles.length} registry file(s) present`)
+console.log(
+  `check-output: ${pages.length} page(s), ${registryFiles.length} registry file(s) and ${examples.length} preview(s) present`,
+)
