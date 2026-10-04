@@ -1,5 +1,6 @@
 component: InfiniteScroll
 file: ui/scroll-area/InfiniteScroll.vue
+description: "`class` is also accepted, for the root."
 exposedType:
   file: ui/scroll-area/useInfiniteScroll.ts
   name: UseInfiniteScrollReturn

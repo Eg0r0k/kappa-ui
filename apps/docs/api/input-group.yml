@@ -1,5 +1,6 @@
 component: InputGroup
 file: ui/input-group/InputGroup.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
 props:
   variant:
     description: "The frame, with the input's five variants: `outline`, `soft`, `filled`, `ghost` and `subtle`. The group draws it; the control inside has none."

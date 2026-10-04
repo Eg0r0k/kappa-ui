@@ -13,6 +13,7 @@ export type PropDescription = string | { description: string; default?: string; 
 export type ApiDescriptions = {
   component: string
   file: string
+  description?: string
   exposedType?: { file: string; name: string }
   props?: Record<string, PropDescription>
   emits?: Record<string, string>
@@ -30,6 +31,7 @@ export type ApiRow = {
 }
 export type ComponentApi = {
   component: string
+  description?: string
   props: ApiRow[]
   emits: ApiRow[]
   slots: ApiRow[]
@@ -132,6 +134,7 @@ export const mergeApi = (meta: ComponentMetaInput, descriptions: ApiDescriptions
 
   const api: ComponentApi = {
     component,
+    ...(descriptions.description ? { description: descriptions.description } : {}),
     props: propRows,
     emits: memberRows(meta.events, describedEmits),
     slots: memberRows(meta.slots, describedSlots),

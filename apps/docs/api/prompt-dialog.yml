@@ -1,5 +1,6 @@
 component: PromptDialog
 file: ui/confirm/PromptDialog.vue
+description: "The options of `prompt()`."
 props:
   title:
     description: "The question. It also labels the input when there is no `label`."

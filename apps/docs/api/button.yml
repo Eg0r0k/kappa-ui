@@ -1,5 +1,6 @@
 component: Button
 file: ui/button/Button.vue
+description: "`class` is also accepted and merged over the variant classes with tailwind-merge."
 props:
   variant:
     description: Appearance, independent of colour.

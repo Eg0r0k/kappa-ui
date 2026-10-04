@@ -217,4 +217,12 @@ describe('mergeApi', () => {
 
     expect(errors).toEqual(['X: prop "delay" describes fields, but its type has no object shape'])
   })
+
+  it('carries a part description through', () => {
+    const { api } = mergeApi(
+      { props: [], events: [], slots: [], exposed: [] },
+      { component: 'X', file: 'ui/x/X.vue', description: 'The options of `x()`.' },
+    )
+    expect(api.description).toBe('The options of `x()`.')
+  })
 })

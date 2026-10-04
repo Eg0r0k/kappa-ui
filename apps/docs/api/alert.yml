@@ -1,5 +1,6 @@
 component: Alert
 file: ui/alert/Alert.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
 props:
   variant:
     description: Appearance, independent of colour, with Button's names. `link` underlines the text on hover, for an alert rendered as a link.

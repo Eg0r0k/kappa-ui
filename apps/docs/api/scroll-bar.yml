@@ -1,5 +1,6 @@
 component: ScrollBar
 file: ui/scroll-area/ScrollBar.vue
+description: "`class` is also accepted and merged over the bar's base classes. The thumb's classes are not exposed; edit your copy to change them."
 props:
   axis:
     description: Which bar this is. `ScrollArea` renders one for its `orientation`.

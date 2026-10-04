@@ -1,5 +1,6 @@
 component: Pagination
 file: ui/pagination/Pagination.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
 props:
   page:
     description: "The current page, bound with `v-model:page`."

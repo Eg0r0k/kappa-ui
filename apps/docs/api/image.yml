@@ -1,5 +1,6 @@
 component: Image
 file: ui/image/Image.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge. Other attributes go on the box; style the `<img>` through it, for example `class=\"[&_img]:grayscale\"`."
 props:
   src:
     description: The image URL, and the fallback when `sources` is set. While it is `undefined` the image counts as loading, for example until the data that holds it arrives; `null` or an empty string, with no `srcset`, means there is no image.

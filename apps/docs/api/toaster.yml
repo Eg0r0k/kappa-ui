@@ -1,5 +1,6 @@
 component: Toaster
 file: ui/toast/Toaster.vue
+description: "`class` is also accepted and goes to the viewport."
 props:
   group:
     description: "Shows only toasts added with this `group`. Without it, the toaster shows toasts added without one."

@@ -1,5 +1,6 @@
 component: ScrollArea
 file: ui/scroll-area/ScrollArea.vue
+description: "`class` is also accepted, for the root.\n\nThe `scroll` payload carries the same object as `ref`, so one handler can serve many areas without template refs. The exposed `virtualizer` is outside this component's API stability: if the engine changes, code built on it changes with it."
 exposedType:
   file: ui/scroll-area/index.ts
   name: ScrollAreaApi
