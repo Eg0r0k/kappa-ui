@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronDown, Copy, FileText } from '@lucide/vue'
+import { Atom, ChevronDown, Copy, FileText, Package } from '@lucide/vue'
 
 import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
@@ -8,10 +8,12 @@ import { Menu, MenuItem, MenuTrigger } from '@/ui/menu'
 import { useToast } from '@/ui/toast'
 import GithubIcon from '~/components/GithubIcon.vue'
 import { badgeOf } from '~/lib/badges'
+import { dependencyLinks } from '~/lib/dependencies'
 import { rawPath } from '~/lib/raw'
 import { findItem } from '~/lib/registry'
+import { loadSource } from '~/lib/sources'
 
-const props = defineProps<{ title: string; description?: string; path: string; component?: string; reka?: string }>()
+const props = defineProps<{ title: string; description?: string; path: string; component?: string }>()
 
 const toast = useToast()
 const now = ref<number>()
@@ -24,6 +26,14 @@ const source = computed(() => {
   const file = props.component ? findItem(props.component)?.files[0]?.path : undefined
   if (!file) return undefined
   return `https://github.com/Eg0r0k/kappa-ui/tree/main/packages/registry/${file.slice(0, file.lastIndexOf('/'))}`
+})
+
+const { data: dependencies } = useAsyncData(`dependencies:${props.component ?? props.path}`, async () => {
+  const files = (props.component ? findItem(props.component)?.files : undefined) ?? []
+  const sources = await Promise.all(
+    files.filter((file) => /\.(vue|ts)$/.test(file.path)).map((file) => loadSource(file.path)),
+  )
+  return dependencyLinks(sources, props.component ?? '')
 })
 
 const copyPage = async () => {
@@ -73,8 +83,19 @@ const copyPage = async () => {
           Source
         </a>
       </Button>
-      <Button v-if="props.reka" variant="ghost" color="neutral" size="sm" as-child>
-        <a :href="props.reka" target="_blank" rel="noreferrer">Reka UI</a>
+      <Button
+        v-for="dependency in dependencies"
+        :key="dependency.href"
+        variant="ghost"
+        color="neutral"
+        size="sm"
+        as-child
+      >
+        <a :href="dependency.href" target="_blank" rel="noreferrer">
+          <Atom v-if="dependency.label === 'Reka UI'" data-icon="inline-start" />
+          <Package v-else data-icon="inline-start" />
+          {{ dependency.label }}
+        </a>
       </Button>
     </div>
   </header>

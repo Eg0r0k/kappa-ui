@@ -33,7 +33,7 @@ const { active, open, expanded, width } = provideDemo({
     <div class="flex">
       <aside
         aria-label="Navigation"
-        class="invisible sticky top-14 hidden h-[calc(100svh-3.5rem)] w-0 shrink-0 overflow-hidden lg:block lg:in-data-[sidebar-narrow=open]:visible lg:in-data-[sidebar-narrow=open]:w-65 lg:in-data-[sidebar-narrow=open]:border-e wide:invisible wide:w-0 wide:border-e-0 wide:in-data-[sidebar-wide=open]:visible wide:in-data-[sidebar-wide=open]:w-65 wide:in-data-[sidebar-wide=open]:border-e"
+        class="invisible sticky top-14 hidden h-[calc(100svh-3.5rem)] w-0 shrink-0 overflow-hidden bg-card transition-[width,visibility] duration-medium-2 ease-standard motion-reduce:transition-none lg:block lg:in-data-[sidebar-narrow=open]:visible lg:in-data-[sidebar-narrow=open]:w-65 lg:in-data-[sidebar-narrow=open]:border-e wide:invisible wide:w-0 wide:border-e-0 wide:in-data-[sidebar-wide=open]:visible wide:in-data-[sidebar-wide=open]:w-65 wide:in-data-[sidebar-wide=open]:border-e"
       >
         <DocsSidebar :outline="outline" class="w-65" />
       </aside>
