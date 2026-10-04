@@ -36,12 +36,24 @@ describe('coreModules', () => {
 
 describe('dependencyLinks', () => {
   it('links the Reka primitive and the core module, preferring the ones named like the item', () => {
-    expect(dependencyLinks([toggleGroup], 'toggle-group')).toEqual([
+    expect(dependencyLinks([toggleGroup], 'toggle-group', ['reka-ui'])).toEqual([
       { label: 'Reka UI', href: 'https://reka-ui.com/docs/components/toggle-group' },
     ])
-    expect(dependencyLinks(['import { vRipple } from "@kappa-ui/core/ripple";', dialog], 'dialog')).toEqual([
-      { label: '@kappa-ui/core', href: 'https://github.com/Eg0r0k/kappa-ui/tree/main/packages/core/src/dialog' },
-    ])
-    expect(dependencyLinks(['import { cn } from "@/lib/utils";'], 'kbd')).toEqual([])
+    expect(
+      dependencyLinks(['import { vRipple } from "@kappa-ui/core/ripple";', dialog], 'dialog', [
+        '@kappa-ui/core',
+        'reka-ui',
+      ]),
+    ).toEqual([{ label: 'Kappa UI', href: 'https://github.com/Eg0r0k/kappa-ui/tree/main/packages/core/src/dialog' }])
+  })
+
+  it('falls back to Primitive, links TanStack, and stays empty without dependencies', () => {
+    expect(
+      dependencyLinks(['import { Primitive } from "reka-ui";'], 'button', ['class-variance-authority', 'reka-ui']),
+    ).toEqual([{ label: 'Reka UI', href: 'https://reka-ui.com/docs/utilities/primitive' }])
+    expect(dependencyLinks([], 'data-table', ['@tanstack/vue-table', '@lucide/vue']).map((link) => link.label)).toEqual(
+      ['TanStack Table'],
+    )
+    expect(dependencyLinks(['<template><kbd /></template>'], 'kbd', [])).toEqual([])
   })
 })
