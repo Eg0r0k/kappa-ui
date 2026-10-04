@@ -4,6 +4,7 @@ export type PageOutline = { headings: { id: string; text: string }[]; examples: 
 type OutlineSource = {
   body?: { toc?: { links?: { id: string; text: string; depth: number }[] } }
   examples: PageExample[]
+  component?: string
 }
 
 export const outlineOf = (page: OutlineSource | null | undefined): PageOutline | undefined => {
@@ -11,5 +12,6 @@ export const outlineOf = (page: OutlineSource | null | undefined): PageOutline |
   const headings = (page.body?.toc?.links ?? [])
     .filter((link) => link.depth === 2)
     .map(({ id, text }) => ({ id, text }))
+  if (page.component) headings.push({ id: 'changelog', text: 'Changelog' })
   return { headings, examples: page.examples }
 }
