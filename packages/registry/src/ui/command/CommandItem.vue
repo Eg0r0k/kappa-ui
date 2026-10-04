@@ -23,11 +23,11 @@ const delegated = computed(() => {
 const forwarded = useForwardPropsEmits(delegated, emits);
 
 const id = useId();
-const { allItems, allGroups, filterState } = injectCommandContext();
+const { allItems, allGroups, filterState, filtering } = injectCommandContext();
 const group = injectCommandGroupContext(null);
 const { forwardRef, currentElement } = useForwardExpose();
 
-const visible = computed(() => !filterState.search || filterState.filtered.items.get(id) !== false);
+const visible = computed(() => !filtering.value || filterState.filtered.items.get(id) !== false);
 
 onMounted(() => {
   allItems.value.set(id, currentElement.value?.textContent ?? String(props.value ?? ""));

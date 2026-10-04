@@ -13,12 +13,12 @@ const delegated = computed(() => {
   return rest;
 });
 
-const { filterState } = injectCommandContext();
+const { filtering } = injectCommandContext();
 </script>
 
 <template>
   <Separator
-    v-if="!filterState.search"
+    v-if="!filtering"
     v-bind="delegated"
     data-slot="command-separator"
     :class="cn(menuSeparator, props.class)"

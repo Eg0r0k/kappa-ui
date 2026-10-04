@@ -1,7 +1,7 @@
 import { enableAutoUnmount, mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type VNode, h, nextTick } from "vue";
+import { type VNode, h, nextTick, ref } from "vue";
 
 import {
   Command,
@@ -120,4 +120,52 @@ it("opens as a dialog named by its title, with the search focused and no close b
   expect(document.getElementById(dialog.getAttribute("aria-labelledby")!)!.textContent).toBe("Command Palette");
   expect(document.activeElement).toBe(input());
   expect(document.querySelector("[data-slot=dialog-close]")).toBeNull();
+});
+
+it("keeps every item, group and separator with ignoreFilter, and shows no empty state", async () => {
+  render(h(Command, { ignoreFilter: true }, () => content()));
+  await userEvent.click(input());
+  await userEvent.keyboard("zz");
+  expect(items()).toHaveLength(4);
+  expect(groups().every((group) => !group.hidden)).toBe(true);
+  expect(document.querySelector("[data-slot=command-separator]")).not.toBeNull();
+  expect(document.querySelector("[data-slot=command-empty]")).toBeNull();
+});
+
+const bound = (search: { value: string }) =>
+  mount(
+    {
+      setup: () => () =>
+        h(Command, () => [
+          h(CommandInput, {
+            modelValue: search.value,
+            "onUpdate:modelValue": (value: string) => (search.value = value),
+          }),
+          content()[1],
+        ]),
+    },
+    { attachTo: document.body },
+  );
+
+it("binds the search with v-model on the input, both ways", async () => {
+  const search = ref("ban");
+  bound(search);
+  await nextTick();
+  expect(input().value).toBe("ban");
+  expect(texts()).toEqual(["Banana"]);
+  await userEvent.click(input());
+  await userEvent.keyboard("x");
+  expect(search.value).toBe("banx");
+  search.value = "";
+  await nextTick();
+  expect(items()).toHaveLength(4);
+});
+
+it("tells the bound search when selecting an item clears it", async () => {
+  const search = ref("");
+  bound(search);
+  await userEvent.click(input());
+  await userEvent.keyboard("apple");
+  await userEvent.click(items()[0]!);
+  expect(search.value).toBe("");
 });

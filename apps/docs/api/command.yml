@@ -21,6 +21,8 @@ props:
     description: A key or a function that compares item values, for object values.
   size:
     description: "Menu's scale, `xs` to `xl`: item heights from 28px to 48px, with the search row, icons and type to match."
+  ignoreFilter:
+    description: Turns the built-in filter off, for items you filter yourself. Every item, group and separator stays visible, and `CommandEmpty` never shows.
   name:
     description: Submits the selected value with the form under this name.
   required:
