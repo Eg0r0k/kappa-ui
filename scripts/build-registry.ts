@@ -60,6 +60,7 @@ type RegistryItem = {
   docs?: string
   extends?: string
   config?: Record<string, unknown>
+  meta?: Record<string, unknown>
 }
 
 type Registry = {
@@ -183,6 +184,21 @@ const publishedConfig = (item: RegistryItem) =>
       }
     : undefined
 
+const DEMO_FLAGS = new Set(['padding', 'swipe'])
+
+const demoErrors = (demo: unknown) => {
+  if (typeof demo !== 'object' || demo === null) return ['meta.demo must be an object']
+  return Object.entries(demo).flatMap(([key, value]) => {
+    if (key === 'height') {
+      return typeof value === 'number' && value >= 0.2 && value <= 0.9
+        ? []
+        : ['meta.demo.height must be a number from 0.2 to 0.9']
+    }
+    if (DEMO_FLAGS.has(key)) return typeof value === 'boolean' ? [] : [`meta.demo.${key} must be a boolean`]
+    return [`meta.demo has an unknown key "${key}"`]
+  })
+}
+
 const errors: string[] = [...sourceErrors]
 const names = new Set<string>()
 
@@ -237,6 +253,16 @@ for (const item of registry.items) {
     if ((item.registryDependencies ?? []).length === 0) {
       errors.push(`item "${item.name}": an example must list the item it demonstrates in registryDependencies`)
     }
+  }
+
+  if (item.type === 'registry:ui' && item.categories?.length !== 1) {
+    errors.push(`item "${item.name}": a ui item needs exactly one category`)
+  }
+
+  const demo = item.meta?.demo
+  if (demo !== undefined) {
+    if (!isExample) errors.push(`item "${item.name}": meta.demo is only allowed on examples`)
+    for (const message of demoErrors(demo)) errors.push(`item "${item.name}": ${message}`)
   }
 
   for (const file of item.files) {

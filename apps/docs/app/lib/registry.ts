@@ -10,6 +10,8 @@ export type CssVars = {
   dark?: Record<string, string>
 }
 
+export type DemoMeta = { height?: number; padding?: boolean; swipe?: boolean }
+
 export type RegistryItem = {
   name: string
   type: string
@@ -23,6 +25,7 @@ export type RegistryItem = {
   cssVars?: CssVars
   cssSource?: string
   docs?: string
+  meta?: { demo?: DemoMeta }
 }
 
 export const registryItems: readonly RegistryItem[] = (manifest as { items: RegistryItem[] }).items
