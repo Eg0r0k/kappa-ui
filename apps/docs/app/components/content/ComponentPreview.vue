@@ -39,13 +39,13 @@ const canvas = 'flex min-h-72 items-center-safe justify-center-safe p-10'
         <span class="min-w-0 flex-1 truncate text-body-sm text-muted-foreground">{{ label }}</span>
         <div v-if="demo?.active.value" class="hidden items-center gap-0.5 md:flex">
           <Button
-            v-tooltip="'Open in panel'"
-            variant="ghost"
-            color="neutral"
+            v-tooltip="current ? 'Close the panel' : 'Open in panel'"
+            :variant="current ? 'soft' : 'ghost'"
+            :color="current ? 'primary' : 'neutral'"
             size="icon-sm"
             aria-label="Open in panel"
             :aria-pressed="current"
-            @click="demo.show(slug)"
+            @click="current ? demo.close() : demo.show(slug)"
           >
             <PanelRight />
           </Button>

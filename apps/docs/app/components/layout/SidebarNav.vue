@@ -34,14 +34,14 @@ const pageLink = `
   flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground transition-colors
   hover:bg-accent hover:text-accent-foreground
   focus-visible:focus-ring
-  aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-accent-foreground
+  aria-[current=page]:bg-primary/10 aria-[current=page]:font-medium aria-[current=page]:text-primary
   max-md:min-h-11
 `
 const anchorLink = `
   block rounded-sm py-1 text-body-sm text-muted-foreground transition-colors
   hover:text-foreground
   focus-visible:focus-ring
-  aria-[current=location]:font-medium aria-[current=location]:text-foreground
+  aria-[current=location]:font-medium aria-[current=location]:text-primary
   max-md:min-h-11 max-md:py-2.5
 `
 </script>

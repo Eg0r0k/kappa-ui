@@ -1,62 +1,26 @@
 <script setup lang="ts">
-import {
-  ChevronLeft,
-  ChevronRight,
-  Ellipsis,
-  Link,
-  Maximize2,
-  Minimize2,
-  Moon,
-  Palette,
-  RotateCcw,
-  ScanSearch,
-  Sun,
-  SunMoon,
-  X,
-} from '@lucide/vue'
+import { ChevronDown, ChevronLeft, ChevronRight, Ellipsis, Link, Maximize2, Minimize2, X } from '@lucide/vue'
 
+import { Button } from '@/ui/button'
+import { ButtonGroup, ButtonGroupSeparator } from '@/ui/button-group'
 import { Menu, MenuItem, MenuRadioGroup, MenuRadioItem, MenuTrigger } from '@/ui/menu'
 import { useToast } from '@/ui/toast'
-import { Toolbar, ToolbarButton, ToolbarToggleGroup, ToolbarToggleItem } from '@/ui/toolbar'
 import { vTooltip } from '@/ui/tooltip'
-import { type Tone, tones } from '~/lib/preview-protocol'
-
-const props = defineProps<{ colors: boolean }>()
 
 const demo = injectDemo()
-const { examples, selected, index, previous, next, scheme, color, expanded, restart } = demo
+const { examples, selected, index, previous, next, expanded } = demo
 const route = useRoute()
 const toast = useToast()
 
-const schemes = {
-  site: { next: 'dark', label: 'Example theme: site' },
-  dark: { next: 'light', label: 'Example theme: dark' },
-  light: { next: 'site', label: 'Example theme: light' },
-} as const
-
-const swatches: Record<Tone, string> = {
-  primary: 'bg-primary',
-  neutral: 'bg-foreground',
-  destructive: 'bg-destructive',
-  success: 'bg-success',
-  warning: 'bg-warning',
-  info: 'bg-info',
-}
-
-const toggles = computed({
-  get: () => [demo.inspect.value ? 'inspect' : '', demo.dir.value === 'rtl' ? 'rtl' : ''].filter(Boolean),
-  set: (values: string[]) => {
-    demo.inspect.value = values.includes('inspect')
-    demo.dir.value = values.includes('rtl') ? 'rtl' : 'ltr'
+const current = computed({
+  get: () => selected.value?.slug,
+  set: (slug?: string) => {
+    if (slug) demo.select(slug)
   },
 })
 
 const step = (example: { slug: string } | undefined) => {
   if (example) demo.select(example.slug)
-}
-
-const cycleScheme = () => {
-  scheme.value = schemes[scheme.value].next
 }
 
 const copyLink = async () => {
@@ -67,87 +31,63 @@ const copyLink = async () => {
 </script>
 
 <template>
-  <Toolbar
-    variant="ghost"
-    aria-label="Example"
+  <div
     data-slot="demo-toolbar"
-    class="min-h-12 w-full shrink-0 flex-wrap border-b bg-muted/40 px-2 py-1.5"
+    class="flex min-h-12 w-full shrink-0 items-center gap-2 border-b bg-muted/40 px-2 py-1.5"
   >
-    <ToolbarButton
-      v-tooltip="'Previous example'"
-      size="icon-sm"
-      aria-label="Previous example"
-      :disabled="!previous"
-      @click="step(previous)"
-    >
-      <ChevronLeft />
-    </ToolbarButton>
-    <ToolbarButton
-      v-tooltip="'Next example'"
-      size="icon-sm"
-      aria-label="Next example"
-      :disabled="!next"
-      @click="step(next)"
-    >
-      <ChevronRight />
-    </ToolbarButton>
-    <p class="flex min-w-36 flex-1 items-baseline gap-2 px-1 text-sm">
-      <span data-slot="demo-title" class="truncate font-medium">{{ selected?.title }}</span>
-      <span class="shrink-0 text-xs text-muted-foreground tabular-nums">{{ index + 1 }}/{{ examples.length }}</span>
-    </p>
-    <div class="ms-auto flex items-center gap-1">
-      <ToolbarToggleGroup v-model="toggles" type="multiple" aria-label="Example view">
-        <ToolbarToggleItem v-tooltip="'Inspect'" value="inspect" size="icon-sm" aria-label="Inspect">
-          <ScanSearch />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem v-tooltip="'Right to left'" value="rtl" size="sm" aria-label="Right to left">
-          RTL
-        </ToolbarToggleItem>
-      </ToolbarToggleGroup>
-      <ToolbarButton
-        v-tooltip="schemes[scheme].label"
+    <ButtonGroup aria-label="Example" class="min-w-0">
+      <Button
+        v-tooltip="'Previous example'"
+        variant="soft"
+        color="neutral"
         size="icon-sm"
-        :aria-label="schemes[scheme].label"
-        :data-scheme="scheme"
-        @click="cycleScheme"
+        aria-label="Previous example"
+        :disabled="!previous"
+        @click="step(previous)"
       >
-        <SunMoon v-if="scheme === 'site'" />
-        <Moon v-else-if="scheme === 'dark'" />
-        <Sun v-else />
-      </ToolbarButton>
-      <span v-if="props.colors" class="flex">
-        <MenuTrigger as-child>
-          <ToolbarButton v-tooltip="'Colour'" size="icon-sm" aria-label="Example colour">
-            <Palette />
-          </ToolbarButton>
-        </MenuTrigger>
-        <Menu size="sm" anchor="bottom end" self="top end">
-          <MenuRadioGroup v-model="color">
-            <MenuRadioItem v-for="tone in tones" :key="tone" :value="tone" class="capitalize">
-              <span :class="['size-3 rounded-full', swatches[tone]]" aria-hidden="true" />
-              {{ tone }}
-            </MenuRadioItem>
-          </MenuRadioGroup>
-        </Menu>
-      </span>
-      <ToolbarButton v-tooltip="'Restart'" size="icon-sm" aria-label="Restart the example" @click="restart += 1">
-        <RotateCcw />
-      </ToolbarButton>
-      <ToolbarButton
-        v-tooltip="expanded ? 'Collapse' : 'Expand'"
+        <ChevronLeft />
+      </Button>
+      <ButtonGroupSeparator />
+      <MenuTrigger as-child>
+        <Button
+          id="demo-example-picker"
+          variant="soft"
+          color="neutral"
+          size="sm"
+          class="min-w-0"
+          aria-label="Choose an example"
+        >
+          <span data-slot="demo-title" class="truncate">{{ selected?.title }}</span>
+          <span class="text-muted-foreground tabular-nums">{{ index + 1 }}/{{ examples.length }}</span>
+          <ChevronDown data-icon="inline-end" />
+        </Button>
+      </MenuTrigger>
+      <ButtonGroupSeparator />
+      <Button
+        v-tooltip="'Next example'"
+        variant="soft"
+        color="neutral"
         size="icon-sm"
-        :aria-label="expanded ? 'Collapse the panel' : 'Expand the panel'"
-        :aria-pressed="expanded"
-        @click="expanded = !expanded"
+        aria-label="Next example"
+        :disabled="!next"
+        @click="step(next)"
       >
-        <Minimize2 v-if="expanded" />
-        <Maximize2 v-else />
-      </ToolbarButton>
+        <ChevronRight />
+      </Button>
+    </ButtonGroup>
+    <Menu target="#demo-example-picker" size="sm" anchor="bottom start" self="top start">
+      <MenuRadioGroup v-model="current">
+        <MenuRadioItem v-for="example in examples" :key="example.slug" :value="example.slug">
+          {{ example.title }}
+        </MenuRadioItem>
+      </MenuRadioGroup>
+    </Menu>
+    <div class="ms-auto flex shrink-0 items-center gap-0.5">
       <span class="flex">
         <MenuTrigger as-child>
-          <ToolbarButton size="icon-sm" aria-label="More example actions">
+          <Button variant="ghost" color="neutral" size="icon-sm" aria-label="More example actions">
             <Ellipsis />
-          </ToolbarButton>
+          </Button>
         </MenuTrigger>
         <Menu size="sm" anchor="bottom end" self="top end">
           <MenuItem @select="copyLink">
@@ -156,9 +96,28 @@ const copyLink = async () => {
           </MenuItem>
         </Menu>
       </span>
-      <ToolbarButton v-tooltip="'Close'" size="icon-sm" aria-label="Close the panel" @click="demo.close">
+      <Button
+        v-tooltip="expanded ? 'Collapse' : 'Expand'"
+        variant="ghost"
+        color="neutral"
+        size="icon-sm"
+        :aria-label="expanded ? 'Collapse the panel' : 'Expand the panel'"
+        :aria-pressed="expanded"
+        @click="expanded = !expanded"
+      >
+        <Minimize2 v-if="expanded" />
+        <Maximize2 v-else />
+      </Button>
+      <Button
+        v-tooltip="'Close'"
+        variant="ghost"
+        color="neutral"
+        size="icon-sm"
+        aria-label="Close the panel"
+        @click="demo.close"
+      >
         <X />
-      </ToolbarButton>
+      </Button>
     </div>
-  </Toolbar>
+  </div>
 </template>

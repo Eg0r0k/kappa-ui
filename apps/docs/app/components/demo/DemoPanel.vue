@@ -3,6 +3,7 @@ import { Splitter, SplitterHandle, SplitterPanel } from '@/ui/splitter'
 import PreviewIframe from '~/components/PreviewIframe.vue'
 import DemoCode from '~/components/demo/DemoCode.vue'
 import DemoToolbar from '~/components/demo/DemoToolbar.vue'
+import DemoTools from '~/components/demo/DemoTools.vue'
 import DemoWidthHandle from '~/components/demo/DemoWidthHandle.vue'
 import api from '~/generated/api.json'
 import { hasColorProp } from '~/lib/demo'
@@ -40,9 +41,9 @@ const setResizing = (value: boolean) => {
       @commit="demo.commitWidth"
       @resizing="setResizing"
     />
-    <DemoToolbar :colors="colors" />
+    <DemoToolbar />
     <Splitter v-if="selected" :key="selected.name" direction="vertical" class="min-h-0 flex-1">
-      <SplitterPanel :default-size="share" :min-size="20">
+      <SplitterPanel :default-size="share" :min-size="20" class="relative">
         <PreviewIframe
           :name="selected.name"
           :title="item?.title"
@@ -56,8 +57,13 @@ const setResizing = (value: boolean) => {
           :class="['h-full', resizing && 'pointer-events-none']"
           @shortcut="show()"
         />
+        <DemoTools :colors="colors" class="absolute inset-x-0 bottom-3 z-10 mx-auto" />
       </SplitterPanel>
-      <SplitterHandle grip @dragging="setResizing" />
+      <SplitterHandle
+        grip
+        class="[&>[data-slot=splitter-grip]]:h-10 [&>[data-slot=splitter-grip]]:w-4 [&>[data-slot=splitter-grip]]:rounded-full [&>[data-slot=splitter-grip]_svg]:size-3.5"
+        @dragging="setResizing"
+      />
       <SplitterPanel :min-size="10">
         <DemoCode :name="selected.name" />
       </SplitterPanel>
