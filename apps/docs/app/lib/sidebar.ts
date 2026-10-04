@@ -2,7 +2,8 @@ import { categories, pageCategory } from '~/lib/categories'
 
 export type NavNode = { title: string; path: string; children?: NavNode[]; [key: string]: unknown }
 export type NavPage = { title: string; path: string; component?: string; category?: string; description?: string }
-export type SidebarGroup = { key: string; title: string; pages: NavPage[] }
+export type SidebarSection = 'guides' | 'components' | 'project'
+export type SidebarGroup = { key: string; title: string; section: SidebarSection; pages: NavPage[] }
 export type DocsSection = 'docs' | 'components'
 export type Segment = { text: string; match: boolean }
 
@@ -26,7 +27,12 @@ export const sectionOf = (path: string): DocsSection =>
 const guideGroups = (nav: readonly NavNode[]): SidebarGroup[] =>
   nav
     .filter((node) => node.path !== COMPONENTS_PATH)
-    .map((node) => ({ key: node.path.split('/').at(-1) ?? node.path, title: node.title, pages: pagesOf(node) }))
+    .map((node) => ({
+      key: node.path.split('/').at(-1) ?? node.path,
+      title: node.title,
+      section: 'guides' as const,
+      pages: pagesOf(node),
+    }))
 
 const categoryGroups = (nav: readonly NavNode[], guides: readonly SidebarGroup[]): SidebarGroup[] => {
   const pages = pagesOf(nav.find((node) => node.path === COMPONENTS_PATH))
@@ -34,6 +40,7 @@ const categoryGroups = (nav: readonly NavNode[], guides: readonly SidebarGroup[]
     .map((category) => ({
       key: category.key as string,
       title: category.title as string,
+      section: 'components' as const,
       pages: [
         ...(guides.find((guide) => guide.key === category.key)?.pages ?? []),
         ...pages.filter((page) => pageCategory(page) === category.key),
@@ -50,7 +57,7 @@ export const sidebarGroups = (nav: readonly NavNode[]): SidebarGroup[] => {
   return [
     ...guides.filter((guide) => !keys.has(guide.key)),
     ...categoryGroups(nav, guides),
-    { key: 'project', title: 'Project', pages: [{ title: 'Changelog', path: CHANGELOG_PATH }] },
+    { key: 'project', title: 'Project', section: 'project', pages: [{ title: 'Changelog', path: CHANGELOG_PATH }] },
   ]
 }
 
