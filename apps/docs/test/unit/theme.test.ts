@@ -68,16 +68,18 @@ describe('theme', () => {
   it('writes site CSS one step more specific than the stylesheet, with the font', () => {
     const css = siteCss({ ...defaultTheme, hue: 150, font: 'geist' })
 
-    expect(css).toContain(':root:root, :root .light {\n  --radius: 0.75rem;\n  --brand: oklch(0.48 0.2 150);')
+    expect(css).toContain(':root:root, :root .light {\n  --radius: 0.5rem;\n  --brand: oklch(0.48 0.2 150);')
     expect(css).toContain('--font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;')
     expect(css).toContain(':root.dark, :root .dark {\n  --primary: oklch(0.78 0.1 150);')
   })
 
-  it('sets the surface border in both themes, and leaves it to --border by default', () => {
-    expect(surfaceBorders.map((option) => option.key)).toEqual(['default', 'strong', 'brand', 'none'])
+  it('leaves the static transparent edge by default, and sets a chosen one in both themes', () => {
+    expect(surfaceBorders.map((option) => option.key)).toEqual(['none', 'subtle', 'strong', 'brand'])
+    expect(defaultTheme.surfaceBorder).toBe('none')
+    expect(staticToken(':root', 'surface-border')).toBe('transparent')
     expect(themeTokens(defaultTheme).light['surface-border']).toBeUndefined()
     for (const [key, value] of [
-      ['none', 'transparent'],
+      ['subtle', 'var(--border)'],
       ['strong', 'var(--input)'],
       ['brand', 'color-mix(in oklab, var(--primary) 35%, var(--border))'],
     ] as const) {
@@ -104,7 +106,7 @@ describe('theme', () => {
 
   it('tells the default theme apart', () => {
     expect(isDefaultTheme({ ...defaultTheme })).toBe(true)
-    expect(isDefaultTheme({ ...defaultTheme, radius: 0.5 })).toBe(false)
+    expect(isDefaultTheme({ ...defaultTheme, radius: 1 })).toBe(false)
   })
 
   it('raises the light surfaces by default, and can flatten or tint them', () => {
@@ -196,7 +198,7 @@ describe('theme', () => {
       ...defaultTheme,
       hue: 150,
       font: 'outfit',
-      surfaceBorder: 'none' as const,
+      surfaceBorder: 'strong' as const,
       shadows: 'subtle' as const,
       infoChroma: 0.2,
     }
@@ -205,7 +207,7 @@ describe('theme', () => {
     expect(themeToQuery(theme)).toEqual({
       hue: '150',
       font: 'outfit',
-      surfaceBorder: 'none',
+      surfaceBorder: 'strong',
       shadows: 'subtle',
       infoChroma: '0.2',
     })

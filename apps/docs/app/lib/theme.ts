@@ -1,6 +1,6 @@
 export type NeutralName = 'neutral' | 'stone' | 'zinc' | 'slate' | 'brand'
 
-export type SurfaceBorder = 'default' | 'strong' | 'brand' | 'none'
+export type SurfaceBorder = 'none' | 'subtle' | 'strong' | 'brand'
 
 export type Surfaces = 'flat' | 'raised' | 'tinted'
 
@@ -76,16 +76,16 @@ export const presets = [
 export const radii = [0, 0.25, 0.5, 0.75, 1, 1.25]
 
 export const surfaceBorders: { key: SurfaceBorder; name: string }[] = [
-  { key: 'default', name: 'Default' },
+  { key: 'none', name: 'None' },
+  { key: 'subtle', name: 'Subtle' },
   { key: 'strong', name: 'Strong' },
   { key: 'brand', name: 'Brand' },
-  { key: 'none', name: 'None' },
 ]
 
-const surfaceBorderValues: Record<Exclude<SurfaceBorder, 'default'>, string> = {
+const surfaceBorderValues: Record<Exclude<SurfaceBorder, 'none'>, string> = {
+  subtle: 'var(--border)',
   strong: 'var(--input)',
   brand: 'color-mix(in oklab, var(--primary) 35%, var(--border))',
-  none: 'transparent',
 }
 
 export const surfaces: { key: Surfaces; name: string }[] = [
@@ -186,10 +186,10 @@ export const statuses: {
   {
     key: 'info',
     name: 'Info',
-    hue: 230,
-    chroma: 0.13,
-    light: { info: [0.72, 0.13, 230], 'info-foreground': [0.26, 0.05, 235], 'info-text': [0.52, 0.11, 240] },
-    dark: { info: [0.8, 0.11, 230], 'info-foreground': [0.25, 0.05, 235], 'info-text': [0.8, 0.11, 230] },
+    hue: 256,
+    chroma: 0.17,
+    light: { info: [0.79, 0.17, 256], 'info-foreground': [0.26, 0.065, 261], 'info-text': [0.52, 0.144, 266] },
+    dark: { info: [0.87, 0.144, 256], 'info-foreground': [0.25, 0.065, 261], 'info-text': [0.8, 0.144, 256] },
   },
 ]
 
@@ -213,9 +213,9 @@ export const defaultTheme: ThemeConfig = {
   hue: 262,
   chroma: 0.2,
   neutral: 'neutral',
-  radius: 0.75,
+  radius: 0.5,
   font: 'inter',
-  surfaceBorder: 'default',
+  surfaceBorder: 'none',
   surfaces: 'raised',
   shadows: 'default',
   ...statusDefaults,
@@ -320,7 +320,7 @@ export const themeTokens = (config: ThemeConfig) => {
     }
   }
 
-  if (config.surfaceBorder !== 'default') {
+  if (config.surfaceBorder !== 'none') {
     light['surface-border'] = surfaceBorderValues[config.surfaceBorder]
     dark['surface-border'] = surfaceBorderValues[config.surfaceBorder]
   }
