@@ -74,7 +74,7 @@ const height = computed(() => props.height ?? `${Math.max(props.minHeight, repor
       :title="props.title ?? props.name"
       loading="lazy"
       class="block w-full border-0"
-      :style="{ height }"
+      :style="{ height, colorScheme: props.colorScheme }"
     />
   </div>
 </template>

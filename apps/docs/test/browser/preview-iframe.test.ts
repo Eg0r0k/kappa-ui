@@ -58,3 +58,13 @@ it('points at the preview route by default', () => {
   expect(wrapper.find('iframe').attributes('src')).toBe('/preview/button-demo')
   expect(wrapper.find('iframe').attributes('title')).toBe('button-demo')
 })
+
+it('gives the iframe the colour scheme of its preview, so no backdrop of the other scheme shows through', async () => {
+  const wrapper = mount(PreviewIframe, {
+    props: { name: 'button-demo', src: 'about:blank', colorScheme: 'dark', dir: 'ltr', siteTheme: '' },
+    attachTo: document.body,
+  })
+  expect(wrapper.find('iframe').element.style.colorScheme).toBe('dark')
+  await wrapper.setProps({ colorScheme: 'light' })
+  expect(wrapper.find('iframe').element.style.colorScheme).toBe('light')
+})
