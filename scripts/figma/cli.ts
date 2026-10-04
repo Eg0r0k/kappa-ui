@@ -75,7 +75,10 @@ const runBundle = (args: string[]) => {
   return bundleOf([...runtime('shared.ts'), ...entries], values.call, JSON.parse(values.payload))
 }
 
+const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor as new (body: string) => unknown
+
 const serve = (kind: string, bundle: string) => {
+  new AsyncFunction(bundle)
   const stop = () => {
     server.close()
     server.closeAllConnections()
