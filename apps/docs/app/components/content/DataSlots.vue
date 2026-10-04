@@ -12,7 +12,7 @@ const props = defineProps<{ rows: { slot: string; attributes?: string; descripti
       <table class="w-full text-left text-sm">
         <thead class="border-b text-xs text-muted-foreground">
           <tr>
-            <th class="px-4 py-2 font-medium">data-slot</th>
+            <th class="px-4 py-2 font-medium whitespace-nowrap">data-slot</th>
             <th class="px-4 py-2 font-medium">Attributes</th>
             <th class="px-4 py-2 font-medium">Description</th>
           </tr>
