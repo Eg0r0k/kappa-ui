@@ -66,7 +66,7 @@ const { show } = useSearchDialog()
 </script>
 
 <template>
-  <div :data-example="slug" class="not-prose my-6 scroll-mt-20">
+  <div :data-example="slug" class="not-prose my-6 scroll-mt-20 max-md:scroll-mt-30">
     <Tabs default-value="preview" class="gap-4">
       <div class="flex items-end justify-between gap-2 border-b">
         <TabsList variant="line" size="sm" class="-mb-px" aria-label="Example view">

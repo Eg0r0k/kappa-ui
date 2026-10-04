@@ -8,6 +8,7 @@ import {
   groupOf,
   highlight,
   modKey,
+  neighbours,
   sectionOf,
 } from '~/lib/sidebar'
 
@@ -109,5 +110,17 @@ describe('modKey', () => {
     expect(modKey('iPhone')).toBe('⌘')
     expect(modKey('Win32')).toBe('Ctrl')
     expect(modKey('')).toBe('Ctrl')
+  })
+})
+
+describe('neighbours', () => {
+  it('finds the previous and next page across groups', () => {
+    const groups = componentGroups(nav)
+    expect(neighbours(groups, '/docs/components/input')).toEqual({
+      previous: expect.objectContaining({ title: 'Toggle' }),
+      next: expect.objectContaining({ title: 'Press Scale' }),
+    })
+    expect(neighbours(groups, '/docs/components/button').previous).toBeUndefined()
+    expect(neighbours(groups, '/docs/nowhere')).toEqual({})
   })
 })

@@ -2,6 +2,7 @@
 import DocsHeader from '~/components/layout/DocsHeader.vue'
 import DocsSidebar from '~/components/layout/DocsSidebar.vue'
 import NavDrawer from '~/components/layout/NavDrawer.vue'
+import OnThisPage from '~/components/layout/OnThisPage.vue'
 import { outlineOf } from '~/lib/outline'
 
 const route = useRoute()
@@ -18,6 +19,7 @@ const outline = computed(() => outlineOf(page.value))
     class="min-h-svh bg-background text-foreground"
   >
     <DocsHeader />
+    <OnThisPage :outline="outline" />
     <div class="flex">
       <aside
         aria-label="Navigation"

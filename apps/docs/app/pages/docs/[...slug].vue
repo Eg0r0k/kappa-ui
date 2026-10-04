@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ComponentChangelog from '~/components/layout/ComponentChangelog.vue'
+import DocsPageFooter from '~/components/layout/DocsPageFooter.vue'
 import DocsPageHeader from '~/components/layout/DocsPageHeader.vue'
 
 definePageMeta({ layout: 'docs' })
@@ -35,5 +36,6 @@ defineOgImage('KappaDocs', {
     />
     <ContentRenderer :value="page" class="prose max-w-none" />
     <ComponentChangelog v-if="page.component" :component="page.component" />
+    <DocsPageFooter :path="path" />
   </article>
 </template>

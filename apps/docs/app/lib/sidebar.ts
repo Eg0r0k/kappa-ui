@@ -68,3 +68,10 @@ export const groupOf = (groups: readonly SidebarGroup[], path: string) =>
   groups.find((group) => group.pages.some((page) => page.path === path))?.key
 
 export const modKey = (platform: string) => (/mac|iphone|ipad|ipod/i.test(platform) ? '⌘' : 'Ctrl')
+
+export const neighbours = (groups: readonly SidebarGroup[], path: string): { previous?: NavPage; next?: NavPage } => {
+  const pages = groups.flatMap((group) => group.pages)
+  const at = pages.findIndex((page) => page.path === path)
+  if (at === -1) return {}
+  return { previous: pages[at - 1], next: pages[at + 1] }
+}

@@ -12,7 +12,7 @@ const { data: releases } = await useAsyncData(`changelog:${props.component}`, as
 
 <template>
   <section aria-labelledby="changelog" data-slot="component-changelog" class="mt-12 flex flex-col gap-6">
-    <h2 id="changelog" class="scroll-mt-20 text-2xl font-semibold tracking-tight">Changelog</h2>
+    <h2 id="changelog" class="scroll-mt-20 text-2xl font-semibold tracking-tight max-md:scroll-mt-30">Changelog</h2>
     <ChangelogTimeline v-if="releases?.length" :releases="releases" />
     <p v-else class="text-body-md text-muted-foreground">No changes yet.</p>
   </section>

@@ -51,7 +51,7 @@ const parts = props.parts
   <div data-slot="api-reference" class="not-prose my-6">
     <div class="hidden flex-col gap-10 md:flex">
       <section v-for="part in parts" :key="part.name" :aria-labelledby="part.id" class="flex flex-col gap-3">
-        <h3 :id="part.id" class="scroll-mt-20 font-mono text-title-md">{{ part.name }}</h3>
+        <h3 :id="part.id" class="scroll-mt-20 font-mono text-title-md max-md:scroll-mt-30">{{ part.name }}</h3>
         <p v-for="(paragraph, index) in part.paragraphs" :key="index" class="text-body-md text-muted-foreground">
           <InlineText :text="paragraph" />
         </p>
