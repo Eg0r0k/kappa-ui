@@ -2,7 +2,7 @@
 import { ScrollArea } from '@/ui/scroll-area'
 import SidebarFilter from '~/components/layout/SidebarFilter.vue'
 import SidebarNav from '~/components/layout/SidebarNav.vue'
-import type { PageOutline } from '~/composables/useDocsPage'
+import type { PageOutline } from '~/lib/outline'
 import badgeData from '~/generated/badges.json'
 import { componentGroups, docsGroups, groupOf, modKey, sectionOf, type SidebarGroup } from '~/lib/sidebar'
 

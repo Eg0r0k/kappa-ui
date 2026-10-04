@@ -5,7 +5,7 @@ import { computed } from 'vue'
 import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/ui/collapsible'
-import type { PageOutline } from '~/composables/useDocsPage'
+import type { PageOutline } from '~/lib/outline'
 import { filterGroups, highlight, type SidebarGroup } from '~/lib/sidebar'
 
 const props = defineProps<{

@@ -6,6 +6,7 @@ import { Button } from '@/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
 import { useToast } from '@/ui/toast'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/tooltip'
 
 const { theme, set, reset } = useSiteTheme()
 const toast = useToast()
@@ -26,11 +27,16 @@ const current = (preset: { hue: number; chroma: number }) =>
 
 <template>
   <Popover>
-    <PopoverTrigger as-child>
-      <Button variant="ghost" color="neutral" size="icon" aria-label="Customise the theme">
-        <Palette />
-      </Button>
-    </PopoverTrigger>
+    <Tooltip>
+      <TooltipTrigger as-child>
+      <PopoverTrigger as-child>
+        <Button variant="ghost" color="neutral" size="icon" aria-label="Customise the theme">
+          <Palette />
+        </Button>
+      </PopoverTrigger>
+      </TooltipTrigger>
+      <TooltipContent>Theme</TooltipContent>
+    </Tooltip>
     <PopoverContent align="end" class="flex w-80 flex-col gap-5 p-4">
       <div class="flex flex-col gap-1">
         <h2 class="text-title-sm">Theme</h2>

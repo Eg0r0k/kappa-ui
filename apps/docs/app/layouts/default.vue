@@ -4,7 +4,7 @@ import DocsHeader from '~/components/layout/DocsHeader.vue'
 
 <template>
   <div class="min-h-svh bg-background text-foreground">
-    <DocsHeader />
+    <DocsHeader :navigation="false" />
     <slot />
   </div>
 </template>
