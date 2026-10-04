@@ -1,5 +1,19 @@
 # @kappa-ui/registry
 
+## 0.11.0
+
+### Minor Changes
+
+- [`44a7ce2`](https://github.com/Eg0r0k/kappa-ui/commit/44a7ce25cc8d58e018ff81f876e5728bcb84bd8c) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `Command` and `CommandDialog` take `ignore-filter`, which turns the built-in filter off for items you filter yourself: every item, group and separator stays visible and `CommandEmpty` never shows. `CommandInput` binds the search with `v-model`, and hears when selecting an item clears it. Items mounted after a search was set are filtered too.
+
+- [`9f4b062`](https://github.com/Eg0r0k/kappa-ui/commit/9f4b062b183ff1904aa881af19a3c1faa62af6b4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The default theme rounds corners at `0.5rem` instead of `0.75rem`, draws cards, dialogs, menus and popovers without an edge (`--surface-border: transparent`), and brightens the info colour to `oklch(0.79 0.17 256)` with matching `--info-foreground` and `--info-text`. To keep the old look, set `--radius: 0.75rem`, `--surface-border: var(--border)` and the previous `--info*` values in your stylesheet.
+
+### Patch Changes
+
+- [`11cf46c`](https://github.com/Eg0r0k/kappa-ui/commit/11cf46cf9d0e6e5e792c5ae22d609b29265680a3) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - DataTable no longer breaks hydration when a header, footer or cell renders an empty string (`header: ""` on an actions or expand column, an empty value). Such a render now outputs nothing, through the new `DataTableRender`, which the table uses in place of `FlexRender`.
+
+- The text control frame of `InputGroup`, `InputNumber`, `TagsInput` and the `Combobox` anchor ignores what sits in an `InputGroupAddon`: a disabled checkbox's hidden form input no longer greys the frame or fades the addons, and the browser focusing it after a failed submit no longer lights the frame. A focused control that fails native validation shows the destructive edge again instead of the focus one.
+
 ## 0.10.0
 
 ### Minor Changes
