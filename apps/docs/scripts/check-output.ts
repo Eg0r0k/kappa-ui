@@ -21,6 +21,7 @@ for (const file of pages) {
     missing.push(`page ${route} (from ${file})`)
     continue
   }
+  if (!existsSync(join(outDir, 'raw', `${route.slice(1)}.md`))) missing.push(`markdown /raw${route}.md`)
   const image = (await readFile(html, 'utf8')).match(ogImage)?.[1]
   if (!image) {
     missing.push(`og:image on ${route}`)
