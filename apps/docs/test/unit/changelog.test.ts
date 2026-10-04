@@ -170,7 +170,9 @@ describe('buildChangelog', () => {
       package: 'core',
       version: '0.8.0',
       date: '2026-10-03T10:00:00.000Z',
-      entries: [{ hash: 'e60d032', url: 'u', bump: 'minor', text: '`@kappa-ui/core/dialog` exports `AlertDialogMedia`.' }],
+      entries: [
+        { hash: 'e60d032', url: 'u', bump: 'minor', text: '`@kappa-ui/core/dialog` exports `AlertDialogMedia`.' },
+      ],
     }
     const both = buildChangelog([releases[0]!, core], items, new Date('2026-10-04T00:00:00.000Z'))
     expect(both.items['alert-dialog']!.badge?.kind).toBe('new')

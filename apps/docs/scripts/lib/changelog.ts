@@ -130,7 +130,8 @@ export const buildChangelog = (releases: readonly Release[], items: readonly Ite
     const newUntil = introduction && addDays(introduction.release.date, BADGE_DAYS)
     const updatedUntil = latest && addDays(latest.release.date, BADGE_DAYS)
     if (newUntil && newUntil > now) changelog.badge = { kind: 'new', until: newUntil.toISOString() }
-    else if (updatedUntil && updatedUntil > now) changelog.badge = { kind: 'updated', until: updatedUntil.toISOString() }
+    else if (updatedUntil && updatedUntil > now)
+      changelog.badge = { kind: 'updated', until: updatedUntil.toISOString() }
     result[item.name] = changelog
   }
   return { releases: ordered, items: result }
