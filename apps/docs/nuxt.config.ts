@@ -11,6 +11,12 @@ const coreVersion = (
   JSON.parse(readFileSync(new URL('../../packages/core/package.json', import.meta.url), 'utf8')) as { version: string }
 ).version
 
+const registryVersion = (
+  JSON.parse(readFileSync(new URL('../../packages/registry/package.json', import.meta.url), 'utf8')) as {
+    version: string
+  }
+).version
+
 // Nitro's replace plugin rewrites `typeof window` inside every server chunk, raw source strings included
 const encodedRawSources = () => ({
   name: 'kappa:encoded-raw-sources',
@@ -76,7 +82,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/globals.css'],
   runtimeConfig: {
-    public: { siteUrl, coreVersion },
+    public: { siteUrl, coreVersion, registryVersion },
   },
   app: {
     head: {

@@ -57,5 +57,10 @@ const data = buildChangelog(releases, items, new Date())
 await mkdir(dirname(outFile), { recursive: true })
 await writeFile(outFile, `${JSON.stringify(data, null, 2)}\n`, 'utf8')
 
+const badges = Object.fromEntries(
+  Object.entries(data.items).flatMap(([name, item]) => (item.badge ? [[name, item.badge]] : [])),
+)
+await writeFile(join(dirname(outFile), 'badges.json'), `${JSON.stringify(badges, null, 2)}\n`, 'utf8')
+
 const badged = Object.values(data.items).filter((item) => item.badge).length
 console.log(`build-changelog: ${releases.length} release(s), ${items.length} item(s), ${badged} badge(s)`)

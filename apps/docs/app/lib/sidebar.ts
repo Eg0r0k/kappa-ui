@@ -1,0 +1,70 @@
+import { categories, pageCategory } from '~/lib/categories'
+
+export type NavNode = { title: string; path: string; children?: NavNode[]; [key: string]: unknown }
+export type NavPage = { title: string; path: string; component?: string; category?: string; description?: string }
+export type SidebarGroup = { key: string; title: string; pages: NavPage[] }
+export type DocsSection = 'docs' | 'components'
+export type Segment = { text: string; match: boolean }
+
+export const COMPONENTS_PATH = '/docs/components'
+export const CHANGELOG_PATH = '/docs/changelog'
+
+const text = (value: unknown) => (typeof value === 'string' ? value : undefined)
+
+const pagesOf = (node?: NavNode): NavPage[] =>
+  (node?.children ?? []).map((child) => ({
+    title: child.title,
+    path: child.path,
+    component: text(child.component),
+    category: text(child.category),
+    description: text(child.description),
+  }))
+
+export const sectionOf = (path: string): DocsSection =>
+  path === COMPONENTS_PATH || path.startsWith(`${COMPONENTS_PATH}/`) ? 'components' : 'docs'
+
+export const componentGroups = (nav: readonly NavNode[]): SidebarGroup[] => {
+  const pages = pagesOf(nav.find((node) => node.path === COMPONENTS_PATH))
+  return categories
+    .map((category) => ({
+      key: category.key as string,
+      title: category.title as string,
+      pages: pages.filter((page) => pageCategory(page) === category.key),
+    }))
+    .filter((group) => group.pages.length > 0)
+}
+
+export const docsGroups = (nav: readonly NavNode[]): SidebarGroup[] => [
+  ...nav
+    .filter((node) => node.path !== COMPONENTS_PATH)
+    .map((node) => ({ key: node.path.split('/').at(-1) ?? node.path, title: node.title, pages: pagesOf(node) })),
+  { key: 'project', title: 'Project', pages: [{ title: 'Changelog', path: CHANGELOG_PATH }] },
+]
+
+export const filterGroups = (groups: readonly SidebarGroup[], query: string) => {
+  const needle = query.trim().toLowerCase()
+  if (!needle) return groups as SidebarGroup[]
+  return groups
+    .map((group) => ({ ...group, pages: group.pages.filter((page) => page.title.toLowerCase().includes(needle)) }))
+    .filter((group) => group.pages.length > 0)
+}
+
+export const highlight = (value: string, query: string): Segment[] => {
+  const needle = query.trim().toLowerCase()
+  if (!needle) return [{ text: value, match: false }]
+  const haystack = value.toLowerCase()
+  const segments: Segment[] = []
+  let from = 0
+  for (let at = haystack.indexOf(needle); at !== -1; at = haystack.indexOf(needle, from)) {
+    if (at > from) segments.push({ text: value.slice(from, at), match: false })
+    segments.push({ text: value.slice(at, at + needle.length), match: true })
+    from = at + needle.length
+  }
+  if (from < value.length) segments.push({ text: value.slice(from), match: false })
+  return segments
+}
+
+export const groupOf = (groups: readonly SidebarGroup[], path: string) =>
+  groups.find((group) => group.pages.some((page) => page.path === path))?.key
+
+export const modKey = (platform: string) => (/mac|iphone|ipad|ipod/i.test(platform) ? '⌘' : 'Ctrl')
