@@ -1,33 +1,34 @@
-import { pickActiveHeading } from '~/lib/toc'
+import { activeHeading } from '~/lib/scroll-spy'
 
 export const useScrollSpy = (ids: () => string[]) => {
   const active = ref<string>()
-  const visible = new Set<string>()
-  let observer: IntersectionObserver | undefined
+  let frame = 0
 
-  const observe = () => {
-    observer?.disconnect()
-    visible.clear()
-    observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) visible.add(entry.target.id)
-          else visible.delete(entry.target.id)
-        }
-        active.value = pickActiveHeading(ids(), visible, active.value ?? null) ?? undefined
-      },
-      { rootMargin: '-56px 0px -60% 0px' },
-    )
-    for (const id of ids()) {
+  const measure = () => {
+    frame = 0
+    const headings = ids().flatMap((id) => {
       const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    }
+      if (!element) return []
+      const margin = Number.parseFloat(getComputedStyle(element).scrollMarginTop) || 0
+      return [{ id, top: element.getBoundingClientRect().top, margin }]
+    })
+    active.value = activeHeading(headings)
+  }
+
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(measure)
   }
 
   onMounted(() => {
-    watch(ids, () => nextTick(observe), { immediate: true })
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule, { passive: true })
+    watch(ids, () => nextTick(schedule), { immediate: true })
   })
-  onBeforeUnmount(() => observer?.disconnect())
+  onBeforeUnmount(() => {
+    window.removeEventListener('scroll', schedule)
+    window.removeEventListener('resize', schedule)
+    cancelAnimationFrame(frame)
+  })
 
   return active
 }

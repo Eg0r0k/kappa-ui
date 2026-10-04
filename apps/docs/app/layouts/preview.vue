@@ -1,5 +1,8 @@
 <script setup lang="ts">
-useHead({ bodyAttrs: { class: 'bg-background text-foreground' } })
+useHead({
+  htmlAttrs: { style: 'scrollbar-gutter: auto' },
+  bodyAttrs: { class: 'bg-background text-foreground' },
+})
 </script>
 
 <template>
