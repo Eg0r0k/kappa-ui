@@ -36,10 +36,10 @@ const select = async (path: string) => {
     ignore-filter
     title="Search documentation"
     description="Type to search pages and sections, then press Enter."
-    class="top-[12svh] translate-y-0"
+    class="top-[12svh] translate-y-0 [&_[data-slot=command-input-wrapper]:last-child]:border-b-0"
   >
     <CommandInput v-model="query" placeholder="Search docs…" />
-    <ScrollBox :max-height="384">
+    <ScrollBox v-if="query" :max-height="384">
       <CommandList class="max-h-none overflow-visible">
         <p v-if="query && results.length === 0" class="px-3 py-6 text-center text-body-sm text-muted-foreground">
           No results for “{{ query }}”.
