@@ -18,10 +18,11 @@ const props = withDefaults(
     siteTheme: string
     restart?: number
     minHeight?: number
+    height?: string
     src?: string
     title?: string
   }>(),
-  { restart: 0, minHeight: 288, src: undefined, title: undefined },
+  { restart: 0, minHeight: 288, height: undefined, src: undefined, title: undefined },
 )
 const emit = defineEmits<{ ready: []; error: [message: string]; shortcut: [] }>()
 
@@ -61,7 +62,7 @@ const onMessage = (event: MessageEvent) => {
 onMounted(() => window.addEventListener('message', onMessage))
 onBeforeUnmount(() => window.removeEventListener('message', onMessage))
 
-const height = computed(() => `${Math.max(props.minHeight, reported.value)}px`)
+const height = computed(() => props.height ?? `${Math.max(props.minHeight, reported.value)}px`)
 </script>
 
 <template>

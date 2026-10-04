@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { Moon, Sun } from '@lucide/vue'
-import { defineAsyncComponent, ref, watch, type HTMLAttributes } from 'vue'
+import { computed, ref, watch, type HTMLAttributes } from 'vue'
 
 import { Button } from '@/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
-import PreviewFrame from '~/components/content/PreviewFrame.vue'
+import PreviewIframe from '~/components/PreviewIframe.vue'
+import { cn } from '@/lib/utils'
 import { consumerFilename, consumerSource } from '~/lib/consumer'
 import { exampleSlug, pageSlugOf } from '~/lib/examples'
 import { addCommand, registryItemUrl } from '~/lib/install'
 import { registryItems, resolveExample } from '~/lib/registry'
 import { exampleModules, loadSource } from '~/lib/sources'
+import { themeToQuery } from '~/lib/theme'
 
-const props = defineProps<{ name: string; class?: HTMLAttributes['class'] }>()
+const props = defineProps<{ name: string; height?: string; class?: HTMLAttributes['class'] }>()
 
 const resolve = () => {
   try {
@@ -23,9 +25,8 @@ const resolve = () => {
   }
 }
 
-const { item, key } = resolve()
+const { item } = resolve()
 const slug = exampleSlug(props.name, pageSlugOf(useRoute().path))
-const Example = defineAsyncComponent(exampleModules[key]!)
 const exampleCommand = addCommand('npm', registryItemUrl(useRuntimeConfig().public.siteUrl, item.name))
 
 const { data: code } = useAsyncData(`example-code:${props.name}`, async () => {
@@ -57,6 +58,11 @@ watch(
     theme.value = undefined
   },
 )
+
+const { theme: siteThemeConfig } = useSiteTheme()
+const siteTheme = computed(() => JSON.stringify(themeToQuery(siteThemeConfig.value)))
+const colorScheme = computed(() => theme.value ?? (colorMode.value === 'dark' ? 'dark' : 'light'))
+const { show } = useSearchDialog()
 </script>
 
 <template>
@@ -97,9 +103,17 @@ watch(
         </div>
       </div>
       <TabsContent value="preview">
-        <PreviewFrame :theme="theme" :dir="dir" :class="props.class">
-          <Example />
-        </PreviewFrame>
+        <div :class="cn('overflow-hidden rounded-lg border', props.class)">
+          <PreviewIframe
+            :name="props.name"
+            :title="item.title"
+            :color-scheme="colorScheme"
+            :dir="dir"
+            :site-theme="siteTheme"
+            :height="props.height"
+            @shortcut="show()"
+          />
+        </div>
       </TabsContent>
       <TabsContent value="code">
         <div v-if="code" class="grid gap-3">
