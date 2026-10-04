@@ -5,6 +5,7 @@ import {
   exportedNames,
   introduces,
   mentions,
+  pascalName,
   parseChangelog,
   releaseDate,
   type Release,
@@ -162,5 +163,23 @@ describe('buildChangelog', () => {
     expect(data.items['input']!.badge).toEqual({ kind: 'updated', until: '2026-11-02T10:00:00.000Z' })
     expect(data.items['button']!.badge).toBeUndefined()
     expect(data.items['kbd']!.badge).toBeUndefined()
+  })
+
+  it('finds the introducing entry even when another release of the same day mentions the item first', () => {
+    const core: Release = {
+      package: 'core',
+      version: '0.8.0',
+      date: '2026-10-03T10:00:00.000Z',
+      entries: [{ hash: 'e60d032', url: 'u', bump: 'minor', text: '`@kappa-ui/core/dialog` exports `AlertDialogMedia`.' }],
+    }
+    const both = buildChangelog([releases[0]!, core], items, new Date('2026-10-04T00:00:00.000Z'))
+    expect(both.items['alert-dialog']!.badge?.kind).toBe('new')
+  })
+})
+
+describe('pascalName', () => {
+  it('turns an item name into its component name', () => {
+    expect(pascalName('color-picker')).toBe('ColorPicker')
+    expect(pascalName('drag')).toBe('Drag')
   })
 })

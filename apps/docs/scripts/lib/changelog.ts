@@ -76,6 +76,12 @@ export const exportedNames = (source: string) => {
   return [...names]
 }
 
+export const pascalName = (name: string) =>
+  name
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('')
+
 export const mentions = (text: string, tokens: readonly string[]) =>
   tokens.some((token) => new RegExp(`(?<![\\w$])${escape(token)}(?![\\w$])`).test(text))
 
@@ -117,15 +123,14 @@ export const buildChangelog = (releases: readonly Release[], items: readonly Ite
         entries: entries.map(({ hash, url, text }) => ({ hash, url, text })),
       })),
     }
-    const first = matching.at(-1)
+    const introduction = [...matching]
+      .reverse()
+      .find(({ entries }) => entries.some((entry) => entry.bump !== 'patch' && introduces(entry.text, item.main)))
     const latest = matching[0]
-    if (first && latest) {
-      const introduced = first.entries.some((entry) => entry.bump !== 'patch' && introduces(entry.text, item.main))
-      const newUntil = addDays(first.release.date, BADGE_DAYS)
-      const updatedUntil = addDays(latest.release.date, BADGE_DAYS)
-      if (introduced && newUntil > now) changelog.badge = { kind: 'new', until: newUntil.toISOString() }
-      else if (updatedUntil > now) changelog.badge = { kind: 'updated', until: updatedUntil.toISOString() }
-    }
+    const newUntil = introduction && addDays(introduction.release.date, BADGE_DAYS)
+    const updatedUntil = latest && addDays(latest.release.date, BADGE_DAYS)
+    if (newUntil && newUntil > now) changelog.badge = { kind: 'new', until: newUntil.toISOString() }
+    else if (updatedUntil && updatedUntil > now) changelog.badge = { kind: 'updated', until: updatedUntil.toISOString() }
     result[item.name] = changelog
   }
   return { releases: ordered, items: result }
