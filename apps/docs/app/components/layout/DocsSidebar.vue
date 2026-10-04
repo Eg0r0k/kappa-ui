@@ -3,10 +3,8 @@ import { ScrollArea } from '@/ui/scroll-area'
 import SidebarFilter from '~/components/layout/SidebarFilter.vue'
 import SidebarNav from '~/components/layout/SidebarNav.vue'
 import type { PageOutline } from '~/lib/outline'
-import badgeData from '~/generated/badges.json'
+import { badgeOf } from '~/lib/badges'
 import { componentGroups, docsGroups, groupOf, modKey, sectionOf, type SidebarGroup } from '~/lib/sidebar'
-
-type Badge = { kind: 'new' | 'updated'; until: string }
 
 const props = defineProps<{ outline?: PageOutline }>()
 const emit = defineEmits<{ navigate: [] }>()
@@ -46,9 +44,8 @@ const badges = computed(() =>
     groups.value
       .flatMap((group) => group.pages)
       .flatMap((page) => {
-        const badge = page.component ? (badgeData as Record<string, Badge>)[page.component] : undefined
-        if (!badge || (now.value !== undefined && Date.parse(badge.until) < now.value)) return []
-        return [[page.path, badge.kind]]
+        const badge = badgeOf(page.component, now.value)
+        return badge ? [[page.path, badge]] : []
       }),
   ),
 )

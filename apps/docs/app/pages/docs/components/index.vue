@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { Badge } from '@/ui/badge'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/ui/card'
-import badgeData from '~/generated/badges.json'
+import { badgeOf } from '~/lib/badges'
 import { componentGroups } from '~/lib/sidebar'
 
 definePageMeta({ layout: 'docs' })
 
 const nav = useDocsNavigation()
 const groups = computed(() => componentGroups(nav.value))
-const badges = badgeData as Record<string, { kind: 'new' | 'updated'; until: string }>
-const badgeOf = (component?: string) => (component ? badges[component]?.kind : undefined)
 
 useSeoMeta({ title: 'Components', description: 'Every kappa-ui component, grouped by what it is for.' })
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DocsPageHeader from '~/components/layout/DocsPageHeader.vue'
+
 definePageMeta({ layout: 'docs' })
 
 const route = useRoute()
@@ -23,10 +25,13 @@ defineOgImage('KappaDocs', {
 
 <template>
   <article v-if="page" class="mx-auto w-full max-w-175 px-6 py-10">
-    <header class="mb-8">
-      <h1 class="text-3xl font-semibold tracking-tight">{{ page.title }}</h1>
-      <p class="mt-2 text-lg text-muted-foreground">{{ page.description }}</p>
-    </header>
+    <DocsPageHeader
+      :title="page.title"
+      :description="page.description"
+      :path="path"
+      :component="page.component"
+      :reka="page.reka"
+    />
     <ContentRenderer :value="page" class="prose max-w-none" />
   </article>
 </template>

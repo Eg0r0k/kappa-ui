@@ -9,6 +9,7 @@ export default defineContentConfig({
       schema: z.object({
         component: z.string().optional(),
         category: z.string().optional(),
+        reka: z.string().optional(),
         rawbody: z.string(),
       }),
     }),
