@@ -1,10 +1,9 @@
 import { afterEach, expect, it } from 'vitest'
 
 import { createContrastMeter, themeChecks } from '~/lib/contrast'
-import { previewCss, themeTokens, defaultTheme } from '~/lib/theme'
+import { defaultTheme, themeTokens } from '~/lib/theme'
 
 afterEach(() => {
-  document.head.querySelectorAll('[data-test-style]').forEach((element) => element.remove())
   document.body.replaceChildren()
 })
 
@@ -33,22 +32,16 @@ it('composites a translucent colour over the surface under it', () => {
 })
 
 it('passes every check with the default theme, in both themes', () => {
-  const style = document.head.appendChild(document.createElement('style'))
-  style.dataset.testStyle = ''
-  style.textContent = previewCss(defaultTheme, '[data-probe]')
   const meter = createContrastMeter()
 
   const light = scope('')
   light.className = 'light'
-  light.dataset.probe = ''
-  const dark = document.body.appendChild(document.createElement('div'))
+  const dark = scope('')
   dark.className = 'dark'
-  const inner = dark.appendChild(document.createElement('div'))
-  inner.dataset.probe = ''
 
   for (const [name, element] of [
     ['light', light],
-    ['dark', inner],
+    ['dark', dark],
   ] as const) {
     const failing = meter(element, themeChecks).filter((result) => result.grade !== 'pass')
     expect(

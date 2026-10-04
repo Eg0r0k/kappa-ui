@@ -17,12 +17,6 @@ import ThemeToggle from '~/components/layout/ThemeToggle.vue'
         >
           Docs
         </NuxtLink>
-        <NuxtLink
-          to="/themes"
-          class="rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:focus-ring aria-[current=page]:text-foreground"
-        >
-          Themes
-        </NuxtLink>
       </nav>
       <div class="flex flex-1 justify-end">
         <SearchDialog />

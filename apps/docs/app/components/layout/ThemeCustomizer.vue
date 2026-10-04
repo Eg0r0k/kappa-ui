@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { Palette, RotateCcw, SlidersHorizontal } from '@lucide/vue'
+import { Copy, Palette, RotateCcw } from '@lucide/vue'
 
-import { type ThemeConfig, fontStack, fonts, neutrals, presets, radii, surfaceBorders, themeToQuery } from '~/lib/theme'
+import { type ThemeConfig, fontStack, fonts, neutrals, presets, radii, surfaceBorders, themeCss } from '~/lib/theme'
 import { Button } from '@/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
+import { useToast } from '@/ui/toast'
 
 const { theme, set, reset } = useSiteTheme()
+const toast = useToast()
+
+const copyCss = async () => {
+  await navigator.clipboard.writeText(themeCss(theme.value))
+  toast.add({ title: 'Theme CSS copied', color: 'success' })
+}
 
 const update = (patch: Partial<ThemeConfig>) => set({ ...theme.value, ...patch })
 
@@ -122,11 +129,9 @@ const current = (preset: { hue: number; chroma: number }) =>
           <RotateCcw data-icon="inline-start" />
           Reset
         </Button>
-        <Button variant="outline" color="neutral" size="sm" class="ms-auto" as-child>
-          <NuxtLink :to="{ path: '/themes', query: themeToQuery(theme) }">
-            <SlidersHorizontal data-icon="inline-start" />
-            Fine-tune
-          </NuxtLink>
+        <Button variant="outline" color="neutral" size="sm" class="ms-auto" @click="copyCss">
+          <Copy data-icon="inline-start" />
+          Copy CSS
         </Button>
       </div>
     </PopoverContent>

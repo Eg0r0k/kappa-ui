@@ -369,29 +369,6 @@ export const siteCss = (config: ThemeConfig) => {
   ].join('\n')
 }
 
-export const previewCss = (config: ThemeConfig, selector: string) => {
-  const { light, dark } = themeTokens(config)
-  return [
-    block(selector, { ...light, 'font-sans': fontStack(fontOf(config)) }),
-    `${selector} { font-family: var(--font-sans); }`,
-    block(`.dark ${selector}`, dark),
-  ].join('\n')
-}
-
-const pick = <T>(items: readonly T[], random: () => number) => items[Math.floor(random() * items.length)]!
-
-export const randomTheme = (random: () => number = Math.random, base: ThemeConfig = defaultTheme): ThemeConfig => ({
-  ...base,
-  hue: Math.round(random() * 360),
-  chroma: round(chromaRange.min + random() * (chromaRange.max - chromaRange.min), 2),
-  neutral: pick(neutrals, random).key,
-  radius: pick(radii, random),
-  font: pick(fonts, random).key,
-  surfaceBorder: pick(surfaceBorders, random).key,
-  surfaces: pick(surfaces, random).key,
-  shadows: pick(shadows, random).key,
-})
-
 export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
   const number = (key: string) => {
     const value = Number(query[key])

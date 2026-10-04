@@ -5,11 +5,8 @@ import { describe, expect, it } from 'vitest'
 import {
   chromaRange,
   defaultTheme,
-  fonts,
   isDefaultTheme,
   neutrals,
-  radii,
-  randomTheme,
   shadowTokens,
   shadows,
   siteCss,
@@ -192,34 +189,6 @@ describe('theme', () => {
     expect(light['success-foreground']).toBe('oklch(0.25 0.07 150)')
     expect(light['success-text']).toBe('oklch(0.5 0.13 152)')
     expect(themeTokens({ ...defaultTheme, destructiveLightness: 0.95 }).dark.destructive).toBe('oklch(1 0.14 25)')
-  })
-
-  it('draws random themes from the allowed values', () => {
-    for (let index = 0; index < 50; index++) {
-      const theme = randomTheme()
-      expect(theme.hue).toBeGreaterThanOrEqual(0)
-      expect(theme.hue).toBeLessThanOrEqual(360)
-      expect(theme.chroma).toBeGreaterThanOrEqual(chromaRange.min)
-      expect(theme.chroma).toBeLessThanOrEqual(chromaRange.max)
-      expect(radii).toContain(theme.radius)
-      expect(neutrals.map((neutral) => neutral.key)).toContain(theme.neutral)
-      expect(fonts.map((font) => font.key)).toContain(theme.font)
-    }
-    expect(randomTheme(() => 0.999)).toEqual({
-      ...defaultTheme,
-      hue: 360,
-      chroma: 0.26,
-      neutral: 'brand',
-      radius: 1.25,
-      font: 'source-sans-3',
-      surfaceBorder: 'none',
-      surfaces: 'tinted',
-      shadows: 'strong',
-    })
-  })
-
-  it('keeps the status colours of the theme it randomises', () => {
-    expect(randomTheme(Math.random, { ...defaultTheme, infoHue: 200 }).infoHue).toBe(200)
   })
 
   it('round-trips through the query string, keeping only what differs from the default', () => {

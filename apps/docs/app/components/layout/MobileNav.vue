@@ -46,12 +46,6 @@ const open = ref(false)
           >
             Docs
           </NuxtLink>
-          <NuxtLink
-            to="/themes"
-            class="rounded-sm text-muted-foreground hover:text-foreground focus-visible:focus-ring"
-            @click="open = false"
-            >Themes</NuxtLink
-          >
         </nav>
         <div class="min-h-0 flex-1">
           <DocsSidebar @navigate="open = false" />
