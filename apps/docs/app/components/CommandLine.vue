@@ -6,7 +6,7 @@ defineProps<{ command: string }>()
 </script>
 
 <template>
-  <div class="flex items-center gap-2 rounded-lg border bg-muted/40 py-1.5 ps-4 pe-1.5">
+  <div class="flex items-center gap-2 rounded-lg border bg-card py-1.5 ps-4 pe-1.5">
     <div class="min-w-0 flex-1">
       <ScrollBox class="py-1.5">
         <code class="whitespace-nowrap font-mono text-sm">{{ command }}</code>

@@ -11,7 +11,7 @@ defineProps<{ filename?: string; html: string; source: string }>()
       {{ filename }}
     </div>
     <CopyButton :value="source" class="absolute end-1.5 top-1.5 z-10" />
-    <ScrollBox :max-height="512" class="p-4 text-sm leading-6">
+    <ScrollBox :max-height="512" class="bg-card p-4 text-sm leading-6">
       <div v-html="html" />
     </ScrollBox>
   </div>

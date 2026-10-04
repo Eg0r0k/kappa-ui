@@ -17,7 +17,7 @@ const current = computed(
   <div
     v-if="props.outline?.headings.length"
     data-slot="on-this-page"
-    class="sticky top-14 z-30 border-b bg-background/90 px-4 py-1 backdrop-blur md:hidden"
+    class="sticky top-14 z-30 border-b bg-background px-4 py-1 md:hidden"
   >
     <MenuTrigger as-child>
       <Button variant="ghost" color="neutral" class="min-h-11 w-full justify-between">

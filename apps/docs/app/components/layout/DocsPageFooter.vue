@@ -2,13 +2,13 @@
 import { ChevronLeft, ChevronRight } from '@lucide/vue'
 
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/ui/item'
-import { componentGroups, docsGroups, neighbours, sectionOf } from '~/lib/sidebar'
+import { neighbours, sidebarGroups } from '~/lib/sidebar'
 
 const props = defineProps<{ path: string }>()
 
 const nav = useDocsNavigation()
 const links = computed(() => {
-  const groups = sectionOf(props.path) === 'components' ? componentGroups(nav.value) : docsGroups(nav.value)
+  const groups = sidebarGroups(nav.value)
   return neighbours(groups, props.path)
 })
 </script>

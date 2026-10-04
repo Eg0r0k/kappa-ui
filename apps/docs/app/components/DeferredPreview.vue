@@ -29,13 +29,13 @@ const props = withDefaults(
     height: undefined,
     src: undefined,
     title: undefined,
-    rootMargin: '600px',
+    rootMargin: '1000px',
   },
 )
 const emit = defineEmits<{ ready: []; error: [message: string]; shortcut: [] }>()
 
 const root = useTemplateRef<HTMLElement>('root')
-const near = ref(false)
+const near = ref(true)
 const measured = ref<number>()
 
 useIntersectionObserver(

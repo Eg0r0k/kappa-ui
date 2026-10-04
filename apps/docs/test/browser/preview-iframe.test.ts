@@ -32,7 +32,6 @@ it('sends its state once the preview is ready and follows the reported height', 
   })
   await expect.poll(() => wrapper.emitted('ready')?.length).toBe(1)
   await expect.poll(() => height(wrapper.element)).toBe('300px')
-  expect(wrapper.find('[data-slot=skeleton]').exists()).toBe(false)
 
   await wrapper.setProps({ dir: 'rtl' })
   await expect.poll(() => height(wrapper.element)).toBe('400px')
@@ -41,13 +40,31 @@ it('sends its state once the preview is ready and follows the reported height', 
   await expect.poll(() => wrapper.emitted('error')?.[0]).toEqual(['Boom'])
 })
 
-it('never shrinks below its minimum height and shows a skeleton until ready', () => {
+it('never shrinks below its minimum height', () => {
   const wrapper = mount(PreviewIframe, {
     props: { name: 'button-demo', src: 'about:blank', colorScheme: 'light', dir: 'ltr', siteTheme: '', minHeight: 288 },
     attachTo: document.body,
   })
   expect(height(wrapper.element)).toBe('288px')
-  expect(wrapper.find('[data-slot=skeleton]').exists()).toBe(true)
+})
+
+it('takes the prerendered content height on load, before the preview reports one', async () => {
+  const src = URL.createObjectURL(
+    new Blob(
+      [
+        `<!doctype html><body style="margin:0"><div style="padding:20px 0">
+          <div data-slot="preview-content" style="height:460px"></div>
+        </div></body>`,
+      ],
+      { type: 'text/html' },
+    ),
+  )
+  const wrapper = mount(PreviewIframe, {
+    props: { name: 'button-demo', src, colorScheme: 'light', dir: 'ltr', siteTheme: '', minHeight: 100 },
+    attachTo: document.body,
+  })
+  await expect.poll(() => height(wrapper.element)).toBe('500px')
+  expect(wrapper.emitted('ready')).toBeUndefined()
 })
 
 it('points at the preview route by default', () => {

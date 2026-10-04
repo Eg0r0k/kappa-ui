@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
-import { Skeleton } from '@/ui/skeleton'
 import {
   type ColorScheme,
   type Direction,
@@ -67,12 +66,21 @@ const onMessage = (event: MessageEvent) => {
 onMounted(() => window.addEventListener('message', onMessage))
 onBeforeUnmount(() => window.removeEventListener('message', onMessage))
 
+const onLoad = () => {
+  const content = frame.value?.contentDocument?.querySelector<HTMLElement>('[data-slot=preview-content]')
+  const canvas = content?.parentElement
+  if (!content || !canvas || reported.value) return
+  const style = getComputedStyle(canvas)
+  reported.value = Math.ceil(
+    content.offsetHeight + Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom),
+  )
+}
+
 const height = computed(() => props.height ?? `${Math.max(props.minHeight, reported.value)}px`)
 </script>
 
 <template>
   <div data-slot="preview-iframe" class="relative">
-    <Skeleton v-if="!ready" class="absolute inset-0 rounded-none" />
     <iframe
       ref="frame"
       :src="props.src ?? previewPath(props.name)"
@@ -80,6 +88,7 @@ const height = computed(() => props.height ?? `${Math.max(props.minHeight, repor
       loading="lazy"
       class="block w-full border-0"
       :style="{ height, colorScheme: props.colorScheme }"
+      @load="onLoad"
     />
   </div>
 </template>

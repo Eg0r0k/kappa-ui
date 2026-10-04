@@ -40,7 +40,7 @@ const basename = (filename: string) => filename.slice(filename.lastIndexOf('/') 
     </div>
     <TabsContent v-for="file in files" :key="file.filename" :value="file.filename" class="min-h-0 flex-1">
       <ScrollArea class="h-full">
-        <div class="p-4 text-sm leading-6" v-html="file.html" />
+        <div class="min-h-full bg-card p-4 text-sm leading-6" v-html="file.html" />
       </ScrollArea>
     </TabsContent>
   </Tabs>
