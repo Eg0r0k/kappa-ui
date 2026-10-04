@@ -13,11 +13,11 @@ const { data: releases } = await useAsyncData('changelog', async () => {
   }))
 })
 
-useSeoMeta({ title: 'Changelog', description: 'Every release of the kappa-ui components and @kappa-ui/core.' })
+useSeoMeta({ title: 'Changelog', description: 'Every release of the kappa-ui components and their core package.' })
 
 defineOgImage('KappaDocs', {
   title: 'Changelog',
-  description: 'Every release of the kappa-ui components and @kappa-ui/core.',
+  description: 'Every release of the kappa-ui components and their core package.',
 })
 </script>
 
