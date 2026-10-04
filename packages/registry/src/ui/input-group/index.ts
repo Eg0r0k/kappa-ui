@@ -44,7 +44,7 @@ export const inputGroupAddonVariants = cva(
     flex cursor-text items-center gap-2 text-body-md text-muted-foreground select-none
     [&>svg]:pointer-events-none
     [&>svg:not([class*='size-'])]:size-(--input-group-icon)
-    group-has-[:is(input,textarea):disabled]/input-group:opacity-(--disabled-opacity)
+    group-has-[:is(input,textarea):not([data-slot=input-group-addon]_*):disabled]/input-group:opacity-(--disabled-opacity)
   `,
   {
     variants: {

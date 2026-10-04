@@ -3,6 +3,7 @@ import { Search } from "@lucide/vue";
 import { afterEach, describe, expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
+import { Checkbox } from "@/ui/checkbox";
 import { Field, FieldLabel } from "@/ui/field";
 import {
   InputGroup,
@@ -26,6 +27,15 @@ const render = (props: Record<string, unknown> = {}, children: () => unknown[] =
     {
       attachTo: document.body,
     },
+  );
+
+const renderInForm = (children: () => unknown[]) =>
+  mount(
+    defineComponent(
+      () => () =>
+        h("form", { onSubmit: (event: Event) => event.preventDefault() }, [h(InputGroup, { style: colors }, children)]),
+    ),
+    { attachTo: document.body },
   );
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
@@ -116,6 +126,44 @@ describe("InputGroup", () => {
   it("fades the frame for a disabled input nested in a control", () => {
     render({}, () => [h("div", [h("input", { disabled: true, tabindex: -1 })])]);
     expect(getComputedStyle(group()).borderTopColor).not.toBe("rgb(0, 0, 255)");
+  });
+
+  it("ignores the hidden input of a disabled checkbox in an addon", async () => {
+    renderInForm(() => [
+      h(InputGroupInput),
+      h(InputGroupAddon, () => h(InputGroupText, () => "$")),
+      h(InputGroupAddon, { align: "inline-end" }, () => h(Checkbox, { name: "agree", disabled: true })),
+    ]);
+    await settle();
+    expect(document.querySelector("input[type=checkbox]:disabled")).not.toBeNull();
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 0, 255)");
+    expect(getComputedStyle(document.querySelector("[data-slot=input-group-addon]")!).opacity).toBe("1");
+  });
+
+  it("ignores the hidden input of a required checkbox in an addon after a failed submit", async () => {
+    renderInForm(() => [
+      h(InputGroupInput),
+      h(InputGroupAddon, { align: "inline-end" }, () => h(Checkbox, { name: "agree", required: true })),
+    ]);
+    await nextTick();
+    document.querySelector("form")!.requestSubmit();
+    await settle();
+    expect(document.activeElement!.matches("input[type=checkbox]:user-invalid")).toBe(true);
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 0, 255)");
+  });
+
+  it("keeps the frame destructive while an invalid control has focus", async () => {
+    render({}, () => [h(InputGroupInput, { "aria-invalid": "true" })]);
+    control().focus();
+    await settle();
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(255, 0, 0)");
+    document.body.innerHTML = "";
+
+    renderInForm(() => [h(InputGroupInput, { required: true })]);
+    document.querySelector("form")!.requestSubmit();
+    await settle();
+    expect(document.activeElement).toBe(control());
+    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(255, 0, 0)");
   });
 
   it("orders inline addons around the control and focuses it when an addon is clicked", async () => {
