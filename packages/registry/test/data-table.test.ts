@@ -264,3 +264,23 @@ it("renders on the server", async () => {
   expect(html).toContain('data-slot="data-table"');
   expect(html.match(/data-slot="table-row-group"/g)).toHaveLength(3);
 });
+
+it("hydrates empty headers and cells without a mismatch", async () => {
+  const blank = [
+    helper.accessor("name", { header: "" }),
+    helper.display({ id: "actions", header: "", cell: () => "" }),
+  ];
+  const app = () =>
+    createSSRApp({
+      render: () => h(AnyTable, { data: people.slice(0, 2), columns: blank, getRowId: (row: Person) => row.id }),
+    });
+  const container = document.createElement("div");
+  container.innerHTML = await renderToString(app());
+  document.body.append(container);
+  const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+  const warnings = vi.spyOn(console, "warn").mockImplementation(() => {});
+  app().mount(container);
+  await nextTick();
+  const mismatches = [...errors.mock.calls, ...warnings.mock.calls].filter((call) => /mismatch/i.test(String(call[0])));
+  expect(mismatches).toEqual([]);
+});

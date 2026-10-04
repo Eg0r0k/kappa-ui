@@ -1,11 +1,11 @@
 <script setup lang="ts" generic="T extends RowData">
 import { ArrowDown, ArrowUp, ChevronsUpDown } from "@lucide/vue";
-import { FlexRender, type Header, type RowData } from "@tanstack/vue-table";
+import type { Header, RowData } from "@tanstack/vue-table";
 import { computed, type HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
-import type { DataTableFeatures } from ".";
+import { type DataTableFeatures, DataTableRender } from ".";
 
 const props = defineProps<{ header: Header<DataTableFeatures, T, unknown>; class?: HTMLAttributes["class"] }>();
 
@@ -28,7 +28,7 @@ const onClick = (event: MouseEvent) => props.header.column.getToggleSortingHandl
     :class="cn('-ms-3 text-label-md data-sorted:text-foreground', props.class)"
     @click="onClick"
   >
-    <FlexRender :header="props.header" />
+    <DataTableRender :header="props.header" />
     <ArrowUp v-if="sorted === 'asc'" data-icon="inline-end" />
     <ArrowDown v-else-if="sorted === 'desc'" data-icon="inline-end" />
     <ChevronsUpDown v-else data-icon="inline-end" class="text-muted-foreground" />

@@ -40,7 +40,14 @@ const { active, open, expanded, width } = provideDemo({
       <main :class="['min-w-0 flex-1', active && open && 'md:min-w-80', active && open && expanded && 'md:hidden']">
         <slot />
       </main>
-      <DemoPanel v-if="active && open" />
+      <Transition
+        enter-active-class="overflow-hidden transition-[width,min-width] duration-medium-2 ease-standard motion-reduce:transition-none"
+        enter-from-class="w-0! min-w-0!"
+        leave-active-class="overflow-hidden transition-[width,min-width] duration-medium-2 ease-standard motion-reduce:transition-none"
+        leave-to-class="w-0! min-w-0!"
+      >
+        <DemoPanel v-if="active && open" />
+      </Transition>
     </div>
     <NavDrawer :outline="outline" />
   </div>

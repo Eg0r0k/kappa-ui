@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TableFrame from '~/components/TableFrame.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 import InlineText from '~/components/content/InlineText.vue'
 
@@ -6,10 +7,10 @@ const props = defineProps<{ rows: { name: string; default: string; description: 
 </script>
 
 <template>
-  <div class="not-prose my-6 overflow-hidden rounded-lg border">
+  <TableFrame class="my-6">
     <ScrollBox>
       <table class="w-full text-left text-sm">
-        <thead class="border-b bg-muted/40 text-xs text-muted-foreground">
+        <thead class="border-b text-xs text-muted-foreground">
           <tr>
             <th class="px-4 py-2 font-medium">Variable</th>
             <th class="px-4 py-2 font-medium">Default</th>
@@ -25,5 +26,5 @@ const props = defineProps<{ rows: { name: string; default: string; description: 
         </tbody>
       </table>
     </ScrollBox>
-  </div>
+  </TableFrame>
 </template>

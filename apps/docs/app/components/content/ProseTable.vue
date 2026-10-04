@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import TableFrame from '~/components/TableFrame.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 </script>
 
 <template>
-  <div class="my-6">
+  <TableFrame class="my-6">
     <ScrollBox>
-      <table class="my-0">
-        <slot />
-      </table>
+      <div class="prose max-w-none">
+        <table class="my-0 [&_td]:px-4 [&_th]:px-4">
+          <slot />
+        </table>
+      </div>
     </ScrollBox>
-  </div>
+  </TableFrame>
 </template>

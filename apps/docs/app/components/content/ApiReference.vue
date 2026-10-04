@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/accordion'
 import ScrollBox from '~/components/ScrollBox.vue'
+import TableFrame from '~/components/TableFrame.vue'
 import InlineText from '~/components/content/InlineText.vue'
 import api from '~/generated/api.json'
 import type { ApiRow, ComponentApi } from '~~/scripts/lib/api-meta'
@@ -58,40 +59,37 @@ const parts = props.parts
         <p v-if="part.sections.length === 0" class="text-body-md text-muted-foreground">
           No props, events, slots or exposed members.
         </p>
-        <div v-for="section in part.sections" :key="section.key" class="rounded-xl border bg-muted/40 p-1">
-          <div class="mb-1 flex h-9 items-center ps-2.5 text-body-sm text-muted-foreground">{{ section.title }}</div>
-          <div class="overflow-hidden rounded-[max(0px,calc(var(--radius-xl)-0.25rem))] bg-card">
-            <ScrollBox>
-              <table class="w-full text-left text-sm">
-                <thead class="border-b text-xs text-muted-foreground">
-                  <tr>
-                    <th class="px-4 py-2 font-medium">{{ section.label }}</th>
-                    <th v-if="section.key === 'props'" class="px-4 py-2 font-medium">Default</th>
-                    <th class="px-4 py-2 font-medium">{{ section.detail }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in section.rows" :key="row.label" class="border-b align-top last:border-0">
-                    <td
-                      class="px-4 py-3 font-mono text-xs whitespace-nowrap"
-                      :class="row.nested && 'ps-8 text-muted-foreground'"
-                    >
-                      {{ row.label }}<span v-if="row.required" class="text-destructive" aria-label="required">*</span>
-                    </td>
-                    <td v-if="section.key === 'props'" class="px-4 py-3">
-                      <code v-if="row.default" class="font-mono text-xs">{{ row.default }}</code>
-                      <span v-else class="text-muted-foreground">—</span>
-                    </td>
-                    <td class="min-w-64 px-4 py-3">
-                      <code class="font-mono text-xs break-words">{{ row.type }}</code>
-                      <p class="mt-1.5 text-muted-foreground"><InlineText :text="row.description" /></p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </ScrollBox>
-          </div>
-        </div>
+        <TableFrame v-for="section in part.sections" :key="section.key" :title="section.title">
+          <ScrollBox>
+            <table class="w-full text-left text-sm">
+              <thead class="border-b text-xs text-muted-foreground">
+                <tr>
+                  <th class="px-4 py-2 font-medium">{{ section.label }}</th>
+                  <th v-if="section.key === 'props'" class="px-4 py-2 font-medium">Default</th>
+                  <th class="px-4 py-2 font-medium">{{ section.detail }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in section.rows" :key="row.label" class="border-b align-top last:border-0">
+                  <td
+                    class="px-4 py-3 font-mono text-xs whitespace-nowrap"
+                    :class="row.nested && 'ps-8 text-muted-foreground'"
+                  >
+                    {{ row.label }}<span v-if="row.required" class="text-destructive" aria-label="required">*</span>
+                  </td>
+                  <td v-if="section.key === 'props'" class="px-4 py-3">
+                    <code v-if="row.default" class="font-mono text-xs">{{ row.default }}</code>
+                    <span v-else class="text-muted-foreground">—</span>
+                  </td>
+                  <td class="min-w-64 px-4 py-3">
+                    <code class="font-mono text-xs break-words">{{ row.type }}</code>
+                    <p class="mt-1.5 text-muted-foreground"><InlineText :text="row.description" /></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ScrollBox>
+        </TableFrame>
       </section>
     </div>
     <Accordion type="multiple" class="md:hidden">
