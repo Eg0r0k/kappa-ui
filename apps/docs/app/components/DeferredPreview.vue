@@ -58,7 +58,7 @@ const placeholder = computed(() => props.height ?? `${measured.value ?? props.mi
 </script>
 
 <template>
-  <div ref="root" data-slot="lazy-preview" class="relative" :style="near ? undefined : { minHeight: placeholder }">
+  <div ref="root" data-slot="deferred-preview" class="relative" :style="near ? undefined : { minHeight: placeholder }">
     <PreviewIframe
       v-if="near"
       v-bind="frame"
