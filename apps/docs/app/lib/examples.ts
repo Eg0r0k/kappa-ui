@@ -14,3 +14,10 @@ export const overviewExample = (examples: readonly string[], pageSlug: string) =
   examples.find((name) => name === `${pageSlug}-demo`) ?? examples[0]
 
 export const pageSlugOf = (path: string) => path.replace(/\/+$/, '').split('/').at(-1) ?? ''
+
+export const exampleLabel = (title: string, pageTitle: string) => {
+  const prefix = `${pageTitle.toLowerCase()} `
+  if (!title.toLowerCase().startsWith(prefix) || title.length === prefix.length) return title
+  const rest = title.slice(prefix.length)
+  return rest.charAt(0).toUpperCase() + rest.slice(1)
+}

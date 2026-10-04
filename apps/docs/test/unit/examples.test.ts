@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
 
-import { exampleSlug, overviewExample, pageExamples, pageSlugOf } from '~/lib/examples'
+import { exampleLabel, exampleSlug, overviewExample, pageExamples, pageSlugOf } from '~/lib/examples'
 import { findItem, isExample } from '~/lib/registry'
 
 const contentDir = new URL('../../content/docs/', import.meta.url)
@@ -72,5 +72,16 @@ describe('pageSlugOf', () => {
   it('takes the last route segment', () => {
     expect(pageSlugOf('/docs/components/button-group')).toBe('button-group')
     expect(pageSlugOf('/docs/components/button-group/')).toBe('button-group')
+  })
+})
+
+describe('exampleLabel', () => {
+  it('drops the page title in front and capitalises what is left', () => {
+    expect(exampleLabel('Button sizes', 'Button')).toBe('Sizes')
+    expect(exampleLabel('Button with icons', 'Button')).toBe('With icons')
+    expect(exampleLabel('button demo', 'Button')).toBe('Demo')
+    expect(exampleLabel('Button group demo', 'Button Group')).toBe('Demo')
+    expect(exampleLabel('Input group demo', 'Button')).toBe('Input group demo')
+    expect(exampleLabel('Button', 'Button')).toBe('Button')
   })
 })

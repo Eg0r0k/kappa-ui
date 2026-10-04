@@ -1,4 +1,4 @@
-import { exampleSlug, pageExamples, pageSlugOf } from '~/lib/examples'
+import { exampleLabel, exampleSlug, pageExamples, pageSlugOf } from '~/lib/examples'
 import { findItem } from '~/lib/registry'
 
 export const useDocsPage = (path: () => string) =>
@@ -13,7 +13,7 @@ export const useDocsPage = (path: () => string) =>
         const examples = pageExamples(rawbody ?? '').map((name) => ({
           name,
           slug: exampleSlug(name, slug),
-          title: findItem(name)?.title ?? name,
+          title: exampleLabel(findItem(name)?.title ?? name, rest.title),
         }))
         return { ...rest, examples }
       },
