@@ -12,6 +12,7 @@ import {
   ScanSearch,
   Sun,
   SunMoon,
+  X,
 } from '@lucide/vue'
 
 import { Menu, MenuItem, MenuRadioGroup, MenuRadioItem, MenuTrigger } from '@/ui/menu'
@@ -70,7 +71,7 @@ const copyLink = async () => {
     variant="ghost"
     aria-label="Example"
     data-slot="demo-toolbar"
-    class="min-h-12 w-full shrink-0 flex-wrap border-b px-2 py-1.5"
+    class="min-h-12 w-full shrink-0 flex-wrap border-b bg-muted/40 px-2 py-1.5"
   >
     <ToolbarButton
       v-tooltip="'Previous example'"
@@ -155,6 +156,9 @@ const copyLink = async () => {
           </MenuItem>
         </Menu>
       </span>
+      <ToolbarButton v-tooltip="'Close'" size="icon-sm" aria-label="Close the panel" @click="demo.close">
+        <X />
+      </ToolbarButton>
     </div>
   </Toolbar>
 </template>

@@ -20,13 +20,14 @@ const NuxtLink = defineComponent({
 const groups: SidebarGroup[] = [
   {
     key: 'actions',
+    section: 'components',
     title: 'Actions',
     pages: [
       { title: 'Button', path: '/docs/components/button' },
       { title: 'Toggle Group', path: '/docs/components/toggle-group' },
     ],
   },
-  { key: 'forms', title: 'Forms', pages: [{ title: 'Field', path: '/docs/components/field' }] },
+  { key: 'forms', title: 'Forms', section: 'components', pages: [{ title: 'Field', path: '/docs/components/field' }] },
 ]
 
 const outline = {

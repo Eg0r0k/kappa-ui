@@ -13,7 +13,7 @@ const { wide, narrow } = useDocsShell()
 const [{ data: page }] = await Promise.all([useDocsPage(() => route.path.replace(/\/+$/, '')), loadDocsNavigation()])
 const outline = computed(() => outlineOf(page.value))
 
-const { active, expanded, width } = provideDemo({
+const { active, open, expanded, width } = provideDemo({
   examples: () => page.value?.examples ?? [],
   pageSlug: () => pageSlugOf(route.path),
   component: () => page.value?.component,
@@ -37,10 +37,10 @@ const { active, expanded, width } = provideDemo({
       >
         <DocsSidebar :outline="outline" class="w-65" />
       </aside>
-      <main :class="['min-w-0 flex-1', active && 'md:min-w-80', active && expanded && 'md:hidden']">
+      <main :class="['min-w-0 flex-1', active && open && 'md:min-w-80', active && open && expanded && 'md:hidden']">
         <slot />
       </main>
-      <DemoPanel v-if="active" />
+      <DemoPanel v-if="active && open" />
     </div>
     <NavDrawer :outline="outline" />
   </div>

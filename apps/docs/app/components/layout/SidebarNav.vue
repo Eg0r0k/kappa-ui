@@ -57,82 +57,87 @@ const anchorLink = `
         Search everything with {{ props.mod }} K
       </Button>
     </div>
-    <Collapsible
-      v-for="group in visible"
-      :key="group.key"
-      :data-group="group.key"
-      :open="isOpen(group.key)"
-      @update:open="toggle(group.key, $event)"
-    >
-      <CollapsibleTrigger as-child>
-        <Button
-          variant="ghost"
-          color="neutral"
-          size="sm"
-          class="group/trigger w-full justify-between font-medium max-md:min-h-11"
-        >
-          {{ group.title }}
-          <ChevronRight
-            data-icon="inline-end"
-            class="transition-transform duration-short-4 ease-standard group-data-[state=open]/trigger:rotate-90 motion-reduce:transition-none"
-          />
-        </Button>
-      </CollapsibleTrigger>
-      <CollapsibleContent>
-        <ul class="flex flex-col gap-0.5 py-1">
-          <li v-for="page in group.pages" :key="page.path">
-            <NuxtLink
-              :to="page.path"
-              :aria-current="page.path === props.activePath ? 'page' : undefined"
-              :class="pageLink"
-              @click="emit('navigate')"
-            >
-              <span class="min-w-0 flex-1 truncate">
-                <template v-for="(segment, index) in highlight(page.title, props.query)" :key="index">
-                  <mark v-if="segment.match" class="rounded-sm bg-primary/15 text-foreground">{{ segment.text }}</mark>
-                  <template v-else>{{ segment.text }}</template>
-                </template>
-              </span>
-              <Badge
-                v-if="props.badges[page.path]"
-                size="xs"
-                variant="soft"
-                :color="props.badges[page.path] === 'new' ? 'success' : 'info'"
+    <template v-for="(group, position) in visible" :key="group.key">
+      <div
+        v-if="position > 0 && group.section !== visible[position - 1]?.section"
+        data-slot="sidebar-section"
+        class="mx-3 mt-3 border-t pt-3"
+      >
+        <p v-if="group.section === 'components'" class="pb-1 text-label-sm text-muted-foreground">Components</p>
+      </div>
+      <Collapsible :data-group="group.key" :open="isOpen(group.key)" @update:open="toggle(group.key, $event)">
+        <CollapsibleTrigger as-child>
+          <Button
+            variant="ghost"
+            color="neutral"
+            size="sm"
+            class="group/trigger w-full justify-between font-medium max-md:min-h-11"
+          >
+            {{ group.title }}
+            <ChevronRight
+              data-icon="inline-end"
+              class="transition-transform duration-short-4 ease-standard group-data-[state=open]/trigger:rotate-90 motion-reduce:transition-none"
+            />
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <ul class="flex flex-col gap-0.5 py-1">
+            <li v-for="page in group.pages" :key="page.path">
+              <NuxtLink
+                :to="page.path"
+                :aria-current="page.path === props.activePath ? 'page' : undefined"
+                :class="pageLink"
+                @click="emit('navigate')"
               >
-                {{ props.badges[page.path] }}
-              </Badge>
-            </NuxtLink>
-            <ul
-              v-if="page.path === props.activePath && props.outline && !filtering"
-              class="my-1 ms-4 flex flex-col border-s ps-3"
-            >
-              <li v-for="heading in props.outline.headings" :key="heading.id">
-                <NuxtLink
-                  :to="`#${heading.id}`"
-                  :aria-current="props.activeHeading === heading.id ? 'location' : undefined"
-                  :class="anchorLink"
-                  @click="emit('navigate')"
+                <span class="min-w-0 flex-1 truncate">
+                  <template v-for="(segment, index) in highlight(page.title, props.query)" :key="index">
+                    <mark v-if="segment.match" class="rounded-sm bg-primary/15 text-foreground">{{
+                      segment.text
+                    }}</mark>
+                    <template v-else>{{ segment.text }}</template>
+                  </template>
+                </span>
+                <Badge
+                  v-if="props.badges[page.path]"
+                  size="xs"
+                  variant="soft"
+                  :color="props.badges[page.path] === 'new' ? 'success' : 'info'"
                 >
-                  {{ heading.text }}
-                </NuxtLink>
-                <ul v-if="heading.id === 'examples' && props.outline.examples.length" class="ms-3 flex flex-col">
-                  <li v-for="example in props.outline.examples" :key="example.slug">
-                    <NuxtLink :to="`#${example.slug}`" :class="anchorLink" @click="emit('navigate')">
-                      <span
-                        v-if="example.slug === props.currentExample"
-                        data-slot="sidebar-example-dot"
-                        class="me-1.5 hidden size-1.5 rounded-full bg-primary align-middle md:inline-block"
-                        aria-hidden="true"
-                      />
-                      {{ example.title }}
-                    </NuxtLink>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </CollapsibleContent>
-    </Collapsible>
+                  {{ props.badges[page.path] }}
+                </Badge>
+              </NuxtLink>
+              <ul
+                v-if="page.path === props.activePath && props.outline && !filtering"
+                class="my-1 ms-4 flex flex-col border-s ps-3"
+              >
+                <li v-for="heading in props.outline.headings" :key="heading.id">
+                  <NuxtLink
+                    :to="`#${heading.id}`"
+                    :aria-current="props.activeHeading === heading.id ? 'location' : undefined"
+                    :class="anchorLink"
+                    @click="emit('navigate')"
+                  >
+                    {{ heading.text }}
+                  </NuxtLink>
+                  <ul v-if="heading.id === 'examples' && props.outline.examples.length" class="ms-3 flex flex-col">
+                    <li v-for="example in props.outline.examples" :key="example.slug">
+                      <NuxtLink :to="`#${example.slug}`" :class="anchorLink" @click="emit('navigate')">
+                        <span
+                          v-if="example.slug === props.currentExample"
+                          data-slot="sidebar-example-dot"
+                          class="me-1.5 hidden size-1.5 rounded-full bg-primary align-middle md:inline-block"
+                          aria-hidden="true"
+                        />
+                        {{ example.title }}
+                      </NuxtLink>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </CollapsibleContent>
+      </Collapsible>
+    </template>
   </nav>
 </template>
