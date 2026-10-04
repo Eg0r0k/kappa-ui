@@ -14,7 +14,7 @@ onMounted(() => {
 
 <template>
   <Button
-    variant="outline"
+    variant="soft"
     color="neutral"
     size="sm"
     aria-keyshortcuts="Meta+K Control+K"

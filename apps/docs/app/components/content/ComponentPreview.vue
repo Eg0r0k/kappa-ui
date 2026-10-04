@@ -22,14 +22,29 @@ const resolve = () => {
 }
 
 const { item, key } = resolve()
-const Example = defineAsyncComponent(exampleModules[key]!)
+const loaded = ref(import.meta.server || useNuxtApp().isHydrating)
+const load = exampleModules[key]!
+const Example = defineAsyncComponent(() =>
+  load().then((module) => {
+    loaded.value = true
+    return module
+  }),
+)
 const slug = exampleSlug(props.name, pageSlugOf(useRoute().path))
 
 const demo = injectDemo(null)
 const label = computed(() => demo?.examples.value.find((example) => example.name === props.name)?.title ?? item.title)
 const current = computed(() => (demo?.open.value ?? false) && demo?.selected.value?.name === props.name)
 
-const canvas = 'flex min-h-72 items-center-safe justify-center-safe p-10'
+const canvas = computed(() =>
+  cn(
+    `
+      flex min-h-72 items-center-safe justify-center-safe p-10 transition-opacity duration-medium-2 ease-standard
+      motion-reduce:transition-none
+    `,
+    loaded.value ? 'opacity-100' : 'opacity-0',
+  ),
+)
 </script>
 
 <template>

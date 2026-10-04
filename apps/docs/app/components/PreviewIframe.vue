@@ -66,7 +66,10 @@ const onMessage = (event: MessageEvent) => {
 onMounted(() => window.addEventListener('message', onMessage))
 onBeforeUnmount(() => window.removeEventListener('message', onMessage))
 
+const loaded = ref(false)
+
 const onLoad = () => {
+  loaded.value = true
   const content = frame.value?.contentDocument?.querySelector<HTMLElement>('[data-slot=preview-content]')
   const canvas = content?.parentElement
   if (!content || !canvas || reported.value) return
@@ -86,7 +89,10 @@ const height = computed(() => props.height ?? `${Math.max(props.minHeight, repor
       :src="props.src ?? previewPath(props.name)"
       :title="props.title ?? props.name"
       loading="lazy"
-      class="block w-full border-0"
+      :class="[
+        'block w-full border-0 transition-opacity duration-medium-2 ease-standard motion-reduce:transition-none',
+        loaded ? 'opacity-100' : 'opacity-0',
+      ]"
       :style="{ height, colorScheme: props.colorScheme }"
       @load="onLoad"
     />
