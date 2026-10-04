@@ -23,7 +23,7 @@ const props = defineProps<{
     </div>
     <CopyButton v-if="props.code" :value="props.code" class="absolute end-1.5 top-1.5 z-10" />
     <ScrollBox>
-      <pre :class="['p-4 text-sm leading-6', props.class]" :style="props.style ?? undefined"><slot /></pre>
+      <pre :class="['bg-card p-4 text-sm leading-6', props.class]" :style="props.style ?? undefined"><slot /></pre>
     </ScrollBox>
   </div>
 </template>

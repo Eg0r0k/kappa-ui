@@ -90,7 +90,6 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
       </TabsList>
       <ToggleGroup
         type="single"
-        variant="outline"
         size="sm"
         aria-label="Package manager"
         class="mt-1 self-start"

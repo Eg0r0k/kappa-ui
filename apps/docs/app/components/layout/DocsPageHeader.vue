@@ -3,7 +3,7 @@ import { ChevronDown, Copy, FileText } from '@lucide/vue'
 
 import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
-import { ButtonGroup } from '@/ui/button-group'
+import { ButtonGroup, ButtonGroupSeparator } from '@/ui/button-group'
 import { Menu, MenuItem, MenuTrigger } from '@/ui/menu'
 import { useToast } from '@/ui/toast'
 import GithubIcon from '~/components/GithubIcon.vue'
@@ -42,14 +42,15 @@ const copyPage = async () => {
     <p v-if="props.description" class="text-lg text-muted-foreground">{{ props.description }}</p>
     <div class="flex flex-wrap items-center gap-2">
       <ButtonGroup>
-        <Button variant="outline" color="neutral" size="sm" @click="copyPage">
+        <Button variant="soft" color="neutral" size="sm" @click="copyPage">
           <Copy data-icon="inline-start" />
           Copy page
         </Button>
+        <ButtonGroupSeparator />
         <MenuTrigger as-child>
           <Button
             id="page-actions-trigger"
-            variant="outline"
+            variant="soft"
             color="neutral"
             size="icon-sm"
             aria-label="More page actions"
