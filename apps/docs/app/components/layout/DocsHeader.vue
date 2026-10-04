@@ -18,7 +18,10 @@ const version = useRuntimeConfig().public.registryVersion
 </script>
 
 <template>
-  <header data-slot="docs-header" class="sticky top-0 z-40 border-b bg-background">
+  <header
+    data-slot="docs-header"
+    class="sticky top-0 z-40 border-b bg-[color-mix(in_oklab,var(--muted)_40%,var(--background))]"
+  >
     <div class="flex h-14 items-center gap-2 px-4">
       <Tooltip v-if="props.navigation">
         <TooltipTrigger as-child>

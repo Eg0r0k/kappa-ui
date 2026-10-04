@@ -31,7 +31,7 @@ const toggle = (key: string, value: boolean) => {
 }
 
 const pageLink = `
-  flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground transition-colors
+  flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground transition-colors
   hover:bg-accent hover:text-accent-foreground
   focus-visible:focus-ring
   aria-[current=page]:bg-primary/10 aria-[current=page]:font-medium aria-[current=page]:text-primary
@@ -71,7 +71,7 @@ const anchorLink = `
             variant="ghost"
             color="neutral"
             size="sm"
-            class="group/trigger w-full justify-between font-medium max-md:min-h-11"
+            class="group/trigger w-full justify-between text-body-md font-semibold text-foreground max-md:min-h-11"
           >
             {{ group.title }}
             <ChevronRight

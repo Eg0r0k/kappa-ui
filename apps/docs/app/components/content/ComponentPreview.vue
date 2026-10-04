@@ -35,7 +35,7 @@ const canvas = 'flex min-h-72 items-center-safe justify-center-safe p-10'
 <template>
   <div :data-example="slug" class="not-prose my-6 scroll-mt-20 max-md:scroll-mt-30">
     <div data-slot="example" class="rounded-xl border bg-muted/40 p-1">
-      <div class="flex h-9 items-center gap-2 ps-2.5 pe-0.5">
+      <div class="mb-1 flex h-9 items-center gap-2 ps-2.5 pe-0.5">
         <span class="min-w-0 flex-1 truncate text-body-sm text-muted-foreground">{{ label }}</span>
         <div v-if="demo?.active.value" class="hidden items-center gap-0.5 md:flex">
           <Button

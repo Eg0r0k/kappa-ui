@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Moon, Palette, RotateCcw, ScanSearch, Sun, SunMoon } from '@lucide/vue'
+import { Moon, Palette, PilcrowLeft, RotateCcw, ScanSearch, Sun, SunMoon } from '@lucide/vue'
 
 import { Menu, MenuRadioGroup, MenuRadioItem, MenuTrigger } from '@/ui/menu'
 import { Toolbar, ToolbarButton, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem } from '@/ui/toolbar'
@@ -40,18 +40,25 @@ const cycleScheme = () => {
 </script>
 
 <template>
-  <Toolbar aria-label="Example tools" data-slot="demo-tools" class="shadow-shadow-lg">
-    <ToolbarToggleGroup v-model="toggles" type="multiple" active-color="primary" aria-label="Example view">
+  <Toolbar aria-label="Example tools" data-slot="demo-tools" class="bg-card shadow-shadow-lg">
+    <ToolbarToggleGroup
+      v-model="toggles"
+      type="multiple"
+      variant="soft"
+      active-color="primary"
+      aria-label="Example view"
+    >
       <ToolbarToggleItem v-tooltip="'Inspect'" value="inspect" size="icon-sm" aria-label="Inspect">
         <ScanSearch />
       </ToolbarToggleItem>
-      <ToolbarToggleItem v-tooltip="'Right to left'" value="rtl" size="sm" aria-label="Right to left">
-        RTL
+      <ToolbarToggleItem v-tooltip="'Right to left'" value="rtl" size="icon-sm" aria-label="Right to left">
+        <PilcrowLeft />
       </ToolbarToggleItem>
     </ToolbarToggleGroup>
     <ToolbarSeparator />
     <ToolbarButton
       v-tooltip="schemes[scheme].label"
+      variant="soft"
       size="icon-sm"
       :aria-label="schemes[scheme].label"
       :data-scheme="scheme"
@@ -63,7 +70,7 @@ const cycleScheme = () => {
     </ToolbarButton>
     <span v-if="props.colors" class="flex">
       <MenuTrigger as-child>
-        <ToolbarButton v-tooltip="'Colour'" size="icon-sm" aria-label="Example colour">
+        <ToolbarButton v-tooltip="'Colour'" variant="soft" size="icon-sm" aria-label="Example colour">
           <Palette />
         </ToolbarButton>
       </MenuTrigger>
@@ -76,7 +83,13 @@ const cycleScheme = () => {
         </MenuRadioGroup>
       </Menu>
     </span>
-    <ToolbarButton v-tooltip="'Restart'" size="icon-sm" aria-label="Restart the example" @click="restart += 1">
+    <ToolbarButton
+      v-tooltip="'Restart'"
+      variant="soft"
+      size="icon-sm"
+      aria-label="Restart the example"
+      @click="restart += 1"
+    >
       <RotateCcw />
     </ToolbarButton>
   </Toolbar>
