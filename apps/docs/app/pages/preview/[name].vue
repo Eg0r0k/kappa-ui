@@ -2,6 +2,8 @@
 import { useResizeObserver } from '@vueuse/core'
 import { ConfigProvider } from 'reka-ui'
 
+import { ScrollArea } from '@/ui/scroll-area'
+
 import ExampleBoundary from '~/components/ExampleBoundary.vue'
 import PreviewInspect from '~/components/PreviewInspect.vue'
 import { toneStyle } from '~/lib/demo'
@@ -43,20 +45,22 @@ useResizeObserver(content, () => {
 
 <template>
   <ConfigProvider :dir="dir">
-    <div
-      data-slot="preview-canvas"
-      :class="[
-        'flex min-h-svh w-full items-center-safe justify-center-safe',
-        padded && 'p-10',
-        inspect && 'bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[1rem_1rem]',
-      ]"
-    >
-      <div ref="content" data-slot="preview-content" class="flex w-full justify-center">
-        <ExampleBoundary :key="key" @error="(message) => post({ type: 'kappa:error', message })">
-          <Example />
-        </ExampleBoundary>
+    <ScrollArea orientation="both" class="h-svh w-full">
+      <div
+        data-slot="preview-canvas"
+        :class="[
+          'flex min-h-svh w-full items-center-safe justify-center-safe',
+          padded && 'p-10',
+          inspect && 'bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[1rem_1rem]',
+        ]"
+      >
+        <div ref="content" data-slot="preview-content" class="flex w-full justify-center">
+          <ExampleBoundary :key="key" @error="(message) => post({ type: 'kappa:error', message })">
+            <Example />
+          </ExampleBoundary>
+        </div>
       </div>
-    </div>
+    </ScrollArea>
     <PreviewInspect v-if="inspect" />
   </ConfigProvider>
 </template>
