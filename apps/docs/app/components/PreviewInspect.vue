@@ -8,14 +8,17 @@ const boxes = ref<Box[]>([])
 const size = ref('')
 let frame = 0
 
-const own = (slot: string) => slot.startsWith('preview-') || slot.startsWith('inspect-')
+const own = (element: HTMLElement, slot: string) =>
+  slot.startsWith('preview-') ||
+  slot.startsWith('inspect-') ||
+  (element.closest('[data-preview-chrome]') !== null && element.closest('[data-slot=preview-content]') === null)
 
 const measure = () => {
   frame = 0
   size.value = `${window.innerWidth} × ${window.innerHeight}`
   boxes.value = [...document.body.querySelectorAll<HTMLElement>('[data-slot]')].flatMap((element, key) => {
     const slot = element.dataset.slot ?? ''
-    if (own(slot) || !element.checkVisibility()) return []
+    if (own(element, slot) || !element.checkVisibility()) return []
     const rect = element.getBoundingClientRect()
     if (rect.width === 0 || rect.height === 0) return []
     const { variant, size, color } = element.dataset
