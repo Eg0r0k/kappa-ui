@@ -71,7 +71,7 @@ const search = (value: string) => {
           :query="query"
           :outline="props.outline"
           :active-heading="activeHeading"
-          :current-example="demo?.selected.value?.slug"
+          :current-example="demo?.open.value ? demo.selected.value?.slug : undefined"
           :badges="badges"
           :mod="mod"
           @navigate="emit('navigate')"

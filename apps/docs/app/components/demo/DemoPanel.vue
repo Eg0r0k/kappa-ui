@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Splitter, SplitterHandle, SplitterPanel } from '@/ui/splitter'
-import DeferredPreview from '~/components/DeferredPreview.vue'
+import PreviewIframe from '~/components/PreviewIframe.vue'
 import DemoCode from '~/components/demo/DemoCode.vue'
 import DemoToolbar from '~/components/demo/DemoToolbar.vue'
 import DemoWidthHandle from '~/components/demo/DemoWidthHandle.vue'
@@ -29,8 +29,8 @@ const setResizing = (value: boolean) => {
     data-slot="demo-panel"
     aria-label="Example"
     :class="[
-      'sticky top-14 hidden h-[calc(100svh-3.5rem)] shrink flex-col border-s bg-background md:flex',
-      expanded ? 'md:flex-1' : 'md:w-100 lg:w-(--demo-width) lg:min-w-105',
+      'sticky top-14 hidden h-[calc(100svh-3.5rem)] shrink flex-col bg-background md:flex',
+      expanded ? 'md:flex-1' : 'border-s md:w-100 lg:w-(--demo-width) lg:min-w-105',
     ]"
   >
     <DemoWidthHandle
@@ -43,7 +43,7 @@ const setResizing = (value: boolean) => {
     <DemoToolbar :colors="colors" />
     <Splitter v-if="selected" :key="selected.name" direction="vertical" class="min-h-0 flex-1">
       <SplitterPanel :default-size="share" :min-size="20">
-        <DeferredPreview
+        <PreviewIframe
           :name="selected.name"
           :title="item?.title"
           :color-scheme="colorScheme"
@@ -53,12 +53,11 @@ const setResizing = (value: boolean) => {
           :color="colors ? color : 'primary'"
           :inspect="inspect"
           height="100%"
-          root-margin="0px"
           :class="['h-full', resizing && 'pointer-events-none']"
           @shortcut="show()"
         />
       </SplitterPanel>
-      <SplitterHandle @dragging="setResizing" />
+      <SplitterHandle grip @dragging="setResizing" />
       <SplitterPanel :min-size="10">
         <DemoCode :name="selected.name" />
       </SplitterPanel>
