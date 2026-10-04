@@ -96,6 +96,7 @@ export const stack = (name: string, direction: 'HORIZONTAL' | 'VERTICAL', gap: n
   frame.primaryAxisSizingMode = 'AUTO'
   frame.counterAxisSizingMode = 'AUTO'
   frame.fills = []
+  frame.clipsContent = false
   return frame
 }
 

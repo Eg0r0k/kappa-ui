@@ -77,18 +77,23 @@ const runBundle = (args: string[]) => {
 }
 
 const serve = (kind: string, bundle: string) => {
+  const stop = () => {
+    server.close()
+    server.closeAllConnections()
+  }
   const server = createServer((request, response) => {
     if (request.url !== `/${kind}.js`) {
       response.writeHead(404).end()
       return
     }
-    response.writeHead(200, { 'Content-Type': 'text/javascript', 'Access-Control-Allow-Origin': '*' }).end(bundle)
+    const headers = { 'Content-Type': 'text/javascript', 'Access-Control-Allow-Origin': '*', Connection: 'close' }
+    response.on('finish', stop)
+    response.writeHead(200, headers).end(bundle)
     console.log(`Served ${kind}.js (${bundle.length} bytes)`)
-    server.close()
   })
   const timer = setTimeout(() => {
     console.log('Nobody fetched the bundle; stopping.')
-    server.close()
+    stop()
   }, LIFETIME)
   server.on('close', () => clearTimeout(timer))
   server.listen(PORT, 'localhost', () => {
