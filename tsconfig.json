@@ -20,5 +20,5 @@
     }
   },
   "include": ["scripts/**/*.ts"],
-  "exclude": ["scripts/smoke"]
+  "exclude": ["scripts/smoke", "scripts/figma/runtime"]
 }
