@@ -8,6 +8,7 @@ import CodeBlock from '~/components/CodeBlock.vue'
 import CommandLine from '~/components/CommandLine.vue'
 import PreviewFrame from '~/components/content/PreviewFrame.vue'
 import { consumerFilename, consumerSource } from '~/lib/consumer'
+import { exampleSlug, pageSlugOf } from '~/lib/examples'
 import { addCommand, registryItemUrl } from '~/lib/install'
 import { registryItems, resolveExample } from '~/lib/registry'
 import { exampleModules, loadSource } from '~/lib/sources'
@@ -23,6 +24,7 @@ const resolve = () => {
 }
 
 const { item, key } = resolve()
+const slug = exampleSlug(props.name, pageSlugOf(useRoute().path))
 const Example = defineAsyncComponent(exampleModules[key]!)
 const exampleCommand = addCommand('npm', registryItemUrl(useRuntimeConfig().public.siteUrl, item.name))
 
@@ -58,7 +60,7 @@ watch(
 </script>
 
 <template>
-  <div class="not-prose my-6">
+  <div :data-example="slug" class="not-prose my-6 scroll-mt-20">
     <Tabs default-value="preview" class="gap-4">
       <div class="flex items-end justify-between gap-2 border-b">
         <TabsList variant="line" size="sm" class="-mb-px" aria-label="Example view">
