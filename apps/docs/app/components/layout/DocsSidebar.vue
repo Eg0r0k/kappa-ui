@@ -4,7 +4,7 @@ import SidebarFilter from '~/components/layout/SidebarFilter.vue'
 import SidebarNav from '~/components/layout/SidebarNav.vue'
 import type { PageOutline } from '~/lib/outline'
 import { badgeOf } from '~/lib/badges'
-import { componentGroups, docsGroups, groupOf, modKey, sectionOf, type SidebarGroup } from '~/lib/sidebar'
+import { groupOf, modKey, sidebarGroups } from '~/lib/sidebar'
 
 const props = defineProps<{ outline?: PageOutline }>()
 const emit = defineEmits<{ navigate: [] }>()
@@ -14,9 +14,7 @@ const nav = useDocsNavigation()
 const { show } = useSearchDialog()
 const demo = injectDemo(null)
 
-const groups = computed<SidebarGroup[]>(() =>
-  sectionOf(route.path) === 'components' ? componentGroups(nav.value) : docsGroups(nav.value),
-)
+const groups = computed(() => sidebarGroups(nav.value))
 
 const open = useCookie<string[]>('kappa-docs-groups', {
   default: () => [],

@@ -23,23 +23,36 @@ const pagesOf = (node?: NavNode): NavPage[] =>
 export const sectionOf = (path: string): DocsSection =>
   path === COMPONENTS_PATH || path.startsWith(`${COMPONENTS_PATH}/`) ? 'components' : 'docs'
 
-export const componentGroups = (nav: readonly NavNode[]): SidebarGroup[] => {
+const guideGroups = (nav: readonly NavNode[]): SidebarGroup[] =>
+  nav
+    .filter((node) => node.path !== COMPONENTS_PATH)
+    .map((node) => ({ key: node.path.split('/').at(-1) ?? node.path, title: node.title, pages: pagesOf(node) }))
+
+const categoryGroups = (nav: readonly NavNode[], guides: readonly SidebarGroup[]): SidebarGroup[] => {
   const pages = pagesOf(nav.find((node) => node.path === COMPONENTS_PATH))
   return categories
     .map((category) => ({
       key: category.key as string,
       title: category.title as string,
-      pages: pages.filter((page) => pageCategory(page) === category.key),
+      pages: [
+        ...(guides.find((guide) => guide.key === category.key)?.pages ?? []),
+        ...pages.filter((page) => pageCategory(page) === category.key),
+      ],
     }))
     .filter((group) => group.pages.length > 0)
 }
 
-export const docsGroups = (nav: readonly NavNode[]): SidebarGroup[] => [
-  ...nav
-    .filter((node) => node.path !== COMPONENTS_PATH)
-    .map((node) => ({ key: node.path.split('/').at(-1) ?? node.path, title: node.title, pages: pagesOf(node) })),
-  { key: 'project', title: 'Project', pages: [{ title: 'Changelog', path: CHANGELOG_PATH }] },
-]
+export const componentGroups = (nav: readonly NavNode[]) => categoryGroups(nav, [])
+
+export const sidebarGroups = (nav: readonly NavNode[]): SidebarGroup[] => {
+  const guides = guideGroups(nav)
+  const keys = new Set<string>(categories.map((category) => category.key))
+  return [
+    ...guides.filter((guide) => !keys.has(guide.key)),
+    ...categoryGroups(nav, guides),
+    { key: 'project', title: 'Project', pages: [{ title: 'Changelog', path: CHANGELOG_PATH }] },
+  ]
+}
 
 export const filterGroups = (groups: readonly SidebarGroup[], query: string) => {
   const needle = query.trim().toLowerCase()

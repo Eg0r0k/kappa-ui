@@ -3,13 +3,13 @@ import { describe, expect, it } from 'vitest'
 import {
   CHANGELOG_PATH,
   componentGroups,
-  docsGroups,
   filterGroups,
   groupOf,
   highlight,
   modKey,
   neighbours,
   sectionOf,
+  sidebarGroups,
 } from '~/lib/sidebar'
 
 const nav = [
@@ -63,11 +63,14 @@ describe('componentGroups', () => {
   })
 })
 
-describe('docsGroups', () => {
-  it('makes a group per guide folder and ends with the project group', () => {
-    expect(docsGroups(nav).map((group) => [group.key, group.pages.map((page) => page.path)])).toEqual([
+describe('sidebarGroups', () => {
+  it('puts guides, component categories and the project group in one tree', () => {
+    expect(sidebarGroups(nav).map((group) => [group.key, group.pages.map((page) => page.path)])).toEqual([
       ['getting-started', ['/docs/getting-started/introduction']],
+      ['actions', ['/docs/components/button', '/docs/components/toggle']],
+      ['text-input', ['/docs/components/input']],
       ['forms', ['/docs/forms/formisch']],
+      ['utilities', ['/docs/components/press-scale']],
       ['project', [CHANGELOG_PATH]],
     ])
   })
