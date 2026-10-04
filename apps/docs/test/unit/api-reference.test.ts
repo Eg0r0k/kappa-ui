@@ -20,7 +20,12 @@ it('lists every part of the page item in its api-reference, and only parts with 
     if (item?.type !== 'registry:ui') continue
     const parts = item.files
       .filter((entry) => entry.path.endsWith('.vue'))
-      .map((entry) => entry.path.split('/').at(-1)!.replace(/\.vue$/, ''))
+      .map((entry) =>
+        entry.path
+          .split('/')
+          .at(-1)!
+          .replace(/\.vue$/, ''),
+      )
     for (const part of parts) if (!listed.includes(part)) offenders.push(`${file}: ${part} is not listed`)
   }
   expect(offenders).toEqual([])
