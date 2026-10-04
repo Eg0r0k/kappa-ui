@@ -69,6 +69,22 @@ export const filterGroups = (groups: readonly SidebarGroup[], query: string) => 
     .filter((group) => group.pages.length > 0)
 }
 
+export const bestMatch = (groups: readonly SidebarGroup[], query: string) => {
+  const needle = query.trim().toLowerCase()
+  if (!needle) return undefined
+  const pages = groups.flatMap((group) => group.pages)
+  const title = (page: NavPage) => page.title.toLowerCase()
+  return (
+    pages.find((page) => title(page).startsWith(needle)) ??
+    pages.find((page) =>
+      title(page)
+        .split(/\s+/)
+        .some((word) => word.startsWith(needle)),
+    ) ??
+    pages.find((page) => title(page).includes(needle))
+  )
+}
+
 export const highlight = (value: string, query: string): Segment[] => {
   const needle = query.trim().toLowerCase()
   if (!needle) return [{ text: value, match: false }]

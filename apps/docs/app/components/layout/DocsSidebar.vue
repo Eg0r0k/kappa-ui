@@ -4,7 +4,7 @@ import SidebarFilter from '~/components/layout/SidebarFilter.vue'
 import SidebarNav from '~/components/layout/SidebarNav.vue'
 import type { PageOutline } from '~/lib/outline'
 import { badgeOf } from '~/lib/badges'
-import { groupOf, modKey, sidebarGroups } from '~/lib/sidebar'
+import { bestMatch, groupOf, modKey, sidebarGroups } from '~/lib/sidebar'
 
 const props = defineProps<{ outline?: PageOutline }>()
 const emit = defineEmits<{ navigate: [] }>()
@@ -55,14 +55,27 @@ const search = (value: string) => {
   emit('navigate')
   show(value)
 }
+
+const submit = async () => {
+  const page = bestMatch(groups.value, query.value)
+  if (!page) {
+    search(query.value)
+    return
+  }
+  query.value = ''
+  emit('navigate')
+  await navigateTo(page.path)
+}
 </script>
 
 <template>
-  <div data-slot="docs-sidebar" class="flex h-full flex-col">
+  <div data-slot="docs-sidebar" class="flex h-full flex-col bg-card">
     <div class="p-4 pb-2">
-      <SidebarFilter v-model="query" />
+      <SidebarFilter v-model="query" @submit="submit" />
     </div>
-    <ScrollArea class="min-h-0 flex-1">
+    <ScrollArea
+      class="min-h-0 flex-1 scroll-fade-overlay-y [--scroll-fade-color:var(--card)] [--scroll-fade-size:--spacing(6)]"
+    >
       <div class="px-4 pt-2 pb-6">
         <SidebarNav
           v-model:open="open"

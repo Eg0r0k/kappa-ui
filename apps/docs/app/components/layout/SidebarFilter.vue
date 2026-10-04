@@ -6,6 +6,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/ui/input-group'
 import { Kbd } from '@/ui/kbd'
 
 const model = defineModel<string>({ default: '' })
+const emit = defineEmits<{ submit: [] }>()
 const root = ref<HTMLElement>()
 
 const editable = (target: EventTarget | null) =>
@@ -36,6 +37,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
         placeholder="Filter"
         aria-label="Filter the navigation"
         aria-keyshortcuts="/"
+        @keydown.enter.prevent="emit('submit')"
       />
       <InputGroupAddon align="inline-end">
         <Kbd aria-hidden="true">/</Kbd>

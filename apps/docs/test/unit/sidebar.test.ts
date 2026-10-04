@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  bestMatch,
   CHANGELOG_PATH,
   componentGroups,
   filterGroups,
@@ -125,5 +126,28 @@ describe('neighbours', () => {
     })
     expect(neighbours(groups, '/docs/components/button').previous).toBeUndefined()
     expect(neighbours(groups, '/docs/nowhere')).toEqual({})
+  })
+})
+
+describe('bestMatch', () => {
+  const groups = [
+    {
+      key: 'a',
+      title: 'A',
+      section: 'components' as const,
+      pages: [
+        { title: 'Alert Dialog', path: '/docs/components/alert-dialog' },
+        { title: 'Dialog', path: '/docs/components/dialog' },
+        { title: 'Toggle Group', path: '/docs/components/toggle-group' },
+      ],
+    },
+  ]
+
+  it('prefers a title prefix, then a word prefix, then any substring', () => {
+    expect(bestMatch(groups, 'dia')?.path).toBe('/docs/components/dialog')
+    expect(bestMatch(groups, 'Grou')?.path).toBe('/docs/components/toggle-group')
+    expect(bestMatch(groups, 'ert')?.path).toBe('/docs/components/alert-dialog')
+    expect(bestMatch(groups, 'zzz')).toBeUndefined()
+    expect(bestMatch(groups, '  ')).toBeUndefined()
   })
 })
