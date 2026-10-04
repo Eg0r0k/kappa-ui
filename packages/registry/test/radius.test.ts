@@ -29,7 +29,7 @@ afterEach(() => {
 });
 
 it("scales every radius token with --radius", () => {
-  expect(radiiUnder()).toEqual(["2.4px", "7.2px", "9.6px", "12px", "16.8px", "21.6px", "26.4px", "31.2px"]);
+  expect(radiiUnder()).toEqual(["1.6px", "4.8px", "6.4px", "8px", "11.2px", "14.4px", "17.6px", "20.8px"]);
 });
 
 it("drops every radius token to zero when --radius is zero", () => {
@@ -76,24 +76,24 @@ it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px"
   const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
 
   expect(["xs", "sm", "default", "lg", "xl"].map((size) => radius(`button-${size}`))).toEqual([
-    "9.6px",
-    "12px",
-    "12px",
-    "12px",
-    "16.8px",
+    "6.4px",
+    "8px",
+    "8px",
+    "8px",
+    "11.2px",
   ]);
   expect(["icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"].map((size) => radius(`button-${size}`))).toEqual([
-    "9.6px",
-    "12px",
-    "12px",
-    "12px",
-    "16.8px",
+    "6.4px",
+    "8px",
+    "8px",
+    "8px",
+    "11.2px",
   ]);
   for (const control of ["input", "textarea", "select", "group"]) {
     expect(
       ["xs", "sm", "md", "lg", "xl"].map((size) => radius(`${control}-${size}`)),
       control,
-    ).toEqual(["9.6px", "12px", "12px", "12px", "16.8px"]);
+    ).toEqual(["6.4px", "8px", "8px", "8px", "11.2px"]);
   }
   wrapper.unmount();
 });
@@ -114,8 +114,8 @@ it("keeps a filled control square at the bottom at every size", async () => {
     const element = document.querySelector(`[data-case=${size}]`)!;
     return [radiusOf(element), radiusOf(element, "borderBottomLeftRadius")];
   };
-  expect(corners("xs")).toEqual(["9.6px", "0px"]);
-  expect(corners("xl")).toEqual(["16.8px", "0px"]);
+  expect(corners("xs")).toEqual(["6.4px", "0px"]);
+  expect(corners("xl")).toEqual(["11.2px", "0px"]);
   wrapper.unmount();
 });
 
@@ -134,9 +134,9 @@ it("rounds a floating-label field by its taller height", async () => {
   );
   const input = (name: string) => document.querySelector(`input[data-case=${name}]`)!;
   const outline = input("outline").closest("[data-slot=input-floating]")!.querySelector("fieldset")!;
-  expect(radiusOf(outline)).toBe("12px");
-  expect(radiusOf(input("soft"))).toBe("16.8px");
-  expect(radiusOf(input("soft-xs"))).toBe("12px");
+  expect(radiusOf(outline)).toBe("8px");
+  expect(radiusOf(input("soft"))).toBe("11.2px");
+  expect(radiusOf(input("soft-xs"))).toBe("8px");
   wrapper.unmount();
 });
 
