@@ -11,7 +11,12 @@ import { exampleSlug, pageSlugOf } from '~/lib/examples'
 import { registryItems, resolveExample } from '~/lib/registry'
 import { exampleModules } from '~/lib/sources'
 
-const props = defineProps<{ name: string; height?: string; class?: HTMLAttributes['class'] }>()
+const props = defineProps<{
+  name: string
+  height?: string
+  align?: 'center' | 'start'
+  class?: HTMLAttributes['class']
+}>()
 
 const resolve = () => {
   try {
@@ -39,9 +44,10 @@ const current = computed(() => (demo?.open.value ?? false) && demo?.selected.val
 const canvas = computed(() =>
   cn(
     `
-      flex min-h-72 items-center-safe justify-center-safe p-10 transition-opacity duration-medium-2 ease-standard
+      flex min-h-72 justify-center-safe p-10 transition-opacity duration-medium-2 ease-standard
       motion-reduce:transition-none
     `,
+    props.align === 'start' ? 'items-start' : 'items-center-safe',
     loaded.value ? 'opacity-100' : 'opacity-0',
   ),
 )
