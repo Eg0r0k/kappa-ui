@@ -28,17 +28,17 @@ export const [injectPaginationLook, providePaginationLook] = createContext<Compu
 export const paginationButtonSize = { xs: "xs", sm: "sm", md: "default", lg: "lg", xl: "xl" } as const;
 
 export const paginationPageSize: Record<PaginationSize, string> = {
-  xs: "min-w-7 px-1.5",
-  sm: "min-w-8 px-2",
-  md: "min-w-9 px-2",
-  lg: "min-w-10 px-2.5",
-  xl: "min-w-12 px-3",
+  xs: "min-w-(--control-height-xs) px-1.5",
+  sm: "min-w-(--control-height-sm) px-2",
+  md: "min-w-(--control-height-md) px-2",
+  lg: "min-w-(--control-height-lg) px-2.5",
+  xl: "min-w-(--control-height-xl) px-3",
 };
 
 export const paginationEllipsisSize: Record<PaginationSize, string> = {
-  xs: "size-7 [&_svg]:size-3.5",
-  sm: "size-8 [&_svg]:size-4",
-  md: "size-9 [&_svg]:size-4",
-  lg: "size-10 [&_svg]:size-4",
-  xl: "size-12 [&_svg]:size-4",
+  xs: "size-(--control-height-xs) [&_svg]:size-(--control-icon-xs)",
+  sm: "size-(--control-height-sm) [&_svg]:size-(--control-icon-sm)",
+  md: "size-(--control-height-md) [&_svg]:size-(--control-icon-md)",
+  lg: "size-(--control-height-lg) [&_svg]:size-4",
+  xl: "size-(--control-height-xl) [&_svg]:size-4",
 };
