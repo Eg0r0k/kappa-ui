@@ -40,11 +40,11 @@ export const pinInputSlotVariants = cva(`${textControlBase} shrink-0 p-0 text-ce
   variants: {
     variant: textControlVariant,
     size: {
-      xs: `size-7 ${textControlRadius.xs} md:text-body-sm`,
-      sm: `size-8 ${textControlRadius.sm}`,
-      md: `size-9 ${textControlRadius.md}`,
-      lg: `size-10 ${textControlRadius.lg}`,
-      xl: `size-12 ${textControlRadius.xl} md:text-body-lg`,
+      xs: `size-(--control-height-xs) ${textControlRadius.xs} md:text-body-sm`,
+      sm: `size-(--control-height-sm) ${textControlRadius.sm}`,
+      md: `size-(--control-height-md) ${textControlRadius.md}`,
+      lg: `size-(--control-height-lg) ${textControlRadius.lg}`,
+      xl: `size-(--control-height-xl) ${textControlRadius.xl} md:text-body-lg`,
     },
   },
   defaultVariants: { variant: "outline", size: "md" },
