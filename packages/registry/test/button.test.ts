@@ -135,7 +135,7 @@ describe("Button control tokens", () => {
     ["xl", "xl"],
   ] as const;
 
-  const withIcon = (size: string) =>
+  const withIcon = (size: (typeof textSizes)[number][0]) =>
     mount(
       { render: () => h(Button, { size }, () => [h("svg", { viewBox: "0 0 24 24" }), "Save"]) },
       { attachTo: document.body },
