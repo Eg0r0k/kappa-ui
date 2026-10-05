@@ -6,7 +6,7 @@ import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/ui/collapsible'
 import type { PageOutline } from '~/lib/outline'
-import { filterGroups, highlight, type SidebarGroup } from '~/lib/sidebar'
+import { filterGroups, highlight, pageId, type SidebarGroup } from '~/lib/sidebar'
 
 const props = defineProps<{
   groups: SidebarGroup[]
@@ -17,9 +17,11 @@ const props = defineProps<{
   currentExample?: string
   badges: Record<string, 'new' | 'updated'>
   mod: string
+  idPrefix?: string
+  highlighted?: string
 }>()
 const open = defineModel<string[]>('open', { default: () => [] })
-const emit = defineEmits<{ navigate: []; search: [query: string] }>()
+const emit = defineEmits<{ navigate: []; search: [query: string]; highlight: [path: string] }>()
 
 const visible = computed(() => filterGroups(props.groups, props.query))
 const filtering = computed(() => props.query.trim() !== '')
@@ -33,6 +35,7 @@ const toggle = (key: string, value: boolean) => {
 const pageLink = `
   flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground transition-colors
   hover:bg-accent hover:text-accent-foreground
+  data-highlighted:bg-accent data-highlighted:text-accent-foreground
   focus-visible:focus-ring
   aria-[current=page]:bg-primary/10 aria-[current=page]:font-medium aria-[current=page]:text-primary
   max-md:min-h-11
@@ -47,7 +50,11 @@ const anchorLink = `
 </script>
 
 <template>
-  <nav aria-label="Documentation" class="flex flex-col gap-1 text-body-md">
+  <nav
+    :id="props.idPrefix && `${props.idPrefix}nav`"
+    aria-label="Documentation"
+    class="flex flex-col gap-1 text-body-md"
+  >
     <div
       v-if="visible.length === 0"
       class="flex flex-col items-start gap-1 px-2 py-4 text-body-sm text-muted-foreground"
@@ -84,10 +91,13 @@ const anchorLink = `
           <ul class="flex flex-col gap-0.5 py-1">
             <li v-for="page in group.pages" :key="page.path">
               <NuxtLink
+                :id="props.idPrefix && pageId(props.idPrefix, page.path)"
                 :to="page.path"
                 :aria-current="page.path === props.activePath ? 'page' : undefined"
+                :data-highlighted="page.path === props.highlighted ? '' : undefined"
                 :class="pageLink"
                 @click="emit('navigate')"
+                @pointermove="emit('highlight', page.path)"
               >
                 <span class="min-w-0 flex-1 truncate">
                   <template v-for="(segment, index) in highlight(page.title, props.query)" :key="index">

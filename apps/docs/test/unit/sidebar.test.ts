@@ -8,9 +8,12 @@ import {
   groupOf,
   highlight,
   modKey,
+  navigablePages,
   neighbours,
+  pageId,
   sectionOf,
   sidebarGroups,
+  stepPage,
 } from '~/lib/sidebar'
 
 const nav = [
@@ -149,5 +152,53 @@ describe('bestMatch', () => {
     expect(bestMatch(groups, 'ert')?.path).toBe('/docs/components/alert-dialog')
     expect(bestMatch(groups, 'zzz')).toBeUndefined()
     expect(bestMatch(groups, '  ')).toBeUndefined()
+  })
+})
+
+describe('keyboard navigation', () => {
+  const groups = [
+    {
+      key: 'actions',
+      title: 'Actions',
+      section: 'components' as const,
+      pages: [
+        { title: 'Button', path: '/docs/components/button' },
+        { title: 'Toggle', path: '/docs/components/toggle' },
+      ],
+    },
+    {
+      key: 'forms',
+      title: 'Forms',
+      section: 'components' as const,
+      pages: [{ title: 'Toggle Group', path: '/docs/components/toggle-group' }],
+    },
+  ]
+  const paths = (pages: { path: string }[]) => pages.map((page) => page.path)
+
+  it('walks the pages of open groups, or every match while filtering', () => {
+    expect(paths(navigablePages(groups, '', ['forms']))).toEqual(['/docs/components/toggle-group'])
+    expect(paths(navigablePages(groups, 'togg', []))).toEqual([
+      '/docs/components/toggle',
+      '/docs/components/toggle-group',
+    ])
+  })
+
+  it('steps through the pages and wraps around at both ends', () => {
+    const pages = navigablePages(groups, '', ['actions', 'forms'])
+    expect(stepPage(pages, '/docs/components/button', 1)).toBe('/docs/components/toggle')
+    expect(stepPage(pages, '/docs/components/toggle-group', 1)).toBe('/docs/components/button')
+    expect(stepPage(pages, '/docs/components/button', -1)).toBe('/docs/components/toggle-group')
+  })
+
+  it('starts on the current page when it is listed, otherwise at the end it moves from', () => {
+    const pages = navigablePages(groups, '', ['actions', 'forms'])
+    expect(stepPage(pages, undefined, 1, '/docs/components/toggle')).toBe('/docs/components/toggle')
+    expect(stepPage(pages, undefined, 1, '/docs/elsewhere')).toBe('/docs/components/button')
+    expect(stepPage(pages, '/docs/gone', -1)).toBe('/docs/components/toggle-group')
+    expect(stepPage([], undefined, 1)).toBeUndefined()
+  })
+
+  it('gives every page a stable element id under a prefix', () => {
+    expect(pageId('v-1', '/docs/components/toggle-group')).toBe('v-1-docs-components-toggle-group')
   })
 })

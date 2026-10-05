@@ -85,6 +85,24 @@ export const bestMatch = (groups: readonly SidebarGroup[], query: string) => {
   )
 }
 
+export const navigablePages = (groups: readonly SidebarGroup[], query: string, open: readonly string[]) => {
+  const filtering = query.trim() !== ''
+  return filterGroups(groups, query)
+    .filter((group) => filtering || open.includes(group.key))
+    .flatMap((group) => group.pages)
+}
+
+export const stepPage = (pages: readonly NavPage[], from: string | undefined, delta: 1 | -1, start?: string) => {
+  if (pages.length === 0) return undefined
+  const at = pages.findIndex((page) => page.path === from)
+  if (at !== -1) return pages[(at + delta + pages.length) % pages.length]!.path
+  const current = pages.find((page) => page.path === start)
+  if (current) return current.path
+  return (delta === 1 ? pages[0] : pages.at(-1))!.path
+}
+
+export const pageId = (prefix: string, path: string) => `${prefix}${path.replace(/[^a-z0-9]+/gi, '-')}`
+
 export const highlight = (value: string, query: string): Segment[] => {
   const needle = query.trim().toLowerCase()
   if (!needle) return [{ text: value, match: false }]
