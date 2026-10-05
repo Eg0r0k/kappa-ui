@@ -23,25 +23,29 @@ export const menuSizeVariants = cva("group/menu p-(--menu-pad)", {
   variants: {
     size: {
       xs: `
-        rounded-lg text-body-sm [--menu-pad:--spacing(0.5)] [--menu-item-height:--spacing(7)]
-        [--menu-item-px:--spacing(2)] [--menu-item-py:--spacing(1.5)] [--menu-item-gap:--spacing(2)]
-        [--menu-icon:--spacing(3.5)]
+        rounded-lg text-body-sm [--menu-pad:--spacing(0.5)] [--menu-item-height:var(--control-height-xs)]
+        [--menu-item-px:var(--control-padding-xs)] [--menu-item-py:--spacing(1.5)] [--menu-item-gap:--spacing(2)]
+        [--menu-icon:var(--control-icon-xs)]
       `,
       sm: `
-        text-body-sm [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(8)] [--menu-item-px:--spacing(2.5)]
-        [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(2.5)] [--menu-icon:--spacing(4)]
+        text-body-sm [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-sm)]
+        [--menu-item-px:var(--control-padding-sm)] [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(2.5)]
+        [--menu-icon:var(--control-icon-sm)]
       `,
       md: `
-        text-body-md [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(9)] [--menu-item-px:--spacing(3)]
-        [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(3)] [--menu-icon:--spacing(4)]
+        text-body-md [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-md)]
+        [--menu-item-px:var(--control-padding-md)] [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(3)]
+        [--menu-icon:var(--control-icon-md)]
       `,
       lg: `
-        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(10)] [--menu-item-px:--spacing(3)]
-        [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(3)] [--menu-icon:--spacing(5)]
+        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-lg)]
+        [--menu-item-px:var(--control-padding-lg)] [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(3)]
+        [--menu-icon:var(--control-icon-lg)]
       `,
       xl: `
-        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(12)] [--menu-item-px:--spacing(4)]
-        [--menu-item-py:--spacing(3)] [--menu-item-gap:--spacing(3)] [--menu-icon:--spacing(5)]
+        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-xl)]
+        [--menu-item-px:var(--control-padding-xl)] [--menu-item-py:--spacing(3)] [--menu-item-gap:--spacing(3)]
+        [--menu-icon:var(--control-icon-xl)]
       `,
     },
   },

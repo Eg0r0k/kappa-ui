@@ -1,9 +1,11 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h } from "vue";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 const settle = (ms = 350) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -182,4 +184,17 @@ it("slides the indicator under the active trigger in right-to-left", async () =>
   const second = triggers()[1]!.getBoundingClientRect();
   bar = indicator().getBoundingClientRect();
   expect(near(bar.left, second.left) && near(bar.width, second.width)).toBe(true);
+});
+
+describe("Tabs control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s triggers read the height, padding and icon tokens", (size) => {
+    renderTabs({}, { size });
+    const trigger = triggers()[0]!;
+
+    expect(trigger.offsetHeight).toBe(sentinel.height[size]);
+    expect(px(getComputedStyle(trigger).paddingInlineStart)).toBe(sentinel.padding[size]);
+    expect(px(getComputedStyle(trigger).getPropertyValue("--tabs-icon"))).toBe(sentinel.icon[size]);
+  });
 });

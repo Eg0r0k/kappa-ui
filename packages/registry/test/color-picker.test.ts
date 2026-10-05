@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
@@ -13,6 +13,8 @@ import {
   ColorPickerSwatches,
 } from "@/ui/color-picker";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
+
+import { controlSizes, overrideControlTokens, sentinel } from "./control-tokens";
 
 let unmount: (() => void) | undefined;
 
@@ -311,4 +313,15 @@ it("merges class onto every part", async () => {
   ]) {
     expect(q(`[data-slot=${slot}]`).classList.contains(`${name}-x`), slot).toBe(true);
   }
+});
+
+describe("ColorPicker control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("the %s preview is a square of the height token", async (size) => {
+    await render({ size });
+    const box = document.querySelector("[data-slot=color-picker-preview]")!.getBoundingClientRect();
+
+    expect([box.width, box.height]).toEqual([sentinel.height[size], sentinel.height[size]]);
+  });
 });

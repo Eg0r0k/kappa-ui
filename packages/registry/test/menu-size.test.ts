@@ -15,6 +15,8 @@ import {
 } from "@/ui/menu";
 import type { MenuSize } from "@/ui/menu";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
 const query = (selector: string) => document.querySelector(selector) as HTMLElement;
 const minHeight = (selector: string) => getComputedStyle(query(selector)).minHeight;
@@ -99,5 +101,18 @@ describe("menu sizes", () => {
       unmount?.();
       document.body.innerHTML = "";
     }
+  });
+});
+
+describe("menu control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s items read the height, padding and icon tokens", async (size) => {
+    await openMenu(size);
+    const item = getComputedStyle(query("[data-slot=menu-item]"));
+
+    expect(px(item.minHeight)).toBe(sentinel.height[size]);
+    expect(px(item.paddingInlineStart)).toBe(sentinel.padding[size]);
+    expect(px(item.getPropertyValue("--menu-icon"))).toBe(sentinel.icon[size]);
   });
 });
