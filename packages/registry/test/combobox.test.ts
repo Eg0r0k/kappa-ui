@@ -17,6 +17,8 @@ import {
 } from "@/ui/combobox";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -210,5 +212,19 @@ describe("Combobox", () => {
     await userEvent.keyboard("{Enter}");
     await expect.poll(() => value.value).toBe("Cherry");
     await expect.poll(() => document.activeElement).toBe(button);
+  });
+});
+
+describe("Combobox control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("the %s anchor reads its height and padding tokens", (size) => {
+    controlled(undefined, {}, () => [
+      h(ComboboxAnchor, { size }, () => [h(ComboboxInput, { "aria-label": "Fruit" }), h(ComboboxTrigger)]),
+      list(),
+    ]);
+
+    expect(px(getComputedStyle(anchor()).height)).toBe(sentinel.height[size]);
+    expect(px(getComputedStyle(input()).paddingInlineStart)).toBe(sentinel.padding[size]);
   });
 });

@@ -30,24 +30,29 @@ export const colorPickerVariants = cva("group/color-picker flex flex-col gap-(--
   variants: {
     size: {
       xs: `
-        [--color-picker-area:--spacing(24)] [--color-picker-control:--spacing(7)] [--color-picker-gap:--spacing(2)]
-        [--color-picker-radius:--theme(--radius-md)] [--color-picker-swatch:--spacing(5)] [--slider-thumb:0.75rem]
+        [--color-picker-area:--spacing(24)] [--color-picker-control:var(--control-height-xs)]
+        [--color-picker-gap:--spacing(2)] [--color-picker-radius:--theme(--radius-md)]
+        [--color-picker-swatch:--spacing(5)] [--slider-thumb:0.75rem]
       `,
       sm: `
-        [--color-picker-area:--spacing(32)] [--color-picker-control:--spacing(8)] [--color-picker-gap:--spacing(2)]
-        [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(6)] [--slider-thumb:0.875rem]
+        [--color-picker-area:--spacing(32)] [--color-picker-control:var(--control-height-sm)]
+        [--color-picker-gap:--spacing(2)] [--color-picker-radius:--theme(--radius-lg)]
+        [--color-picker-swatch:--spacing(6)] [--slider-thumb:0.875rem]
       `,
       md: `
-        [--color-picker-area:--spacing(40)] [--color-picker-control:--spacing(9)] [--color-picker-gap:--spacing(3)]
-        [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(7)] [--slider-thumb:1rem]
+        [--color-picker-area:--spacing(40)] [--color-picker-control:var(--control-height-md)]
+        [--color-picker-gap:--spacing(3)] [--color-picker-radius:--theme(--radius-lg)]
+        [--color-picker-swatch:--spacing(7)] [--slider-thumb:1rem]
       `,
       lg: `
-        [--color-picker-area:--spacing(48)] [--color-picker-control:--spacing(10)] [--color-picker-gap:--spacing(3)]
-        [--color-picker-radius:--theme(--radius-lg)] [--color-picker-swatch:--spacing(8)] [--slider-thumb:1.25rem]
+        [--color-picker-area:--spacing(48)] [--color-picker-control:var(--control-height-lg)]
+        [--color-picker-gap:--spacing(3)] [--color-picker-radius:--theme(--radius-lg)]
+        [--color-picker-swatch:--spacing(8)] [--slider-thumb:1.25rem]
       `,
       xl: `
-        [--color-picker-area:--spacing(56)] [--color-picker-control:--spacing(12)] [--color-picker-gap:--spacing(4)]
-        [--color-picker-radius:--theme(--radius-xl)] [--color-picker-swatch:--spacing(9)] [--slider-thumb:1.5rem]
+        [--color-picker-area:--spacing(56)] [--color-picker-control:var(--control-height-xl)]
+        [--color-picker-gap:--spacing(4)] [--color-picker-radius:--theme(--radius-xl)]
+        [--color-picker-swatch:--spacing(9)] [--slider-thumb:1.5rem]
       `,
     },
   },

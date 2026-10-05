@@ -25,11 +25,26 @@ export const inputGroupVariants = cva(
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `h-7 ${textControlRadius.xs} [--input-group-height:--spacing(7)] [--input-group-padding:--spacing(2)] [--input-group-icon:--spacing(3.5)]`,
-        sm: `h-8 ${textControlRadius.sm} [--input-group-height:--spacing(8)] [--input-group-padding:--spacing(2.5)] [--input-group-icon:--spacing(4)]`,
-        md: `h-9 ${textControlRadius.md} [--input-group-height:--spacing(9)] [--input-group-padding:--spacing(3)] [--input-group-icon:--spacing(4)]`,
-        lg: `h-10 ${textControlRadius.lg} [--input-group-height:--spacing(10)] [--input-group-padding:--spacing(3)] [--input-group-icon:--spacing(5)]`,
-        xl: `h-12 ${textControlRadius.xl} [--input-group-height:--spacing(12)] [--input-group-padding:--spacing(4)] [--input-group-icon:--spacing(5)]`,
+        xs: `h-(--control-height-xs) ${textControlRadius.xs}
+          [--input-group-height:var(--control-height-xs)] [--input-group-padding:var(--control-padding-xs)]
+          [--input-group-icon:var(--control-icon-xs)]
+        `,
+        sm: `h-(--control-height-sm) ${textControlRadius.sm}
+          [--input-group-height:var(--control-height-sm)] [--input-group-padding:var(--control-padding-sm)]
+          [--input-group-icon:var(--control-icon-sm)]
+        `,
+        md: `h-(--control-height-md) ${textControlRadius.md}
+          [--input-group-height:var(--control-height-md)] [--input-group-padding:var(--control-padding-md)]
+          [--input-group-icon:var(--control-icon-md)]
+        `,
+        lg: `h-(--control-height-lg) ${textControlRadius.lg}
+          [--input-group-height:var(--control-height-lg)] [--input-group-padding:var(--control-padding-lg)]
+          [--input-group-icon:var(--control-icon-lg)]
+        `,
+        xl: `h-(--control-height-xl) ${textControlRadius.xl}
+          [--input-group-height:var(--control-height-xl)] [--input-group-padding:var(--control-padding-xl)]
+          [--input-group-icon:var(--control-icon-xl)]
+        `,
       },
     },
     defaultVariants: {

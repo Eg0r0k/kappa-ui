@@ -29,7 +29,10 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     :class="
       cn(
         menuItem,
-        'w-full pe-[calc(var(--menu-item-px)*2+var(--menu-icon))] data-[state=checked]:bg-primary/(--state-selected)',
+        `
+          w-full pe-[calc(var(--menu-item-px)+var(--menu-icon)+var(--menu-item-gap))]
+          data-[state=checked]:bg-primary/(--state-selected)
+        `,
         props.class,
       )
     "

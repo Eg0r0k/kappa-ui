@@ -6,6 +6,8 @@ import { defineComponent, h, nextTick, ref } from "vue";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -105,8 +107,24 @@ describe("Select", () => {
     const trigger = wrapper.get("[data-slot=select-trigger]");
 
     expect(trigger.attributes("data-variant")).toBe("filled");
-    expect(trigger.classes()).toContain("h-12");
+    expect(trigger.classes()).toContain("h-(--control-height-xl)");
     expect(trigger.classes()).toContain("border-b");
+    wrapper.unmount();
+  });
+});
+
+describe("Select control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("the %s trigger reads its height and padding tokens", (size) => {
+    const wrapper = mount(Select, {
+      slots: { default: () => h(SelectTrigger, { size, "aria-label": "Role" }, () => h(SelectValue)) },
+      attachTo: document.body,
+    });
+    const trigger = getComputedStyle(wrapper.get("[data-slot=select-trigger]").element);
+
+    expect(px(trigger.height)).toBe(sentinel.height[size]);
+    expect(px(trigger.paddingInlineStart)).toBe(sentinel.padding[size]);
     wrapper.unmount();
   });
 });

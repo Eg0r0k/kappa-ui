@@ -1,10 +1,12 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInputItemText } from "@/ui/tags-input";
+
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -225,4 +227,17 @@ it("exposes the input element through the part's ref", async () => {
   );
   await nextTick();
   expect((exposed as { $el: HTMLElement }).$el).toBe(input());
+});
+
+describe("TagsInput control tokens", () => {
+  overrideControlTokens();
+
+  const inset = { xs: 4, sm: 4, md: 6, lg: 6, xl: 8 };
+
+  it.each(controlSizes)("%s reads its minimum height and padding tokens", (size) => {
+    render(tags({ size }, []));
+
+    expect(px(getComputedStyle(root()).minHeight)).toBe(sentinel.height[size]);
+    expect(px(getComputedStyle(input()).paddingInlineStart)).toBe(sentinel.padding[size] - inset[size] + 1);
+  });
 });

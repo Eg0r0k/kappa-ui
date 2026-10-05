@@ -15,11 +15,11 @@ export const inputTimeVariants = cva(
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `h-7 px-2 ${textControlRadius.xs} icon-size-3.5 md:text-body-sm`,
-        sm: `h-8 px-2.5 ${textControlRadius.sm} icon-size-4`,
-        md: `h-9 px-3 ${textControlRadius.md} icon-size-4`,
-        lg: `h-10 px-3 ${textControlRadius.lg} icon-size-5`,
-        xl: `h-12 px-4 ${textControlRadius.xl} icon-size-5 md:text-body-lg`,
+        xs: `h-(--control-height-xs) px-(--control-padding-xs) ${textControlRadius.xs} icon-size-(--control-icon-xs) md:text-body-sm`,
+        sm: `h-(--control-height-sm) px-(--control-padding-sm) ${textControlRadius.sm} icon-size-(--control-icon-sm)`,
+        md: `h-(--control-height-md) px-(--control-padding-md) ${textControlRadius.md} icon-size-(--control-icon-md)`,
+        lg: `h-(--control-height-lg) px-(--control-padding-lg) ${textControlRadius.lg} icon-size-(--control-icon-lg)`,
+        xl: `h-(--control-height-xl) px-(--control-padding-xl) ${textControlRadius.xl} icon-size-(--control-icon-xl) md:text-body-lg`,
       },
     },
     defaultVariants: { variant: "outline", size: "md" },

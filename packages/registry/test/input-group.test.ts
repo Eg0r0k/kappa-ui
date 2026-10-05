@@ -14,6 +14,8 @@ import {
   InputGroupTextarea,
 } from "@/ui/input-group";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -256,5 +258,18 @@ describe("InputGroup", () => {
     input.dispatchEvent(new Event("input"));
     await nextTick();
     expect(value.value).toBe("sent");
+  });
+});
+
+describe("InputGroup control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s reads its height token, and its addons the padding and icon tokens", (size) => {
+    render({ size }, () => [h(InputGroupAddon, () => h(Search)), h(InputGroupInput, { "aria-label": "Search" })]);
+    const addon = document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!;
+
+    expect(px(getComputedStyle(group()).height)).toBe(sentinel.height[size]);
+    expect(px(getComputedStyle(addon).paddingInlineStart)).toBe(sentinel.padding[size]);
+    expect(addon.querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[size]);
   });
 });

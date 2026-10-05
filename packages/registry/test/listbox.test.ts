@@ -7,6 +7,8 @@ import { defineComponent, h, nextTick, ref } from "vue";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Listbox, ListboxGroup, ListboxGroupLabel, ListboxItem } from "@/ui/listbox";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 const fruits = ["Apple", "Banana", "Cherry"];
 
 const mountListbox = (props: Record<string, unknown> = {}, disabledItem?: string) => {
@@ -162,5 +164,65 @@ describe("Listbox", () => {
     expect(listbox.attributes("data-disabled")).toBeDefined();
     expect(wrapper.get("[role=option]").attributes("data-disabled")).toBeDefined();
     wrapper.unmount();
+  });
+});
+
+describe("Listbox sizes", () => {
+  const root = () => document.querySelector<HTMLElement>("[data-slot=listbox]")!;
+  const item = () => getComputedStyle(document.querySelector("[data-slot=listbox-item]")!);
+
+  it("defaults to md", () => {
+    const { wrapper } = mountListbox();
+
+    expect(root().dataset.size).toBe("md");
+    expect([item().minHeight, item().paddingInlineStart, item().columnGap]).toEqual(["36px", "12px", "8px"]);
+    wrapper.unmount();
+  });
+
+  it.each([
+    ["xs", "12px"],
+    ["sm", "12px"],
+    ["md", "14px"],
+    ["lg", "16px"],
+    ["xl", "16px"],
+  ] as const)("%s options use %s text, like a menu of that size", (size, fontSize) => {
+    const { wrapper } = mountListbox({ size });
+
+    expect(item().fontSize).toBe(fontSize);
+    wrapper.unmount();
+  });
+
+  describe("control tokens", () => {
+    overrideControlTokens();
+
+    it.each(controlSizes)("%s options read the height, padding, icon and gap tokens", (size) => {
+      const { wrapper } = mountListbox({ size });
+      const style = item();
+
+      expect(root().dataset.size).toBe(size);
+      expect(px(style.minHeight)).toBe(sentinel.height[size]);
+      expect(px(style.paddingInlineStart)).toBe(sentinel.padding[size]);
+      expect(px(style.columnGap)).toBe(sentinel.gap[size]);
+      expect(px(style.getPropertyValue("--listbox-icon"))).toBe(sentinel.icon[size]);
+      wrapper.unmount();
+    });
+
+    it.each(controlSizes)("a %s group label lines up with the options", (size) => {
+      const wrapper = mount(
+        () =>
+          h(Listbox, { "aria-label": "Fruit", size }, () =>
+            h(ListboxGroup, () => [
+              h(ListboxGroupLabel, () => "Fruit"),
+              h(ListboxItem, { value: "apple" }, () => "Apple"),
+            ]),
+          ),
+        { attachTo: document.body },
+      );
+
+      expect(px(getComputedStyle(document.querySelector("[data-slot=listbox-group-label]")!).paddingInlineStart)).toBe(
+        sentinel.padding[size],
+      );
+      wrapper.unmount();
+    });
   });
 });

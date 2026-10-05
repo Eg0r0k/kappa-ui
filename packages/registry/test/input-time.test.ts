@@ -2,13 +2,15 @@ import { Time } from "@internationalized/date";
 import { Clock } from "@lucide/vue";
 import { mount } from "@vue/test-utils";
 import type { TimeValue } from "reka-ui";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
 import { Field, FieldError, FieldLabel } from "@/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupButton } from "@/ui/input-group";
 import { InputTime, InputTimeRange } from "@/ui/input-time";
+
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -216,4 +218,16 @@ it("fades the group when disabled inside it", () => {
   const addon = document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!;
   expect(Number(getComputedStyle(addon).opacity)).toBeLessThan(1);
   expect(getComputedStyle(groupFrame()).borderTopColor).not.toBe("rgb(0, 0, 255)");
+});
+
+describe("InputTime control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s reads its height and padding tokens", (size) => {
+    render(h(InputTime, { size }));
+    const style = getComputedStyle(root());
+
+    expect(px(style.height)).toBe(sentinel.height[size]);
+    expect(px(style.paddingInlineStart)).toBe(sentinel.padding[size]);
+  });
 });

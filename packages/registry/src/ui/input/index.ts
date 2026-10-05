@@ -54,11 +54,11 @@ export const textControlFrameVariant = {
 };
 
 export const textControlSize = {
-  xs: "px-2 md:text-body-sm",
-  sm: "px-2.5",
-  md: "px-3",
-  lg: "px-3",
-  xl: "px-4 md:text-body-lg",
+  xs: "px-(--control-padding-xs) md:text-body-sm",
+  sm: "px-(--control-padding-sm)",
+  md: "px-(--control-padding-md)",
+  lg: "px-(--control-padding-lg)",
+  xl: "px-(--control-padding-xl) md:text-body-lg",
 };
 
 export const textControlRadius = {
@@ -78,11 +78,11 @@ export const inputVariants = cva(
     variants: {
       variant: textControlVariant,
       size: {
-        xs: `h-7 ${textControlSize.xs} ${textControlRadius.xs}`,
-        sm: `h-8 ${textControlSize.sm} ${textControlRadius.sm}`,
-        md: `h-9 ${textControlSize.md} ${textControlRadius.md}`,
-        lg: `h-10 ${textControlSize.lg} ${textControlRadius.lg}`,
-        xl: `h-12 ${textControlSize.xl} ${textControlRadius.xl}`,
+        xs: `h-(--control-height-xs) ${textControlSize.xs} ${textControlRadius.xs}`,
+        sm: `h-(--control-height-sm) ${textControlSize.sm} ${textControlRadius.sm}`,
+        md: `h-(--control-height-md) ${textControlSize.md} ${textControlRadius.md}`,
+        lg: `h-(--control-height-lg) ${textControlSize.lg} ${textControlRadius.lg}`,
+        xl: `h-(--control-height-xl) ${textControlSize.xl} ${textControlRadius.xl}`,
       },
     },
     defaultVariants: {

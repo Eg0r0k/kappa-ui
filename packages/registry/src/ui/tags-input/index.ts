@@ -37,11 +37,11 @@ export const tagsInputVariants = cva(
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `min-h-7 gap-1 ${textControlRadius.xs} [--control-padding:--spacing(2)] [--tags-inset:--spacing(1)]`,
-        sm: `min-h-8 gap-1 ${textControlRadius.sm} [--control-padding:--spacing(2.5)] [--tags-inset:--spacing(1)]`,
-        md: `min-h-9 gap-1.5 ${textControlRadius.md} [--control-padding:--spacing(3)] [--tags-inset:--spacing(1.5)]`,
-        lg: `min-h-10 gap-1.5 ${textControlRadius.lg} [--control-padding:--spacing(3)] [--tags-inset:--spacing(1.5)]`,
-        xl: `min-h-12 gap-1.5 ${textControlRadius.xl} [--control-padding:--spacing(4)] [--tags-inset:--spacing(2)]`,
+        xs: `min-h-(--control-height-xs) gap-1 ${textControlRadius.xs} [--control-padding:var(--control-padding-xs)] [--tags-inset:--spacing(1)]`,
+        sm: `min-h-(--control-height-sm) gap-1 ${textControlRadius.sm} [--control-padding:var(--control-padding-sm)] [--tags-inset:--spacing(1)]`,
+        md: `min-h-(--control-height-md) gap-1.5 ${textControlRadius.md} [--control-padding:var(--control-padding-md)] [--tags-inset:--spacing(1.5)]`,
+        lg: `min-h-(--control-height-lg) gap-1.5 ${textControlRadius.lg} [--control-padding:var(--control-padding-lg)] [--tags-inset:--spacing(1.5)]`,
+        xl: `min-h-(--control-height-xl) gap-1.5 ${textControlRadius.xl} [--control-padding:var(--control-padding-xl)] [--tags-inset:--spacing(2)]`,
       },
     },
     defaultVariants: { variant: "outline", size: "md" },
