@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BreakAtSpaces from '~/components/BreakAtSpaces.vue'
 import TableFrame from '~/components/TableFrame.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 import InlineText from '~/components/content/InlineText.vue'
@@ -20,7 +21,7 @@ const props = defineProps<{ rows: { slot: string; attributes?: string; descripti
         <tbody>
           <tr v-for="row in props.rows" :key="row.slot" class="border-b align-top last:border-0">
             <td class="px-4 py-3 font-mono text-xs whitespace-nowrap">{{ row.slot }}</td>
-            <td class="px-4 py-3 font-mono text-xs">{{ row.attributes ?? '—' }}</td>
+            <td class="px-4 py-3 font-mono text-xs"><BreakAtSpaces :text="row.attributes ?? '—'" /></td>
             <td class="min-w-64 px-4 py-3 text-muted-foreground"><InlineText :text="row.description" /></td>
           </tr>
         </tbody>

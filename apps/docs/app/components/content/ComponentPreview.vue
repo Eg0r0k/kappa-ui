@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Maximize2, PanelRight } from '@lucide/vue'
+import { CodeXml, Maximize2, PanelRight } from '@lucide/vue'
 import type { HTMLAttributes } from 'vue'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/ui/button'
 import { ScrollArea } from '@/ui/scroll-area'
 import { vTooltip } from '@/ui/tooltip'
+import ExampleCode from '~/components/ExampleCode.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 import { exampleSlug, pageSlugOf } from '~/lib/examples'
 import { registryItems, resolveExample } from '~/lib/registry'
@@ -40,6 +41,8 @@ const slug = exampleSlug(props.name, pageSlugOf(useRoute().path))
 const demo = injectDemo(null)
 const label = computed(() => demo?.examples.value.find((example) => example.name === props.name)?.title ?? item.title)
 const current = computed(() => (demo?.open.value ?? false) && demo?.selected.value?.name === props.name)
+const codeOpen = ref(false)
+const codeId = useId()
 
 const canvas = computed(() =>
   cn(
@@ -58,6 +61,18 @@ const canvas = computed(() =>
     <div data-slot="example" class="rounded-xl border bg-muted/40 p-1">
       <div class="mb-1 flex h-9 items-center gap-2 ps-2.5 pe-0.5">
         <span class="min-w-0 flex-1 truncate text-body-sm text-muted-foreground">{{ label }}</span>
+        <Button
+          v-tooltip="codeOpen ? 'Hide code' : 'Show code'"
+          :variant="codeOpen ? 'soft' : 'ghost'"
+          :color="codeOpen ? 'primary' : 'neutral'"
+          size="icon-sm"
+          aria-label="Show code"
+          :aria-expanded="codeOpen"
+          :aria-controls="codeId"
+          @click="codeOpen = !codeOpen"
+        >
+          <CodeXml />
+        </Button>
         <div v-if="demo?.active.value" class="hidden items-center gap-0.5 md:flex">
           <Button
             v-tooltip="current ? 'Close the panel' : 'Open in panel'"
@@ -97,6 +112,7 @@ const canvas = computed(() =>
           </div>
         </ScrollBox>
       </div>
+      <ExampleCode v-if="codeOpen" :id="codeId" :name="props.name" />
     </div>
   </div>
 </template>

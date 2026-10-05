@@ -63,7 +63,7 @@ const copyPage = async () => {
       <Button
         v-for="dependency in dependencies"
         :key="dependency.href"
-        variant="ghost"
+        variant="soft"
         color="neutral"
         size="sm"
         as-child
@@ -73,7 +73,7 @@ const copyPage = async () => {
           {{ dependency.label }}
         </a>
       </Button>
-      <Button v-if="source" variant="ghost" color="neutral" size="sm" as-child>
+      <Button v-if="source" variant="soft" color="neutral" size="sm" as-child>
         <a :href="source" target="_blank" rel="noreferrer">
           <GithubIcon data-icon="inline-start" class="size-4" />
           Source

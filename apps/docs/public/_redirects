@@ -1,3 +1,5 @@
 /docs/components/dropdown-menu /docs/components/menu 301
 /docs/components/context-menu /docs/components/menu#context-menu 301
 /docs/utilities/* /docs/components/:splat 301
+/docs/getting-started/introduction /docs/getting-started/quick-start 301
+/docs/getting-started/dark-mode /docs/getting-started/theming#dark-mode 301

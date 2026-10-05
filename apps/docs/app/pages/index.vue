@@ -21,7 +21,7 @@ defineOgImage('KappaDocs', {
     </p>
     <div class="flex flex-wrap gap-3">
       <Button as-child size="lg">
-        <NuxtLink to="/docs/getting-started/introduction">Get started</NuxtLink>
+        <NuxtLink to="/docs/getting-started/quick-start">Get started</NuxtLink>
       </Button>
       <Button as-child size="lg" variant="outline" color="neutral">
         <NuxtLink to="/docs/components/button">Components</NuxtLink>

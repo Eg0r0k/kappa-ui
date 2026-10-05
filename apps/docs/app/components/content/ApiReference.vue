@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/accordion'
+import BreakAtSpaces from '~/components/BreakAtSpaces.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 import TableFrame from '~/components/TableFrame.vue'
 import InlineText from '~/components/content/InlineText.vue'
@@ -78,11 +79,11 @@ const parts = props.parts
                     {{ row.label }}<span v-if="row.required" class="text-destructive" aria-label="required">*</span>
                   </td>
                   <td v-if="section.key === 'props'" class="px-4 py-3">
-                    <code v-if="row.default" class="font-mono text-xs">{{ row.default }}</code>
+                    <code v-if="row.default" class="font-mono text-xs"><BreakAtSpaces :text="row.default" /></code>
                     <span v-else class="text-muted-foreground">—</span>
                   </td>
                   <td class="min-w-64 px-4 py-3">
-                    <code class="font-mono text-xs break-words">{{ row.type }}</code>
+                    <code class="font-mono text-xs"><BreakAtSpaces :text="row.type" /></code>
                     <p class="mt-1.5 text-muted-foreground"><InlineText :text="row.description" /></p>
                   </td>
                 </tr>
@@ -108,10 +109,12 @@ const parts = props.parts
                     <span class="font-mono text-xs" :class="row.nested && 'text-muted-foreground'">
                       {{ row.label }}<span v-if="row.required" class="text-destructive" aria-label="required">*</span>
                     </span>
-                    <code v-if="row.default" class="font-mono text-xs text-muted-foreground">{{ row.default }}</code>
+                    <code v-if="row.default" class="font-mono text-xs text-muted-foreground"
+                      ><BreakAtSpaces :text="row.default"
+                    /></code>
                   </dt>
                   <dd class="flex flex-col gap-1">
-                    <code class="font-mono text-xs break-words">{{ row.type }}</code>
+                    <code class="font-mono text-xs"><BreakAtSpaces :text="row.type" /></code>
                     <span class="text-body-sm text-muted-foreground"><InlineText :text="row.description" /></span>
                   </dd>
                 </div>

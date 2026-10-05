@@ -7,7 +7,7 @@ const route = useRoute()
 const section = computed(() => (route.path.startsWith('/docs') ? sectionOf(route.path) : undefined))
 
 const links = [
-  { key: 'docs', label: 'Docs', to: '/docs/getting-started/introduction' },
+  { key: 'docs', label: 'Docs', to: '/docs/getting-started/quick-start' },
   { key: 'components', label: 'Components', to: COMPONENTS_PATH },
 ] as const
 </script>
