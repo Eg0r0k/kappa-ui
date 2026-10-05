@@ -189,12 +189,13 @@ it("slides the indicator under the active trigger in right-to-left", async () =>
 describe("Tabs control tokens", () => {
   overrideControlTokens();
 
-  it.each(controlSizes)("%s triggers read the height, padding and icon tokens", (size) => {
+  it.each(controlSizes)("%s triggers read the height, padding, icon and gap tokens", (size) => {
     renderTabs({}, { size });
     const trigger = triggers()[0]!;
 
     expect(trigger.offsetHeight).toBe(sentinel.height[size]);
     expect(px(getComputedStyle(trigger).paddingInlineStart)).toBe(sentinel.padding[size]);
     expect(px(getComputedStyle(trigger).getPropertyValue("--tabs-icon"))).toBe(sentinel.icon[size]);
+    expect(px(getComputedStyle(trigger).columnGap)).toBe(sentinel.gap[size]);
   });
 });

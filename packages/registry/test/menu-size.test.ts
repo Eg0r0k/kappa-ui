@@ -107,12 +107,39 @@ describe("menu sizes", () => {
 describe("menu control tokens", () => {
   overrideControlTokens();
 
-  it.each(controlSizes)("%s items read the height, padding and icon tokens", async (size) => {
+  it.each(controlSizes)("%s items read the height, padding, icon and gap tokens", async (size) => {
     await openMenu(size);
     const item = getComputedStyle(query("[data-slot=menu-item]"));
 
     expect(px(item.minHeight)).toBe(sentinel.height[size]);
     expect(px(item.paddingInlineStart)).toBe(sentinel.padding[size]);
     expect(px(item.getPropertyValue("--menu-icon"))).toBe(sentinel.icon[size]);
+    expect(px(item.columnGap)).toBe(sentinel.gap[size]);
+  });
+
+  it.each(controlSizes)("%s inset, indicator and icon items start their labels in one column", async (size) => {
+    const label = (text: string) => h("span", { class: "label" }, text);
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h("button", [
+            "Open",
+            h(Menu, { size }, () => [
+              h(MenuItem, () => [h("svg", { viewBox: "0 0 24 24" }), label("Icon")]),
+              h(MenuItem, { inset: true }, () => label("Inset")),
+              h(MenuRadioGroup, { modelValue: "list" }, () => [
+                h(MenuRadioItem, { value: "list" }, () => label("Radio")),
+              ]),
+            ]),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    unmount = () => wrapper.unmount();
+    await userEvent.click(wrapper.get("button").element);
+    await settle();
+
+    const starts = [...document.querySelectorAll(".label")].map((element) => element.getBoundingClientRect().left);
+    expect(new Set(starts).size).toBe(1);
   });
 });
