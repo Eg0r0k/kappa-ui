@@ -3455,6 +3455,27 @@
       ]
     },
     {
+      "name": "button-touch-target-row",
+      "type": "registry:block",
+      "title": "Button touch target row",
+      "description": "Three rows of tight icon buttons with no touch target, expand and wrapper, their areas tinted.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/button/ButtonTouchTargetRow.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "spinner-demo",
       "type": "registry:block",
       "title": "Spinner demo",
@@ -7363,6 +7384,25 @@
       "files": [
         {
           "path": "src/examples/checkbox/CheckboxTouchTarget.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "checkbox-touch-target-list",
+      "type": "registry:block",
+      "title": "Checkbox touch target list",
+      "description": "A tight checkbox list with expand and with wrapper, their areas tinted.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/checkbox/CheckboxTouchTargetList.vue",
           "type": "registry:component"
         }
       ]
