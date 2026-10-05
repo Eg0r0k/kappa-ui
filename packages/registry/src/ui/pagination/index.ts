@@ -39,6 +39,6 @@ export const paginationEllipsisSize: Record<PaginationSize, string> = {
   xs: "size-(--control-height-xs) [&_svg]:size-(--control-icon-xs)",
   sm: "size-(--control-height-sm) [&_svg]:size-(--control-icon-sm)",
   md: "size-(--control-height-md) [&_svg]:size-(--control-icon-md)",
-  lg: "size-(--control-height-lg) [&_svg]:size-4",
-  xl: "size-(--control-height-xl) [&_svg]:size-4",
+  lg: "size-(--control-height-lg) [&_svg]:size-(--control-icon-lg)",
+  xl: "size-(--control-height-xl) [&_svg]:size-(--control-icon-xl)",
 };

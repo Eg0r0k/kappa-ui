@@ -11,7 +11,6 @@ export const buttonVariants = cva(
     forced-colors:border
     disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity)
     [&_svg]:pointer-events-none [&_svg]:shrink-0
-    icon-size-4
     aria-disabled:cursor-default aria-disabled:text-foreground/(--disabled-opacity)
   `,
   {
@@ -66,12 +65,14 @@ export const buttonVariants = cva(
           h-(--control-height-lg) gap-(--control-gap-lg) px-6 [--touch-h:var(--control-height-lg)]
           has-data-[icon=inline-start]:ps-4
           has-data-[icon=inline-end]:pe-4
+          icon-size-(--control-icon-lg)
         `,
         xl: `
           h-(--control-height-xl) gap-(--control-gap-xl) rounded-xl px-8 text-title-md
           [--touch-h:var(--control-height-xl)]
           has-data-[icon=inline-start]:ps-6
           has-data-[icon=inline-end]:pe-6
+          icon-size-(--control-icon-xl)
         `,
         "icon-xs": `
           size-(--control-height-xs) rounded-md [--touch-w:var(--control-height-xs)]
@@ -85,11 +86,13 @@ export const buttonVariants = cva(
           size-(--control-height-md) [--touch-w:var(--control-height-md)] [--touch-h:var(--control-height-md)]
           icon-size-(--control-icon-md)
         `,
-        "icon-lg":
-          "size-(--control-height-lg) [--touch-w:var(--control-height-lg)] [--touch-h:var(--control-height-lg)]",
+        "icon-lg": `
+          size-(--control-height-lg) [--touch-w:var(--control-height-lg)] [--touch-h:var(--control-height-lg)]
+          icon-size-(--control-icon-lg)
+        `,
         "icon-xl": `
           size-(--control-height-xl) rounded-xl [--touch-w:var(--control-height-xl)]
-          [--touch-h:var(--control-height-xl)]
+          [--touch-h:var(--control-height-xl)] icon-size-(--control-icon-xl)
         `,
       },
       focusRing: {

@@ -155,7 +155,7 @@ describe("Pagination control tokens", () => {
     expect([ellipsis.width, ellipsis.height]).toEqual([sentinel.height[size], sentinel.height[size]]);
   });
 
-  it.each(["xs", "sm", "md"] as const)("the %s ellipsis icon reads the icon token", (size) => {
+  it.each(controlSizes)("the %s ellipsis icon reads the icon token", (size) => {
     render({ size, total: 200, showEdges: true });
     expect(slot("pagination-ellipsis").querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[size]);
   });

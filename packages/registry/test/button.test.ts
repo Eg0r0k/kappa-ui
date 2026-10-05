@@ -148,12 +148,8 @@ describe("Button control tokens", () => {
     expect(px(style.getPropertyValue("--touch-h"))).toBe(sentinel.height[token]);
   });
 
-  it.each(textSizes.slice(0, 3))("%s reads the %s icon", (size, token) => {
+  it.each(textSizes)("%s reads the %s icon", (size, token) => {
     expect(withIcon(size).querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[token]);
-  });
-
-  it.each(textSizes.slice(3))("%s keeps 16px icons", (size) => {
-    expect(withIcon(size).querySelector("svg")!.getBoundingClientRect().width).toBe(16);
   });
 
   it.each([
@@ -162,10 +158,15 @@ describe("Button control tokens", () => {
     ["icon", "md"],
     ["icon-lg", "lg"],
     ["icon-xl", "xl"],
-  ] as const)("%s is a square of the %s height", (size, token) => {
-    const button = render({ size });
+  ] as const)("%s is a square of the %s height around an icon of its size", (size, token) => {
+    const button = mount(
+      { render: () => h(Button, { size, "aria-label": "Add" }, () => h("svg", { viewBox: "0 0 24 24" })) },
+      { attachTo: document.body },
+    ).get("[data-slot=button]").element as HTMLElement;
     const box = button.getBoundingClientRect();
+
     expect([box.width, box.height]).toEqual([sentinel.height[token], sentinel.height[token]]);
     expect(px(getComputedStyle(button).getPropertyValue("--touch-w"))).toBe(sentinel.height[token]);
+    expect(button.querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[token]);
   });
 });
