@@ -1,0 +1,62 @@
+import { enableAutoUnmount, mount } from '@vue/test-utils'
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { userEvent } from 'vitest/browser'
+
+import HomeShowcase from '~/components/home/HomeShowcase.vue'
+import { showcaseCss } from '~/lib/showcase-styles'
+
+enableAutoUnmount(afterEach)
+
+beforeAll(() => {
+  const style = document.createElement('style')
+  style.textContent = showcaseCss()
+  document.head.append(style)
+})
+
+const mountShowcase = (styleKey: 'kappa' | 'sharp', height = '56rem') =>
+  mount(HomeShowcase, { props: { styleKey }, attrs: { style: `height: ${height}` }, attachTo: document.body })
+
+const rootOf = (wrapper: ReturnType<typeof mountShowcase>) =>
+  wrapper.get('[data-slot="home-showcase"]').element as HTMLElement
+
+describe('HomeShowcase', () => {
+  it('mounts without Vue warnings', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    mountShowcase('kappa')
+    expect(warn).not.toHaveBeenCalled()
+    warn.mockRestore()
+  })
+
+  it('scopes a preset to the showcase', () => {
+    const root = rootOf(mountShowcase('sharp'))
+    expect(root.dataset.showcaseStyle).toBe('sharp')
+    expect(getComputedStyle(root).getPropertyValue('--radius').trim()).toBe('0rem')
+    expect(getComputedStyle(document.documentElement).getPropertyValue('--radius').trim()).toBe('0.5rem')
+  })
+
+  it('leaves Kappa unscoped', () => {
+    expect(rootOf(mountShowcase('kappa')).hasAttribute('data-showcase-style')).toBe(false)
+  })
+
+  it('portals overlays into the showcase', async () => {
+    const root = rootOf(mountShowcase('sharp'))
+    const trigger = [...root.querySelectorAll<HTMLElement>('[data-slot="select-trigger"]')].find(
+      (element) => !element.closest('[inert]'),
+    )
+    trigger!.focus()
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() => {
+      const content = document.querySelector('[data-slot="select-content"]')
+      expect(content?.closest('[data-showcase-portal]')).not.toBeNull()
+    })
+  })
+
+  it('makes cards that are mostly clipped inert', async () => {
+    const root = rootOf(mountShowcase('kappa', '20rem'))
+    await vi.waitFor(() => {
+      const cards = [...root.querySelectorAll<HTMLElement>('[data-showcase-card]')]
+      expect(cards.some((card) => card.inert)).toBe(true)
+      expect(cards.some((card) => !card.inert)).toBe(true)
+    })
+  })
+})

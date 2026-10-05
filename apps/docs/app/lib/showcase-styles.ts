@@ -15,7 +15,7 @@ export interface ShowcaseStyle {
 const hard = (offset: number) => `${offset}px ${offset}px 0 0 var(--foreground)`
 
 const brutalEdges = {
-  primary: 'oklch(0.86 0.17 95)',
+  primary: 'oklch(0.64 0.22 35)',
   'primary-foreground': 'oklch(0.145 0 0)',
   'surface-border': 'var(--foreground)',
   border: 'var(--foreground)',
@@ -50,7 +50,7 @@ export const showcaseStyles: ShowcaseStyle[] = [
     key: 'brutal',
     name: 'Brutal',
     font: 'Space Grotesk',
-    swatch: 'oklch(0.86 0.17 95)',
+    swatch: 'oklch(0.64 0.22 35)',
     theme: { radius: 0, surfaces: 'flat' },
     overrides: {
       light: {
@@ -83,8 +83,7 @@ export const showcaseStyles: ShowcaseStyle[] = [
 ]
 
 export const showcaseFontStack = (style: ShowcaseStyle) =>
-  style.font &&
-  `"${style.font}", ${style.mono ? 'ui-monospace, monospace' : 'ui-sans-serif, system-ui, sans-serif'}`
+  style.font && `"${style.font}", ${style.mono ? 'ui-monospace, monospace' : 'ui-sans-serif, system-ui, sans-serif'}`
 
 const declarations = (tokens: Record<string, string>) =>
   Object.entries(tokens)

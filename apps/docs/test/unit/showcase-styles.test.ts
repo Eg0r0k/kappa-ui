@@ -29,9 +29,9 @@ describe('showcase styles', () => {
     expect(blockOf(css, scope('terminal'))).toContain('font-family:"JetBrains Mono", ui-monospace')
   })
 
-  it('gives Brutal a yellow primary, foreground borders and hard shadows', () => {
+  it('gives Brutal an orange primary, foreground borders and hard shadows', () => {
     const light = blockOf(showcaseCss(), scope('brutal'))
-    expect(light).toContain('--primary:oklch(0.86 0.17 95);')
+    expect(light).toContain('--primary:oklch(0.64 0.22 35);')
     expect(light).toContain('--surface-border:var(--foreground);')
     expect(light).toContain('--shadow-sm:3px 3px 0 0 var(--foreground);')
   })
