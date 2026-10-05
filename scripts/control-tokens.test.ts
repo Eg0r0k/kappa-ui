@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
-const steps = { height: [7, 8, 9, 10, 12], padding: [2, 2.5, 3, 3, 4], icon: [3.5, 4, 4, 5, 5], gap: [1, 1.5, 2, 2, 2] }
+const steps = { height: [7, 8, 9, 10, 12], padding: [2, 2.5, 3, 3, 4], icon: [3.5, 4, 4, 5, 5], gap: [1.5, 2, 2, 2.5, 3] }
 const token = /--control-(?:height|padding|icon|gap)-[\w-]+/g
 
 const declared = new Map(

@@ -84,11 +84,11 @@
   --control-icon-md: calc(var(--spacing) * 4);
   --control-icon-lg: calc(var(--spacing) * 5);
   --control-icon-xl: calc(var(--spacing) * 5);
-  --control-gap-xs: calc(var(--spacing) * 1);
-  --control-gap-sm: calc(var(--spacing) * 1.5);
+  --control-gap-xs: calc(var(--spacing) * 1.5);
+  --control-gap-sm: calc(var(--spacing) * 2);
   --control-gap-md: calc(var(--spacing) * 2);
-  --control-gap-lg: calc(var(--spacing) * 2);
-  --control-gap-xl: calc(var(--spacing) * 2);
+  --control-gap-lg: calc(var(--spacing) * 2.5);
+  --control-gap-xl: calc(var(--spacing) * 3);
 }
 
 .dark {
