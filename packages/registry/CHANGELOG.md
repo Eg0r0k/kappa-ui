@@ -1,5 +1,15 @@
 # @kappa-ui/registry
 
+## 0.12.0
+
+### Minor Changes
+
+- [`c79028b`](https://github.com/Eg0r0k/kappa-ui/commit/c79028b66e69acfc5085910b431e29724ffaa03a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The control scale is now a set of tokens: `--control-height-*`, `--control-padding-*`, `--control-icon-*` and `--control-gap-*` for `xs` to `xl`, added to `:root` by the `tokens` item. Button, Input, InputFloating, Select, Combobox, InputNumber, TagsInput, PinInput, InputTime, InputGroup, Menu, Tabs, ColorPicker and Pagination read them, so overriding one on `:root` resizes every control of that size.
+  
+  Some sizes that strayed from the scale now follow it. Button icons are 20px at `lg` and `xl` instead of 16px, and so are the icons of Toggle, ToggleGroup, Toolbar and Pagination at those sizes. The gap between an icon and its label is 6, 8, 8, 10 and 12px from `xs` to `xl`, about half the icon, everywhere that has one: Button and the components built on it (where it was 4, 6, 8, 8 and 8px), Menu items and the Select, Combobox and Command lists (8, 10, 12, 12 and 12px), and Tabs triggers (6, 8, 8, 8 and 10px). Inset and checkbox or radio items move their labels with it, so they stay in line with items that have an icon. Everything else keeps its size.
+
+- [`81e522c`](https://github.com/Eg0r0k/kappa-ui/commit/81e522cf4f6929eac679fc39d1bfc93c96e846da) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `Listbox` takes `size`, from `xs` to `xl` (default `md`), and sets `data-size`. Options are 28 to 48px tall and their padding, gap, icons and text follow the control scale, like a menu of the same size. At `md` the gap between an icon and its label is now 8px instead of 12px.
+
 ## 0.11.0
 
 ### Minor Changes
