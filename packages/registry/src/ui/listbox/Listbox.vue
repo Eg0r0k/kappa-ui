@@ -18,13 +18,14 @@ const props = defineProps<
   ListboxRootProps & {
     id?: string;
     variant?: ListboxVariants["variant"];
+    size?: ListboxVariants["size"];
     class?: HTMLAttributes["class"];
   }
 >();
 const emits = defineEmits<ListboxRootEmits>();
 
 const delegated = computed(() => {
-  const { class: _, variant: __, id: ___, ...rest } = props;
+  const { class: _, variant: __, size: ___, id: ____, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
@@ -45,13 +46,14 @@ const control = useFieldControl(props, attrs);
       v-bind="attrs"
       data-slot="listbox"
       :data-variant="props.variant ?? 'outline'"
+      :data-size="props.size ?? 'md'"
       :data-disabled="control.disabled.value || undefined"
       :id="control.id.value"
       :aria-labelledby="control.labelledBy.value"
       :aria-describedby="control.describedBy.value"
       :aria-invalid="control.invalid.value"
       :aria-required="control.required.value || undefined"
-      :class="cn(listboxVariants({ variant: props.variant }), props.class)"
+      :class="cn(listboxVariants({ variant: props.variant, size: props.size }), props.class)"
     >
       <slot />
     </ListboxContent>

@@ -13,6 +13,8 @@ props:
     description: Moves the keyboard highlight with the pointer, as in a menu.
   variant:
     description: "`outline` draws a card-like frame around the options; `ghost` draws none, for a listbox inside another surface."
+  size:
+    description: Sets the height, padding, gap, icon and text of the options, from `xs` to `xl`, after the [control scale](/docs/getting-started/sizing). `md` is the default.
   orientation:
     description: "`horizontal` lays the options out in a row and moves between them with left and right."
   by:

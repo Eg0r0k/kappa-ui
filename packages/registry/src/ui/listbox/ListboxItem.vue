@@ -28,8 +28,8 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     :class="
       cn(
         `
-          group/listbox-item relative flex min-h-9 cursor-default items-center gap-3 rounded-lg px-3 py-2 text-body-md
-          outline-none select-none
+          group/listbox-item relative flex min-h-(--listbox-item-height) cursor-default items-center
+          gap-(--listbox-item-gap) rounded-lg px-(--listbox-item-px) py-(--listbox-item-py) outline-none select-none
           before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-foreground
           before:opacity-0 before:transition-opacity before:duration-short-4 before:ease-standard
           hover:before:opacity-(--state-hover)
@@ -42,7 +42,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
           group-data-disabled/listbox:data-[state=checked]:bg-foreground/(--disabled-container-opacity)
           forced-colors:before:hidden
           [&_svg]:pointer-events-none [&_svg]:shrink-0
-          icon-size-4
+          icon-size-(--listbox-icon)
         `,
         props.class,
       )
