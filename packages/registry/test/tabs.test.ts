@@ -132,6 +132,31 @@ it("draws a line along the list's edge for the line variant", async () => {
   expect(near(bar.bottom, list().getBoundingClientRect().bottom)).toBe(true);
 });
 
+it("draws the line indicator in the list's color, primary by default", async () => {
+  renderTabs({}, { variant: "line", style: "--primary: rgb(0, 0, 255); --success: rgb(0, 128, 0)" });
+  await settle();
+  expect(list().dataset.color).toBe("primary");
+  expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(0, 0, 255)");
+  unmount?.();
+
+  renderTabs({}, { variant: "line", color: "success", style: "--success: rgb(0, 128, 0)" });
+  await settle();
+  expect(list().dataset.color).toBe("success");
+  expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(0, 128, 0)");
+  unmount?.();
+
+  const style = document.createElement("style");
+  style.textContent = '[data-slot][data-color="brand"] { --tone: rgb(255, 0, 200); }';
+  document.head.append(style);
+  try {
+    renderTabs({}, { variant: "line", color: "brand" });
+    await settle();
+    expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(255, 0, 200)");
+  } finally {
+    style.remove();
+  }
+});
+
 it("keeps the pill thumb concentric with its track", async () => {
   for (const size of ["xs", "md", "xl"] as const) {
     renderTabs({}, { size });

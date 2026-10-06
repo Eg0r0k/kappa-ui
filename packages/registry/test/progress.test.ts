@@ -112,6 +112,34 @@ describe("Progress", () => {
     );
   });
 
+  it("draws the bar in its color and the step names in the tone's text colour", () => {
+    expect(render().root.dataset.color).toBe("primary");
+    const { root, indicator } = render({
+      modelValue: 1,
+      max: ["Queued", "Running", "Done"],
+      color: "success",
+      style: "--success-text: rgb(0, 90, 0)",
+    });
+    expect(root.dataset.color).toBe("success");
+    expect(getComputedStyle(indicator).backgroundColor).toBe("rgb(0, 128, 0)");
+    expect(getComputedStyle(document.querySelector("[data-slot=progress-step][data-state=active]")!).color).toBe(
+      "rgb(0, 90, 0)",
+    );
+  });
+
+  it("takes a custom tone from a [data-slot][data-color] rule", () => {
+    const style = document.createElement("style");
+    style.textContent = '[data-slot][data-color="brand"] { --tone: rgb(255, 0, 200); }';
+    document.head.append(style);
+    try {
+      expect(getComputedStyle(render({ modelValue: 10, color: "brand" }).indicator).backgroundColor).toBe(
+        "rgb(255, 0, 200)",
+      );
+    } finally {
+      style.remove();
+    }
+  });
+
   it("shows the percentage as a status that follows the value", () => {
     const { root, status } = render({ modelValue: 50, status: true });
     expect(status.textContent?.trim()).toBe("50%");

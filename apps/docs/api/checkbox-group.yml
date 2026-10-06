@@ -13,6 +13,8 @@ props:
     description: Marks the group required.
   variant:
     description: "`card`, `list` or `table` restyle every option in the group, making each whole card or row clickable."
+  color:
+    description: Colour role of every checkbox in the group that has no `color` of its own, and of a selected card's edge or row's tint.
   orientation:
     description: "`horizontal` lays the options out in a row: wrapping for `default`, a grid of cards for `card`, side-by-side cells for `list` and `table`."
   rovingFocus:

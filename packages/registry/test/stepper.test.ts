@@ -190,6 +190,31 @@ it("draws the indicator and the separator from the item state", async () => {
   expect(separators()[0]!.dataset.state).toBe("completed");
 });
 
+it("fills the active indicator in the stepper's color, primary by default", () => {
+  render({ style: "--primary: rgb(0, 0, 255); --primary-foreground: rgb(255, 255, 255)" });
+  expect(root().dataset.color).toBe("primary");
+  expect(getComputedStyle(indicators()[0]!).backgroundColor).toBe("rgb(0, 0, 255)");
+  reset();
+
+  render({ color: "success", style: "--success: rgb(0, 128, 0); --success-foreground: rgb(0, 30, 0)" });
+  expect(root().dataset.color).toBe("success");
+  const [active, inactive] = indicators();
+  expect(getComputedStyle(active!).backgroundColor).toBe("rgb(0, 128, 0)");
+  expect(getComputedStyle(active!).color).toBe("rgb(0, 30, 0)");
+  expect(getComputedStyle(inactive!).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  reset();
+
+  const style = document.createElement("style");
+  style.textContent = '[data-slot][data-color="brand"] { --tone: rgb(255, 0, 200); }';
+  document.head.append(style);
+  try {
+    render({ color: "brand" });
+    expect(getComputedStyle(indicators()[0]!).backgroundColor).toBe("rgb(255, 0, 200)");
+  } finally {
+    style.remove();
+  }
+});
+
 it("sizes the indicator, the separator and the type from the size prop", () => {
   render();
   expect(indicators()[0]!.getBoundingClientRect().width).toBe(32);

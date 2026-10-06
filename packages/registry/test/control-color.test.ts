@@ -171,3 +171,35 @@ it("rings a control in its tone's text colour, and a primary one in --ring", asy
   expect(outline(primary!)).toBe(outline(probe("ring")));
   expect(outline(primary!)).not.toBe(outline(colored!));
 });
+
+// Copies made before the `color` prop render the same markup without data-color, so the two must draw alike.
+const drawn = ["color", "background-color", "border-top-color", "border-left-color", "outline-color", "box-shadow"];
+const looks = (root: Element) =>
+  [root, ...root.querySelectorAll("*")].flatMap((element) =>
+    [null, "::before", "::after"].flatMap((pseudo) => {
+      const style = getComputedStyle(element, pseudo);
+      return drawn.map((property) => style.getPropertyValue(property));
+    }),
+  );
+
+it("draws a primary control exactly like a copy without data-color", async () => {
+  await render(() => [
+    h(Switch),
+    h(Switch, { defaultValue: true }),
+    h(Checkbox),
+    h(Checkbox, { defaultValue: true }),
+    h(Checkbox, { defaultValue: "indeterminate" }),
+    h(RadioGroup, { defaultValue: "a" }, () => [h(Radio, { value: "a" }), h(Radio, { value: "b" })]),
+    h(Slider, { defaultValue: 50 }),
+    h(Slider, { defaultValue: 50, variant: "inset" }),
+  ]);
+  const controls = ["switch", "checkbox", "radio", "slider"].flatMap(parts);
+  expect(controls).toHaveLength(9);
+
+  for (const control of controls) {
+    const copy = control.cloneNode(true) as HTMLElement;
+    copy.removeAttribute("data-color");
+    control.after(copy);
+    expect(looks(copy), control.dataset.slot).toEqual(looks(control));
+  }
+});

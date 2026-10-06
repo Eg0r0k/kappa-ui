@@ -1951,6 +1951,26 @@
       ]
     },
     {
+      "name": "choice-group-colors",
+      "type": "registry:block",
+      "title": "Choice group colours",
+      "description": "A neutral card group and a success list: the selected card's edge and the selected row's tint follow the group's colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "checkbox",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/choice-group/ChoiceGroupColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "data-table",
       "type": "registry:ui",
       "title": "Data Table",
@@ -5190,6 +5210,24 @@
       ]
     },
     {
+      "name": "slider-colors",
+      "type": "registry:block",
+      "title": "Slider colours",
+      "description": "Sliders in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider"
+      ],
+      "files": [
+        {
+          "path": "src/examples/slider/SliderColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "slider-states",
       "type": "registry:block",
       "title": "Slider states",
@@ -7202,7 +7240,7 @@
       "name": "progress-colors",
       "type": "registry:block",
       "title": "Progress colours",
-      "description": "Bars recoloured with a text class.",
+      "description": "Bars in every colour, and step names in the colour's text shade.",
       "categories": [
         "example"
       ],
@@ -7346,6 +7384,25 @@
       "files": [
         {
           "path": "src/examples/checkbox/CheckboxStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "checkbox-colors",
+      "type": "registry:block",
+      "title": "Checkbox colours",
+      "description": "Checked boxes in every colour, and a group that passes its colour to the checkboxes without one.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/checkbox/CheckboxColors.vue",
           "type": "registry:component"
         }
       ]
@@ -7498,6 +7555,24 @@
       "files": [
         {
           "path": "src/examples/switch/SwitchDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "switch-colors",
+      "type": "registry:block",
+      "title": "Switch colours",
+      "description": "Switches turned on in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch"
+      ],
+      "files": [
+        {
+          "path": "src/examples/switch/SwitchColors.vue",
           "type": "registry:component"
         }
       ]
@@ -7922,6 +7997,24 @@
       ]
     },
     {
+      "name": "tabs-colors",
+      "type": "registry:block",
+      "title": "Tabs colours",
+      "description": "Line tabs with the indicator in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tabs"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tabs/TabsColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "tabs-sizes",
       "type": "registry:block",
       "title": "Tabs sizes",
@@ -8012,6 +8105,24 @@
       "files": [
         {
           "path": "src/examples/radio/RadioDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "radio-colors",
+      "type": "registry:block",
+      "title": "Radio colours",
+      "description": "A radio group in every colour, passed to its radios.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/radio/RadioColors.vue",
           "type": "registry:component"
         }
       ]
@@ -9576,6 +9687,24 @@
       "files": [
         {
           "path": "src/examples/stepper/StepperVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "stepper-colors",
+      "type": "registry:block",
+      "title": "Stepper colours",
+      "description": "Steppers with the active step in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "stepper"
+      ],
+      "files": [
+        {
+          "path": "src/examples/stepper/StepperColors.vue",
           "type": "registry:component"
         }
       ]

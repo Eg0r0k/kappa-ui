@@ -52,3 +52,55 @@ it("dresses a checkbox group and a radio group without replacing their own roots
   expect(radios.className).toContain("divide-x");
   expect(radios.getAttribute("role")).toBe("radiogroup");
 });
+
+const palette = "--primary: rgb(0, 0, 255); --success: rgb(0, 128, 0)";
+// The selected row's tint: the tone over transparent at --state-selected.
+const tint = (color: string) => {
+  const probe = document.createElement("div");
+  probe.style.backgroundColor = `color-mix(in oklab, ${color} 8%, transparent)`;
+  document.body.append(probe);
+  const value = getComputedStyle(probe).backgroundColor;
+  probe.remove();
+  return value;
+};
+const fields = () => [...document.querySelectorAll<HTMLElement>("[data-slot=field]")];
+
+it("edges a selected card and tints a selected row in the group's color", () => {
+  mount(
+    {
+      render: () =>
+        h("div", { style: palette }, [
+          h(RadioGroup, { variant: "card", color: "success", defaultValue: "a" }, () => [
+            option(h(Radio, { value: "a" })),
+          ]),
+          h(CheckboxGroup, { variant: "list", color: "success", defaultValue: ["a"] }, () => [
+            option(h(Checkbox, { value: "a" })),
+          ]),
+          h(CheckboxGroup, { variant: "list", defaultValue: ["a"] }, () => [option(h(Checkbox, { value: "a" }))]),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const [card, row, primaryRow] = fields();
+
+  expect(document.querySelector<HTMLElement>("[data-slot=radio-group]")!.dataset.color).toBe("success");
+  expect(getComputedStyle(card!).borderTopColor).toBe("rgb(0, 128, 0)");
+  expect(getComputedStyle(row!).backgroundColor).toBe(tint("rgb(0, 128, 0)"));
+  expect(getComputedStyle(primaryRow!).backgroundColor).toBe(tint("rgb(0, 0, 255)"));
+});
+
+it("keeps the primary tint for a group copied before the color prop", () => {
+  mount(
+    {
+      render: () =>
+        h("div", { "data-slot": "alert", "data-color": "success", style: palette }, [
+          h("div", { class: "choice-row" }, [
+            h("div", { "data-slot": "field" }, [h("button", { "data-slot": "checkbox", "data-state": "checked" })]),
+          ]),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+
+  expect(getComputedStyle(fields()[0]!).backgroundColor).toBe(tint("rgb(0, 0, 255)"));
+});

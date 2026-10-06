@@ -3,6 +3,8 @@ file: ui/tabs/TabsList.vue
 props:
   variant:
     description: "`pill` puts the tabs on a filled track with a raised thumb under the active one; `line` underlines the active tab."
+  color:
+    description: "Colour role of the `line` underline. Any other name picks up a colour you declare on `[data-slot][data-color=\"<name>\"]`. The `pill` thumb is a surface and ignores it."
   size:
     description: "Tab height, from 28px for `xs` to 48px for `xl`, with matching padding, text and icon size."
   loop:
