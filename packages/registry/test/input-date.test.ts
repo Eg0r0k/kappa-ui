@@ -353,6 +353,58 @@ describe("forms", () => {
     expect(submitted).toEqual(["2024-03-15"]);
     expect(texts()).toEqual(["3", "15", "2024"]);
   });
+
+  it("clicks the form's default button on Enter, and does nothing while it is disabled", async () => {
+    const disabled = shallowRef(true);
+    const events: string[] = [];
+    mount(
+      defineComponent(
+        () => () =>
+          h(
+            "form",
+            {
+              onSubmit: (event: SubmitEvent) => {
+                event.preventDefault();
+                events.push("submit");
+              },
+            },
+            [
+              h(InputDate, { defaultValue: date }),
+              h("button", { type: "submit", disabled: disabled.value, onClick: () => events.push("click") }, "Save"),
+            ],
+          ),
+      ),
+      { attachTo: document.body },
+    );
+    await userEvent.click(editable()[1]!);
+    await userEvent.keyboard("{Enter}");
+    expect(events).toEqual([]);
+    disabled.value = false;
+    await nextTick();
+    editable()[1]!.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(events).toEqual(["click", "submit"]);
+  });
+
+  it("lets any time on the max day pass the hidden input's max", () => {
+    const maxValue = new CalendarDate(2024, 3, 15);
+    render(
+      h("form", [
+        h(InputDate, { name: "at", maxValue, defaultValue: new CalendarDateTime(2024, 3, 15, 23, 30) }),
+        h(InputDate, { name: "day", maxValue, defaultValue: date }),
+      ]),
+    );
+    const form = document.querySelector("form")!;
+    expect(form.querySelector<HTMLInputElement>("[name=at]")!.max).toBe("2024-03-15T23:59");
+    expect(form.querySelector<HTMLInputElement>("[name=day]")!.max).toBe("2024-03-15");
+    expect(form.checkValidity()).toBe(true);
+    expect(root().hasAttribute("data-invalid")).toBe(false);
+    document.body.innerHTML = "";
+
+    render(h("form", [h(InputDate, { name: "at", maxValue, defaultValue: new CalendarDateTime(2024, 3, 16, 0, 0) })]));
+    expect(document.querySelector("form")!.checkValidity()).toBe(false);
+    expect(root().hasAttribute("data-invalid")).toBe(true);
+  });
 });
 
 describe("paste (reka-ui#1897)", () => {
@@ -361,6 +413,16 @@ describe("paste (reka-ui#1897)", () => {
     const event = new KeyboardEvent("keydown", { key: "v", ctrlKey: true, bubbles: true, cancelable: true });
     editable()[0]!.dispatchEvent(event);
     expect(event.defaultPrevented).toBe(false);
+    // Ctrl+V on a Russian layout reports the Cyrillic letter as its key.
+    const cyrillic = new KeyboardEvent("keydown", {
+      key: "м",
+      code: "KeyV",
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true,
+    });
+    editable()[0]!.dispatchEvent(cyrillic);
+    expect(cyrillic.defaultPrevented).toBe(false);
     const digit = new KeyboardEvent("keydown", { key: "1", bubbles: true, cancelable: true });
     editable()[0]!.dispatchEvent(digit);
     expect(digit.defaultPrevented).toBe(true);

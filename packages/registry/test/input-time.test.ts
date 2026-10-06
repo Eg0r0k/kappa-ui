@@ -259,6 +259,59 @@ it.each([
   expect(events).toEqual(["focus", "blur"]);
 });
 
+it.each([
+  ["InputTime", InputTime as Component],
+  ["InputTimeRange", InputTimeRange as Component],
+])("%s does nothing on Enter while the form's default button is disabled", async (_, component) => {
+  const disabled = shallowRef(true);
+  const events: string[] = [];
+  mount(
+    defineComponent(
+      () => () =>
+        h(
+          "form",
+          {
+            onSubmit: (event: SubmitEvent) => {
+              event.preventDefault();
+              events.push("submit");
+            },
+          },
+          [
+            h(component, { hourCycle: 24 }),
+            h("button", { type: "submit", disabled: disabled.value, onClick: () => events.push("click") }, "Save"),
+          ],
+        ),
+    ),
+    { attachTo: document.body },
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard("{Enter}");
+  expect(events).toEqual([]);
+  disabled.value = false;
+  await nextTick();
+  editable()[0]!.focus();
+  await userEvent.keyboard("{Enter}");
+  expect(events).toEqual(["click", "submit"]);
+});
+
+it.each([
+  ["InputTime", InputTime as Component, 2],
+  ["InputTimeRange", InputTimeRange as Component, 4],
+])("%s keeps a typed value without v-model when it remounts", async (_, component, count) => {
+  const granularity = shallowRef<"minute" | "second">("minute");
+  mount(
+    defineComponent(() => () => h(component, { granularity: granularity.value, hourCycle: 24 })),
+    { attachTo: document.body },
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard(count === 2 ? "0945" : "09451730");
+  granularity.value = "second";
+  await nextTick();
+  await nextTick();
+  const shown = editable().map((segment) => segment.textContent);
+  expect(shown).toEqual(count === 2 ? ["09", "45", "00"] : ["09", "45", "00", "17", "30", "00"]);
+});
+
 it("focuses the first segment when the frame's padding is clicked", async () => {
   render(h(InputTime, { class: "w-60", hourCycle: 24 }));
   const box = root().getBoundingClientRect();

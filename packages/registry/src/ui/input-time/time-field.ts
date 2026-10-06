@@ -1,6 +1,21 @@
 import type { Ref } from "vue";
 
 /**
+ * Enter as implicit submission works on a native input: it clicks the form's default button, does
+ * nothing while that button is disabled, and submits a form that has none.
+ */
+const submitForm = (form: HTMLFormElement | null) => {
+  if (!form) return;
+  const button = [...form.elements].find(
+    (element): element is HTMLButtonElement | HTMLInputElement =>
+      (element instanceof HTMLButtonElement && element.type === "submit") ||
+      (element instanceof HTMLInputElement && (element.type === "submit" || element.type === "image")),
+  );
+  if (!button) form.requestSubmit();
+  else if (!button.disabled) button.click();
+};
+
+/**
  * Root listeners shared by InputTime and InputTimeRange: `focus` and `blur` once per field rather than
  * per segment, a click on the frame focusing the first segment, and Enter submitting the form.
  */
@@ -25,7 +40,7 @@ export const useSegmentedField = (
     },
     onKeydown: (event: KeyboardEvent) => {
       if (event.key !== "Enter" || event.isComposing) return;
-      (event.currentTarget as HTMLElement).closest("form")?.requestSubmit();
+      submitForm((event.currentTarget as HTMLElement).closest("form"));
     },
   };
 };

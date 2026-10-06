@@ -20,7 +20,7 @@ props:
   minValue:
     description: The earliest valid date. An earlier one marks the segments invalid and fails the hidden input's `min`.
   maxValue:
-    description: The latest valid date. A later one marks the segments invalid and fails the hidden input's `max`.
+    description: The latest valid date. A later one marks the segments invalid and fails the hidden input's `max`. A date without time covers that whole day.
   isDateUnavailable:
     description: A function that returns `true` for a date that cannot be picked. Such a date marks the segments invalid.
   hideTimeZone:
@@ -44,7 +44,7 @@ props:
   id:
     description: Overrides the `id` taken from a surrounding field. It lands on the hidden input, so the field's label focuses the first segment.
   name:
-    description: "Submits the date with the form under this name, through a hidden input: `YYYY-MM-DD`, or `YYYY-MM-DDTHH:mm` with time."
+    description: "Submits the date with the form under this name, through a hidden input: `YYYY-MM-DD`, or `YYYY-MM-DDTHH:mm` with time, plus `:ss` at the `second` granularity."
   as:
     description: The element or component to render.
   asChild:

@@ -4,9 +4,10 @@ import {
   TimeFieldRoot,
   type TimeFieldRootEmits,
   type TimeFieldRootProps,
+  type TimeValue,
   useForwardProps,
 } from "reka-ui";
-import { type HTMLAttributes, computed, useAttrs } from "vue";
+import { type HTMLAttributes, computed, shallowRef, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
@@ -43,6 +44,7 @@ const delegated = computed(() => {
     id: _____,
     disabled: ______,
     required: _______,
+    defaultValue: ________,
     ...rest
   } = props;
   return rest;
@@ -67,6 +69,12 @@ const listeners = useSegmentedField(emits, control.disabled);
 
 // Reka collects the segments and fixes the hour cycle once, on mount (reka-ui#1127).
 const remountKey = computed(() => `${props.granularity}-${props.hourCycle}`);
+// The last value, so a remount without v-model keeps what was typed.
+const latest = shallowRef(props.defaultValue);
+const onUpdate = (value: TimeValue | undefined) => {
+  latest.value = value;
+  emits("update:modelValue", value);
+};
 </script>
 
 <template>
@@ -84,7 +92,8 @@ const remountKey = computed(() => `${props.granularity}-${props.hourCycle}`);
     :aria-describedby="control.describedBy.value"
     :aria-busy="props.loading || undefined"
     :class="cn(frame, props.class)"
-    @update:model-value="emits('update:modelValue', $event)"
+    :default-value="latest"
+    @update:model-value="onUpdate"
     @update:placeholder="emits('update:placeholder', $event)"
     @focusin="listeners.onFocusin"
     @focusout="listeners.onFocusout"

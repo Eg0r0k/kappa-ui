@@ -149,6 +149,20 @@ it("fails native validation when required and incomplete, or outside min and max
   expect(form().checkValidity()).toBe(false);
 });
 
+it("lets any time on the max day pass the end's max", async () => {
+  const value = bound(
+    { start: new CalendarDateTime(2024, 3, 14, 9, 0), end: new CalendarDateTime(2024, 3, 15, 18, 45) },
+    { maxValue: new CalendarDate(2024, 3, 15) },
+  );
+  const end = document.querySelector<HTMLInputElement>("input[name='trip[end]']")!;
+  expect(end.max).toBe("2024-03-15T23:59");
+  expect(form().checkValidity()).toBe(true);
+  expect(range().hasAttribute("data-invalid")).toBe(false);
+  value.value = { start: value.value!.start, end: new CalendarDateTime(2024, 3, 16, 0, 0) };
+  await nextTick();
+  expect(form().checkValidity()).toBe(false);
+});
+
 it("takes id, label, required and disabled from a Field", async () => {
   render(h(Field, { required: true }, () => [h(FieldLabel, () => "Trip dates"), h(InputDateRange, { name: "trip" })]));
   await nextTick();

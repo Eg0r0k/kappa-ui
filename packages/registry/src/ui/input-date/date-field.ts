@@ -1,4 +1,4 @@
-import { parseDate, parseTime, toCalendar, toCalendarDate, toCalendarDateTime } from "@internationalized/date";
+import { Time, parseDate, parseTime, toCalendar, toCalendarDate, toCalendarDateTime } from "@internationalized/date";
 import type { DateValue } from "reka-ui";
 import type { Ref } from "vue";
 
@@ -18,6 +18,14 @@ export const toInputValue = (value: DateValue | undefined, granularity: InputGra
     .toString()
     .slice(0, granularity === "second" ? 19 : 16);
 };
+
+/**
+ * A date-only `maxValue` as the last moment of that day. Reka already counts the whole day as valid,
+ * but a native `datetime-local` input reads a bare date as midnight, so a later time on that day
+ * failed the hidden input's `max` and blocked the form.
+ */
+export const inclusiveMax = (max: DateValue | undefined) =>
+  max && !("hour" in max) ? toCalendarDateTime(max, new Time(23, 59, 59, 999)) : max;
 
 const isoDate = /^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?))?$/;
 
@@ -39,6 +47,21 @@ export const parseDateText = (text: string, base: DateValue | undefined, withTim
   } catch {
     return undefined;
   }
+};
+
+/**
+ * Enter as implicit submission works on a native input: it clicks the form's default button, does
+ * nothing while that button is disabled, and submits a form that has none.
+ */
+const submitForm = (form: HTMLFormElement | null) => {
+  if (!form) return;
+  const button = [...form.elements].find(
+    (element): element is HTMLButtonElement | HTMLInputElement =>
+      (element instanceof HTMLButtonElement && element.type === "submit") ||
+      (element instanceof HTMLInputElement && (element.type === "submit" || element.type === "image")),
+  );
+  if (!button) form.requestSubmit();
+  else if (!button.disabled) button.click();
 };
 
 /**
@@ -67,11 +90,13 @@ export const useSegmentedField = (
     },
     onKeydown: (event: KeyboardEvent) => {
       if (event.key !== "Enter" || event.isComposing) return;
-      (event.currentTarget as HTMLElement).closest("form")?.requestSubmit();
+      submitForm((event.currentTarget as HTMLElement).closest("form"));
     },
-    // Reka prevents every key but Tab on a segment, the paste shortcut included (reka-ui#1897).
+    // Reka prevents every key but Tab on a segment, the paste shortcut included (reka-ui#1897). The
+    // code covers layouts where V types another letter, such as Russian.
     onKeydownCapture: (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && !event.altKey && event.key.toLowerCase() === "v") {
+      const v = event.key.toLowerCase() === "v" || event.code === "KeyV";
+      if ((event.ctrlKey || event.metaKey) && !event.altKey && v) {
         event.stopPropagation();
       }
     },

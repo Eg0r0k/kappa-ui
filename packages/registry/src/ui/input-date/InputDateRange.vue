@@ -16,7 +16,7 @@ import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { injectInputGroupContext } from "@/ui/input-group";
 import { Spinner } from "@/ui/spinner";
 import { inputDateGroupedVariants, inputDateSegment, inputDateVariants } from ".";
-import { inputGranularity, parseDateText, toInputValue, useSegmentedField } from "./date-field";
+import { inclusiveMax, inputGranularity, parseDateText, toInputValue, useSegmentedField } from "./date-field";
 
 defineOptions({ inheritAttrs: false });
 
@@ -127,7 +127,7 @@ const nativeInput = (side: Side, parts: { part: string }[]) => {
     name: props.name ? `${props.name}[${side}]` : undefined,
     value: toInputValue(model.value?.[side], granularity),
     min: toInputValue(props.minValue, granularity) || undefined,
-    max: toInputValue(props.maxValue, granularity) || undefined,
+    max: toInputValue(inclusiveMax(props.maxValue), granularity) || undefined,
   };
 };
 

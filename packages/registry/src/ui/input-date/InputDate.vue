@@ -8,7 +8,7 @@ import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { injectInputGroupContext } from "@/ui/input-group";
 import { Spinner } from "@/ui/spinner";
 import { inputDateGroupedVariants, inputDateSegment, inputDateVariants } from ".";
-import { parseDateText, useSegmentedField } from "./date-field";
+import { inclusiveMax, parseDateText, useSegmentedField } from "./date-field";
 
 defineOptions({ inheritAttrs: false });
 
@@ -57,6 +57,7 @@ const delegated = computed(() => {
     required: _______,
     defaultValue: ________,
     modelValue: _________,
+    maxValue: __________,
     ...rest
   } = props;
   return rest;
@@ -99,6 +100,7 @@ const remountKey = computed(() => `${props.granularity}-${props.hourCycle}`);
     v-slot="{ segments, isInvalid }"
     v-bind="{ ...rootAttrs, ...forwarded }"
     :model-value="model"
+    :max-value="inclusiveMax(props.maxValue)"
     :data-slot="group ? 'input-group-control' : 'input-date'"
     :data-variant="variant"
     :data-size="size"
