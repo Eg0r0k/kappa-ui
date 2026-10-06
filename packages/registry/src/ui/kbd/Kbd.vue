@@ -3,25 +3,13 @@ import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
 
-const props = defineProps<{ class?: HTMLAttributes["class"] }>();
+import { type KbdSize, kbdVariants } from ".";
+
+const props = withDefaults(defineProps<{ size?: KbdSize; class?: HTMLAttributes["class"] }>(), { size: "md" });
 </script>
 
 <template>
-  <kbd
-    data-slot="kbd"
-    :class="
-      cn(
-        `
-          pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm bg-muted px-1
-          font-sans text-label-md text-muted-foreground select-none
-          in-data-[slot=button]:bg-current/15 in-data-[slot=button]:text-current
-          in-data-[slot=tooltip-content]:bg-current/20 in-data-[slot=tooltip-content]:text-current
-          icon-size-3
-        `,
-        props.class,
-      )
-    "
-  >
+  <kbd data-slot="kbd" :data-size="props.size" :class="cn(kbdVariants({ size: props.size }), props.class)">
     <slot />
   </kbd>
 </template>

@@ -1020,6 +1020,9 @@
       "categories": [
         "data-display"
       ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
       "registryDependencies": [
         "utils",
         "tokens"
@@ -4685,6 +4688,24 @@
       "files": [
         {
           "path": "src/examples/kbd/KbdButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "kbd-sizes",
+      "type": "registry:block",
+      "title": "Kbd sizes",
+      "description": "Keys from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "kbd"
+      ],
+      "files": [
+        {
+          "path": "src/examples/kbd/KbdSizes.vue",
           "type": "registry:component"
         }
       ]
