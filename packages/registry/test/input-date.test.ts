@@ -427,8 +427,10 @@ describe("forms", () => {
 });
 
 describe("paste (reka-ui#1897)", () => {
-  it("lets the paste shortcut through to the segments", () => {
+  it("lets the paste shortcut through to the segments", async () => {
     render(h(InputDate, { defaultValue: date }));
+    // Vue skips a listener for events dispatched in the millisecond it was attached
+    await settle();
     const event = new KeyboardEvent("keydown", { key: "v", ctrlKey: true, bubbles: true, cancelable: true });
     editable()[0]!.dispatchEvent(event);
     expect(event.defaultPrevented).toBe(false);
