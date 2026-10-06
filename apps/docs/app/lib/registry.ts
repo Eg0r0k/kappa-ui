@@ -35,6 +35,12 @@ export const findItem = (name: string, items: readonly RegistryItem[] = registry
 
 export const isExample = (item: RegistryItem) => item.categories?.includes('example') ?? false
 
+/** How many components the registry ships, rounded down to tens for a headline: `70+`. */
+export const componentCount = (items: readonly RegistryItem[] = registryItems) => {
+  const count = items.filter((item) => item.type === 'registry:ui').length
+  return count < 10 ? String(count) : `${Math.floor(count / 10) * 10}+`
+}
+
 export const resolveInstallFilename = (file: RegistryFile) => file.target ?? consumerFilename(file.path)
 
 export const matchModuleKey = (path: string, keys: readonly string[]) => {

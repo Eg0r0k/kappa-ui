@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  componentCount,
   isExample,
   matchModuleKey,
   registryItems,
@@ -87,6 +88,16 @@ describe('resolveInstallFilename', () => {
 
 describe('registryItems', () => {
   it('reads the real manifest', () => {
-    expect(registryItems.filter(isExample).length).toBe(516)
+    expect(registryItems.filter(isExample).length).toBe(517)
+  })
+})
+
+describe('componentCount', () => {
+  const ui = (count: number) => Array.from({ length: count }, (_, index) => ({ ...button, name: `c${index}` }))
+
+  it('counts the ui items, rounded down to tens', () => {
+    expect(componentCount([...ui(71), { ...button, name: 'demo', type: 'registry:block' }])).toBe('70+')
+    expect(componentCount(ui(80))).toBe('80+')
+    expect(componentCount(ui(9))).toBe('9')
   })
 })
