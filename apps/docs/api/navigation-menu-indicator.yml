@@ -1,0 +1,11 @@
+component: NavigationMenuIndicator
+file: ui/navigation-menu/NavigationMenuIndicator.vue
+props:
+  forceMount:
+    description: "Keeps the indicator mounted while no panel is open, for animating it with your own code."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "Replaces the arrow."
