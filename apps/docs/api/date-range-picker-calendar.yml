@@ -1,0 +1,16 @@
+component: DateRangePickerCalendar
+file: ui/date-range-picker/DateRangePickerCalendar.vue
+props:
+  size:
+    description: "Sets the day cells, arrows and text from `xs` to `xl`. Defaults to the field's size, then the root's."
+  color:
+    description: "The tone of the range's ends, its band and today's outline: `primary`, `neutral`, `destructive`, `success`, `warning`, `info`, or a name you define."
+  weekNumbers:
+    description: "Adds a column of week numbers before each row. Hidden from screen readers."
+slots:
+  default: "Replaces the calendar's layout, with Reka's `{ date, grid, weekDays, weekStartsOn, locale, fixedWeeks, modelValue }`. Compose the RangeCalendar parts in it."
+  heading: "The heading's content, with `{ headingValue, date, setPlaceholder }`."
+  week-day: "A weekday header's content, with `{ day, index }`."
+  day: "A day's content, with the day's state, including `selectionStart`, `selectionEnd` and `highlighted`."
+  prev-icon: "The Previous arrow's icon, a chevron by default."
+  next-icon: "The Next arrow's icon, a chevron by default."

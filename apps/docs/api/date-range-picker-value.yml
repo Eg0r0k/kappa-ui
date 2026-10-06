@@ -1,0 +1,13 @@
+component: DateRangePickerValue
+file: ui/date-range-picker/DateRangePickerValue.vue
+props:
+  placeholder:
+    description: "The text shown while there is no start, muted through `data-placeholder`."
+  format:
+    description: "`Intl.DateTimeFormat` options for both ends. Defaults to `{ dateStyle: 'medium' }`, plus `timeStyle: 'short'` when the values have time. The ends are joined with `formatRange`, which writes what they share once: \"Oct 6 – 12, 2026\"."
+  as:
+    description: "The element or component to render. A `span` by default."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the attributes onto it."
+slots:
+  default: "The text, with `{ value, formatted }`. While only the start is set, `formatted` is the start and a dash."

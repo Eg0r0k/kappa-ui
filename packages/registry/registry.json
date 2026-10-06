@@ -1823,6 +1823,111 @@
       ]
     },
     {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date picker",
+      "description": "InputDate's segments with a calendar button that opens Calendar in a popover, so a date can be typed or picked. Five sizes and the text control variants, a button trigger for a shadcn-style picker, time segments, Field wiring, native form submission and one focus and blur for the whole control. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "button",
+        "input",
+        "input-group",
+        "input-date",
+        "popover",
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/ui/date-picker/DatePicker.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerValue.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerCalendar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/picker.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-range-picker",
+      "type": "registry:ui",
+      "title": "Date range picker",
+      "description": "DatePicker for a start and an end: InputDateRange's segments with a calendar button that opens RangeCalendar in a popover. Type both ends or pick them, with maximum length, unavailable days, several months, a button trigger that formats the range, and name[start] and name[end] for native forms. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "date-picker",
+        "input-date",
+        "input-group",
+        "popover",
+        "calendar",
+        "range-calendar"
+      ],
+      "files": [
+        {
+          "path": "src/ui/date-range-picker/DateRangePicker.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/DateRangePickerInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/DateRangePickerValue.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/DateRangePickerCalendar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "tags-input",
       "type": "registry:ui",
       "title": "Tags input",
@@ -5153,6 +5258,383 @@
       "files": [
         {
           "path": "src/examples/input-date/InputDateForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-demo",
+      "type": "registry:block",
+      "title": "Date picker demo",
+      "description": "An invoice's due date, typed or picked, in a field.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-button",
+      "type": "registry:block",
+      "title": "Date picker with a button",
+      "description": "A shadcn-style outline button that shows the date and opens the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-birthday",
+      "type": "registry:block",
+      "title": "Date picker birthday",
+      "description": "A date of birth with month and year selects in the calendar's heading.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "select",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerBirthday.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-form",
+      "type": "registry:block",
+      "title": "Date picker form",
+      "description": "A weekday delivery date kept as an ISO string by Formisch and checked by Valibot.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "@internationalized/date",
+        "reka-ui",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-unavailable",
+      "type": "registry:block",
+      "title": "Date picker unavailable dates",
+      "description": "Appointments on weekdays only, with fully booked days struck through.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerUnavailable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-date-time",
+      "type": "registry:block",
+      "title": "Date picker with time",
+      "description": "A departure date and time, with a Done button under the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerDateTime.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-presets",
+      "type": "registry:block",
+      "title": "Date picker presets",
+      "description": "Quick picks for today, tomorrow, next Monday and in a month under the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerPresets.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-locale",
+      "type": "registry:block",
+      "title": "Date picker locale",
+      "description": "German order and an Arabic picker laid out right to left.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerLocale.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-sizes",
+      "type": "registry:block",
+      "title": "Date picker sizes",
+      "description": "The field and its calendar from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "date-picker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-variants",
+      "type": "registry:block",
+      "title": "Date picker variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "date-picker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-states",
+      "type": "registry:block",
+      "title": "Date picker states",
+      "description": "Disabled, read-only, invalid and required pickers.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-input-group",
+      "type": "registry:block",
+      "title": "Date picker in an input group",
+      "description": "A text addon before the picker, in one input group frame.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "input-group",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerInputGroup.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-dialog",
+      "type": "registry:block",
+      "title": "Date picker in a dialog",
+      "description": "Rescheduling a meeting from a dialog.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "dialog",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerDialog.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-range",
+      "type": "registry:block",
+      "title": "Date range picker",
+      "description": "Trip dates over two months, one on a phone.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@vueuse/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-range-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DateRangePickerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-range-button",
+      "type": "registry:block",
+      "title": "Date range picker with a button",
+      "description": "A report period behind a button, with presets beside the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-range-picker",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DateRangePickerButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-range-form",
+      "type": "registry:block",
+      "title": "Date range picker form",
+      "description": "Hotel nights in a plain form, at most two weeks, around sold-out nights.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-range-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DateRangePickerForm.vue",
           "type": "registry:component"
         }
       ]

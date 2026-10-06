@@ -1,0 +1,82 @@
+component: DateRangePicker
+file: ui/date-range-picker/DateRangePicker.vue
+props:
+  modelValue:
+    description: "The range, bound with `v-model`: `{ start, end }` of `@internationalized/date` values, or `null`. While the end is being picked, `end` is `undefined`."
+  defaultValue:
+    description: The starting range when `v-model` is not used.
+  placeholder:
+    description: "The month the calendar shows, bound with `v-model:placeholder`. Left unbound, the calendar opens on the start, or today, every time."
+  defaultPlaceholder:
+    description: "The month to open on while there is no start, and the date the empty segments step from. Its type decides the segments: a `CalendarDateTime` adds time."
+  granularity:
+    description: "The last segment shown on each end: `day`, `hour`, `minute` or `second`. Defaults to `day` for a `CalendarDate` and `minute` for a value with time."
+  hourCycle:
+    description: "`12` or `24` for the time segments. Defaults to the locale's cycle; `12` adds an AM/PM segment."
+  step:
+    description: "How far the arrow keys move each segment, as `{ year, month, day, hour, minute, second }`. `1` by default."
+  hideTimeZone:
+    description: Hides the time zone segments that `ZonedDateTime` values show.
+  minValue:
+    description: "The earliest date. Earlier days are disabled in the calendar, and an earlier typed date marks the field invalid."
+  maxValue:
+    description: "The latest date. Later days are disabled in the calendar, and a later typed date marks the field invalid."
+  isDateDisabled:
+    description: "Returns `true` for days the calendar won't offer. Typed into the field, they mark it invalid. Swapping the function works."
+  isDateUnavailable:
+    description: "Returns `true` for days struck through in the calendar, which a range can't cross unless `allowNonContiguousRanges` is on. Swapping the function works."
+  isDateHighlightable:
+    description: "Returns `true` for unavailable days that the preview may still cross."
+  allowNonContiguousRanges:
+    description: "Lets a range run across unavailable days."
+  fixedDate:
+    description: "Keeps the `start` or the `end` in place while the other end is picked again."
+  maximumDays:
+    description: "The longest range, in days. Once a start is picked, days beyond it are disabled."
+  numberOfMonths:
+    description: "How many months the calendar shows side by side. Below `sm` they stack. With more than one, the days outside each month are hidden, so the band shows once."
+  pagedNavigation:
+    description: "Makes the calendar's arrows move by `numberOfMonths` instead of one month."
+  weekStartsOn:
+    description: "The first day of the week, from `0` (Sunday) to `6`. Leave it out to follow the locale."
+  weekdayFormat:
+    description: "How the weekday headers are written: `narrow` (the default), `short` or `long`."
+  fixedWeeks:
+    description: "Draws six weeks in every month, so the panel keeps its height as you page. On by default."
+  preventDeselect:
+    description: "Keeps a click on the range's only day from clearing it."
+  closeOnSelect:
+    description: "Closes the calendar once both ends are picked. Defaults to on for dates and off when there are time segments."
+  locale:
+    description: "The locale for the segment order, the month names and the week start. Defaults to the one Reka UI's `ConfigProvider` sets, which is `en` unless you set it."
+  dir:
+    description: The reading direction, which also mirrors the calendar's arrow keys. Defaults to the one Reka UI's `ConfigProvider` sets.
+  open:
+    description: "Whether the calendar is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether it starts open when `v-model:open` is not used."
+  modal:
+    description: "Shuts the page while the calendar is open: a scrim takes the first outside click, which only closes it."
+  disabled:
+    description: Disables the segments, the trigger and the calendar. Also set by a disabled field.
+  readonly:
+    description: "Keeps the segments focusable but not editable. The calendar still opens, but its days can't be picked."
+  required:
+    description: Marks both hidden form inputs required, so the form needs both ends. Also set by a required field.
+  id:
+    description: "Overrides the `id` taken from a surrounding field. It lands on the start's hidden input, or on the trigger when it is a button."
+  name:
+    description: "Submits the range with the form as two fields, `name[start]` and `name[end]`, each an ISO date and empty until that end is set."
+  variant:
+    description: "The field's look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`. A `variant` on `DateRangePickerInput` wins."
+  size:
+    description: "The field's height and the calendar's size, from `xs` to `xl`. A `size` on `DateRangePickerInput` or `DateRangePickerCalendar` wins for that part."
+emits:
+  update:modelValue: "Fires when a typed end completes or clears, and on each pick in the calendar, including the partial `{ start, end: undefined }`."
+  update:placeholder: Fires when the calendar pages to another month.
+  update:startValue: "Fires when a start is picked in the calendar, before there is an end."
+  update:open: Fires when the calendar opens or closes.
+  focus: "Fires once when focus enters the picker: the segments, the trigger and the calendar count as one control."
+  blur: "Fires once when focus leaves the segments, the trigger and the calendar, not when it moves between them."
+slots:
+  default: "The parts, with `{ modelValue, open }`. Left empty, it renders `DateRangePickerInput` and the calendar in `DateRangePickerContent`, and passes its own attributes to the field."
