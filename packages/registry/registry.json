@@ -57,6 +57,9 @@
       "type": "registry:lib",
       "title": "Standard Schema for VeeValidate",
       "description": "Lets VeeValidate 4 validate with Zod 4, Valibot or any other Standard Schema.",
+      "categories": [
+        "forms"
+      ],
       "dependencies": [
         "vee-validate"
       ],

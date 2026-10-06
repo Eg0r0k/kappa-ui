@@ -15,8 +15,10 @@ import VeeValidateSelect from "@/examples/forms/VeeValidateSelect.vue";
 import { focusFirstInvalid } from "@/lib/field-context";
 import { toTypedSchema } from "@/lib/standard-schema";
 import { Field, FieldError, FieldLabel, FieldLegend, FieldSet } from "@/ui/field";
+import { Input } from "@/ui/input";
 import { InputNumber, InputNumberInput } from "@/ui/input-number";
 import { Radio, RadioGroup } from "@/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 import { Slider } from "@/ui/slider";
 import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemText } from "@/ui/tags-input";
 
@@ -356,6 +358,30 @@ describe("focusFirstInvalid", () => {
     expect(await focusFirstInvalid(null)).toBeNull();
   });
 
+  it("skips an invalid control that can't take focus, and never reports focus it didn't move", async () => {
+    const shown = ref(true);
+    render(
+      defineComponent(
+        () => () =>
+          h("form", [
+            h("div", { hidden: true }, [h(Field, { invalid: true }, () => [h(FieldLabel, () => "Hidden"), h(Input)])]),
+            h(Field, { invalid: true }, () => [h(FieldLabel, () => "Shown"), h(Input, { hidden: !shown.value })]),
+            h("button", { type: "submit" }, "Save"),
+          ]),
+      ),
+    );
+    const form = document.querySelector("form")!;
+    submitButton().focus();
+
+    expect(await focusFirstInvalid(form)).toBe(byLabel("Shown"));
+    expect(document.activeElement).toBe(byLabel("Shown"));
+
+    submitButton().focus();
+    shown.value = false;
+    expect(await focusFirstInvalid(form)).toBeNull();
+    expect(document.activeElement).toBe(submitButton());
+  });
+
   it("focuses the radio Tab would reach in an invalid group, and a slider's thumb", async () => {
     const groupInvalid = ref(true);
     render(
@@ -404,6 +430,45 @@ describe("focusFirstInvalid", () => {
     );
     const inputs = document.querySelectorAll("input");
     expect(await focusFirstInvalid(document.querySelector("form"))).toBe(inputs[1]);
+  });
+});
+
+describe("resetForm", () => {
+  it("brings a select's placeholder back, though its list can't pick nothing (reka-ui#2564)", async () => {
+    let reset!: () => void;
+    render(
+      defineComponent({
+        setup() {
+          const form = useForm({ initialValues: { language: "" } });
+          const [language] = form.defineField("language");
+          reset = () => form.resetForm();
+          return () =>
+            h(Field, () => [
+              h(FieldLabel, () => "Language"),
+              h(
+                Select,
+                {
+                  modelValue: language.value,
+                  "onUpdate:modelValue": (value: unknown) => (language.value = value as string),
+                },
+                () => [
+                  h(SelectTrigger, () => h(SelectValue, { placeholder: "Choose" })),
+                  h(SelectContent, () => [h(SelectItem, { value: "fi" }, () => "Suomi")]),
+                ],
+              ),
+            ]);
+        },
+      }),
+    );
+    const trigger = document.querySelector<HTMLElement>("[data-slot=select-trigger]")!;
+    expect(trigger.textContent).toContain("Choose");
+
+    await userEvent.click(trigger);
+    await userEvent.click(await vi.waitFor(() => document.querySelector<HTMLElement>("[data-slot=select-item]")!));
+    await expect.poll(() => trigger.textContent).toContain("Suomi");
+
+    reset();
+    await expect.poll(() => trigger.textContent).toContain("Choose");
   });
 });
 

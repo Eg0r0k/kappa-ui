@@ -57,19 +57,22 @@ const GROUP_ROLES = new Set(["group", "radiogroup"]);
 /**
  * Moves focus to the first invalid control inside `root`, in DOM order, once
  * the errors have rendered. For a checkbox or radio group it focuses the box
- * Tab would reach. Returns the focused element, or null when nothing is invalid.
+ * Tab would reach. A control that can't take focus, such as one in a hidden
+ * panel, is skipped. Returns the focused element, or null when no invalid
+ * control took focus.
  */
 export const focusFirstInvalid = async (root: ParentNode | null | undefined, options?: FocusOptions) => {
   await nextTick();
-  const invalid = root?.querySelector<HTMLElement>('[aria-invalid="true"]');
-  if (!invalid) return null;
-
-  // A group's own tab stop hands focus to its checked or first item.
-  const isGroup = GROUP_ROLES.has(invalid.getAttribute("role") ?? "");
-  const target =
-    (isGroup && invalid.querySelector<HTMLElement>(TABBABLE)) ||
-    (invalid.matches(TABBABLE) ? invalid : invalid.querySelector<HTMLElement>(TABBABLE));
-  if (!target) return null;
-  target.focus({ focusVisible: true, ...options });
-  return document.activeElement as HTMLElement;
+  for (const invalid of Array.from(root?.querySelectorAll<HTMLElement>('[aria-invalid="true"]') ?? [])) {
+    // A group's own tab stop hands focus to its checked or first item.
+    const isGroup = GROUP_ROLES.has(invalid.getAttribute("role") ?? "");
+    const target =
+      (isGroup && invalid.querySelector<HTMLElement>(TABBABLE)) ||
+      (invalid.matches(TABBABLE) ? invalid : invalid.querySelector<HTMLElement>(TABBABLE));
+    if (!target) continue;
+    target.focus({ focusVisible: true, ...options });
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && invalid.contains(active)) return active;
+  }
+  return null;
 };
