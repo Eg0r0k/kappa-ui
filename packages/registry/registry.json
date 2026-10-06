@@ -40,7 +40,7 @@
     {
       "name": "field-context",
       "type": "registry:lib",
-      "title": "Field context",
+      "title": "Field Context",
       "description": "The context a Field provides so the control inside it can wire its id, description and error.",
       "dependencies": [
         "reka-ui"
@@ -152,7 +152,7 @@
     {
       "name": "scroll-fade",
       "type": "registry:item",
-      "title": "Scroll fade",
+      "title": "Scroll Fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
       "categories": [
         "utilities"
@@ -734,7 +734,7 @@
     {
       "name": "button-group",
       "type": "registry:ui",
-      "title": "Button group",
+      "title": "Button Group",
       "description": "Buttons joined into one control, horizontal or vertical, with an optional separator and text.",
       "categories": [
         "actions"
@@ -1769,7 +1769,7 @@
     {
       "name": "input-floating",
       "type": "registry:ui",
-      "title": "Input floating",
+      "title": "Input Floating",
       "description": "A text input with a label that floats inside it, as in Material's text fields, in Input's variants and sizes, wired to a surrounding Field.",
       "categories": [
         "text-input"
@@ -1817,7 +1817,7 @@
     {
       "name": "input-group",
       "type": "registry:ui",
-      "title": "Input group",
+      "title": "Input Group",
       "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
       "categories": [
         "text-input"
@@ -1868,7 +1868,7 @@
     {
       "name": "input-number",
       "type": "registry:ui",
-      "title": "Input number",
+      "title": "Input Number",
       "description": "A number field with stepper buttons inside the frame, in Input's variants and sizes, laid out horizontally or vertically, with min, max, step and Intl formatting. Built on Reka UI.",
       "categories": [
         "text-input"
@@ -1911,7 +1911,7 @@
     {
       "name": "input-time",
       "type": "registry:ui",
-      "title": "Input time",
+      "title": "Input Time",
       "description": "A segmented time field in Input's variants and sizes, with a range variant, 12- or 24-hour cycles, min, max, step and a loading spinner, nestable in an input group. Built on Reka UI.",
       "categories": [
         "text-input"
@@ -1950,7 +1950,7 @@
     {
       "name": "input-date",
       "type": "registry:ui",
-      "title": "Input date",
+      "title": "Input Date",
       "description": "A segmented date field in Input's variants and sizes, with a range variant, optional time segments, min, max, unavailable dates, ISO paste and a loading spinner, nestable in an input group. Built on Reka UI.",
       "categories": [
         "text-input"
@@ -1990,7 +1990,7 @@
     {
       "name": "date-picker",
       "type": "registry:ui",
-      "title": "Date picker",
+      "title": "Date Picker",
       "description": "InputDate's segments with a calendar button that opens Calendar in a popover, so a date can be typed or picked. Five sizes and the text control variants, a button trigger for a shadcn-style picker, time segments, Field wiring, native form submission and one focus and blur for the whole control. Built on Reka UI.",
       "categories": [
         "choice"
@@ -2051,7 +2051,7 @@
     {
       "name": "date-range-picker",
       "type": "registry:ui",
-      "title": "Date range picker",
+      "title": "Date Range Picker",
       "description": "DatePicker for a start and an end: InputDateRange's segments with a calendar button that opens RangeCalendar in a popover. Type both ends or pick them, with maximum length, unavailable days, several months, a button trigger that formats the range, and name[start] and name[end] for native forms. Built on Reka UI.",
       "categories": [
         "choice"
@@ -2095,7 +2095,7 @@
     {
       "name": "tags-input",
       "type": "registry:ui",
-      "title": "Tags input",
+      "title": "Tags Input",
       "description": "Tags typed into one text control frame, drawn as badges, with delimiter, paste, max and duplicate handling and Field integration. Built on Reka UI.",
       "categories": [
         "text-input"
@@ -2170,7 +2170,7 @@
     {
       "name": "file-upload",
       "type": "registry:ui",
-      "title": "File upload",
+      "title": "File Upload",
       "description": "A drop zone or a button that picks files into a File or File[] v-model, with accept, size and count checks that report rejected files, a list or grid of previews, paste, and Field integration.",
       "categories": [
         "forms"
@@ -2233,7 +2233,7 @@
     {
       "name": "choice-group",
       "type": "registry:ui",
-      "title": "Choice group",
+      "title": "Choice Group",
       "description": "The layouts a checkbox group or radio group lays its options out in: plain, cards, one bordered list or a table, in a column or a row, with the whole card or row clickable.",
       "categories": [
         "choice"
@@ -12029,7 +12029,7 @@
     {
       "name": "inner-loading",
       "type": "registry:ui",
-      "title": "Inner loading",
+      "title": "Inner Loading",
       "description": "A loading overlay for one region: a translucent scrim with an indicator over content that turns inert, so nothing behind it can be clicked, focused or read until it is done.",
       "categories": [
         "feedback"
@@ -12289,7 +12289,7 @@
     {
       "name": "color-picker",
       "type": "registry:ui",
-      "title": "Color picker",
+      "title": "Color Picker",
       "description": "A colour picker from parts: a saturation and brightness area, channel sliders with hue and alpha, a hex or channel field, a preview and preset swatches, bound to one v-model string in hex, rgb, hsl or hsb. Keyboard and screen-reader support from Reka UI, one size from xs to xl, wired to Field.",
       "categories": [
         "choice"
@@ -12419,7 +12419,7 @@
     {
       "name": "range-calendar",
       "type": "registry:ui",
-      "title": "Range calendar",
+      "title": "Range Calendar",
       "description": "Calendar's sibling for a start and an end date: solid ends, a soft band between them and a live preview while the end is picked. Maximum length, unavailable days with or without gaps, several months, five sizes, any tone and Field wiring. Built on Reka UI.",
       "categories": [
         "choice"
@@ -13564,7 +13564,7 @@
     {
       "name": "alert-dialog",
       "type": "registry:ui",
-      "title": "Alert dialog",
+      "title": "Alert Dialog",
       "description": "A modal that interrupts with a question that needs an answer: no outside dismissal, focus on Cancel, Button-styled actions and a small size, built on Reka UI's AlertDialog and Dialog's surface.",
       "categories": [
         "overlays"
