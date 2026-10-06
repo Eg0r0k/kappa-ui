@@ -38,7 +38,7 @@ const url = registryItemUrl(useRuntimeConfig().public.siteUrl, item.name)
 const dependencies = computed(() =>
   installDependenciesCommand(
     pm.value,
-    consumerDependencies(item.dependencies ?? [], useRuntimeConfig().public.coreVersion),
+    consumerDependencies(item.dependencies ?? [], useRuntimeConfig().public.dependencyRanges),
   ),
 )
 

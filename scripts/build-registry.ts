@@ -4,6 +4,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
+import { CLI_MANAGED_PACKAGES, type PackageManifest, dependencyRanges, rangeSource } from './lib/dependency-ranges.ts'
 import { type CssRules, type CssVars, conflictsOf, itemCssFromSource, stylesheetOf } from './lib/registry-css.ts'
 
 const HOMEPAGE = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
@@ -13,8 +14,6 @@ const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
-const CORE_PACKAGE = '@kappa-ui/core'
-const REKA_PACKAGE = 'reka-ui'
 const REGISTRY_NAMESPACE = '@kappa-ui'
 const PUBLISHED_ALIAS = '@/registry/kappa-ui/'
 const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
@@ -82,6 +81,7 @@ const { values } = parseArgs({
 const manifestPath = resolve(repoRoot, values.manifest as string)
 const outDir = resolve(repoRoot, values.out as string)
 const manifestDir = dirname(manifestPath)
+const registryPackagePath = join(manifestDir, 'package.json')
 const corePath = resolve(repoRoot, values.core as string)
 const cssPath = resolve(repoRoot, values.css as string)
 
@@ -134,6 +134,10 @@ if (!existsSync(corePath)) {
   abort([`core package not found: ${values.core}`])
 }
 
+if (!existsSync(registryPackagePath)) {
+  abort([`registry package not found next to the manifest: ${registryPackagePath}`])
+}
+
 const registry = JSON.parse(await readFile(manifestPath, 'utf8')) as Registry
 
 const sourceErrors: string[] = []
@@ -154,24 +158,21 @@ const resolveCssSource = async (item: RegistryItem): Promise<RegistryItem> => {
 
 registry.items = await Promise.all(registry.items.map(resolveCssSource))
 
-const corePackage = JSON.parse(await readFile(corePath, 'utf8')) as {
-  version: string
-  peerDependencies?: Record<string, string>
-}
-const rekaRange =
-  corePackage.peerDependencies?.[REKA_PACKAGE] ??
-  abort([`core package has no peerDependencies["${REKA_PACKAGE}"]: ${values.core}`])
+const corePackage = JSON.parse(await readFile(corePath, 'utf8')) as PackageManifest
+const registryPackage = JSON.parse(await readFile(registryPackagePath, 'utf8')) as PackageManifest
 
-const stampedRanges = new Map([
-  [CORE_PACKAGE, `^${corePackage.version}`],
-  [REKA_PACKAGE, rekaRange],
-])
+const ranges = (() => {
+  try {
+    return dependencyRanges(corePackage, registryPackage)
+  } catch (error) {
+    return abort([`${(error as Error).message}: ${values.core}`])
+  }
+})()
 
 const stamp = (dependencies?: string[]) =>
-  dependencies?.map((dependency) => {
-    const range = stampedRanges.get(dependency)
-    return range === undefined ? dependency : `${dependency}@${range}`
-  })
+  dependencies?.map((dependency) =>
+    CLI_MANAGED_PACKAGES.has(dependency) ? dependency : `${dependency}@${ranges.get(dependency)}`,
+  )
 
 const publishedConfig = (item: RegistryItem) =>
   item.type === 'registry:base'
@@ -238,9 +239,13 @@ for (const item of registry.items) {
 
   for (const dependency of item.dependencies ?? []) {
     const name = withoutVersion(dependency)
-    if (name !== dependency && stampedRanges.has(name)) {
+    if (name !== dependency) {
       errors.push(
-        `item "${item.name}": list "${name}" without a version; the build stamps it from packages/core/package.json`,
+        `item "${item.name}": list "${name}" without a version; the build stamps it from ${rangeSource(name)}`,
+      )
+    } else if (!ranges.has(name)) {
+      errors.push(
+        `item "${item.name}": "${name}" has no range to install it in; add it to ${rangeSource(name)} with the range the registry is tested against`,
       )
     }
   }
