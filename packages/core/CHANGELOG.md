@@ -1,5 +1,17 @@
 # @kappa-ui/core
 
+## 0.10.0
+
+### Minor Changes
+
+- [#12](https://github.com/Eg0r0k/kappa-ui/pull/12) [`65ef2c8`](https://github.com/Eg0r0k/kappa-ui/commit/65ef2c828c4d5c7e5df5399cd1c1fd6e62f01056) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `tailwind.css` adds the `navigation-menu-motion` utility, which slides a navigation menu panel in from the side of the trigger you came from and out the other way, from Reka UI's `data-motion`. A horizontal menu's `data-motion` already follows the screen in right-to-left text, so unlike `drawer-menu` it isn't mirrored; a vertical one slides up and down. `--navigation-menu-motion-distance` sets how far, 25% of the panel by default. Reduced motion turns it off.
+
+- [#12](https://github.com/Eg0r0k/kappa-ui/pull/12) [`5a478d3`](https://github.com/Eg0r0k/kappa-ui/commit/5a478d36ccc36106507b86fc5efe267b78b8c4f5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `tone-control` works with a `color` prop. On an element with `data-slot` and `data-color` it leaves `--tone`, `--tone-foreground` and `--tone-text` to the `[data-slot][data-color]` rules, so the control takes that tone, and it keeps `--input` as the unchecked edge. A colour other than `primary` also rings the control in its `--tone-text`. Any other element gets `primary` exactly as before, now including `--tone-text`, so copies of Switch, Checkbox, Radio and Slider made before the prop look the same. `tone-invalid` now turns `--tone-text` `destructive` along with the rest of the tone, so edges, marks and rings drawn in it go red on an invalid control too. Copies made before the prop don't read `--tone-text`, so they look the same. `choice-row` tints a selected option in its group's tone when the group has `data-slot` and `data-color`, and in `primary` when it doesn't.
+
+### Patch Changes
+
+- [#12](https://github.com/Eg0r0k/kappa-ui/pull/12) [`3b30d74`](https://github.com/Eg0r0k/kappa-ui/commit/3b30d74fab198e31a727d58ef4dc06bc73f686ea) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `tailwind.css` builds next to a plain shadcn-vue theme. Every kappa token it reads now carries its default from the `tokens` item as a fallback: `--color-destructive-foreground`, the `success`, `warning` and `info` colours with their `-foreground` and `-text`, `--state-hover`, `--state-pressed`, `--state-selected`, `--press-scale` and `--press-duration`. Before, a project without the `tokens` item failed the Tailwind build with `Could not resolve value for theme function: theme(--color-destructive-foreground)`. With the tokens installed nothing changes: their values still win. The shadcn tokens, such as `--color-primary`, `--color-foreground` and `--color-input`, stay required.
+
 ## 0.9.0
 
 ### Minor Changes

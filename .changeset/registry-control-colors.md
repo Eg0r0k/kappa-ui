@@ -1,7 +1,0 @@
----
-"@kappa-ui/registry": minor
----
-
-Checkbox, Radio, Switch, Slider, Progress, Stepper and `TabsList` take `color`: `primary` (the default), `neutral`, `destructive`, `success`, `warning`, `info`, or any name you declare on `[data-slot][data-color="<name>"]`, as on Button. The root carries `data-color`. Whatever they draw straight on the page takes the colour's `--tone-text`: a checked edge, the radio's dot, the default slider's range and thumb, the progress bar and the tab line. That keeps a bright `success`, `warning` or `info` at 3:1 against the page. Fills with something on them, like the checked box, the switch track and the active step, keep `--tone`. On the choice controls the unchecked edge stays `--input` and an invalid control still turns `destructive`. Keyboard focus rings a control in a colour other than `primary` in its `--tone-text`, red once it's invalid. `CheckboxGroup` and `RadioGroup` pass their `color` to every control in them without one, and `ChoiceGroup` takes `color` for the selected card's edge, the focused card's ring and the selected row's tint. Switch, Checkbox, Radio and Slider now set `data-size`, `md` by default. They need the `@kappa-ui/core` release that lets `tone-control` follow `data-color`.
-
-Recoloured Switch, Checkbox, Radio or Slider with `class="[--tone:…] [--tone-foreground:…]"`, as the theming page used to suggest? Their edges and marks now read `--tone-text`, so add `[--tone-text:…]` to the class, or use `color`.
