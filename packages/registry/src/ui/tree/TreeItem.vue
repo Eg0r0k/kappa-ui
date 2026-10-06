@@ -87,9 +87,11 @@ const onSelect = (event: TreeItemSelectEvent<T>) => {
   const original = event.detail.originalEvent;
   const click = original.type === "click";
   const skip =
-    click &&
-    !tree.toggleOnClick.value &&
-    ((hasChildren.value && within(original, "tree-item-toggle")) || (original as MouseEvent).detail > 1);
+    (click &&
+      !tree.toggleOnClick.value &&
+      ((hasChildren.value && within(original, "tree-item-toggle")) || (original as MouseEvent).detail > 1)) ||
+    // A Space in the middle of a typed name goes on with the search; it doesn't select.
+    ((original as KeyboardEvent).key === " " && tree.isTyping());
   if (!skip) {
     emits("select", event);
     if (!event.defaultPrevented) tree.onSelect(event, node.value);
@@ -124,8 +126,16 @@ const onKeydown = (event: KeyboardEvent) => {
   if (event.shiftKey && RANGE.has(event.key)) tree.extendOnFocus(key.value);
   // Reka UI's TreeRoot adds every key to its typeahead for a second, so ArrowDown then "d" matches
   // nothing. Keys that can't be typed stop at the row; Escape and Tab still bubble, and a
-  // virtualized tree needs the arrows at its root.
-  if (UNTYPED.has(event.key) || (!tree.virtual.value && NAVIGATION.has(event.key))) event.stopPropagation();
+  // virtualized tree needs the arrows at its root. A Space that selects stops too, or "d" typed
+  // after it would search for " d"; a Space typed mid-name goes on to the search.
+  if (event.key === " ") {
+    if (tree.isTyping()) tree.typed();
+    else event.stopPropagation();
+  } else if (UNTYPED.has(event.key) || (!tree.virtual.value && NAVIGATION.has(event.key))) {
+    event.stopPropagation();
+  } else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    tree.typed();
+  }
 };
 
 const onDblclick = (event: MouseEvent) => {

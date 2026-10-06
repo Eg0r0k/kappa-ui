@@ -33,13 +33,13 @@ props:
   virtualize:
     description: Renders only the rows near the view. `true`, or `{ overscan, estimateSize }`. The tree becomes the scroller, so give it a height, such as `class="h-80"`; rows get a fixed height.
   name:
-    description: Submits the selected keys with their form under this name, one hidden input each.
+    description: Submits the selected keys with their form under this name, one hidden input each. With `required`, the form won't submit while nothing is selected.
   id:
     description: Overrides the `id` taken from a surrounding field.
   disabled:
     description: Disables every row. Also set by a disabled field.
   required:
-    description: Marks the tree required with `aria-required`. Also set by a required field.
+    description: Marks the tree required with `aria-required`, and with `name` keeps a form from submitting while nothing is selected. Also set by a required field.
   dir:
     description: Reading direction for Left and Right.
   variant:

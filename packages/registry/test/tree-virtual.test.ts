@@ -111,6 +111,33 @@ describe("Tree virtualize", () => {
     expect(focusedKey()).toBe("folder-3");
   });
 
+  it("measures its rows again when it mounts hidden and shows later", async () => {
+    const host = document.createElement("div");
+    host.style.display = "none";
+    document.body.append(host);
+    const wrapper = mount(
+      () =>
+        h(Tree as Component, {
+          items: folders(200, 0),
+          "aria-label": "Files",
+          virtualize: true,
+          getKey: (file: File) => file.path,
+          labelKey: "name",
+          size: "xs",
+          class: "h-[200px]",
+        }),
+      { attachTo: host },
+    );
+    mounted.push({ unmount: () => (wrapper.unmount(), host.remove()) });
+    await frames();
+    host.style.display = "";
+    await frames(4);
+
+    const [first, second] = [...host.querySelectorAll("[role=treeitem]")];
+    expect(first!.getBoundingClientRect().height).toBe(28);
+    expect(second!.getBoundingClientRect().top - first!.getBoundingClientRect().top).toBe(28);
+  });
+
   it("scrolls a node into view by key", async () => {
     const { root, exposed, expanded } = mountVirtual();
     await frames();

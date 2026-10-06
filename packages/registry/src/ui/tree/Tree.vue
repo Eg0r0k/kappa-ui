@@ -7,7 +7,17 @@ import {
   TreeRoot,
   TreeVirtualizer,
 } from "reka-ui";
-import { type HTMLAttributes, computed, nextTick, onMounted, ref, shallowRef, useAttrs, watch } from "vue";
+import {
+  type HTMLAttributes,
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  shallowRef,
+  useAttrs,
+  watch,
+} from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
@@ -231,8 +241,18 @@ const visibleKeys = computed(() => {
   return keys;
 });
 
-// Tab lands on the selected row: RovingFocusGroup enters on the item marked data-active.
-const activeKey = computed(() => visibleKeys.value.find((key) => stateOf(key) === true));
+// Tab lands on the selected row: RovingFocusGroup enters on the item marked data-active, if enabled.
+const activeKey = computed(() =>
+  visibleKeys.value.find((key) => stateOf(key) === true && !index.value.entries.get(key)?.disabled),
+);
+
+// Reka UI's typeahead keeps what was typed for a second. A Space typed within it is part of a
+// name, not a selection; rows read this to tell the two apart.
+let typedAt = Number.NEGATIVE_INFINITY;
+const isTyping = () => performance.now() - typedAt < 1000;
+const typed = () => {
+  typedAt = performance.now();
+};
 
 // Applying a selection
 let anchor: string | undefined;
@@ -313,6 +333,19 @@ onMounted(() => {
 });
 watch([() => props.size, virtual], () => nextTick(measure));
 
+// A tree that mounts hidden measures 0; measure again once the probe has a size, or when tokens change.
+let probeObserver: ResizeObserver | undefined;
+watch(probe, (el, old) => {
+  if (typeof ResizeObserver === "undefined") return;
+  probeObserver ??= new ResizeObserver(() => {
+    const height = probe.value?.offsetHeight;
+    if (height && height !== rowSize.value && virtualOptions.value?.estimateSize === undefined) measure();
+  });
+  if (old) probeObserver.unobserve(old);
+  if (el) probeObserver.observe(el);
+});
+onBeforeUnmount(() => probeObserver?.disconnect());
+
 const scrollToKey = (key: string) => {
   const position = visibleKeys.value.indexOf(key);
   if (position === -1) return false;
@@ -370,9 +403,20 @@ provideTreeContext({
   toggle: toggleKey,
   expandSiblings,
   extendOnFocus,
+  isTyping,
+  typed,
 });
 
 const submitKeys = computed(() => (props.name ? orderedKeys(index.value, selected.value) : []));
+// Hidden inputs can't be required, so an empty required one stands in: a plain form won't submit
+// with nothing selected. The tree takes the focus instead of that input.
+const blocksSubmit = computed(
+  () => !!props.name && !!control.required.value && !control.disabled.value && submitKeys.value.length === 0,
+);
+const focusTree = () => {
+  const rows = [...(rootEl()?.querySelectorAll<HTMLElement>("[role=treeitem]:not([data-disabled])") ?? [])];
+  (rows.find((row) => row.dataset.active === "") ?? rows[0])?.focus();
+};
 
 defineExpose<TreeExpose>({
   get $el() {
@@ -461,6 +505,17 @@ defineExpose<TreeExpose>({
       :name="props.name"
       :value="key"
       :disabled="control.disabled.value"
+    />
+    <input
+      v-if="blocksSubmit"
+      type="text"
+      value=""
+      required
+      tabindex="-1"
+      aria-hidden="true"
+      data-slot="tree-required"
+      class="sr-only"
+      @invalid.prevent="focusTree"
     />
   </template>
 </template>

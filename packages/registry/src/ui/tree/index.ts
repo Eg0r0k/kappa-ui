@@ -131,6 +131,9 @@ export interface TreeContext {
   expandSiblings: (key: string) => void;
   /** Shift + a navigation key: the next row to take focus extends the range. */
   extendOnFocus: (key: string) => void;
+  /** Whether a character was typed in the last second, so a Space goes on with a typeahead search. */
+  isTyping: () => boolean;
+  typed: () => void;
 }
 
 export const [injectTreeContext, provideTreeContext] = createContext<TreeContext>("Tree");

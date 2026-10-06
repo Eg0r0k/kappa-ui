@@ -89,6 +89,22 @@ describe("Tree", () => {
     expect(tree.classes()).toContain("w-64");
   });
 
+  it("draws a frame with outline, red while invalid, and none with ghost", () => {
+    const ghost = mountTree();
+    expect(getComputedStyle(ghost.wrapper.get("[role=tree]").element).borderTopWidth).toBe("0px");
+
+    const { wrapper } = mountTree({ variant: "outline", "aria-invalid": "true" });
+    const tree = wrapper.get("[role=tree]");
+    const style = getComputedStyle(tree.element);
+    expect(tree.attributes("data-variant")).toBe("outline");
+    expect(style.borderTopWidth).toBe("1px");
+    const probe = document.createElement("div");
+    probe.className = "border border-destructive";
+    document.body.append(probe);
+    expect(style.borderTopColor).toBe(getComputedStyle(probe).borderTopColor);
+    probe.remove();
+  });
+
   it("renders a flat list of treeitems with level, size and position", () => {
     const { rows, labels } = mountTree();
 
@@ -285,6 +301,30 @@ describe("Tree", () => {
     expect(wrapper.find("[role=tree] input").exists()).toBe(false);
   });
 
+  it("keeps a required form from submitting with nothing selected, and focuses the tree", async () => {
+    const wrapper = mount(
+      () =>
+        h("form", [
+          h(Field, { required: true }, () => [
+            h(FieldLabel, () => "Files"),
+            h(Tree as Component, { items: makeItems(), name: "files" }),
+          ]),
+        ]),
+      { attachTo: document.body },
+    );
+    mounted.push(wrapper);
+    const form = wrapper.get("form").element as HTMLFormElement;
+
+    expect(form.checkValidity()).toBe(false);
+    expect(form.reportValidity()).toBe(false);
+    expect(document.activeElement?.getAttribute("role")).toBe("treeitem");
+    expect(new FormData(form).getAll("files")).toEqual([]);
+
+    await wrapper.get("[data-key=docs]").trigger("click");
+    expect(form.checkValidity()).toBe(true);
+    expect(new FormData(form).getAll("files")).toEqual(["docs"]);
+  });
+
   it("exposes expandAll, collapseAll and scrollToKey", async () => {
     const { exposed, labels, expanded } = mountTree({ class: "h-24 overflow-auto" });
 
@@ -396,6 +436,8 @@ describe("Tree keyboard", () => {
     const first = wrapper.get("[role=treeitem]");
 
     expect(tree.attributes("dir")).toBe("rtl");
+    // A closed folder's chevron points the way the text reads.
+    expect(getComputedStyle(first.get("[data-slot=tree-item-toggle] svg").element).rotate).toBe("180deg");
     await focusRow(first.element);
     await userEvent.keyboard("{ArrowLeft}");
     expect(first.attributes("aria-expanded")).toBe("true");
@@ -415,6 +457,18 @@ describe("Tree keyboard", () => {
     (wrapper.get("#before").element as HTMLElement).focus();
     await userEvent.keyboard("{Tab}");
     expect(focused()).toBe("Card");
+  });
+
+  it("enters on a selected row that is enabled", async () => {
+    const items = makeItems();
+    items[1]!.disabled = true;
+    const { wrapper, row, focused } = mountTree({ items, multiple: true, modelValue: [items[1], items[2]] });
+
+    expect(row("app").attributes("data-active")).toBeUndefined();
+    expect(row("docs").attributes("data-active")).toBe("");
+    (wrapper.get("#before").element as HTMLElement).focus();
+    await userEvent.keyboard("{Tab}");
+    expect(focused()).toBe("docs");
   });
 
   it("skips a disabled tree with Tab and disabled rows with the arrows", async () => {
@@ -439,13 +493,38 @@ describe("Tree keyboard", () => {
 
   it("lets Escape and Tab bubble out of the tree", async () => {
     const seen: string[] = [];
+    const listener = (event: KeyboardEvent) => seen.push(event.key);
     const { row } = mountTree();
-    document.body.addEventListener("keydown", (event) => seen.push(event.key), { once: false });
+    document.body.addEventListener("keydown", listener);
 
     await focusRow(row("Card").element);
-    await userEvent.keyboard("{Escape}");
-    expect(seen).toContain("Escape");
-    expect(seen).not.toContain("ArrowDown");
+    await userEvent.keyboard("{ArrowDown}{Escape}{Tab}");
+    document.body.removeEventListener("keydown", listener);
+    expect(seen).toEqual(["Escape", "Tab"]);
+  });
+
+  // Reka UI's typeahead also kept the Space that selected a row, so "d" typed next searched for " d".
+  it("matches typeahead right after Space selects, and searches on through a Space in a name", async () => {
+    const items: Node[] = [
+      { id: "docs", label: "docs" },
+      { id: "my-notes", label: "my notes" },
+      { id: "my-docs", label: "my docs" },
+      { id: "beta", label: "beta" },
+    ];
+    const first = mountTree({ items });
+
+    await focusRow(first.row("beta").element);
+    await userEvent.keyboard(" ");
+    expect(first.value.value).toBe(items[3]);
+    await userEvent.keyboard("d");
+    expect(first.focused()).toBe("docs");
+
+    // A second tree, so no search is still running.
+    const second = mountTree({ items });
+    await focusRow(second.row("beta").element);
+    await userEvent.keyboard("my d");
+    expect(second.focused()).toBe("my docs");
+    expect(second.value.value).toBeUndefined();
   });
 
   it("leaves keys typed in a field inside a row to the field", async () => {
