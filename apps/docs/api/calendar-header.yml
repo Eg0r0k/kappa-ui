@@ -1,0 +1,9 @@
+component: CalendarHeader
+file: ui/calendar/CalendarHeader.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a div, merging this part's attributes and classes onto it."
+slots:
+  default: "The heading and the arrows."
