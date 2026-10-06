@@ -2,7 +2,7 @@
 import { Image } from "@lucide/vue";
 import { shallowRef } from "vue";
 
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemIcon, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 type Photo = { id: string; label: string; icon?: typeof Image; children?: Photo[] };
 
@@ -31,7 +31,14 @@ const picked = shallowRef<Photo[]>([]);
       selection-behavior="replace"
       variant="outline"
       aria-label="Photos"
-    />
+      v-slot="{ items }"
+    >
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemIcon v-if="row.value.icon"><component :is="row.value.icon" /></TreeItemIcon>
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+      </TreeItem>
+    </Tree>
     <p class="text-body-sm text-muted-foreground" aria-live="polite">
       {{ picked.length }} selected. Click to pick one, Ctrl or ⌘-click to add, Shift-click or Shift + arrows for a
       range.

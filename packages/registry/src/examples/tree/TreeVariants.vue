@@ -2,7 +2,7 @@
 import { BookOpen, Cog, LayoutDashboard, Users } from "@lucide/vue";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemIcon, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 const sections = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -28,7 +28,13 @@ const sections = [
         <CardTitle>Ghost</CardTitle>
       </CardHeader>
       <CardContent>
-        <Tree :items="sections" :default-value="sections[0]" aria-label="Sections" />
+        <Tree :items="sections" :default-value="sections[0]" aria-label="Sections" v-slot="{ items }">
+          <TreeItem v-for="row in items" :key="row._id" :item="row">
+            <TreeItemToggle />
+            <TreeItemIcon v-if="row.value.icon"><component :is="row.value.icon" /></TreeItemIcon>
+            <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+          </TreeItem>
+        </Tree>
       </CardContent>
     </Card>
     <Tree
@@ -37,6 +43,13 @@ const sections = [
       variant="outline"
       aria-label="Sections, outline"
       class="w-56"
-    />
+      v-slot="{ items }"
+    >
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemIcon v-if="row.value.icon"><component :is="row.value.icon" /></TreeItemIcon>
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+      </TreeItem>
+    </Tree>
   </div>
 </template>

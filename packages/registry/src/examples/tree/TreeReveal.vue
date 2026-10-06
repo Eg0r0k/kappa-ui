@@ -2,7 +2,7 @@
 import { nextTick, shallowRef, useTemplateRef } from "vue";
 
 import { Button } from "@/ui/button";
-import { Tree, flattenTree, getAncestorKeys } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemLabel, TreeItemToggle, flattenTree, getAncestorKeys } from "@/ui/tree";
 
 type Page = { path: string; label: string; children?: Page[] };
 
@@ -62,6 +62,12 @@ const reveal = async (path: string) => {
       selection-behavior="replace"
       variant="outline"
       aria-label="Docs"
-    />
+      v-slot="{ items }"
+    >
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+      </TreeItem>
+    </Tree>
   </div>
 </template>

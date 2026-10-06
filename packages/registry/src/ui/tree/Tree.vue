@@ -1,33 +1,15 @@
 <script setup lang="ts" generic="T extends object = TreeNode, M extends boolean = false">
-import type { Virtualizer } from "@tanstack/vue-virtual";
-import {
-  type FlattenedItem,
-  type TreeItemSelectEvent,
-  type TreeItemToggleEvent,
-  TreeRoot,
-  TreeVirtualizer,
-} from "reka-ui";
-import {
-  type HTMLAttributes,
-  computed,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  shallowRef,
-  useAttrs,
-  watch,
-} from "vue";
+import { type FlattenedItem, type TreeItemSelectEvent, type TreeItemToggleEvent, TreeRoot } from "reka-ui";
+import { type HTMLAttributes, computed, nextTick, onMounted, ref, shallowRef, useAttrs, watch } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 import {
   type TreeExpose,
-  type TreeItemSlotProps,
   type TreeNode,
+  type TreeRowVirtualizer,
   type TreeVariants,
   fields,
-  type TreeVirtualizeOptions,
   provideTreeContext,
   treeVariants,
   warnOnce,
@@ -42,7 +24,6 @@ import {
   resolveSelection,
   toggleSelection,
 } from "./selection";
-import TreeItem from "./TreeItem.vue";
 
 defineOptions({ inheritAttrs: false });
 
@@ -65,10 +46,10 @@ const props = withDefaults(
     cascade?: boolean;
     getKey?: (item: T) => string;
     getChildren?: (item: T) => T[] | undefined;
-    labelKey?: string;
     /** `false`: a click on a row selects it, and only the chevron or a double click expands it. */
     toggleOnClick?: boolean;
-    virtualize?: boolean | TreeVirtualizeOptions;
+    /** The element to render: `ul`, or `div` around a TreeVirtualizer. */
+    as?: string;
     name?: string;
     id?: string;
     disabled?: boolean;
@@ -82,10 +63,9 @@ const props = withDefaults(
     modelValue: undefined,
     defaultValue: undefined,
     cascade: undefined,
-    labelKey: "label",
     selectionBehavior: "toggle",
     toggleOnClick: true,
-    virtualize: false,
+    as: "ul",
   },
 );
 
@@ -96,12 +76,8 @@ const emits = defineEmits<{
   toggle: [event: TreeItemToggleEvent<T>, item: T];
 }>();
 
-const slots = defineSlots<{
+defineSlots<{
   default?: (props: { items: FlattenedItem<T>[]; modelValue: Model | null | undefined; expanded: string[] }) => unknown;
-  item?: (props: TreeItemSlotProps<T>) => unknown;
-  "item-leading"?: (props: TreeItemSlotProps<T>) => unknown;
-  "item-label"?: (props: TreeItemSlotProps<T>) => unknown;
-  "item-trailing"?: (props: TreeItemSlotProps<T>) => unknown;
 }>();
 
 const attrs = useAttrs();
@@ -109,12 +85,6 @@ const control = useFieldControl(props, attrs);
 
 const keyOf = (item: T) => (props.getKey ?? defaultGetKey)(item);
 const childrenOf = (item: T) => (props.getChildren ?? defaultGetChildren<T>)(item);
-const labelOf = (item: T) => {
-  const value = props.labelKey
-    .split(".")
-    .reduce<unknown>((node, part) => (node as Record<string, unknown> | undefined)?.[part], item);
-  return value == null ? "" : String(value);
-};
 
 const index = computed(() =>
   buildIndex(props.items, {
@@ -294,63 +264,28 @@ const onFocusin = (event: FocusEvent) => {
   if (key !== undefined) emitKeys(new Set(rangeKeys(index.value, visibleKeys.value, anchor, key)));
 };
 
-// Virtualization
+// Virtualization: a TreeVirtualizer registers its virtualizer here
 const rootRef = ref<{ $el: HTMLElement }>();
 const rootEl = () => rootRef.value?.$el as HTMLElement | undefined;
 
-const virtualOptions = computed<TreeVirtualizeOptions | undefined>(() =>
-  props.virtualize === true ? {} : props.virtualize || undefined,
-);
-const virtual = computed(() => virtualOptions.value !== undefined);
-
-const probe = ref<HTMLElement>();
-const rowSize = ref(0);
-let virtualizer: Virtualizer<Element | Window, Element> | undefined;
-const remember = (instance: Virtualizer<Element | Window, Element>, item: FlattenedItem<T>) => {
-  virtualizer = instance;
-  return item;
+const virtualizer = shallowRef<TreeRowVirtualizer>();
+const virtual = computed(() => virtualizer.value !== undefined);
+const registerVirtualizer = (instance: TreeRowVirtualizer) => {
+  virtualizer.value = instance;
+  return () => {
+    if (virtualizer.value === instance) virtualizer.value = undefined;
+  };
 };
 
-const checkScroller = () => {
-  const el = rootEl();
-  if (!virtual.value || !el || visibleKeys.value.length <= 50) return;
-  if (el.clientHeight > 0 && el.scrollHeight <= el.clientHeight + 1) {
-    warnOnce("virtualize-height", 'virtualize needs a height on the tree, such as class="h-80"; rendering every row.');
-  }
-};
-
-const measure = () => {
-  if (!virtual.value) return;
-  // TreeVirtualizer has no measureElement: rows get a fixed height, read here from --tree-item-height.
-  rowSize.value = virtualOptions.value?.estimateSize ?? (probe.value?.offsetHeight || 36);
-  nextTick(() => requestAnimationFrame(checkScroller));
-};
 // Rows added after the first frame fade in; the rows the tree mounts with don't.
 const ready = ref(false);
-onMounted(() => {
-  measure();
-  requestAnimationFrame(() => requestAnimationFrame(() => (ready.value = true)));
-});
-watch([() => props.size, virtual], () => nextTick(measure));
-
-// A tree that mounts hidden measures 0; measure again once the probe has a size, or when tokens change.
-let probeObserver: ResizeObserver | undefined;
-watch(probe, (el, old) => {
-  if (typeof ResizeObserver === "undefined") return;
-  probeObserver ??= new ResizeObserver(() => {
-    const height = probe.value?.offsetHeight;
-    if (height && height !== rowSize.value && virtualOptions.value?.estimateSize === undefined) measure();
-  });
-  if (old) probeObserver.unobserve(old);
-  if (el) probeObserver.observe(el);
-});
-onBeforeUnmount(() => probeObserver?.disconnect());
+onMounted(() => requestAnimationFrame(() => requestAnimationFrame(() => (ready.value = true))));
 
 const scrollToKey = (key: string) => {
   const position = visibleKeys.value.indexOf(key);
   if (position === -1) return false;
-  if (virtual.value && virtualizer) {
-    virtualizer.scrollToIndex(position, { align: "auto" });
+  if (virtualizer.value) {
+    virtualizer.value.scrollToIndex(position, { align: "auto" });
   } else {
     rootEl()
       ?.querySelector(`[data-key="${CSS.escape(key)}"]`)
@@ -388,7 +323,6 @@ provideTreeContext({
   disabled: computed(() => !!control.disabled.value),
   toggleOnClick: computed(() => props.toggleOnClick),
   keyOf,
-  labelOf,
   hasChildren: (item: T) => childrenOf(item) !== undefined,
   isDisabled: (item) => fields(item).disabled === true,
   isExpanded: (key) => expandedSet.value.has(key),
@@ -405,6 +339,8 @@ provideTreeContext({
   extendOnFocus,
   isTyping,
   typed,
+  rootEl,
+  registerVirtualizer,
 });
 
 const submitKeys = computed(() => (props.name ? orderedKeys(index.value, selected.value) : []));
@@ -431,11 +367,10 @@ defineExpose<TreeExpose>({
 <template>
   <TreeRoot
     v-bind="attrs"
-    :key="virtual ? 'virtual' : 'flat'"
     ref="rootRef"
     v-slot="{ flattenItems }"
     data-slot="tree"
-    :as="virtual ? 'div' : 'ul'"
+    :as="props.as"
     :items="props.items"
     :get-key="rekaKey"
     :get-children="childrenOf"
@@ -465,37 +400,7 @@ defineExpose<TreeExpose>({
     @update:expanded="setExpanded"
     @focusin="onFocusin"
   >
-    <template v-if="virtual">
-      <div
-        ref="probe"
-        aria-hidden="true"
-        data-slot="tree-probe"
-        class="pointer-events-none invisible absolute h-(--tree-item-height)"
-      />
-      <TreeVirtualizer
-        v-if="rowSize > 0"
-        :key="rowSize"
-        v-slot="{ item, virtualizer: instance }"
-        :estimate-size="rowSize"
-        :overscan="virtualOptions?.overscan ?? 12"
-        :text-content="(node) => labelOf(node as T)"
-      >
-        <TreeItem :item="remember(instance, item as FlattenedItem<T>)">
-          <template v-if="slots.item" #default="row"><slot name="item" v-bind="row" /></template>
-          <template v-if="slots['item-leading']" #leading="row"><slot name="item-leading" v-bind="row" /></template>
-          <template v-if="slots['item-label']" #label="row"><slot name="item-label" v-bind="row" /></template>
-          <template v-if="slots['item-trailing']" #trailing="row"><slot name="item-trailing" v-bind="row" /></template>
-        </TreeItem>
-      </TreeVirtualizer>
-    </template>
-    <slot v-else :items="flattenItems" :model-value="localModel" :expanded="localExpanded">
-      <TreeItem v-for="item in flattenItems" :key="item._id" :item="item">
-        <template v-if="slots.item" #default="row"><slot name="item" v-bind="row" /></template>
-        <template v-if="slots['item-leading']" #leading="row"><slot name="item-leading" v-bind="row" /></template>
-        <template v-if="slots['item-label']" #label="row"><slot name="item-label" v-bind="row" /></template>
-        <template v-if="slots['item-trailing']" #trailing="row"><slot name="item-trailing" v-bind="row" /></template>
-      </TreeItem>
-    </slot>
+    <slot :items="flattenItems" :model-value="localModel" :expanded="localExpanded" />
   </TreeRoot>
   <template v-if="props.name">
     <input

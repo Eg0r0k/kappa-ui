@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { FileCode, Folder, FolderOpen } from "@lucide/vue";
 
-import { Tree, TreeItemIcon } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemIcon, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 type Status = "M" | "A" | "D";
 type Change = { path: string; label: string; status?: Status; children?: Change[]; defaultExpanded?: boolean };
@@ -33,21 +33,25 @@ const count = (change: Change): number =>
 </script>
 
 <template>
-  <Tree :items="changes" :get-key="(change) => change.path" variant="outline" aria-label="Changes" class="w-72">
-    <template #item-leading="{ hasChildren, expanded }">
+  <Tree
+    v-slot="{ items }"
+    :items="changes"
+    :get-key="(change) => change.path"
+    variant="outline"
+    aria-label="Changes"
+    class="w-72"
+  >
+    <TreeItem v-for="row in items" :key="row._id" v-slot="{ item, hasChildren, expanded }" :item="row">
+      <TreeItemToggle />
       <TreeItemIcon>
         <component :is="hasChildren ? (expanded ? FolderOpen : Folder) : FileCode" />
       </TreeItemIcon>
-    </template>
-    <template #item-label="{ item }">
-      <span :class="item.status === 'D' && 'line-through'">{{ item.label }}</span>
-    </template>
-    <template #item-trailing="{ item }">
+      <TreeItemLabel :class="item.status === 'D' && 'line-through'">{{ item.label }}</TreeItemLabel>
       <span v-if="item.children" class="text-label-md text-muted-foreground">{{ count(item) }}</span>
       <span v-else-if="item.status" :class="['text-label-md font-medium', tone[item.status]]">
         <span aria-hidden="true">{{ item.status }}</span>
         <span class="sr-only">{{ statusName[item.status] }}</span>
       </span>
-    </template>
+    </TreeItem>
   </Tree>
 </template>

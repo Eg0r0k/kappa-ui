@@ -1265,6 +1265,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/tree/TreeVirtualizer.vue",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/tree/index.ts",
           "type": "registry:ui"
         },

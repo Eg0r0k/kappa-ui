@@ -5,7 +5,17 @@ import { userEvent } from "vitest/browser";
 import { type Component, defineComponent, h, nextTick, shallowRef } from "vue";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
-import { Tree, type TreeExpose, TreeItem, type TreeItemSelectEvent } from "@/ui/tree";
+import {
+  Tree,
+  type TreeExpose,
+  type TreeFlattenedItem,
+  TreeItem,
+  TreeItemCheckbox,
+  TreeItemLabel,
+  type TreeItemSelectEvent,
+  type TreeItemSlotProps,
+  TreeItemToggle,
+} from "@/ui/tree";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
@@ -30,12 +40,39 @@ const makeItems = (): Node[] => [
   { id: "docs", label: "docs" },
 ];
 
+type RowOptions = {
+  /** Replaces the rows altogether. */
+  default?: (slot: { items: TreeFlattenedItem<Node>[] }) => unknown;
+  checkbox?: boolean;
+  label?: (item: Node) => unknown;
+  trailing?: (state: TreeItemSlotProps<Node>) => unknown;
+};
+
+// the row the tree used to draw by itself: chevron, checkbox in checkbox mode, label
+const rowsOf =
+  (options: RowOptions = {}) =>
+  ({ items }: { items: TreeFlattenedItem<Node>[] }) =>
+    items.map((row) =>
+      h(
+        TreeItem as Component,
+        { key: row._id, item: row },
+        {
+          default: (state: TreeItemSlotProps<Node>) => [
+            h(TreeItemToggle),
+            options.checkbox ? h(TreeItemCheckbox) : null,
+            h(TreeItemLabel, null, () => (options.label ? options.label(state.item) : state.item.label)),
+            options.trailing?.(state),
+          ],
+        },
+      ),
+    );
+
 const mounted: { unmount: () => void }[] = [];
 afterEach(() => {
   while (mounted.length) mounted.pop()!.unmount();
 });
 
-const mountTree = (props: Record<string, unknown> = {}, slots: Record<string, unknown> = {}) => {
+const mountTree = (props: Record<string, unknown> = {}, content: RowOptions = {}) => {
   const items = (props.items as Node[] | undefined) ?? makeItems();
   const value = shallowRef<unknown>(props.modelValue);
   const expanded = shallowRef<string[]>((props.expanded as string[] | undefined) ?? ["components", "home"]);
@@ -57,7 +94,7 @@ const mountTree = (props: Record<string, unknown> = {}, slots: Record<string, un
               expanded: expanded.value,
               "onUpdate:expanded": (next: string[]) => (expanded.value = next),
             },
-            slots,
+            { default: content.default ?? rowsOf({ checkbox: !!props.checkbox, ...content }) },
           ),
         ]),
     }),
@@ -231,13 +268,17 @@ describe("Tree", () => {
     const wrapper = mount(
       defineComponent({
         setup: () => () =>
-          h(Tree as Component, {
-            items: makeItems(),
-            "aria-label": "Files",
-            multiple: multiple.value,
-            modelValue: value.value,
-            "onUpdate:modelValue": (next: unknown) => (value.value = next),
-          }),
+          h(
+            Tree as Component,
+            {
+              items: makeItems(),
+              "aria-label": "Files",
+              multiple: multiple.value,
+              modelValue: value.value,
+              "onUpdate:modelValue": (next: unknown) => (value.value = next),
+            },
+            { default: rowsOf() },
+          ),
       }),
       { attachTo: document.body },
     );
@@ -279,15 +320,19 @@ describe("Tree", () => {
       defineComponent({
         setup: () => () =>
           h("form", [
-            h(Tree as Component, {
-              items,
-              multiple: true,
-              name: "files",
-              "aria-label": "Files",
-              defaultExpanded: ["components"],
-              modelValue: value.value,
-              "onUpdate:modelValue": (next: Node[]) => (value.value = next),
-            }),
+            h(
+              Tree as Component,
+              {
+                items,
+                multiple: true,
+                name: "files",
+                "aria-label": "Files",
+                defaultExpanded: ["components"],
+                modelValue: value.value,
+                "onUpdate:modelValue": (next: Node[]) => (value.value = next),
+              },
+              { default: rowsOf() },
+            ),
           ]),
       }),
       { attachTo: document.body },
@@ -307,7 +352,7 @@ describe("Tree", () => {
         h("form", [
           h(Field, { required: true }, () => [
             h(FieldLabel, () => "Files"),
-            h(Tree as Component, { items: makeItems(), name: "files" }),
+            h(Tree as Component, { items: makeItems(), name: "files" }, { default: rowsOf() }),
           ]),
         ]),
       { attachTo: document.body },
@@ -355,12 +400,11 @@ describe("Tree", () => {
     expect(value.value).toBe(items[2]);
   });
 
-  it("fills the item slots with the row's state", async () => {
+  it("gives the row's content its state", async () => {
     const { row } = mountTree(
       { modelValue: undefined },
       {
-        "item-trailing": ({ item, selected, level }: { item: Node; selected: boolean; level: number }) =>
-          h("span", { class: "trailing" }, `${item.id}:${level}:${selected}`),
+        trailing: ({ item, selected, level }) => h("span", { class: "trailing" }, `${item.id}:${level}:${selected}`),
       },
     );
 
@@ -427,7 +471,11 @@ describe("Tree keyboard", () => {
     const wrapper = mount(
       () =>
         h(ConfigProvider, { dir: "rtl" }, () =>
-          h(Tree as Component, { items: makeItems(), "aria-label": "Files", defaultExpanded: [] }),
+          h(
+            Tree as Component,
+            { items: makeItems(), "aria-label": "Files", defaultExpanded: [] },
+            { default: rowsOf() },
+          ),
         ),
       { attachTo: document.body },
     );
@@ -531,7 +579,7 @@ describe("Tree keyboard", () => {
     mountTree(
       {},
       {
-        "item-label": ({ item }: { item: Node }) =>
+        label: (item) =>
           item.id === "card"
             ? h("input", { "aria-label": "Rename", onClick: (event: Event) => event.stopPropagation() })
             : item.label,
@@ -638,7 +686,7 @@ describe("Tree field", () => {
         setup: () => () =>
           h(Field, { invalid: true, required: true, disabled: true }, () => [
             h(FieldLabel, () => "Permissions"),
-            h(Tree as Component, { items: makeItems() }),
+            h(Tree as Component, { items: makeItems() }, { default: rowsOf() }),
             h(FieldDescription, () => "What the role can do."),
             h(FieldError, { errors: "Grant at least one permission." }),
           ]),

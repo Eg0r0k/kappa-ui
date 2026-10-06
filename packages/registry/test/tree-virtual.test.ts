@@ -3,7 +3,15 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type Component, defineComponent, h, nextTick, shallowRef } from "vue";
 
-import { Tree, type TreeExpose } from "@/ui/tree";
+import {
+  Tree,
+  type TreeExpose,
+  type TreeFlattenedItem,
+  TreeItem,
+  TreeItemLabel,
+  TreeItemToggle,
+  TreeVirtualizer,
+} from "@/ui/tree";
 
 type File = { path: string; name: string; children?: File[] };
 
@@ -19,6 +27,16 @@ const frames = async (count = 3) => {
   await nextTick();
 };
 
+const virtualRows = () =>
+  h(
+    TreeVirtualizer as Component,
+    { textContent: (file: File) => file.name },
+    {
+      default: ({ item }: { item: TreeFlattenedItem<File> }) =>
+        h(TreeItem as Component, { item }, () => [h(TreeItemToggle), h(TreeItemLabel, null, () => item.value.name)]),
+    },
+  );
+
 const mounted: { unmount: () => void }[] = [];
 afterEach(() => {
   while (mounted.length) mounted.pop()!.unmount();
@@ -30,18 +48,21 @@ const mountVirtual = (props: Record<string, unknown> = {}) => {
   const wrapper = mount(
     defineComponent({
       setup: () => () =>
-        h(Tree as Component, {
-          items: folders(2000, 3),
-          "aria-label": "Files",
-          virtualize: true,
-          getKey: (file: File) => file.path,
-          labelKey: "name",
-          class: "h-[200px]",
-          ref: (instance: unknown) => (exposed.value = instance as TreeExpose),
-          ...props,
-          expanded: expanded.value,
-          "onUpdate:expanded": (next: string[]) => (expanded.value = next),
-        }),
+        h(
+          Tree as Component,
+          {
+            items: folders(2000, 3),
+            "aria-label": "Files",
+            as: "div",
+            getKey: (file: File) => file.path,
+            class: "h-[200px]",
+            ref: (instance: unknown) => (exposed.value = instance as TreeExpose),
+            ...props,
+            expanded: expanded.value,
+            "onUpdate:expanded": (next: string[]) => (expanded.value = next),
+          },
+          { default: virtualRows },
+        ),
     }),
     { attachTo: document.body },
   );
@@ -75,7 +96,7 @@ describe("Tree virtualize", () => {
 
     expect(rows()).toHaveLength(80);
     expect(warn.mock.calls.map((call) => String(call[0]))).toEqual([
-      expect.stringContaining("virtualize needs a height"),
+      expect.stringContaining("TreeVirtualizer needs a height"),
     ]);
     warn.mockRestore();
   });
@@ -117,15 +138,18 @@ describe("Tree virtualize", () => {
     document.body.append(host);
     const wrapper = mount(
       () =>
-        h(Tree as Component, {
-          items: folders(200, 0),
-          "aria-label": "Files",
-          virtualize: true,
-          getKey: (file: File) => file.path,
-          labelKey: "name",
-          size: "xs",
-          class: "h-[200px]",
-        }),
+        h(
+          Tree as Component,
+          {
+            items: folders(200, 0),
+            "aria-label": "Files",
+            as: "div",
+            getKey: (file: File) => file.path,
+            size: "xs",
+            class: "h-[200px]",
+          },
+          { default: virtualRows },
+        ),
       { attachTo: host },
     );
     mounted.push({ unmount: () => (wrapper.unmount(), host.remove()) });

@@ -2,7 +2,7 @@
 import { File, Folder } from "@lucide/vue";
 import { shallowRef } from "vue";
 
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemIcon, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 type Entry = { key: string; label: string; icon: typeof File; children?: Entry[]; loading?: boolean };
 
@@ -59,5 +59,12 @@ const load = async (expanded: string[]) => {
     aria-label="Bucket"
     class="w-full max-w-xs"
     @update:expanded="load"
-  />
+    v-slot="{ items }"
+  >
+    <TreeItem v-for="row in items" :key="row._id" :item="row">
+      <TreeItemToggle />
+      <TreeItemIcon v-if="row.value.icon"><component :is="row.value.icon" /></TreeItemIcon>
+      <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+    </TreeItem>
+  </Tree>
 </template>

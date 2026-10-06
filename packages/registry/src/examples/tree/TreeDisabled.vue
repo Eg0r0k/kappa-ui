@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 const plans = [
   {
@@ -17,7 +17,19 @@ const plans = [
 
 <template>
   <div class="flex flex-wrap items-start gap-6">
-    <Tree :items="plans" :default-expanded="['free']" variant="outline" aria-label="Plans" class="w-60" />
+    <Tree
+      :items="plans"
+      :default-expanded="['free']"
+      variant="outline"
+      aria-label="Plans"
+      class="w-60"
+      v-slot="{ items }"
+    >
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+      </TreeItem>
+    </Tree>
     <Tree
       :items="plans"
       :default-expanded="['free']"
@@ -25,6 +37,12 @@ const plans = [
       disabled
       aria-label="Plans, locked"
       class="w-60"
-    />
+      v-slot="{ items }"
+    >
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+      </TreeItem>
+    </Tree>
   </div>
 </template>

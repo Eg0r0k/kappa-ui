@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from "vue";
 
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemLabel, TreeItemToggle, TreeVirtualizer } from "@/ui/tree";
 
 type Region = { id: string; label: string; children?: Region[] };
 
@@ -27,10 +27,17 @@ const store = shallowRef<Region>();
         v-model="store"
         v-model:expanded="expanded"
         :items="regions"
-        virtualize
+        as="div"
         aria-label="Stores"
         class="h-80 scroll-fade-y"
-      />
+      >
+        <TreeVirtualizer v-slot="{ item: row }">
+          <TreeItem :item="row">
+            <TreeItemToggle />
+            <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+          </TreeItem>
+        </TreeVirtualizer>
+      </Tree>
     </div>
     <p class="text-body-sm text-muted-foreground" aria-live="polite">
       {{ store ? store.label : "10,100 nodes, about 20 rendered. Try End, or type a name." }}

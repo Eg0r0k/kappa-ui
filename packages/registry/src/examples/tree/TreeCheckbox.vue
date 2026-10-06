@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef } from "vue";
 
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemCheckbox, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 type Permission = { id: string; label: string; children?: Permission[]; disabled?: boolean };
 
@@ -50,7 +50,14 @@ const leaves = computed(() => granted.value.filter((permission) => !permission.c
       checkbox
       variant="outline"
       aria-label="Permissions"
-    />
+      v-slot="{ items }"
+    >
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemCheckbox />
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+      </TreeItem>
+    </Tree>
     <p class="text-body-sm text-muted-foreground" aria-live="polite">
       {{ leaves.length ? leaves.map((permission) => permission.id).join(", ") : "No permissions" }}
     </p>

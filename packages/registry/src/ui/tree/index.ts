@@ -10,14 +10,15 @@ export { default as TreeItemCheckbox } from "./TreeItemCheckbox.vue";
 export { default as TreeItemIcon } from "./TreeItemIcon.vue";
 export { default as TreeItemLabel } from "./TreeItemLabel.vue";
 export { default as TreeItemToggle } from "./TreeItemToggle.vue";
+export { default as TreeVirtualizer } from "./TreeVirtualizer.vue";
 export type { FlattenedItem as TreeFlattenedItem, TreeItemSelectEvent, TreeItemToggleEvent } from "reka-ui";
 export type { TreeCheckedState } from "./selection";
 
-/** The fields the default rows read. Any other field rides along for slots and `getKey`. */
+/** The node shape the defaults read: `getKey`, `getChildren`, the virtualizer's typeahead text. Any other field rides along. */
 export interface TreeNode {
   id?: string | number;
   label?: string;
-  /** A component, such as a Lucide icon, shown before the label. */
+  /** A component, such as a Lucide icon, for your row to show. */
   icon?: Component;
   /** `undefined` makes a leaf; `[]` a folder that is empty or not loaded yet. */
   children?: TreeNode[];
@@ -29,15 +30,8 @@ export interface TreeNode {
   [key: string]: unknown;
 }
 
-/** Reads the fields the default rows use from any node shape. */
-export const fields = (item: object) => item as Pick<TreeNode, "icon" | "disabled" | "loading" | "defaultExpanded">;
-
-export interface TreeVirtualizeOptions {
-  /** Rows rendered past each edge of the view. 12 by default. */
-  overscan?: number;
-  /** Row height in pixels. Measured from `--tree-item-height` by default. */
-  estimateSize?: number;
-}
+/** Reads the fields the tree uses from any node shape. */
+export const fields = (item: object) => item as Pick<TreeNode, "label" | "disabled" | "loading" | "defaultExpanded">;
 
 export interface TreeItemSlotProps<T = TreeNode> {
   item: T;
@@ -115,7 +109,6 @@ export interface TreeContext {
   virtual: ComputedRef<boolean>;
   disabled: ComputedRef<boolean>;
   keyOf(item: object): string;
-  labelOf(item: object): string;
   hasChildren(item: object): boolean;
   isDisabled(item: object): boolean;
   isExpanded: (key: string) => boolean;
@@ -134,7 +127,13 @@ export interface TreeContext {
   /** Whether a character was typed in the last second, so a Space goes on with a typeahead search. */
   isTyping: () => boolean;
   typed: () => void;
+  /** The tree's element, the scroll container of a virtualizer. */
+  rootEl: () => HTMLElement | undefined;
+  /** A TreeVirtualizer hands the root its virtualizer, for `scrollToKey` and focus after an expand. */
+  registerVirtualizer: (virtualizer: TreeRowVirtualizer) => () => void;
 }
+
+export type TreeRowVirtualizer = { scrollToIndex: (index: number, options?: { align?: "auto" }) => void };
 
 export const [injectTreeContext, provideTreeContext] = createContext<TreeContext>("Tree");
 
