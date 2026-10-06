@@ -147,6 +147,21 @@ describe("Toaster", () => {
     expect(back!.getBoundingClientRect().top).toBeLessThan(front!.getBoundingClientRect().top);
   });
 
+  it("eases an older toast down to the newest one's height", async () => {
+    const toaster = render();
+    toaster.add({ title: "First", description: "A longer toast\nwith a second line" });
+    await wait(700);
+    const [back] = toasts();
+    const start = back!.offsetHeight;
+    // a slow transition, so the check doesn't depend on frame timing
+    viewport().style.setProperty("--transition-duration-medium-4", "100s");
+    toaster.add({ title: "Second" });
+    await wait(300);
+    const end = parseFloat(viewport().style.getPropertyValue("--toast-front-height"));
+    expect(end).toBeLessThan(start - 10);
+    expect(back!.offsetHeight).toBeGreaterThan(end + 2);
+  });
+
   it("lays the stack out in full with expand", async () => {
     const toaster = render({ expand: true });
     toaster.add({ title: "First" });
