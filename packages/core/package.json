@@ -124,7 +124,7 @@
     "@vue/tsconfig": "^0.9.1",
     "playwright": "^1.63.0",
     "publint": "^0.3.24",
-    "reka-ui": "2.10.5",
+    "reka-ui": "2.11.0",
     "tsdown": "0.23.0",
     "typescript": "~6.0.2",
     "vitest": "^5.0.1",
