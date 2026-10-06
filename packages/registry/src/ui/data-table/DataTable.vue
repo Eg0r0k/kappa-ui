@@ -77,7 +77,7 @@ export type DataTableProps<T extends RowData> = {
 
 <script setup lang="ts" generic="T extends RowData">
 import { type Cell, type CellContext, type Header, type HeaderContext } from "@tanstack/vue-table";
-import { computed, nextTick, onBeforeUnmount, onMounted, type Ref, ref, shallowRef, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, type Ref, ref, shallowRef, toRef, watch } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Progress } from "@/ui/progress";
@@ -221,7 +221,7 @@ const selectAll = useSelectAll<T>({
   manual: () => manualFlags.value.pagination || manualFlags.value.sorting || manualFlags.value.filtering,
   total: () => (manualFlags.value.pagination ? (props.rowCount ?? 0) : table.getPrePaginatedRowModel().rows.length),
 });
-provideDataTableContext({ selectAll });
+provideDataTableContext({ selectAll, size: toRef(() => props.size) });
 
 const tableRef = shallowRef<HTMLTableElement | null>(null);
 const theadRef = shallowRef<HTMLElement | null>(null);

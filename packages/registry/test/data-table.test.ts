@@ -209,6 +209,38 @@ it("sets the size, stripes by absolute parity and switches hover off", () => {
   expect(table().className).toContain("[--table-hover-bg:transparent]");
 });
 
+it("fits its sort button, checkboxes and toggles inside a 28px row at xs", async () => {
+  const data = people.slice(0, 6);
+  const heights = () =>
+    [...document.querySelectorAll("thead tr, tbody tr")].map((row) => row.getBoundingClientRect().height);
+  const expanding = render({
+    data,
+    size: "xs",
+    sortable: true,
+    selection: true,
+    expandable: { getRowCanExpand: () => true },
+  });
+  await nextTick();
+  expect(document.querySelectorAll("[data-slot=data-table-column-header]")).toHaveLength(3);
+  expect(document.querySelectorAll("[data-slot=data-table-expand-cell] button")).toHaveLength(6);
+  expect(heights()).toEqual(Array(7).fill(28));
+  expanding.wrapper.unmount();
+
+  render({ data, size: "xs", groupable: true, grouping: ["city"] });
+  await nextTick();
+  expect(document.querySelectorAll("[data-slot=data-table-group-cell] button")).toHaveLength(3);
+  expect(heights()).toEqual(Array(4).fill(28));
+});
+
+it("keeps its sort button and toggles at their own size from sm up", async () => {
+  render({ data: people.slice(0, 2), size: "sm", sortable: true, expandable: { getRowCanExpand: () => true } });
+  await nextTick();
+  const box = (selector: string) => document.querySelector(selector)!.getBoundingClientRect().height;
+  expect([box("[data-slot=data-table-column-header]"), box("[data-slot=data-table-expand-cell] button")]).toEqual([
+    32, 28,
+  ]);
+});
+
 it("renders the footer from column footers and counts it in aria-rowcount", () => {
   const cols = [
     helper.accessor("name", { header: "Name", footer: "Total" }),

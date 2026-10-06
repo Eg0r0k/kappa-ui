@@ -41,7 +41,7 @@ export const tableStyles = {
     "font-medium [--table-row-bg:var(--table-stripe-bg)] data-sticky:sticky data-sticky:bottom-(--table-sticky-bottom,0px) data-sticky:z-2 data-sticky:bg-background [&_td]:border-t [&_td]:border-b-0",
   row: "h-(--table-row-h) outline-none [tbody:not([data-state=selected])>&:not([data-state=selected])]:hover:[--table-row-bg:var(--table-hover-bg)] data-[state=selected]:[--table-row-bg:var(--table-selected-bg)] data-clickable:cursor-pointer focus-visible:focus-ring-inset",
   head: `${cellBase} h-(--table-row-h) border-b border-border text-start font-medium text-foreground`,
-  cell: `${cellBase} border-b border-border py-(--table-cell-py) [tbody:last-of-type>tr:last-child>&]:border-b-0 [tbody:has(+[data-slot=table-pinned-bottom])>tr:last-child>&]:border-b-0 data-truncate:max-w-0 data-truncate:truncate`,
+  cell: `${cellBase} border-b border-border py-(--table-cell-py,--spacing(2)) [tbody:last-of-type>tr:last-child>&]:border-b-0 [tbody:has(+[data-slot=table-pinned-bottom])>tr:last-child>&]:border-b-0 data-truncate:max-w-0 data-truncate:truncate`,
   pinned:
     "sticky z-1 bg-background bg-[linear-gradient(var(--table-row-bg),var(--table-row-bg))] data-[pinned=start]:start-(--pin-start,0px) data-[pinned=end]:end-(--pin-end,0px)",
   pinnedEdge:

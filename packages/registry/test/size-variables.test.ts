@@ -46,6 +46,31 @@ it("lets an unlayered rule keyed on slot and size retune one size of list", asyn
   }
 });
 
+it("lets an unlayered rule keyed on the slot alone retune every size of checkbox", () => {
+  const rule = document.createElement("style");
+  rule.textContent = "[data-slot='checkbox'] { --choice-size: 22px; }";
+  document.head.append(rule);
+  try {
+    mount(
+      {
+        render: () => [
+          h(Checkbox, { "aria-label": "A", size: "xs" }),
+          h(Checkbox, { "aria-label": "B" }),
+          h(Checkbox, { "aria-label": "C", size: "xl" }),
+        ],
+      },
+      { attachTo: document.body },
+    );
+    const widths = [...document.querySelectorAll("[data-slot=checkbox]")].map(
+      (box) => box.getBoundingClientRect().width,
+    );
+
+    expect(widths).toEqual([22, 22, 22]);
+  } finally {
+    rule.remove();
+  }
+});
+
 it("lets a class on DrawerMenu override the gap it derives from its padding", async () => {
   mount(
     {

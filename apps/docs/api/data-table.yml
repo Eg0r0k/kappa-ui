@@ -15,7 +15,7 @@ props:
   caption:
     description: A caption read by assistive technology, visually hidden.
   size:
-    description: Row height, `xs` to `xl` as on `Table`, through the table's `--table-row-h`; also the estimated row height while virtualizing.
+    description: Row height, `xs` to `xl` as on `Table`, through the table's `--table-row-h`; also the estimated row height while virtualizing. At `xs` the sort buttons and the expand and group toggles shrink so they fit in the 28px row.
   striped:
     description: Tints every even row by its absolute index, so virtualization does not break the pattern.
   hoverable:

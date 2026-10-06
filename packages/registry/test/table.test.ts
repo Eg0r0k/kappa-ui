@@ -112,6 +112,14 @@ it("sets the row height from size", () => {
   expect(qa("[data-slot=table]").map((table) => table.dataset.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 });
 
+it("tightens the cell padding at xs and keeps 8px in a table that sets none", () => {
+  render(() => [
+    h(Table, { size: "xs" }, () => h(TableBody, () => rows({ rows: 1, columns: 1 }))),
+    h("table", h("tbody", rows({ rows: 1, columns: 1 }))),
+  ]);
+  expect(qa("[data-slot=table-cell]").map((cell) => getComputedStyle(cell).paddingBlock)).toEqual(["3px", "8px"]);
+});
+
 it("paints hover, selection and stripes on the cells through --table-row-bg", async () => {
   render(() =>
     h(Table, { striped: true }, () => [

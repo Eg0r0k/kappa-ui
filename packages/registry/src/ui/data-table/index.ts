@@ -58,7 +58,7 @@ import {
   tableFeatures,
 } from "@tanstack/vue-table";
 import { createContext } from "reka-ui";
-import { type FunctionalComponent, type HTMLAttributes, type StyleValue, type VNodeChild, h } from "vue";
+import { type FunctionalComponent, type HTMLAttributes, type Ref, type StyleValue, type VNodeChild, h } from "vue";
 
 import type { TableAlign, TableSize } from "@/ui/table";
 import DataTableExpandCell from "./DataTableExpandCell.vue";
@@ -297,7 +297,7 @@ export type DataTableRowSelectionState = Record<string, boolean>;
 
 export type DataTableSelection = { mode: DataTableSelectAll; ids: string[]; excluded: string[]; count: number };
 
-export type DataTableContext = { selectAll: UseSelectAllReturn };
+export type DataTableContext = { selectAll: UseSelectAllReturn; size: Readonly<Ref<TableSize>> };
 
 export const [injectDataTableContext, provideDataTableContext] = createContext<DataTableContext>(
   "DataTable",
