@@ -1357,6 +1357,97 @@
       ]
     },
     {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A desktop-style bar of menus, like File, Edit and View, with roving focus, hover switching, submenus, checkbox and radio items, built on Reka UI and styled like Menu.",
+      "categories": [
+        "navigation"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover",
+        "menu"
+      ],
+      "files": [
+        {
+          "path": "src/ui/menubar/Menubar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarCheckboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarItemIndicator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarRadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarRadioItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarShortcut.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSub.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSubContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSubTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "field",
       "type": "registry:ui",
       "title": "Field",
@@ -8726,6 +8817,208 @@
       "files": [
         {
           "path": "src/examples/menu/MenuNonModal.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-demo",
+      "type": "registry:block",
+      "title": "Menubar",
+      "description": "A browser-style menubar with shortcuts, a submenu, checkbox and radio items.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-sizes",
+      "type": "registry:block",
+      "title": "Menubar sizes",
+      "description": "The same menubar from xs to xl; one menu keeps its own size.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-variants",
+      "type": "registry:block",
+      "title": "Menubar variants",
+      "description": "Outline, soft and ghost bars, and a ghost bar in a document header.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-icons",
+      "type": "registry:block",
+      "title": "Menubar icons and states",
+      "description": "Leading icons, labels, inset items, a disabled item and a disabled menu.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarIcons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-checkbox-radio",
+      "type": "registry:block",
+      "title": "Menubar settings",
+      "description": "Editor view settings bound to one reactive object with checkbox and radio items.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarCheckboxRadio.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-open-state",
+      "type": "registry:block",
+      "title": "Controlled menubar",
+      "description": "The open menu bound with v-model and opened from buttons outside the bar.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarOpenState.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-dialogs",
+      "type": "registry:block",
+      "title": "Menubar with dialogs",
+      "description": "Items that open a rename form, a delete confirmation, and move focus to a search field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "alert-dialog",
+        "button",
+        "dialog",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarDialogs.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-icon-triggers",
+      "type": "registry:block",
+      "title": "Icon menubar",
+      "description": "Icon-only menus labelled with the v-tooltip directive.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarIconTriggers.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-rtl",
+      "type": "registry:block",
+      "title": "Right-to-left menubar",
+      "description": "A menubar mirrored under dir=\"rtl\", with arrows, menus and submenus flipped.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarRtl.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-app-shell",
+      "type": "registry:block",
+      "title": "Menubar app shell",
+      "description": "A document editor with a ghost menubar above a formatting toolbar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "menu",
+        "toolbar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarAppShell.vue",
           "type": "registry:component"
         }
       ]

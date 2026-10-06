@@ -1,0 +1,13 @@
+component: MenubarRadioGroup
+file: ui/menubar/MenubarRadioGroup.vue
+props:
+  modelValue:
+    description: "The value of the checked item, bound with `v-model`."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+emits:
+  update:modelValue: "Fires when another item is checked."
+slots:
+  default: "The radio items."
