@@ -36,7 +36,7 @@ describe('HomeShowcase', () => {
 
   it('paints the wall in the brand page colour', () => {
     const root = rootOf(mountShowcase('github'))
-    expect(getComputedStyle(root).backgroundColor).toBe('rgb(246, 248, 250)')
+    expect(getComputedStyle(root).backgroundColor).toBe('rgb(255, 255, 255)')
   })
 
   it('cross-fades the whole showcase, so the snapshot keeps its clip and fade', () => {

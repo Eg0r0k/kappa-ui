@@ -43,7 +43,8 @@ describe('showcase styles', () => {
     const css = showcaseCss()
     expect(blockOf(css, scope('github'))).toContain('--primary:#0969da;')
     expect(blockOf(css, scope('github'))).toContain('--success:#1f883d;')
-    expect(blockOf(css, `.dark ${scope('github')}`)).toContain('--background:#010409;')
+    expect(blockOf(css, scope('github'))).toContain('--background:#ffffff;')
+    expect(blockOf(css, `.dark ${scope('github')}`)).toContain('--background:#0d1117;')
     expect(blockOf(css, scope('spotify'))).toContain('--primary-foreground:#000000;')
     expect(blockOf(css, `.dark ${scope('spotify')}`)).toContain('--primary-foreground:#000000;')
     expect(blockOf(css, `.dark ${scope('telegram')}`)).toContain('--primary:#3685fa;')
@@ -65,10 +66,17 @@ describe('showcase styles', () => {
     expect(blockOf(css, scope('github'))).not.toContain('--surface-border:transparent;')
   })
 
-  it('loads every brand font', () => {
+  it('loads every brand web font', () => {
     const url = showcaseFontUrl()
-    for (const family of ['Inter', 'Mona+Sans', 'Roboto', 'Figtree', 'Noto+Sans']) {
+    for (const family of ['Inter', 'Roboto', 'Figtree', 'Noto+Sans']) {
       expect(url).toContain(`family=${family}:`)
     }
+  })
+
+  it('gives GitHub its system font stack and flat boxes', () => {
+    const github = blockOf(showcaseCss(), scope('github'))
+    expect(github).toContain('font-family:-apple-system, BlinkMacSystemFont, "Segoe UI"')
+    expect(github).toContain('--shadow-sm:0 0 #0000;')
+    expect(showcaseFontUrl()).not.toContain('Mona')
   })
 })
