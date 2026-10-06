@@ -104,6 +104,9 @@ describe("Menubar v-model", () => {
     renderMenubar({ root: { defaultValue: "edit" } });
     await settle();
     expect(openMenus()).toEqual([trigger("Edit").id]);
+    // Regression: Reka left an empty aria-controls on a trigger whose menu was open on first render
+    expect(trigger("Edit").getAttribute("aria-controls")).toBe(q("[data-slot=menubar-content]")!.id);
+    expect(q("[data-slot=menubar-content]")!.id).not.toBe("");
     await userEvent.keyboard("{Escape}");
     await settle();
     expect(openMenus()).toEqual([]);
@@ -353,13 +356,32 @@ describe("Menubar items", () => {
   });
 
   it("does not fire select on a disabled item", async () => {
-    renderMenubar();
+    const chosen: string[] = [];
+    mount(
+      {
+        render: () =>
+          h(Menubar, { "aria-label": "App" }, () =>
+            h(MenubarMenu, () => [
+              h(MenubarTrigger, () => "File"),
+              h(MenubarContent, () => [
+                h(MenubarItem, { disabled: true, onSelect: () => chosen.push("disabled") }, () => "Incognito"),
+              ]),
+            ]),
+          ),
+      },
+      { attachTo: document.body },
+    );
     await userEvent.click(trigger("File"));
     await settle();
-    const disabled = item("New incognito window");
+    const disabled = item("Incognito");
     expect(disabled.hasAttribute("data-disabled")).toBe(true);
     expect(disabled.getAttribute("aria-disabled")).toBe("true");
     expect(getComputedStyle(disabled).pointerEvents).toBe("none");
+    // a click that gets past pointer-events, from a script or assistive technology
+    disabled.click();
+    await settle();
+    expect(chosen).toEqual([]);
+    expect(openMenus()).toEqual([trigger("File").id]);
   });
 
   it("binds checkbox items and radio groups with v-model", async () => {
