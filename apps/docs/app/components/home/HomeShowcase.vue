@@ -42,7 +42,7 @@ onBeforeUnmount(() => observer?.disconnect())
     aria-label="Component showcase"
     class="relative bg-muted/60 text-foreground max-lg:mx-4 max-lg:rounded-3xl lg:rounded-s-3xl"
   >
-    <div ref="viewport" class="size-full overflow-clip mask-b-from-75% max-lg:rounded-3xl lg:rounded-s-3xl">
+    <div ref="viewport" class="relative size-full overflow-clip mask-b-from-75% max-lg:rounded-3xl lg:rounded-s-3xl">
       <div
         class="flex gap-4 p-6 [view-transition-name:home-showcase] max-lg:mx-auto max-lg:max-w-sm max-lg:flex-col lg:p-8"
       >

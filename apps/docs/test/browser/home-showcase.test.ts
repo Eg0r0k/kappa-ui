@@ -59,4 +59,13 @@ describe('HomeShowcase', () => {
       expect(cards.some((card) => !card.inert)).toBe(true)
     })
   })
+
+  it('keeps the hidden parts of clipped cards inside the showcase', () => {
+    const frame = document.createElement('div')
+    frame.style.cssText = 'height: 20rem; overflow: auto'
+    document.body.append(frame)
+    mount(HomeShowcase, { props: { styleKey: 'kappa' }, attrs: { style: 'height: 20rem' }, attachTo: frame })
+    expect(frame.scrollHeight).toBe(frame.clientHeight)
+    frame.remove()
+  })
 })
