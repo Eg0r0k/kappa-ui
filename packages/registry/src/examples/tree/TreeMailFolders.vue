@@ -3,7 +3,7 @@ import { Archive, Folder, Inbox, Send } from "@lucide/vue";
 import { shallowRef } from "vue";
 
 import { Badge } from "@/ui/badge";
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemIcon, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 type Mailbox = { id: string; label: string; icon: typeof Inbox; unread?: number; children?: Mailbox[] };
 
@@ -36,15 +36,19 @@ const open = shallowRef<Mailbox>(mailboxes[0]!);
 <template>
   <div class="flex w-full max-w-xs flex-col gap-3">
     <Tree
+      v-slot="{ items }"
       v-model="open"
       :items="mailboxes"
       :toggle-on-click="false"
       selection-behavior="replace"
       aria-label="Mailboxes"
     >
-      <template #item-trailing="{ item }">
-        <Badge v-if="item.unread" variant="soft" size="sm">{{ item.unread }}</Badge>
-      </template>
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemIcon v-if="row.value.icon"><component :is="row.value.icon" /></TreeItemIcon>
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+        <Badge v-if="row.value.unread" variant="soft" size="sm">{{ row.value.unread }}</Badge>
+      </TreeItem>
     </Tree>
     <p class="text-body-sm text-muted-foreground" aria-live="polite">
       Showing {{ open.label }}. Click the chevron or double-click a folder to open it.

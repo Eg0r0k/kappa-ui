@@ -3,7 +3,7 @@ import { Copy, Pencil, Trash2 } from "@lucide/vue";
 import { computed, nextTick, ref, shallowRef } from "vue";
 
 import { Menu, MenuItem, MenuLabel, MenuSeparator } from "@/ui/menu";
-import { Tree, flattenTree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemLabel, TreeItemToggle, flattenTree } from "@/ui/tree";
 
 type Note = { id: string; label: string; children?: Note[] };
 
@@ -69,21 +69,24 @@ const cancel = (event: Event) => {
 
 <template>
   <div class="w-full max-w-xs" @contextmenu.capture="pick" @focusin="onFocusin">
-    <Tree :items="notes" :default-expanded="[notes[0]!.id]" variant="outline" aria-label="Notes">
-      <template #item-label="{ item }">
-        <input
-          v-if="item.id === renaming"
-          v-focus
-          :value="item.label"
-          aria-label="Name"
-          class="w-full min-w-0 rounded-sm bg-background px-1 outline-none focus-visible:focus-ring"
-          @click.stop
-          @keydown.enter.prevent="commit"
-          @keydown.escape.stop="cancel"
-          @blur="commit"
-        />
-        <template v-else>{{ item.label }}</template>
-      </template>
+    <Tree v-slot="{ items }" :items="notes" :default-expanded="[notes[0]!.id]" variant="outline" aria-label="Notes">
+      <TreeItem v-for="row in items" :key="row._id" v-slot="{ item }" :item="row">
+        <TreeItemToggle />
+        <TreeItemLabel>
+          <input
+            v-if="item.id === renaming"
+            v-focus
+            :value="item.label"
+            aria-label="Name"
+            class="w-full min-w-0 rounded-sm bg-background px-1 outline-none focus-visible:focus-ring"
+            @click.stop
+            @keydown.enter.prevent="commit"
+            @keydown.escape.stop="cancel"
+            @blur="commit"
+          />
+          <template v-else>{{ item.label }}</template>
+        </TreeItemLabel>
+      </TreeItem>
     </Tree>
     <Menu context-menu class="w-48">
       <MenuLabel class="truncate">{{ targetNote?.label ?? "Notes" }}</MenuLabel>

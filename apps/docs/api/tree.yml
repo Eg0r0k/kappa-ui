@@ -19,19 +19,17 @@ props:
   selectionBehavior:
     description: "`toggle` adds or removes a node on each click, so clicking the selected node clears it. `replace` keeps a node selected; with `multiple`, a click replaces the selection, Ctrl or ⌘ adds to it, and Shift or Shift + arrows select a range."
   checkbox:
-    description: Puts a checkbox in every row and uses `aria-checked`. Turns on `multiple` and `cascade`; add `multiple` too so `v-model` is typed as an array.
+    description: Checkbox mode. Rows use `aria-checked`, and `TreeItemCheckbox` shows their state; put one in each row. Turns on `multiple` and `cascade`; add `multiple` too so `v-model` is typed as an array.
   cascade:
     description: Checking a parent checks every enabled node under it, and a parent counts as checked while all its children are, indeterminate while some are. On by default with `checkbox`.
   getKey:
     description: Returns a node's unique key, a string. By default `id`, then `value`, then `label`. Paths make good keys for files.
   getChildren:
     description: Returns a node's children, `undefined` for a leaf. By default `children`.
-  labelKey:
-    description: The field the default row shows, and the virtualized typeahead matches. A dotted path reads a nested field.
   toggleOnClick:
     description: "`false` makes a click on a row select it only; the chevron or a double click expands it. The keyboard is the same either way."
-  virtualize:
-    description: Renders only the rows near the view. `true`, or `{ overscan, estimateSize }`. The tree becomes the scroller, so give it a height, such as `class="h-80"`; rows get a fixed height.
+  as:
+    description: "The element to render: `ul`, or `div` around a `TreeVirtualizer`."
   name:
     description: Submits the selected keys with their form under this name, one hidden input each. With `required`, the form won't submit while nothing is selected.
   id:
@@ -52,11 +50,7 @@ emits:
   select: Fires when a row is clicked or chosen with Enter or Space, with the event and the node. Call `event.preventDefault()` to keep the selection as it is.
   toggle: Fires before a row expands or collapses from a click or an arrow key, with the event and the node. Call `event.preventDefault()` to stop it.
 slots:
-  default: Replaces the rows, with `{ items, modelValue, expanded }`. Render a `TreeItem` for each of `items`. Not used with `virtualize`.
-  item: Replaces a row's whole content, with the row's state.
-  item-leading: Before the label, where the node's `icon` goes, with the row's state.
-  item-label: The label, with the row's state.
-  item-trailing: After the label, with the row's state.
+  default: The rows, with `{ items, modelValue, expanded }`. Render a `TreeItem` for each of `items`, or a `TreeVirtualizer`.
 exposed:
   expandAll: Expands every node that has children.
   collapseAll: Collapses every node.

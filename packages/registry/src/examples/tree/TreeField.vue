@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { Button } from "@/ui/button";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
-import { Tree, flattenTree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemCheckbox, TreeItemLabel, TreeItemToggle, flattenTree } from "@/ui/tree";
 
 type Permission = { id: string; label: string; children?: Permission[] };
 
@@ -66,7 +66,14 @@ const save = handleSubmit((values) => (saved.value = values.permissions));
         multiple
         checkbox
         variant="outline"
-      />
+        v-slot="{ items }"
+      >
+        <TreeItem v-for="row in items" :key="row._id" :item="row">
+          <TreeItemToggle />
+          <TreeItemCheckbox />
+          <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+        </TreeItem>
+      </Tree>
       <FieldDescription>Checking a group grants everything in it.</FieldDescription>
       <FieldError :errors="errors.permissions" />
     </Field>

@@ -3,7 +3,7 @@ import { Search } from "@lucide/vue";
 import { computed, ref, shallowRef, watch } from "vue";
 
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/ui/input-group";
-import { Tree } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 type Country = { id: string; label: string; children?: Country[] };
 
@@ -85,7 +85,12 @@ watch(query, (text) => (expanded.value = text.trim() ? parents(filtered.value) :
         <Search />
       </InputGroupAddon>
     </InputGroup>
-    <Tree v-model:expanded="expanded" :items="filtered" variant="outline" aria-label="Cities" />
+    <Tree v-model:expanded="expanded" :items="filtered" variant="outline" aria-label="Cities" v-slot="{ items }">
+      <TreeItem v-for="row in items" :key="row._id" :item="row">
+        <TreeItemToggle />
+        <TreeItemLabel>{{ row.value.label }}</TreeItemLabel>
+      </TreeItem>
+    </Tree>
     <p v-if="filtered.length === 0" class="text-body-sm text-muted-foreground" aria-live="polite">No matches.</p>
   </div>
 </template>

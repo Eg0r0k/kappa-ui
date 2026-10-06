@@ -2,7 +2,7 @@
 import { FileCode, FileJson, FileText, Folder, FolderOpen } from "@lucide/vue";
 import { shallowRef } from "vue";
 
-import { Tree, TreeItemIcon } from "@/ui/tree";
+import { Tree, TreeItem, TreeItemIcon, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
 type File = { path: string; label: string; children?: File[]; defaultExpanded?: boolean };
 
@@ -42,12 +42,14 @@ const opened = shallowRef<File>();
 
 <template>
   <div class="flex w-full max-w-xs flex-col gap-3">
-    <Tree v-model="opened" :items="files" :get-key="(file) => file.path" aria-label="Project files">
-      <template #item-leading="{ item, expanded, hasChildren }">
+    <Tree v-slot="{ items }" v-model="opened" :items="files" :get-key="(file) => file.path" aria-label="Project files">
+      <TreeItem v-for="row in items" :key="row._id" v-slot="{ item, expanded, hasChildren }" :item="row">
+        <TreeItemToggle />
         <TreeItemIcon>
           <component :is="hasChildren ? (expanded ? FolderOpen : Folder) : iconOf(item)" />
         </TreeItemIcon>
-      </template>
+        <TreeItemLabel>{{ item.label }}</TreeItemLabel>
+      </TreeItem>
     </Tree>
     <p class="text-body-sm text-muted-foreground" aria-live="polite">
       {{ opened ? `Opened ${opened.path}` : "No file open" }}

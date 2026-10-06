@@ -9,10 +9,6 @@ import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
 import { type TreeItemSlotProps, type TreeNode, fields, injectTreeContext, provideTreeItemContext } from ".";
-import TreeItemCheckbox from "./TreeItemCheckbox.vue";
-import TreeItemIcon from "./TreeItemIcon.vue";
-import TreeItemLabel from "./TreeItemLabel.vue";
-import TreeItemToggle from "./TreeItemToggle.vue";
 
 defineOptions({ inheritAttrs: false });
 
@@ -29,12 +25,7 @@ const emits = defineEmits<{
   toggle: [event: TreeItemToggleEvent<T>];
 }>();
 
-defineSlots<{
-  default?: (props: TreeItemSlotProps<T>) => unknown;
-  leading?: (props: TreeItemSlotProps<T>) => unknown;
-  label?: (props: TreeItemSlotProps<T>) => unknown;
-  trailing?: (props: TreeItemSlotProps<T>) => unknown;
-}>();
+defineSlots<{ default?: (props: TreeItemSlotProps<T>) => unknown }>();
 
 const tree = injectTreeContext();
 
@@ -46,7 +37,6 @@ const expanded = computed(() => tree.isExpanded(key.value));
 const checked = computed(() => tree.stateOf(key.value));
 const selected = computed(() => checked.value === true);
 const loading = computed(() => fields(node.value).loading === true);
-const icon = computed(() => fields(node.value).icon);
 
 provideTreeItemContext({ expanded, hasChildren, loading, disabled, selected, checked });
 
@@ -200,17 +190,7 @@ const onDblclick = (event: MouseEvent) => {
       @keydown="onKeydown"
       @dblclick="onDblclick"
     >
-      <slot v-bind="slotProps">
-        <TreeItemToggle />
-        <TreeItemCheckbox v-if="tree.checkbox.value" />
-        <slot name="leading" v-bind="slotProps">
-          <TreeItemIcon v-if="icon"><component :is="icon" /></TreeItemIcon>
-        </slot>
-        <TreeItemLabel>
-          <slot name="label" v-bind="slotProps">{{ tree.labelOf(node) }}</slot>
-        </TreeItemLabel>
-        <slot name="trailing" v-bind="slotProps" />
-      </slot>
+      <slot v-bind="slotProps" />
     </component>
   </TreeItemPrimitive>
 </template>

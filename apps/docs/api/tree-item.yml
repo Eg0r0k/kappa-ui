@@ -11,7 +11,4 @@ emits:
   select: Fires when the row is clicked or chosen with Enter or Space. Call `event.preventDefault()` to keep the selection as it is.
   toggle: Fires before the row expands or collapses. Call `event.preventDefault()` to stop it.
 slots:
-  default: The row's content, with `{ item, level, expanded, selected, checked, disabled, loading, hasChildren, select, toggle }`. A chevron, a checkbox in checkbox mode, the node's icon and its label by default.
-  leading: Before the label, the node's `icon` by default.
-  label: The label, the node's `labelKey` field by default.
-  trailing: After the label.
+  default: The row's content, with `{ item, level, expanded, selected, checked, disabled, loading, hasChildren, select, toggle }`, such as `TreeItemToggle`, `TreeItemCheckbox`, `TreeItemIcon` and `TreeItemLabel`.
