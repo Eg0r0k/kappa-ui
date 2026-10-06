@@ -18,8 +18,11 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
 - Copyright (c) 2023 Nuxt
 - Adapted in:
   - `packages/core/src/tailwind.css` — the progress bar's indeterminate keyframes (`animate-progress-*`)
+  - `packages/registry/src/ui/file-upload/FileUpload.vue` — the file upload's API: its area and button modes, list and grid layouts, inside and outside positions, and its slot names
+  - `packages/registry/src/ui/file-upload/index.ts` — the file upload's layout and position options and its file-size format (B, KB, MB, GB, base 1024)
   - `packages/registry/src/ui/progress/index.ts` — the progress bar's sizes, status, steps and animation variants
   - `packages/registry/src/ui/progress/Progress.vue` — the progress bar's percentage, indicator offset, status and steps
+  - `packages/registry/src/ui/rating/Rating.vue` — the rating's layers: an empty icon behind one clipped indicator per step, and the icon slot rendered once per layer with `filled`
 
 ## Quasar Framework
 
