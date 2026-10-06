@@ -55,7 +55,7 @@ export const buttonVariants = cva(
           has-data-[icon=inline-end]:pe-2.5
           icon-size-(--control-icon-sm)
         `,
-        default: `
+        md: `
           h-(--control-height-md) gap-(--control-gap-md) px-4 py-2 [--touch-h:var(--control-height-md)]
           has-data-[icon=inline-start]:ps-3
           has-data-[icon=inline-end]:pe-3
@@ -82,7 +82,7 @@ export const buttonVariants = cva(
           size-(--control-height-sm) [--touch-w:var(--control-height-sm)] [--touch-h:var(--control-height-sm)]
           icon-size-(--control-icon-sm)
         `,
-        icon: `
+        "icon-md": `
           size-(--control-height-md) [--touch-w:var(--control-height-md)] [--touch-h:var(--control-height-md)]
           icon-size-(--control-icon-md)
         `,
@@ -107,7 +107,7 @@ export const buttonVariants = cva(
     },
     defaultVariants: {
       variant: "solid",
-      size: "default",
+      size: "md",
       touchTarget: "none",
       focusRing: "outward",
     },
@@ -115,3 +115,4 @@ export const buttonVariants = cva(
 );
 
 export type ButtonVariants = VariantProps<typeof buttonVariants>;
+export type ButtonSize = NonNullable<ButtonVariants["size"]>;

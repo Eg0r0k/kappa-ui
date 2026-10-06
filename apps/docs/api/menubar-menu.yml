@@ -1,0 +1,7 @@
+component: MenubarMenu
+file: ui/menubar/MenubarMenu.vue
+props:
+  value:
+    description: "Names the menu for the bar's `v-model`. Generated when left out. It also becomes the trigger's `id`, so make it unique on the page, like `menubar-file`."
+slots:
+  default: "A `MenubarTrigger` and a `MenubarContent`."

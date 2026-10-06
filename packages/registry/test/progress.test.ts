@@ -112,6 +112,43 @@ describe("Progress", () => {
     );
   });
 
+  const activeStep = () => document.querySelector<HTMLElement>("[data-slot=progress-step][data-state=active]")!;
+
+  it("draws the bar, its track and the step names in its color's text shade", () => {
+    expect(render().root.dataset.color).toBe("primary");
+    const { root, track, indicator } = render({
+      modelValue: 1,
+      max: ["Queued", "Running", "Done"],
+      color: "success",
+      style: "--success-text: rgb(0, 90, 0)",
+    });
+    expect(root.dataset.color).toBe("success");
+    expect(getComputedStyle(indicator).backgroundColor).toBe("rgb(0, 90, 0)");
+    const faint = document.createElement("div");
+    faint.style.backgroundColor = "color-mix(in oklab, rgb(0, 90, 0) 20%, transparent)";
+    document.body.append(faint);
+    expect(getComputedStyle(track).backgroundColor).toBe(getComputedStyle(faint).backgroundColor);
+    expect(getComputedStyle(activeStep()).color).toBe("rgb(0, 90, 0)");
+  });
+
+  it("still lets a class recolour the step names along with the bar", () => {
+    render({ modelValue: 1, max: ["Queued", "Running", "Done"], class: "text-success" });
+    expect(getComputedStyle(activeStep()).color).toBe("rgb(0, 128, 0)");
+  });
+
+  it("takes a custom tone from a [data-slot][data-color] rule", () => {
+    const style = document.createElement("style");
+    style.textContent = '@layer base { [data-slot][data-color="brand"] { --tone-text: rgb(255, 0, 200); } }';
+    document.head.append(style);
+    try {
+      expect(getComputedStyle(render({ modelValue: 10, color: "brand" }).indicator).backgroundColor).toBe(
+        "rgb(255, 0, 200)",
+      );
+    } finally {
+      style.remove();
+    }
+  });
+
   it("shows the percentage as a status that follows the value", () => {
     const { root, status } = render({ modelValue: 50, status: true });
     expect(status.textContent?.trim()).toBe("50%");

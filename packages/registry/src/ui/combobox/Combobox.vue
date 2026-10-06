@@ -6,15 +6,18 @@ import {
   type ComboboxRootProps,
   useForwardPropsEmits,
 } from "reka-ui";
-import { useAttrs } from "vue";
+import { ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
+import { type ComboboxSize, provideComboboxSize } from ".";
 
 const props = defineProps<ComboboxRootProps<T>>();
 const emits = defineEmits<ComboboxRootEmits<T>>();
 
 const forwarded = useForwardPropsEmits(props, emits);
 const control = useFieldControl(props, useAttrs());
+
+provideComboboxSize(ref<ComboboxSize>());
 </script>
 
 <template>

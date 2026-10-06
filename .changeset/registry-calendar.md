@@ -1,0 +1,5 @@
+---
+"@kappa-ui/registry": minor
+---
+
+New `Calendar` and `RangeCalendar`: month grids over Reka UI's Calendar and RangeCalendar, in Material 3 look, with the heading at the start, the arrows at the end and round days. Calendar picks one date or several; RangeCalendar picks a start and an end, fills both and draws a soft band between them, with a preview while the end is picked. Both come in five sizes on the control scale (`xs` to `xl`, 36px days at `md`), take `color`, show several months side by side with the neighbouring months' days hidden, add week numbers with `week-numbers`, and wire to `Field`: the field label and the month name label the calendar, and an invalid field turns the selection `destructive`. Each part is exported for a layout of your own, and a `heading` slot with `setPlaceholder` takes month and year pickers. `is-date-disabled` and `is-date-unavailable` can be swapped after mount, `initial-focus` skips the hidden copies of other months' days, and on reka-ui 2.10 a `v-model` rebuilt as a new object for the same day no longer sends the view back to its month.

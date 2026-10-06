@@ -1,0 +1,9 @@
+component: RangeCalendarGrid
+file: ui/range-calendar/RangeCalendarGrid.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a table, merging this part's attributes and classes onto it."
+slots:
+  default: "The head and body of one month."

@@ -1,0 +1,75 @@
+component: DatePicker
+file: ui/date-picker/DatePicker.vue
+props:
+  modelValue:
+    description: "The date, bound with `v-model`: a `CalendarDate`, `CalendarDateTime` or `ZonedDateTime` from `@internationalized/date`, or `undefined` while the field is empty or half typed."
+  defaultValue:
+    description: The starting date when `v-model` is not used.
+  placeholder:
+    description: "The month the calendar shows, bound with `v-model:placeholder`. Left unbound, the calendar opens on the date, or today, every time."
+  defaultPlaceholder:
+    description: "The month to open on while there is no date, and the date the empty segments step from. Its type decides the segments: a `CalendarDateTime` adds time."
+  granularity:
+    description: "The last segment shown: `day`, `hour`, `minute` or `second`. Defaults to `day` for a `CalendarDate` and `minute` for a value with time."
+  hourCycle:
+    description: "`12` or `24` for the time segments. Defaults to the locale's cycle; `12` adds an AM/PM segment."
+  step:
+    description: "How far the arrow keys move each segment, as `{ year, month, day, hour, minute, second }`. `1` by default."
+  stepSnapping:
+    description: Snaps a typed time to the nearest step.
+  hideTimeZone:
+    description: Hides the time zone segment that a `ZonedDateTime` value shows.
+  minValue:
+    description: "The earliest date. Earlier days are disabled in the calendar, and an earlier typed date marks the field invalid."
+  maxValue:
+    description: "The latest date. Later days are disabled in the calendar, and a later typed date marks the field invalid. A date without time covers that whole day."
+  isDateDisabled:
+    description: "Returns `true` for days the calendar won't offer, such as weekends. Typed into the field, they mark it invalid. Swapping the function works."
+  isDateUnavailable:
+    description: "Returns `true` for days struck through in the calendar, such as fully booked ones. Typed into the field, they mark it invalid. Swapping the function works."
+  numberOfMonths:
+    description: "How many months the calendar shows side by side. Below `sm` they stack."
+  pagedNavigation:
+    description: "Makes the calendar's arrows move by `numberOfMonths` instead of one month."
+  weekStartsOn:
+    description: "The first day of the week, from `0` (Sunday) to `6`. Leave it out to follow the locale."
+  weekdayFormat:
+    description: "How the weekday headers are written: `narrow` (the default), `short` or `long`."
+  fixedWeeks:
+    description: "Draws six weeks in every month, so the panel keeps its height and doesn't flip sides as you page. On by default."
+  preventDeselect:
+    description: "Keeps a click on the selected day from clearing it. On by default; Reka's default is off."
+  closeOnSelect:
+    description: "Closes the calendar when a day is picked. Defaults to on for a date and off when there are time segments, so the time can be set after the day."
+  locale:
+    description: "The locale for the segment order, the month names and the week start. Defaults to the one Reka UI's `ConfigProvider` sets, which is `en` unless you set it."
+  dir:
+    description: The reading direction, which also mirrors the calendar's arrow keys. Defaults to the one Reka UI's `ConfigProvider` sets.
+  open:
+    description: "Whether the calendar is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether it starts open when `v-model:open` is not used."
+  modal:
+    description: "Shuts the page while the calendar is open: a scrim takes the first outside click, which only closes it."
+  disabled:
+    description: Disables the segments, the trigger and the calendar. Also set by a disabled field.
+  readonly:
+    description: "Keeps the segments focusable but not editable. The calendar still opens, but its days can't be picked."
+  required:
+    description: Marks the hidden form input required. Also set by a required field.
+  id:
+    description: "Overrides the `id` taken from a surrounding field. It lands on the field's hidden input, or on the trigger when it is a button, so the label points at the control."
+  name:
+    description: "Submits the date with the form under this name: `YYYY-MM-DD`, or `YYYY-MM-DDTHH:mm` with time, plus `:ss` at the `second` granularity."
+  variant:
+    description: "The field's look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`. A `variant` on `DatePickerInput` wins."
+  size:
+    description: "The field's height and the calendar's size, from `xs` to `xl` on the [control scale](/docs/getting-started/sizing). A `size` on `DatePickerInput` or `DatePickerCalendar` wins for that part."
+emits:
+  update:modelValue: "Fires when a typed date completes or clears, or a day is picked."
+  update:placeholder: Fires when the calendar pages to another month.
+  update:open: Fires when the calendar opens or closes.
+  focus: "Fires once when focus enters the picker: the segments, the trigger and the calendar count as one control."
+  blur: "Fires once when focus leaves the segments, the trigger and the calendar, not when it moves between them."
+slots:
+  default: "The parts, with `{ modelValue, open }`. Left empty, it renders `DatePickerInput` and the calendar in `DatePickerContent`, and passes its own attributes, such as `class` and `aria-label`, to the field."

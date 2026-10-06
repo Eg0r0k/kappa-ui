@@ -1,0 +1,19 @@
+component: MenubarItem
+file: ui/menubar/MenubarItem.vue
+props:
+  disabled:
+    description: "Disables the item: it is skipped by the keyboard and cannot be chosen."
+  textValue:
+    description: "Text used for typeahead instead of the item's text content."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+  inset:
+    description: "Indents the text to line up with items that have an indicator."
+  variant:
+    description: "`destructive` colours the item and its icon `--destructive`, for actions that delete or cannot be undone."
+emits:
+  select: "Fires when the item is chosen by click or keyboard. Call `event.preventDefault()` to keep the menu open."
+slots:
+  default: "The label, with an optional leading icon and a `MenubarShortcut`."

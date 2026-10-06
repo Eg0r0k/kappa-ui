@@ -155,12 +155,12 @@ it("lands a row under the sticky header at the top and above the sticky footer a
   expect(near(footer.getBoundingClientRect().bottom, t.viewport().getBoundingClientRect().bottom)).toBe(true);
 });
 
-it("sizes the spacer to the visible columns and re-measures on a density change", async () => {
+it("sizes the spacer to the visible columns and re-measures on a size change", async () => {
   const t = render({ virtualize: true, columnVisibility: { b: false } });
   await t.settle();
   expect(t.spacers()[0]!.querySelector("td")!.getAttribute("colspan")).toBe("5");
   const before = t.viewport().scrollHeight;
-  t.extra.value = { density: "sm" };
+  t.extra.value = { size: "sm" };
   await t.settle();
   expect(t.viewport().scrollHeight).toBeLessThan(before - 10_000 * 7);
 });

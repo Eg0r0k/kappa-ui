@@ -20,7 +20,7 @@ import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
         <Button
           variant="ghost"
           color="neutral"
-          size="icon"
+          size="icon-md"
           :aria-label="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
           @click="isCollapsed ? expand() : collapse()"
         >

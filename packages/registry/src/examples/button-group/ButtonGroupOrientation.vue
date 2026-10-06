@@ -8,8 +8,8 @@ import { ButtonGroup } from "@/ui/button-group";
 <template>
   <div class="flex items-start gap-6">
     <ButtonGroup orientation="vertical" aria-label="Zoom">
-      <Button variant="outline" color="neutral" size="icon" aria-label="Zoom in"><Plus /></Button>
-      <Button variant="outline" color="neutral" size="icon" aria-label="Zoom out"><Minus /></Button>
+      <Button variant="outline" color="neutral" size="icon-md" aria-label="Zoom in"><Plus /></Button>
+      <Button variant="outline" color="neutral" size="icon-md" aria-label="Zoom out"><Minus /></Button>
     </ButtonGroup>
     <ButtonGroup orientation="vertical" aria-label="Alignment">
       <Button variant="outline" color="neutral">Top</Button>

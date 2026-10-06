@@ -28,7 +28,7 @@ const current = (preset: { hue: number; chroma: number }) =>
 <template>
   <Popover>
     <PopoverTrigger as-child>
-      <Button v-tooltip="'Theme'" variant="ghost" color="neutral" size="icon" aria-label="Customise the theme">
+      <Button v-tooltip="'Theme'" variant="ghost" color="neutral" size="icon-md" aria-label="Customise the theme">
         <Palette />
       </Button>
     </PopoverTrigger>

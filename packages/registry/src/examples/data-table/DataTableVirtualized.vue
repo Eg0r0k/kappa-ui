@@ -39,7 +39,7 @@ const onRowClick = (_event: MouseEvent | KeyboardEvent, row: DataTableRow<Trade>
       sticky
       virtualize
       sortable
-      density="sm"
+      size="sm"
       striped
       :on-row-click="onRowClick"
       class="rounded-lg border"

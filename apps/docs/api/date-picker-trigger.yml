@@ -1,0 +1,9 @@
+component: DatePickerTrigger
+file: ui/date-picker/DatePickerTrigger.vue
+props:
+  asChild:
+    description: "Hands the trigger's behaviour to your own button, such as an outline `Button` with a `DatePickerValue` in it. Without a field, that button takes the Field's `id` and wiring."
+  as:
+    description: "The element or component to render. A `button` by default."
+slots:
+  default: "The icon, a calendar by default. With `as-child`, the button that opens the calendar."

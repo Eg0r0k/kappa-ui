@@ -1,0 +1,4 @@
+component: TreeItemLabel
+file: ui/tree/TreeItemLabel.vue
+slots:
+  default: The row's text. It takes the free space and truncates with an ellipsis.

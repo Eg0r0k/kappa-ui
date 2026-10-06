@@ -5,6 +5,8 @@ props:
     description: "`default` stacks or wraps the options; `card`, `list` and `table` make each whole card or row clickable and tint it once checked."
   orientation:
     description: "`horizontal` lays the options out in a row: wrapping for `default`, a grid of cards for `card`, side-by-side cells for `list` and `table`."
+  color:
+    description: Colour role of a selected card's edge and a selected row's tint, and of a focused card's ring in any colour but `primary`. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`. It doesn't reach the controls; set their own `color`, or use `CheckboxGroup` or `RadioGroup`, which pass theirs down.
   as:
     description: The element or component to render. A div by default.
   asChild:

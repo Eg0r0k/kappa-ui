@@ -38,7 +38,24 @@ const base = {
   files: [],
 }
 
-const run = async (items: unknown[], env: Record<string, string> = {}, files: Record<string, string> = {}) => {
+// what packages/registry/package.json declares: core from the workspace, reka-ui pinned for development, tooling
+const registryPackage = {
+  name: '@kappa-ui/registry',
+  dependencies: {
+    '@kappa-ui/core': 'workspace:*',
+    '@lucide/vue': '^1.47.0',
+    clsx: '^2.1.1',
+    'tw-animate-css': '^1.4.0',
+  },
+  devDependencies: { 'reka-ui': '4.5.6', vite: '^8.3.0' },
+}
+
+const run = async (
+  items: unknown[],
+  env: Record<string, string> = {},
+  files: Record<string, string> = {},
+  registry: unknown = registryPackage,
+) => {
   const root = await mkdtemp(join(tmpdir(), 'kappa-registry-'))
   await mkdir(join(root, 'src/ui/demo'), { recursive: true })
   await mkdir(join(root, 'src/examples/demo'), { recursive: true })
@@ -47,15 +64,16 @@ const run = async (items: unknown[], env: Record<string, string> = {}, files: Re
   await writeFile(join(root, 'src/examples/demo/DemoExample.vue'), '<template><div /></template>\n')
   await writeFile(join(root, 'src/other/Stray.vue'), '<template><div /></template>\n')
   await writeFile(join(root, 'src/other/fade.css'), '.fade {}\n')
-  for (const [path, content] of Object.entries(files)) {
-    await mkdir(dirname(join(root, path)), { recursive: true })
-    await writeFile(join(root, path), content)
-  }
   await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'fixture', items }))
+  if (registry !== null) await writeFile(join(root, 'package.json'), JSON.stringify(registry))
   await writeFile(
     join(root, 'core.json'),
     JSON.stringify({ name: '@kappa-ui/core', version: '1.2.3', peerDependencies: { 'reka-ui': '^4.5.6' } }),
   )
+  for (const [path, content] of Object.entries(files)) {
+    await mkdir(dirname(join(root, path)), { recursive: true })
+    await writeFile(join(root, path), content)
+  }
   const out = join(root, 'out')
   const css = join(root, 'registry.css')
   const result = spawnSync(
@@ -176,10 +194,44 @@ test('rejects an item that ships a utility or keyframes in its css', async () =>
   assert.match(stderr, /item "demo": @utility and @keyframes belong in @kappa-ui\/core\/tailwind.css/)
 })
 
-test('accepts an item that imports the core stylesheet', async () => {
-  const styled = { ...component, css: { '@import "@kappa-ui/core/tailwind.css"': {} } }
-  const { status, stderr } = await run([styled, example])
+const importsCore = { '@import "@kappa-ui/core/tailwind.css"': {} }
+
+const tokens = {
+  name: 'tokens',
+  type: 'registry:lib',
+  title: 'Tokens',
+  description: 'The tokens the core stylesheet reads.',
+  css: importsCore,
+  cssVars: { light: { 'state-hover': '8%' } },
+  files: [],
+}
+
+test('accepts an item that imports the core stylesheet and brings the tokens, directly or further down', async () => {
+  const direct = { ...component, css: importsCore, registryDependencies: ['tokens'] }
+  const { status, stderr } = await run([direct, example, tokens])
   assert.equal(status, 0, stderr)
+
+  const helper = {
+    name: 'helper',
+    type: 'registry:lib',
+    title: 'Helper',
+    description: 'Builds on the tokens.',
+    registryDependencies: ['tokens'],
+    files: [],
+  }
+  const nested = { ...component, css: importsCore, registryDependencies: ['helper'] }
+  const further = await run([nested, example, helper, tokens])
+  assert.equal(further.status, 0, further.stderr)
+})
+
+test('rejects an item that imports the core stylesheet without the tokens', async () => {
+  const { status, stderr } = await run([{ ...component, css: importsCore }, example, tokens])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": its css imports @kappa-ui\/core\/tailwind\.css, which reads the tokens; list "tokens" in its registryDependencies/,
+  )
+  assert.doesNotMatch(stderr, /item "tokens"/)
 })
 
 test('rejects an item that ships a utility in a css file', async () => {
@@ -274,14 +326,75 @@ test('publishes @/ imports under the registry alias the CLI rewrites', async () 
 test('writes @kappa-ui/core with the caret range of the core version', async () => {
   const { status, stderr, out } = await run([{ ...component, dependencies: ['@kappa-ui/core', 'clsx'] }, example])
   assert.equal(status, 0, stderr)
-  assert.deepEqual((await published(out, 'demo')).dependencies, ['@kappa-ui/core@^1.2.3', 'clsx'])
+  assert.deepEqual((await published(out, 'demo')).dependencies, ['@kappa-ui/core@^1.2.3', 'clsx@^2.1.1'])
   const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8')) as {
     items: { name: string; dependencies?: string[] }[]
   }
-  assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, ['@kappa-ui/core@^1.2.3', 'clsx'])
+  assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, [
+    '@kappa-ui/core@^1.2.3',
+    'clsx@^2.1.1',
+  ])
 })
 
-test('writes reka-ui with the range core takes it as a peer in', async () => {
+test("writes every other package with its range from the registry package's dependencies", async () => {
+  const { status, stderr, out } = await run([
+    { ...component, dependencies: ['clsx'] },
+    { ...example, dependencies: ['tw-animate-css'] },
+  ])
+  assert.equal(status, 0, stderr)
+  assert.deepEqual((await published(out, 'demo')).dependencies, ['clsx@^2.1.1'])
+  assert.deepEqual((await published(out, 'demo-example')).dependencies, ['tw-animate-css@^1.4.0'])
+})
+
+test('rejects a package only the devDependencies list, since those are tooling no project installs', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['vite'] }, example])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": "vite" has no range to install it in; add it to the dependencies in packages\/registry\/package\.json/,
+  )
+})
+
+test('leaves @lucide/vue bare, since the CLI only recognises its icon library by the bare name', async () => {
+  const { status, stderr, out } = await run([{ ...component, dependencies: ['@lucide/vue', 'clsx'] }, example])
+  assert.equal(status, 0, stderr)
+  assert.deepEqual((await published(out, 'demo')).dependencies, ['@lucide/vue', 'clsx@^2.1.1'])
+  const index = JSON.parse(await readFile(join(out, 'registry.json'), 'utf8')) as {
+    items: { name: string; dependencies?: string[] }[]
+  }
+  assert.deepEqual(index.items.find((item) => item.name === 'demo')?.dependencies, ['@lucide/vue', 'clsx@^2.1.1'])
+})
+
+test('still needs a range for @lucide/vue, which the docs show for a manual install', async () => {
+  const { status, stderr } = await run(
+    [{ ...component, dependencies: ['@lucide/vue'] }, example],
+    {},
+    {},
+    {
+      dependencies: { clsx: '^2.1.1' },
+    },
+  )
+  assert.equal(status, 1)
+  assert.match(stderr, /item "demo": "@lucide\/vue" has no range to install it in/)
+})
+
+test('rejects a package the registry package gives no range', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['clsx', 'left-pad'] }, example])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": "left-pad" has no range to install it in; add it to the dependencies in packages\/registry\/package\.json/,
+  )
+  assert.doesNotMatch(stderr, /"clsx"/)
+})
+
+test('rejects a build without a package.json next to the manifest', async () => {
+  const { status, stderr } = await run([component, example], {}, {}, null)
+  assert.equal(status, 1)
+  assert.match(stderr, /registry package not found next to the manifest/)
+})
+
+test('writes reka-ui with the range core takes it as a peer in, not the version the registry pins', async () => {
   const { status, stderr, out } = await run([{ ...component, dependencies: ['reka-ui', '@kappa-ui/core'] }, example])
   assert.equal(status, 0, stderr)
   assert.deepEqual((await published(out, 'demo')).dependencies, ['reka-ui@^4.5.6', '@kappa-ui/core@^1.2.3'])
@@ -311,6 +424,30 @@ test('rejects a version written on reka-ui in the manifest', async () => {
   const { status, stderr } = await run([{ ...component, dependencies: ['reka-ui@^2.0.0'] }, example])
   assert.equal(status, 1)
   assert.match(stderr, /item "demo": list "reka-ui" without a version/)
+})
+
+test('rejects a version written on any other package in the manifest', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['clsx@^2.0.0'] }, example])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": list "clsx" without a version; the build stamps it from the dependencies in packages\/registry\/package\.json/,
+  )
+})
+
+test('rejects a version written on @lucide/vue, which the build publishes bare', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['@lucide/vue@^1.0.0'] }, example])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": list "@lucide\/vue" without a version; the build publishes it bare, since the shadcn-vue CLI recognises it only by its name/,
+  )
+})
+
+test('rejects a core package without a reka-ui peer', async () => {
+  const { status, stderr } = await run([component, example], {}, { 'core.json': JSON.stringify({ version: '1.2.3' }) })
+  assert.equal(status, 1)
+  assert.match(stderr, /the core package has no peerDependencies\["reka-ui"\]/)
 })
 
 test('rejects an import of a package the item does not list', async () => {

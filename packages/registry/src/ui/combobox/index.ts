@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import { createContext } from "reka-ui";
-import type { ComputedRef } from "vue";
+import type { ComputedRef, Ref } from "vue";
 
 import { type TextControlSize, textControlBase, textControlFrameVariant, textControlRadius } from "@/ui/input";
 
@@ -17,8 +17,15 @@ export { default as ComboboxSeparator } from "./ComboboxSeparator.vue";
 export { default as ComboboxTrigger } from "./ComboboxTrigger.vue";
 export { default as ComboboxViewport } from "./ComboboxViewport.vue";
 
+export type ComboboxSize = TextControlSize;
+
+export const [injectComboboxSize, provideComboboxSize] = createContext<Ref<ComboboxSize | undefined>>("Combobox");
+
 export const [injectComboboxAnchorContext, provideComboboxAnchorContext] =
-  createContext<ComputedRef<{ size: TextControlSize }>>("ComboboxAnchor");
+  createContext<ComputedRef<{ size: ComboboxSize }>>("ComboboxAnchor");
+
+export const [injectComboboxListContext, provideComboboxListContext] =
+  createContext<ComputedRef<{ size: ComboboxSize }>>("ComboboxList");
 
 export const comboboxAnchorVariants = cva(
   `

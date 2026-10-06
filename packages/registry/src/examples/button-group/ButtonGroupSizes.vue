@@ -6,7 +6,7 @@ import { ButtonGroup } from "@/ui/button-group";
 
 const sizes = [
   { text: "sm", icon: "icon-sm" },
-  { text: "default", icon: "icon" },
+  { text: "md", icon: "icon-md" },
   { text: "lg", icon: "icon-lg" },
   { text: "xl", icon: "icon-xl" },
 ] as const;

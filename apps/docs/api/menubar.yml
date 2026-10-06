@@ -1,0 +1,19 @@
+component: Menubar
+file: ui/menubar/Menubar.vue
+props:
+  modelValue:
+    description: "The `value` of the open menu, bound with `v-model`. `\"\"` when every menu is closed."
+  defaultValue:
+    description: "The menu open on first render, when you don't bind `v-model`."
+  dir:
+    description: "Reading direction. In `rtl` the left and right arrows run the other way and menus align to the trigger's right edge."
+  loop:
+    description: "Lets the arrow keys wrap from the last menu to the first. On by default, unlike Reka."
+  size:
+    description: "Size of the triggers and, unless a menu sets its own, of every menu and submenu: `xs` to `xl`."
+  variant:
+    description: "`outline` frames the bar with a border; `soft` fills it with the muted surface; `ghost` is a bare row, for a header that already has a frame."
+emits:
+  update:modelValue: "Fires with the open menu's `value` when one opens or the bar switches menus, and with `\"\"` when the last one closes."
+slots:
+  default: "The `MenubarMenu`s. Receives `modelValue`."

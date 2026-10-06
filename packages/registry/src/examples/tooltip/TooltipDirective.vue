@@ -12,7 +12,7 @@ import { vTooltip } from "@/ui/tooltip";
     <Button v-tooltip="{ content: 'No delay, on the right', side: 'right', delay: 0 }" variant="outline"
       >Options</Button
     >
-    <Button v-tooltip.label="'Settings'" variant="ghost" color="neutral" size="icon">
+    <Button v-tooltip.label="'Settings'" variant="ghost" color="neutral" size="icon-md">
       <Settings />
     </Button>
   </div>

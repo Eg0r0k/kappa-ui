@@ -5,6 +5,8 @@ props:
     description: "The state, bound with `v-model`: `true`, `false` or `'indeterminate'`."
   defaultValue:
     description: The starting state when `v-model` is not used.
+  color:
+    description: Colour role of a checked box. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`. Without one, the checkbox takes its group's `color`, or `primary`. The unchecked edge stays `--input`, and an invalid checkbox turns `destructive` whatever its colour.
   size:
     description: Box size, from 14px for `xs` to 24px for `xl`. `md` is Material's 18px.
   touchTarget:

@@ -1,0 +1,5 @@
+---
+"@kappa-ui/registry": minor
+---
+
+New `Menubar`: a desktop-style row of menus over Reka UI's Menubar, with the shadcn-vue parts (`MenubarMenu`, `MenubarTrigger`, `MenubarContent`, `MenubarItem`, `MenubarCheckboxItem`, `MenubarRadioGroup`, `MenubarRadioItem`, `MenubarItemIndicator`, `MenubarLabel`, `MenubarSeparator`, `MenubarShortcut`, `MenubarGroup`, `MenubarSub`, `MenubarSubTrigger`, `MenubarSubContent`) and Menu's items, five sizes and state layers. `size` sets the triggers and every menu from `xs` to `xl`; `variant` is `outline`, `soft` or `ghost`. The arrow keys wrap by default, `v-model` is typed as the open menu's value, long menus scroll inside the viewport, and a few Reka gaps are closed: moving to an earlier menu with the arrows or the pointer no longer closes the whole bar, Tab from an open menu continues from the bar instead of the end of the page, a menu open on first render is linked to its trigger by `aria-controls`, and `preventDefault()` in `@close-auto-focus` keeps focus off the trigger.

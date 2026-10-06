@@ -8,6 +8,8 @@ export { default as StepperSeparator } from "./StepperSeparator.vue";
 export { default as StepperTitle } from "./StepperTitle.vue";
 export { default as StepperTrigger } from "./StepperTrigger.vue";
 
+export type StepperColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 export const stepperVariants = cva("group/stepper flex gap-(--stepper-gap) data-[orientation=vertical]:flex-col", {
   variants: {
     size: {
@@ -50,7 +52,7 @@ export const stepperIndicator = `
   group-data-[size=sm]/stepper:text-label-md
   group-data-[size=xl]/stepper:text-title-md
   group-data-disabled:text-muted-foreground group-data-disabled:opacity-(--disabled-opacity)
-  group-data-[state=active]:bg-primary group-data-[state=active]:text-primary-foreground
+  group-data-[state=active]:bg-tone group-data-[state=active]:text-tone-foreground
   group-data-[state=completed]:bg-accent group-data-[state=completed]:text-accent-foreground
   [&_svg]:pointer-events-none [&_svg]:shrink-0
   icon-size-(--stepper-icon)

@@ -1,0 +1,43 @@
+component: Rating
+file: ui/rating/Rating.vue
+props:
+  modelValue:
+    description: The value, bound with `v-model`. `0` means nothing is picked.
+  defaultValue:
+    description: The starting value when `v-model` is not used.
+  length:
+    description: How many stars.
+  step:
+    description: How finely a star splits. `0.5` picks halves, by the start or end of a star; `0.1` gives each star ten radios, so keep long lists `readonly`.
+  clearable:
+    description: Picking the current value again, by click or Space, clears it to `0`.
+  hoverable:
+    description: Previews the value under a mouse or a pen. A touch never previews.
+  readonly:
+    description: Shows the value as one picture named "Rated 4.3 out of 5", with exact fractions whatever the `step`. No radios and no focus, which also makes it cheap in long lists.
+  color:
+    description: Colour role of the filled stars. `warning` gives gold stars. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`. Empty stars keep the `--input` outline; an invalid rating turns `destructive` whatever its colour.
+  size:
+    description: Matches a Button of the same size. Each star's box is the control height, 28px for `xs` to 48px for `xl`, and the star two thirds of it.
+  touchTarget:
+    description: Grows each star's pressable area to at least 48px across the row without changing how it looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours above and below.
+  labels:
+    description: Screen reader names, `{ item(value, length), readonly(value, length) }`, for other words or another language. English by default, "3 out of 5" for a step and "Rated 4.3 out of 5" when readonly.
+  orientation:
+    description: "`vertical` stacks the stars from top to bottom, and the arrow keys become Up and Down."
+  dir:
+    description: Reading direction. In `rtl` the stars fill from the right, and Left and Right swap.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  name:
+    description: Submits the value with its form under this name. Nothing picked submits an empty value.
+  disabled:
+    description: Disables the rating. Also set by a disabled field.
+  required:
+    description: Marks the rating required, and fails native validation while nothing is picked. Also set by a required field.
+emits:
+  update:modelValue: Fires when a star is picked or the value is cleared.
+  hover: Fires with the value under the pointer while `hoverable`, and `0` once it leaves.
+slots:
+  icon: Replaces the star, with the star's number as `item` and `filled` true for the filled layer. Used for empty stars too, unless `empty-icon` is given. An `svg` in the filled layer is filled with the colour.
+  empty-icon: Replaces the empty star, with the star's number as `item`.

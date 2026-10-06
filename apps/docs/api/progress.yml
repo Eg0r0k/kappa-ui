@@ -10,6 +10,8 @@ props:
     description: Shows the percentage above the bar, moving with the value.
   inverted:
     description: Fills the bar from the other end, right to left or bottom to top.
+  color:
+    description: Colour role of the bar, its track at 20% and the step names, all in the colour's text shade so they stay readable on the page. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`.
   size:
     description: Thickness of the bar, from 1px for `2xs` to 20px for `2xl`, and the size of the status and step text.
   orientation:

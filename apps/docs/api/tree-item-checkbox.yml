@@ -1,0 +1,3 @@
+component: TreeItemCheckbox
+file: ui/tree/TreeItemCheckbox.vue
+description: The row's checkbox in checkbox mode, checked, unchecked or indeterminate. It is drawn, not a control, so it takes no focus; the row carries `aria-checked`. A click on it checks without expanding.
