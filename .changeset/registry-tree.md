@@ -1,0 +1,7 @@
+---
+"@kappa-ui/registry": minor
+---
+
+New `Tree`: nested items to browse, select or check, over Reka UI's Tree, with `TreeItem`, `TreeItemToggle`, `TreeItemCheckbox`, `TreeItemIcon` and `TreeItemLabel` for rows of your own. Pass `items` and it renders each node's `label`, `icon` and chevron; `children: []` makes a folder that loads later, and `loading` shows a spinner and sets `aria-busy`. It takes `v-model` (the nodes you passed in, never copies), `v-model:expanded` (keys), `multiple`, `selection-behavior`, `checkbox` with cascading checks, `toggle-on-click`, `virtualize`, `name` for plain form posts, Field wiring, `ghost` (default) and `outline` variants and the five control sizes. It exposes `expandAll`, `collapseAll` and `scrollToKey`; `getAncestorKeys` and `flattenTree` come with it.
+
+The tree keeps its own selection instead of Reka UI's, which fixes a few things on the way: checking a child then its folder no longer leaves the child in the model twice, cascading checks follow `getChildren` to any depth and leave disabled nodes alone, a model echoed back with only leaves shows its folders checked, and a large selection no longer stalls on a deep watch. Typeahead works right after an arrow key, Tab enters on the selected row, only the selected row of a single-select tree has `aria-selected`, and a virtualized tree keeps focus when rows above the focused one open. Two nodes with the same key get a warning in development.
