@@ -512,6 +512,57 @@ test('accepts an @/ import shipped two registryDependencies away', async () => {
   assert.equal(status, 0, stderr)
 })
 
+const withIndex = {
+  ...component,
+  files: [
+    { path: 'src/ui/demo/Demo.vue', type: 'registry:ui' },
+    { path: 'src/ui/demo/index.ts', type: 'registry:ui' },
+    { path: 'src/lib/sizes.ts', type: 'registry:lib' },
+  ],
+}
+
+const sizes = 'export const size = 1\nexport type Size = string\n'
+
+test('rejects an export … from an @/ path, which the CLI leaves under the registry alias', async () => {
+  const { status, stderr } = await run(
+    [withIndex, example],
+    {},
+    {
+      'src/lib/sizes.ts': sizes,
+      'src/ui/demo/index.ts': [
+        'export { size } from "@/lib/sizes";',
+        "export type { Size } from '@/lib/sizes';",
+        'export {\n  size as demoSize,\n  type Size as DemoSize,\n} from "@/lib/sizes";',
+        'export * from "@/lib/sizes";',
+        'export type * from "@/lib/sizes";',
+        'export * as sizes from "@/lib/sizes";',
+        'export { default as Demo } from "./Demo.vue";',
+      ].join('\n'),
+    },
+  )
+  assert.equal(status, 1)
+  assert.match(stderr, /build-registry: 6 error\(s\)/)
+  assert.match(
+    stderr,
+    /item "demo", file "src\/ui\/demo\/index\.ts": re-exports from "@\/lib\/sizes", an alias the shadcn-vue CLI rewrites only in imports; import the names, then export them/,
+  )
+})
+
+test('accepts names imported from an @/ path, then exported', async () => {
+  const { status, stderr, out } = await run(
+    [withIndex, example],
+    {},
+    {
+      'src/lib/sizes.ts': sizes,
+      'src/ui/demo/index.ts':
+        'import { size, type Size } from "@/lib/sizes";\n\nexport { size as demoSize };\nexport type DemoSize = Size;\n',
+    },
+  )
+  assert.equal(status, 0, stderr)
+  const index = (await published(out, 'demo')).files.find((file) => file.path === 'src/ui/demo/index.ts')
+  assert.match(index?.content ?? '', /import \{ size, type Size \} from "@\/registry\/kappa-ui\/lib\/sizes";/)
+})
+
 test('ignores template text that looks like an import', async () => {
   const { status, stderr, out } = await run(
     [component, example],

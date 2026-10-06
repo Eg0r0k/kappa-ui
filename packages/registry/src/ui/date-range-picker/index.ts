@@ -2,18 +2,18 @@ import type { DateValue } from "@internationalized/date";
 import { type DateRange, createContext } from "reka-ui";
 import type { ComputedRef, ShallowRef } from "vue";
 
+// The calendar opens and focuses the same way for a range, so these two parts are shared. Imported, then exported:
+// the shadcn-vue CLI rewrites the alias of an import, not of an `export … from`.
+import { DatePickerContent, type DatePickerSize, DatePickerTrigger, type DatePickerVariant } from "@/ui/date-picker";
+
 export { default as DateRangePicker } from "./DateRangePicker.vue";
 export { default as DateRangePickerCalendar } from "./DateRangePickerCalendar.vue";
 export { default as DateRangePickerInput } from "./DateRangePickerInput.vue";
 export { default as DateRangePickerValue } from "./DateRangePickerValue.vue";
 
-// The calendar opens and focuses the same way for a range, so these two parts are shared.
-export {
-  DatePickerContent as DateRangePickerContent,
-  DatePickerTrigger as DateRangePickerTrigger,
-  type DatePickerSize as DateRangePickerSize,
-  type DatePickerVariant as DateRangePickerVariant,
-} from "@/ui/date-picker";
+export { DatePickerContent as DateRangePickerContent, DatePickerTrigger as DateRangePickerTrigger };
+export type DateRangePickerSize = DatePickerSize;
+export type DateRangePickerVariant = DatePickerVariant;
 
 /** The range, the placeholder and the calendar settings of a `DateRangePicker`. */
 export interface DateRangePickerState {

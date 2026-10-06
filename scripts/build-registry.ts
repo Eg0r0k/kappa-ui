@@ -27,6 +27,8 @@ const PUBLISHED_ALIAS = '@/registry/kappa-ui/'
 const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
 const IMPLICIT_PACKAGES = new Set(['vue'])
 const SPECIFIER = /(?<![.\w$])(from\s*|import\s*\(\s*|import\s+)(["'])([^"'\n]+)\2/g
+const ALIAS_REEXPORT =
+  /(?<![.\w$])export\s+(?:type\s+)?(?:\{[^}]*\}|\*(?:\s+as\s+[\w$]+)?)\s*from\s*(["'])(@\/[^"'\n]+)\1/g
 const SCRIPT_FILE = /\.(ts|vue)$/
 const SCRIPT_BLOCK = /<script\b[^>]*>[\s\S]*?<\/script>/g
 
@@ -121,6 +123,8 @@ const packageOf = (specifier: string) =>
 const withoutVersion = (dependency: string) => dependency.replace(/(.)@.*$/, '$1')
 
 const specifiersOf = (content: string) => [...content.matchAll(SPECIFIER)].map((match) => match[3] ?? '')
+
+const aliasReexportsOf = (content: string) => [...content.matchAll(ALIAS_REEXPORT)].map((match) => match[2] ?? '')
 
 const moduleCodeOf = (path: string, content: string) =>
   path.endsWith('.vue') ? [...content.matchAll(SCRIPT_BLOCK)].map((match) => match[0]).join('\n') : content
@@ -344,7 +348,13 @@ for (const item of registry.items) {
   for (const file of item.files) {
     const filePath = resolve(manifestDir, file.path)
     if (!SCRIPT_FILE.test(file.path) || !existsSync(filePath)) continue
-    for (const specifier of specifiersOf(moduleCodeOf(file.path, await readFile(filePath, 'utf8')))) {
+    const code = moduleCodeOf(file.path, await readFile(filePath, 'utf8'))
+    for (const specifier of aliasReexportsOf(code)) {
+      errors.push(
+        `item "${item.name}", file "${file.path}": re-exports from "${specifier}", an alias the shadcn-vue CLI rewrites only in imports; import the names, then export them`,
+      )
+    }
+    for (const specifier of specifiersOf(code)) {
       const local = specifier.startsWith('.')
         ? resolve(dirname(filePath), specifier)
         : specifier.startsWith('@/')
