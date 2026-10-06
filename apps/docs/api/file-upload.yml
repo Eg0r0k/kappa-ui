@@ -1,0 +1,84 @@
+component: FileUpload
+file: ui/file-upload/FileUpload.vue
+exposedType:
+  file: ui/file-upload/index.ts
+  name: FileUploadExpose
+props:
+  modelValue:
+    description: "The picked files, bound with `v-model`: a `File` or `null`, or a `File[]` with `multiple`. Every change is a new value, never a mutated array."
+  defaultValue:
+    description: The starting files when `v-model` is not used.
+  multiple:
+    description: "Holds a list of files instead of one. New files are added to the list; without it, a new file replaces the old one. Changing it converts the value, and files that no longer fit are reported through `reject`."
+  accept:
+    description: "The file types allowed: MIME types, `type/*` wildcards and `.ext` extensions, comma-separated. Checked on every file from the dialog, a drop or a paste, since the dialog's own filter is only a hint."
+  maxFiles:
+    description: "With `multiple`, the most files the list holds. Files past it are rejected with `count`."
+  maxSize:
+    description: "The largest file allowed, in bytes. Bigger files are rejected with `size`."
+  mode:
+    description: "`area` is a drop zone with an icon, a label and a description; `button` is a Button that takes drops too."
+  variant:
+    description: "The frame: a dashed `outline`, a filled `soft`, or `subtle`, both. In `button` mode it is the Button's variant."
+  size:
+    description: "From `xs` to `xl` on the control scale: the icon, padding and gaps of the zone, the list rows and tiles, and the button's height."
+  layout:
+    description: "`list` shows each file as a row with its name and size; `grid` as a square tile, with the picture when there is one."
+  position:
+    description: "In `area` mode, whether the files sit `outside` the frame, under it, or `inside` it. With `inside` the whole frame takes drops."
+  label:
+    description: "The main line in the zone, or the Button's text. Without one, `button` mode draws an icon-only square, which needs an `aria-label` or a FieldLabel."
+  description:
+    description: "The second line in the zone, linked to the trigger with `aria-describedby`. Not shown in `button` mode."
+  icon:
+    description: "The icon in the zone or on the Button, an upload arrow by default. `false` hides it."
+  fileIcon:
+    description: The icon for a file without a thumbnail.
+  fileImage:
+    description: "Shows a thumbnail for image files. Other files always show `fileIcon`."
+  fileDelete:
+    description: "Puts a Remove button on each file."
+  preview:
+    description: "Shows the files. Off, the component still holds and submits them, for when you show them yourself or upload them right away."
+  dropzone:
+    description: "Takes files dragged onto it. Read at drop time, so it can change at any moment."
+  interactive:
+    description: "In `area` mode, makes the zone a button that opens the dialog. Off, the zone is plain content and only your own button, given `triggerAttrs` and `open`, opens it. `button` mode always draws its Button."
+  paste:
+    description: "Takes files pasted with Ctrl+V or Cmd+V while focus is inside the component."
+  id:
+    description: Overrides the `id` taken from a surrounding field. It lands on the trigger, so the field's label opens the dialog.
+  name:
+    description: "Submits the files with the form under this name. The hidden file input always holds exactly the files shown."
+  form:
+    description: "The `id` of a form elsewhere on the page to submit the files with."
+  capture:
+    description: "On phones, opens the camera instead of the file dialog: `user` for the front camera, `environment` for the back one."
+  disabled:
+    description: "Disables the trigger, the Remove buttons and the hidden input, and ignores drops and pastes. Also set by a disabled field."
+  required:
+    description: "Marks the hidden file input required, so a form with no file fails native validation. Also set by a required field."
+emits:
+  update:modelValue: "Fires when files are added or removed, with the new `File`, `null` or `File[]`."
+  reject: "Fires once per pick, drop or paste with the files that were turned away, each as `{ file, reason }`. The reason is `type`, `size`, `count`, `duplicate` or `directory`."
+slots:
+  default: "Replaces everything in the drop zone: the trigger, the actions, and in `button` mode the Button. Receives `files`, `open`, `removeFile`, `clear`, `dragging` and `triggerAttrs`; spread `triggerAttrs` on your own button so it takes the field's id and state."
+  leading: The icon in the zone or on the Button.
+  label: The label.
+  description: The description.
+  actions: "Content under the label in `area` mode, such as your own buttons. Receives `files`, `open`, `removeFile`, `clear` and `triggerAttrs`."
+  files: "Replaces the list's content. Receives `files` and `removeFile`."
+  files-top: "Content above the list, there even when it is empty. Receives `files`, `open`, `removeFile` and `clear`."
+  files-bottom: "Content under the list, there even when it is empty. Receives `files`, `open`, `removeFile` and `clear`."
+  file: "Replaces one file's row or tile. Receives `file`, `index`, the thumbnail `url` and `removeFile`."
+  file-leading: "The thumbnail or icon of one file. Receives `file`, `index` and `url`."
+  file-name: "The name of one file. Receives `file` and `index`."
+  file-size: "The size line of one file, a good place for progress or an error. Receives `file` and `index`."
+  file-trailing: "The Remove button of one file. Receives `file`, `index` and `removeFile`."
+exposed:
+  open: "Opens the file dialog. Browsers allow this only straight from a user's click or key press."
+  clear: Removes every file.
+  addFiles: "Adds files from your own source, such as a drop on the whole page, through the same checks and `reject` as a drop."
+  removeFile: "Removes the file at an index. Without one, or without `multiple`, removes every file."
+  inputRef: The hidden file input.
+  triggerRef: "The element that takes focus: the zone's button, or the Button in `button` mode."
