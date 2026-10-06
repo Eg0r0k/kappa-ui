@@ -3083,6 +3083,18 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/rating/RatingItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/rating/RatingDisplay.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/rating/RatingDisplayItem.vue",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/rating/index.ts",
           "type": "registry:ui"
         }

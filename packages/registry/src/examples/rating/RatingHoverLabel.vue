@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 
 import { Field, FieldLabel } from "@/ui/field";
-import { Rating } from "@/ui/rating";
+import { Rating, RatingItem } from "@/ui/rating";
 
 const words = ["Terrible", "Poor", "Okay", "Good", "Excellent"];
 
@@ -21,7 +21,10 @@ const word = computed(() => words[(hovered.value || stars.value) - 1] ?? "Pick a
         color="warning"
         :labels="{ item: (value) => words[value - 1] ?? `${value}` }"
         @hover="hovered = $event"
-      />
+        v-slot="{ items }"
+      >
+        <RatingItem v-for="item in items" :key="item" :item="item" />
+      </Rating>
       <span class="w-24 text-body-md text-muted-foreground">{{ word }}</span>
     </div>
   </Field>

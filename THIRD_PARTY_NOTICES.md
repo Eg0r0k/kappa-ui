@@ -21,7 +21,8 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
   - `packages/registry/src/ui/file-upload/index.ts` — the file upload's file-size format (B, KB, MB, GB, base 1024)
   - `packages/registry/src/ui/progress/index.ts` — the progress bar's sizes, status, steps and animation variants
   - `packages/registry/src/ui/progress/Progress.vue` — the progress bar's percentage, indicator offset, status and steps
-  - `packages/registry/src/ui/rating/Rating.vue` — the rating's layers: an empty icon behind one clipped indicator per step, and the icon slot rendered once per layer with `filled`
+  - `packages/registry/src/ui/rating/RatingItem.vue` — the rating's layers: an empty icon behind one clipped indicator per step, and the icon slot rendered once per layer with `filled`
+  - `packages/registry/src/ui/rating/RatingDisplayItem.vue` — the same layers for a shown value, the filled icon clipped to the exact fraction
 
 ## Dice UI
 

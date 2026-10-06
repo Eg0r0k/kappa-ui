@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Rating } from "@/ui/rating";
+import { Rating, RatingItem } from "@/ui/rating";
 
 const targets = ["none", "expand", "wrapper"] as const;
 </script>
@@ -10,7 +10,9 @@ const targets = ["none", "expand", "wrapper"] as const;
   >
     <div v-for="target in targets" :key="target" class="flex items-center gap-4">
       <span class="w-16 shrink-0 font-mono text-body-sm">{{ target }}</span>
-      <Rating size="xs" :touch-target="target" :default-value="3" :aria-label="target" />
+      <Rating size="xs" :touch-target="target" :default-value="3" :aria-label="target" v-slot="{ items }">
+        <RatingItem v-for="item in items" :key="item" :item="item" />
+      </Rating>
     </div>
   </div>
 </template>

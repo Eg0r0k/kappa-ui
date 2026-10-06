@@ -6,7 +6,7 @@ import { ref } from "vue";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/ui/field";
-import { Rating } from "@/ui/rating";
+import { Rating, RatingItem } from "@/ui/rating";
 import { Textarea } from "@/ui/textarea";
 
 // The schema, not native `required`, decides that a rating was picked: 0 means none.
@@ -35,7 +35,9 @@ const submit: SubmitHandler<typeof Review> = (output) => {
           <FormischField v-slot="field" :of="form" :path="['stars']">
             <Field :invalid="field.errors !== null" required>
               <FieldLabel>Rating</FieldLabel>
-              <Rating v-model="field.input" :step="0.5" hoverable clearable color="warning" />
+              <Rating v-model="field.input" :step="0.5" hoverable clearable color="warning" v-slot="{ items }">
+                <RatingItem v-for="item in items" :key="item" :item="item" />
+              </Rating>
               <FieldError :errors="field.errors" />
             </Field>
           </FormischField>

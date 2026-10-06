@@ -1,0 +1,25 @@
+component: RatingDisplay
+file: ui/rating/RatingDisplay.vue
+props:
+  value:
+    description: The value to show. Fractions are drawn exactly, so 4.3 fills the fifth star to 30%.
+  length:
+    description: How many stars.
+  color:
+    description: Colour role of the filled stars, as on `Rating`. `warning` gives gold stars.
+  size:
+    description: Matches a Button of the same size, as on `Rating`.
+  labels:
+    description: Screen reader name, `{ readonly(value, length) }`, for other words or another language. "Rated 4.3 out of 5" by default; an `aria-label` goes in front of it.
+  orientation:
+    description: "`vertical` stacks the stars from top to bottom."
+  dir:
+    description: Reading direction. In `rtl` the stars fill from the right.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  name:
+    description: Submits the value with its form under this name, in a hidden input.
+  disabled:
+    description: Greys the stars. Also set by a disabled field.
+slots:
+  default: "The items, one `RatingDisplayItem` per star. Receives `items`, the star numbers from 1 to `length`."
