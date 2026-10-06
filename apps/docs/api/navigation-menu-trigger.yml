@@ -1,0 +1,12 @@
+component: NavigationMenuTrigger
+file: ui/navigation-menu/NavigationMenuTrigger.vue
+props:
+  disabled:
+    description: "Disables the trigger: it can't be focused or opened, and the arrow keys skip it."
+  as:
+    description: "The element or component to render; a `button` by default."
+  asChild:
+    description: "Render the single child instead of the `button`, merging this part's attributes and classes onto it."
+slots:
+  default: "The label, with an optional leading icon."
+  icon: "Replaces the chevron after the label."

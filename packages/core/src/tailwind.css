@@ -810,6 +810,60 @@
   }
 }
 
+@keyframes kappa-navigation-menu-enter {
+  from {
+    translate: var(--navigation-menu-motion-x, 0) var(--navigation-menu-motion-y, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes kappa-navigation-menu-exit {
+  to {
+    translate: var(--navigation-menu-motion-x, 0) var(--navigation-menu-motion-y, 0);
+    opacity: 0;
+  }
+}
+
+/* Slides a navigation menu panel in from the side of the trigger the pointer came from (Reka's data-motion).
+   Reka already reverses the item order in right-to-left text, so a horizontal data-motion is physical and is
+   not flipped here, unlike drawer-menu. A vertical list is not mirrored, so there the reversal is undone. */
+@utility navigation-menu-motion {
+  --navigation-menu-motion-distance: 25%;
+  animation-duration: var(--transition-duration-medium-2, 300ms);
+  animation-timing-function: var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  animation-fill-mode: both;
+  &[data-motion^="from-"] {
+    animation-name: kappa-navigation-menu-enter;
+  }
+  &[data-motion^="to-"] {
+    animation-name: kappa-navigation-menu-exit;
+  }
+  &[data-motion$="-start"] {
+    --navigation-menu-motion-x: calc(var(--navigation-menu-motion-distance) * -1);
+  }
+  &[data-motion$="-end"] {
+    --navigation-menu-motion-x: var(--navigation-menu-motion-distance);
+  }
+  &[data-orientation="vertical"] {
+    --navigation-menu-motion-x: 0;
+  }
+  &[data-orientation="vertical"][data-motion$="-start"] {
+    --navigation-menu-motion-y: calc(var(--navigation-menu-motion-distance) * -1);
+  }
+  &[data-orientation="vertical"][data-motion$="-end"] {
+    --navigation-menu-motion-y: var(--navigation-menu-motion-distance);
+  }
+  &[data-orientation="vertical"]:dir(rtl)[data-motion$="-start"] {
+    --navigation-menu-motion-y: var(--navigation-menu-motion-distance);
+  }
+  &[data-orientation="vertical"]:dir(rtl)[data-motion$="-end"] {
+    --navigation-menu-motion-y: calc(var(--navigation-menu-motion-distance) * -1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 @keyframes kappa-skeleton-wave {
   from {
     transform: translateX(-100%);

@@ -2481,6 +2481,63 @@
       ]
     },
     {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A site header of links and triggers whose panels open in one shared viewport that morphs between them, in ghost and link variants and five sizes, horizontal or vertical, built on Reka UI.",
+      "categories": [
+        "navigation"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "src/ui/navigation-menu/NavigationMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuIndicator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuLink.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuViewport.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "radio-group",
       "type": "registry:ui",
       "title": "Radio Group",
@@ -8089,6 +8146,245 @@
       "files": [
         {
           "path": "src/examples/tabs/TabsKeepMounted.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-demo",
+      "type": "registry:block",
+      "title": "Navigation menu demo",
+      "description": "A docs site header with a featured card, a grid of described links and a plain link.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-sizes",
+      "type": "registry:block",
+      "title": "Navigation menu sizes",
+      "description": "The same menu in the five sizes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-link-variant",
+      "type": "registry:block",
+      "title": "Navigation menu link variant",
+      "description": "Underlined links with the current page marked and a disabled panel link.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuLinkVariant.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-as-child",
+      "type": "registry:block",
+      "title": "Navigation menu with your own links",
+      "description": "Router-style links passed through as-child.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuAsChild.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-no-viewport",
+      "type": "registry:block",
+      "title": "Navigation menu without a viewport",
+      "description": "Panels under their own triggers, one with a search form that closes the menu on submit.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuNoViewport.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-controlled",
+      "type": "registry:block",
+      "title": "Navigation menu controlled",
+      "description": "The open panel bound with v-model, opened and closed from outside and after a form submits.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuControlled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-indicator",
+      "type": "registry:block",
+      "title": "Navigation menu indicator",
+      "description": "An arrow that follows the open trigger.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuWithIndicator.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-click-only",
+      "type": "registry:block",
+      "title": "Navigation menu click only",
+      "description": "Panels that open on click and stay open when the pointer leaves.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuClickOnly.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-keep-mounted",
+      "type": "registry:block",
+      "title": "Navigation menu keeping panels mounted",
+      "description": "Closed panels kept in the page, hidden.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuKeepMounted.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-align",
+      "type": "registry:block",
+      "title": "Navigation menu align",
+      "description": "Panel alignment at start, center and end, in both reading directions.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuAlign.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-vertical",
+      "type": "registry:block",
+      "title": "Navigation menu vertical",
+      "description": "A sidebar whose panels open beside it.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-responsive",
+      "type": "registry:block",
+      "title": "Navigation menu responsive",
+      "description": "A header with a navigation menu on wide screens and a drawer menu on narrow ones.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "@vueuse/core"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "drawer",
+        "drawer-menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuResponsive.vue",
           "type": "registry:component"
         }
       ]
