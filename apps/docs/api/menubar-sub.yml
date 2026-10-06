@@ -1,0 +1,11 @@
+component: MenubarSub
+file: ui/menubar/MenubarSub.vue
+props:
+  open:
+    description: "Whether it is open, bound with `v-model:open`."
+  defaultOpen:
+    description: "Whether it starts open, when you don't bind `v-model:open`."
+emits:
+  update:open: "Fires when it opens or closes."
+slots:
+  default: "A `MenubarSubTrigger` and a `MenubarSubContent`. Receives `open`."

@@ -1,0 +1,11 @@
+component: MenubarTrigger
+file: ui/menubar/MenubarTrigger.vue
+props:
+  disabled:
+    description: "Disables the menu: the arrow keys skip its trigger and it cannot open."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The menu's name, an icon, or both. Give an icon-only trigger an `aria-label` or a `v-tooltip.label`."
