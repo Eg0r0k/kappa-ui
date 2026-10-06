@@ -22,7 +22,7 @@ const days = shallowRef<DateValue[] | undefined>([
         multiple
         :color="color"
         :default-placeholder="new CalendarDate(2026, 10, 1)"
-        :aria-label="`Days, ${color}`"
+        :calendar-label="`Days, ${color}`"
       />
       <span class="text-label-md text-muted-foreground">{{ color }}</span>
     </div>

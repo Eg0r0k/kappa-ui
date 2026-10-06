@@ -129,6 +129,22 @@ describe("selection", () => {
     expect(style(cell("2026-10-16")).backgroundColor).toBe("rgba(0, 0, 0, 0)");
   });
 
+  // The band used to wait for an end day in the DOM, so a range ending in a later month lost it.
+  it("keeps the band when the range's end is in a month off screen", async () => {
+    const { value } = controlled({}, { start: d(20), end: d(10, 12) });
+    expect(style(cell("2026-10-21")).backgroundColor).toMatch(band);
+    expect(style(cell("2026-10-20")).backgroundColor).toMatch(band);
+    await userEvent.click(q("[data-slot=range-calendar-next-button]"));
+    expect(heading()).toBe("November 2026");
+    expect(style(cell("2026-11-18")).backgroundColor).toMatch(band);
+    // A lone start still shows no band.
+    value.value = { start: d(18, 11), end: undefined };
+    await nextTick();
+    await nextTick();
+    expect(day("2026-11-18").hasAttribute("data-selected")).toBe(true);
+    expect(style(cell("2026-11-18")).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  });
+
   it("previews the range under the pointer, and rounds a lone start on both sides", async () => {
     controlled();
     await userEvent.click(day("2026-10-12"));

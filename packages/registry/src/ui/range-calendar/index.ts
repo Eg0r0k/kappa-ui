@@ -14,12 +14,12 @@ export { default as RangeCalendarNextButton } from "./RangeCalendarNextButton.vu
 export { default as RangeCalendarPrevButton } from "./RangeCalendarPrevButton.vue";
 
 /**
- * The cell draws the band: the committed range once it has an end, and the preview while the end
- * is being picked, rounded at both ends and at the row's edges.
+ * The cell draws the band: the committed range once it has an end (`data-range-complete`), and the
+ * preview while the end is being picked, rounded at both ends and at the row's edges.
  */
 export const rangeCalendarCell = `${calendarCell}
   has-data-highlighted:bg-tone-soft
-  group-has-data-selection-end/calendar:has-data-selected:bg-tone-soft
+  data-range-complete:has-data-selected:bg-tone-soft
   first-of-type:rounded-s-full
   last-of-type:rounded-e-full
   has-data-highlighted-start:rounded-s-full

@@ -13,7 +13,7 @@ const date = shallowRef<DateValue | undefined>(new CalendarDate(2026, 10, 6));
 <template>
   <div class="flex flex-wrap items-start justify-center gap-6">
     <div v-for="size in sizes" :key="size" class="flex flex-col items-center gap-2">
-      <Calendar v-model="date" :size="size" :aria-label="`Date, ${size}`" />
+      <Calendar v-model="date" :size="size" :calendar-label="`Date, ${size}`" />
       <span class="text-label-md text-muted-foreground">{{ size }}</span>
     </div>
   </div>

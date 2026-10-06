@@ -295,6 +295,15 @@ describe("v-model", () => {
     expect(value.value?.toString()).toBe("2026-10-06");
   });
 
+  it("keeps days focusable but unpickable, and drops the pointer cursor, when readonly", async () => {
+    const { value, updates } = controlled({ readonly: true }, oct6);
+    expect(style(day("2026-10-14")).cursor).toBe("default");
+    await userEvent.click(day("2026-10-14"));
+    expect(updates).toEqual([]);
+    expect(value.value?.toString()).toBe("2026-10-06");
+    expect(document.activeElement).toBe(day("2026-10-14"));
+  });
+
   it("toggles days with multiple", async () => {
     const { value } = controlled({ multiple: true });
     await userEvent.click(day("2026-10-01"));

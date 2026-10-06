@@ -115,6 +115,7 @@ export const calendarDay = `
   data-unavailable:text-muted-foreground data-unavailable:line-through
   data-disabled:cursor-default data-disabled:text-foreground/(--disabled-opacity)
   aria-disabled:cursor-default
+  group-data-readonly/calendar:cursor-default
   forced-colors:data-today:underline
   group-data-months/calendar:data-outside-view:pointer-events-none
   group-data-months/calendar:data-outside-view:invisible
