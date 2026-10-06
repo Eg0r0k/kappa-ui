@@ -7,6 +7,8 @@ props:
     description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`."
   highlightOnHover:
     description: "Highlights the swatch under the pointer."
+  loop:
+    description: "Wraps arrow-key navigation from the last swatch to the first and back. Needs `reka-ui` 2.11 or later."
   name:
     description: "Adds a hidden input with the selected swatch, for a form submission."
   required:

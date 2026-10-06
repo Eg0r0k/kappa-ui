@@ -5,13 +5,7 @@ import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/ui/button";
-import {
-  type PaginationColor,
-  type PaginationSize,
-  type PaginationVariant,
-  injectPaginationLook,
-  paginationButtonSize,
-} from ".";
+import { type PaginationColor, type PaginationSize, type PaginationVariant, injectPaginationLook } from ".";
 
 const props = defineProps<
   PaginationNextProps & {
@@ -41,7 +35,7 @@ const delegated = computed(() => {
     :data-variant="variant"
     :data-color="color"
     :data-size="size"
-    :class="cn(buttonVariants({ variant, size: paginationButtonSize[size] }), props.class)"
+    :class="cn(buttonVariants({ variant, size }), props.class)"
   >
     <slot>
       Next

@@ -62,7 +62,8 @@ it("renders header, rows and cells from columns and data with the primitives' sl
   expect(texts(cells(0))).toEqual(["Person 01", "20", "Berlin"]);
   expect(cells(0)[1]!.dataset.align).toBe("end");
   expect(document.querySelectorAll("colgroup col")).toHaveLength(3);
-  expect(table().dataset.density).toBe("md");
+  expect(table().dataset.size).toBe("md");
+  expect(root().dataset.size).toBe("md");
   expect(table().dataset.layout).toBe("auto");
 });
 
@@ -198,14 +199,46 @@ it("shows the empty, no-results and loading states", () => {
   expect(document.querySelector("thead [data-slot=progress]")).not.toBeNull();
 });
 
-it("sets density, stripes by absolute parity and switches hover off", () => {
-  const { table, rows } = render({ density: "sm", striped: true, hoverable: false });
-  expect(table().dataset.density).toBe("sm");
+it("sets the size, stripes by absolute parity and switches hover off", () => {
+  const { table, rows } = render({ size: "sm", striped: true, hoverable: false });
+  expect(table().dataset.size).toBe("sm");
   expect(table().dataset.striped).toBe("");
   expect(rows()[0]!.parentElement!.dataset.parity).toBe("odd");
   expect(rows()[1]!.parentElement!.dataset.parity).toBe("even");
   expect(getComputedStyle(rows()[1]!.querySelector("td")!).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   expect(table().className).toContain("[--table-hover-bg:transparent]");
+});
+
+it("fits its sort button, checkboxes and toggles inside a 28px row at xs", async () => {
+  const data = people.slice(0, 6);
+  const heights = () =>
+    [...document.querySelectorAll("thead tr, tbody tr")].map((row) => row.getBoundingClientRect().height);
+  const expanding = render({
+    data,
+    size: "xs",
+    sortable: true,
+    selection: true,
+    expandable: { getRowCanExpand: () => true },
+  });
+  await nextTick();
+  expect(document.querySelectorAll("[data-slot=data-table-column-header]")).toHaveLength(3);
+  expect(document.querySelectorAll("[data-slot=data-table-expand-cell] button")).toHaveLength(6);
+  expect(heights()).toEqual(Array(7).fill(28));
+  expanding.wrapper.unmount();
+
+  render({ data, size: "xs", groupable: true, grouping: ["city"] });
+  await nextTick();
+  expect(document.querySelectorAll("[data-slot=data-table-group-cell] button")).toHaveLength(3);
+  expect(heights()).toEqual(Array(4).fill(28));
+});
+
+it("keeps its sort button and toggles at their own size from sm up", async () => {
+  render({ data: people.slice(0, 2), size: "sm", sortable: true, expandable: { getRowCanExpand: () => true } });
+  await nextTick();
+  const box = (selector: string) => document.querySelector(selector)!.getBoundingClientRect().height;
+  expect([box("[data-slot=data-table-column-header]"), box("[data-slot=data-table-expand-cell] button")]).toEqual([
+    32, 28,
+  ]);
 });
 
 it("renders the footer from column footers and counts it in aria-rowcount", () => {

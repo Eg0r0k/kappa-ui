@@ -27,7 +27,7 @@ const steps = [
       <StepperTrigger as-child>
         <Button
           :variant="state === 'inactive' ? 'outline' : 'solid'"
-          size="icon"
+          size="icon-md"
           class="z-10 rounded-full"
           :class="state === 'active' && 'ring-2 ring-ring ring-offset-2 ring-offset-background'"
         >

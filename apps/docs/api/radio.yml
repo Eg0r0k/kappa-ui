@@ -3,6 +3,8 @@ file: ui/radio-group/Radio.vue
 props:
   value:
     description: The value the group's `v-model` takes when this radio is selected.
+  color:
+    description: Colour role of the ring and dot once selected. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`. Without one, the radio takes its group's `color`, or `primary`. An invalid group turns `destructive` whatever the colour.
   size:
     description: Circle size, from 14px for `xs` to 24px for `xl`, the same scale as the checkbox.
   touchTarget:

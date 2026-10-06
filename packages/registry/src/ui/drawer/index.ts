@@ -21,6 +21,8 @@ export const drawerSurface = `
   outline-none drawer-slide [--scroll-fade-color:var(--popover)]
 `;
 
+// side names a screen edge, not a reading direction, so everything placed by it is physical: under dir="rtl" the
+// rounded corners and the handle stay on the inner edge and the swipe area on the screen edge
 export const drawerContentVariants = cva("", {
   variants: {
     side: {
@@ -32,8 +34,8 @@ export const drawerContentVariants = cva("", {
         inset-x-0 top-0 max-h-[calc(100dvh-var(--drawer-keyboard-inset))] touch-pan-x rounded-b-2xl
         pt-[calc(--spacing(4)+env(safe-area-inset-top))]
       `,
-      left: "inset-y-0 left-0 w-3/4 max-w-sm touch-pan-y rounded-e-2xl",
-      right: "inset-y-0 right-0 w-3/4 max-w-sm touch-pan-y rounded-s-2xl",
+      left: "inset-y-0 left-0 w-3/4 max-w-sm touch-pan-y rounded-r-2xl",
+      right: "inset-y-0 right-0 w-3/4 max-w-sm touch-pan-y rounded-l-2xl",
     },
   },
   defaultVariants: { side: "bottom" },
@@ -46,8 +48,8 @@ export const drawerHandleVariants = cva(
       side: {
         bottom: "mx-auto h-1.5 w-12",
         top: "order-last mx-auto h-1.5 w-12",
-        left: "absolute end-2 top-1/2 h-12 w-1.5 -translate-y-1/2",
-        right: "absolute start-2 top-1/2 h-12 w-1.5 -translate-y-1/2",
+        left: "absolute top-1/2 right-2 h-12 w-1.5 -translate-y-1/2",
+        right: "absolute top-1/2 left-2 h-12 w-1.5 -translate-y-1/2",
       },
     },
     defaultVariants: { side: "bottom" },

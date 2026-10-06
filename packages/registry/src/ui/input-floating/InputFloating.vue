@@ -52,6 +52,7 @@ const inputBindings = computed(() => ({
   <div
     data-slot="input-floating"
     :data-variant="props.variant ?? 'outline'"
+    :data-size="props.size ?? 'md'"
     :data-float="alwaysFloating.has(String(attrs.type)) || undefined"
     :class="cn(inputFloatingVariants({ variant: props.variant, size: props.size }), props.class)"
   >

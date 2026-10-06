@@ -25,8 +25,6 @@ export type PaginationLook = {
 
 export const [injectPaginationLook, providePaginationLook] = createContext<ComputedRef<PaginationLook>>("Pagination");
 
-export const paginationButtonSize = { xs: "xs", sm: "sm", md: "default", lg: "lg", xl: "xl" } as const;
-
 export const paginationPageSize: Record<PaginationSize, string> = {
   xs: "min-w-(--control-height-xs) px-1.5",
   sm: "min-w-(--control-height-sm) px-2",

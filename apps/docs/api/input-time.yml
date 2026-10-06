@@ -50,3 +50,5 @@ props:
 emits:
   update:modelValue: Fires when a typed or stepped segment completes or clears the time.
   update:placeholder: Fires when the placeholder time changes.
+  focus: Fires once when focus enters the field, not for every segment.
+  blur: Fires once when focus leaves the field.

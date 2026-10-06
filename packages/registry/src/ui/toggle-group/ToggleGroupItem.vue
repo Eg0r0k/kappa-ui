@@ -15,7 +15,7 @@ const style = computed(() => ({
   activeVariant: props.activeVariant ?? group.value.activeVariant,
   color: props.color ?? group.value.color,
   activeColor: props.activeColor ?? group.value.activeColor,
-  size: props.size ?? group.value.size,
+  size: props.size ?? group.value.size ?? "md",
 }));
 
 const delegated = computed(() => {

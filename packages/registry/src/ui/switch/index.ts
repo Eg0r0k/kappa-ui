@@ -2,6 +2,8 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Switch } from "./Switch.vue";
 
+export type SwitchColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 export const switchVariants = cva(
   `
     group/switch relative inline-flex h-(--switch-h) w-(--switch-w) shrink-0 items-center rounded-full border-2
@@ -11,7 +13,7 @@ export const switchVariants = cva(
     aria-invalid:tone-invalid
     data-[state=checked]:[--halo-color:var(--tone)]
     focus-visible:focus-ring
-    data-[state=checked]:border-tone data-[state=checked]:bg-tone
+    data-[state=checked]:border-tone-text data-[state=checked]:bg-tone
     disabled:cursor-not-allowed disabled:border-foreground/(--disabled-container-opacity) disabled:bg-transparent
     disabled:data-[state=checked]:border-transparent
     disabled:data-[state=checked]:bg-foreground/(--disabled-container-opacity)

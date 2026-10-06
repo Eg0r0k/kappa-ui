@@ -2,14 +2,16 @@
 import { ref } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
-import { Table, TableBody, TableCell, type TableDensity, TableHead, TableHeader, TableRow } from "@/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, type TableSize } from "@/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/ui/toggle-group";
 
-const density = ref<TableDensity>("sm");
+const sizes: TableSize[] = ["xs", "sm", "md", "lg", "xl"];
+const size = ref<TableSize>("sm");
 const striped = ref(true);
 
-const setDensity = (value: unknown) => {
-  if (value === "sm" || value === "md" || value === "lg") density.value = value;
+const setSize = (value: unknown) => {
+  const next = sizes.find((candidate) => candidate === value);
+  if (next) size.value = next;
 };
 
 const firstNames = ["Ada", "Grace", "Linus", "Margaret", "Katherine", "Marie", "Alan", "Barbara", "Dennis", "Radia"];
@@ -42,10 +44,8 @@ const rows = Array.from({ length: 200 }, (_, index) => ({
 <template>
   <div class="flex w-full max-w-2xl flex-col gap-4">
     <div class="flex flex-wrap items-center gap-4">
-      <ToggleGroup type="single" variant="outline" size="sm" :model-value="density" @update:model-value="setDensity">
-        <ToggleGroupItem value="sm">sm</ToggleGroupItem>
-        <ToggleGroupItem value="md">md</ToggleGroupItem>
-        <ToggleGroupItem value="lg">lg</ToggleGroupItem>
+      <ToggleGroup type="single" variant="outline" size="sm" :model-value="size" @update:model-value="setSize">
+        <ToggleGroupItem v-for="option in sizes" :key="option" :value="option">{{ option }}</ToggleGroupItem>
       </ToggleGroup>
       <ToggleGroup
         type="single"
@@ -59,7 +59,7 @@ const rows = Array.from({ length: 200 }, (_, index) => ({
       </ToggleGroup>
     </div>
     <ScrollArea orientation="both" class="h-96 rounded-lg border">
-      <Table overflow="visible" :density="density" :striped="striped">
+      <Table overflow="visible" :size="size" :striped="striped">
         <TableHeader sticky>
           <TableRow>
             <TableHead pinned="start" align="end" class="w-14 min-w-14">#</TableHead>

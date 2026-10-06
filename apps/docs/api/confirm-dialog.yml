@@ -13,6 +13,6 @@ props:
   color:
     description: "The action button's colour."
   size:
-    description: "`default` or `sm`, as on `AlertDialogContent`."
+    description: "`sm` or `md` (default), as on `AlertDialogContent`."
   onConfirm:
     description: "Runs when the action is pressed, before the dialog closes. While its promise is pending the buttons are disabled and Escape is ignored; if it throws, the dialog stays open."

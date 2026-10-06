@@ -14,6 +14,6 @@ props:
   variant:
     description: "The same five variants as the input."
   size:
-    description: "Height, matching the input sizes of the same name."
+    description: "Height, matching the input sizes of the same name. The list opens at the same size unless `SelectContent` sets its own."
 slots:
   default: "A `SelectValue`, and anything else to show before the chevron."

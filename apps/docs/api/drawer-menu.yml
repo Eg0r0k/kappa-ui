@@ -2,7 +2,7 @@ component: DrawerMenu
 file: ui/drawer-menu/DrawerMenu.vue
 props:
   size:
-    description: "Item height and icon size: `sm` 40px, `md` 48px (default) or `lg` 56px."
+    description: "Row height, padding and icon size, from the control scale plus room for a thumb: `xs` 36px, `sm` 40px, `md` 48px (default), `lg` 56px, `xl` 64px."
   loop:
     description: "Whether the arrow keys wrap from the last item to the first and back."
   dir:

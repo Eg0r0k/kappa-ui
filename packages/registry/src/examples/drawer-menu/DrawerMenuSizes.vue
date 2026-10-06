@@ -5,7 +5,7 @@ import { Button } from "@/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/ui/drawer";
 import { DrawerMenu, DrawerMenuItem } from "@/ui/drawer-menu";
 
-const sizes = ["sm", "md", "lg"] as const;
+const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
 </script>
 
 <template>

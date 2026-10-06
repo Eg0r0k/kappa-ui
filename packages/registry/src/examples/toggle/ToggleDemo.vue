@@ -5,7 +5,7 @@ import { Toggle } from "@/ui/toggle";
 </script>
 
 <template>
-  <Toggle size="icon" aria-label="Bold">
+  <Toggle size="icon-md" aria-label="Bold">
     <Bold />
   </Toggle>
 </template>

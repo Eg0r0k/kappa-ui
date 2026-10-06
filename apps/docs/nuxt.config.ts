@@ -5,25 +5,32 @@ import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import type { Nuxt } from 'nuxt/schema'
 
+import {
+  type PackageManifest,
+  dependencyRanges as rangesOf,
+  listedRanges,
+} from '../../scripts/lib/dependency-ranges.ts'
 import { contentFileToRoute } from './scripts/lib/routes.ts'
 
 const siteUrl = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
 
-const coreVersion = (
-  JSON.parse(readFileSync(new URL('../../packages/core/package.json', import.meta.url), 'utf8')) as { version: string }
-).version
+const readPackage = (path: string) =>
+  JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8')) as PackageManifest & { version: string }
 
-const registryVersion = (
-  JSON.parse(readFileSync(new URL('../../packages/registry/package.json', import.meta.url), 'utf8')) as {
-    version: string
-  }
-).version
+const corePackage = readPackage('../../packages/core/package.json')
+const registryPackage = readPackage('../../packages/registry/package.json')
+const registryVersion = registryPackage.version
 
-const previewRoutes = (
+const registryItems = (
   JSON.parse(readFileSync(new URL('../../packages/registry/registry.json', import.meta.url), 'utf8')) as {
-    items: { name: string; categories?: string[] }[]
+    items: { name: string; categories?: string[]; dependencies?: string[] }[]
   }
 ).items
+
+// The Manual tab's ranges, from the helper the registry build stamps them with, for the packages items list
+const dependencyRanges = listedRanges(rangesOf(corePackage, registryPackage), registryItems)
+
+const previewRoutes = registryItems
   .filter((item) => item.categories?.includes('example'))
   .map((item) => `/preview/${item.name}`)
 
@@ -96,7 +103,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/globals.css'],
   runtimeConfig: {
-    public: { siteUrl, coreVersion, registryVersion },
+    public: { siteUrl, dependencyRanges, registryVersion },
   },
   app: {
     head: {

@@ -7,12 +7,16 @@ props:
     description: The starting array when `v-model` is not used.
   disabled:
     description: Disables every checkbox in the group.
+  max:
+    description: The most checkboxes that can be checked at once. At the limit the unchecked ones stop toggling and get `aria-disabled`, but stay focusable and keep their look, so tell users what the limit is. Needs `reka-ui` 2.11 or later.
   name:
     description: Submits the checked values with their form under this name.
   required:
     description: Marks the group required.
   variant:
     description: "`card`, `list` or `table` restyle every option in the group, making each whole card or row clickable."
+  color:
+    description: Colour role of every checkbox in the group that has no `color` of its own, and of a selected card's edge or row's tint.
   orientation:
     description: "`horizontal` lays the options out in a row: wrapping for `default`, a grid of cards for `card`, side-by-side cells for `list` and `table`."
   rovingFocus:

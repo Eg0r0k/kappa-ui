@@ -14,12 +14,13 @@ import { type HTMLAttributes, computed } from "vue";
 import { cn } from "@/lib/utils";
 import { menuSizeVariants } from "@/ui/menu";
 import { overlaySurface } from "@/ui/popover";
+import { type SelectSize, injectSelectSize } from ".";
 import SelectScrollDownButton from "./SelectScrollDownButton.vue";
 import SelectScrollUpButton from "./SelectScrollUpButton.vue";
 
 defineOptions({ inheritAttrs: false });
 
-const props = withDefaults(defineProps<SelectContentProps & { class?: HTMLAttributes["class"] }>(), {
+const props = withDefaults(defineProps<SelectContentProps & { size?: SelectSize; class?: HTMLAttributes["class"] }>(), {
   position: "popper",
   sideOffset: 4,
   disableOutsidePointerEvents: true,
@@ -27,7 +28,7 @@ const props = withDefaults(defineProps<SelectContentProps & { class?: HTMLAttrib
 const emits = defineEmits<SelectContentEmits>();
 
 const delegated = computed(() => {
-  const { class: _, ...rest } = props;
+  const { class: _, size: __, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
@@ -40,6 +41,9 @@ const scrim = useModalScrim({
 });
 const { ModalScrimHold } = scrim;
 const portalTarget = injectOverlayPortalTarget(null);
+
+const triggerSize = injectSelectSize(null);
+const size = computed(() => props.size ?? triggerSize?.value ?? "md");
 </script>
 
 <template>
@@ -48,11 +52,13 @@ const portalTarget = injectOverlayPortalTarget(null);
     <SelectContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="select-content"
+      :data-size="size"
       :class="
         cn(
           overlaySurface,
+          menuSizeVariants({ size }),
           `
-            relative flex max-h-(--reka-select-content-available-height) min-w-32 flex-col overflow-hidden
+            relative flex max-h-(--reka-select-content-available-height) min-w-32 flex-col overflow-hidden p-0
             origin-(--reka-select-content-transform-origin)
           `,
           props.class,
@@ -65,8 +71,7 @@ const portalTarget = injectOverlayPortalTarget(null);
         data-slot="select-viewport"
         :class="
           cn(
-            menuSizeVariants(),
-            'flex flex-col gap-0.5',
+            'flex flex-col gap-0.5 p-(--menu-pad)',
             props.position === 'popper' &&
               'h-(--reka-select-trigger-height) w-full min-w-(--reka-select-trigger-width) scroll-my-1',
           )

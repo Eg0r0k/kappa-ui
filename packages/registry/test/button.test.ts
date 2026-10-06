@@ -64,8 +64,8 @@ describe("Button", () => {
       const style = getComputedStyle(render({ touchTarget: "wrapper", ...props }));
       return [style.marginTop, style.marginLeft];
     };
-    expect(margins({ size: "default" })).toEqual(["6px", "0px"]);
-    expect(margins({ size: "icon" })).toEqual(["6px", "6px"]);
+    expect(margins({ size: "md" })).toEqual(["6px", "0px"]);
+    expect(margins({ size: "icon-md" })).toEqual(["6px", "6px"]);
     expect(margins({ size: "xl" })).toEqual(["0px", "0px"]);
   });
 
@@ -130,7 +130,7 @@ describe("Button control tokens", () => {
   const textSizes = [
     ["xs", "xs"],
     ["sm", "sm"],
-    ["default", "md"],
+    ["md", "md"],
     ["lg", "lg"],
     ["xl", "xl"],
   ] as const;
@@ -155,7 +155,7 @@ describe("Button control tokens", () => {
   it.each([
     ["icon-xs", "xs"],
     ["icon-sm", "sm"],
-    ["icon", "md"],
+    ["icon-md", "md"],
     ["icon-lg", "lg"],
     ["icon-xl", "xl"],
   ] as const)("%s is a square of the %s height around an icon of its size", (size, token) => {

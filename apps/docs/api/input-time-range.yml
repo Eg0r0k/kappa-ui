@@ -36,11 +36,11 @@ props:
   disabled:
     description: Disables every segment. Also set by a disabled field.
   required:
-    description: Marks the hidden form input required. Also set by a required field.
+    description: Marks both hidden form inputs required, so the range needs both ends. Also set by a required field.
   id:
-    description: Overrides the `id` taken from a surrounding field. It lands on the hidden input, so the field's label focuses the first segment.
+    description: Overrides the `id` taken from a surrounding field. It lands on the start's hidden input, so the field's label focuses the first segment.
   name:
-    description: Submits `start - end` with the form under this name, through a hidden input.
+    description: "Submits `name[start]` and `name[end]` with the form, each `HH:mm:ss` and empty while unset."
   isTimeUnavailable:
     description: A function that returns `true` for a time that cannot be picked.
   as:
@@ -50,3 +50,5 @@ props:
 emits:
   update:modelValue: Fires with `{ start, end }` when a segment of either end changes.
   update:placeholder: Fires when the placeholder time changes.
+  focus: Fires once when focus enters the field, not for every segment.
+  blur: Fires once when focus leaves the field.

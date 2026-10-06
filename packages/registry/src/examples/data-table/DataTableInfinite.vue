@@ -44,7 +44,7 @@ const columns = helper.columns([
     height="360px"
     sticky
     virtualize
-    density="sm"
+    size="sm"
     :on-load-more="loadMore"
     class="w-full max-w-lg rounded-lg border"
   >

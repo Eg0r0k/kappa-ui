@@ -1,0 +1,81 @@
+component: RangeCalendar
+file: ui/range-calendar/RangeCalendar.vue
+props:
+  modelValue:
+    description: "The range, bound with `v-model`: `{ start, end }` of `@internationalized/date` values, or `null`. While the end is being picked, `end` is `undefined`."
+  defaultValue:
+    description: "The starting selection when `v-model` is not used."
+  placeholder:
+    description: "A date in the month on screen, bound with `v-model:placeholder`. Moving it pages the calendar without selecting anything."
+  defaultPlaceholder:
+    description: "The month to open on when `v-model:placeholder` is not used. Defaults to the selection, or else today in the locale's calendar."
+  preventDeselect:
+    description: "Keeps a click on the range's only day from clearing it."
+  minValue:
+    description: "The earliest date that can be picked. Earlier days are disabled, and Previous stops at its month."
+  maxValue:
+    description: "The latest date that can be picked. Later days are disabled, and Next stops at its month."
+  isDateDisabled:
+    description: "Returns `true` for days that can't be picked or focused, such as weekends. Swapping the function works."
+  isDateUnavailable:
+    description: "Returns `true` for days that are struck through and can't be picked but stay focusable, such as fully booked ones. Swapping the function works."
+  numberOfMonths:
+    description: "How many months to show side by side. Below `sm` they stack. With more than one, the days outside each month are hidden."
+  pagedNavigation:
+    description: "Makes Previous and Next move by `numberOfMonths` instead of one month."
+  weekStartsOn:
+    description: "The first day of the week, from `0` (Sunday) to `6`. Leave it out to follow the locale."
+  weekdayFormat:
+    description: "How the weekday headers are written: `narrow` (the default), `short` or `long`."
+  fixedWeeks:
+    description: "Always draws six weeks, so the height doesn't change from month to month."
+  disableDaysOutsideCurrentView:
+    description: "Disables the days from the neighbouring months. They still show with one month; see `numberOfMonths`."
+  calendarLabel:
+    description: "Replaces Reka's English \"Event Date\" in the root's accessible name. Inside a field, the field label is used instead."
+  locale:
+    description: "The locale for month names, weekdays, digits and the week start. Defaults to the one Reka UI's `ConfigProvider` sets."
+  dir:
+    description: "The reading direction, which also mirrors the arrow keys. Defaults to the one Reka UI's `ConfigProvider` sets."
+  disabled:
+    description: "Disables every day and both arrows. Also set by a disabled field."
+  readonly:
+    description: "Keeps the days focusable but not selectable."
+  initialFocus:
+    description: "Focuses the selected day, today or the first focusable day on mount, skipping the hidden copies of other months' days. Useful in a popover."
+  nextPage:
+    description: "Returns the placeholder Next moves to, for custom paging."
+  prevPage:
+    description: "Returns the placeholder Previous moves to, for custom paging."
+  maximumDays:
+    description: "The longest range, in days. Once a start is picked, days beyond it are disabled."
+  allowNonContiguousRanges:
+    description: "Lets a range run across unavailable days."
+  isDateHighlightable:
+    description: "Returns `true` for unavailable days that the preview may still cross."
+  fixedDate:
+    description: "Keeps the `start` or the `end` in place while the other end is picked again."
+  size:
+    description: "Sets the day cells, arrows, gaps and text from `xs` to `xl` on the [control scale](/docs/getting-started/sizing). `md`, 36px days, is the default."
+  color:
+    description: "The tone of the selected day, the range's band and today's outline: `primary`, `neutral`, `destructive`, `success`, `warning`, `info`, or a name you define."
+  weekNumbers:
+    description: "Adds a column of week numbers before each row, counted from the row's first day. Hidden from screen readers."
+  id:
+    description: "Overrides the `id` taken from a surrounding field. The heading's id is built from it."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of the root, merging the root's attributes onto it."
+emits:
+  update:modelValue: "Fires when the range changes, including the partial `{ start, end: undefined }` while the end is being picked."
+  update:placeholder: "Fires when the month on screen changes."
+  update:validModelValue: "Fires once a range has both ends, in order. Listen to it to close a popover."
+  update:startValue: "Fires when the start is picked, before there is an end."
+slots:
+  default: "Replaces the built-in layout, with Reka's `{ date, grid, weekDays, weekStartsOn, locale, fixedWeeks, modelValue }`. Compose the parts in it."
+  heading: "The heading's content, with `{ headingValue, date, setPlaceholder }`. Put month and year pickers here."
+  week-day: "A weekday header's content, with `{ day, index }`."
+  day: "A day's content, with the Calendar fields plus `{ highlighted, highlightedStart, highlightedEnd, selectionStart, selectionEnd }`."
+  prev-icon: "The Previous arrow's icon, a chevron by default."
+  next-icon: "The Next arrow's icon, a chevron by default."

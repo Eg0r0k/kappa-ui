@@ -7,6 +7,8 @@ props:
     description: "`popper` opens the list below or above the trigger. `item-aligned` opens it over the trigger with the selected option where the trigger's text is, as a native select does on macOS."
   bodyLock:
     description: "Stops the page from scrolling while the list is open."
+  loop:
+    description: "Wraps arrow-key navigation from the last option to the first and back. Needs `reka-ui` 2.11 or later."
   memoDependencies:
     description: "Values that should re-run the position update when they change."
   side:
@@ -53,6 +55,8 @@ props:
     description: "The element or component to render."
   disableOutsidePointerEvents:
     description: "Makes the list modal. On by default; turn it off to let outside clicks reach the page."
+  size:
+    description: "Item height, padding and text, `xs` to `xl` as on Menu. Left out, the list takes the trigger's size."
 emits:
   closeAutoFocus: "Fires when focus returns to the trigger on close. Call `preventDefault()` to keep focus where it is."
   escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."

@@ -4,6 +4,13 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
+import {
+  CLI_MANAGED_PACKAGES,
+  type PackageManifest,
+  dependencyRanges,
+  publishedDependency,
+  rangeSource,
+} from './lib/dependency-ranges.ts'
 import { type CssRules, type CssVars, conflictsOf, itemCssFromSource, stylesheetOf } from './lib/registry-css.ts'
 
 const HOMEPAGE = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
@@ -13,9 +20,9 @@ const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
-const CORE_PACKAGE = '@kappa-ui/core'
-const REKA_PACKAGE = 'reka-ui'
 const REGISTRY_NAMESPACE = '@kappa-ui'
+const CORE_STYLESHEET = '@kappa-ui/core/tailwind.css'
+const TOKENS_ITEM = 'tokens'
 const PUBLISHED_ALIAS = '@/registry/kappa-ui/'
 const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
 const IMPLICIT_PACKAGES = new Set(['vue'])
@@ -82,6 +89,7 @@ const { values } = parseArgs({
 const manifestPath = resolve(repoRoot, values.manifest as string)
 const outDir = resolve(repoRoot, values.out as string)
 const manifestDir = dirname(manifestPath)
+const registryPackagePath = join(manifestDir, 'package.json')
 const corePath = resolve(repoRoot, values.core as string)
 const cssPath = resolve(repoRoot, values.css as string)
 
@@ -103,6 +111,9 @@ const shipsMechanism = (rules: CssRules = {}): boolean =>
     ([key, body]) =>
       key.startsWith('@utility') || key.startsWith('@keyframes') || (typeof body === 'object' && shipsMechanism(body)),
   )
+
+const importsCoreStylesheet = (rules: CssRules = {}) =>
+  Object.keys(rules).some((key) => key.startsWith('@import') && key.includes(CORE_STYLESHEET))
 
 const packageOf = (specifier: string) =>
   specifier.startsWith('@') ? specifier.split('/').slice(0, 2).join('/') : (specifier.split('/')[0] ?? specifier)
@@ -134,6 +145,10 @@ if (!existsSync(corePath)) {
   abort([`core package not found: ${values.core}`])
 }
 
+if (!existsSync(registryPackagePath)) {
+  abort([`registry package not found next to the manifest: ${registryPackagePath}`])
+}
+
 const registry = JSON.parse(await readFile(manifestPath, 'utf8')) as Registry
 
 const sourceErrors: string[] = []
@@ -154,24 +169,18 @@ const resolveCssSource = async (item: RegistryItem): Promise<RegistryItem> => {
 
 registry.items = await Promise.all(registry.items.map(resolveCssSource))
 
-const corePackage = JSON.parse(await readFile(corePath, 'utf8')) as {
-  version: string
-  peerDependencies?: Record<string, string>
-}
-const rekaRange =
-  corePackage.peerDependencies?.[REKA_PACKAGE] ??
-  abort([`core package has no peerDependencies["${REKA_PACKAGE}"]: ${values.core}`])
+const corePackage = JSON.parse(await readFile(corePath, 'utf8')) as PackageManifest
+const registryPackage = JSON.parse(await readFile(registryPackagePath, 'utf8')) as PackageManifest
 
-const stampedRanges = new Map([
-  [CORE_PACKAGE, `^${corePackage.version}`],
-  [REKA_PACKAGE, rekaRange],
-])
+const ranges = (() => {
+  try {
+    return dependencyRanges(corePackage, registryPackage)
+  } catch (error) {
+    return abort([`${(error as Error).message}: ${values.core}`])
+  }
+})()
 
-const stamp = (dependencies?: string[]) =>
-  dependencies?.map((dependency) => {
-    const range = stampedRanges.get(dependency)
-    return range === undefined ? dependency : `${dependency}@${range}`
-  })
+const stamp = (dependencies?: string[]) => dependencies?.map((dependency) => publishedDependency(dependency, ranges))
 
 const publishedConfig = (item: RegistryItem) =>
   item.type === 'registry:base'
@@ -238,9 +247,15 @@ for (const item of registry.items) {
 
   for (const dependency of item.dependencies ?? []) {
     const name = withoutVersion(dependency)
-    if (name !== dependency && stampedRanges.has(name)) {
+    if (name !== dependency) {
       errors.push(
-        `item "${item.name}": list "${name}" without a version; the build stamps it from packages/core/package.json`,
+        CLI_MANAGED_PACKAGES.has(name)
+          ? `item "${item.name}": list "${name}" without a version; the build publishes it bare, since the shadcn-vue CLI recognises it only by its name`
+          : `item "${item.name}": list "${name}" without a version; the build stamps it from ${rangeSource(name)}`,
+      )
+    } else if (!ranges.has(name)) {
+      errors.push(
+        `item "${item.name}": "${name}" has no range to install it in; add it to ${rangeSource(name)} with the range the registry is tested against`,
       )
     }
   }
@@ -315,7 +330,15 @@ const treeOf = (name: string, seen: Set<string> = new Set()): Set<string> => {
 }
 
 for (const item of registry.items) {
-  const tree = [...treeOf(item.name)].flatMap((name) => byName.get(name) ?? [])
+  const reached = treeOf(item.name)
+  // core's stylesheet reads the tokens (status colours, state layers, typescale, motion), so an item added by URL
+  // to a project on a plain shadcn-vue theme has to bring them
+  if (importsCoreStylesheet(item.css) && !reached.has(TOKENS_ITEM)) {
+    errors.push(
+      `item "${item.name}": its css imports ${CORE_STYLESHEET}, which reads the tokens; list "${TOKENS_ITEM}" in its registryDependencies, directly or through an item it depends on`,
+    )
+  }
+  const tree = [...reached].flatMap((name) => byName.get(name) ?? [])
   const shipped = new Set(tree.flatMap((entry) => entry.files.map((file) => resolve(manifestDir, file.path))))
   const packages = new Set(tree.flatMap((entry) => entry.dependencies ?? []).map(withoutVersion))
   for (const file of item.files) {

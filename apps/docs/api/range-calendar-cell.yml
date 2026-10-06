@@ -1,0 +1,11 @@
+component: RangeCalendarCell
+file: ui/range-calendar/RangeCalendarCell.vue
+props:
+  date:
+    description: "The day this cell holds."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a td, merging this part's attributes and classes onto it."
+slots:
+  default: "The day's trigger."
