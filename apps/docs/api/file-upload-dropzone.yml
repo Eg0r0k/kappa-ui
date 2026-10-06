@@ -1,0 +1,11 @@
+component: FileUploadDropzone
+file: ui/file-upload/FileUploadDropzone.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead, merging the frame and the drop handling onto it. On a `FileUploadTrigger` it makes the whole zone one button."
+  variant:
+    description: "The frame: a dashed `outline`, a filled `soft`, or `subtle`, both."
+slots:
+  default: "The zone's content. Receives `dragging`."

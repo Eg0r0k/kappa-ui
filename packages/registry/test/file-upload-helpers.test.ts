@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { acceptsFile, formatFileSize, gateFiles } from "@/ui/file-upload";
+import { acceptsFile, fileKey, formatFileSize, gateFiles } from "@/ui/file-upload";
 
 const file = (name: string, type = "", size = 1, lastModified = 1) =>
   new File([new Uint8Array(size)], name, { type, lastModified });
@@ -120,5 +120,14 @@ describe("gateFiles", () => {
     });
     expect(result.files).toHaveLength(2);
     expect(result.rejections.map(({ reason }) => reason)).toEqual(["count"]);
+  });
+});
+
+describe("fileKey", () => {
+  it("gives a file the same key every time and two equal-looking files different keys", () => {
+    const a = file("a.txt");
+    const b = file("a.txt");
+    expect(fileKey(a)).toBe(fileKey(a));
+    expect(fileKey(a)).not.toBe(fileKey(b));
   });
 });

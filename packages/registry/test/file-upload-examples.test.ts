@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { nextTick } from "vue";
 
 import FileUploadAvatar from "@/examples/file-upload/FileUploadAvatar.vue";
@@ -49,7 +50,12 @@ describe("FileUpload examples", () => {
     await settle();
     await nextTick();
 
-    const triggers = all("file-upload-trigger");
+    // the cover's zone is its trigger; the floor plans have a trigger Button
+    const triggers = [
+      ...document.querySelectorAll<HTMLElement>(
+        "button[data-slot=file-upload-dropzone], [data-slot=file-upload-trigger]",
+      ),
+    ];
     expect(all("field-error").map((error) => error.textContent)).toEqual([
       "Choose a cover photo.",
       "Add at least one floor plan.",
@@ -57,16 +63,22 @@ describe("FileUpload examples", () => {
     expect(triggers.map((trigger) => trigger.getAttribute("aria-invalid"))).toEqual(["true", "true"]);
     expect(document.activeElement).toBe(triggers[0]);
 
-    const [cover, plans] = all("file-upload-dropzone");
-    await drop(cover!, png("front.png"));
-    await drop(plans!, pdf("ground.pdf"), png("upstairs.png"));
+    await drop(all("file-upload-dropzone")[0]!, png("front.png"));
+    await userEvent.upload(all("file-upload-input")[1]!, [pdf("ground.pdf"), png("upstairs.png")]);
     await settle();
     await nextTick();
 
-    const sizes = all("file-upload-item-size").map((size) => size.textContent?.trim());
-    expect(sizes).toEqual(["16 B", "1 KB", "Floor plans must be PDFs."]);
+    const [cover, plans] = all("file-upload-list");
+    expect(all("file-upload-item-size", cover).map((size) => size.textContent?.trim())).toEqual(["16 B"]);
+    const lines = all("file-upload-item-content", plans).map((content) =>
+      [...content.children].map((line) => line.textContent?.trim()),
+    );
+    expect(lines).toEqual([
+      ["ground.pdf", "1 KB"],
+      ["upstairs.png", "Floor plans must be PDFs."],
+    ]);
 
-    all("file-upload-item-remove")[2]!.click();
+    all("file-upload-item-delete")[2]!.click();
     await nextTick();
     document.querySelector<HTMLButtonElement>("button[type=submit]")!.click();
     await settle();
@@ -81,6 +93,7 @@ describe("FileUpload examples", () => {
     await nextTick();
     expect(all("file-upload-item-name").map((name) => name.textContent)).toEqual(["notes.pdf"]);
 
+    // a drop on the Attach button reaches the page handler too, and is added once
     await drop(all("file-upload-trigger")[0]!, pdf("plan.pdf"));
     await nextTick();
     expect(all("file-upload-item-name").map((name) => name.textContent)).toEqual(["notes.pdf", "plan.pdf"]);

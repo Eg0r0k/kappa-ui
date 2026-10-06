@@ -1,0 +1,9 @@
+component: FileUploadClear
+file: ui/file-upload/FileUploadClear.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a button, such as a Button, merging the clear action onto it."
+slots:
+  default: "The button's content."

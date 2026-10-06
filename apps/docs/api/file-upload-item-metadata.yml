@@ -1,0 +1,9 @@
+component: FileUploadItemMetadata
+file: ui/file-upload/FileUploadItemMetadata.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead, merging the metadata's attributes onto it."
+slots:
+  default: "Replaces the name and size lines, a good place for progress or an error. Receives `file` and its formatted `size`."

@@ -1,39 +1,42 @@
 /*
-  The API (mode, layout, position, the file slots and the size format) follows Nuxt UI's FileUpload
-  (https://github.com/nuxt/ui), modified for kappa-ui.
+  The parts follow Dice UI's FileUpload (https://github.com/sadmann7/diceui), the file-size format Nuxt UI's
+  (https://github.com/nuxt/ui), both modified for kappa-ui.
+  Copyright (c) 2024 Sadman Sakib. MIT License: https://github.com/sadmann7/diceui/blob/main/LICENSE
   Copyright (c) 2023 Nuxt. MIT License: https://github.com/nuxt/ui/blob/v4/LICENSE.md
 */
 import { type VariantProps, cva } from "class-variance-authority";
+import { createContext } from "reka-ui";
+import type { ComputedRef } from "vue";
 
 import type { ButtonSize } from "@/ui/button";
 
 export { default as FileUpload } from "./FileUpload.vue";
+export { default as FileUploadClear } from "./FileUploadClear.vue";
+export { default as FileUploadDescription } from "./FileUploadDescription.vue";
+export { default as FileUploadDropzone } from "./FileUploadDropzone.vue";
+export { default as FileUploadIcon } from "./FileUploadIcon.vue";
+export { default as FileUploadItem } from "./FileUploadItem.vue";
+export { default as FileUploadItemDelete } from "./FileUploadItemDelete.vue";
+export { default as FileUploadItemMetadata } from "./FileUploadItemMetadata.vue";
+export { default as FileUploadItemPreview } from "./FileUploadItemPreview.vue";
+export { default as FileUploadList } from "./FileUploadList.vue";
+export { default as FileUploadTitle } from "./FileUploadTitle.vue";
+export { default as FileUploadTrigger } from "./FileUploadTrigger.vue";
 
-export type FileUploadMode = "area" | "button";
 export type FileUploadVariant = "outline" | "soft" | "subtle";
 export type FileUploadSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type FileUploadLayout = "list" | "grid";
-export type FileUploadPosition = "inside" | "outside";
 export type FileUploadRejectReason = "type" | "size" | "count" | "duplicate" | "directory";
 export type FileUploadRejection = { file: File; reason: FileUploadRejectReason };
 export type FileUploadModel<M extends boolean = false> = (M extends true ? File[] : File) | null;
-
-/** What the slots get to act on the files. */
-export type FileUploadSlotActions = {
-  files: File[];
-  open: () => void;
-  removeFile: (index?: number) => void;
-  clear: () => void;
-};
 
 /** What a template ref on FileUpload gives you. */
 export type FileUploadExpose = {
   open: () => void;
   clear: () => void;
   addFiles: (files: FileList | File[]) => void;
-  removeFile: (index?: number) => void;
+  removeFile: (file: File) => void;
   inputRef: HTMLInputElement | null;
-  triggerEl: HTMLElement | null;
 };
 
 /** Whether `file` matches an `accept` list: MIME types, `type/*` wildcards and `.ext` extensions, comma-separated. */
@@ -67,6 +70,19 @@ export const formatFileSize = (bytes: number) => {
   }
   const digits = exponent === 0 || value >= 10 ? 0 : 1;
   return `${Number(value.toFixed(digits))} ${units[exponent]}`;
+};
+
+const keys = new WeakMap<File, number>();
+let nextKey = 0;
+
+/** A stable `v-for` key for a file: Vue keys must be primitives, and two files can share a name. */
+export const fileKey = (file: File) => {
+  let key = keys.get(file);
+  if (key === undefined) {
+    key = nextKey++;
+    keys.set(file, key);
+  }
+  return key;
 };
 
 const sameFile = (a: File, b: File) => a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
@@ -108,10 +124,36 @@ export const gateFiles = (candidates: FileUploadCandidate[], current: File[], op
   return { files, accepted, rejections };
 };
 
-/** The root: the column holding the drop zone and the file list. */
+export type FileUploadContext = {
+  files: ComputedRef<File[]>;
+  size: ComputedRef<FileUploadSize>;
+  disabled: ComputedRef<boolean>;
+  invalid: ComputedRef<boolean>;
+  triggerId: ComputedRef<string>;
+  describedBy: ComputedRef<string | undefined>;
+  registerDescription: (id: string) => () => void;
+  setDragging: (dragging: boolean) => void;
+  open: () => void;
+  addCandidates: (candidates: FileUploadCandidate[]) => void;
+  removeFile: (file: File) => void;
+  clear: () => void;
+  urlOf: (file: File) => string | undefined;
+};
+
+export const [injectFileUploadContext, provideFileUploadContext] = createContext<FileUploadContext>("FileUpload");
+
+export const [injectFileUploadListContext, provideFileUploadListContext] = createContext<{
+  layout: ComputedRef<FileUploadLayout>;
+}>("FileUploadList");
+
+export const [injectFileUploadItemContext, provideFileUploadItemContext] = createContext<{
+  file: ComputedRef<File>;
+  url: ComputedRef<string | undefined>;
+}>("FileUploadItem");
+
+/** The root: a column holding the drop zone, the triggers and the file list. */
 export const fileUploadVariants = cva("relative flex w-full min-w-0 flex-col", {
   variants: {
-    mode: { area: "", button: "items-start" },
     size: {
       xs: "gap-(--control-gap-xs) [--file-upload-radius:--theme(--radius-lg)]",
       sm: "gap-(--control-gap-sm) [--file-upload-radius:--theme(--radius-lg)]",
@@ -120,19 +162,23 @@ export const fileUploadVariants = cva("relative flex w-full min-w-0 flex-col", {
       xl: "gap-(--control-gap-xl) [--file-upload-radius:--theme(--radius-xl)]",
     },
   },
-  defaultVariants: { mode: "area", size: "md" },
+  defaultVariants: { size: "md" },
 });
 
-/** The dashed surface that takes drops in `area` mode: the drop zone, or the whole root with `position="inside"`. */
-export const fileUploadFrameVariants = cva(
+/** The surface that takes drops: a dashed or filled frame, its content centred in a column. */
+export const fileUploadDropzoneVariants = cva(
   `
-    rounded-(--file-upload-radius) border transition-[border-color,background-color] duration-short-3 ease-standard
-    has-[[data-slot=file-upload-trigger]:focus-visible]:focus-ring
-    has-[[data-slot=file-upload-input]:focus]:focus-ring
-    not-data-invalid:has-[[data-slot=file-upload-trigger]:focus-visible]:border-primary
-    not-data-invalid:has-[[data-slot=file-upload-input]:focus]:border-primary
+    relative flex w-full flex-1 flex-col items-center justify-center rounded-(--file-upload-radius) border text-center
+    text-foreground outline-none state-layer cursor-pointer transition-[border-color,background-color] duration-short-3
+    ease-standard
+    focus-visible:focus-ring
+    not-data-invalid:focus-visible:border-primary
+    group-has-[[data-slot=file-upload-input]:focus]/file-upload:focus-ring
+    not-data-invalid:group-has-[[data-slot=file-upload-input]:focus]/file-upload:border-primary
     data-dragging:border-primary data-dragging:bg-primary/(--state-pressed)
     data-invalid:not-data-dragging:border-destructive
+    data-disabled:cursor-not-allowed data-disabled:text-foreground/(--disabled-opacity)
+    data-disabled:before:hidden
     motion-reduce:transition-none
   `,
   {
@@ -142,27 +188,6 @@ export const fileUploadFrameVariants = cva(
         soft: "border-transparent bg-muted",
         subtle: `border-dashed border-input bg-muted data-disabled:border-foreground/(--disabled-container-opacity)`,
       },
-    },
-    defaultVariants: { variant: "outline" },
-  },
-);
-
-/** The trigger in `area` mode: the button that opens the file dialog, holding the icon, label and description. */
-export const fileUploadTriggerVariants = cva(
-  `
-    relative flex w-full flex-1 flex-col items-center justify-center rounded-[calc(var(--file-upload-radius)-1px)]
-    text-center text-foreground outline-none
-  `,
-  {
-    variants: {
-      interactive: {
-        true: `
-          state-layer cursor-pointer
-          disabled:cursor-not-allowed disabled:text-foreground/(--disabled-opacity)
-          disabled:before:hidden
-        `,
-        false: "",
-      },
       size: {
         xs: "gap-(--control-gap-xs) px-(--control-padding-xs) py-[calc(var(--control-padding-xs)*2)]",
         sm: "gap-(--control-gap-sm) px-(--control-padding-sm) py-[calc(var(--control-padding-sm)*2)]",
@@ -171,20 +196,23 @@ export const fileUploadTriggerVariants = cva(
         xl: "gap-(--control-gap-xl) px-(--control-padding-xl) py-[calc(var(--control-padding-xl)*2)]",
       },
     },
-    defaultVariants: { interactive: true, size: "md" },
+    defaultVariants: { variant: "outline", size: "md" },
   },
 );
 
-/** The circle behind the upload icon in `area` mode, lifted off a filled frame. */
+/** The trigger on its own: a bare button; a Button through `as-child`, or the dropzone's frame through its `as-child`. */
+export const fileUploadTrigger = "outline-none focus-visible:focus-ring disabled:cursor-not-allowed";
+
+/** The circle behind the zone's icon, lifted off a filled frame. */
 export const fileUploadIconVariants = cva(
-  "flex shrink-0 items-center justify-center rounded-full text-muted-foreground",
+  `
+    flex shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground
+    group-data-[variant=soft]/file-upload-dropzone:bg-background
+    group-data-[variant=subtle]/file-upload-dropzone:bg-background
+    in-data-disabled:text-foreground/(--disabled-opacity)
+  `,
   {
     variants: {
-      variant: {
-        outline: "bg-muted",
-        soft: "bg-background",
-        subtle: "bg-background",
-      },
       size: {
         xs: "size-(--control-height-xs) icon-size-(--control-icon-xs)",
         sm: "size-(--control-height-sm) icon-size-(--control-icon-sm)",
@@ -193,11 +221,11 @@ export const fileUploadIconVariants = cva(
         xl: "size-(--control-height-xl) icon-size-(--control-icon-xl)",
       },
     },
-    defaultVariants: { variant: "outline", size: "md" },
+    defaultVariants: { size: "md" },
   },
 );
 
-export const fileUploadLabelVariants = cva("block", {
+export const fileUploadTitleVariants = cva("block", {
   variants: {
     size: {
       xs: "text-label-md",
@@ -210,39 +238,28 @@ export const fileUploadLabelVariants = cva("block", {
   defaultVariants: { size: "md" },
 });
 
-export const fileUploadDescriptionVariants = cva("block text-muted-foreground", {
-  variants: {
-    size: {
-      xs: "text-body-sm",
-      sm: "text-body-sm",
-      md: "text-body-sm",
-      lg: "text-body-sm",
-      xl: "text-body-md",
+export const fileUploadDescriptionVariants = cva(
+  "block text-muted-foreground in-data-disabled:text-foreground/(--disabled-opacity)",
+  {
+    variants: {
+      size: {
+        xs: "text-body-sm",
+        sm: "text-body-sm",
+        md: "text-body-sm",
+        lg: "text-body-sm",
+        xl: "text-body-md",
+      },
     },
+    defaultVariants: { size: "md" },
   },
-  defaultVariants: { size: "md" },
-});
+);
 
-export const fileUploadActionsVariants = cva("flex flex-wrap items-center justify-center", {
-  variants: {
-    size: {
-      xs: "gap-(--control-gap-xs) px-(--control-padding-xs) pb-(--control-padding-xs)",
-      sm: "gap-(--control-gap-sm) px-(--control-padding-sm) pb-(--control-padding-sm)",
-      md: "gap-(--control-gap-md) px-(--control-padding-md) pb-(--control-padding-md)",
-      lg: "gap-(--control-gap-lg) px-(--control-padding-lg) pb-(--control-padding-lg)",
-      xl: "gap-(--control-gap-xl) px-(--control-padding-xl) pb-(--control-padding-xl)",
-    },
-  },
-  defaultVariants: { size: "md" },
-});
-
-export const fileUploadListVariants = cva("w-full min-w-0", {
+export const fileUploadListVariants = cva("w-full min-w-0 text-start", {
   variants: {
     layout: {
       list: "flex flex-col",
       grid: "grid grid-cols-[repeat(auto-fill,minmax(var(--file-upload-tile),1fr))]",
     },
-    inside: { true: "", false: "" },
     size: {
       xs: "gap-(--control-gap-xs) [--file-upload-tile:calc(var(--control-height-xs)*2.5)]",
       sm: "gap-(--control-gap-sm) [--file-upload-tile:calc(var(--control-height-sm)*2.5)]",
@@ -251,34 +268,30 @@ export const fileUploadListVariants = cva("w-full min-w-0", {
       xl: "gap-(--control-gap-xl) [--file-upload-tile:calc(var(--control-height-xl)*2.5)]",
     },
   },
-  compoundVariants: [
-    { inside: true, size: "xs", class: "px-(--control-padding-xs) pb-(--control-padding-xs)" },
-    { inside: true, size: "sm", class: "px-(--control-padding-sm) pb-(--control-padding-sm)" },
-    { inside: true, size: "md", class: "px-(--control-padding-md) pb-(--control-padding-md)" },
-    { inside: true, size: "lg", class: "px-(--control-padding-lg) pb-(--control-padding-lg)" },
-    { inside: true, size: "xl", class: "px-(--control-padding-xl) pb-(--control-padding-xl)" },
-  ],
-  defaultVariants: { layout: "list", inside: false, size: "md" },
-});
-
-export const fileUploadItemVariants = cva("relative min-w-0 rounded-lg border border-border", {
-  variants: {
-    layout: {
-      list: "flex items-center",
-      grid: "flex aspect-square flex-col items-center justify-center bg-muted text-muted-foreground",
-    },
-    size: {
-      xs: "gap-(--control-gap-xs) p-(--control-gap-xs)",
-      sm: "gap-(--control-gap-sm) p-(--control-gap-sm)",
-      md: "gap-(--control-gap-md) p-(--control-gap-md)",
-      lg: "gap-(--control-gap-lg) p-(--control-gap-lg)",
-      xl: "gap-(--control-gap-xl) p-(--control-gap-xl)",
-    },
-  },
   defaultVariants: { layout: "list", size: "md" },
 });
 
-export const fileUploadItemMediaVariants = cva(
+export const fileUploadItemVariants = cva(
+  "relative min-w-0 cursor-auto rounded-lg border border-border in-data-disabled:text-foreground/(--disabled-opacity)",
+  {
+    variants: {
+      layout: {
+        list: "flex items-center",
+        grid: "flex aspect-square flex-col items-center justify-center bg-muted text-muted-foreground",
+      },
+      size: {
+        xs: "gap-(--control-gap-xs) p-(--control-gap-xs)",
+        sm: "gap-(--control-gap-sm) p-(--control-gap-sm)",
+        md: "gap-(--control-gap-md) p-(--control-gap-md)",
+        lg: "gap-(--control-gap-lg) p-(--control-gap-lg)",
+        xl: "gap-(--control-gap-xl) p-(--control-gap-xl)",
+      },
+    },
+    defaultVariants: { layout: "list", size: "md" },
+  },
+);
+
+export const fileUploadItemPreviewVariants = cva(
   "flex shrink-0 items-center justify-center overflow-hidden text-muted-foreground",
   {
     variants: {
@@ -327,7 +340,7 @@ export const fileUploadRemoveSize: Record<FileUploadSize, ButtonSize> = {
   xl: "icon-lg",
 };
 
-/** The round Remove button over the top-end corner of a tile or a button-mode preview. */
+/** The round Remove button over the top-end corner of a tile. */
 export const fileUploadRemoveOverlayVariants = cva(
   "absolute -end-1.5 -top-1.5 z-10 rounded-full ring-2 ring-background",
   {

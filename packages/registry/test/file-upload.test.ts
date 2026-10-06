@@ -1,11 +1,28 @@
+import { Upload } from "@lucide/vue";
 import { mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { type VNode, createSSRApp, defineComponent, h, nextTick, ref, shallowRef } from "vue";
 import { renderToString } from "vue/server-renderer";
 
+import { Button } from "@/ui/button";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
-import { FileUpload, type FileUploadRejection } from "@/ui/file-upload";
+import {
+  FileUpload,
+  FileUploadClear,
+  FileUploadDescription,
+  FileUploadDropzone,
+  FileUploadIcon,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  type FileUploadRejection,
+  FileUploadTitle,
+  FileUploadTrigger,
+  fileKey,
+} from "@/ui/file-upload";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
@@ -24,20 +41,61 @@ const image = (name = "photo.png", lastModified = 1) => new File([PNG], name, { 
 const pdf = (name = "report.pdf", size = 2048) =>
   new File([new Uint8Array(size)], name, { type: "application/pdf", lastModified: 1 });
 
+type Look = {
+  title?: string;
+  description?: string;
+  layout?: "list" | "grid";
+  variant?: "outline" | "soft" | "subtle";
+};
+
+// the whole zone is the button: the dropzone's frame and drops merge onto the trigger
+const zone = (look: Look = {}) =>
+  h(FileUploadDropzone, { asChild: true, variant: look.variant }, () =>
+    h(FileUploadTrigger, null, () => [
+      h(FileUploadIcon, null, () => h(Upload)),
+      h(FileUploadTitle, null, () => look.title ?? "Upload"),
+      look.description ? h(FileUploadDescription, null, () => look.description) : null,
+    ]),
+  );
+
+const items = (files: File[], layout: Look["layout"] = "list") =>
+  h(FileUploadList, { layout }, () =>
+    files.map((file) =>
+      h(FileUploadItem, { key: fileKey(file), file }, () => [
+        h(FileUploadItemPreview),
+        h(FileUploadItemMetadata),
+        h(FileUploadItemDelete),
+      ]),
+    ),
+  );
+
+const upload = (props: Record<string, unknown> = {}, look: Look = {}) =>
+  h(FileUpload, props, { default: ({ files }: { files: File[] }) => [zone(look), items(files, look.layout)] });
+
+// a zone with its content and a Browse button, the list inside it
+const browseZone = (props: Record<string, unknown> = {}) =>
+  h(FileUpload, props, {
+    default: ({ files }: { files: File[] }) =>
+      h(FileUploadDropzone, null, () => [
+        h(FileUploadTitle, null, () => "Drop files here"),
+        h(FileUploadDescription, null, () => "CSV only"),
+        h(FileUploadTrigger, { asChild: true }, () => h("button", { "data-test": "browse" }, "Browse")),
+        items(files),
+      ]),
+  });
+
 const render = (node: () => VNode | VNode[]) => mount({ render: node }, { attachTo: document.body });
 
 type Model = File | File[] | null | undefined;
 
-const controlled = (initial: Model, props: Record<string, unknown> = {}, slots: Record<string, unknown> = {}) => {
+const controlled = (initial: Model, props: Record<string, unknown> = {}, look: Look = {}) => {
   const value = shallowRef<Model>(initial);
   const rejected: FileUploadRejection[][] = [];
   const wrapper = mount(
     defineComponent(
       () => () =>
-        h(
-          FileUpload,
+        upload(
           {
-            label: "Upload files",
             modelValue: value.value,
             "onUpdate:modelValue": (next: Model) => {
               value.value = next;
@@ -45,7 +103,7 @@ const controlled = (initial: Model, props: Record<string, unknown> = {}, slots: 
             onReject: (rejections: FileUploadRejection[]) => rejected.push(rejections),
             ...props,
           },
-          slots,
+          look,
         ),
     ),
     { attachTo: document.body },
@@ -59,9 +117,13 @@ const $$ = <T extends HTMLElement = HTMLElement>(slot: string, scope: ParentNode
   ...scope.querySelectorAll<T>(`[data-slot=${slot}]`),
 ];
 const input = () => $<HTMLInputElement>("file-upload-input");
-const trigger = () => $<HTMLButtonElement>("file-upload-trigger");
-const removes = () => $$<HTMLButtonElement>("file-upload-item-remove");
+const dropzone = () => $("file-upload-dropzone");
+// a trigger on its own, or the zone that is the trigger
+const trigger = () =>
+  document.querySelector<HTMLButtonElement>("[data-slot=file-upload-trigger], button[data-slot=file-upload-dropzone]")!;
+const removes = () => $$<HTMLButtonElement>("file-upload-item-delete");
 const names = () => $$("file-upload-item-name").map((element) => element.textContent?.trim());
+const browse = () => document.querySelector<HTMLButtonElement>("[data-test=browse]")!;
 
 const transferOf = (...files: File[]) => {
   const transfer = new DataTransfer();
@@ -84,13 +146,12 @@ const drop = async (target: Element, ...files: File[]) => {
   return event;
 };
 
-const dropzone = () => $("file-upload-dropzone");
-
 describe("FileUpload structure", () => {
-  it("renders a type=button trigger, a hidden input outside it, and no interactive content inside it", () => {
-    render(() => h(FileUpload, { label: "Upload", description: "PNG up to 2 MB" }));
+  it("makes the zone one type=button trigger with a hidden input outside it and no interactive content inside it", () => {
+    render(() => upload({}, { description: "PNG up to 2 MB" }));
 
     expect($("file-upload")).toBeTruthy();
+    expect(trigger()).toBe(dropzone());
     expect(trigger().tagName).toBe("BUTTON");
     expect(trigger().type).toBe("button");
     expect(input().type).toBe("file");
@@ -99,12 +160,12 @@ describe("FileUpload structure", () => {
     expect(trigger().contains(input())).toBe(false);
     expect(trigger().querySelector("button, a, input, select, textarea, [tabindex]")).toBeNull();
     expect($("file-upload-icon", trigger())).toBeTruthy();
-    expect($("file-upload-label", trigger()).textContent).toBe("Upload");
+    expect($("file-upload-title", trigger()).textContent).toBe("Upload");
     expect($("file-upload-description", trigger()).textContent).toBe("PNG up to 2 MB");
   });
 
-  it("puts the file list and its Remove buttons outside the trigger, even with position inside", async () => {
-    controlled([image(), pdf()], { multiple: true, position: "inside" });
+  it("puts the file list and its Remove buttons outside the trigger", async () => {
+    controlled([image(), pdf()], { multiple: true });
     await nextTick();
 
     expect($$("file-upload-item")).toHaveLength(2);
@@ -113,38 +174,59 @@ describe("FileUpload structure", () => {
     expect($("file-upload-list").getAttribute("role")).toBe("list");
   });
 
-  it("marks its state on the root", () => {
-    render(() => h(FileUpload, { disabled: true, "aria-invalid": "true" }));
-    const root = $("file-upload");
-    expect(root.dataset).toMatchObject({
-      mode: "area",
-      variant: "outline",
-      size: "md",
-      layout: "list",
-      position: "outside",
-      disabled: "",
-      invalid: "",
-      empty: "",
-    });
+  it("renders no list while there are no files", async () => {
+    const { value } = controlled([], { multiple: true });
+    await nextTick();
+    expect($("file-upload-list")).toBeNull();
+    value.value = [pdf()];
+    await nextTick();
+    expect($("file-upload-list")).toBeTruthy();
   });
 
-  it("names the trigger by its label and describes it by the description, without reading the description twice", async () => {
-    render(() => h(FileUpload, { label: "Upload", description: "PNG up to 2 MB" }));
+  it("marks its state on the root", () => {
+    render(() => upload({ disabled: true, "aria-invalid": "true" }));
+    expect($("file-upload").dataset).toMatchObject({ size: "md", disabled: "", invalid: "", empty: "" });
+  });
+
+  it("names the trigger by the title and describes it by the description, without reading the description twice", async () => {
+    render(() => upload({}, { description: "PNG up to 2 MB" }));
+    await nextTick();
     await expect.element(page.elementLocator(trigger())).toHaveAccessibleName("Upload");
     await expect.element(page.elementLocator(trigger())).toHaveAccessibleDescription("PNG up to 2 MB");
   });
 
-  it("keeps the description in the name when there is no label to give one", async () => {
-    render(() => h(FileUpload, { description: "PNG up to 2 MB" }));
-    await expect.element(page.elementLocator(trigger())).toHaveAccessibleName("PNG up to 2 MB");
-  });
-
-  it("sends class and style to the root and every other attribute to the trigger", () => {
-    render(() => h(FileUpload, { class: "custom", style: "width: 200px", "aria-label": "Avatar", "data-test": "x" }));
+  it("keeps attributes on the part they are given to", () => {
+    render(() =>
+      h(
+        FileUpload,
+        { class: "custom", style: "width: 200px" },
+        { default: () => h(FileUploadTrigger, { "aria-label": "Avatar", "data-test": "x" }, () => "Pick") },
+      ),
+    );
     expect($("file-upload").classList).toContain("custom");
     expect($("file-upload").style.width).toBe("200px");
     expect(trigger().getAttribute("aria-label")).toBe("Avatar");
     expect(trigger().dataset.test).toBe("x");
+  });
+
+  it("lets a Button be the trigger, with nothing else around it", async () => {
+    render(() =>
+      h(
+        FileUpload,
+        { multiple: true, modelValue: [pdf()] },
+        {
+          default: ({ files }: { files: File[] }) => [
+            h(FileUploadTrigger, { asChild: true }, () => h(Button, null, () => "Attach")),
+            items(files),
+          ],
+        },
+      ),
+    );
+    await nextTick();
+    expect(trigger().dataset.slot).toBe("file-upload-trigger");
+    expect(trigger().type).toBe("button");
+    expect(dropzone()).toBeNull();
+    expect(trigger().contains($("file-upload-list"))).toBe(false);
   });
 });
 
@@ -157,9 +239,8 @@ describe("FileUpload inside a form", () => {
       defineComponent(
         () => () =>
           h("form", { onSubmit }, [
-            h(FileUpload, {
+            upload({
               multiple: true,
-              label: "Upload",
               modelValue: files.value,
               "onUpdate:modelValue": (next: unknown) => (files.value = next as File[]),
             }),
@@ -184,11 +265,10 @@ describe("FileUpload inside a form", () => {
       defineComponent(
         () => () =>
           h("form", { onSubmit: (event: Event) => event.preventDefault() }, [
-            h(FileUpload, {
+            upload({
               multiple: true,
               name: "attachments",
               required: true,
-              label: "Upload",
               modelValue: files.value,
               "onUpdate:modelValue": (next: unknown) => (files.value = next as File[]),
             }),
@@ -232,7 +312,7 @@ describe("FileUpload inside a form", () => {
       defineComponent(
         () => () =>
           h("form", { onReset: (event: Event) => cancel.value && event.preventDefault() }, [
-            h(FileUpload, { multiple: true, name: "files", label: "Upload", defaultValue: start }),
+            upload({ multiple: true, name: "files", defaultValue: start }),
           ]),
       ),
       { attachTo: document.body },
@@ -263,9 +343,8 @@ describe("FileUpload inside a form", () => {
     mount(
       defineComponent(() => () => [
         h("form", { id: "mine" }, [
-          h(FileUpload, {
+          upload({
             name: "photo",
-            label: "Upload",
             modelValue: value.value,
             "onUpdate:modelValue": (next: unknown) => (value.value = next as File | null),
           }),
@@ -290,7 +369,7 @@ describe("FileUpload inside a form", () => {
       defineComponent(
         () => () =>
           h("form", { onSubmit: (event: Event) => event.preventDefault() }, [
-            h(FileUpload, { name: "avatar", required: true, label: "Upload", style: "--destructive: rgb(255, 0, 0)" }),
+            upload({ name: "avatar", required: true, style: "--destructive: rgb(255, 0, 0)" }),
           ]),
       ),
       { attachTo: document.body },
@@ -326,7 +405,7 @@ describe("FileUpload opening the dialog", () => {
     const click = vi.spyOn(HTMLInputElement.prototype, "click").mockImplementation(() => {});
     const disabled = ref(false);
     mount(
-      defineComponent(() => () => h(FileUpload, { label: "Upload", disabled: disabled.value })),
+      defineComponent(() => () => upload({ disabled: disabled.value })),
       { attachTo: document.body },
     );
 
@@ -348,43 +427,36 @@ describe("FileUpload opening the dialog", () => {
 
   it("opens from a FieldLabel, since the trigger takes the field's id", async () => {
     const click = vi.spyOn(HTMLInputElement.prototype, "click").mockImplementation(() => {});
-    render(() => h(Field, () => [h(FieldLabel, () => "Avatar"), h(FileUpload)]));
+    render(() => h(Field, () => [h(FieldLabel, () => "Avatar"), upload()]));
 
     await userEvent.click($("field-label"));
     expect(click).toHaveBeenCalledTimes(1);
   });
 
-  it("renders a plain container with interactive=false and hands the trigger attributes to the slots", async () => {
+  it("opens once from a click on the zone or its Browse button, never from a file row, and is no tab stop", async () => {
     const click = vi.spyOn(HTMLInputElement.prototype, "click").mockImplementation(() => {});
-    render(() =>
-      h(
-        FileUpload,
-        { interactive: false, label: "Drop files here", description: "CSV only", id: "upload" },
-        {
-          actions: ({ open, triggerAttrs }: { open: () => void; triggerAttrs: Record<string, unknown> }) =>
-            h("button", { ...triggerAttrs, type: "button", "data-test": "browse", onClick: open }, "Browse"),
-        },
-      ),
-    );
+    render(() => browseZone({ multiple: true, modelValue: [pdf()], id: "upload" }));
+    await nextTick();
 
-    expect(trigger().tagName).toBe("DIV");
-    expect(trigger().hasAttribute("tabindex")).toBe(false);
-    expect(trigger().hasAttribute("role")).toBe(false);
-    expect(trigger().id).toBe("");
-    await userEvent.click(trigger());
-    expect(click).not.toHaveBeenCalled();
+    expect(dropzone().tagName).toBe("DIV");
+    expect(dropzone().hasAttribute("tabindex")).toBe(false);
+    expect(dropzone().hasAttribute("role")).toBe(false);
 
-    const browse = document.querySelector<HTMLButtonElement>("[data-test=browse]")!;
-    expect(browse.id).toBe("upload");
-    expect(browse.getAttribute("aria-describedby")).toBe($("file-upload-description").id);
-    await userEvent.click(browse);
+    await userEvent.click($("file-upload-title"));
     expect(click).toHaveBeenCalledTimes(1);
+    await userEvent.click(browse());
+    expect(click).toHaveBeenCalledTimes(2);
+    await userEvent.click($("file-upload-item-name"));
+    expect(click).toHaveBeenCalledTimes(2);
+
+    expect(browse().id).toBe("upload");
+    expect(browse().getAttribute("aria-describedby")).toBe($("file-upload-description").id);
   });
 
   // nuxt/ui#5102: no key handlers, so Tab walks out of the component as usual
   it("lets Tab move from the trigger through the Remove buttons and out", async () => {
     render(() => [
-      h(FileUpload, { multiple: true, modelValue: [image("a.png"), pdf("b.pdf")], label: "Upload" }),
+      upload({ multiple: true, modelValue: [image("a.png"), pdf("b.pdf")] }),
       h("button", { id: "after" }, "After"),
     ]);
     await nextTick();
@@ -441,17 +513,18 @@ describe("FileUpload picking files", () => {
 describe("FileUpload drops", () => {
   it("tracks dragging through nested children and resets on drop", async () => {
     controlled(null);
-    const zone = dropzone();
+    const zoneElement = dropzone();
+    const child = $("file-upload-title");
     const transfer = transferOf(image());
 
-    drag(zone, "dragenter", transfer);
-    drag(trigger(), "dragenter", transfer);
-    drag(zone, "dragleave", transfer);
+    drag(zoneElement, "dragenter", transfer);
+    drag(child, "dragenter", transfer);
+    drag(zoneElement, "dragleave", transfer);
     await nextTick();
     expect($("file-upload").dataset.dragging).toBe("");
-    expect(zone.dataset.dragging).toBe("");
+    expect(zoneElement.dataset.dragging).toBe("");
 
-    drag(trigger(), "drop", transfer);
+    drag(child, "drop", transfer);
     await nextTick();
     expect($("file-upload").dataset.dragging).toBeUndefined();
   });
@@ -489,16 +562,14 @@ describe("FileUpload drops", () => {
     expect($("file-upload").dataset.dragging).toBeUndefined();
   });
 
-  // nuxt/ui#7054, nuxt/ui#6699: the zone reads its props at event time
-  it("follows dropzone and accept changes after mount", async () => {
-    const dropzoneOn = ref(true);
+  // nuxt/ui#6699: the zone reads its props at event time
+  it("follows accept changes after mount", async () => {
     const accept = ref("image/*");
     const value = shallowRef<File | null>(null);
     mount(
       defineComponent(
         () => () =>
-          h(FileUpload, {
-            dropzone: dropzoneOn.value,
+          upload({
             accept: accept.value,
             modelValue: value.value,
             "onUpdate:modelValue": (next: unknown) => (value.value = next as File | null),
@@ -507,13 +578,6 @@ describe("FileUpload drops", () => {
       { attachTo: document.body },
     );
 
-    dropzoneOn.value = false;
-    await nextTick();
-    expect(drag(dropzone(), "dragover", transferOf(image())).defaultPrevented).toBe(false);
-    await drop(dropzone(), image());
-    expect(value.value).toBeNull();
-
-    dropzoneOn.value = true;
     accept.value = ".pdf";
     await nextTick();
     await drop(dropzone(), image());
@@ -547,18 +611,23 @@ describe("FileUpload drops", () => {
     expect(rejected[0]!.map(({ reason }) => reason)).toEqual(["count", "count"]);
   });
 
-  it("takes drops on the whole frame with position inside", async () => {
-    const { value } = controlled([], { multiple: true, position: "inside" });
-    expect($("file-upload").className).toContain("border-dashed");
-    expect(dropzone().className).not.toContain("border-dashed");
-    await drop($("file-upload"), image());
+  it("takes drops on a zone that holds the list", async () => {
+    const value = shallowRef<File[]>([]);
+    mount(
+      defineComponent(
+        () => () =>
+          browseZone({
+            multiple: true,
+            modelValue: value.value,
+            "onUpdate:modelValue": (next: unknown) => (value.value = next as File[]),
+          }),
+      ),
+      { attachTo: document.body },
+    );
+    await drop(dropzone(), image());
+    await nextTick();
     expect(value.value).toHaveLength(1);
-  });
-
-  it("takes drops on the button in button mode", async () => {
-    const { value } = controlled(null, { mode: "button" });
-    await drop(trigger(), image());
-    expect((value.value as File).name).toBe("photo.png");
+    expect(dropzone().contains($("file-upload-list"))).toBe(true);
   });
 });
 
@@ -612,7 +681,7 @@ describe("FileUpload model", () => {
   });
 
   it("works without v-model", async () => {
-    render(() => h(FileUpload, { multiple: true }));
+    render(() => upload({ multiple: true }));
     await drop(dropzone(), image("a.png"), pdf("b.pdf"));
     await nextTick();
     expect(names()).toEqual(["a.png", "b.pdf"]);
@@ -626,7 +695,7 @@ describe("FileUpload model", () => {
     mount(
       defineComponent(
         () => () =>
-          h(FileUpload, {
+          upload({
             multiple: multiple.value,
             modelValue: value.value,
             "onUpdate:modelValue": (next: Model) => (value.value = next),
@@ -692,22 +761,6 @@ describe("FileUpload removing files", () => {
     expect(document.activeElement).toBe(outside);
   });
 
-  // nuxt/ui#5249
-  it("renders no Remove button with fileDelete=false", async () => {
-    controlled([image()], { multiple: true, fileDelete: false });
-    await nextTick();
-    expect($$("file-upload-item")).toHaveLength(1);
-    expect(removes()).toHaveLength(0);
-  });
-
-  // nuxt/ui#5875
-  it("hides only the list with preview=false", async () => {
-    controlled([image()], { multiple: true, preview: false });
-    await nextTick();
-    expect($("file-upload-list")).toBeNull();
-    expect(trigger()).toBeTruthy();
-  });
-
   it("disables the Remove buttons when disabled", async () => {
     controlled([image()], { multiple: true, disabled: true });
     await nextTick();
@@ -720,6 +773,31 @@ describe("FileUpload removing files", () => {
     await nextTick();
     expect(names()).toEqual(["a.png", "a.png"]);
     expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("empties the model from a Clear button, which is disabled while there is nothing to clear", async () => {
+    const value = shallowRef<File[]>([image(), pdf()]);
+    mount(
+      defineComponent(
+        () => () =>
+          h(
+            FileUpload,
+            {
+              multiple: true,
+              modelValue: value.value,
+              "onUpdate:modelValue": (next: unknown) => (value.value = next as File[]),
+            },
+            { default: () => h(FileUploadClear, null, () => "Clear all") },
+          ),
+      ),
+      { attachTo: document.body },
+    );
+    const clear = $<HTMLButtonElement>("file-upload-clear");
+    expect(clear.type).toBe("button");
+    clear.click();
+    await nextTick();
+    expect(value.value).toEqual([]);
+    expect(clear.disabled).toBe(true);
   });
 });
 
@@ -737,8 +815,8 @@ describe("FileUpload thumbnails", () => {
     await nextTick();
 
     expect(create).toHaveBeenCalledTimes(2);
-    const media = $$("file-upload-item-media");
-    expect(media.map((element) => element.querySelector("img")?.getAttribute("alt"))).toEqual(["", "", undefined]);
+    const previews = $$("file-upload-item-preview");
+    expect(previews.map((element) => element.querySelector("img")?.getAttribute("alt"))).toEqual(["", "", undefined]);
 
     value.value = [b];
     await nextTick();
@@ -752,8 +830,7 @@ describe("FileUpload thumbnails", () => {
   it("makes no object URL on the server and hydrates without a mismatch", async () => {
     const create = vi.spyOn(URL, "createObjectURL");
     const files = [image("a.png"), pdf()];
-    const app = () =>
-      createSSRApp({ render: () => h(FileUpload, { multiple: true, defaultValue: files, label: "Upload" }) });
+    const app = () => createSSRApp({ render: () => upload({ multiple: true, defaultValue: files }) });
     const html = await renderToString(app());
     expect(html).not.toContain("blob:");
     expect(create).not.toHaveBeenCalled();
@@ -767,20 +844,12 @@ describe("FileUpload thumbnails", () => {
     expect(create).toHaveBeenCalledTimes(1);
     expect(container.querySelector("img")?.getAttribute("src")).toMatch(/^blob:/);
   });
-
-  it("makes none with fileImage=false", async () => {
-    const create = vi.spyOn(URL, "createObjectURL");
-    controlled([image()], { multiple: true, fileImage: false });
-    await nextTick();
-    expect(create).not.toHaveBeenCalled();
-    expect($("file-upload-item-media").querySelector("svg")).toBeTruthy();
-  });
 });
 
 describe("FileUpload layouts", () => {
   // nuxt/ui#6543: grid tiles keep the name of files without a thumbnail
   it("shows the name under a non-image tile and keeps it for screen readers on an image tile", async () => {
-    controlled([image("a.png"), pdf("b.pdf")], { multiple: true, layout: "grid" });
+    controlled([image("a.png"), pdf("b.pdf")], { multiple: true }, { layout: "grid" });
     await nextTick();
     const [tileA, tileB] = $$("file-upload-item");
     expect(tileA!.title).toBe("a.png");
@@ -792,7 +861,7 @@ describe("FileUpload layouts", () => {
 
   it("puts the Remove overlay on the top-end corner of a tile, mirrored in RTL", async () => {
     document.documentElement.dir = "rtl";
-    controlled([image()], { multiple: true, layout: "grid" });
+    controlled([image()], { multiple: true }, { layout: "grid" });
     await nextTick();
     const tile = $("file-upload-item").getBoundingClientRect();
     const remove = removes()[0]!.getBoundingClientRect();
@@ -823,46 +892,32 @@ describe("FileUpload layouts", () => {
     expect(getComputedStyle(name).direction).toBe("rtl");
     expect(name.getBoundingClientRect().right).toBeCloseTo($("file-upload-item-content").getBoundingClientRect().right);
   });
+});
 
-  it("shows a single file inside the button with grid layout in button mode, with Remove beside it", async () => {
-    const { value } = controlled(image("me.png"), {
-      mode: "button",
-      layout: "grid",
-      label: undefined,
-      "aria-label": "Avatar",
-    });
+describe("FileUpload item content", () => {
+  it("lets FileUploadItemMetadata's content be replaced, with the file and its formatted size", async () => {
+    render(() =>
+      h(
+        FileUpload,
+        { multiple: true, modelValue: [pdf("a.pdf", 1024)] },
+        {
+          default: ({ files }: { files: File[] }) =>
+            h(FileUploadList, null, () =>
+              files.map((file) =>
+                h(FileUploadItem, { key: fileKey(file), file }, () =>
+                  h(FileUploadItemMetadata, null, {
+                    default: ({ file: entry, size }: { file: File; size: string }) =>
+                      h("span", { "data-test": "custom" }, `${entry.name}: ${size}`),
+                  }),
+                ),
+              ),
+            ),
+        },
+      ),
+    );
     await nextTick();
-    expect($("file-upload-list")).toBeNull();
-    const preview = $<HTMLImageElement>("file-upload-preview", trigger());
-    expect(preview.alt).toBe("me.png");
-    expect(trigger().contains(removes()[0]!)).toBe(false);
-
-    removes()[0]!.focus();
-    removes()[0]!.click();
-    await nextTick();
-    await nextTick();
-    expect(value.value).toBeNull();
-    expect(document.activeElement).toBe(trigger());
-  });
-
-  it("lists the files after the button in button mode", async () => {
-    controlled([pdf()], { mode: "button", multiple: true, label: "Attach" });
-    await nextTick();
-    expect(trigger().dataset.slot).toBe("file-upload-trigger");
-    expect(trigger().type).toBe("button");
-    expect($("file-upload-list")).toBeTruthy();
-    expect(trigger().contains($("file-upload-list"))).toBe(false);
-  });
-
-  it("colours the button in button mode while dragging and when invalid", async () => {
-    controlled(null, { mode: "button", "aria-invalid": "true" });
-    expect(trigger().dataset.color).toBe("destructive");
-    document.body.innerHTML = "";
-    controlled(null, { mode: "button" });
-    expect(trigger().dataset.color).toBe("neutral");
-    drag(dropzone(), "dragenter", transferOf(image()));
-    await nextTick();
-    expect(trigger().dataset.color).toBe("primary");
+    expect(document.querySelector("[data-test=custom]")?.textContent).toBe("a.pdf: 1 KB");
+    expect($("file-upload-item-name")).toBeNull();
   });
 });
 
@@ -871,7 +926,7 @@ describe("FileUpload in a Field", () => {
     render(() =>
       h(Field, { invalid: true, disabled: true }, () => [
         h(FieldLabel, () => "Résumé"),
-        h(FileUpload, { label: "Upload", description: "PDF only", multiple: true, modelValue: [pdf()] }),
+        upload({ multiple: true, modelValue: [pdf()] }, { description: "PDF only" }),
         h(FieldDescription, () => "We read every one."),
         h(FieldError, { errors: "Add your résumé." }),
       ]),
@@ -892,7 +947,7 @@ describe("FileUpload in a Field", () => {
   });
 
   it("puts required on the input only", () => {
-    render(() => h(Field, { required: true }, () => [h(FieldLabel, () => "Avatar"), h(FileUpload)]));
+    render(() => h(Field, { required: true }, () => [h(FieldLabel, () => "Avatar"), upload()]));
     expect(input().required).toBe(true);
     expect(trigger().hasAttribute("aria-required")).toBe(false);
     expect(trigger().hasAttribute("required")).toBe(false);
@@ -906,25 +961,15 @@ describe("FileUpload sizes", () => {
     controlled([pdf()], { size, multiple: true });
     await nextTick();
     const icon = $("file-upload-icon");
-    const triggerStyle = getComputedStyle(trigger());
+    const zoneStyle = getComputedStyle(dropzone());
     expect(px(getComputedStyle(icon).width)).toBe(sentinel.height[size]);
     expect(px(getComputedStyle(icon.querySelector("svg")!).width)).toBe(sentinel.icon[size]);
-    expect(px(triggerStyle.rowGap)).toBe(sentinel.gap[size]);
-    expect(px(triggerStyle.paddingInlineStart)).toBe(sentinel.padding[size]);
-    expect(px(triggerStyle.paddingTop)).toBe(sentinel.padding[size] * 2);
-    expect(px(getComputedStyle($("file-upload-item-media")).width)).toBe(sentinel.height[size]);
+    expect(px(zoneStyle.rowGap)).toBe(sentinel.gap[size]);
+    expect(px(zoneStyle.paddingInlineStart)).toBe(sentinel.padding[size]);
+    expect(px(zoneStyle.paddingTop)).toBe(sentinel.padding[size] * 2);
+    expect(px(getComputedStyle($("file-upload-item-preview")).width)).toBe(sentinel.height[size]);
     expect(px(getComputedStyle($("file-upload-list")).rowGap)).toBe(sentinel.gap[size]);
     expect($("file-upload").dataset.size).toBe(size);
-  });
-
-  it.each(controlSizes)("sizes the button-mode trigger from the control height at %s", (size) => {
-    controlled(null, { size, mode: "button", label: "Attach" });
-    expect(px(getComputedStyle(trigger()).height)).toBe(sentinel.height[size]);
-    expect(trigger().dataset.size).toBe(size);
-    document.body.innerHTML = "";
-    controlled(null, { size, mode: "button", label: undefined, "aria-label": "Attach" });
-    expect(trigger().dataset.size).toBe(`icon-${size}`);
-    expect(px(getComputedStyle(trigger()).width)).toBe(sentinel.height[size]);
   });
 });
 
@@ -934,9 +979,7 @@ describe("FileUpload variants", () => {
     ["soft", "solid", true],
     ["subtle", "dashed", true],
   ] as const)("draws the %s frame", (variant, borderStyle, filled) => {
-    render(() =>
-      h(FileUpload, { variant, label: "Upload", style: "--muted: rgb(1, 2, 3); --background: rgb(4, 5, 6)" }),
-    );
+    render(() => upload({ style: "--muted: rgb(1, 2, 3); --background: rgb(4, 5, 6)" }, { variant }));
     const style = getComputedStyle(dropzone());
     expect(style.borderTopStyle).toBe(borderStyle);
     expect(style.backgroundColor === "rgb(1, 2, 3)").toBe(filled);
@@ -944,13 +987,8 @@ describe("FileUpload variants", () => {
     expect(getComputedStyle($("file-upload-icon")).backgroundColor).toBe(filled ? "rgb(4, 5, 6)" : "rgb(1, 2, 3)");
   });
 
-  it("passes the variant to the button in button mode", () => {
-    render(() => h(FileUpload, { mode: "button", variant: "soft", label: "Attach" }));
-    expect(trigger().dataset.variant).toBe("soft");
-  });
-
   it("rings the frame while the trigger has keyboard focus", async () => {
-    render(() => [h("button", { id: "before" }, "Before"), h(FileUpload, { label: "Upload" })]);
+    render(() => [h("button", { id: "before" }, "Before"), upload()]);
     document.getElementById("before")!.focus();
     await userEvent.tab();
     expect(document.activeElement).toBe(trigger());
