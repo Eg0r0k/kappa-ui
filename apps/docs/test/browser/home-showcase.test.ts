@@ -13,7 +13,7 @@ beforeAll(() => {
   document.head.append(style)
 })
 
-const mountShowcase = (styleKey: 'kappa' | 'sharp', height = '56rem') =>
+const mountShowcase = (styleKey: 'kappa' | 'github', height = '56rem') =>
   mount(HomeShowcase, { props: { styleKey }, attrs: { style: `height: ${height}` }, attachTo: document.body })
 
 const rootOf = (wrapper: ReturnType<typeof mountShowcase>) =>
@@ -28,10 +28,15 @@ describe('HomeShowcase', () => {
   })
 
   it('scopes a preset to the showcase', () => {
-    const root = rootOf(mountShowcase('sharp'))
-    expect(root.dataset.showcaseStyle).toBe('sharp')
-    expect(getComputedStyle(root).getPropertyValue('--radius').trim()).toBe('0rem')
+    const root = rootOf(mountShowcase('github'))
+    expect(root.dataset.showcaseStyle).toBe('github')
+    expect(getComputedStyle(root).getPropertyValue('--radius').trim()).toBe('0.375rem')
     expect(getComputedStyle(document.documentElement).getPropertyValue('--radius').trim()).toBe('0.5rem')
+  })
+
+  it('paints the wall in the brand page colour', () => {
+    const root = rootOf(mountShowcase('github'))
+    expect(getComputedStyle(root).backgroundColor).toBe('rgb(246, 248, 250)')
   })
 
   it('leaves Kappa unscoped', () => {
@@ -39,7 +44,7 @@ describe('HomeShowcase', () => {
   })
 
   it('portals overlays into the showcase', async () => {
-    const root = rootOf(mountShowcase('sharp'))
+    const root = rootOf(mountShowcase('github'))
     const trigger = [...root.querySelectorAll<HTMLElement>('[data-slot="select-trigger"]')].find(
       (element) => !element.closest('[inert]'),
     )

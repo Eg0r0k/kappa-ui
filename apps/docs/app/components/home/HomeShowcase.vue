@@ -40,7 +40,7 @@ onBeforeUnmount(() => observer?.disconnect())
     data-slot="home-showcase"
     :data-showcase-style="props.styleKey === 'kappa' ? undefined : props.styleKey"
     aria-label="Component showcase"
-    class="relative bg-muted/60 text-foreground max-lg:mx-4 max-lg:rounded-3xl lg:rounded-s-3xl"
+    class="relative bg-muted/60 text-foreground data-[showcase-style]:bg-background max-lg:mx-4 max-lg:rounded-3xl lg:rounded-s-3xl"
   >
     <div ref="viewport" class="relative size-full overflow-clip mask-b-from-75% max-lg:rounded-3xl lg:rounded-s-3xl">
       <div

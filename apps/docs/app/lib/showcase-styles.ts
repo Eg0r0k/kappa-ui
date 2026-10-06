@@ -1,116 +1,333 @@
-import { type ThemeConfig, defaultTheme, fontUrl, shadowTokens, themeTokens } from '~/lib/theme'
+import { type Shadows, fontUrl, shadowTokens } from '~/lib/theme'
 
-export type ShowcaseStyleKey = 'kappa' | 'soft' | 'sharp' | 'brutal' | 'terminal'
+export type ShowcaseStyleKey = 'kappa' | 'twitch' | 'github' | 'telegram' | 'spotify' | 'discord'
+
+type Tokens = Record<string, string>
 
 export interface ShowcaseStyle {
   key: ShowcaseStyleKey
   name: string
-  font?: string
-  mono?: boolean
   swatch: string
-  theme?: Partial<ThemeConfig>
-  overrides?: { light?: Record<string, string>; dark?: Record<string, string> }
+  font?: string
+  radius?: string
+  shadows?: Shadows
+  light?: Tokens
+  dark?: Tokens
 }
 
-const hard = (offset: number) => `${offset}px ${offset}px 0 0 var(--foreground)`
-
-const brutalEdges = {
-  primary: 'oklch(0.64 0.22 35)',
-  'primary-foreground': 'oklch(0.145 0 0)',
-  'surface-border': 'var(--foreground)',
-  border: 'var(--foreground)',
-  input: 'var(--foreground)',
-}
+const text = (color: string) => ({ foreground: color, 'card-foreground': color, 'popover-foreground': color })
 
 export const showcaseStyles: ShowcaseStyle[] = [
   { key: 'kappa', name: 'Kappa', swatch: 'var(--primary)' },
   {
-    key: 'soft',
-    name: 'Soft',
-    font: 'Plus Jakarta Sans',
-    swatch: 'oklch(0.6 0.22 293)',
-    theme: { hue: 293, chroma: 0.22, neutral: 'stone', radius: 1.25, surfaces: 'tinted', shadows: 'subtle' },
-  },
-  {
-    key: 'sharp',
-    name: 'Sharp',
-    font: 'IBM Plex Sans',
-    swatch: 'oklch(0.6 0.12 185)',
-    theme: {
-      hue: 185,
-      chroma: 0.12,
-      neutral: 'slate',
-      radius: 0,
-      surfaces: 'flat',
-      shadows: 'none',
-      surfaceBorder: 'strong',
+    key: 'twitch',
+    name: 'Twitch',
+    swatch: '#9147ff',
+    font: 'Inter',
+    radius: '0.25rem',
+    shadows: 'default',
+    light: {
+      ...text('#0e0e10'),
+      background: '#f7f7f8',
+      card: '#ffffff',
+      popover: '#ffffff',
+      primary: '#9147ff',
+      'primary-foreground': '#ffffff',
+      secondary: '#efeff1',
+      'secondary-foreground': '#0e0e10',
+      muted: '#efeff1',
+      'muted-foreground': '#53535f',
+      accent: '#e6e6ea',
+      'accent-foreground': '#0e0e10',
+      border: 'rgba(173, 173, 184, 0.35)',
+      input: 'rgba(50, 50, 57, 0.62)',
+      ring: '#9147ff',
+      destructive: '#eb0400',
+      'destructive-foreground': '#ffffff',
+      success: '#018952',
+      'success-foreground': '#ffffff',
+      'success-text': '#0a5738',
+    },
+    dark: {
+      ...text('#efeff1'),
+      background: '#0e0e10',
+      card: '#18181b',
+      popover: '#1f1f23',
+      primary: '#9147ff',
+      'primary-foreground': '#ffffff',
+      secondary: '#26262c',
+      'secondary-foreground': '#efeff1',
+      muted: '#26262c',
+      'muted-foreground': '#adadb8',
+      accent: '#323239',
+      'accent-foreground': '#efeff1',
+      border: 'rgba(83, 83, 95, 0.48)',
+      input: 'rgba(222, 222, 227, 0.4)',
+      ring: '#a970ff',
+      destructive: '#ff4f4d',
+      'destructive-foreground': '#ffffff',
+      success: '#00f593',
+      'success-foreground': '#0e0e10',
+      'success-text': '#00c274',
     },
   },
   {
-    key: 'brutal',
-    name: 'Brutal',
-    font: 'Space Grotesk',
-    swatch: 'oklch(0.64 0.22 35)',
-    theme: { radius: 0, surfaces: 'flat' },
-    overrides: {
-      light: {
-        ...brutalEdges,
-        'shadow-xs': hard(2),
-        'shadow-sm': hard(3),
-        'shadow-md': hard(4),
-        'shadow-lg': hard(5),
-        'shadow-xl': hard(6),
-      },
-      dark: brutalEdges,
+    key: 'github',
+    name: 'GitHub',
+    swatch: '#0969da',
+    font: 'Mona Sans',
+    radius: '0.375rem',
+    shadows: 'subtle',
+    light: {
+      ...text('#1f2328'),
+      background: '#f6f8fa',
+      card: '#ffffff',
+      popover: '#ffffff',
+      primary: '#0969da',
+      'primary-foreground': '#ffffff',
+      secondary: '#f6f8fa',
+      'secondary-foreground': '#25292e',
+      muted: '#f6f8fa',
+      'muted-foreground': '#59636e',
+      accent: '#eff2f5',
+      'accent-foreground': '#25292e',
+      border: '#d1d9e0',
+      input: '#d1d9e0',
+      ring: '#0969da',
+      'surface-border': '#d1d9e0',
+      destructive: '#cf222e',
+      'destructive-foreground': '#ffffff',
+      success: '#1f883d',
+      'success-foreground': '#ffffff',
+      'success-text': '#1a7f37',
+      info: '#0969da',
+      'info-foreground': '#ffffff',
+      'info-text': '#0969da',
+      warning: '#d4a72c',
+      'warning-foreground': '#1f2328',
+      'warning-text': '#9a6700',
+    },
+    dark: {
+      ...text('#f0f6fc'),
+      background: '#010409',
+      card: '#0d1117',
+      popover: '#151b23',
+      primary: '#1f6feb',
+      'primary-foreground': '#ffffff',
+      secondary: '#151b23',
+      'secondary-foreground': '#f0f6fc',
+      muted: '#151b23',
+      'muted-foreground': '#9198a1',
+      accent: '#262c36',
+      'accent-foreground': '#f0f6fc',
+      border: '#3d444d',
+      input: '#3d444d',
+      ring: '#1f6feb',
+      'surface-border': '#3d444d',
+      destructive: '#da3633',
+      'destructive-foreground': '#ffffff',
+      success: '#238636',
+      'success-foreground': '#ffffff',
+      'success-text': '#3fb950',
+      info: '#1f6feb',
+      'info-foreground': '#ffffff',
+      'info-text': '#4493f8',
+      warning: '#d29922',
+      'warning-foreground': '#010409',
+      'warning-text': '#d29922',
     },
   },
   {
-    key: 'terminal',
-    name: 'Terminal',
-    font: 'JetBrains Mono',
-    mono: true,
-    swatch: 'oklch(0.6 0.15 150)',
-    theme: {
-      hue: 150,
-      chroma: 0.15,
-      neutral: 'zinc',
-      radius: 0.25,
-      surfaces: 'flat',
-      shadows: 'none',
-      surfaceBorder: 'subtle',
+    key: 'telegram',
+    name: 'Telegram',
+    swatch: '#3390ec',
+    font: 'Roboto',
+    radius: '0.625rem',
+    shadows: 'subtle',
+    light: {
+      ...text('#000000'),
+      background: '#f4f4f5',
+      card: '#ffffff',
+      popover: '#ffffff',
+      primary: '#3390ec',
+      'primary-foreground': '#ffffff',
+      secondary: '#f4f4f5',
+      'secondary-foreground': '#000000',
+      muted: '#f4f4f5',
+      'muted-foreground': '#707579',
+      accent: '#f4f4f5',
+      'accent-foreground': '#000000',
+      border: '#dfe1e5',
+      input: '#dfe1e5',
+      ring: '#3390ec',
+      destructive: '#df3f40',
+      'destructive-foreground': '#ffffff',
+      success: '#70b768',
+      'success-foreground': '#ffffff',
+      'success-text': '#70b768',
+    },
+    dark: {
+      ...text('#ffffff'),
+      background: '#151e27',
+      card: '#1d2733',
+      popover: '#232e3b',
+      primary: '#3685fa',
+      'primary-foreground': '#ffffff',
+      secondary: '#232e3b',
+      'secondary-foreground': '#ffffff',
+      muted: '#232e3b',
+      'muted-foreground': '#7d8b99',
+      accent: '#232e3b',
+      'accent-foreground': '#ffffff',
+      border: '#0f151b',
+      input: '#2b3a4a',
+      ring: '#3685fa',
+      destructive: '#ff595a',
+      'destructive-foreground': '#ffffff',
+      success: '#61d36b',
+      'success-foreground': '#0f151b',
+      'success-text': '#61d36b',
+    },
+  },
+  {
+    key: 'spotify',
+    name: 'Spotify',
+    swatch: '#1ed760',
+    font: 'Figtree',
+    radius: '0.5rem',
+    shadows: 'subtle',
+    light: {
+      ...text('#000000'),
+      background: '#f5f5f5',
+      card: '#ffffff',
+      popover: '#ffffff',
+      primary: '#1ed760',
+      'primary-foreground': '#000000',
+      secondary: '#f5f5f5',
+      'secondary-foreground': '#000000',
+      muted: '#f5f5f5',
+      'muted-foreground': '#656565',
+      accent: '#e2e2e2',
+      'accent-foreground': '#000000',
+      border: '#dedede',
+      input: '#818181',
+      ring: '#000000',
+      destructive: '#e91429',
+      'destructive-foreground': '#ffffff',
+      success: '#159542',
+      'success-foreground': '#ffffff',
+      'success-text': '#107434',
+      warning: '#bf6d00',
+      'warning-foreground': '#ffffff',
+      'warning-text': '#955500',
+      info: '#0d72ea',
+      'info-foreground': '#ffffff',
+      'info-text': '#0b62c8',
+    },
+    dark: {
+      ...text('#ffffff'),
+      background: '#000000',
+      card: '#121212',
+      popover: '#282828',
+      primary: '#1ed760',
+      'primary-foreground': '#000000',
+      secondary: '#1f1f1f',
+      'secondary-foreground': '#ffffff',
+      muted: '#1f1f1f',
+      'muted-foreground': '#b3b3b3',
+      accent: '#2a2a2a',
+      'accent-foreground': '#ffffff',
+      border: '#292929',
+      input: '#7c7c7c',
+      ring: '#ffffff',
+      destructive: '#ed2c3f',
+      'destructive-foreground': '#ffffff',
+      success: '#1ed760',
+      'success-foreground': '#000000',
+      'success-text': '#1ed760',
+      warning: '#ffa42b',
+      'warning-foreground': '#000000',
+      'warning-text': '#ffa42b',
+      info: '#1278f2',
+      'info-foreground': '#ffffff',
+      'info-text': '#539df5',
+    },
+  },
+  {
+    key: 'discord',
+    name: 'Discord',
+    swatch: '#5865f2',
+    font: 'Noto Sans',
+    radius: '0.5rem',
+    shadows: 'subtle',
+    light: {
+      ...text('#2e2e34'),
+      background: '#f3f3f4',
+      card: '#ffffff',
+      popover: '#ffffff',
+      primary: '#5865f2',
+      'primary-foreground': '#ffffff',
+      secondary: '#fbfbfb',
+      'secondary-foreground': '#2e2e34',
+      muted: '#fbfbfb',
+      'muted-foreground': '#6c6d76',
+      accent: '#97979f1f',
+      'accent-foreground': '#2e2e34',
+      border: '#97979f47',
+      input: '#97979f66',
+      ring: '#5865f2',
+      destructive: '#d6363f',
+      'destructive-foreground': '#ffffff',
+    },
+    dark: {
+      ...text('#f3f3f4'),
+      background: '#2c2d32',
+      card: '#393a41',
+      popover: '#3c3d45',
+      primary: '#5865f2',
+      'primary-foreground': '#ffffff',
+      secondary: '#323339',
+      'secondary-foreground': '#f3f3f4',
+      muted: '#323339',
+      'muted-foreground': '#abacb2',
+      accent: '#97979f1f',
+      'accent-foreground': '#f3f3f4',
+      border: '#97979f1f',
+      input: '#97979f33',
+      ring: '#5865f2',
+      destructive: '#da3e44',
+      'destructive-foreground': '#ffffff',
     },
   },
 ]
 
 export const showcaseFontStack = (style: ShowcaseStyle) =>
-  style.font && `"${style.font}", ${style.mono ? 'ui-monospace, monospace' : 'ui-sans-serif, system-ui, sans-serif'}`
+  style.font && `"${style.font}", ui-sans-serif, system-ui, sans-serif`
 
-const declarations = (tokens: Record<string, string>) =>
+const declarations = (tokens: Tokens) =>
   Object.entries(tokens)
     .map(([name, value]) => `--${name}:${value};`)
     .join('')
 
 const presetCss = (style: ShowcaseStyle) => {
-  const config = { ...defaultTheme, ...style.theme }
-  const { light, dark } = themeTokens(config)
   const font = showcaseFontStack(style)
   const scope = `[data-showcase-style="${style.key}"]`
   const lightTokens = {
     'surface-border': 'transparent',
-    ...shadowTokens(config.shadows),
-    ...light,
-    ...style.overrides?.light,
+    ...shadowTokens(style.shadows ?? 'none'),
+    ...(style.radius && { radius: style.radius }),
     ...(font && { 'font-sans': font }),
+    ...style.light,
   }
   return [
     `${scope}{${declarations(lightTokens)}${font ? `font-family:${font};` : ''}}`,
-    `.dark ${scope}{${declarations({ ...dark, ...style.overrides?.dark })}}`,
+    `.dark ${scope}{${declarations(style.dark ?? {})}}`,
   ].join('\n')
 }
 
 export const showcaseCss = () =>
   showcaseStyles
-    .filter((style) => style.theme)
+    .filter((style) => style.light)
     .map(presetCss)
     .join('\n')
 
