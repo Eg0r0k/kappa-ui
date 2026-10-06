@@ -10,7 +10,18 @@ const blockOf = (css: string, selector: string) => {
 }
 
 describe('showcase styles', () => {
-  it('scopes every preset but Kappa to a light and a dark block', () => {
+  it('offers Kappa first, then the five brands', () => {
+    expect(showcaseStyles.map((style) => style.name)).toEqual([
+      'Kappa',
+      'Twitch',
+      'GitHub',
+      'Telegram',
+      'Spotify',
+      'Discord',
+    ])
+  })
+
+  it('scopes every brand to a light and a dark block and leaves Kappa unscoped', () => {
     const css = showcaseCss()
     for (const style of showcaseStyles) {
       if (style.key === 'kappa') {
@@ -22,29 +33,41 @@ describe('showcase styles', () => {
     }
   })
 
-  it('sets each preset radius and font', () => {
+  it('sets every brand colour in both modes, since the light block also applies in dark', () => {
+    for (const style of showcaseStyles.filter((entry) => entry.light)) {
+      expect(Object.keys(style.dark ?? {}).sort()).toEqual(Object.keys(style.light ?? {}).sort())
+    }
+  })
+
+  it('copies the brand colours', () => {
     const css = showcaseCss()
-    expect(blockOf(css, scope('sharp'))).toContain('--radius:0rem;')
-    expect(blockOf(css, scope('soft'))).toContain('--radius:1.25rem;')
-    expect(blockOf(css, scope('terminal'))).toContain('font-family:"JetBrains Mono", ui-monospace')
+    expect(blockOf(css, scope('github'))).toContain('--primary:#0969da;')
+    expect(blockOf(css, scope('github'))).toContain('--success:#1f883d;')
+    expect(blockOf(css, `.dark ${scope('github')}`)).toContain('--background:#010409;')
+    expect(blockOf(css, scope('spotify'))).toContain('--primary-foreground:#000000;')
+    expect(blockOf(css, `.dark ${scope('spotify')}`)).toContain('--primary-foreground:#000000;')
+    expect(blockOf(css, `.dark ${scope('telegram')}`)).toContain('--primary:#3685fa;')
+    expect(blockOf(css, scope('discord'))).toContain('--primary:#5865f2;')
+    expect(blockOf(css, scope('twitch'))).toContain('--primary:#9147ff;')
   })
 
-  it('gives Brutal an orange primary, foreground borders and hard shadows', () => {
-    const light = blockOf(showcaseCss(), scope('brutal'))
-    expect(light).toContain('--primary:oklch(0.64 0.22 35);')
-    expect(light).toContain('--surface-border:var(--foreground);')
-    expect(light).toContain('--shadow-sm:3px 3px 0 0 var(--foreground);')
+  it('sets each brand radius and font', () => {
+    const css = showcaseCss()
+    expect(blockOf(css, scope('github'))).toContain('--radius:0.375rem;')
+    expect(blockOf(css, scope('twitch'))).toContain('--radius:0.25rem;')
+    expect(blockOf(css, scope('spotify'))).toContain('font-family:"Figtree", ui-sans-serif')
   })
 
-  it('resets borders and shadows a site theme could have changed', () => {
-    const soft = blockOf(showcaseCss(), scope('soft'))
-    expect(soft).toContain('--surface-border:transparent;')
-    expect(soft).toContain('--shadow-md:')
+  it('resets the card edge a site theme could have changed, unless the brand draws one', () => {
+    const css = showcaseCss()
+    expect(blockOf(css, scope('twitch'))).toContain('--surface-border:transparent;')
+    expect(blockOf(css, scope('github'))).toContain('--surface-border:#d1d9e0;')
+    expect(blockOf(css, scope('github'))).not.toContain('--surface-border:transparent;')
   })
 
-  it('loads every preset font', () => {
+  it('loads every brand font', () => {
     const url = showcaseFontUrl()
-    for (const family of ['Plus+Jakarta+Sans', 'IBM+Plex+Sans', 'Space+Grotesk', 'JetBrains+Mono']) {
+    for (const family of ['Inter', 'Mona+Sans', 'Roboto', 'Figtree', 'Noto+Sans']) {
       expect(url).toContain(`family=${family}:`)
     }
   })
