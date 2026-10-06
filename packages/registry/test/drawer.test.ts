@@ -30,6 +30,7 @@ afterEach(() => {
   unmount?.();
   unmount = undefined;
   document.body.innerHTML = "";
+  document.documentElement.removeAttribute("dir");
 });
 
 const render = (
@@ -112,6 +113,47 @@ it("takes its side classes from the root and hides the handle on the sides", asy
   expect(slot("drawer-content")!.classList.contains("touch-pan-y")).toBe(true);
   expect(slot("drawer-handle")).toBeNull();
 });
+
+it.each([
+  ["ltr", "left"],
+  ["ltr", "right"],
+  ["rtl", "left"],
+  ["rtl", "right"],
+] as const)(
+  "in %s, keeps a %s drawer on its screen edge with the corners and handle on its inner edge",
+  async (dir, side) => {
+    document.documentElement.dir = dir;
+    render({ side }, { showHandle: true });
+    await settle();
+    await wait(500);
+    const content = slot("drawer-content")!;
+    const panel = content.getBoundingClientRect();
+    const handle = slot("drawer-handle")!.getBoundingClientRect();
+    const area = slot("drawer-swipe-area")!.getBoundingClientRect();
+    const style = getComputedStyle(content);
+    const left = [style.borderTopLeftRadius, style.borderBottomLeftRadius];
+    const right = [style.borderTopRightRadius, style.borderBottomRightRadius];
+    const [inner, outer] = side === "left" ? [right, left] : [left, right];
+
+    // the box fixed elements are placed in: under rtl the page scrollbar moves to the left
+    const probe = document.body.appendChild(
+      Object.assign(document.createElement("div"), { style: "position:fixed;inset:0" }),
+    );
+    const viewport = probe.getBoundingClientRect();
+
+    expect(outer).toEqual(["0px", "0px"]);
+    for (const radius of inner) expect(parseFloat(radius)).toBeGreaterThan(0);
+    if (side === "left") {
+      expect(panel.left).toBe(viewport.left);
+      expect(panel.right - handle.right).toBeCloseTo(8, 0);
+      expect(area.left).toBe(viewport.left);
+    } else {
+      expect(panel.right).toBe(viewport.right);
+      expect(handle.left - panel.left).toBeCloseTo(8, 0);
+      expect(area.right).toBe(viewport.right);
+    }
+  },
+);
 
 it("lets class replace the background and showHandle/showCloseButton flip the defaults", async () => {
   render({}, { class: "bg-red-500", showHandle: false, showCloseButton: true });
