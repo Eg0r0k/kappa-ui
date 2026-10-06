@@ -15,6 +15,7 @@ const reviews = [
   { name: "Mira", stars: 5, text: "Quiet, warm, and the coffee is excellent." },
   { name: "Tomás", stars: 3.5, text: "Lovely room. The lift was out for two days." },
 ];
+const starsLabel = (stars: number) => (stars === 1 ? "1 star" : `${stars} stars`);
 const percent = (count: number) => Math.round((count / total) * 100);
 </script>
 
@@ -29,12 +30,12 @@ const percent = (count: number) => Math.round((count / total) * 100);
     </div>
     <div class="flex flex-col gap-2">
       <div v-for="row in breakdown" :key="row.stars" class="flex items-center gap-3 text-body-sm">
-        <span class="w-12 shrink-0 tabular-nums">{{ row.stars }} stars</span>
+        <span class="w-12 shrink-0 tabular-nums">{{ starsLabel(row.stars) }}</span>
         <Progress
           :model-value="percent(row.count)"
           size="sm"
           color="warning"
-          :aria-label="`${row.stars} stars`"
+          :aria-label="starsLabel(row.stars)"
           class="flex-1"
         />
         <span class="w-9 shrink-0 text-end text-muted-foreground tabular-nums">{{ percent(row.count) }}%</span>

@@ -20,7 +20,7 @@ const RatingHover = defineComponent({
 <script setup lang="ts">
 import { Star } from "@lucide/vue";
 import { RatingItem, RatingItemIndicator, RatingRoot, type RatingRootProps, useDirection, useId } from "reka-ui";
-import { type HTMLAttributes, computed, ref, toRef, useAttrs } from "vue";
+import { type HTMLAttributes, computed, ref, toRef, useAttrs, useTemplateRef } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
@@ -91,9 +91,22 @@ const readonlyLabel = computed(() => {
 });
 const fill = (item: number) => `${+(Math.min(1, Math.max(0, (display.value ?? 0) - (item - 1))) * 100).toFixed(2)}%`;
 
-// 0 means nothing picked: Reka gets no value, so native `required` fails and the form submits an empty value
-// instead of "0".
-const rekaValue = computed(() => display.value || undefined);
+// Reka is always controlled, so the stars show the model even when a parent turns an update down.
+const rekaValue = computed(() => display.value ?? 0);
+
+// The form input is ours, not Reka's, whose input would submit "0" for nothing picked and pass native `required`.
+// An empty value fails it instead. Like Reka's, it sits in the radiogroup, never inside a radio, and tells the form
+// when its value changes.
+const formValue = computed(() => (display.value ? String(display.value) : ""));
+const input = useTemplateRef<HTMLInputElement>("input");
+watch(
+  formValue,
+  () => {
+    input.value?.dispatchEvent(new Event("input", { bubbles: true }));
+    input.value?.dispatchEvent(new Event("change", { bubbles: true }));
+  },
+  { flush: "post" },
+);
 
 // Reka previews on mouseenter, which a tap also fires. Keep the preview to a mouse or a pen.
 const pointerType = ref<string>();
@@ -139,13 +152,7 @@ const onItemLeave = () => {
         </span>
       </span>
     </span>
-    <input
-      v-if="props.name"
-      type="hidden"
-      :name="props.name"
-      :value="display ?? ''"
-      :disabled="control.disabled.value"
-    />
+    <input v-if="props.name" type="hidden" :name="props.name" :value="formValue" :disabled="control.disabled.value" />
   </div>
   <RatingRoot
     v-else
@@ -156,7 +163,6 @@ const onItemLeave = () => {
     :step="props.step"
     :clearable="props.clearable"
     :hoverable="props.hoverable"
-    :name="props.name"
     :orientation="props.orientation"
     :dir="dir"
     :disabled="control.disabled.value"
@@ -204,5 +210,16 @@ const onItemLeave = () => {
         </span>
       </RatingItemIndicator>
     </RatingItem>
+    <input
+      v-if="props.name"
+      ref="input"
+      aria-hidden="true"
+      tabindex="-1"
+      class="sr-only"
+      :name="props.name"
+      :value="formValue"
+      :required="control.required.value"
+      :disabled="control.disabled.value"
+    />
   </RatingRoot>
 </template>

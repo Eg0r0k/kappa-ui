@@ -147,6 +147,38 @@ describe("Rating", () => {
     expect(value.value).toBe(0);
   });
 
+  it.each([undefined, 0, 2])(
+    "keeps showing the model when the parent turns an update down (from %s)",
+    async (start) => {
+      const updates: number[] = [];
+      mount(
+        defineComponent({
+          setup: () => () =>
+            h(Rating, {
+              modelValue: start,
+              "onUpdate:modelValue": (next?: number) => updates.push(next!),
+              clearable: true,
+            }),
+        }),
+        { attachTo: document.body },
+      );
+      const radio = (step: number) => document.querySelector<HTMLButtonElement>(`button[value="${step}"]`)!;
+      const active = () => document.querySelectorAll("button[data-state=active]").length;
+
+      radio(4).click();
+      await nextTick();
+      expect(updates).toEqual([4]);
+      expect(active()).toBe(start ?? 0);
+
+      if (start) {
+        radio(start).click();
+        await nextTick();
+        expect(updates).toEqual([4, 0]);
+        expect(active()).toBe(start);
+      }
+    },
+  );
+
   it("keeps the value on the selected step without clearable", async () => {
     const { radio, value } = render({ modelValue: 3 });
 
@@ -219,13 +251,17 @@ describe("Rating keyboard", () => {
     expect(value.value).toBe(2);
   });
 
-  it("moves focus with Home and End without selecting", async () => {
+  it("moves focus with Home, End, PageUp and PageDown without selecting", async () => {
     const { radio, value } = render({ modelValue: 3 });
     radio(3).focus();
 
     await userEvent.keyboard("{End}");
     expect(document.activeElement).toBe(radio(5));
     await userEvent.keyboard("{Home}");
+    expect(document.activeElement).toBe(radio(1));
+    await userEvent.keyboard("{PageDown}");
+    expect(document.activeElement).toBe(radio(5));
+    await userEvent.keyboard("{PageUp}");
     expect(document.activeElement).toBe(radio(1));
     await wait(20);
     expect(value.value).toBe(3);
@@ -559,6 +595,18 @@ describe("Rating in a form", () => {
     expect(value.value).toBe(0);
     expect(new FormData(form()).get("rating")).toBe("");
     expect(form().checkValidity()).toBe(false);
+  });
+
+  it("tells the form when its value changes, as Reka's own inputs do", async () => {
+    const { radio } = inForm({ modelValue: 1, clearable: true });
+    const changes: string[] = [];
+    form().addEventListener("change", (event) => changes.push((event.target as HTMLInputElement).value));
+
+    radio(3).click();
+    await nextTick();
+    radio(3).click();
+    await nextTick();
+    expect(changes).toEqual(["3", ""]);
   });
 
   it("nests no input inside a radio (reka-ui #2718, #1597)", () => {
