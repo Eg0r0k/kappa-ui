@@ -11,9 +11,7 @@ const links = [
 
 <template>
   <footer class="mt-16 border-t">
-    <div
-      class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-6 text-body-md text-muted-foreground"
-    >
+    <div class="flex flex-wrap items-center justify-between gap-4 px-5 py-6 text-body-md text-muted-foreground">
       <p>kappa-ui · MIT licence</p>
       <nav aria-label="Footer" class="flex flex-wrap items-center gap-1">
         <Button v-for="link in links" :key="link.to" variant="ghost" color="neutral" size="sm" as-child>

@@ -40,14 +40,14 @@ onBeforeUnmount(() => observer?.disconnect())
     data-slot="home-showcase"
     :data-showcase-style="props.styleKey === 'kappa' ? undefined : props.styleKey"
     aria-label="Component showcase"
-    class="relative bg-muted/60 text-foreground data-[showcase-style]:bg-background sm:max-lg:mx-10 sm:max-lg:rounded-3xl lg:rounded-s-3xl"
+    class="relative bg-muted/60 text-foreground data-[showcase-style]:bg-background sm:max-lg:mx-5 sm:max-lg:rounded-3xl lg:rounded-s-3xl"
   >
     <div
       ref="viewport"
       class="relative size-full overflow-clip sm:max-lg:rounded-3xl lg:rounded-s-3xl lg:mask-b-from-75%"
     >
       <div
-        class="flex gap-4 p-6 [view-transition-name:home-showcase] max-sm:flex-col sm:max-lg:block sm:max-lg:columns-2 lg:p-8"
+        class="flex gap-4 p-5 [view-transition-name:home-showcase] max-sm:flex-col sm:p-6 sm:max-lg:block sm:max-lg:columns-2 lg:p-8"
       >
         <div class="flex w-76 flex-none flex-col gap-4 max-lg:contents lg:pt-20">
           <VerifyCard class="max-sm:order-3" />
