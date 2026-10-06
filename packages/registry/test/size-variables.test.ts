@@ -5,6 +5,7 @@ import { h } from "vue";
 import { Checkbox } from "@/ui/checkbox";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/ui/drawer";
 import { DrawerMenu, DrawerMenuItem } from "@/ui/drawer-menu";
+import { Radio, RadioGroup } from "@/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 import { Switch } from "@/ui/switch";
 
@@ -66,6 +67,40 @@ it("lets an unlayered rule keyed on the slot alone retune every size of checkbox
     );
 
     expect(widths).toEqual([22, 22, 22]);
+  } finally {
+    rule.remove();
+  }
+});
+
+it("lets an unlayered rule keyed on slot and size retune one size of checkbox, radio and switch", () => {
+  const rule = document.createElement("style");
+  rule.textContent = `
+    [data-slot='checkbox'][data-size='md'], [data-slot='radio'][data-size='md'] { --choice-size: 22px; }
+    [data-slot='switch'][data-size='md'] { --switch-h: 40px; }
+  `;
+  document.head.append(rule);
+  try {
+    mount(
+      {
+        render: () => [
+          h(Checkbox, { "aria-label": "A" }),
+          h(Checkbox, { "aria-label": "B", size: "lg" }),
+          h(RadioGroup, { "aria-label": "C" }, () => [
+            h(Radio, { value: "a", "aria-label": "A" }),
+            h(Radio, { value: "b", "aria-label": "B", size: "lg" }),
+          ]),
+          h(Switch, { "aria-label": "D" }),
+          h(Switch, { "aria-label": "E", size: "lg" }),
+        ],
+      },
+      { attachTo: document.body },
+    );
+    const heights = (slot: string) =>
+      [...document.querySelectorAll(`[data-slot=${slot}]`)].map((part) => part.getBoundingClientRect().height);
+
+    expect(heights("checkbox")).toEqual([22, 20]);
+    expect(heights("radio")).toEqual([22, 20]);
+    expect(heights("switch")).toEqual([40, 28]);
   } finally {
     rule.remove();
   }
