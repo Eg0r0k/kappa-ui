@@ -2615,6 +2615,35 @@
       ]
     },
     {
+      "name": "rating",
+      "type": "registry:ui",
+      "title": "Rating",
+      "description": "A row of stars to pick a score, in whole, half, quarter or tenth steps, five sizes, any tone and both orientations, with a readonly picture for exact fractions. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context"
+      ],
+      "files": [
+        {
+          "path": "src/ui/rating/Rating.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/rating/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "badge-demo",
       "type": "registry:block",
       "title": "Badge demo",
@@ -5282,6 +5311,259 @@
       "files": [
         {
           "path": "src/examples/slider/SliderInset.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-demo",
+      "type": "registry:block",
+      "title": "Rating demo",
+      "description": "A star rating in a field, with its value next to it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-sizes",
+      "type": "registry:block",
+      "title": "Rating sizes",
+      "description": "The five sizes, each next to a button of the same size.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-half",
+      "type": "registry:block",
+      "title": "Rating half steps",
+      "description": "Half and quarter steps with a hover preview.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingHalf.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-readonly",
+      "type": "registry:block",
+      "title": "Rating readonly",
+      "description": "A product's review summary: an exact 4.3 average, the spread of scores and small ratings in a review list.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingReadonly.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-colors",
+      "type": "registry:block",
+      "title": "Rating colours",
+      "description": "One rating in each colour, gold stars with warning.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-clearable",
+      "type": "registry:block",
+      "title": "Rating clearable",
+      "description": "A rating that clears when the current star is picked again.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingClearable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-hover-label",
+      "type": "registry:block",
+      "title": "Rating hover label",
+      "description": "A word for the star under the pointer, which screen readers hear as each star's name.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingHoverLabel.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-icons",
+      "type": "registry:block",
+      "title": "Rating icons",
+      "description": "Hearts and a three-chilli spice level in place of stars.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingIcons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-states",
+      "type": "registry:block",
+      "title": "Rating states",
+      "description": "Disabled, readonly, and required with an error.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-touch-target",
+      "type": "registry:block",
+      "title": "Rating touch target",
+      "description": "The pressable area of each star for each touch target option, outlined.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingTouchTarget.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-direction",
+      "type": "registry:block",
+      "title": "Rating direction",
+      "description": "A half-step rating that fills from the right in a right-to-left layout.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingDirection.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-vertical",
+      "type": "registry:block",
+      "title": "Rating vertical",
+      "description": "A rating running from top to bottom.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-form",
+      "type": "registry:block",
+      "title": "Rating form",
+      "description": "An order review validated with a Valibot schema through Formisch.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "rating",
+        "button",
+        "card",
+        "field",
+        "textarea"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingForm.vue",
           "type": "registry:component"
         }
       ]
