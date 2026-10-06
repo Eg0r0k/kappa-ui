@@ -17,6 +17,8 @@ props:
     description: "`toggle` deselects a selected item on a second select; `replace` keeps it."
   highlightOnHover:
     description: Moves the highlight with the pointer. On by default.
+  loop:
+    description: Wraps arrow-key navigation from the last item to the first and back. Needs `reka-ui` 2.11 or later.
   by:
     description: A key or a function that compares item values, for object values.
   size:

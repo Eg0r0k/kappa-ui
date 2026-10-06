@@ -11,8 +11,12 @@ props:
     description: The largest value allowed. The increment button disables at it.
   step:
     description: How much a button, an arrow key or a wheel tick changes the value. `1` by default.
+  startingValue:
+    description: The number the first step puts in an empty field, kept within `min` and `max` but not snapped to `step`. `min` by default, or `0` without one. Needs `reka-ui` 2.11 or later.
   stepSnapping:
     description: Snaps every value to a multiple of `step` counted from `min`. On by default; turn it off to allow any typed value between steps.
+  allowInvalid:
+    description: "Keeps a typed number outside `min` and `max`, or off the `step` grid, as it is instead of correcting it; the buttons, arrow keys and wheel still clamp and snap. Such a number isn't marked invalid for you: check it yourself and set `aria-invalid`, or `invalid` on the surrounding `Field`. Needs `reka-ui` 2.11 or later."
   formatOptions:
     description: "`Intl.NumberFormat` options for the text shown and the characters accepted: decimals, a percentage, a currency or a unit."
   locale:

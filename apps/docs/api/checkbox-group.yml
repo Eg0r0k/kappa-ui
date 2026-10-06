@@ -7,6 +7,8 @@ props:
     description: The starting array when `v-model` is not used.
   disabled:
     description: Disables every checkbox in the group.
+  max:
+    description: The most checkboxes that can be checked at once. At the limit the unchecked ones stop toggling and get `aria-disabled`, but stay focusable and keep their look, so tell users what the limit is. Needs `reka-ui` 2.11 or later.
   name:
     description: Submits the checked values with their form under this name.
   required:

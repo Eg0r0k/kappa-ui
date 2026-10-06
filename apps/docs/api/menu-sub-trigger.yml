@@ -5,6 +5,8 @@ props:
     description: "Disables the item: it is skipped by the keyboard and cannot be chosen."
   textValue:
     description: "Text used for typeahead instead of the item's text content."
+  graceDuration:
+    description: "How long, in milliseconds, the pointer has to reach the submenu after leaving this item. While it heads there, hovering other items keeps the submenu open. `300` by default. Needs `reka-ui` 2.11 or later."
   asChild:
     description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
   as:
