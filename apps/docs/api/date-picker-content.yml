@@ -42,7 +42,7 @@ props:
   reference:
     description: "A virtual element to position against instead of the field or the trigger."
   dir:
-    description: "Reading direction. Mirrors the layout and arrow keys in `rtl`."
+    description: "Reading direction of the panel. Defaults to the picker's `dir`, so presets and buttons beside the calendar mirror with it."
   asChild:
     description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
   as:

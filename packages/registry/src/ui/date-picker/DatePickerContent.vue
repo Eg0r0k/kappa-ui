@@ -63,6 +63,7 @@ const onOpenAutoFocus = (event: Event) => {
     <PopoverContent
       v-bind="{ ...$attrs, ...forwarded }"
       data-slot="date-picker-content"
+      :dir="props.dir ?? picker.dir.value"
       :class="cn(overlaySurface, datePickerContent, props.class)"
       @open-auto-focus="onOpenAutoFocus"
       @focusin="picker.focus.onFocusin"

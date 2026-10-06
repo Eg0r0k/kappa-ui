@@ -57,6 +57,7 @@ const onKeydownCapture = (event: KeyboardEvent) => {
   <PopoverAnchor v-if="!group" as-child>
     <div
       data-slot="date-picker-input"
+      :dir="picker.dir.value"
       :data-variant="variant"
       :data-size="size"
       :data-state="dataState"

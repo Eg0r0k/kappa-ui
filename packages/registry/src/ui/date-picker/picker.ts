@@ -77,13 +77,21 @@ export interface PickerFocus {
  * `focus` and `blur` for the whole picker: the field, the trigger and the calendar's panel count as
  * one control, so a form validating on blur doesn't flag the field while the calendar is open.
  * Every part that takes focus calls these handlers, and registers itself by doing so.
+ *
+ * While the panel is open, focus anywhere counts as inside: a select in the calendar's heading
+ * portals its list out of the panel, and focus that really leaves closes the panel anyway. So the
+ * check runs again once the panel closes.
  */
-export const usePickerFocus = (emit: {
-  (event: "focus", value: FocusEvent): void;
-  (event: "blur", value: FocusEvent): void;
-}): PickerFocus => {
+export const usePickerFocus = (
+  emit: {
+    (event: "focus", value: FocusEvent): void;
+    (event: "blur", value: FocusEvent): void;
+  },
+  open: Ref<boolean>,
+): PickerFocus => {
   const parts = new Set<HTMLElement>();
   let within = false;
+  let last: FocusEvent | undefined;
 
   const contains = (node: EventTarget | null) =>
     node instanceof Node && [...parts].some((part) => part.isConnected && part.contains(node));
@@ -91,6 +99,20 @@ export const usePickerFocus = (emit: {
     for (const part of parts) if (!part.isConnected) parts.delete(part);
     if (event.currentTarget instanceof HTMLElement) parts.add(event.currentTarget);
   };
+  // Focus that goes nowhere may be on its way back: a closing popover hands it to the trigger in a
+  // timeout of its own, so look after that one has run.
+  const check = (event: FocusEvent) =>
+    setTimeout(() =>
+      setTimeout(() => {
+        if (!within || open.value || contains(document.activeElement)) return;
+        within = false;
+        emit("blur", event);
+      }),
+    );
+
+  watch(open, (value) => {
+    if (!value && within && last) check(last);
+  });
 
   return {
     onFocusin: (event) => {
@@ -101,16 +123,9 @@ export const usePickerFocus = (emit: {
     },
     onFocusout: (event) => {
       register(event);
+      last = event;
       if (!within || contains(event.relatedTarget)) return;
-      // Focus that goes nowhere may be on its way back: a closing popover hands it to the trigger
-      // in a timeout of its own, so look after that one has run.
-      setTimeout(() =>
-        setTimeout(() => {
-          if (!within || contains(document.activeElement)) return;
-          within = false;
-          emit("blur", event);
-        }),
-      );
+      check(event);
     },
   };
 };
@@ -198,7 +213,7 @@ export const usePickerRoot = (
     locale: useLocale(toRef(() => props.locale)),
     dir: useDirection(toRef(() => props.dir)),
     trigger: shallowRef(),
-    focus: usePickerFocus(emit),
+    focus: usePickerFocus(emit, open as Ref<boolean>),
   };
   provideDatePickerContext(context);
   return context;

@@ -338,6 +338,14 @@ describe("calendar", () => {
     await userEvent.keyboard("{ArrowLeft}");
     expect(document.activeElement).toBe(day("2026-10-07"));
   });
+
+  it("mirrors the frame and the panel from the root's dir, without a ConfigProvider", async () => {
+    render(() => h(DatePicker, { defaultValue: oct6, dir: "rtl", locale: "en-US", "aria-label": "Date" }));
+    expect(frame().getAttribute("dir")).toBe("rtl");
+    expect(trigger().getBoundingClientRect().right).toBeLessThan(segments()[0]!.getBoundingClientRect().left);
+    await open();
+    expect(content()!.getAttribute("dir")).toBe("rtl");
+  });
 });
 
 describe("in a field", () => {
@@ -521,6 +529,52 @@ describe("focus and blur", () => {
     await settle();
     expect(events).toEqual(["focus"]);
     await userEvent.click(q("[data-test=after]"));
+    await settle();
+    expect(events).toEqual(["focus", "blur"]);
+  });
+
+  it("count a select in the calendar's heading as inside, though its list is portalled out", async () => {
+    const events: string[] = [];
+    render(() =>
+      h("div", [
+        h("button", { "data-test": "before" }, "Before"),
+        h(
+          DatePicker,
+          {
+            defaultValue: oct6,
+            locale: "en-US",
+            "aria-label": "Date",
+            onFocus: () => events.push("focus"),
+            onBlur: () => events.push("blur"),
+          },
+          () => [
+            h(DatePickerInput),
+            h(DatePickerContent, () =>
+              h(DatePickerCalendar, null, {
+                heading: () =>
+                  h(Select, { defaultValue: "a" }, () => [
+                    h(SelectTrigger, { "data-test": "select", "aria-label": "Year" }, () => h(SelectValue)),
+                    h(SelectContent, () => ["a", "b"].map((item) => h(SelectItem, { value: item }, () => item))),
+                  ]),
+              }),
+            ),
+          ],
+        ),
+      ]),
+    );
+    await open();
+    await userEvent.click(q("[data-test=select]"));
+    await expect.poll(() => document.querySelector("[data-slot=select-content]")).not.toBeNull();
+    await settle();
+    expect(events).toEqual(["focus"]);
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await expect.poll(() => document.querySelector("[data-slot=select-content]")).toBeNull();
+    await settle();
+    expect(events).toEqual(["focus"]);
+    expect(content()).not.toBeNull();
+    // A click outside closes the panel, and that is leaving the picker.
+    await userEvent.click(q("[data-test=before]"));
+    await closed();
     await settle();
     expect(events).toEqual(["focus", "blur"]);
   });

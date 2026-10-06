@@ -85,6 +85,14 @@ describe("field", () => {
     await userEvent.keyboard("10122026");
     expect(iso(value.value)).toBe("2026-10-06/2026-10-12");
   });
+
+  it("mirrors the frame and the panel from the root's dir, without a ConfigProvider", async () => {
+    bound({ start: d(6), end: d(12) }, { dir: "rtl" });
+    expect(frame().getAttribute("dir")).toBe("rtl");
+    expect(trigger().getBoundingClientRect().right).toBeLessThan(segments()[5]!.getBoundingClientRect().left);
+    await open();
+    expect(content()!.getAttribute("dir")).toBe("rtl");
+  });
 });
 
 describe("calendar", () => {
