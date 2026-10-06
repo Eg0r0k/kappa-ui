@@ -64,6 +64,20 @@ const settle = async () => {
 };
 const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot=${name}]`);
 const translateY = (element: HTMLElement) => parseFloat(getComputedStyle(element).translate.split(" ")[1] ?? "0") || 0;
+// A transition only moves when a rendered frame advances the document timeline. One slow frame after a release
+// can take longer than any fixed wait, and the value read then is still the one it started from, so wait for the
+// release's own transition to have run before reading where it has got to.
+const runningTranslate = async (element: HTMLElement) => {
+  const transition = element
+    .getAnimations()
+    .find(
+      (animation): animation is CSSTransition =>
+        animation instanceof CSSTransition && animation.transitionProperty === "translate",
+    );
+  expect(transition).toBeDefined();
+  await expect.poll(() => Number(transition!.currentTime ?? 0)).toBeGreaterThan(0);
+  return transition!;
+};
 const animations = (element: HTMLElement) =>
   element
     .getAnimations()
@@ -231,12 +245,13 @@ it("returns a released drag by its transition instead of replaying the enter ani
   expect(held).toBeCloseTo(50, 0);
   pointer("pointerup", body, 100, 160);
   await settle();
-  await wait(30);
   expect(open.value).toBe(true);
   expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(animations(content)).toContain("transition:translate");
+  const release = await runningTranslate(content);
+  expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(translateY(content)).toBeLessThan(held);
-  await wait(400);
+  await release.finished;
   expect(translateY(content)).toBe(0);
 
   open.value = false;
@@ -285,12 +300,13 @@ it("settles a swipe-to-open release by its transition instead of replaying the e
   expect(held).toBeGreaterThan(0);
   pointer("pointerup", area, 100, 400);
   await settle();
-  await wait(30);
   expect(open.value).toBe(true);
   expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(animations(content)).toContain("transition:translate");
+  const release = await runningTranslate(content);
+  expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(translateY(content)).toBeLessThan(held);
-  await wait(400);
+  await release.finished;
   expect(translateY(content)).toBe(0);
 });
 
