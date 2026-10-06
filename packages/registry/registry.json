@@ -2077,6 +2077,36 @@
       ]
     },
     {
+      "name": "file-upload",
+      "type": "registry:ui",
+      "title": "File upload",
+      "description": "A drop zone or a button that picks files into a File or File[] v-model, with accept, size and count checks that report rejected files, a list or grid of previews, paste, and Field integration.",
+      "categories": [
+        "forms"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/file-upload/FileUpload.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
@@ -5980,6 +6010,263 @@
       "files": [
         {
           "path": "src/examples/textarea/TextareaScrollArea.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-demo",
+      "type": "registry:block",
+      "title": "File upload demo",
+      "description": "A drop zone for one image up to 2 MB.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-multiple",
+      "type": "registry:block",
+      "title": "File upload multiple",
+      "description": "Up to five documents, listed under the drop zone.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-button",
+      "type": "registry:block",
+      "title": "File upload button",
+      "description": "An image picker that shows the picked image, and an Attach button that lists files under it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-sizes",
+      "type": "registry:block",
+      "title": "File upload sizes",
+      "description": "The five sizes, each holding one file.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-variants",
+      "type": "registry:block",
+      "title": "File upload variants",
+      "description": "The outline, soft and subtle frames.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-layouts",
+      "type": "registry:block",
+      "title": "File upload layouts",
+      "description": "Pictures and a PDF in a list and a grid, outside and inside the frame.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadLayouts.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-rejections",
+      "type": "registry:block",
+      "title": "File upload rejections",
+      "description": "Rejected files explained in a status message.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadRejections.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-field",
+      "type": "registry:block",
+      "title": "File upload field",
+      "description": "A required résumé upload in a form, and a disabled field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "field",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadField.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-form",
+      "type": "registry:block",
+      "title": "File upload form",
+      "description": "A cover photo and floor plans validated with a Valibot schema through Formisch, with an error on each bad file.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "field",
+        "button"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-progress",
+      "type": "registry:block",
+      "title": "File upload progress",
+      "description": "Files uploaded as soon as they are added, with a progress bar each.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadProgress.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-avatar",
+      "type": "registry:block",
+      "title": "File upload avatar",
+      "description": "An edit form that shows the saved avatar until a new one is picked.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "avatar",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadAvatar.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-custom",
+      "type": "registry:block",
+      "title": "File upload custom",
+      "description": "A drop zone that only opens the dialog from its own button, with a Remove all action.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "button"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadCustom.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-page-drop",
+      "type": "registry:block",
+      "title": "File upload page drop",
+      "description": "Files dropped anywhere on the page attach to a message.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "textarea"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadPageDrop.vue",
           "type": "registry:component"
         }
       ]

@@ -1,0 +1,5 @@
+---
+"@kappa-ui/registry": minor
+---
+
+New `FileUpload`: a drop zone (`mode="area"`) or a Button (`mode="button"`) that picks files into a `File` or, with `multiple`, a `File[]` `v-model`. Files come from the dialog, a drop or a paste, and all three go through `accept`, `max-size` and `max-files`, so a file of the wrong type never reaches the model even when the user picks "All files" in the dialog; whatever is turned away comes back through `reject` with a reason. Files show as a `list` or a `grid` of thumbnails, under the frame or `inside` it, with a Remove button each that moves focus to the next one. The hidden file input always holds the files on screen, so `name` submits them with a native form, `required` blocks an empty one, and a form reset puts back the starting files. A file drag is always taken, even a rejected one, so the browser never opens the file in place of the page. Five sizes on the control scale, `outline`, `soft` and `subtle` frames, Field wiring, and slots for every part, including `triggerAttrs` for your own button.
