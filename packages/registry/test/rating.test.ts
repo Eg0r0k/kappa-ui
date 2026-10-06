@@ -6,7 +6,7 @@ import { type VNode, createSSRApp, defineComponent, h, nextTick, ref } from "vue
 import { renderToString } from "vue/server-renderer";
 
 import { Field, FieldDescription, FieldError, FieldLabel, FieldSet } from "@/ui/field";
-import { Rating } from "@/ui/rating";
+import { Rating, RatingDisplay, RatingDisplayItem, RatingItem } from "@/ui/rating";
 
 import { controlSizes, overrideControlTokens, sentinel } from "./control-tokens";
 
@@ -16,6 +16,10 @@ afterEach(() => {
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const stars = ({ items }: { items: number[] }) => items.map((item) => h(RatingItem, { key: item, item }));
+const pictures = ({ items }: { items: number[] }) => items.map((item) => h(RatingDisplayItem, { key: item, item }));
+
+// readonly renders the display parts, with the value from modelValue
 const render = (props: Record<string, unknown> = {}, wrap?: (rating: VNode) => VNode) => {
   const value = ref(props.modelValue as number | undefined);
   const hovers: number[] = [];
@@ -24,21 +28,28 @@ const render = (props: Record<string, unknown> = {}, wrap?: (rating: VNode) => V
   const wrapper = mount(
     defineComponent({
       setup: () => () => {
-        const rating = h(Rating, {
-          ...props,
-          ...(bound && { modelValue: value.value }),
-          "onUpdate:modelValue": (next: number | undefined) => {
-            updates.push(next!);
-            if (bound) value.value = next;
-          },
-          onHover: (next: number) => hovers.push(next),
-        });
+        const { readonly, modelValue, ...rest } = props;
+        const rating = readonly
+          ? h(RatingDisplay, { ...rest, value: modelValue as number }, { default: pictures })
+          : h(
+              Rating,
+              {
+                ...rest,
+                ...(bound && { modelValue: value.value }),
+                "onUpdate:modelValue": (next: number | undefined) => {
+                  updates.push(next!);
+                  if (bound) value.value = next;
+                },
+                onHover: (next: number) => hovers.push(next),
+              },
+              { default: stars },
+            );
         return wrap ? wrap(rating) : rating;
       },
     }),
     { attachTo: document.body },
   );
-  const root = () => document.querySelector<HTMLElement>("[data-slot=rating]")!;
+  const root = () => document.querySelector<HTMLElement>("[data-slot=rating], [data-slot=rating-display]")!;
   const radios = () => [...document.querySelectorAll<HTMLButtonElement>("button[role=radio]")];
   const radio = (step: number) => radios().find((button) => button.value === String(step))!;
   const items = () => [...document.querySelectorAll<HTMLElement>("[data-slot=rating-item]")];
@@ -154,11 +165,15 @@ describe("Rating", () => {
       mount(
         defineComponent({
           setup: () => () =>
-            h(Rating, {
-              modelValue: start,
-              "onUpdate:modelValue": (next?: number) => updates.push(next!),
-              clearable: true,
-            }),
+            h(
+              Rating,
+              {
+                modelValue: start,
+                "onUpdate:modelValue": (next?: number) => updates.push(next!),
+                clearable: true,
+              },
+              { default: stars },
+            ),
         }),
         { attachTo: document.body },
       );
@@ -452,7 +467,7 @@ describe("Rating colours", () => {
 
 describe("Rating SSR", () => {
   it("hydrates half steps without warnings", async () => {
-    const app = () => createSSRApp({ render: () => h(Rating, { modelValue: 3, step: 0.5 }) });
+    const app = () => createSSRApp({ render: () => h(Rating, { modelValue: 3, step: 0.5 }, { default: stars }) });
     const container = document.body.appendChild(document.createElement("div"));
     container.innerHTML = await renderToString(app());
 
@@ -519,14 +534,70 @@ describe("Rating in a field", () => {
   });
 });
 
-describe("Rating readonly", () => {
+describe("Rating item icons", () => {
+  it("draws the item slot in both layers, empty and filled", async () => {
+    mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            Rating,
+            { modelValue: 2 },
+            {
+              default: ({ items }: { items: number[] }) =>
+                items.map((item) =>
+                  h(
+                    RatingItem,
+                    { key: item, item },
+                    { default: ({ filled }: { filled: boolean }) => h("i", { "data-filled": String(filled) }) },
+                  ),
+                ),
+            },
+          ),
+      }),
+      { attachTo: document.body },
+    );
+    await nextTick();
+    const first = document.querySelector("[data-slot=rating-item]")!;
+    expect(first.querySelector("[data-slot=rating-empty-icon] i")?.getAttribute("data-filled")).toBe("false");
+    expect(first.querySelector("[data-slot=rating-icon] i")?.getAttribute("data-filled")).toBe("true");
+    expect(first.querySelector("svg")).toBeNull();
+  });
+
+  it("draws the display item slot in both layers too", async () => {
+    mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            RatingDisplay,
+            { value: 2 },
+            {
+              default: ({ items }: { items: number[] }) =>
+                items.map((item) =>
+                  h(
+                    RatingDisplayItem,
+                    { key: item, item },
+                    { default: ({ filled }: { filled: boolean }) => h("i", { "data-filled": String(filled) }) },
+                  ),
+                ),
+            },
+          ),
+      }),
+      { attachTo: document.body },
+    );
+    await nextTick();
+    const first = document.querySelector("[data-slot=rating-item]")!;
+    expect([...first.querySelectorAll("i")].map((icon) => icon.getAttribute("data-filled"))).toEqual(["false", "true"]);
+  });
+});
+
+describe("RatingDisplay", () => {
   it("is one picture named after its value, with no radios", async () => {
     const { root, radios } = render({ modelValue: 4.3, readonly: true });
     await nextTick();
 
     expect(root().getAttribute("role")).toBe("img");
     expect(root().getAttribute("aria-label")).toBe("Rated 4.3 out of 5");
-    expect(root().dataset.readonly).toBe("");
+    expect(root().dataset.slot).toBe("rating-display");
     expect(radios()).toHaveLength(0);
     expect(document.querySelector("button")).toBeNull();
   });

@@ -1,6 +1,11 @@
 import { type VariantProps, cva } from "class-variance-authority";
+import { createContext } from "reka-ui";
+import type { ComputedRef } from "vue";
 
 export { default as Rating } from "./Rating.vue";
+export { default as RatingDisplay } from "./RatingDisplay.vue";
+export { default as RatingDisplayItem } from "./RatingDisplayItem.vue";
+export { default as RatingItem } from "./RatingItem.vue";
 
 export type RatingSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type RatingColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
@@ -114,5 +119,16 @@ export const ratingIndicatorIconClass = `
   group-data-[state=active]/rating-indicator:opacity-100
   motion-reduce:transition-none
 `;
+
+export const [injectRatingContext, provideRatingContext] = createContext<{
+  length: ComputedRef<number>;
+  disabled: ComputedRef<boolean>;
+  labels: ComputedRef<RatingLabels>;
+}>("Rating");
+
+export const [injectRatingDisplayContext, provideRatingDisplayContext] = createContext<{
+  /** How much of one item is filled, as a CSS width: `100%`, `30%`, `0%`. */
+  fill: (item: number) => string;
+}>("RatingDisplay");
 
 export type RatingVariants = VariantProps<typeof ratingVariants>;

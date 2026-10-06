@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Progress } from "@/ui/progress";
-import { Rating } from "@/ui/rating";
+import { RatingDisplay, RatingDisplayItem } from "@/ui/rating";
 
 const average = 4.3;
 const total = 1284;
@@ -24,7 +24,9 @@ const percent = (count: number) => Math.round((count / total) * 100);
     <div class="flex items-center gap-3">
       <span class="text-headline-lg tabular-nums">{{ average }}</span>
       <div class="flex flex-col gap-1">
-        <Rating readonly :model-value="average" color="warning" aria-label="Average" />
+        <RatingDisplay :value="average" color="warning" aria-label="Average" v-slot="{ items }">
+          <RatingDisplayItem v-for="item in items" :key="item" :item="item" />
+        </RatingDisplay>
         <span class="text-body-sm text-muted-foreground">{{ total.toLocaleString("en") }} reviews</span>
       </div>
     </div>
@@ -45,7 +47,9 @@ const percent = (count: number) => Math.round((count / total) * 100);
       <li v-for="review in reviews" :key="review.name" class="flex flex-col gap-1">
         <div class="flex items-center gap-2">
           <span class="text-label-lg">{{ review.name }}</span>
-          <Rating readonly size="xs" :model-value="review.stars" color="warning" />
+          <RatingDisplay size="xs" :value="review.stars" color="warning" v-slot="{ items }">
+            <RatingDisplayItem v-for="item in items" :key="item" :item="item" />
+          </RatingDisplay>
         </div>
         <p class="text-body-md text-muted-foreground">{{ review.text }}</p>
       </li>
