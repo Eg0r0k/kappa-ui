@@ -11,6 +11,7 @@ export { default as ProgressValue } from "./ProgressValue.vue";
 export type ProgressSize = "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type ProgressAnimation = "carousel" | "carousel-inverse" | "swing" | "elastic";
 export type ProgressOrientation = "horizontal" | "vertical";
+export type ProgressColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
 export const [injectProgressContext, provideProgressContext] = createContext<{
   labelId: string;
@@ -20,7 +21,7 @@ export const [injectProgressContext, provideProgressContext] = createContext<{
   max: ComputedRef<number>;
 }>("Progress");
 
-export const progressVariants = cva("flex gap-2 text-primary", {
+export const progressVariants = cva("flex gap-2 text-tone-text", {
   variants: {
     orientation: {
       horizontal: "w-full flex-col",
