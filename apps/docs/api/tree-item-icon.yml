@@ -1,0 +1,4 @@
+component: TreeItemIcon
+file: ui/tree/TreeItemIcon.vue
+slots:
+  default: An icon before the label, sized by the tree and hidden from screen readers. It turns `--primary` when the row is selected.

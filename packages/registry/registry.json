@@ -1219,6 +1219,62 @@
       ]
     },
     {
+      "name": "tree",
+      "type": "registry:ui",
+      "title": "Tree",
+      "description": "A tree of nested items to browse, select or check, with keyboard navigation, lazy folders, a checkbox mode with cascading checks and virtualization for large trees, built on Reka UI.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@lucide/vue",
+        "reka-ui",
+        "@tanstack/vue-virtual"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "spinner",
+        "checkbox"
+      ],
+      "files": [
+        {
+          "path": "src/ui/tree/Tree.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemCheckbox.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemIcon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemToggle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/selection.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "menu",
       "type": "registry:ui",
       "title": "Menu",
@@ -6314,6 +6370,312 @@
       "files": [
         {
           "path": "src/examples/listbox/ListboxField.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-demo",
+      "type": "registry:block",
+      "title": "Tree demo",
+      "description": "Project files with folder icons that open and close, keyed by path.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-sizes",
+      "type": "registry:block",
+      "title": "Tree sizes",
+      "description": "The same tree in every size, from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-variants",
+      "type": "registry:block",
+      "title": "Tree variants",
+      "description": "A ghost tree in a card next to an outline tree.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-multiple",
+      "type": "registry:block",
+      "title": "Tree multiple",
+      "description": "Photos picked by click, Ctrl-click, Shift-click and Shift + arrows.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-checkbox",
+      "type": "registry:block",
+      "title": "Tree checkbox",
+      "description": "Role permissions with cascading checks, a locked permission and the checked leaves listed.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeCheckbox.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-field",
+      "type": "registry:block",
+      "title": "Tree field",
+      "description": "A required permissions tree in a field, validated with vee-validate and zod and stored as keys.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "tree",
+        "field",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeField.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-mail-folders",
+      "type": "registry:block",
+      "title": "Tree mail folders",
+      "description": "Mailboxes that select on click and open from the chevron or a double click, with unread counts.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeMailFolders.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-virtual",
+      "type": "registry:block",
+      "title": "Tree virtual",
+      "description": "Ten thousand stores in a virtualized tree.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeVirtual.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-lazy",
+      "type": "registry:block",
+      "title": "Tree lazy",
+      "description": "A bucket browser that loads each folder when it opens.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeLazy.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-reveal",
+      "type": "registry:block",
+      "title": "Tree reveal",
+      "description": "Expand all, collapse all, and reveal a page from outside the tree.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeReveal.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-filter",
+      "type": "registry:block",
+      "title": "Tree filter",
+      "description": "Cities filtered by a search field, with the matches opened.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "input-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeFilter.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-git-status",
+      "type": "registry:block",
+      "title": "Tree git status",
+      "description": "Changed files with status letters and counts in the row slots.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeGitStatus.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-context-menu",
+      "type": "registry:block",
+      "title": "Tree context menu",
+      "description": "Notes with a context menu to rename in place, duplicate and delete.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeContextMenu.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-disabled",
+      "type": "registry:block",
+      "title": "Tree disabled",
+      "description": "Disabled nodes and a disabled tree.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeDisabled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-composition",
+      "type": "registry:block",
+      "title": "Tree composition",
+      "description": "An org chart built from TreeItem parts in the default slot.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree",
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeComposition.vue",
           "type": "registry:component"
         }
       ]
