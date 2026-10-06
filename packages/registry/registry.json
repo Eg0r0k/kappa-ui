@@ -53,6 +53,24 @@
       ]
     },
     {
+      "name": "standard-schema",
+      "type": "registry:lib",
+      "title": "Standard Schema for VeeValidate",
+      "description": "Lets VeeValidate 4 validate with Zod 4, Valibot or any other Standard Schema.",
+      "categories": [
+        "forms"
+      ],
+      "dependencies": [
+        "vee-validate"
+      ],
+      "files": [
+        {
+          "path": "src/lib/standard-schema.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "tokens",
       "type": "registry:lib",
       "title": "Tokens",
@@ -7307,6 +7325,194 @@
       "files": [
         {
           "path": "src/examples/forms/FormischArray.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-demo",
+      "type": "registry:block",
+      "title": "VeeValidate demo",
+      "description": "A bug report form validated with a Zod schema through VeeValidate.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "card",
+        "field",
+        "input",
+        "textarea"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-select",
+      "type": "registry:block",
+      "title": "VeeValidate select",
+      "description": "A required select and combobox bound to VeeValidate fields.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "combobox",
+        "field",
+        "select"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateSelect.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-choices",
+      "type": "registry:block",
+      "title": "VeeValidate choices",
+      "description": "A checkbox group, a radio group and a switch bound to VeeValidate fields.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "checkbox",
+        "field",
+        "radio-group",
+        "switch"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateChoices.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-controls",
+      "type": "registry:block",
+      "title": "VeeValidate controls",
+      "description": "A number input, tags input, range slider and pin input bound to VeeValidate fields with v-model.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "field",
+        "input-number",
+        "pin-input",
+        "slider",
+        "tags-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateControls.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-array",
+      "type": "registry:block",
+      "title": "VeeValidate array",
+      "description": "A list of email fields added and removed with the field arrays of VeeValidate.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateArray.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-dialog",
+      "type": "registry:block",
+      "title": "VeeValidate dialog",
+      "description": "An invite form in a dialog, with an async submit and an error from the server.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "dialog",
+        "field",
+        "input",
+        "select",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateDialog.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-field-slot",
+      "type": "registry:block",
+      "title": "VeeValidate Field slot",
+      "description": "The Form and Field components of VeeValidate bound to kappa-ui controls through the slot.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "field",
+        "input",
+        "input-number"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateFieldSlot.vue",
           "type": "registry:component"
         }
       ]
