@@ -21,7 +21,7 @@ export const [injectProgressContext, provideProgressContext] = createContext<{
   max: ComputedRef<number>;
 }>("Progress");
 
-export const progressVariants = cva("flex gap-2 text-tone", {
+export const progressVariants = cva("flex gap-2 text-tone-text", {
   variants: {
     orientation: {
       horizontal: "w-full flex-col",
@@ -128,7 +128,7 @@ export const progressIndicatorVariants = cva(
   },
 );
 
-export const progressStepsVariants = cva("grid items-end text-tone-text", {
+export const progressStepsVariants = cva("grid items-end", {
   variants: {
     orientation: {
       horizontal: "",

@@ -112,3 +112,15 @@ it("still turns a copy without data-color destructive, and still lets a class se
   expect(getComputedStyle(inInvalid!).borderTopColor).toBe(RED);
   expect(getComputedStyle(toned!).backgroundColor).toBe("rgb(1, 2, 3)");
 });
+
+it("keeps primary on an element whose data-color has no data-slot to define it", async () => {
+  await render(() =>
+    h("button", {
+      "data-color": "success",
+      "data-state": "checked",
+      class: "tone-control data-[state=checked]:bg-tone",
+    }),
+  );
+
+  expect(getComputedStyle(document.querySelector("button")!).backgroundColor).toBe(BLUE);
+});

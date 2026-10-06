@@ -13,7 +13,7 @@ export const switchVariants = cva(
     aria-invalid:tone-invalid
     data-[state=checked]:[--halo-color:var(--tone)]
     focus-visible:focus-ring
-    data-[state=checked]:border-tone data-[state=checked]:bg-tone
+    data-[state=checked]:border-tone-text data-[state=checked]:bg-tone
     disabled:cursor-not-allowed disabled:border-foreground/(--disabled-container-opacity) disabled:bg-transparent
     disabled:data-[state=checked]:border-transparent
     disabled:data-[state=checked]:bg-foreground/(--disabled-container-opacity)

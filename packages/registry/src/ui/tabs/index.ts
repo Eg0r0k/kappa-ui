@@ -58,7 +58,7 @@ export const tabsIndicatorVariants = cva(
           group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)
         `,
         line: `
-          rounded-full bg-tone
+          rounded-full bg-tone-text
           group-aria-[orientation=horizontal]/tabs-list:-bottom-px group-aria-[orientation=horizontal]/tabs-list:h-0.5
           group-aria-[orientation=vertical]/tabs-list:-end-px group-aria-[orientation=vertical]/tabs-list:w-0.5
         `,

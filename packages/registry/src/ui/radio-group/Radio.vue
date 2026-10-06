@@ -64,7 +64,7 @@ const onPointerLeave = () => {
   >
     <RadioGroupIndicator force-mount class="pointer-events-none absolute inset-0 flex items-center justify-center">
       <span
-        class="size-[round(calc(var(--choice-size)/2),2px)] scale-0 rounded-full bg-tone transition-[scale] duration-medium-2 ease-emphasized-decelerate group-data-[state=checked]/radio:scale-100 group-disabled/radio:bg-foreground/(--disabled-opacity) motion-reduce:transition-none"
+        class="size-[round(calc(var(--choice-size)/2),2px)] scale-0 rounded-full bg-tone-text transition-[scale] duration-medium-2 ease-emphasized-decelerate group-data-[state=checked]/radio:scale-100 group-disabled/radio:bg-foreground/(--disabled-opacity) motion-reduce:transition-none"
       />
     </RadioGroupIndicator>
   </RadioGroupItem>

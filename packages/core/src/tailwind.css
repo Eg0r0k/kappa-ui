@@ -73,21 +73,24 @@
   --color-tone-border-subtle: var(--tone-border-subtle);
 }
 
-/* A control with a `color` prop takes its tone from the [data-color] rules above; one without keeps primary. */
+/* A control with a `color` prop takes its tone from the [data-slot][data-color] rules above; one without keeps primary. */
 @utility tone-control {
   --tone-border: --theme(--color-input);
-  &:where(:not([data-color])) {
+  &:where(:not([data-slot][data-color])) {
     --tone: --theme(--color-primary);
     --tone-foreground: --theme(--color-primary-foreground);
+    --tone-text: --theme(--color-primary);
   }
-  &:where([data-color]:not([data-color="primary"])) {
+  &:where([data-slot][data-color]:not([data-color="primary"])) {
     --color-ring: var(--tone-text);
   }
 }
 
+/* Turns the whole tone destructive, --tone-text included, so edges, marks and rings drawn in it turn too. */
 @utility tone-invalid {
   --tone: --theme(--color-destructive);
   --tone-foreground: --theme(--color-destructive-foreground, oklch(1 0 0));
+  --tone-text: --theme(--color-destructive);
   --tone-border: var(--tone);
   --halo-color: var(--tone);
 }
@@ -239,7 +242,7 @@
     }
   }
   /* A group with a `color` prop tints the selected option in its own tone. */
-  &:where([data-color]) > [data-slot="field"]:has([data-state="checked"]) {
+  &:where([data-slot][data-color]) > [data-slot="field"]:has([data-state="checked"]) {
     background-color: color-mix(in oklab, var(--tone) var(--state-selected, 8%), transparent);
   }
   & [data-slot="field-label"] {

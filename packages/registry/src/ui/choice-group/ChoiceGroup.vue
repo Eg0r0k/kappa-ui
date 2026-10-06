@@ -8,7 +8,7 @@ import { type ChoiceGroupColor, type ChoiceGroupVariants, choiceGroupVariants } 
 interface Props extends PrimitiveProps {
   variant?: ChoiceGroupVariants["variant"];
   orientation?: ChoiceGroupVariants["orientation"];
-  /** The tone of a selected card's edge and of the selected row's tint. */
+  /** The tone of a selected card's edge, a focused card's ring and the selected row's tint. */
   color?: ChoiceGroupColor | (string & {});
   class?: HTMLAttributes["class"];
 }

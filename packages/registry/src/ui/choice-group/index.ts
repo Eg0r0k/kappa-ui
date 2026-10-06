@@ -10,7 +10,7 @@ export const choiceControl = `
   [--halo-size:calc(var(--choice-size)*20/9)] tone-control [--halo-color:--theme(--color-foreground)]
   aria-invalid:tone-invalid
   in-aria-invalid:tone-invalid
-  data-[state=checked]:[--halo-color:var(--tone)] data-[state=checked]:border-tone
+  data-[state=checked]:[--halo-color:var(--tone)] data-[state=checked]:border-tone-text
   not-data-[touch-target=wrapper]:has-[+[data-slot=field-label],+[data-slot=field-content],+[data-slot=label]]:me-[calc(var(--choice-size)*11/18-0.25rem)]
   focus-visible:focus-ring
   disabled:cursor-not-allowed
@@ -35,13 +35,16 @@ export const choiceGroupVariants = cva("flex", {
   variants: {
     variant: {
       default: "",
+      // Outside primary, a focused card rings like the control in it: in the group's --tone-text, red once invalid.
       card: `
         choice-row gap-3
         [&>[data-slot=field]]:rounded-lg [&>[data-slot=field]]:border [&>[data-slot=field]]:border-border
         [&>[data-slot=field]]:p-4
-        [&>[data-slot=field]:has([data-state=checked])]:border-tone
+        [&>[data-slot=field]:has([data-state=checked])]:border-tone-text
         [&>[data-slot=field]:has(:focus-visible)]:focus-ring
         [&>[data-slot=field][data-invalid]]:border-destructive
+        [&:not([data-color=primary])>[data-slot=field]]:[--color-ring:var(--tone-text)]
+        [&:not([data-color=primary])>[data-slot=field]:is([data-invalid],[aria-invalid=true]>*)]:[--color-ring:--theme(--color-destructive)]
       `,
       list: `
         choice-row overflow-hidden rounded-lg border border-border

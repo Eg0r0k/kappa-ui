@@ -205,7 +205,7 @@ it("fills the active indicator in the stepper's color, primary by default", () =
   reset();
 
   const style = document.createElement("style");
-  style.textContent = '[data-slot][data-color="brand"] { --tone: rgb(255, 0, 200); }';
+  style.textContent = '@layer base { [data-slot][data-color="brand"] { --tone: rgb(255, 0, 200); } }';
   document.head.append(style);
   try {
     render({ color: "brand" });

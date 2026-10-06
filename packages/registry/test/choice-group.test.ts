@@ -53,7 +53,7 @@ it("dresses a checkbox group and a radio group without replacing their own roots
   expect(radios.getAttribute("role")).toBe("radiogroup");
 });
 
-const palette = "--primary: rgb(0, 0, 255); --success: rgb(0, 128, 0)";
+const palette = "--primary: rgb(0, 0, 255); --success: rgb(0, 128, 0); --success-text: rgb(0, 90, 0)";
 // The selected row's tint: the tone over transparent at --state-selected.
 const tint = (color: string) => {
   const probe = document.createElement("div");
@@ -84,7 +84,7 @@ it("edges a selected card and tints a selected row in the group's color", () => 
   const [card, row, primaryRow] = fields();
 
   expect(document.querySelector<HTMLElement>("[data-slot=radio-group]")!.dataset.color).toBe("success");
-  expect(getComputedStyle(card!).borderTopColor).toBe("rgb(0, 128, 0)");
+  expect(getComputedStyle(card!).borderTopColor).toBe("rgb(0, 90, 0)");
   expect(getComputedStyle(row!).backgroundColor).toBe(tint("rgb(0, 128, 0)"));
   expect(getComputedStyle(primaryRow!).backgroundColor).toBe(tint("rgb(0, 0, 255)"));
 });
@@ -95,6 +95,51 @@ it("keeps the primary tint for a group copied before the color prop", () => {
       render: () =>
         h("div", { "data-slot": "alert", "data-color": "success", style: palette }, [
           h("div", { class: "choice-row" }, [
+            h("div", { "data-slot": "field" }, [h("button", { "data-slot": "checkbox", "data-state": "checked" })]),
+          ]),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+
+  expect(getComputedStyle(fields()[0]!).backgroundColor).toBe(tint("rgb(0, 0, 255)"));
+});
+
+it("edges and tints in a custom color of its own", () => {
+  const style = document.createElement("style");
+  style.textContent = `@layer base {
+    [data-slot][data-color="brand"] { --tone: rgb(255, 0, 200); --tone-text: rgb(120, 0, 90); }
+  }`;
+  document.head.append(style);
+  try {
+    mount(
+      {
+        render: () => [
+          h(ChoiceGroup, { variant: "card", color: "brand" }, () => [
+            option(h(Checkbox, { value: "a", defaultValue: true })),
+          ]),
+          h(ChoiceGroup, { variant: "list", color: "brand" }, () => [
+            option(h(Checkbox, { value: "a", defaultValue: true })),
+          ]),
+        ],
+      },
+      { attachTo: document.body },
+    );
+    const [card, row] = fields();
+
+    expect(getComputedStyle(card!).borderTopColor).toBe("rgb(120, 0, 90)");
+    expect(getComputedStyle(row!).backgroundColor).toBe(tint("rgb(255, 0, 200)"));
+  } finally {
+    style.remove();
+  }
+});
+
+it("keeps the primary tint for a choice-row whose data-color has no data-slot to define it", () => {
+  mount(
+    {
+      render: () =>
+        h("div", { style: palette }, [
+          h("div", { class: "choice-row", "data-color": "success" }, [
             h("div", { "data-slot": "field" }, [h("button", { "data-slot": "checkbox", "data-state": "checked" })]),
           ]),
         ]),

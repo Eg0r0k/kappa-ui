@@ -19,7 +19,7 @@ export const checkboxVariants = cva(
     group/checkbox rounded-xs text-tone-foreground transition-[background-color,border-color] duration-short-3
     ease-standard
     data-[state=checked]:bg-tone
-    data-[state=indeterminate]:border-tone data-[state=indeterminate]:bg-tone
+    data-[state=indeterminate]:border-tone-text data-[state=indeterminate]:bg-tone
     data-[state=indeterminate]:[--halo-color:var(--tone)]
     disabled:border-foreground/(--disabled-opacity) disabled:text-background
     disabled:data-[state=checked]:border-transparent disabled:data-[state=checked]:bg-foreground/(--disabled-opacity)

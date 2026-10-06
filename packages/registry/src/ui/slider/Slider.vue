@@ -126,7 +126,7 @@ const onPointerDown = (event: PointerEvent) => {
       @pointerenter="onPointerEnter($event, index)"
       @pointerleave="onPointerLeave"
     >
-      <span data-slot="slider-handle" :class="sliderHandleVariants({ variant: props.variant })" />
+      <span data-slot="slider-handle" :class="sliderHandleVariants({ variant: props.variant, shade: 'text' })" />
     </SliderThumb>
   </SliderRoot>
 </template>
