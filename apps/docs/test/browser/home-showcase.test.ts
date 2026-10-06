@@ -39,6 +39,11 @@ describe('HomeShowcase', () => {
     expect(getComputedStyle(root).backgroundColor).toBe('rgb(246, 248, 250)')
   })
 
+  it('cross-fades the whole showcase, so the snapshot keeps its clip and fade', () => {
+    const root = rootOf(mountShowcase('kappa'))
+    expect(getComputedStyle(root).viewTransitionName).toBe('home-showcase')
+  })
+
   it('leaves Kappa unscoped', () => {
     expect(rootOf(mountShowcase('kappa')).hasAttribute('data-showcase-style')).toBe(false)
   })
