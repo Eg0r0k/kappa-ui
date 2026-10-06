@@ -33,7 +33,7 @@ export type FileUploadExpose = {
   addFiles: (files: FileList | File[]) => void;
   removeFile: (index?: number) => void;
   inputRef: HTMLInputElement | null;
-  triggerRef: HTMLElement | null;
+  triggerEl: HTMLElement | null;
 };
 
 /** Whether `file` matches an `accept` list: MIME types, `type/*` wildcards and `.ext` extensions, comma-separated. */

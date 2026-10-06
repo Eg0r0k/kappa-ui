@@ -81,4 +81,4 @@ exposed:
   addFiles: "Adds files from your own source, such as a drop on the whole page, through the same checks and `reject` as a drop."
   removeFile: "Removes the file at an index. Without one, or without `multiple`, removes every file."
   inputRef: The hidden file input.
-  triggerRef: "The element that takes focus: the zone's button, or the Button in `button` mode."
+  triggerEl: "The element that takes focus: the zone's button, or the Button in `button` mode."

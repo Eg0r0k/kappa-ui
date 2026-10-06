@@ -393,7 +393,7 @@ const stateAttrs = computed(() => ({
 const buttonColor = computed(() => (isInvalid.value ? "destructive" : dragging.value ? "primary" : "neutral"));
 const buttonSize = computed(() => (hasLabel.value ? props.size : (`icon-${props.size}` as const)));
 
-defineExpose({ open, clear, addFiles, removeFile, inputRef: input, triggerRef: trigger });
+defineExpose({ open, clear, addFiles, removeFile, inputRef: input, triggerEl: trigger });
 </script>
 
 <template>

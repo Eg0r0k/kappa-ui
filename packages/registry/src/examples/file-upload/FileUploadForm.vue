@@ -31,7 +31,7 @@ const published = ref("");
 
 // Formisch focuses the first invalid field on submit, so hand it the trigger, the element that takes focus
 const trigger = (control: Element | ComponentPublicInstance | null) =>
-  control && "triggerRef" in control ? (control.triggerRef as HTMLElement | null) : null;
+  control && "triggerEl" in control ? (control.triggerEl as HTMLElement | null) : null;
 
 const publish = (output: v.InferOutput<typeof Listing>) => {
   published.value = `Published with ${output.cover.name} and ${output.floorPlans.length} floor plan(s).`;
