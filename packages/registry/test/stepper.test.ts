@@ -182,7 +182,7 @@ it("draws the indicator and the separator from the item state", async () => {
   const [active, inactive] = indicators();
   expect(getComputedStyle(active!).backgroundColor).not.toBe(getComputedStyle(inactive!).backgroundColor);
   expect(getComputedStyle(active!).borderRadius).toContain("px");
-  expect(inactive!.className).toContain("group-data-[state=active]:bg-primary");
+  expect(inactive!.className).toContain("group-data-[state=active]:bg-tone");
   expect(inactive!.className).toContain("group-data-[state=completed]:bg-accent");
   expect(separators()[0]!.className).toContain("group-data-[state=completed]:bg-accent");
   expect(separators()[0]!.dataset.state).toBe("active");

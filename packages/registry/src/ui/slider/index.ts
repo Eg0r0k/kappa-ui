@@ -2,6 +2,8 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Slider } from "./Slider.vue";
 
+export type SliderColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 export const sliderVariants = cva(
   `
     group/slider relative flex h-(--slider-h) w-(--slider-w) touch-none items-center select-none slider-axis

@@ -10,12 +10,14 @@ import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type RadioVariants, radioVariants } from ".";
+import { type RadioColor, type RadioVariants, injectRadioGroupContext, radioVariants } from ".";
 
 defineOptions({ inheritAttrs: false });
 
 const props = defineProps<
   RadioGroupItemProps & {
+    /** Defaults to the group's `color`, or `primary` outside a group. */
+    color?: RadioColor | (string & {});
     size?: RadioVariants["size"];
     touchTarget?: RadioVariants["touchTarget"];
     class?: HTMLAttributes["class"];
@@ -24,13 +26,16 @@ const props = defineProps<
 const emits = defineEmits<RadioGroupItemEmits>();
 
 const delegated = computed(() => {
-  const { class: _, size: __, touchTarget: ___, ...rest } = props;
+  const { class: _, size: __, touchTarget: ___, color: ____, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
 
 const attrs = useAttrs();
 const control = useFieldControl(props, attrs);
+
+const group = injectRadioGroupContext(null);
+const color = computed(() => props.color ?? group?.color.value ?? "primary");
 
 const hovered = ref(false);
 const onPointerEnter = (event: PointerEvent) => {
@@ -45,6 +50,8 @@ const onPointerLeave = () => {
   <RadioGroupItem
     v-bind="{ ...attrs, ...forwarded }"
     data-slot="radio"
+    :data-color="color"
+    :data-size="props.size ?? 'md'"
     :data-touch-target="props.touchTarget"
     :data-hovered="hovered || undefined"
     :id="control.id.value"

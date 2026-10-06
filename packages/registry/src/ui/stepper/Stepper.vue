@@ -3,16 +3,23 @@ import { StepperRoot, type StepperRootEmits, type StepperRootProps, useForwardPr
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type StepperVariants, stepperVariants } from ".";
+import { type StepperColor, type StepperVariants, stepperVariants } from ".";
 
 const props = withDefaults(
-  defineProps<StepperRootProps & { size?: StepperVariants["size"]; class?: HTMLAttributes["class"] }>(),
-  { size: "md" },
+  defineProps<
+    StepperRootProps & {
+      /** The tone of the active step's indicator. */
+      color?: StepperColor | (string & {});
+      size?: StepperVariants["size"];
+      class?: HTMLAttributes["class"];
+    }
+  >(),
+  { color: "primary", size: "md" },
 );
 const emits = defineEmits<StepperRootEmits>();
 
 const delegated = computed(() => {
-  const { class: _, size: __, ...rest } = props;
+  const { class: _, size: __, color: ___, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
@@ -23,6 +30,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     v-slot="slotProps"
     v-bind="forwarded"
     data-slot="stepper"
+    :data-color="props.color"
     :data-size="props.size"
     :class="cn(stepperVariants({ size: props.size }), props.class)"
   >

@@ -73,10 +73,16 @@
   --color-tone-border-subtle: var(--tone-border-subtle);
 }
 
+/* A control with a `color` prop takes its tone from the [data-color] rules above; one without keeps primary. */
 @utility tone-control {
-  --tone: --theme(--color-primary);
-  --tone-foreground: --theme(--color-primary-foreground);
   --tone-border: --theme(--color-input);
+  &:where(:not([data-color])) {
+    --tone: --theme(--color-primary);
+    --tone-foreground: --theme(--color-primary-foreground);
+  }
+  &:where([data-color]:not([data-color="primary"])) {
+    --color-ring: var(--tone-text);
+  }
 }
 
 @utility tone-invalid {
@@ -231,6 +237,10 @@
     &:has([data-state="checked"]) {
       background-color: color-mix(in oklab, --theme(--color-primary) var(--state-selected, 8%), transparent);
     }
+  }
+  /* A group with a `color` prop tints the selected option in its own tone. */
+  &:where([data-color]) > [data-slot="field"]:has([data-state="checked"]) {
+    background-color: color-mix(in oklab, var(--tone) var(--state-selected, 8%), transparent);
   }
   & [data-slot="field-label"] {
     cursor: pointer;

@@ -2,6 +2,8 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Switch } from "./Switch.vue";
 
+export type SwitchColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 export const switchVariants = cva(
   `
     group/switch relative inline-flex h-(--switch-h) w-(--switch-w) shrink-0 items-center rounded-full border-2

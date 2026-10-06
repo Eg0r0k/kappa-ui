@@ -5,6 +5,8 @@ export { default as TabsContent } from "./TabsContent.vue";
 export { default as TabsList } from "./TabsList.vue";
 export { default as TabsTrigger } from "./TabsTrigger.vue";
 
+export type TabsColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 const sizes = {
   xs: "text-label-sm [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-xs)] [--tabs-trigger-px:var(--control-padding-xs)] [--tabs-trigger-gap:var(--control-gap-xs)] [--tabs-icon:var(--control-icon-xs)]",
   sm: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-sm)] [--tabs-trigger-px:var(--control-padding-sm)] [--tabs-trigger-gap:var(--control-gap-sm)] [--tabs-icon:var(--control-icon-sm)]",
@@ -56,7 +58,7 @@ export const tabsIndicatorVariants = cva(
           group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)
         `,
         line: `
-          rounded-full bg-primary
+          rounded-full bg-tone
           group-aria-[orientation=horizontal]/tabs-list:-bottom-px group-aria-[orientation=horizontal]/tabs-list:h-0.5
           group-aria-[orientation=vertical]/tabs-list:-end-px group-aria-[orientation=vertical]/tabs-list:w-0.5
         `,

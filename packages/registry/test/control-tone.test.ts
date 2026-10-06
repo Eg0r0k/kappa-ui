@@ -79,3 +79,36 @@ it("draws the slider in the primary tone, and destructive when a thumb is invali
   expect(fill("slider-range")).toBe(RED);
   expect(halo("slider-thumb")).toBe(RED);
 });
+
+// Copies made before the `color` prop render no data-color and lean on tone-control and tone-invalid alone.
+const legacyClass = `
+  border-2 border-tone-border tone-control
+  aria-invalid:tone-invalid in-aria-invalid:tone-invalid
+  data-[state=checked]:border-tone data-[state=checked]:bg-tone
+`;
+const legacy = (state: string, attrs: Record<string, unknown> = {}) =>
+  h("button", { "data-slot": "checkbox", "data-state": state, class: legacyClass, ...attrs });
+const legacyParts = () => [...document.querySelectorAll("[data-slot=checkbox]")];
+
+it("keeps a copy without data-color primary with the input edge, even inside a colored element", async () => {
+  await render(() =>
+    h("div", { "data-slot": "alert", "data-color": "destructive" }, [legacy("checked"), legacy("unchecked")]),
+  );
+  const [checked, unchecked] = legacyParts();
+
+  expect(getComputedStyle(checked!).backgroundColor).toBe(BLUE);
+  expect(getComputedStyle(unchecked!).borderTopColor).toBe(GREY);
+});
+
+it("still turns a copy without data-color destructive, and still lets a class set its tone", async () => {
+  await render(() => [
+    legacy("checked", { "aria-invalid": "true" }),
+    h("div", { "aria-invalid": "true" }, legacy("unchecked")),
+    legacy("checked", { class: `${legacyClass} [--tone:rgb(1,2,3)]` }),
+  ]);
+  const [invalid, inInvalid, toned] = legacyParts();
+
+  expect(getComputedStyle(invalid!).backgroundColor).toBe(RED);
+  expect(getComputedStyle(inInvalid!).borderTopColor).toBe(RED);
+  expect(getComputedStyle(toned!).backgroundColor).toBe("rgb(1, 2, 3)");
+});

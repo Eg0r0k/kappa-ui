@@ -1,9 +1,18 @@
 import { type VariantProps, cva } from "class-variance-authority";
+import { createContext } from "reka-ui";
+import type { ComputedRef } from "vue";
 
 import { choiceControl, choiceControlVariants } from "@/ui/choice-group";
 
 export { default as Checkbox } from "./Checkbox.vue";
 export { default as CheckboxGroup } from "./CheckboxGroup.vue";
+
+export type CheckboxColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
+/** A group's `color`, for the checkboxes in it that don't set their own. */
+export const [injectCheckboxGroupContext, provideCheckboxGroupContext] = createContext<{
+  color: ComputedRef<CheckboxColor | (string & {})>;
+}>("CheckboxGroup");
 
 export const checkboxVariants = cva(
   `${choiceControl}

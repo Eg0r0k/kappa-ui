@@ -2,6 +2,8 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as ChoiceGroup } from "./ChoiceGroup.vue";
 
+export type ChoiceGroupColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 export const choiceControl = `
   relative inline-flex size-(--choice-size) shrink-0 items-center justify-center border-2 border-tone-border
   outline-none state-halo [--touch-w:var(--choice-size)] [--touch-h:var(--choice-size)]
@@ -37,7 +39,7 @@ export const choiceGroupVariants = cva("flex", {
         choice-row gap-3
         [&>[data-slot=field]]:rounded-lg [&>[data-slot=field]]:border [&>[data-slot=field]]:border-border
         [&>[data-slot=field]]:p-4
-        [&>[data-slot=field]:has([data-state=checked])]:border-primary
+        [&>[data-slot=field]:has([data-state=checked])]:border-tone
         [&>[data-slot=field]:has(:focus-visible)]:focus-ring
         [&>[data-slot=field][data-invalid]]:border-destructive
       `,

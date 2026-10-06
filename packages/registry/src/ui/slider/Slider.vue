@@ -5,6 +5,7 @@ import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 import {
+  type SliderColor,
   type SliderVariants,
   sliderHandleVariants,
   sliderRangeVariants,
@@ -15,23 +16,36 @@ import {
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<
-  Omit<SliderRootProps, "modelValue" | "defaultValue"> & {
-    id?: string;
-    defaultValue?: number | number[];
-    variant?: SliderVariants["variant"];
-    size?: SliderVariants["size"];
-    touchTarget?: SliderVariants["touchTarget"];
-    class?: HTMLAttributes["class"];
-  }
->();
+const props = withDefaults(
+  defineProps<
+    Omit<SliderRootProps, "modelValue" | "defaultValue"> & {
+      id?: string;
+      defaultValue?: number | number[];
+      variant?: SliderVariants["variant"];
+      color?: SliderColor | (string & {});
+      size?: SliderVariants["size"];
+      touchTarget?: SliderVariants["touchTarget"];
+      class?: HTMLAttributes["class"];
+    }
+  >(),
+  { color: "primary" },
+);
 const emits = defineEmits<{ valueCommit: [value: number | number[]] }>();
 
 const model = defineModel<number | number[]>();
 if (model.value === undefined) model.value = props.defaultValue ?? props.min ?? 0;
 
 const delegated = computed(() => {
-  const { class: _, size: __, touchTarget: ___, defaultValue: ____, id: _____, variant: ______, ...rest } = props;
+  const {
+    class: _,
+    size: __,
+    touchTarget: ___,
+    defaultValue: ____,
+    id: _____,
+    variant: ______,
+    color: _______,
+    ...rest
+  } = props;
   return rest;
 });
 const forwarded = useForwardProps(delegated);
@@ -85,6 +99,8 @@ const onPointerDown = (event: PointerEvent) => {
     v-bind="{ ...rootAttrs, ...forwarded }"
     data-slot="slider"
     :data-variant="props.variant ?? 'default'"
+    :data-color="props.color"
+    :data-size="props.size ?? 'md'"
     :data-touch-target="props.touchTarget"
     :model-value="values"
     :id="control.id.value"
