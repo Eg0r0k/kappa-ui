@@ -1,0 +1,5 @@
+---
+"@kappa-ui/registry": minor
+---
+
+`FileUpload` is built from parts, after Dice UI's anatomy: `FileUpload` (the files, the checks, the hidden input, paste, Field wiring and `size`), `FileUploadDropzone` (drops and a click, `variant`), `FileUploadTrigger` (the button that opens the dialog, `as-child` for a Button), `FileUploadIcon`, `FileUploadTitle`, `FileUploadDescription`, `FileUploadList` (`layout` list or grid), `FileUploadItem`, `FileUploadItemPreview`, `FileUploadItemMetadata`, `FileUploadItemDelete` and `FileUploadClear`, plus `fileKey(file)` for `v-for` keys. The zone that is one button is `FileUploadDropzone as-child` on the trigger; a zone with a Browse button holds an `as-child` trigger and is no tab stop itself. The props `mode`, `layout`, `position`, `label`, `description`, `icon`, `file-icon`, `file-image`, `file-delete`, `preview`, `interactive` and `dropzone`, the 14 slots and the exposed `triggerEl` are gone: compose the parts instead, and put a ref on the trigger for Formisch. `removeFile` takes the file, not an index. A trigger without a dropzone no longer takes drops.

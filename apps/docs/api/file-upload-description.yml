@@ -1,0 +1,9 @@
+component: FileUploadDescription
+file: ui/file-upload/FileUploadDescription.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead, merging the description's attributes onto it."
+slots:
+  default: "The zone's second line. The trigger reads it through `aria-describedby`, so it is not read twice as part of the button's name."

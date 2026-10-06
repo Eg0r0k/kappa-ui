@@ -68,10 +68,10 @@ const resetDrag = () => {
 };
 
 // The trigger opens the dialog itself, and a file row or another control inside the zone is not a way to open it
-const PASS_THROUGH = "[data-slot=file-upload-trigger], [data-slot=file-upload-list], button, a, input, label";
+const interactive = "[data-slot=file-upload-trigger], [data-slot=file-upload-list], a, button, input, label";
 
 const onClick = (event: MouseEvent) => {
-  if ((event.target as Element).closest(PASS_THROUGH)) return;
+  if ((event.target as Element).closest(interactive)) return;
   upload.open();
 };
 

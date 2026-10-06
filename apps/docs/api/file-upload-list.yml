@@ -1,0 +1,11 @@
+component: FileUploadList
+file: ui/file-upload/FileUploadList.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a list, merging the list's attributes onto it."
+  layout:
+    description: "`list` shows each file as a row with its name and size; `grid` as a square tile, with the picture when there is one."
+slots:
+  default: "The items. The list renders nothing while there are no files."

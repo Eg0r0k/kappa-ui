@@ -1,0 +1,11 @@
+component: FileUploadItem
+file: ui/file-upload/FileUploadItem.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a list item, merging the item's attributes onto it."
+  file:
+    description: "The file this item shows. Its parts read it from here."
+slots:
+  default: "The item's parts. Receives `file` and the thumbnail `url`."

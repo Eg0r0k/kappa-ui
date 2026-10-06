@@ -62,7 +62,9 @@ onBeforeUnmount(() => timers.forEach((timer) => window.clearInterval(timer)));
       <FileUploadItem v-for="file in picked" :key="fileKey(file)" :file="file">
         <FileUploadItemPreview />
         <FileUploadItemMetadata v-slot="{ size }">
-          <span class="block truncate text-body-md"><bdi>{{ file.name }}</bdi></span>
+          <span class="block truncate text-body-md"
+            ><bdi>{{ file.name }}</bdi></span
+          >
           <div
             v-if="(progress.get(file) ?? 0) < 100"
             class="flex items-center gap-2 pt-1 text-body-sm text-muted-foreground"

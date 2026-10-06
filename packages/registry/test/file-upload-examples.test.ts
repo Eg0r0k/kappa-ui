@@ -52,7 +52,9 @@ describe("FileUpload examples", () => {
 
     // the cover's zone is its trigger; the floor plans have a trigger Button
     const triggers = [
-      ...document.querySelectorAll<HTMLElement>("button[data-slot=file-upload-dropzone], [data-slot=file-upload-trigger]"),
+      ...document.querySelectorAll<HTMLElement>(
+        "button[data-slot=file-upload-dropzone], [data-slot=file-upload-trigger]",
+      ),
     ];
     expect(all("field-error").map((error) => error.textContent)).toEqual([
       "Choose a cover photo.",

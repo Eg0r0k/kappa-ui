@@ -169,16 +169,16 @@ export const fileUploadVariants = cva("relative flex w-full min-w-0 flex-col", {
 export const fileUploadDropzoneVariants = cva(
   `
     relative flex w-full flex-1 flex-col items-center justify-center rounded-(--file-upload-radius) border text-center
-    text-foreground outline-none
-    state-layer cursor-pointer
-    transition-[border-color,background-color] duration-short-3 ease-standard
+    text-foreground outline-none state-layer cursor-pointer transition-[border-color,background-color] duration-short-3
+    ease-standard
     focus-visible:focus-ring
     not-data-invalid:focus-visible:border-primary
     group-has-[[data-slot=file-upload-input]:focus]/file-upload:focus-ring
     not-data-invalid:group-has-[[data-slot=file-upload-input]:focus]/file-upload:border-primary
     data-dragging:border-primary data-dragging:bg-primary/(--state-pressed)
     data-invalid:not-data-dragging:border-destructive
-    data-disabled:cursor-not-allowed data-disabled:text-foreground/(--disabled-opacity) data-disabled:before:hidden
+    data-disabled:cursor-not-allowed data-disabled:text-foreground/(--disabled-opacity)
+    data-disabled:before:hidden
     motion-reduce:transition-none
   `,
   {

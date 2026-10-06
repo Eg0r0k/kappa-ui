@@ -1,0 +1,9 @@
+component: FileUploadTrigger
+file: ui/file-upload/FileUploadTrigger.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a button, such as a Button, merging the trigger's id, state and click onto it."
+slots:
+  default: "The trigger's content, or with `as-child` the element that opens the dialog."

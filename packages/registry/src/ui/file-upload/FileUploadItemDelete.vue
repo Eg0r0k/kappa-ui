@@ -32,9 +32,7 @@ const grid = computed(() => list?.layout.value === "grid");
     touch-target="expand"
     :disabled="upload.disabled.value"
     :aria-label="`Remove ${item.file.value.name}`"
-    :class="
-      cn(grid ? fileUploadRemoveOverlayVariants({ size: upload.size.value }) : 'ms-auto shrink-0', props.class)
-    "
+    :class="cn(grid ? fileUploadRemoveOverlayVariants({ size: upload.size.value }) : 'ms-auto shrink-0', props.class)"
     @click="upload.removeFile(item.file.value)"
   >
     <slot>

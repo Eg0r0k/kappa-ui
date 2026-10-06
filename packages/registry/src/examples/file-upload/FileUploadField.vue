@@ -35,7 +35,13 @@ const apply = () => {
     <FieldGroup class="w-full">
       <Field :invalid="invalid" required>
         <FieldLabel>Résumé</FieldLabel>
-        <FileUpload v-slot="{ files }" v-model="resume" name="resume" accept=".pdf,.doc,.docx" :max-size="5 * 1024 * 1024">
+        <FileUpload
+          v-slot="{ files }"
+          v-model="resume"
+          name="resume"
+          accept=".pdf,.doc,.docx"
+          :max-size="5 * 1024 * 1024"
+        >
           <FileUploadDropzone as-child>
             <FileUploadTrigger>
               <FileUploadIcon><Upload /></FileUploadIcon>

@@ -37,7 +37,10 @@ const remove = (clear: () => void) => {
         variant="soft"
         class="flex-row justify-start gap-4 bg-transparent p-0 text-start data-dragging:bg-transparent"
       >
-        <Avatar size="xl" class="group-data-dragging/file-upload-dropzone:ring-2 group-data-dragging/file-upload-dropzone:ring-primary">
+        <Avatar
+          size="xl"
+          class="group-data-dragging/file-upload-dropzone:ring-2 group-data-dragging/file-upload-dropzone:ring-primary"
+        >
           <AvatarImage v-if="preview ?? saved" :src="(preview ?? saved)!" alt="" />
           <AvatarFallback>AL</AvatarFallback>
         </Avatar>

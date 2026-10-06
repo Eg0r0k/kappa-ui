@@ -120,9 +120,7 @@ const input = () => $<HTMLInputElement>("file-upload-input");
 const dropzone = () => $("file-upload-dropzone");
 // a trigger on its own, or the zone that is the trigger
 const trigger = () =>
-  document.querySelector<HTMLButtonElement>(
-    "[data-slot=file-upload-trigger], button[data-slot=file-upload-dropzone]",
-  )!;
+  document.querySelector<HTMLButtonElement>("[data-slot=file-upload-trigger], button[data-slot=file-upload-dropzone]")!;
 const removes = () => $$<HTMLButtonElement>("file-upload-item-delete");
 const names = () => $$("file-upload-item-name").map((element) => element.textContent?.trim());
 const browse = () => document.querySelector<HTMLButtonElement>("[data-test=browse]")!;
@@ -818,11 +816,7 @@ describe("FileUpload thumbnails", () => {
 
     expect(create).toHaveBeenCalledTimes(2);
     const previews = $$("file-upload-item-preview");
-    expect(previews.map((element) => element.querySelector("img")?.getAttribute("alt"))).toEqual([
-      "",
-      "",
-      undefined,
-    ]);
+    expect(previews.map((element) => element.querySelector("img")?.getAttribute("alt"))).toEqual(["", "", undefined]);
 
     value.value = [b];
     await nextTick();

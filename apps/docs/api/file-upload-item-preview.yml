@@ -1,0 +1,9 @@
+component: FileUploadItemPreview
+file: ui/file-upload/FileUploadItemPreview.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead, merging the preview's attributes onto it."
+slots:
+  default: "Replaces the thumbnail of an image file, or the file icon of another. Receives `file` and `url`."

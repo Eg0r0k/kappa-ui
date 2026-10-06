@@ -2171,7 +2171,7 @@
       "name": "file-upload",
       "type": "registry:ui",
       "title": "File Upload",
-      "description": "A drop zone or a button that picks files into a File or File[] v-model, with accept, size and count checks that report rejected files, a list or grid of previews, paste, and Field integration.",
+      "description": "File upload parts: a drop zone, a trigger, and a list of files with previews, over a File or File[] v-model with accept, size and count checks that report rejected files, paste, native form submission and Field integration.",
       "categories": [
         "forms"
       ],
@@ -2189,6 +2189,50 @@
       "files": [
         {
           "path": "src/ui/file-upload/FileUpload.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadDropzone.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadIcon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItemPreview.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItemMetadata.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItemDelete.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadClear.vue",
           "type": "registry:ui"
         },
         {

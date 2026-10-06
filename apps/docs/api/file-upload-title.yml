@@ -1,0 +1,9 @@
+component: FileUploadTitle
+file: ui/file-upload/FileUploadTitle.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead, merging the title's attributes onto it."
+slots:
+  default: "The zone's main line. Inside the trigger it is the button's name."

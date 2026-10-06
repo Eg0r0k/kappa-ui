@@ -91,7 +91,9 @@ const publish = (output: v.InferOutput<typeof Listing>) => {
               <FileUploadItem v-for="(file, index) in files" :key="fileKey(file)" :file="file">
                 <FileUploadItemPreview />
                 <FileUploadItemMetadata v-slot="{ size }">
-                  <span class="block truncate text-body-md"><bdi>{{ file.name }}</bdi></span>
+                  <span class="block truncate text-body-md"
+                    ><bdi>{{ file.name }}</bdi></span
+                  >
                   <span
                     v-if="getErrors(form, { path: ['floorPlans', index] })"
                     class="block text-body-sm text-destructive"
