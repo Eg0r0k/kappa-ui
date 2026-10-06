@@ -5,7 +5,7 @@ import { computed, type HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
-import { type DataTableFeatures, DataTableRender } from ".";
+import { type DataTableFeatures, DataTableRender, injectDataTableContext } from ".";
 
 const props = defineProps<{ header: Header<DataTableFeatures, T, unknown>; class?: HTMLAttributes["class"] }>();
 
@@ -16,6 +16,10 @@ const rank = computed(() => {
 });
 
 const onClick = (event: MouseEvent) => props.header.column.getToggleSortingHandler()?.(event);
+
+// A 28px xs row is shorter than the 32px button; at 24px it fits inside the row and its border.
+const dataTable = injectDataTableContext(null);
+const compact = computed(() => dataTable?.size.value === "xs");
 </script>
 
 <template>
@@ -25,7 +29,7 @@ const onClick = (event: MouseEvent) => props.header.column.getToggleSortingHandl
     size="sm"
     data-slot="data-table-column-header"
     :data-sorted="sorted || undefined"
-    :class="cn('-ms-3 text-label-md data-sorted:text-foreground', props.class)"
+    :class="cn('-ms-3 text-label-md data-sorted:text-foreground', compact && 'h-6', props.class)"
     @click="onClick"
   >
     <DataTableRender :header="props.header" />

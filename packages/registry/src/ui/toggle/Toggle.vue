@@ -17,7 +17,7 @@ const props = withDefaults(
       class?: HTMLAttributes["class"];
     }
   >(),
-  { variant: "ghost", activeVariant: "soft", color: "neutral", disabled: false },
+  { variant: "ghost", activeVariant: "soft", color: "neutral", size: "md", disabled: false },
 );
 const emits = defineEmits<ToggleEmits>();
 

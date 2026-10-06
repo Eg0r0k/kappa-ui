@@ -10,7 +10,7 @@ import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { comboboxInputVariants, injectComboboxAnchorContext } from ".";
+import { comboboxInputVariants, injectComboboxAnchorContext, injectComboboxListContext } from ".";
 
 defineOptions({ inheritAttrs: false });
 
@@ -32,6 +32,8 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 const attrs = useAttrs();
 const control = useFieldControl(props, attrs);
 const anchor = injectComboboxAnchorContext(null);
+const list = injectComboboxListContext(null);
+const size = computed(() => anchor?.value.size ?? list?.value.size);
 const { forwardRef } = useForwardExpose();
 </script>
 
@@ -44,6 +46,6 @@ const { forwardRef } = useForwardExpose();
     :aria-invalid="control.invalid.value"
     :aria-describedby="control.describedBy.value"
     :aria-required="control.required.value || undefined"
-    :class="cn(comboboxInputVariants({ size: anchor?.size }), props.class)"
+    :class="cn(comboboxInputVariants({ size }), props.class)"
   />
 </template>

@@ -28,7 +28,7 @@ onMounted(() => {
   <Button
     variant="ghost"
     color="neutral"
-    size="icon"
+    size="icon-md"
     aria-label="Search"
     aria-keyshortcuts="Meta+K Control+K"
     class="md:hidden"

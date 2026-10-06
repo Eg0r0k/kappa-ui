@@ -20,9 +20,9 @@ export const alertDialogContentVariants = cva(
   `,
   {
     variants: {
-      size: { default: "max-w-lg", sm: "max-w-xs" },
+      size: { sm: "max-w-xs", md: "max-w-lg" },
     },
-    defaultVariants: { size: "default" },
+    defaultVariants: { size: "md" },
   },
 );
 

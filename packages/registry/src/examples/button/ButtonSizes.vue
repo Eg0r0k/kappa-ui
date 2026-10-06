@@ -6,7 +6,7 @@ import { Button } from "@/ui/button";
 const sizes = [
   { text: "xs", icon: "icon-xs", label: "Extra small" },
   { text: "sm", icon: "icon-sm", label: "Small" },
-  { text: "default", icon: "icon", label: "Default" },
+  { text: "md", icon: "icon-md", label: "Medium" },
   { text: "lg", icon: "icon-lg", label: "Large" },
   { text: "xl", icon: "icon-xl", label: "Extra large" },
 ] as const;

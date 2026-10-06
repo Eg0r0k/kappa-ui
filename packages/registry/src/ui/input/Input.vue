@@ -42,6 +42,7 @@ const inputBindings = computed(() => ({
     v-model="model"
     data-slot="input"
     :data-variant="props.variant ?? 'outline'"
+    :data-size="props.size ?? 'md'"
     :class="cn(inputVariants({ variant: props.variant, size: props.size }), props.class)"
   />
 </template>

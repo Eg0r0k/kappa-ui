@@ -21,7 +21,7 @@ props:
   color:
     description: "The submit button's colour."
   size:
-    description: "`default` or `sm`, as on `AlertDialogContent`."
+    description: "`sm` or `md` (default), as on `AlertDialogContent`."
   validate:
     description: "Checks the value on submit and returns an error message to keep the dialog open, or nothing to go on. May return a promise."
   onConfirm:

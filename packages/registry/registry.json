@@ -1954,7 +1954,7 @@
       "name": "data-table",
       "type": "registry:ui",
       "title": "Data Table",
-      "description": "A table over TanStack Table: columns and data, column slots, sorting, sticky header and footer, pinned columns, density, row events, pagination, loading and empty states, and row virtualization.",
+      "description": "A table over TanStack Table: columns and data, column slots, sorting, sticky header and footer, pinned columns, row sizes, row events, pagination, loading and empty states, and row virtualization.",
       "categories": [
         "data-display"
       ],
@@ -2367,7 +2367,7 @@
       "name": "table",
       "type": "registry:ui",
       "title": "Table",
-      "description": "Semantic table parts with borders on the cells, sticky header and footer, pinned cells, density and striping, sharing their classes with the data table.",
+      "description": "Semantic table parts with borders on the cells, sticky header and footer, pinned cells, row sizes and striping, sharing their classes with the data table.",
       "categories": [
         "data-display"
       ],
@@ -6242,7 +6242,7 @@
       "name": "drawer-menu-sizes",
       "type": "registry:block",
       "title": "Drawer menu sizes",
-      "description": "The sm, md and lg row heights.",
+      "description": "The xs to xl row heights.",
       "categories": [
         "example"
       ],
@@ -7696,10 +7696,10 @@
       ]
     },
     {
-      "name": "table-density",
+      "name": "table-sizes",
       "type": "registry:block",
-      "title": "Table density",
-      "description": "Compact, default and comfortable rows, striped.",
+      "title": "Table sizes",
+      "description": "Row heights from xs to xl, striped.",
       "categories": [
         "example"
       ],
@@ -7709,7 +7709,7 @@
       ],
       "files": [
         {
-          "path": "src/examples/table/TableDensity.vue",
+          "path": "src/examples/table/TableSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -7828,7 +7828,7 @@
       "name": "table-large",
       "type": "registry:block",
       "title": "Large table",
-      "description": "Two hundred rows with two pinned columns at the start, one at the end, density and stripes.",
+      "description": "Two hundred rows with two pinned columns at the start, one at the end, row sizes and stripes.",
       "categories": [
         "example"
       ],

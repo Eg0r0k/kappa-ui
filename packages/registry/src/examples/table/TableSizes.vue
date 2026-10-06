@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { Table, TableBody, TableCell, type TableDensity, TableHead, TableHeader, TableRow } from "@/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, type TableSize } from "@/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/ui/toggle-group";
 
-const density = ref<TableDensity>("md");
+const sizes: TableSize[] = ["xs", "sm", "md", "lg", "xl"];
+const size = ref<TableSize>("md");
 
-const setDensity = (value: unknown) => {
-  if (value === "sm" || value === "md" || value === "lg") density.value = value;
+const setSize = (value: unknown) => {
+  const next = sizes.find((candidate) => candidate === value);
+  if (next) size.value = next;
 };
 
 const people = [
@@ -19,12 +21,10 @@ const people = [
 
 <template>
   <div class="flex w-full max-w-lg flex-col gap-4">
-    <ToggleGroup type="single" variant="outline" size="sm" :model-value="density" @update:model-value="setDensity">
-      <ToggleGroupItem value="sm">Compact</ToggleGroupItem>
-      <ToggleGroupItem value="md">Default</ToggleGroupItem>
-      <ToggleGroupItem value="lg">Comfortable</ToggleGroupItem>
+    <ToggleGroup type="single" variant="outline" size="sm" :model-value="size" @update:model-value="setSize">
+      <ToggleGroupItem v-for="option in sizes" :key="option" :value="option">{{ option }}</ToggleGroupItem>
     </ToggleGroup>
-    <Table :density="density" striped class="rounded-lg border">
+    <Table :size="size" striped class="rounded-lg border">
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>

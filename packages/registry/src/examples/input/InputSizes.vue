@@ -6,7 +6,7 @@ import { InputFloating } from "@/ui/input-floating";
 const sizes = [
   { input: "xs" },
   { input: "sm", button: "sm" },
-  { input: "md", button: "default" },
+  { input: "md", button: "md" },
   { input: "lg", button: "lg" },
   { input: "xl", button: "xl" },
 ] as const;

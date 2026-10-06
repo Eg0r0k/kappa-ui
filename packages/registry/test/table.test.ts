@@ -81,7 +81,7 @@ it("renders every part with its data-slot and merges class last", () => {
   }
   expect(q("[data-slot=table-container]").className).toContain("border");
   expect(q("[data-slot=table-container]").dataset.overflow).toBe("x");
-  expect(q("[data-slot=table]").dataset.density).toBe("md");
+  expect(q("[data-slot=table]").dataset.size).toBe("md");
   expect(q("[data-slot=table-head]").getAttribute("scope")).toBe("col");
   expect(q("[data-slot=table-empty] td").getAttribute("colspan")).toBe("3");
   expect(getComputedStyle(q("[data-slot=table]")).borderCollapse).toBe("separate");
@@ -99,15 +99,25 @@ it("clips sideways by default and not with overflow visible", () => {
   expect(open!.dataset.overflow).toBe("visible");
 });
 
-it("sets the row height from density", () => {
+it("sets the row height from size", () => {
   render(() =>
-    (["sm", "md", "lg"] as const).map((density) =>
-      h(Table, { key: density, density }, () => h(TableBody, () => rows({ rows: 1 }))),
+    (["xs", "sm", "md", "lg", "xl"] as const).map((size) =>
+      h(Table, { key: size, size }, () => [heads(), h(TableBody, () => rows({ rows: 2 }))]),
     ),
   );
-  const heights = qa("[data-slot=table-row]").map((row) => row.getBoundingClientRect().height);
-  expect(heights).toEqual([36, 44, 52]);
-  expect(qa("[data-slot=table]").map((table) => table.dataset.density)).toEqual(["sm", "md", "lg"]);
+  const heights = (selector: string) => qa(selector).map((row) => row.getBoundingClientRect().height);
+  expect(heights("thead [data-slot=table-row]")).toEqual([28, 36, 44, 52, 60]);
+  expect(heights("tbody [data-slot=table-row]:last-child")).toEqual([28, 36, 44, 52, 60]);
+  expect(heights("tbody [data-slot=table-row]:first-child")).toEqual([28, 37, 44, 52, 60]);
+  expect(qa("[data-slot=table]").map((table) => table.dataset.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
+});
+
+it("tightens the cell padding at xs and keeps 8px in a table that sets none", () => {
+  render(() => [
+    h(Table, { size: "xs" }, () => h(TableBody, () => rows({ rows: 1, columns: 1 }))),
+    h("table", h("tbody", rows({ rows: 1, columns: 1 }))),
+  ]);
+  expect(qa("[data-slot=table-cell]").map((cell) => getComputedStyle(cell).paddingBlock)).toEqual(["3px", "8px"]);
 });
 
 it("paints hover, selection and stripes on the cells through --table-row-bg", async () => {

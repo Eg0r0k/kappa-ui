@@ -2,18 +2,12 @@
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/card";
 
-const sizes = [
-  { card: "xs", button: "xs" },
-  { card: "sm", button: "sm" },
-  { card: "md", button: "default" },
-  { card: "lg", button: "lg" },
-  { card: "xl", button: "xl" },
-] as const;
+const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
 </script>
 
 <template>
   <div class="grid w-full max-w-3xl items-start gap-4 sm:grid-cols-2">
-    <Card v-for="size in sizes" :key="size.card" :size="size.card">
+    <Card v-for="size in sizes" :key="size" :size="size">
       <CardHeader>
         <CardTitle>Storage almost full</CardTitle>
         <CardDescription>18.6 GB of 20 GB used.</CardDescription>
@@ -24,7 +18,7 @@ const sizes = [
         </div>
       </CardContent>
       <CardFooter>
-        <Button :size="size.button">Upgrade</Button>
+        <Button :size="size">Upgrade</Button>
       </CardFooter>
     </Card>
   </div>

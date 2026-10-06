@@ -96,9 +96,30 @@ describe("AlertDialog", () => {
     );
     await settle();
 
+    expect(content()!.dataset.size).toBe("sm");
     expect(content()!.offsetWidth).toBe(320);
     expect(getComputedStyle(document.querySelector("[data-slot=alert-dialog-header]")!).textAlign).toBe("center");
     expect(cancel().offsetWidth).toBe(action().offsetWidth);
+  });
+
+  it("is md, as wide as a dialog, by default", async () => {
+    mount(
+      defineComponent({
+        setup: () => () =>
+          h(AlertDialog, { defaultOpen: true }, () =>
+            h(AlertDialogContent, () => [
+              h(AlertDialogHeader, () => h(AlertDialogTitle, () => "Sign out?")),
+              h(AlertDialogFooter, () => [h(AlertDialogCancel, () => "Stay"), h(AlertDialogAction, () => "Sign out")]),
+            ]),
+          ),
+      }),
+      { attachTo: document.body },
+    );
+    await settle();
+
+    expect(content()!.dataset.size).toBe("md");
+    expect(getComputedStyle(content()!).maxWidth).toBe("512px");
+    expect([action().dataset.size, cancel().dataset.size]).toEqual(["md", "md"]);
   });
 });
 

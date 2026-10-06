@@ -17,7 +17,7 @@ defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<AlertDialogContentProps & { size?: AlertDialogSize; class?: HTMLAttributes["class"] }>(),
-  { size: "default" },
+  { size: "md" },
 );
 const emits = defineEmits<AlertDialogContentEmits>();
 

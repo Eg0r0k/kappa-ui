@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFileSync, readdirSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 
@@ -20,11 +20,11 @@ const declared = new Map(
   ].map(([, name, value]) => [name, value]),
 )
 
-const sources = (dir: string): string[] =>
+const sources = (dir: string, files = /\.(ts|vue)$/): string[] =>
   readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name)
-    if (entry.isDirectory()) return sources(path)
-    return /\.(ts|vue)$/.test(entry.name) ? [path] : []
+    if (entry.isDirectory()) return sources(path, files)
+    return files.test(entry.name) ? [path] : []
   })
 
 test('tokens.css declares the control scale in spacing steps', () => {
@@ -40,6 +40,17 @@ test('every control token the registry reads is declared', () => {
   )
   assert.deepEqual(
     [...used].filter((name) => !declared.has(name)),
+    [],
+  )
+})
+
+test('no size is named default or icon: sizes run xs to xl, icon-xs to icon-xl', () => {
+  const files = ['packages/registry/src', 'apps/docs/app', 'apps/docs/content'].flatMap((dir) =>
+    sources(join(repoRoot, dir), /\.(ts|vue|md)$/),
+  )
+  const retired = /\bsize(?:=|:\s*)["'](?:default|icon)["']/
+  assert.deepEqual(
+    files.filter((file) => retired.test(readFileSync(file, 'utf8'))).map((file) => relative(repoRoot, file)),
     [],
   )
 })

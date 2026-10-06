@@ -4,12 +4,10 @@ description: "`class` is also accepted and merged over the variant classes with 
 props:
   variant:
     description: Appearance, independent of colour.
-    default: '"solid"'
   color:
     description: Colour role the variant is drawn in. `neutral` uses the page's own foreground. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`.
   size:
-    description: Height, padding and text size. The `icon` sizes are square and match the text sizes' heights.
-    default: '"default"'
+    description: Height, padding and text size, `xs` to `xl`. The `icon-*` sizes are squares of the same heights, for an icon alone.
   touchTarget:
     description: Grows the pressable area to at least 48px without changing how the button looks. `wrapper` also reserves that space in layout; `expand` may overlap neighbours.
     default: '"none"'

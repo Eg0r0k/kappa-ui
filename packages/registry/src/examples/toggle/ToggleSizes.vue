@@ -3,7 +3,7 @@ import { Italic } from "@lucide/vue";
 
 import { Toggle } from "@/ui/toggle";
 
-const sizes = ["icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"] as const;
+const sizes = ["icon-xs", "icon-sm", "icon-md", "icon-lg", "icon-xl"] as const;
 </script>
 
 <template>
