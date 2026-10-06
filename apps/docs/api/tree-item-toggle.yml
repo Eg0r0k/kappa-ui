@@ -1,0 +1,4 @@
+component: TreeItemToggle
+file: ui/tree/TreeItemToggle.vue
+slots:
+  default: The icon of a node with children, with `{ expanded }`; a chevron that turns when the node opens. A spinner replaces it while the node is `loading`, and a leaf keeps the space empty so labels line up.
