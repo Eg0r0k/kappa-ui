@@ -97,12 +97,20 @@ it("scrolls to the end with the last row fully visible and no empty tail", async
   const t = render({ virtualize: true });
   await t.settle();
   t.api.value!.scrollToIndex(9999, { align: "end" });
-  await t.settle();
-  const last = t.groups().at(-1)!;
-  expect(last.dataset.index).toBe("9999");
-  const box = t.viewport().getBoundingClientRect();
-  expect(near(last.getBoundingClientRect().bottom, box.bottom)).toBe(true);
-  expect(near(t.viewport().scrollTop + t.viewport().clientHeight, t.viewport().scrollHeight)).toBe(true);
+  // TanStack scrolls at once and settles over the next frames as rows are measured; WebKit on CI paints too few
+  // frames in a fixed wait, so wait for the end itself.
+  await expect.poll(() => t.groups().at(-1)?.dataset.index, { timeout: 5000 }).toBe("9999");
+  await expect
+    .poll(
+      () => {
+        const box = t.viewport().getBoundingClientRect();
+        const bottom = t.groups().at(-1)!.getBoundingClientRect().bottom;
+        const end = t.viewport().scrollTop + t.viewport().clientHeight;
+        return near(bottom, box.bottom) && near(end, t.viewport().scrollHeight);
+      },
+      { timeout: 5000 },
+    )
+    .toBe(true);
 });
 
 it("keeps the scroll position when the data is replaced with the same count, and recovers when it shrinks", async () => {
