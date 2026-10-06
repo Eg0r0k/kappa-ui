@@ -1,5 +1,11 @@
 # @kappa-ui/registry
 
+## 0.13.1
+
+### Patch Changes
+
+- [`84b03c8`](https://github.com/Eg0r0k/kappa-ui/commit/84b03c81e0a987f8b40d2b685102de0c71ff6eb5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `DateRangePicker` installs and type-checks in a fresh project. Its `index.ts` re-exported the shared `DatePicker` parts with `export … from`, and the shadcn-vue CLI rewrites the alias only in imports, so the installed file still pointed at `@/registry/kappa-ui/ui/date-picker`.
+
 ## 0.13.0
 
 ### Minor Changes
