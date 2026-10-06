@@ -1,5 +1,11 @@
 # @kappa-ui/registry
 
+## 0.13.2
+
+### Patch Changes
+
+- [`e5cbc67`](https://github.com/Eg0r0k/kappa-ui/commit/e5cbc67b28ec5b0c93f5ffae3e24beb64faca4d8) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `FileUpload` exposes the element that takes focus as `triggerEl` instead of `triggerRef`. In a Nuxt project the auto-imported Vue `triggerRef` is typed on every component instance, so `triggerRef` on a template ref read as a function and the Formisch example failed to type-check.
+
 ## 0.13.1
 
 ### Patch Changes
