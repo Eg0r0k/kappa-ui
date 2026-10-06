@@ -40,27 +40,30 @@ onBeforeUnmount(() => observer?.disconnect())
     data-slot="home-showcase"
     :data-showcase-style="props.styleKey === 'kappa' ? undefined : props.styleKey"
     aria-label="Component showcase"
-    class="relative bg-muted/60 text-foreground data-[showcase-style]:bg-background max-lg:mx-4 max-lg:rounded-3xl lg:rounded-s-3xl"
+    class="relative bg-muted/60 text-foreground data-[showcase-style]:bg-background sm:max-lg:mx-10 sm:max-lg:rounded-3xl lg:rounded-s-3xl"
   >
-    <div ref="viewport" class="relative size-full overflow-clip mask-b-from-75% max-lg:rounded-3xl lg:rounded-s-3xl">
+    <div
+      ref="viewport"
+      class="relative size-full overflow-clip sm:max-lg:rounded-3xl lg:rounded-s-3xl lg:mask-b-from-75%"
+    >
       <div
-        class="flex gap-4 p-6 [view-transition-name:home-showcase] max-lg:mx-auto max-lg:max-w-sm max-lg:flex-col lg:p-8"
+        class="flex gap-4 p-6 [view-transition-name:home-showcase] max-sm:flex-col sm:max-lg:block sm:max-lg:columns-2 lg:p-8"
       >
         <div class="flex w-76 flex-none flex-col gap-4 max-lg:contents lg:pt-20">
-          <VerifyCard class="max-lg:order-3" />
-          <NotificationsCard class="max-lg:order-5" />
-          <InviteCard class="max-lg:order-5" />
+          <VerifyCard class="max-sm:order-3" />
+          <NotificationsCard class="max-sm:hidden" />
+          <InviteCard class="max-sm:hidden" />
         </div>
         <div class="flex w-76 flex-none flex-col gap-4 max-lg:contents">
-          <PlayerCard class="max-lg:order-2" />
-          <InboxCard class="max-lg:order-1" />
-          <BookCallCard class="max-lg:order-5" />
+          <PlayerCard class="max-sm:order-2" />
+          <InboxCard class="max-sm:order-1" />
+          <BookCallCard class="max-sm:hidden" />
         </div>
         <div class="flex w-76 flex-none flex-col gap-4 max-lg:contents lg:pt-10">
-          <SendMoneyCard class="max-lg:order-5" />
-          <TasksCard class="max-lg:order-4" />
-          <DeployCard class="max-lg:order-5" />
-          <SearchCard class="max-lg:order-5" />
+          <SendMoneyCard class="max-sm:hidden" />
+          <TasksCard class="max-sm:order-4" />
+          <DeployCard class="max-sm:hidden" />
+          <SearchCard class="max-sm:hidden" />
         </div>
       </div>
     </div>
