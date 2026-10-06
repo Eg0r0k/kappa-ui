@@ -143,6 +143,9 @@
       "dependencies": [
         "@kappa-ui/core"
       ],
+      "registryDependencies": [
+        "tokens"
+      ],
       "css": {
         "@import \"@kappa-ui/core/tailwind.css\"": {}
       },
