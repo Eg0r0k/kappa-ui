@@ -189,10 +189,44 @@ test('rejects an item that ships a utility or keyframes in its css', async () =>
   assert.match(stderr, /item "demo": @utility and @keyframes belong in @kappa-ui\/core\/tailwind.css/)
 })
 
-test('accepts an item that imports the core stylesheet', async () => {
-  const styled = { ...component, css: { '@import "@kappa-ui/core/tailwind.css"': {} } }
-  const { status, stderr } = await run([styled, example])
+const importsCore = { '@import "@kappa-ui/core/tailwind.css"': {} }
+
+const tokens = {
+  name: 'tokens',
+  type: 'registry:lib',
+  title: 'Tokens',
+  description: 'The tokens the core stylesheet reads.',
+  css: importsCore,
+  cssVars: { light: { 'state-hover': '8%' } },
+  files: [],
+}
+
+test('accepts an item that imports the core stylesheet and brings the tokens, directly or further down', async () => {
+  const direct = { ...component, css: importsCore, registryDependencies: ['tokens'] }
+  const { status, stderr } = await run([direct, example, tokens])
   assert.equal(status, 0, stderr)
+
+  const helper = {
+    name: 'helper',
+    type: 'registry:lib',
+    title: 'Helper',
+    description: 'Builds on the tokens.',
+    registryDependencies: ['tokens'],
+    files: [],
+  }
+  const nested = { ...component, css: importsCore, registryDependencies: ['helper'] }
+  const further = await run([nested, example, helper, tokens])
+  assert.equal(further.status, 0, further.stderr)
+})
+
+test('rejects an item that imports the core stylesheet without the tokens', async () => {
+  const { status, stderr } = await run([{ ...component, css: importsCore }, example, tokens])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": its css imports @kappa-ui\/core\/tailwind\.css, which reads the tokens; list "tokens" in its registryDependencies/,
+  )
+  assert.doesNotMatch(stderr, /item "tokens"/)
 })
 
 test('rejects an item that ships a utility in a css file', async () => {

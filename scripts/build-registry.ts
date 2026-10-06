@@ -15,6 +15,8 @@ const ITEM_SCHEMA = 'https://shadcn-vue.com/schema/registry-item.json'
 const REGISTRY_BASE = `${HOMEPAGE}/r`
 
 const REGISTRY_NAMESPACE = '@kappa-ui'
+const CORE_STYLESHEET = '@kappa-ui/core/tailwind.css'
+const TOKENS_ITEM = 'tokens'
 const PUBLISHED_ALIAS = '@/registry/kappa-ui/'
 const publishedPath = (path: string) => path.replace(/^src\/examples\//, 'components/examples/')
 const IMPLICIT_PACKAGES = new Set(['vue'])
@@ -103,6 +105,9 @@ const shipsMechanism = (rules: CssRules = {}): boolean =>
     ([key, body]) =>
       key.startsWith('@utility') || key.startsWith('@keyframes') || (typeof body === 'object' && shipsMechanism(body)),
   )
+
+const importsCoreStylesheet = (rules: CssRules = {}) =>
+  Object.keys(rules).some((key) => key.startsWith('@import') && key.includes(CORE_STYLESHEET))
 
 const packageOf = (specifier: string) =>
   specifier.startsWith('@') ? specifier.split('/').slice(0, 2).join('/') : (specifier.split('/')[0] ?? specifier)
@@ -320,7 +325,15 @@ const treeOf = (name: string, seen: Set<string> = new Set()): Set<string> => {
 }
 
 for (const item of registry.items) {
-  const tree = [...treeOf(item.name)].flatMap((name) => byName.get(name) ?? [])
+  const reached = treeOf(item.name)
+  // core's stylesheet reads the tokens (status colours, state layers, typescale, motion), so an item added by URL
+  // to a project on a plain shadcn-vue theme has to bring them
+  if (importsCoreStylesheet(item.css) && !reached.has(TOKENS_ITEM)) {
+    errors.push(
+      `item "${item.name}": its css imports ${CORE_STYLESHEET}, which reads the tokens; list "${TOKENS_ITEM}" in its registryDependencies, directly or through an item it depends on`,
+    )
+  }
+  const tree = [...reached].flatMap((name) => byName.get(name) ?? [])
   const shipped = new Set(tree.flatMap((entry) => entry.files.map((file) => resolve(manifestDir, file.path))))
   const packages = new Set(tree.flatMap((entry) => entry.dependencies ?? []).map(withoutVersion))
   for (const file of item.files) {
