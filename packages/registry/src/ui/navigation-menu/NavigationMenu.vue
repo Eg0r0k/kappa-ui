@@ -47,6 +47,7 @@ provideNavigationMenuContext({
   variant: toRef(props, "variant"),
   viewport: toRef(props, "viewport"),
   dir,
+  orientation: toRef(props, "orientation"),
 });
 
 const forwarded = computed(() => {

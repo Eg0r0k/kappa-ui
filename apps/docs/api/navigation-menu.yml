@@ -28,7 +28,7 @@ props:
   viewport:
     description: "Opens every panel in one shared viewport under the list, which resizes between them. Turn it off to open each panel under its own trigger."
   align:
-    description: "Where the shared viewport lines up with the open trigger. `start` and `end` follow the reading direction."
+    description: "Where the shared viewport lines up with the open trigger. `start` and `end` follow the reading direction; in a vertical menu they are the top and bottom edges."
   as:
     description: "The element or component to render; a `nav` by default."
   asChild:

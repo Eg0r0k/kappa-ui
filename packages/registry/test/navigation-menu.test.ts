@@ -1,7 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
+import { type VNodeChild, createSSRApp, defineComponent, h, nextTick, ref } from "vue";
+import { renderToString } from "vue/server-renderer";
 
 import {
   NavigationMenu,
@@ -385,6 +386,49 @@ describe("keyboard between top-level items", () => {
     await userEvent.keyboard("{ArrowRight}");
     expect(document.activeElement?.textContent).toBe("Button");
   });
+
+  it.each([true, false])(
+    "mirrors ArrowLeft and ArrowRight between a panel's links in right-to-left text (viewport %s)",
+    async (viewport) => {
+      renderMenu({ dir: "rtl", viewport }, [
+        {
+          value: "grid",
+          label: "Grid",
+          panel: () =>
+            h("div", { class: "grid w-80 grid-cols-2" }, [
+              ...["a", "b", "c"].map((link) =>
+                h(
+                  NavigationMenuLink,
+                  { href: `#${link}`, class: `link-${link}`, onClick: (e: Event) => e.preventDefault() },
+                  () => link,
+                ),
+              ),
+              h("input", { class: "query", "aria-label": "Query", value: "abc" }),
+            ]),
+        },
+      ]);
+      triggers()[0]!.focus();
+      await userEvent.keyboard("{Enter}");
+      await frames();
+      await userEvent.keyboard("{ArrowDown}");
+      expect(document.activeElement).toBe(q(".link-a"));
+      expect(q(".link-b").getBoundingClientRect().left).toBeLessThan(q(".link-a").getBoundingClientRect().left);
+
+      await userEvent.keyboard("{ArrowLeft}");
+      expect(document.activeElement).toBe(q(".link-b"));
+      await userEvent.keyboard("{ArrowLeft}");
+      expect(document.activeElement).toBe(q(".link-c"));
+      await userEvent.keyboard("{ArrowRight}");
+      expect(document.activeElement).toBe(q(".link-b"));
+
+      const input = q<HTMLInputElement>(".query");
+      input.focus();
+      input.setSelectionRange(1, 1);
+      await userEvent.keyboard("{ArrowLeft}");
+      expect(document.activeElement).toBe(input);
+      expect(triggers()[0]!.getAttribute("aria-expanded")).toBe("true");
+    },
+  );
 });
 
 describe("without a viewport", () => {
@@ -524,6 +568,21 @@ describe("geometry", () => {
     expect(openContent().dataset.orientation).toBe("vertical");
   });
 
+  it.each(["ltr", "rtl"] as const)("in %s, a vertical align=start lines up the top edges", async (dir) => {
+    renderMenu({ orientation: "vertical", align: "start", dir }, wideEntries, {
+      before: () => h("div", { style: "height: 200px" }),
+    });
+    const trigger = triggers()[1]!;
+    await userEvent.click(trigger);
+    await settle();
+    const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
+    const rect = trigger.getBoundingClientRect();
+    expect(near(panel.top, rect.top, 2), `${panel.top} vs ${rect.top}`).toBe(true);
+    const list = q("[data-slot=navigation-menu-list]").getBoundingClientRect();
+    if (dir === "rtl") expect(panel.right).toBeLessThanOrEqual(list.left);
+    else expect(panel.left).toBeGreaterThanOrEqual(list.right);
+  });
+
   it("moves the indicator under the open trigger (nuxt/ui#3907)", async () => {
     renderMenu({}, wideEntries, { indicator: true });
     await clickOpen(triggers()[1]!);
@@ -640,4 +699,43 @@ describe("sizes and variants", () => {
     expect(getComputedStyle(link).textDecorationLine).toBe("underline");
     expect(getComputedStyle(link, "::before").content).toBe("none");
   });
+});
+
+describe("server rendering", () => {
+  it.each([{ unmountOnHide: false }, { defaultValue: "docs" }, { viewport: false, unmountOnHide: false }])(
+    "renders on the server and hydrates without warnings (%o)",
+    async (root) => {
+      const app = () =>
+        createSSRApp({
+          render: () =>
+            h(NavigationMenu, { "aria-label": "Main", ...root }, () =>
+              h(NavigationMenuList, () => [
+                h(NavigationMenuItem, { value: "docs" }, () => [
+                  h(NavigationMenuTrigger, () => "Docs"),
+                  h(NavigationMenuContent, () => h(NavigationMenuLink, { href: "#guide" }, () => "Guide")),
+                ]),
+                h(NavigationMenuItem, () => h(NavigationMenuLink, { href: "#pricing" }, () => "Pricing")),
+                h(NavigationMenuIndicator),
+              ]),
+            ),
+        });
+      const html = await renderToString(app());
+      // Kept-mounted and open panels are in the server HTML, so crawlers see their links.
+      expect(html).toContain('href="#guide"');
+
+      const container = document.body.appendChild(document.createElement("div"));
+      container.innerHTML = html;
+      const warn = vi.spyOn(console, "warn");
+      const error = vi.spyOn(console, "error");
+      const instance = app();
+      instance.mount(container);
+      unmount = () => instance.unmount();
+      await frames();
+      const messages = [...warn.mock.calls, ...error.mock.calls].map((call) => String(call[0]));
+      warn.mockRestore();
+      error.mockRestore();
+      expect(messages).toEqual([]);
+      expect(q("[data-slot=navigation-menu-link][href='#guide']")).not.toBeNull();
+    },
+  );
 });

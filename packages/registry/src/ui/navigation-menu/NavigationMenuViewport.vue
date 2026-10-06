@@ -18,9 +18,11 @@ const props = withDefaults(
 
 const context = injectNavigationMenuContext(null);
 
-// Reka's `align` is physical (`start` is the left edge), so swap it in right-to-left text.
+/* Reka's horizontal `align` is physical (`start` is the left edge), so swap it in right-to-left text. In a
+   vertical menu it lines up top or bottom edges, which don't depend on the reading direction. */
 const physicalAlign = computed(() => {
-  if (context?.dir.value !== "rtl" || props.align === "center") return props.align;
+  if (context?.dir.value !== "rtl" || context.orientation.value !== "horizontal" || props.align === "center")
+    return props.align;
   return props.align === "start" ? "end" : "start";
 });
 

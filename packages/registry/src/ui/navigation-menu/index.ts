@@ -169,6 +169,7 @@ export interface NavigationMenuContext {
   variant: Ref<NavigationMenuVariant>;
   viewport: Ref<boolean>;
   dir: Ref<"ltr" | "rtl">;
+  orientation: Ref<"horizontal" | "vertical">;
 }
 
 export const [injectNavigationMenuContext, provideNavigationMenuContext] =
