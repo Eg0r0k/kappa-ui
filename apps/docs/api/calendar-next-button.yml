@@ -1,0 +1,11 @@
+component: CalendarNextButton
+file: ui/calendar/CalendarNextButton.vue
+props:
+  nextPage:
+    description: "Returns the placeholder this button moves to, overriding the root's `nextPage`."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a button, merging this part's attributes and classes onto it."
+slots:
+  default: "The icon, a chevron that flips in right-to-left layouts."

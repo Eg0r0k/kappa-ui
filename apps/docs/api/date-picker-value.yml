@@ -1,0 +1,13 @@
+component: DatePickerValue
+file: ui/date-picker/DatePickerValue.vue
+props:
+  placeholder:
+    description: "The text shown while there is no date, muted through `data-placeholder`."
+  format:
+    description: "`Intl.DateTimeFormat` options. Defaults to `{ dateStyle: 'medium' }`, plus `timeStyle: 'short'` when the value has time, in the picker's locale."
+  as:
+    description: "The element or component to render. A `span` by default."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the attributes onto it."
+slots:
+  default: "The text, with `{ value, formatted }`. `formatted` is `undefined` while there is no date."

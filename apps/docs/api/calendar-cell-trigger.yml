@@ -1,0 +1,13 @@
+component: CalendarCellTrigger
+file: ui/calendar/CalendarCellTrigger.vue
+props:
+  day:
+    description: "The day this trigger picks."
+  month:
+    description: "The month of the grid it sits in, which tells days from the neighbouring months apart."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a div, merging this part's attributes and classes onto it."
+slots:
+  default: "The day's content, with `{ dayValue, selected, today, disabled, unavailable, outsideView, outsideVisibleView }`. The number in the locale's digits by default."

@@ -4,9 +4,10 @@ import {
   TimeFieldRoot,
   type TimeFieldRootEmits,
   type TimeFieldRootProps,
-  useForwardPropsEmits,
+  type TimeValue,
+  useForwardProps,
 } from "reka-ui";
-import { type HTMLAttributes, computed, useAttrs } from "vue";
+import { type HTMLAttributes, computed, shallowRef, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { injectInputGroupContext } from "@/ui/input-group";
 import { Spinner } from "@/ui/spinner";
 import { inputTimeGroupedVariants, inputTimeSegment, inputTimeVariants } from ".";
+import { useSegmentedField } from "./time-field";
 
 defineOptions({ inheritAttrs: false });
 
@@ -28,7 +30,7 @@ const props = withDefaults(
   >(),
   { variant: "outline", size: "md" },
 );
-const emits = defineEmits<TimeFieldRootEmits>();
+const emits = defineEmits<TimeFieldRootEmits & { focus: [event: FocusEvent]; blur: [event: FocusEvent] }>();
 
 const attrs = useAttrs();
 const control = useFieldControl(props, attrs);
@@ -42,11 +44,12 @@ const delegated = computed(() => {
     id: _____,
     disabled: ______,
     required: _______,
+    defaultValue: ________,
     ...rest
   } = props;
   return rest;
 });
-const forwarded = useForwardPropsEmits(delegated, emits);
+const forwarded = useForwardProps(delegated);
 
 const group = injectInputGroupContext(null);
 const variant = computed(() => group?.variant.value ?? props.variant);
@@ -61,10 +64,22 @@ const rootAttrs = computed(() => {
   const { "aria-invalid": _, ...rest } = attrs;
   return rest;
 });
+
+const listeners = useSegmentedField(emits, control.disabled);
+
+// Reka collects the segments and fixes the hour cycle once, on mount (reka-ui#1127).
+const remountKey = computed(() => `${props.granularity}-${props.hourCycle}`);
+// The last value, so a remount without v-model keeps what was typed.
+const latest = shallowRef(props.defaultValue);
+const onUpdate = (value: TimeValue | undefined) => {
+  latest.value = value;
+  emits("update:modelValue", value);
+};
 </script>
 
 <template>
   <TimeFieldRoot
+    :key="remountKey"
     v-slot="{ segments, isInvalid }"
     v-bind="{ ...rootAttrs, ...forwarded }"
     :data-slot="group ? 'input-group-control' : 'input-time'"
@@ -77,6 +92,13 @@ const rootAttrs = computed(() => {
     :aria-describedby="control.describedBy.value"
     :aria-busy="props.loading || undefined"
     :class="cn(frame, props.class)"
+    :default-value="latest"
+    @update:model-value="onUpdate"
+    @update:placeholder="emits('update:placeholder', $event)"
+    @focusin="listeners.onFocusin"
+    @focusout="listeners.onFocusout"
+    @mousedown="listeners.onMousedown"
+    @keydown="listeners.onKeydown"
   >
     <TimeFieldInput
       v-for="(segment, index) in segments"
