@@ -13,21 +13,37 @@ export { default as DrawerMenuSubContent } from "./DrawerMenuSubContent.vue";
 export { default as DrawerMenuSubTrigger } from "./DrawerMenuSubTrigger.vue";
 
 export const drawerMenuVariants = cva(
-  "group/drawer-menu drawer-menu min-h-0 px-(--menu-pad) [--drawer-menu-gap:--spacing(0.5)]",
+  `
+    group/drawer-menu drawer-menu min-h-0 px-(--menu-pad) [--drawer-menu-gap:--spacing(0.5)] [--menu-pad:--spacing(2)]
+    [--menu-item-gap:var(--menu-item-px)]
+  `,
   {
     variants: {
       size: {
+        xs: `
+          text-body-md [--menu-item-height:calc(var(--control-height-xs)+--spacing(2))]
+          [--menu-item-px:calc(var(--control-padding-xs)+--spacing(0.5))] [--menu-item-py:--spacing(1.5)]
+          [--menu-icon:var(--control-icon-xs)]
+        `,
         sm: `
-          text-body-md [--menu-pad:--spacing(2)] [--menu-item-height:--spacing(10)] [--menu-item-px:--spacing(3)]
-          [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(3)] [--menu-icon:--spacing(4)]
+          text-body-md [--menu-item-height:calc(var(--control-height-sm)+--spacing(2))]
+          [--menu-item-px:calc(var(--control-padding-sm)+--spacing(0.5))] [--menu-item-py:--spacing(2)]
+          [--menu-icon:var(--control-icon-sm)]
         `,
         md: `
-          text-body-lg [--menu-pad:--spacing(2)] [--menu-item-height:--spacing(12)] [--menu-item-px:--spacing(4)]
-          [--menu-item-py:--spacing(3)] [--menu-item-gap:--spacing(4)] [--menu-icon:--spacing(5)]
+          text-body-lg [--menu-item-height:calc(var(--control-height-md)+--spacing(3))]
+          [--menu-item-px:calc(var(--control-padding-md)+--spacing(1))] [--menu-item-py:--spacing(3)]
+          [--menu-icon:calc(var(--control-icon-md)+--spacing(1))]
         `,
         lg: `
-          text-body-lg [--menu-pad:--spacing(2)] [--menu-item-height:--spacing(14)] [--menu-item-px:--spacing(4)]
-          [--menu-item-py:--spacing(3)] [--menu-item-gap:--spacing(4)] [--menu-icon:--spacing(6)]
+          text-body-lg [--menu-item-height:calc(var(--control-height-lg)+--spacing(4))]
+          [--menu-item-px:calc(var(--control-padding-lg)+--spacing(1))] [--menu-item-py:--spacing(3)]
+          [--menu-icon:calc(var(--control-icon-lg)+--spacing(1))]
+        `,
+        xl: `
+          text-body-lg [--menu-item-height:calc(var(--control-height-xl)+--spacing(4))]
+          [--menu-item-px:calc(var(--control-padding-xl)+--spacing(1))] [--menu-item-py:--spacing(4)]
+          [--menu-icon:calc(var(--control-icon-xl)+--spacing(1))]
         `,
       },
     },
@@ -71,6 +87,7 @@ export const drawerMenuRadioDot = "size-[calc(var(--menu-icon)/2)] rounded-full 
 
 export const drawerMenuLabel = `
   px-(--menu-item-px) pt-(--menu-item-py) pb-1 text-label-lg text-muted-foreground
+  group-data-[size=xs]/drawer-menu:text-label-md
   group-data-[size=sm]/drawer-menu:text-label-md
   data-inset:ps-[calc(var(--menu-item-px)*2+var(--menu-icon))]
 `;

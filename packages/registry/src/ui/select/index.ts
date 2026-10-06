@@ -1,4 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
+import { createContext } from "reka-ui";
+import type { Ref } from "vue";
 
 import { textControlBase, textControlRadius, textControlSize, textControlVariant } from "@/ui/input";
 
@@ -41,3 +43,6 @@ export const selectTriggerVariants = cva(
 );
 
 export type SelectTriggerVariants = VariantProps<typeof selectTriggerVariants>;
+export type SelectSize = NonNullable<SelectTriggerVariants["size"]>;
+
+export const [injectSelectSize, provideSelectSize] = createContext<Ref<SelectSize | undefined>>("Select");

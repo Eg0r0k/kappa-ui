@@ -4,7 +4,7 @@ props:
   variant:
     description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`."
   size:
-    description: "Height, matching the input sizes of the same name."
+    description: "Height, matching the input sizes of the same name. The list opens at the same size unless `ComboboxList` sets its own; with `as-child` it sets only the list's."
   reference:
     description: "A virtual element to position the list against instead of the anchor."
   asChild:

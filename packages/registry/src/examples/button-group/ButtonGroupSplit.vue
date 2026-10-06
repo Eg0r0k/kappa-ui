@@ -10,7 +10,7 @@ import { Menu, MenuItem } from "@/ui/menu";
   <ButtonGroup aria-label="Send">
     <Button>Send</Button>
     <ButtonGroupSeparator />
-    <Button size="icon" aria-label="More send options">
+    <Button size="icon-md" aria-label="More send options">
       <ChevronDown />
       <Menu anchor="bottom end" self="top end" size="sm">
         <MenuItem>Schedule send</MenuItem>

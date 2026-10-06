@@ -2,17 +2,17 @@
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type TableDensity, type TableLayout, type TableOverflow, tableStyles } from ".";
+import { type TableLayout, type TableOverflow, type TableSize, tableStyles } from ".";
 
 const props = withDefaults(
   defineProps<{
     overflow?: TableOverflow;
     layout?: TableLayout;
-    density?: TableDensity;
+    size?: TableSize;
     striped?: boolean;
     class?: HTMLAttributes["class"];
   }>(),
-  { overflow: "x", layout: "auto", density: "md", striped: false },
+  { overflow: "x", layout: "auto", size: "md", striped: false },
 );
 </script>
 
@@ -21,7 +21,7 @@ const props = withDefaults(
     <table
       data-slot="table"
       :data-layout="props.layout"
-      :data-density="props.density"
+      :data-size="props.size"
       :data-striped="props.striped ? '' : undefined"
       :class="tableStyles.table"
     >

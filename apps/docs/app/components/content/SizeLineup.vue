@@ -8,11 +8,11 @@ import DocsFigure from '~/components/DocsFigure.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 
 const rows = [
-  { size: 'xs', button: 'xs', height: 28, line: 'h-(--control-height-xs)' },
-  { size: 'sm', button: 'sm', height: 32, line: 'h-(--control-height-sm)' },
-  { size: 'md', button: 'default', height: 36, line: 'h-(--control-height-md)' },
-  { size: 'lg', button: 'lg', height: 40, line: 'h-(--control-height-lg)' },
-  { size: 'xl', button: 'xl', height: 48, line: 'h-(--control-height-xl)' },
+  { size: 'xs', height: 28, line: 'h-(--control-height-xs)' },
+  { size: 'sm', height: 32, line: 'h-(--control-height-sm)' },
+  { size: 'md', height: 36, line: 'h-(--control-height-md)' },
+  { size: 'lg', height: 40, line: 'h-(--control-height-lg)' },
+  { size: 'xl', height: 48, line: 'h-(--control-height-xl)' },
 ] as const
 </script>
 
@@ -24,7 +24,7 @@ const rows = [
           <span class="absolute inset-x-0 top-0 -z-10 border-t border-dashed border-primary/40" />
           <span class="absolute inset-x-0 bottom-0 -z-10 border-b border-dashed border-primary/40" />
           <span class="w-6 font-mono text-xs text-muted-foreground">{{ row.size }}</span>
-          <Button :size="row.button"><Plus data-icon="inline-start" />Add</Button>
+          <Button :size="row.size"><Plus data-icon="inline-start" />Add</Button>
           <Input :size="row.size" placeholder="Search" class="w-40" />
           <Select>
             <SelectTrigger :size="row.size" class="w-36">

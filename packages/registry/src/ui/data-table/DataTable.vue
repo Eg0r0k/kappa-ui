@@ -16,7 +16,7 @@ import type {
 } from "@tanstack/vue-table";
 import type { HTMLAttributes } from "vue";
 
-import type { TableDensity, TableOverflow } from "@/ui/table";
+import type { TableOverflow, TableSize } from "@/ui/table";
 import type {
   DataTableColumn,
   DataTableExpandingProp,
@@ -42,7 +42,7 @@ export type DataTableProps<T extends RowData> = {
   getRowId?: TableOptions<DataTableFeatures, T>["getRowId"];
   getSubRows?: (row: T) => readonly T[] | undefined;
   caption?: string;
-  density?: TableDensity;
+  size?: TableSize;
   striped?: boolean;
   hoverable?: boolean;
   height?: string | number;
@@ -109,7 +109,7 @@ import { useRowVirtualizer } from "./useRowVirtualizer";
 import { useSelectAll } from "./useSelectAll";
 
 const props = withDefaults(defineProps<DataTableProps<T>>(), {
-  density: "md",
+  size: "md",
   striped: false,
   hoverable: true,
   overflow: "x",
@@ -247,7 +247,7 @@ const heightStyle = computed(() =>
     : { height: typeof props.height === "number" ? `${props.height}px` : props.height },
 );
 const scrolled = computed(() => props.height !== undefined);
-const rowHeight = computed(() => dataTableRowHeights[props.density]);
+const rowHeight = computed(() => dataTableRowHeights[props.size]);
 
 const virtualOptions = computed(() => resolveVirtualize(props.virtualize));
 const detailRows = computed(() => expanding.value.enabled && slots.expanded !== undefined);
@@ -594,7 +594,7 @@ const scrollerAttrs = computed(() =>
 <template>
   <div
     data-slot="data-table"
-    :data-density="props.density"
+    :data-size="props.size"
     :data-loading="props.loading ? '' : undefined"
     :class="cn('flex flex-col gap-3', props.ui?.root, props.class)"
     :style="{
@@ -629,7 +629,7 @@ const scrollerAttrs = computed(() =>
         ref="tableRef"
         data-slot="table"
         :data-layout="layoutMode"
-        :data-density="props.density"
+        :data-size="props.size"
         :data-striped="props.striped ? '' : undefined"
         :aria-rowcount="ariaRowCount"
         :aria-busy="props.loading ? 'true' : undefined"

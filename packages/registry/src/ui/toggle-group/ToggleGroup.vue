@@ -8,7 +8,7 @@ import { type ToggleGroupStyle, provideToggleGroupStyle } from ".";
 
 const props = withDefaults(
   defineProps<ToggleGroupRootProps & ToggleGroupStyle & { class?: HTMLAttributes["class"] }>(),
-  { orientation: "horizontal", variant: "ghost", activeVariant: "soft", color: "neutral" },
+  { orientation: "horizontal", variant: "ghost", activeVariant: "soft", color: "neutral", size: "md" },
 );
 const emits = defineEmits<ToggleGroupRootEmits>();
 

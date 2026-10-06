@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { type VNodeChild, h, nextTick } from "vue";
 
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/ui/drawer";
@@ -17,6 +17,7 @@ import {
   DrawerMenuSubTrigger,
 } from "@/ui/drawer-menu";
 
+import { type ControlSize, controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 import { wait } from "./pointer";
 
 afterEach(() => {
@@ -89,14 +90,51 @@ it("puts a data-slot on every part", async () => {
 });
 
 it.each([
-  ["sm", 40],
-  ["md", 48],
-  ["lg", 56],
-])("makes %s items %ipx tall", async (size, height) => {
-  render(() => h(DrawerMenuItem, () => "Open"), { size });
+  ["xs", 36, 10, 14],
+  ["sm", 40, 12, 16],
+  ["md", 48, 16, 20],
+  ["lg", 56, 16, 24],
+  ["xl", 64, 20, 24],
+])("makes %s items %ipx tall, padded %ipx, with %ipx icons", async (size, height, padding, icon) => {
+  render(() => h(DrawerMenuItem, () => [h("svg", { viewBox: "0 0 24 24" }), "Open"]), { size });
   await settle();
-  expect(slot("drawer-menu-item")!.getBoundingClientRect().height).toBe(height);
+  const item = slot("drawer-menu-item")!;
+  const style = getComputedStyle(item);
+  expect(item.getBoundingClientRect().height).toBe(height);
+  expect([px(style.paddingInlineStart), px(style.columnGap)]).toEqual([padding, padding]);
+  expect(item.querySelector("svg")!.getBoundingClientRect().width).toBe(icon);
   expect(slot("drawer-menu")!.dataset.size).toBe(size);
+});
+
+it("defaults to md", async () => {
+  render(() => h(DrawerMenuItem, () => "Open"));
+  await settle();
+  expect(slot("drawer-menu")!.dataset.size).toBe("md");
+  expect(slot("drawer-menu-item")!.getBoundingClientRect().height).toBe(48);
+});
+
+describe("drawer menu control tokens", () => {
+  overrideControlTokens();
+
+  const room = {
+    xs: { height: 8, padding: 2, icon: 0 },
+    sm: { height: 8, padding: 2, icon: 0 },
+    md: { height: 12, padding: 4, icon: 4 },
+    lg: { height: 16, padding: 4, icon: 4 },
+    xl: { height: 16, padding: 4, icon: 4 },
+  } satisfies Record<ControlSize, Record<string, number>>;
+
+  it.each(controlSizes)("%s items add room for a thumb to the control height, padding and icon", async (size) => {
+    render(() => h(DrawerMenuItem, () => [h("svg", { viewBox: "0 0 24 24" }), "Open"]), { size });
+    await settle();
+    const element = slot("drawer-menu-item")!;
+    const item = getComputedStyle(element);
+
+    expect(px(item.minHeight)).toBe(sentinel.height[size] + room[size].height);
+    expect(px(item.paddingInlineStart)).toBe(sentinel.padding[size] + room[size].padding);
+    expect(px(item.columnGap)).toBe(sentinel.padding[size] + room[size].padding);
+    expect(element.querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[size] + room[size].icon);
+  });
 });
 
 it("colours a destructive item", async () => {

@@ -60,7 +60,7 @@ import {
 import { createContext } from "reka-ui";
 import { type FunctionalComponent, type HTMLAttributes, type StyleValue, type VNodeChild, h } from "vue";
 
-import type { TableAlign, TableDensity } from "@/ui/table";
+import type { TableAlign, TableSize } from "@/ui/table";
 import DataTableExpandCell from "./DataTableExpandCell.vue";
 import DataTableSelectCell from "./DataTableSelectCell.vue";
 import DataTableSelectHeader from "./DataTableSelectHeader.vue";
@@ -377,7 +377,7 @@ export type DataTableLoadMoreFn = (context: {
   index: number;
 }) => Promise<void | "stop">;
 
-export const dataTableRowHeights: Record<TableDensity, number> = { sm: 36, md: 44, lg: 52 };
+export const dataTableRowHeights: Record<TableSize, number> = { xs: 28, sm: 36, md: 44, lg: 52, xl: 60 };
 
 export const resolveVirtualize = (value: DataTableVirtualize | undefined): ResolvedVirtualize => {
   const given =

@@ -62,7 +62,8 @@ it("renders header, rows and cells from columns and data with the primitives' sl
   expect(texts(cells(0))).toEqual(["Person 01", "20", "Berlin"]);
   expect(cells(0)[1]!.dataset.align).toBe("end");
   expect(document.querySelectorAll("colgroup col")).toHaveLength(3);
-  expect(table().dataset.density).toBe("md");
+  expect(table().dataset.size).toBe("md");
+  expect(root().dataset.size).toBe("md");
   expect(table().dataset.layout).toBe("auto");
 });
 
@@ -198,9 +199,9 @@ it("shows the empty, no-results and loading states", () => {
   expect(document.querySelector("thead [data-slot=progress]")).not.toBeNull();
 });
 
-it("sets density, stripes by absolute parity and switches hover off", () => {
-  const { table, rows } = render({ density: "sm", striped: true, hoverable: false });
-  expect(table().dataset.density).toBe("sm");
+it("sets the size, stripes by absolute parity and switches hover off", () => {
+  const { table, rows } = render({ size: "sm", striped: true, hoverable: false });
+  expect(table().dataset.size).toBe("sm");
   expect(table().dataset.striped).toBe("");
   expect(rows()[0]!.parentElement!.dataset.parity).toBe("odd");
   expect(rows()[1]!.parentElement!.dataset.parity).toBe("even");

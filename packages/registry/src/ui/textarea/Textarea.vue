@@ -87,6 +87,7 @@ defineExpose({ resize });
     ref="textarea"
     v-model="model"
     :data-variant="props.variant ?? 'outline'"
+    :data-size="props.size ?? 'md'"
     :rows="props.rows"
     :id="control.id.value"
     :disabled="control.disabled.value"

@@ -10,7 +10,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/ui/collap
     <div class="flex items-center justify-between gap-4 px-4">
       <h4 class="text-title-sm">@kappa starred 3 repositories</h4>
       <CollapsibleTrigger as-child>
-        <Button variant="ghost" color="neutral" size="icon" aria-label="Toggle">
+        <Button variant="ghost" color="neutral" size="icon-md" aria-label="Toggle">
           <ChevronsUpDown />
         </Button>
       </CollapsibleTrigger>
