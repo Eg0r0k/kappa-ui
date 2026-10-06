@@ -170,6 +170,8 @@ const buttonPreview = computed(
 );
 const previewFile = computed(() => (buttonPreview.value ? files.value[0] : undefined));
 const hasLabel = computed(() => Boolean(props.label || slots.label));
+// With a label, keep the description out of the button's name; aria-describedby still reads hidden text
+const descriptionHidden = computed(() => (hasLabel.value ? "true" : undefined));
 const showList = computed(() => props.preview && files.value.length > 0 && !buttonPreview.value);
 
 const write = (next: File[]) => {
@@ -296,9 +298,11 @@ const onPaste = (event: ClipboardEvent) => {
 
 // Thumbnails: one object URL per image file, made on first render and revoked when the file leaves
 
+// A blob URL lives only in the document that made it, so none is made on the server or for the hydrating render
+const mounted = ref(false);
 const urls = new Map<File, string>();
 const urlOf = (file: File) => {
-  if (!props.fileImage || !file.type.startsWith("image/")) return undefined;
+  if (!mounted.value || !props.fileImage || !file.type.startsWith("image/")) return undefined;
   let url = urls.get(file);
   if (!url) {
     url = URL.createObjectURL(file);
@@ -350,15 +354,31 @@ watch(
   },
 );
 
+// A native form reset empties the file input. Follow it back to the starting files, so the list and what the form
+// submits stay the same. The event comes before the reset and a later listener may still cancel it, so wait a task.
+const onFormReset = (event: Event) => {
+  if (!input.value?.form || event.target !== input.value.form) return;
+  setTimeout(() => {
+    if (event.defaultPrevented) return;
+    const start = props.defaultValue as File | File[] | null | undefined;
+    nativeInvalid.value = false;
+    write(start ? (Array.isArray(start) ? [...start] : [start]) : []);
+    void nextTick(syncInput);
+  });
+};
+
 onMounted(() => {
+  mounted.value = true;
   syncInput();
   window.addEventListener("dragend", resetDrag);
   window.addEventListener("drop", resetDrag);
+  document.addEventListener("reset", onFormReset);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("dragend", resetDrag);
   window.removeEventListener("drop", resetDrag);
+  document.removeEventListener("reset", onFormReset);
   revokeUrls();
 });
 
@@ -443,7 +463,7 @@ defineExpose({ open, clear, addFiles, removeFile, inputRef: input, triggerRef: t
               data-slot="file-upload-icon"
               :class="
                 cn(
-                  fileUploadIconVariants({ size: props.size }),
+                  fileUploadIconVariants({ variant: props.variant, size: props.size }),
                   'in-data-disabled:text-foreground/(--disabled-opacity)',
                 )
               "
@@ -459,6 +479,7 @@ defineExpose({ open, clear, addFiles, removeFile, inputRef: input, triggerRef: t
               v-if="showDescription"
               :id="descriptionId"
               data-slot="file-upload-description"
+              :aria-hidden="descriptionHidden"
               :class="
                 cn(
                   fileUploadDescriptionVariants({ size: props.size }),
@@ -477,7 +498,7 @@ defineExpose({ open, clear, addFiles, removeFile, inputRef: input, triggerRef: t
             <span
               v-if="props.icon !== false || slots.leading"
               data-slot="file-upload-icon"
-              :class="fileUploadIconVariants({ size: props.size })"
+              :class="fileUploadIconVariants({ variant: props.variant, size: props.size })"
             >
               <slot name="leading">
                 <component :is="props.icon || Upload" />
@@ -609,13 +630,17 @@ defineExpose({ open, clear, addFiles, removeFile, inputRef: input, triggerRef: t
                     cn(fileUploadItemNameVariants({ size: props.size }), props.layout === 'grid' && 'text-body-sm')
                   "
                 >
-                  <slot name="file-name" :file="file" :index="index">{{ file.name }}</slot>
+                  <slot name="file-name" :file="file" :index="index">
+                    <bdi>{{ file.name }}</bdi>
+                  </slot>
                 </div>
                 <div
                   data-slot="file-upload-item-size"
                   :class="cn('block text-body-sm text-muted-foreground', props.layout === 'grid' && 'sr-only')"
                 >
-                  <slot name="file-size" :file="file" :index="index">{{ formatFileSize(file.size) }}</slot>
+                  <slot name="file-size" :file="file" :index="index">
+                    <bdi>{{ formatFileSize(file.size) }}</bdi>
+                  </slot>
                 </div>
               </div>
               <slot name="file-trailing" :file="file" :index="index" :remove-file="removeFile">

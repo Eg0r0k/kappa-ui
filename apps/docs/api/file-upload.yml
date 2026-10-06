@@ -7,7 +7,7 @@ props:
   modelValue:
     description: "The picked files, bound with `v-model`: a `File` or `null`, or a `File[]` with `multiple`. Every change is a new value, never a mutated array."
   defaultValue:
-    description: The starting files when `v-model` is not used.
+    description: "The starting files when `v-model` is not used. A native form reset puts them back."
   multiple:
     description: "Holds a list of files instead of one. New files are added to the list; without it, a new file replaces the old one. Changing it converts the value, and files that no longer fit are reported through `reject`."
   accept:

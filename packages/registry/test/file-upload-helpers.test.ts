@@ -37,6 +37,8 @@ describe("formatFileSize", () => {
     [1536, "1.5 KB"],
     [12 * 1024 * 1024, "12 MB"],
     [2.25 * 1024 ** 3, "2.3 GB"],
+    [1024 * 1024 - 1, "1 MB"],
+    [1023, "1023 B"],
     [-5, "0 B"],
   ])("formats %d as %s", (bytes, expected) => {
     expect(formatFileSize(bytes)).toBe(expected);

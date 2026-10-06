@@ -1,7 +1,8 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { userEvent } from "vitest/browser";
-import { type VNode, defineComponent, h, nextTick, ref, shallowRef } from "vue";
+import { page, userEvent } from "vitest/browser";
+import { type VNode, createSSRApp, defineComponent, h, nextTick, ref, shallowRef } from "vue";
+import { renderToString } from "vue/server-renderer";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { FileUpload, type FileUploadRejection } from "@/ui/file-upload";
@@ -127,6 +128,17 @@ describe("FileUpload structure", () => {
     });
   });
 
+  it("names the trigger by its label and describes it by the description, without reading the description twice", async () => {
+    render(() => h(FileUpload, { label: "Upload", description: "PNG up to 2 MB" }));
+    await expect.element(page.elementLocator(trigger())).toHaveAccessibleName("Upload");
+    await expect.element(page.elementLocator(trigger())).toHaveAccessibleDescription("PNG up to 2 MB");
+  });
+
+  it("keeps the description in the name when there is no label to give one", async () => {
+    render(() => h(FileUpload, { description: "PNG up to 2 MB" }));
+    await expect.element(page.elementLocator(trigger())).toHaveAccessibleName("PNG up to 2 MB");
+  });
+
   it("sends class and style to the root and every other attribute to the trigger", () => {
     render(() => h(FileUpload, { class: "custom", style: "width: 200px", "aria-label": "Avatar", "data-test": "x" }));
     expect($("file-upload").classList).toContain("custom");
@@ -210,6 +222,67 @@ describe("FileUpload inside a form", () => {
     await nextTick();
     expect(input().files).toHaveLength(0);
     expect(form.checkValidity()).toBe(false);
+  });
+
+  // a native reset empties the file input; the model follows, back to the starting files
+  it("goes back to the starting files on a form reset, and keeps them when the reset is cancelled", async () => {
+    const start = [pdf("start.pdf")];
+    const cancel = ref(false);
+    mount(
+      defineComponent(
+        () => () =>
+          h("form", { onReset: (event: Event) => cancel.value && event.preventDefault() }, [
+            h(FileUpload, { multiple: true, name: "files", label: "Upload", defaultValue: start }),
+          ]),
+      ),
+      { attachTo: document.body },
+    );
+    const form = document.querySelector("form")!;
+    const submitted = () => new FormData(form).getAll("files").map((entry) => (entry as File).name);
+    await nextTick();
+
+    await drop(dropzone(), image("a.png"));
+    await nextTick();
+    expect(names()).toEqual(["start.pdf", "a.png"]);
+    expect(submitted()).toEqual(["start.pdf", "a.png"]);
+
+    cancel.value = true;
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(names()).toEqual(["start.pdf", "a.png"]);
+    expect(submitted()).toEqual(["start.pdf", "a.png"]);
+
+    cancel.value = false;
+    form.reset();
+    await expect.poll(names).toEqual(["start.pdf"]);
+    await expect.poll(submitted).toEqual(["start.pdf"]);
+  });
+
+  it("empties on a form reset without starting files, and ignores other forms", async () => {
+    const value = shallowRef<File | null>(image());
+    mount(
+      defineComponent(() => () => [
+        h("form", { id: "mine" }, [
+          h(FileUpload, {
+            name: "photo",
+            label: "Upload",
+            modelValue: value.value,
+            "onUpdate:modelValue": (next: unknown) => (value.value = next as File | null),
+          }),
+        ]),
+        h("form", { id: "other" }),
+      ]),
+      { attachTo: document.body },
+    );
+    await nextTick();
+
+    document.querySelector<HTMLFormElement>("#other")!.reset();
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(value.value).not.toBeNull();
+
+    document.querySelector<HTMLFormElement>("#mine")!.reset();
+    await expect.poll(() => value.value).toBeNull();
+    expect(input().files).toHaveLength(0);
   });
 
   it("turns invalid after a failed submit and clears once a file is added", async () => {
@@ -675,6 +748,26 @@ describe("FileUpload thumbnails", () => {
     expect(revoke).toHaveBeenCalledTimes(2);
   });
 
+  // a blob: URL made while rendering on the server means nothing in the browser, and hydration would keep it
+  it("makes no object URL on the server and hydrates without a mismatch", async () => {
+    const create = vi.spyOn(URL, "createObjectURL");
+    const files = [image("a.png"), pdf()];
+    const app = () =>
+      createSSRApp({ render: () => h(FileUpload, { multiple: true, defaultValue: files, label: "Upload" }) });
+    const html = await renderToString(app());
+    expect(html).not.toContain("blob:");
+    expect(create).not.toHaveBeenCalled();
+
+    const container = document.body.appendChild(document.createElement("div"));
+    container.innerHTML = html;
+    const warn = vi.spyOn(console, "warn");
+    app().mount(container);
+    await nextTick();
+    expect(warn).not.toHaveBeenCalled();
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(container.querySelector("img")?.getAttribute("src")).toMatch(/^blob:/);
+  });
+
   it("makes none with fileImage=false", async () => {
     const create = vi.spyOn(URL, "createObjectURL");
     controlled([image()], { multiple: true, fileImage: false });
@@ -705,6 +798,30 @@ describe("FileUpload layouts", () => {
     const remove = removes()[0]!.getBoundingClientRect();
     expect(remove.left).toBeLessThan(tile.left);
     expect(remove.top).toBeLessThan(tile.top);
+  });
+
+  // without isolation, "228 B" and "notes (1).pdf" come out as "B 228" and "notes (1.pdf)" in an RTL page
+  it("keeps Latin names and sizes in reading order in RTL, aligned to the start", async () => {
+    document.documentElement.dir = "rtl";
+    controlled([pdf("notes (1).pdf", 228)], { multiple: true });
+    await nextTick();
+    const left = (element: Element, char: string) => {
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      let text = walker.nextNode() as Text;
+      while (!text.data.includes(char)) text = walker.nextNode() as Text;
+      const at = text.data.indexOf(char);
+      const range = document.createRange();
+      range.setStart(text, at);
+      range.setEnd(text, at + 1);
+      return range.getBoundingClientRect().left;
+    };
+    const size = $("file-upload-item-size");
+    const name = $("file-upload-item-name");
+    expect(size.textContent).toBe("228 B");
+    expect(left(size, "2")).toBeLessThan(left(size, "B"));
+    expect(left(name, "n")).toBeLessThan(left(name, "f"));
+    expect(getComputedStyle(name).direction).toBe("rtl");
+    expect(name.getBoundingClientRect().right).toBeCloseTo($("file-upload-item-content").getBoundingClientRect().right);
   });
 
   it("shows a single file inside the button with grid layout in button mode, with Remove beside it", async () => {
@@ -817,10 +934,14 @@ describe("FileUpload variants", () => {
     ["soft", "solid", true],
     ["subtle", "dashed", true],
   ] as const)("draws the %s frame", (variant, borderStyle, filled) => {
-    render(() => h(FileUpload, { variant, label: "Upload", style: "--muted: rgb(1, 2, 3)" }));
+    render(() =>
+      h(FileUpload, { variant, label: "Upload", style: "--muted: rgb(1, 2, 3); --background: rgb(4, 5, 6)" }),
+    );
     const style = getComputedStyle(dropzone());
     expect(style.borderTopStyle).toBe(borderStyle);
     expect(style.backgroundColor === "rgb(1, 2, 3)").toBe(filled);
+    // the icon circle stays visible on a filled frame
+    expect(getComputedStyle($("file-upload-icon")).backgroundColor).toBe(filled ? "rgb(4, 5, 6)" : "rgb(1, 2, 3)");
   });
 
   it("passes the variant to the button in button mode", () => {

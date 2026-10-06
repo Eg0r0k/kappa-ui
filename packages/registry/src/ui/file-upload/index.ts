@@ -58,8 +58,13 @@ const units = ["B", "KB", "MB", "GB", "TB"];
 /** A byte count for people: `0 B`, `980 B`, `1.5 KB`, `12 MB`. Base 1024. */
 export const formatFileSize = (bytes: number) => {
   if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
-  const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-  const value = bytes / 1024 ** exponent;
+  let exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  let value = bytes / 1024 ** exponent;
+  // 1,048,575 bytes rounds to 1024 KB: print it as 1 MB
+  if (Math.round(value) >= 1024 && exponent > 0 && exponent < units.length - 1) {
+    exponent += 1;
+    value /= 1024;
+  }
   const digits = exponent === 0 || value >= 10 ? 0 : 1;
   return `${Number(value.toFixed(digits))} ${units[exponent]}`;
 };
@@ -170,11 +175,16 @@ export const fileUploadTriggerVariants = cva(
   },
 );
 
-/** The circle behind the upload icon in `area` mode. */
+/** The circle behind the upload icon in `area` mode, lifted off a filled frame. */
 export const fileUploadIconVariants = cva(
-  "flex shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground",
+  "flex shrink-0 items-center justify-center rounded-full text-muted-foreground",
   {
     variants: {
+      variant: {
+        outline: "bg-muted",
+        soft: "bg-background",
+        subtle: "bg-background",
+      },
       size: {
         xs: "size-(--control-height-xs) icon-size-(--control-icon-xs)",
         sm: "size-(--control-height-sm) icon-size-(--control-icon-sm)",
@@ -183,7 +193,7 @@ export const fileUploadIconVariants = cva(
         xl: "size-(--control-height-xl) icon-size-(--control-icon-xl)",
       },
     },
-    defaultVariants: { size: "md" },
+    defaultVariants: { variant: "outline", size: "md" },
   },
 );
 
