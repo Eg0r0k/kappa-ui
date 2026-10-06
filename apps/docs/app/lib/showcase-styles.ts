@@ -9,6 +9,7 @@ export interface ShowcaseStyle {
   name: string
   swatch: string
   font?: string
+  stack?: string
   radius?: string
   shadows?: Shadows
   light?: Tokens
@@ -75,12 +76,17 @@ export const showcaseStyles: ShowcaseStyle[] = [
     key: 'github',
     name: 'GitHub',
     swatch: '#0969da',
-    font: 'Mona Sans',
+    stack: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif',
     radius: '0.375rem',
-    shadows: 'subtle',
     light: {
       ...text('#1f2328'),
-      background: '#f6f8fa',
+      'shadow-xs': '0 1px 0 0 #1f23280a',
+      'shadow-sm': '0 0 #0000',
+      'shadow-md': '0 0 0 1px #d1d9e040, 0 6px 12px -3px #25292e0a, 0 6px 18px 0 #25292e1f',
+      'shadow-lg':
+        '0 0 0 1px #d1d9e000, 0 8px 16px -4px #25292e14, 0 4px 32px -4px #25292e14, 0 24px 48px -12px #25292e14',
+      'shadow-xl': '0 0 0 1px #d1d9e000, 0 40px 80px 0 #25292e3d',
+      background: '#ffffff',
       card: '#ffffff',
       popover: '#ffffff',
       primary: '#0969da',
@@ -109,12 +115,18 @@ export const showcaseStyles: ShowcaseStyle[] = [
     },
     dark: {
       ...text('#f0f6fc'),
-      background: '#010409',
+      'shadow-xs': '0 1px 0 0 #0104091a',
+      'shadow-sm': '0 0 #0000',
+      'shadow-md': '0 0 0 1px #3d444d, 0 6px 12px -3px #01040966, 0 6px 18px 0 #01040966',
+      'shadow-lg':
+        '0 0 0 1px #3d444d, 0 8px 16px -4px #01040966, 0 4px 32px -4px #01040966, 0 24px 48px -12px #01040966',
+      'shadow-xl': '0 0 0 1px #3d444d, 0 24px 48px 0 #010409',
+      background: '#0d1117',
       card: '#0d1117',
       popover: '#151b23',
       primary: '#1f6feb',
       'primary-foreground': '#ffffff',
-      secondary: '#151b23',
+      secondary: '#212830',
       'secondary-foreground': '#f0f6fc',
       muted: '#151b23',
       'muted-foreground': '#9198a1',
@@ -302,7 +314,7 @@ export const showcaseStyles: ShowcaseStyle[] = [
 ]
 
 export const showcaseFontStack = (style: ShowcaseStyle) =>
-  style.font && `"${style.font}", ui-sans-serif, system-ui, sans-serif`
+  style.stack ?? (style.font && `"${style.font}", ui-sans-serif, system-ui, sans-serif`)
 
 const declarations = (tokens: Tokens) =>
   Object.entries(tokens)
