@@ -37,29 +37,29 @@
   [data-slot][data-color="destructive"],
   [data-slot][data-state="on"][data-active-color="destructive"] {
     --tone: --theme(--color-destructive);
-    --tone-foreground: --theme(--color-destructive-foreground);
+    --tone-foreground: --theme(--color-destructive-foreground, oklch(1 0 0));
     --tone-text: --theme(--color-destructive);
   }
 
   [data-slot][data-color="success"],
   [data-slot][data-state="on"][data-active-color="success"] {
-    --tone: --theme(--color-success);
-    --tone-foreground: --theme(--color-success-foreground);
-    --tone-text: --theme(--color-success-text);
+    --tone: --theme(--color-success, oklch(0.72 0.17 150));
+    --tone-foreground: --theme(--color-success-foreground, oklch(0.25 0.07 150));
+    --tone-text: --theme(--color-success-text, oklch(0.5 0.13 152));
   }
 
   [data-slot][data-color="warning"],
   [data-slot][data-state="on"][data-active-color="warning"] {
-    --tone: --theme(--color-warning);
-    --tone-foreground: --theme(--color-warning-foreground);
-    --tone-text: --theme(--color-warning-text);
+    --tone: --theme(--color-warning, oklch(0.8 0.16 78));
+    --tone-foreground: --theme(--color-warning-foreground, oklch(0.3 0.07 60));
+    --tone-text: --theme(--color-warning-text, oklch(0.54 0.14 58));
   }
 
   [data-slot][data-color="info"],
   [data-slot][data-state="on"][data-active-color="info"] {
-    --tone: --theme(--color-info);
-    --tone-foreground: --theme(--color-info-foreground);
-    --tone-text: --theme(--color-info-text);
+    --tone: --theme(--color-info, oklch(0.79 0.17 256));
+    --tone-foreground: --theme(--color-info-foreground, oklch(0.26 0.065 261));
+    --tone-text: --theme(--color-info-text, oklch(0.52 0.144 266));
   }
 }
 
@@ -81,7 +81,7 @@
 
 @utility tone-invalid {
   --tone: --theme(--color-destructive);
-  --tone-foreground: --theme(--color-destructive-foreground);
+  --tone-foreground: --theme(--color-destructive-foreground, oklch(1 0 0));
   --tone-border: var(--tone);
   --halo-color: var(--tone);
 }
@@ -176,11 +176,11 @@
   }
   &:where([data-hovered])::before {
     scale: 1;
-    opacity: var(--state-hover);
+    opacity: var(--state-hover, 8%);
   }
   &:where(:active, .group\/switch:active *, .group\/slider:active *:focus)::before {
     scale: 1;
-    opacity: var(--state-pressed);
+    opacity: var(--state-pressed, 12%);
   }
   &:where(:disabled, [data-disabled])::before {
     display: none;
@@ -220,16 +220,16 @@
       transition: opacity var(--transition-duration-short-4, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
     }
     &:hover::before {
-      opacity: var(--state-hover);
+      opacity: var(--state-hover, 8%);
     }
     &:active::before {
-      opacity: var(--state-pressed);
+      opacity: var(--state-pressed, 12%);
     }
     &[data-disabled]::before {
       display: none;
     }
     &:has([data-state="checked"]) {
-      background-color: color-mix(in oklab, --theme(--color-primary) var(--state-selected), transparent);
+      background-color: color-mix(in oklab, --theme(--color-primary) var(--state-selected, 8%), transparent);
     }
   }
   & [data-slot="field-label"] {
@@ -328,11 +328,11 @@
   }
   @media (hover: hover) {
     &:hover:not([aria-disabled="true"])::before {
-      opacity: var(--state-hover);
+      opacity: var(--state-hover, 8%);
     }
   }
   &:active:not([aria-disabled="true"], :has(> [data-slot="ripple"]))::before {
-    opacity: var(--state-pressed);
+    opacity: var(--state-pressed, 12%);
   }
   @media (forced-colors: active) {
     &::before {
@@ -356,16 +356,16 @@
 }
 
 @utility press-scale {
-  transition: transform var(--press-duration) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: transform var(--press-duration, 120ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
   transform: scale(1);
   &:active {
-    transform: scale(var(--press-scale));
+    transform: scale(var(--press-scale, 0.97));
   }
   :where(.is-mobile) & {
     transform: var(--transform-extra, none) scale3d(1, 1, 1);
   }
   :where(.is-mobile) &:active {
-    transform: var(--transform-extra, none) scale3d(var(--press-scale), var(--press-scale), 1);
+    transform: var(--transform-extra, none) scale3d(var(--press-scale, 0.97), var(--press-scale, 0.97), 1);
   }
   @media (prefers-reduced-motion: reduce) {
     & {
