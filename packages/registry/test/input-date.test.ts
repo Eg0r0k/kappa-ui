@@ -354,6 +354,25 @@ describe("forms", () => {
     expect(texts()).toEqual(["3", "15", "2024"]);
   });
 
+  it("leaves a form without a submit button alone on Enter when it has another text field, like a native input", async () => {
+    const submitted: string[] = [];
+    render(
+      h(
+        "form",
+        {
+          onSubmit: (event: SubmitEvent) => {
+            event.preventDefault();
+            submitted.push("submit");
+          },
+        },
+        [h(InputDate, { name: "day", defaultValue: date }), h("input", { name: "note", type: "text" })],
+      ),
+    );
+    await userEvent.click(editable()[1]!);
+    await userEvent.keyboard("{Enter}");
+    expect(submitted).toEqual([]);
+  });
+
   it("clicks the form's default button on Enter, and does nothing while it is disabled", async () => {
     const disabled = shallowRef(true);
     const events: string[] = [];
