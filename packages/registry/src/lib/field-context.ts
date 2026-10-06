@@ -1,5 +1,5 @@
 import { createContext } from "reka-ui";
-import { type Ref, computed } from "vue";
+import { type Ref, computed, nextTick } from "vue";
 
 export interface FieldContext {
   id: string;
@@ -46,4 +46,30 @@ export const useFieldControl = (
           .join(" ") || undefined,
     ),
   };
+};
+
+const TABBABLE = ["input:not([type=hidden])", "textarea", "select", "button", "[tabindex]"]
+  .map((selector) => `${selector}:not(:disabled):not([tabindex^="-"])`)
+  .join(", ");
+
+const GROUP_ROLES = new Set(["group", "radiogroup"]);
+
+/**
+ * Moves focus to the first invalid control inside `root`, in DOM order, once
+ * the errors have rendered. For a checkbox or radio group it focuses the box
+ * Tab would reach. Returns the focused element, or null when nothing is invalid.
+ */
+export const focusFirstInvalid = async (root: ParentNode | null | undefined, options?: FocusOptions) => {
+  await nextTick();
+  const invalid = root?.querySelector<HTMLElement>('[aria-invalid="true"]');
+  if (!invalid) return null;
+
+  // A group's own tab stop hands focus to its checked or first item.
+  const isGroup = GROUP_ROLES.has(invalid.getAttribute("role") ?? "");
+  const target =
+    (isGroup && invalid.querySelector<HTMLElement>(TABBABLE)) ||
+    (invalid.matches(TABBABLE) ? invalid : invalid.querySelector<HTMLElement>(TABBABLE));
+  if (!target) return null;
+  target.focus({ focusVisible: true, ...options });
+  return document.activeElement as HTMLElement;
 };
