@@ -1,26 +1,28 @@
-component: InputTime
-file: ui/input-time/InputTime.vue
+component: InputDate
+file: ui/input-date/InputDate.vue
 props:
   modelValue:
-    description: The time, bound with `v-model`. A `Time` from `@internationalized/date`, or `undefined` while a segment is empty.
+    description: "The date, bound with `v-model`. A `CalendarDate`, `CalendarDateTime` or `ZonedDateTime` from `@internationalized/date`, or `undefined` while a segment is empty."
   defaultValue:
-    description: The starting time when `v-model` is not used.
+    description: The starting date when `v-model` is not used.
   placeholder:
-    description: The time the segments step from while they are empty. Bound with `v-model:placeholder`.
+    description: "The date the segments step from while they are empty, not hint text. Its type decides the segments: a `CalendarDateTime` adds time. Bound with `v-model:placeholder`."
   defaultPlaceholder:
     description: The starting placeholder when `v-model:placeholder` is not used.
-  hourCycle:
-    description: "`12` or `24`. Defaults to the locale's cycle; `12` adds an AM/PM segment."
   granularity:
-    description: "The last segment shown: `hour`, `minute` (the default) or `second`."
+    description: "The last segment shown: `day`, `hour`, `minute` or `second`. Defaults to `day` for a `CalendarDate` and `minute` for a value with time."
+  hourCycle:
+    description: "`12` or `24` for the time segments. Defaults to the locale's cycle; `12` adds an AM/PM segment."
   step:
-    description: "How far the arrow keys move each segment, as `{ hour, minute, second }`. `1` by default."
+    description: "How far the arrow keys move each segment, as `{ year, month, day, hour, minute, second }`. `1` by default."
   stepSnapping:
-    description: Snaps a typed value to the nearest step.
+    description: Snaps a typed time to the nearest step.
   minValue:
-    description: The earliest valid time. An earlier one marks the segments invalid.
+    description: The earliest valid date. An earlier one marks the segments invalid and fails the hidden input's `min`.
   maxValue:
-    description: The latest valid time. A later one marks the segments invalid.
+    description: The latest valid date. A later one marks the segments invalid and fails the hidden input's `max`.
+  isDateUnavailable:
+    description: A function that returns `true` for a date that cannot be picked. Such a date marks the segments invalid.
   hideTimeZone:
     description: Hides the time zone segment that a `ZonedDateTime` value shows.
   locale:
@@ -42,13 +44,13 @@ props:
   id:
     description: Overrides the `id` taken from a surrounding field. It lands on the hidden input, so the field's label focuses the first segment.
   name:
-    description: Submits the time as `HH:mm:ss` with the form under this name, through a hidden input.
+    description: "Submits the date with the form under this name, through a hidden input: `YYYY-MM-DD`, or `YYYY-MM-DDTHH:mm` with time."
   as:
     description: The element or component to render.
   asChild:
     description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
 emits:
-  update:modelValue: Fires when a typed or stepped segment completes or clears the time.
-  update:placeholder: Fires when the placeholder time changes.
+  update:modelValue: Fires when a typed, stepped or pasted segment completes or clears the date.
+  update:placeholder: Fires when the placeholder date changes.
   focus: Fires once when focus enters the field, not for every segment.
   blur: Fires once when focus leaves the field.

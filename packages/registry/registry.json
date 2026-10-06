@@ -1773,7 +1773,51 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/input-time/time-field.ts",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/input-time/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-date",
+      "type": "registry:ui",
+      "title": "Input date",
+      "description": "A segmented date field in Input's variants and sizes, with a range variant, optional time segments, min, max, unavailable dates, ISO paste and a loading spinner, nestable in an input group. Built on Reka UI.",
+      "categories": [
+        "text-input"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "input-group",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/ui/input-date/InputDate.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-date/InputDateRange.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-date/date-field.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-date/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -4836,6 +4880,279 @@
       "files": [
         {
           "path": "src/examples/input-time/InputTimeStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-demo",
+      "type": "registry:block",
+      "title": "Input date demo",
+      "description": "A date of birth in a field, bound with v-model.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-range",
+      "type": "registry:block",
+      "title": "Input date range",
+      "description": "Trip dates as a start and an end date in one field.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateRangeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-date-time",
+      "type": "registry:block",
+      "title": "Input date with time",
+      "description": "A departure date and time in the 24-hour and the 12-hour cycle.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateDateTime.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-min-max",
+      "type": "registry:block",
+      "title": "Input date min and max",
+      "description": "A booking date that turns invalid outside the next 90 days.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateMinMax.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-unavailable",
+      "type": "registry:block",
+      "title": "Input date unavailable dates",
+      "description": "A delivery day that turns invalid at weekends.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateUnavailable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-locale",
+      "type": "registry:block",
+      "title": "Input date locale",
+      "description": "The same date in English, German and Japanese order.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateLocale.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-variants",
+      "type": "registry:block",
+      "title": "Input date variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-sizes",
+      "type": "registry:block",
+      "title": "Input date sizes",
+      "description": "The field from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-loading",
+      "type": "registry:block",
+      "title": "Input date loading",
+      "description": "A spinner at the end while availability is checked.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateLoading.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-group",
+      "type": "registry:block",
+      "title": "Input date in a group",
+      "description": "A calendar icon and a Today button around the field in an input group.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "input-group",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateGroup.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-states",
+      "type": "registry:block",
+      "title": "Input date states",
+      "description": "Disabled and read-only fields.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-form",
+      "type": "registry:block",
+      "title": "Input date form",
+      "description": "A booking form validated with a Valibot schema through Formisch.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "@internationalized/date",
+        "reka-ui",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateForm.vue",
           "type": "registry:component"
         }
       ]

@@ -4,7 +4,9 @@ import {
   TimeRangeFieldRoot,
   type TimeRangeFieldRootEmits,
   type TimeRangeFieldRootProps,
-  useForwardPropsEmits,
+  type TimeValue,
+  VisuallyHidden,
+  useForwardProps,
 } from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
@@ -14,6 +16,7 @@ import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { injectInputGroupContext } from "@/ui/input-group";
 import { Spinner } from "@/ui/spinner";
 import { inputTimeGroupedVariants, inputTimeSegment, inputTimeVariants } from ".";
+import { useSegmentedField } from "./time-field";
 
 defineOptions({ inheritAttrs: false });
 
@@ -28,11 +31,13 @@ const props = withDefaults(
   >(),
   { variant: "outline", size: "md" },
 );
-const emits = defineEmits<TimeRangeFieldRootEmits>();
+const emits = defineEmits<TimeRangeFieldRootEmits & { focus: [event: FocusEvent]; blur: [event: FocusEvent] }>();
 
 const attrs = useAttrs();
 const control = useFieldControl(props, attrs);
 
+// name, id and required stay off Reka's root: its hidden input submits "undefined - undefined" and
+// never fails `required`. The two hidden inputs below take them instead.
 const delegated = computed(() => {
   const {
     class: _,
@@ -42,11 +47,12 @@ const delegated = computed(() => {
     id: _____,
     disabled: ______,
     required: _______,
+    name: ________,
     ...rest
   } = props;
   return rest;
 });
-const forwarded = useForwardPropsEmits(delegated, emits);
+const forwarded = useForwardProps(delegated);
 
 const group = injectInputGroupContext(null);
 const variant = computed(() => group?.variant.value ?? props.variant);
@@ -61,22 +67,38 @@ const rootAttrs = computed(() => {
   const { "aria-invalid": _, ...rest } = attrs;
   return rest;
 });
+
+const sides = ["start", "end"] as const;
+const focusFirstSegment = (event: FocusEvent) => {
+  (event.target as HTMLElement).parentElement?.querySelector<HTMLElement>("[role=spinbutton]")?.focus();
+};
+const native = (value: TimeValue | undefined) => value?.toString() ?? "";
+
+const listeners = useSegmentedField(emits, control.disabled);
+
+// Reka collects the segments and fixes the hour cycle once, on mount (reka-ui#1127).
+const remountKey = computed(() => `${props.granularity}-${props.hourCycle}`);
 </script>
 
 <template>
   <TimeRangeFieldRoot
-    v-slot="{ segments, isInvalid }"
+    :key="remountKey"
+    v-slot="{ modelValue, segments, isInvalid }"
     v-bind="{ ...rootAttrs, ...forwarded }"
     :data-slot="group ? 'input-group-control' : 'input-time-range'"
     :data-variant="variant"
     :data-size="size"
-    :id="control.id.value"
     :disabled="control.disabled.value"
-    :required="control.required.value"
     :aria-labelledby="control.labelledBy.value"
     :aria-describedby="control.describedBy.value"
     :aria-busy="props.loading || undefined"
     :class="cn(frame, props.class)"
+    @update:model-value="emits('update:modelValue', $event)"
+    @update:placeholder="emits('update:placeholder', $event)"
+    @focusin="listeners.onFocusin"
+    @focusout="listeners.onFocusout"
+    @mousedown="listeners.onMousedown"
+    @keydown="listeners.onKeydown"
   >
     <TimeRangeFieldInput
       v-for="(segment, index) in segments.start"
@@ -102,5 +124,19 @@ const rootAttrs = computed(() => {
       {{ segment.value }}
     </TimeRangeFieldInput>
     <Spinner v-if="props.loading" class="ms-auto text-muted-foreground" />
+    <VisuallyHidden
+      v-for="side in sides"
+      :key="side"
+      as="input"
+      feature="focusable"
+      aria-hidden="true"
+      tabindex="-1"
+      :id="side === 'start' ? control.id.value : undefined"
+      :name="props.name ? `${props.name}[${side}]` : undefined"
+      :value="native(modelValue?.[side])"
+      :required="control.required.value"
+      :disabled="control.disabled.value"
+      @focus="focusFirstSegment"
+    />
   </TimeRangeFieldRoot>
 </template>

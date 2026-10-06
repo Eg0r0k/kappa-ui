@@ -1,26 +1,28 @@
-component: InputTimeRange
-file: ui/input-time/InputTimeRange.vue
+component: InputDateRange
+file: ui/input-date/InputDateRange.vue
 props:
   modelValue:
-    description: "The range, bound with `v-model`, as `{ start, end }`. Both are `Time` values from `@internationalized/date`."
+    description: "The range, bound with `v-model`, as `{ start, end }`. Each end is a date from `@internationalized/date`, or `undefined` until its segments are filled."
   defaultValue:
     description: The starting range when `v-model` is not used.
   placeholder:
-    description: The time the segments step from while they are empty. Bound with `v-model:placeholder`.
+    description: "The date the segments step from while they are empty, not hint text. Its type decides the segments: a `CalendarDateTime` adds time. Bound with `v-model:placeholder`."
   defaultPlaceholder:
     description: The starting placeholder when `v-model:placeholder` is not used.
-  hourCycle:
-    description: "`12` or `24`. Defaults to the locale's cycle; `12` adds an AM/PM segment."
   granularity:
-    description: "The last segment shown: `hour`, `minute` (the default) or `second`."
+    description: "The last segment shown: `day`, `hour`, `minute` or `second`. Defaults to `day` for a `CalendarDate` and `minute` for a value with time."
+  hourCycle:
+    description: "`12` or `24` for the time segments. Defaults to the locale's cycle; `12` adds an AM/PM segment."
   step:
-    description: "How far the arrow keys move each segment, as `{ hour, minute, second }`. `1` by default."
+    description: "How far the arrow keys move each segment, as `{ year, month, day, hour, minute, second }`. `1` by default."
   minValue:
-    description: The earliest valid time. An earlier one marks the segments invalid.
+    description: The earliest valid date for either end. An earlier one marks the segments invalid and fails the hidden input's `min`.
   maxValue:
-    description: The latest valid time. A later one marks the segments invalid.
+    description: The latest valid date for either end. A later one marks the segments invalid and fails the hidden input's `max`.
+  isDateUnavailable:
+    description: A function that returns `true` for a date that cannot be picked. A range holding one is invalid.
   hideTimeZone:
-    description: Hides the time zone segment that a `ZonedDateTime` value shows.
+    description: Hides the time zone segments that `ZonedDateTime` values show.
   locale:
     description: The locale for the segment order and the literals. Defaults to the one Reka UI's `ConfigProvider` sets.
   dir:
@@ -40,15 +42,13 @@ props:
   id:
     description: Overrides the `id` taken from a surrounding field. It lands on the start's hidden input, so the field's label focuses the first segment.
   name:
-    description: "Submits `name[start]` and `name[end]` with the form, each `HH:mm:ss` and empty while unset."
-  isTimeUnavailable:
-    description: A function that returns `true` for a time that cannot be picked.
+    description: "Submits `name[start]` and `name[end]` with the form, each `YYYY-MM-DD` (or `YYYY-MM-DDTHH:mm` with time) and empty while unset."
   as:
     description: The element or component to render.
   asChild:
     description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
 emits:
-  update:modelValue: Fires with `{ start, end }` when a segment of either end changes.
-  update:placeholder: Fires when the placeholder time changes.
+  update:modelValue: Fires with `{ start, end }` when a segment of either end changes, or a date is pasted.
+  update:placeholder: Fires when the placeholder date changes.
   focus: Fires once when focus enters the field, not for every segment.
   blur: Fires once when focus leaves the field.
