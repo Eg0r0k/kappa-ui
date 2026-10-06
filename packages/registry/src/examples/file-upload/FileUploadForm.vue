@@ -5,7 +5,21 @@ import { type ComponentPublicInstance, ref } from "vue";
 
 import { Button } from "@/ui/button";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/ui/field";
-import { FileUpload, formatFileSize } from "@/ui/file-upload";
+import { Upload } from "@lucide/vue";
+import {
+  FileUpload,
+  FileUploadDescription,
+  FileUploadDropzone,
+  FileUploadIcon,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadTitle,
+  FileUploadTrigger,
+  fileKey,
+} from "@/ui/file-upload";
 
 const Listing = v.object({
   cover: v.pipe(
@@ -29,9 +43,9 @@ const Listing = v.object({
 const form = useForm({ schema: Listing, initialInput: { floorPlans: [] } });
 const published = ref("");
 
-// Formisch focuses the first invalid field on submit, so hand it the trigger, the element that takes focus
-const trigger = (control: Element | ComponentPublicInstance | null) =>
-  control && "triggerEl" in control ? (control.triggerEl as HTMLElement | null) : null;
+// Formisch focuses the first invalid field on submit: hand it the element the trigger rendered
+const element = (target: Element | ComponentPublicInstance | null) =>
+  target && "$el" in target ? (target.$el as HTMLElement) : (target as HTMLElement | null);
 
 const publish = (output: v.InferOutput<typeof Listing>) => {
   published.value = `Published with ${output.cover.name} and ${output.floorPlans.length} floor plan(s).`;
@@ -44,35 +58,51 @@ const publish = (output: v.InferOutput<typeof Listing>) => {
       <FormischField v-slot="field" :of="form" :path="['cover']">
         <Field :invalid="field.errors !== null">
           <FieldLabel>Cover photo</FieldLabel>
-          <FileUpload
-            v-model="field.input"
-            :ref="(control) => field.props.ref(trigger(control))"
-            :name="field.props.name"
-            accept="image/*"
-            label="Drop the cover photo here"
-            description="JPG, PNG or WebP, up to 2 MB"
-          />
+          <FileUpload v-slot="{ files }" v-model="field.input" :name="field.props.name" accept="image/*">
+            <FileUploadDropzone :ref="(target) => field.props.ref(element(target))" as-child>
+              <FileUploadTrigger>
+                <FileUploadIcon><Upload /></FileUploadIcon>
+                <FileUploadTitle>Drop the cover photo here</FileUploadTitle>
+                <FileUploadDescription>JPG, PNG or WebP, up to 2 MB</FileUploadDescription>
+              </FileUploadTrigger>
+            </FileUploadDropzone>
+            <FileUploadList>
+              <FileUploadItem v-for="file in files" :key="fileKey(file)" :file="file">
+                <FileUploadItemPreview />
+                <FileUploadItemMetadata />
+                <FileUploadItemDelete />
+              </FileUploadItem>
+            </FileUploadList>
+          </FileUpload>
           <FieldError :errors="field.errors" />
         </Field>
       </FormischField>
       <FormischField v-slot="field" :of="form" :path="['floorPlans']">
         <Field :invalid="field.errors !== null">
           <FieldLabel>Floor plans</FieldLabel>
-          <FileUpload
-            v-model="field.input"
-            :ref="(control) => field.props.ref(trigger(control))"
-            :name="field.props.name"
-            multiple
-            mode="button"
-            size="sm"
-            label="Add floor plans"
-          >
-            <template #file-size="{ file, index }">
-              <span v-if="getErrors(form, { path: ['floorPlans', index] })" class="text-destructive">
-                {{ getErrors(form, { path: ["floorPlans", index] })?.[0] }}
-              </span>
-              <template v-else>{{ formatFileSize(file.size) }}</template>
-            </template>
+          <FileUpload v-slot="{ files }" v-model="field.input" :name="field.props.name" multiple size="sm">
+            <FileUploadTrigger :ref="(target) => field.props.ref(element(target))" as-child>
+              <Button variant="outline" color="neutral" size="sm" class="self-start">
+                <Upload data-icon="inline-start" />
+                Add floor plans
+              </Button>
+            </FileUploadTrigger>
+            <FileUploadList>
+              <FileUploadItem v-for="(file, index) in files" :key="fileKey(file)" :file="file">
+                <FileUploadItemPreview />
+                <FileUploadItemMetadata v-slot="{ size }">
+                  <span class="block truncate text-body-md"><bdi>{{ file.name }}</bdi></span>
+                  <span
+                    v-if="getErrors(form, { path: ['floorPlans', index] })"
+                    class="block text-body-sm text-destructive"
+                  >
+                    {{ getErrors(form, { path: ["floorPlans", index] })?.[0] }}
+                  </span>
+                  <span v-else class="block text-body-sm text-muted-foreground">{{ size }}</span>
+                </FileUploadItemMetadata>
+                <FileUploadItemDelete />
+              </FileUploadItem>
+            </FileUploadList>
           </FileUpload>
           <FieldError :errors="field.errors" />
           <FieldDescription>PDFs up to 5 MB each, three at most.</FieldDescription>

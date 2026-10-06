@@ -35,7 +35,7 @@ const size = computed(() => formatFileSize(item.file.value.size));
       )
     "
   >
-    <slot :file="item.file.value" :name="item.file.value.name" :size="size">
+    <slot :file="item.file.value" :size="size">
       <span
         data-slot="file-upload-item-name"
         :class="cn(fileUploadItemNameVariants({ size: upload.size.value }), grid && 'text-body-sm')"

@@ -4,7 +4,7 @@ import { ref, watch } from "vue";
 import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 import { Button } from "@/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@/ui/field";
-import { FileUpload } from "@/ui/file-upload";
+import { FileUpload, FileUploadDropzone, FileUploadTrigger } from "@/ui/file-upload";
 
 // what the server has now; the upload only holds a new pick
 const saved = ref<string | null>(
@@ -32,30 +32,31 @@ const remove = (clear: () => void) => {
 <template>
   <Field class="w-full max-w-sm">
     <FieldLabel>Profile photo</FieldLabel>
-    <FileUpload v-model="photo" mode="button" accept="image/*" :max-size="2 * 1024 * 1024" :preview="false">
-      <template #default="{ open, clear, dragging, triggerAttrs }">
-        <div class="flex items-center gap-4">
-          <Avatar size="xl" :class="dragging && 'ring-2 ring-primary'">
-            <AvatarImage v-if="preview ?? saved" :src="(preview ?? saved)!" alt="" />
-            <AvatarFallback>AL</AvatarFallback>
-          </Avatar>
-          <div class="flex gap-2">
-            <Button v-bind="triggerAttrs" type="button" variant="outline" color="neutral" size="sm" @click="open">
-              Change
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              color="neutral"
-              size="sm"
-              :disabled="!preview && !saved"
-              @click="remove(clear)"
-            >
-              Remove
-            </Button>
-          </div>
+    <FileUpload v-slot="{ clear }" v-model="photo" accept="image/*" :max-size="2 * 1024 * 1024">
+      <FileUploadDropzone
+        variant="soft"
+        class="flex-row justify-start gap-4 bg-transparent p-0 text-start data-dragging:bg-transparent"
+      >
+        <Avatar size="xl" class="group-data-dragging/file-upload-dropzone:ring-2 group-data-dragging/file-upload-dropzone:ring-primary">
+          <AvatarImage v-if="preview ?? saved" :src="(preview ?? saved)!" alt="" />
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
+        <div class="flex gap-2">
+          <FileUploadTrigger as-child>
+            <Button variant="outline" color="neutral" size="sm">Change</Button>
+          </FileUploadTrigger>
+          <Button
+            type="button"
+            variant="ghost"
+            color="neutral"
+            size="sm"
+            :disabled="!preview && !saved"
+            @click="remove(clear)"
+          >
+            Remove
+          </Button>
         </div>
-      </template>
+      </FileUploadDropzone>
     </FileUpload>
     <FieldDescription>Drop an image on the photo, or press Change. Up to 2 MB.</FieldDescription>
   </Field>

@@ -1,7 +1,23 @@
 <script setup lang="ts">
+import { Upload } from "@lucide/vue";
 import { ref } from "vue";
 
-import { FileUpload, type FileUploadRejection, formatFileSize } from "@/ui/file-upload";
+import {
+  FileUpload,
+  FileUploadDescription,
+  FileUploadDropzone,
+  FileUploadIcon,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  type FileUploadRejection,
+  FileUploadTitle,
+  FileUploadTrigger,
+  fileKey,
+  formatFileSize,
+} from "@/ui/file-upload";
 
 const maxSize = 1024 * 1024;
 const photos = ref<File[]>([]);
@@ -23,17 +39,30 @@ const explain = (rejections: FileUploadRejection[]) => {
 <template>
   <div class="flex w-full max-w-md flex-col gap-3">
     <FileUpload
+      v-slot="{ files }"
       v-model="photos"
       multiple
-      layout="grid"
       accept="image/*"
       :max-size="maxSize"
       :max-files="3"
-      label="Add up to three photos"
-      description="Images only, 1 MB each"
       @reject="explain"
       @update:model-value="problems = []"
-    />
+    >
+      <FileUploadDropzone as-child>
+        <FileUploadTrigger>
+          <FileUploadIcon><Upload /></FileUploadIcon>
+          <FileUploadTitle>Add up to three photos</FileUploadTitle>
+          <FileUploadDescription>Images only, 1 MB each</FileUploadDescription>
+        </FileUploadTrigger>
+      </FileUploadDropzone>
+      <FileUploadList layout="grid">
+        <FileUploadItem v-for="file in files" :key="fileKey(file)" :file="file">
+          <FileUploadItemPreview />
+          <FileUploadItemMetadata />
+          <FileUploadItemDelete />
+        </FileUploadItem>
+      </FileUploadList>
+    </FileUpload>
     <div role="status" class="text-body-sm text-destructive">
       <ul v-if="problems.length > 0" class="ms-4 flex list-disc flex-col gap-1">
         <li v-for="problem in problems" :key="problem">{{ problem }}</li>

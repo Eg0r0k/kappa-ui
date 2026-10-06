@@ -2,7 +2,17 @@
 import { Paperclip } from "@lucide/vue";
 import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
 
-import { FileUpload } from "@/ui/file-upload";
+import { Button } from "@/ui/button";
+import {
+  FileUpload,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadTrigger,
+  fileKey,
+} from "@/ui/file-upload";
 import { Textarea } from "@/ui/textarea";
 
 const attachments = ref<File[]>([]);
@@ -29,8 +39,7 @@ const onDragOver = (event: DragEvent) => {
 const onDrop = (event: DragEvent) => {
   depth = 0;
   dragging.value = false;
-  // a drop on the attach button was already taken by FileUpload, which prevents the default
-  if (!carriesFiles(event) || event.defaultPrevented) return;
+  if (!carriesFiles(event)) return;
   event.preventDefault();
   upload.value?.addFiles(event.dataTransfer!.files);
 };
@@ -48,16 +57,21 @@ onBeforeUnmount(() => {
 <template>
   <div class="flex w-full max-w-md flex-col gap-3">
     <Textarea aria-label="Message" placeholder="Write a reply, or drop files anywhere on the page." :rows="3" />
-    <FileUpload
-      ref="upload"
-      v-model="attachments"
-      mode="button"
-      multiple
-      size="sm"
-      variant="soft"
-      :icon="Paperclip"
-      label="Attach"
-    />
+    <FileUpload ref="upload" v-slot="{ files }" v-model="attachments" multiple size="sm">
+      <FileUploadTrigger as-child>
+        <Button variant="soft" color="neutral" size="sm" class="self-start">
+          <Paperclip data-icon="inline-start" />
+          Attach
+        </Button>
+      </FileUploadTrigger>
+      <FileUploadList>
+        <FileUploadItem v-for="file in files" :key="fileKey(file)" :file="file">
+          <FileUploadItemPreview />
+          <FileUploadItemMetadata />
+          <FileUploadItemDelete />
+        </FileUploadItem>
+      </FileUploadList>
+    </FileUpload>
     <div
       v-if="dragging"
       aria-hidden="true"

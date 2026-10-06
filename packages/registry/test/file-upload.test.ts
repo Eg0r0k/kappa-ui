@@ -900,6 +900,33 @@ describe("FileUpload layouts", () => {
   });
 });
 
+describe("FileUpload item content", () => {
+  it("lets FileUploadItemMetadata's content be replaced, with the file and its formatted size", async () => {
+    render(() =>
+      h(
+        FileUpload,
+        { multiple: true, modelValue: [pdf("a.pdf", 1024)] },
+        {
+          default: ({ files }: { files: File[] }) =>
+            h(FileUploadList, null, () =>
+              files.map((file) =>
+                h(FileUploadItem, { key: fileKey(file), file }, () =>
+                  h(FileUploadItemMetadata, null, {
+                    default: ({ file: entry, size }: { file: File; size: string }) =>
+                      h("span", { "data-test": "custom" }, `${entry.name}: ${size}`),
+                  }),
+                ),
+              ),
+            ),
+        },
+      ),
+    );
+    await nextTick();
+    expect(document.querySelector("[data-test=custom]")?.textContent).toBe("a.pdf: 1 KB");
+    expect($("file-upload-item-name")).toBeNull();
+  });
+});
+
 describe("FileUpload in a Field", () => {
   it("takes the field's id, description, error, invalid and disabled state", async () => {
     render(() =>

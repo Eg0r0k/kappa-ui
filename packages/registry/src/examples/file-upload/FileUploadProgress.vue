@@ -1,7 +1,21 @@
 <script setup lang="ts">
+import { Upload } from "@lucide/vue";
 import { onBeforeUnmount, reactive, ref, watch } from "vue";
 
-import { FileUpload, formatFileSize } from "@/ui/file-upload";
+import {
+  FileUpload,
+  FileUploadDescription,
+  FileUploadDropzone,
+  FileUploadIcon,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadTitle,
+  FileUploadTrigger,
+  fileKey,
+} from "@/ui/file-upload";
 import { Progress } from "@/ui/progress";
 
 const files = ref<File[]>([]);
@@ -36,24 +50,35 @@ onBeforeUnmount(() => timers.forEach((timer) => window.clearInterval(timer)));
 </script>
 
 <template>
-  <FileUpload
-    v-model="files"
-    multiple
-    label="Drop files to upload them right away"
-    description="Remove a file to cancel its upload"
-    class="max-w-md"
-  >
-    <template #file-size="{ file }">
-      <div v-if="(progress.get(file) ?? 0) < 100" class="flex items-center gap-2 pt-1">
-        <Progress
-          :model-value="progress.get(file) ?? 0"
-          size="xs"
-          :aria-label="`Uploading ${file.name}`"
-          class="flex-1"
-        />
-        <span class="w-9 text-end tabular-nums">{{ Math.round(progress.get(file) ?? 0) }}%</span>
-      </div>
-      <template v-else>{{ formatFileSize(file.size) }}, uploaded</template>
-    </template>
+  <FileUpload v-slot="{ files: picked }" v-model="files" multiple class="max-w-md">
+    <FileUploadDropzone as-child>
+      <FileUploadTrigger>
+        <FileUploadIcon><Upload /></FileUploadIcon>
+        <FileUploadTitle>Drop files to upload them right away</FileUploadTitle>
+        <FileUploadDescription>Remove a file to cancel its upload</FileUploadDescription>
+      </FileUploadTrigger>
+    </FileUploadDropzone>
+    <FileUploadList>
+      <FileUploadItem v-for="file in picked" :key="fileKey(file)" :file="file">
+        <FileUploadItemPreview />
+        <FileUploadItemMetadata v-slot="{ size }">
+          <span class="block truncate text-body-md"><bdi>{{ file.name }}</bdi></span>
+          <div
+            v-if="(progress.get(file) ?? 0) < 100"
+            class="flex items-center gap-2 pt-1 text-body-sm text-muted-foreground"
+          >
+            <Progress
+              :model-value="progress.get(file) ?? 0"
+              size="xs"
+              :aria-label="`Uploading ${file.name}`"
+              class="flex-1"
+            />
+            <span class="w-9 text-end tabular-nums">{{ Math.round(progress.get(file) ?? 0) }}%</span>
+          </div>
+          <span v-else class="block text-body-sm text-muted-foreground">{{ size }}, uploaded</span>
+        </FileUploadItemMetadata>
+        <FileUploadItemDelete />
+      </FileUploadItem>
+    </FileUploadList>
   </FileUpload>
 </template>
