@@ -1,5 +1,21 @@
 # @kappa-ui/registry
 
+## 0.14.0
+
+### Minor Changes
+
+- [`2add2d3`](https://github.com/Eg0r0k/kappa-ui/commit/2add2d393e21a52b99793b8f1022b024f285a125) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `FileUpload` is built from parts, after Dice UI's anatomy: `FileUpload` (the files, the checks, the hidden input, paste, Field wiring and `size`), `FileUploadDropzone` (drops and a click, `variant`), `FileUploadTrigger` (the button that opens the dialog, `as-child` for a Button), `FileUploadIcon`, `FileUploadTitle`, `FileUploadDescription`, `FileUploadList` (`layout` list or grid), `FileUploadItem`, `FileUploadItemPreview`, `FileUploadItemMetadata`, `FileUploadItemDelete` and `FileUploadClear`, plus `fileKey(file)` for `v-for` keys. The zone that is one button is `FileUploadDropzone as-child` on the trigger; a zone with a Browse button holds an `as-child` trigger and is no tab stop itself. The props `mode`, `layout`, `position`, `label`, `description`, `icon`, `file-icon`, `file-image`, `file-delete`, `preview`, `interactive` and `dropzone`, the 14 slots and the exposed `triggerEl` are gone: compose the parts instead, and put a ref on the trigger for Formisch. `removeFile` takes the file, not an index. A trigger without a dropzone no longer takes drops.
+
+- [`2c0edc3`](https://github.com/Eg0r0k/kappa-ui/commit/2c0edc3cde1959ceb764bcb039a1cd3721f634e9) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `Kbd` takes a `size`, `xs` to `xl` (16 to 28px tall), with the label and icons scaled to match. `md` is the size it had before.
+
+- [`90d509d`](https://github.com/Eg0r0k/kappa-ui/commit/90d509dedf70ab39f9eddc93c6895c2fa0f182ec) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `Rating` is built from parts: `Rating` holds the value and gives `items`, and each `RatingItem` draws one star, so `<Rating v-model="stars" v-slot="{ items }"><RatingItem v-for="item in items" :key="item" :item="item" /></Rating>`. A custom icon goes inside `RatingItem`, with `filled` telling the empty layer from the filled one; the `icon` and `empty-icon` slots are gone. Showing a score is its own part pair, `RatingDisplay` with `RatingDisplayItem`, which takes a `value` and draws it exactly as one `role="img"` picture; the `readonly` prop is gone.
+
+- [`b8167cf`](https://github.com/Eg0r0k/kappa-ui/commit/b8167cf7528615ebeb7073dd83814b390074c315) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `Tree` no longer draws its rows: render a `TreeItem` for each of the default slot's `items` and fill it with `TreeItemToggle`, `TreeItemCheckbox`, `TreeItemIcon`, `TreeItemLabel` or anything else, as with Reka's `TreeRoot`. The `item`, `item-leading`, `item-label` and `item-trailing` slots, `TreeItem`'s `leading`, `label` and `trailing` slots, and `label-key` are gone; the row's state comes with `TreeItem`'s slot. Virtualization is a part: put a `TreeVirtualizer` in a tree rendered `as="div"` with a height, instead of `virtualize`; its `text-content` gives typeahead each node's text. `checkbox` stays a selection mode (multiple, cascade, `aria-checked`) and no longer adds checkboxes by itself.
+
+### Patch Changes
+
+- [`ef1938f`](https://github.com/Eg0r0k/kappa-ui/commit/ef1938f040d7317fb48bbff2e7ffef8f3d0164db) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `CommandList` takes no room when it has nothing to show: with every item filtered out and no `CommandEmpty`, or with no items at all, it collapses, padding included. The line between the input and the results now belongs to the list, so it goes with it, and an input with nothing under it no longer ends in a stray border.
+
 ## 0.13.2
 
 ### Patch Changes
