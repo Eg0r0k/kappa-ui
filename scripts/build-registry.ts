@@ -4,7 +4,13 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-import { CLI_MANAGED_PACKAGES, type PackageManifest, dependencyRanges, rangeSource } from './lib/dependency-ranges.ts'
+import {
+  CLI_MANAGED_PACKAGES,
+  type PackageManifest,
+  dependencyRanges,
+  publishedDependency,
+  rangeSource,
+} from './lib/dependency-ranges.ts'
 import { type CssRules, type CssVars, conflictsOf, itemCssFromSource, stylesheetOf } from './lib/registry-css.ts'
 
 const HOMEPAGE = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
@@ -174,10 +180,7 @@ const ranges = (() => {
   }
 })()
 
-const stamp = (dependencies?: string[]) =>
-  dependencies?.map((dependency) =>
-    CLI_MANAGED_PACKAGES.has(dependency) ? dependency : `${dependency}@${ranges.get(dependency)}`,
-  )
+const stamp = (dependencies?: string[]) => dependencies?.map((dependency) => publishedDependency(dependency, ranges))
 
 const publishedConfig = (item: RegistryItem) =>
   item.type === 'registry:base'
@@ -246,7 +249,9 @@ for (const item of registry.items) {
     const name = withoutVersion(dependency)
     if (name !== dependency) {
       errors.push(
-        `item "${item.name}": list "${name}" without a version; the build stamps it from ${rangeSource(name)}`,
+        CLI_MANAGED_PACKAGES.has(name)
+          ? `item "${item.name}": list "${name}" without a version; the build publishes it bare, since the shadcn-vue CLI recognises it only by its name`
+          : `item "${item.name}": list "${name}" without a version; the build stamps it from ${rangeSource(name)}`,
       )
     } else if (!ranges.has(name)) {
       errors.push(

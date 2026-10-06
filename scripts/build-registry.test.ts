@@ -38,11 +38,16 @@ const base = {
   files: [],
 }
 
-// what packages/registry/package.json declares: core from the workspace, reka-ui pinned for development
+// what packages/registry/package.json declares: core from the workspace, reka-ui pinned for development, tooling
 const registryPackage = {
   name: '@kappa-ui/registry',
-  dependencies: { '@kappa-ui/core': 'workspace:*', '@lucide/vue': '^1.47.0', clsx: '^2.1.1' },
-  devDependencies: { 'reka-ui': '4.5.6', 'tw-animate-css': '^1.4.0' },
+  dependencies: {
+    '@kappa-ui/core': 'workspace:*',
+    '@lucide/vue': '^1.47.0',
+    clsx: '^2.1.1',
+    'tw-animate-css': '^1.4.0',
+  },
+  devDependencies: { 'reka-ui': '4.5.6', vite: '^8.3.0' },
 }
 
 const run = async (
@@ -331,7 +336,7 @@ test('writes @kappa-ui/core with the caret range of the core version', async () 
   ])
 })
 
-test('writes every other package with its range from the registry package, dependencies or devDependencies', async () => {
+test("writes every other package with its range from the registry package's dependencies", async () => {
   const { status, stderr, out } = await run([
     { ...component, dependencies: ['clsx'] },
     { ...example, dependencies: ['tw-animate-css'] },
@@ -339,6 +344,15 @@ test('writes every other package with its range from the registry package, depen
   assert.equal(status, 0, stderr)
   assert.deepEqual((await published(out, 'demo')).dependencies, ['clsx@^2.1.1'])
   assert.deepEqual((await published(out, 'demo-example')).dependencies, ['tw-animate-css@^1.4.0'])
+})
+
+test('rejects a package only the devDependencies list, since those are tooling no project installs', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['vite'] }, example])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": "vite" has no range to install it in; add it to the dependencies in packages\/registry\/package\.json/,
+  )
 })
 
 test('leaves @lucide/vue bare, since the CLI only recognises its icon library by the bare name', async () => {
@@ -369,7 +383,7 @@ test('rejects a package the registry package gives no range', async () => {
   assert.equal(status, 1)
   assert.match(
     stderr,
-    /item "demo": "left-pad" has no range to install it in; add it to packages\/registry\/package\.json/,
+    /item "demo": "left-pad" has no range to install it in; add it to the dependencies in packages\/registry\/package\.json/,
   )
   assert.doesNotMatch(stderr, /"clsx"/)
 })
@@ -413,11 +427,20 @@ test('rejects a version written on reka-ui in the manifest', async () => {
 })
 
 test('rejects a version written on any other package in the manifest', async () => {
+  const { status, stderr } = await run([{ ...component, dependencies: ['clsx@^2.0.0'] }, example])
+  assert.equal(status, 1)
+  assert.match(
+    stderr,
+    /item "demo": list "clsx" without a version; the build stamps it from the dependencies in packages\/registry\/package\.json/,
+  )
+})
+
+test('rejects a version written on @lucide/vue, which the build publishes bare', async () => {
   const { status, stderr } = await run([{ ...component, dependencies: ['@lucide/vue@^1.0.0'] }, example])
   assert.equal(status, 1)
   assert.match(
     stderr,
-    /item "demo": list "@lucide\/vue" without a version; the build stamps it from packages\/registry\/package\.json/,
+    /item "demo": list "@lucide\/vue" without a version; the build publishes it bare, since the shadcn-vue CLI recognises it only by its name/,
   )
 })
 
