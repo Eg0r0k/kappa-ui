@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { Star } from "@lucide/vue";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick } from "vue";
 
 import { ToastDescription, ToastTitle, Toaster, createToaster } from "@/ui/toast";
@@ -8,6 +9,15 @@ import { ToastDescription, ToastTitle, Toaster, createToaster } from "@/ui/toast
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 let wrappers: ReturnType<typeof mount>[] = [];
+
+// The page keeps the pointer where the previous test file left it, and over the toaster it expands the stack
+beforeEach(async () => {
+  const corner = document.createElement("div");
+  corner.style.cssText = "position: fixed; top: 0; left: 0; width: 4px; height: 4px";
+  document.body.append(corner);
+  await userEvent.hover(corner);
+  corner.remove();
+});
 
 afterEach(() => {
   wrappers.forEach((wrapper) => wrapper.unmount());
