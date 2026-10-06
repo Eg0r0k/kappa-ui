@@ -75,6 +75,36 @@ it("filters items and hides groups without a match and separators while searchin
   expect(items()).toHaveLength(4);
 });
 
+it("collapses the list, its padding and its top edge when nothing is left to show", async () => {
+  render(
+    h(Command, () => [
+      h(CommandInput, { placeholder: "Search" }),
+      h(CommandList, () => h(CommandGroup, () => h(CommandItem, { value: "apple" }, () => "Apple"))),
+    ]),
+  );
+  const list = () => document.querySelector<HTMLElement>("[data-slot=command-list]")!;
+  const edge = () => getComputedStyle(list()).borderTopWidth;
+  expect(getComputedStyle(list()).display).not.toBe("none");
+  expect(edge()).toBe("1px");
+
+  await userEvent.click(input());
+  await userEvent.keyboard("zz");
+  expect(getComputedStyle(list()).display).toBe("none");
+  expect(list().getBoundingClientRect().height).toBe(0);
+
+  await userEvent.clear(input());
+  expect(getComputedStyle(list()).display).not.toBe("none");
+  expect(edge()).toBe("1px");
+});
+
+it("draws no edge under an input that nothing follows", () => {
+  render(h(Command, () => h(CommandInput, { placeholder: "Search" })));
+  expect(getComputedStyle(document.querySelector("[data-slot=command-input-wrapper]")!).borderBottomWidth).toBe("0px");
+  expect(getComputedStyle(document.querySelector("[data-slot=command]")!).height).toBe(
+    getComputedStyle(document.querySelector("[data-slot=command-input-wrapper]")!).height,
+  );
+});
+
 it("highlights the first item on focus, stops before a disabled item and selects with Enter", async () => {
   const selected: string[] = [];
   render(h(Command, () => content((value) => selected.push(value))));
