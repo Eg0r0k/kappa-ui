@@ -92,14 +92,12 @@ export const mentions = (text: string, tokens: readonly string[]) =>
 
 export const introduces = (text: string, main: string, name = main) => {
   const component = escape(main)
-  const leads = [
-    new RegExp(`^(?:New|Add)(?: the)? \`?${component}\`?(?![\\w$])`),
-    new RegExp(`^${component}: \`${component}\``),
-    new RegExp(`^\`${component}\` is `),
-  ]
+  const leads = [new RegExp(`^${component}: \`${component}\``), new RegExp(`^\`${component}\` is `)]
   if (leads.some((pattern) => pattern.test(text))) return true
-  const listed = /^(?:New|Add)(?: the)? (`[\w-]+`(?:(?:, |,? and )`[\w-]+`)*)/.exec(text)?.[1] ?? ''
-  return listed.split(/, |,? and /).some((code) => code === `\`${main}\`` || code === `\`${name}\``)
+  return text.split(/(?<=\.)\s+|\n+/).some((sentence) => {
+    const listed = /^(?:New|Add)(?: the)? (`?[\w-]+`?(?:(?:, |,? and )`?[\w-]+`?)*)/.exec(sentence)?.[1] ?? ''
+    return listed.split(/, |,? and /).some((named) => [main, name].includes(named.replaceAll('`', '')))
+  })
 }
 
 export const releaseDate = (git: (args: string[]) => string, file: string, version: string) => {

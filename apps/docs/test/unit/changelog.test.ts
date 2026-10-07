@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
 
@@ -133,12 +133,69 @@ describe('introduces', () => {
     expect(introduces('Drawer: `DrawerIndent` scales the page', 'Drawer')).toBe(false)
   })
 
-  it('finds a component later in the list an entry opens with, by component or item name', () => {
+  it('finds a component later in the list a sentence opens with, by component or item name', () => {
     expect(introduces('New `Calendar` and `RangeCalendar`: a grid', 'RangeCalendar')).toBe(true)
     expect(introduces('New `Tabs`, `Tree` and `Toast`', 'Tree')).toBe(true)
+    expect(introduces('Add Toggle and ToggleGroup. Toggle is a button', 'ToggleGroup')).toBe(true)
     expect(introduces('New `navigation-menu` item: `NavigationMenu`', 'NavigationMenu', 'navigation-menu')).toBe(true)
+    expect(introduces('New `AlertDialog`: parts. New `confirm` item: `useConfirm()`', 'Confirm', 'confirm')).toBe(true)
     expect(introduces('New `Calendar`, built on `RangeCalendar`', 'RangeCalendar')).toBe(false)
     expect(introduces('`DatePicker` and `DateRangePicker` take a size', 'DateRangePicker')).toBe(false)
+    expect(introduces('Tooltip opens on focus, with a new `Kbd` inside', 'Kbd')).toBe(false)
+  })
+})
+
+describe('introductions', () => {
+  const read = (path: string) => readFileSync(new URL(`../../../../${path}`, import.meta.url), 'utf8')
+  const fromTheFirstRelease = [
+    'accordion',
+    'aspect-ratio',
+    'badge',
+    'button',
+    'button-group',
+    'card',
+    'checkbox',
+    'choice-group',
+    'dialog',
+    'field',
+    'input',
+    'input-group',
+    'item',
+    'kbd',
+    'label',
+    'listbox',
+    'menu',
+    'pagination',
+    'popover',
+    'radio-group',
+    'scroll-area',
+    'select',
+    'separator',
+    'skeleton',
+    'slider',
+    'spinner',
+    'switch',
+    'tabs',
+    'textarea',
+    'toast',
+  ]
+
+  it('has every later component introduced by a released entry or a pending changeset, so it gets its New badge', () => {
+    const released = ['packages/registry/CHANGELOG.md', 'packages/core/CHANGELOG.md']
+      .flatMap((file) => parseChangelog(read(file)).flatMap((release) => release.entries))
+      .filter((item) => item.bump !== 'patch')
+      .map((item) => item.text)
+    const pending = readdirSync(new URL('../../../../.changeset/', import.meta.url))
+      .filter((file) => file.endsWith('.md') && file !== 'README.md')
+      .map((file) => read(`.changeset/${file}`).split(/^---$/m))
+      .filter(([, head]) => /: (?:minor|major)\s*$/m.test(head ?? ''))
+      .map(([, , body]) => (body ?? '').trim())
+    const manifest = JSON.parse(read('packages/registry/registry.json')) as { items: { name: string; type: string }[] }
+    const missing = manifest.items
+      .filter((item) => item.type === 'registry:ui' && !fromTheFirstRelease.includes(item.name))
+      .filter((item) => ![...released, ...pending].some((text) => introduces(text, pascalName(item.name), item.name)))
+      .map((item) => item.name)
+    expect(missing, 'open a sentence of their changeset with New `Name`').toEqual([])
   })
 })
 
