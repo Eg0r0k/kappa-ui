@@ -6,6 +6,8 @@ export type Surfaces = 'flat' | 'raised' | 'tinted'
 
 export type Shadows = 'none' | 'subtle' | 'default' | 'strong'
 
+export type Ripple = 'on' | 'off'
+
 export type StatusName = 'destructive' | 'success' | 'warning' | 'info'
 
 type StatusKey = `${StatusName}${'Hue' | 'Chroma' | 'Lightness'}`
@@ -19,6 +21,7 @@ export interface ThemeConfig {
   surfaceBorder: SurfaceBorder
   surfaces: Surfaces
   shadows: Shadows
+  ripple: Ripple
   destructiveHue: number
   destructiveChroma: number
   destructiveLightness: number
@@ -104,6 +107,11 @@ export const shadows: { key: Shadows; name: string }[] = [
   { key: 'subtle', name: 'Subtle' },
   { key: 'default', name: 'Default' },
   { key: 'strong', name: 'Strong' },
+]
+
+export const ripples: { key: Ripple; name: string }[] = [
+  { key: 'on', name: 'On' },
+  { key: 'off', name: 'Off' },
 ]
 
 const shadowScale: Record<Shadows, number> = { none: 0, subtle: 0.5, default: 1, strong: 2 }
@@ -218,6 +226,7 @@ export const defaultTheme: ThemeConfig = {
   surfaceBorder: 'none',
   surfaces: 'raised',
   shadows: 'default',
+  ripple: 'on',
   ...statusDefaults,
 }
 
@@ -327,6 +336,8 @@ export const themeTokens = (config: ThemeConfig) => {
 
   if (config.shadows !== 'default') Object.assign(light, shadowTokens(config.shadows))
 
+  if (config.ripple === 'off') light['kappa-ripple'] = 'none'
+
   const status = statusTokens(config)
   return { light: { ...light, ...status.light }, dark: { ...dark, ...status.dark } }
 }
@@ -414,5 +425,6 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
       ? (query.surfaces as Surfaces)
       : defaultTheme.surfaces,
     shadows: shadows.some((option) => option.key === query.shadows) ? (query.shadows as Shadows) : defaultTheme.shadows,
+    ripple: ripples.some((option) => option.key === query.ripple) ? (query.ripple as Ripple) : defaultTheme.ripple,
   }
 }
