@@ -172,6 +172,27 @@ test('reads the typescale into text styles and the shadows into effect styles', 
   ])
 })
 
+test('reads inset layers and the shadows a role shadow refers to', () => {
+  const theme = sources.theme.replace(
+    '  --secondary: oklch(0.955 0 0);\n}',
+    '  --secondary: oklch(0.955 0 0);\n  --shadow-popover: inset 0 1px 0 0 oklch(1 0 0 / 50%), var(--shadow-sm);\n}',
+  )
+  const { payload } = tokensOf({ ...sources, theme }, light)
+  const shadow = { r: 0, g: 0, b: 0, a: 0.1 }
+  assert.deepEqual(
+    payload.effectStyles.find((style) => style.id === 'Effect/shadow/popover'),
+    {
+      id: 'Effect/shadow/popover',
+      name: 'shadow/popover',
+      layers: [
+        { x: 0, y: 1, blur: 0, spread: 0, color: { r: 1, g: 1, b: 1, a: 0.5 }, inset: true },
+        { x: 0, y: 1, blur: 3, spread: 0, color: shadow },
+        { x: 0, y: 1, blur: 2, spread: -1, color: shadow },
+      ],
+    },
+  )
+})
+
 test('resolves the control size tokens into Size variables', () => {
   const { payload } = tokensOf(sources, light)
   const sizes = payload.variables.filter((item) => item.collection === 'Size')
@@ -203,9 +224,9 @@ const real = { tokens: core('tokens.css'), theme: core('theme.css'), tailwind: c
 test('reads the real core sources', () => {
   const { payload, gamutMapped } = tokensOf(real, light)
   const count = (collection: string) => payload.variables.filter((item) => item.collection === collection).length
-  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [33, 47, 9, 20])
+  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [35, 47, 9, 20])
   assert.equal(payload.textStyles.length, 15)
-  assert.equal(payload.effectStyles.length, 5)
+  assert.equal(payload.effectStyles.length, 7)
   const tones = payload.variables.filter((item) => item.collection === 'Tone')
   const groups = new Set(tones.map((item) => item.name.split('/')[0]))
   assert.deepEqual(

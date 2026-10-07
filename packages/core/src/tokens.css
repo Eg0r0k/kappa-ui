@@ -183,10 +183,14 @@
   --text-label-sm--line-height: var(--typescale-label-sm-line-height);
   --text-label-sm--font-weight: var(--typescale-label-sm-weight);
   --color-surface-border: var(--surface-border, var(--border));
+  --color-dialog: var(--dialog, var(--popover));
+  --color-dialog-foreground: var(--dialog-foreground, var(--popover-foreground));
   --color-scrim: var(--scrim);
   --shadow-shadow-xs: var(--shadow-xs);
   --shadow-shadow-sm: var(--shadow-sm);
   --shadow-shadow-md: var(--shadow-md);
   --shadow-shadow-lg: var(--shadow-lg);
   --shadow-shadow-xl: var(--shadow-xl);
+  --shadow-shadow-popover: var(--shadow-popover, var(--shadow-lg));
+  --shadow-shadow-dialog: var(--shadow-dialog, var(--shadow-xl));
 }

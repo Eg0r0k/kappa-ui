@@ -227,9 +227,10 @@ it("adds up quick steps", async () => {
   wrapper.unmount();
 });
 
-it("runs the overlay gradient to the background of the card or popover it sits in", () => {
+it("runs the overlay gradient to the background of the card, popover or dialog it sits in", () => {
   const root = document.createElement("div");
-  root.style.cssText = "--background: rgb(1, 1, 1); --card: rgb(2, 2, 2); --popover: rgb(3, 3, 3)";
+  root.style.cssText =
+    "--background: rgb(1, 1, 1); --card: rgb(2, 2, 2); --popover: rgb(3, 3, 3); --dialog: rgb(4, 4, 4)";
   document.body.append(root);
   const gradient = (surface: Element) =>
     getComputedStyle(surface.querySelector(".scroll-fade-overlay-y")!, "::before").backgroundImage;
@@ -246,5 +247,5 @@ it("runs the overlay gradient to the background of the card or popover it sits i
   expect(gradient(card.element as Element)).toContain("rgb(2, 2, 2)");
   expect(gradient(surface(listboxVariants()))).toContain("rgb(2, 2, 2)");
   expect(gradient(surface(overlaySurface))).toContain("rgb(3, 3, 3)");
-  expect(gradient(surface(dialogSurface))).toContain("rgb(3, 3, 3)");
+  expect(gradient(surface(dialogSurface))).toContain("rgb(4, 4, 4)");
 });

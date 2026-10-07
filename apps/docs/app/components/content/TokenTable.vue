@@ -77,9 +77,15 @@ const pairs = [
   },
   { bg: 'card', fg: 'card-foreground', role: 'Card surface and text', checks: [on('card-foreground', 'card')] },
   {
+    bg: 'dialog',
+    fg: 'dialog-foreground',
+    role: 'Dialogs, alert dialogs and drawers',
+    checks: [on('dialog-foreground', 'dialog')],
+  },
+  {
     bg: 'popover',
     fg: 'popover-foreground',
-    role: 'Not read by any component yet',
+    role: 'Menus, select lists, popovers, hover cards and toasts; a step above dialogs in the dark theme',
     checks: [on('popover-foreground', 'popover')],
   },
   { bg: 'input', fg: null, role: 'Borders of controls; 3:1 against the page', checks: [on('input', 'background', 3)] },

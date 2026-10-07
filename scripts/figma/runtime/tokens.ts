@@ -88,16 +88,18 @@ const syncEffectStyles = async (tokens: EffectStyleToken[], report: SyncReport) 
   for (const token of tokens) {
     const style = upsert(managed, token.id, () => figma.createEffectStyle(), report)
     style.name = token.name
-    style.effects = token.layers.map((layer): DropShadowEffect => ({
-      type: 'DROP_SHADOW',
-      color: layer.color,
-      offset: { x: layer.x, y: layer.y },
-      radius: layer.blur,
-      spread: layer.spread,
-      visible: true,
-      blendMode: 'NORMAL',
-      showShadowBehindNode: false,
-    }))
+    style.effects = token.layers.map((layer): DropShadowEffect | InnerShadowEffect => {
+      const shadow = {
+        color: layer.color,
+        offset: { x: layer.x, y: layer.y },
+        radius: layer.blur,
+        spread: layer.spread,
+        visible: true,
+        blendMode: 'NORMAL' as const,
+      }
+      if (layer.inset) return { ...shadow, type: 'INNER_SHADOW' }
+      return { ...shadow, type: 'DROP_SHADOW', showShadowBehindNode: false }
+    })
     styles.set(token.id, style)
   }
   return { managed, styles }
