@@ -176,6 +176,22 @@ it("stays still while its host is disabled", () => {
   expect(container()).toBeNull();
 });
 
+it("stays still under --kappa-ripple: none, on the host or an ancestor", () => {
+  host(true, "--kappa-ripple: none");
+  press(element("host"), 50, 50);
+  element("host").click();
+  expect(container()).toBeNull();
+  element("host").style.removeProperty("--kappa-ripple");
+
+  document.documentElement.style.setProperty("--kappa-ripple", "none");
+  press(element("host"), 50, 50);
+  document.documentElement.style.removeProperty("--kappa-ripple");
+  expect(container()).toBeNull();
+
+  press(element("host"), 50, 50);
+  expect(waves()).toHaveLength(1);
+});
+
 it("stays still on a disabled button", () => {
   mount(
     defineComponent({

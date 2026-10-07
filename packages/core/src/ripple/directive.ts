@@ -77,6 +77,9 @@ const matches = (query: string) => typeof matchMedia === "function" && matchMedi
 
 const canAnimate = (element: Element) => typeof element.animate === "function";
 
+const switchedOff = (element: Element) =>
+  getComputedStyle(element).getPropertyValue("--kappa-ripple").trim() === "none";
+
 const ensureContainer = (el: RippleElement): HTMLElement => {
   const state = el._ripple!;
   if (state.container) return state.container;
@@ -203,7 +206,7 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
 
   const activeState = () => {
     const state = el._ripple;
-    if (!state || state.options.disabled || el.matches(DISABLED_SELECTOR)) return undefined;
+    if (!state || state.options.disabled || el.matches(DISABLED_SELECTOR) || switchedOff(el)) return undefined;
     return matches("(forced-colors: active)") ? undefined : state;
   };
 

@@ -344,7 +344,7 @@
       opacity: var(--state-hover, 8%);
     }
   }
-  &:active:not([aria-disabled="true"], :has(> [data-slot="ripple"]))::before {
+  &:active:not([aria-disabled="true"], :has(> [data-slot="ripple"] > *))::before {
     opacity: var(--state-pressed, 12%);
   }
   @media (forced-colors: active) {
