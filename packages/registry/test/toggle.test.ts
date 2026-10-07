@@ -42,6 +42,14 @@ it("is a button that toggles aria-pressed and data-state", async () => {
   expect(updates).toEqual([true]);
 });
 
+it("lets attributes passed in win over its own, so a wrapper can name its data-slot", async () => {
+  const [toggle] = render(() => [h(Toggle, { "aria-label": "Bold", "data-slot": "editor-toggle" }, () => "B")]);
+  expect(toggle!.dataset.slot).toBe("editor-toggle");
+  toggle!.click();
+  await nextTick();
+  expect(toggle!.dataset.state).toBe("on");
+});
+
 it("looks like a ghost neutral button when off and a soft neutral one when on", () => {
   const [off, on, ghost, soft] = render(() => [
     h(Toggle, () => "A"),

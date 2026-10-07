@@ -148,6 +148,23 @@ describe("structure", () => {
     expect(q("[data-slot=navigation-menu-indicator]")).not.toBeNull();
   });
 
+  it("lets attributes passed to a trigger win over its own", () => {
+    const wrapper = mount(
+      () =>
+        h(NavigationMenu, { "aria-label": "Main" }, () =>
+          h(NavigationMenuList, () =>
+            h(NavigationMenuItem, { value: "docs" }, () => [
+              h(NavigationMenuTrigger, { "data-slot": "site-trigger", "data-testid": "docs" }, () => "Docs"),
+              h(NavigationMenuContent, () => "Panel"),
+            ]),
+          ),
+        ),
+      { attachTo: document.body },
+    );
+    unmount = () => wrapper.unmount();
+    expect(q("[data-testid=docs]").dataset.slot).toBe("site-trigger");
+  });
+
   it("keeps items static so the indicator can measure from the list", () => {
     renderMenu();
     expect(getComputedStyle(all("[data-slot=navigation-menu-item]")[0]!).position).toBe("static");
