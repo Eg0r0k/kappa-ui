@@ -1,4 +1,4 @@
-import { mount } from "@vue/test-utils";
+import { flushPromises, mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import type { Component } from "vue";
 
@@ -37,9 +37,9 @@ describe("examples", () => {
     expect(unregistered).toEqual([]);
   });
 
-  it.each(entryFiles)("mounts %s without warnings", (path) => {
+  it.each(entryFiles)("mounts %s without warnings", async (path) => {
     const warnings: string[] = [];
-    const wrapper = mount(modules[`../${path}`]!.default, {
+    mount(modules[`../${path}`]!.default, {
       attachTo: document.body,
       global: {
         plugins: [createToaster(), createDialogs()],
@@ -47,9 +47,8 @@ describe("examples", () => {
       },
     });
 
-    expect(wrapper.element).toBeTruthy();
-    expect(warnings).toEqual([]);
+    await flushPromises();
 
-    wrapper.unmount();
+    expect(warnings).toEqual([]);
   });
 });

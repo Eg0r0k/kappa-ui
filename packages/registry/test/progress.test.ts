@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
 import { ConfigProvider } from "reka-ui";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h, nextTick } from "vue";
 
 import { Progress, ProgressLabel, ProgressValue } from "@/ui/progress";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (
   props: Record<string, unknown> = {},

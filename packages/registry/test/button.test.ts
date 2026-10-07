@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
@@ -8,10 +8,6 @@ import { Button } from "@/ui/button";
 import { ButtonGroup } from "@/ui/button-group";
 
 import { overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (props: Record<string, unknown> = {}) =>
   mount({ render: () => h(Button, props, () => "Button") }, { attachTo: document.body }).get("[data-slot=button]")
@@ -105,21 +101,26 @@ describe("Button aria-disabled", () => {
     async (variant) => {
       mount(
         {
-          render: () => [
-            h(Button, { variant, disabled: true }, () => "A"),
-            h(Button, { variant, "aria-disabled": "true" }, () => "B"),
-          ],
+          render: () =>
+            h("div", { style: "--transition-duration-short-1: 0s" }, [
+              h(Button, { variant, disabled: true }, () => "A"),
+              h(Button, { variant, "aria-disabled": "true" }, () => "B"),
+              h(Button, { variant }, () => "C"),
+            ]),
         },
         { attachTo: document.body },
       );
-      const [native, aria] = [...document.querySelectorAll<HTMLElement>("[data-slot=button]")];
+      const [native, aria, enabled] = [...document.querySelectorAll<HTMLElement>("[data-slot=button]")];
       const look = (el: HTMLElement) => {
         const style = getComputedStyle(el);
         return [style.backgroundColor, style.color, style.boxShadow];
       };
+      const layer = (el: HTMLElement) => getComputedStyle(el, "::before").opacity;
       expect(look(aria!)).toEqual(look(native!));
+      await userEvent.hover(enabled!);
+      expect(layer(enabled!)).toBe("0.08");
       await userEvent.hover(aria!);
-      expect(getComputedStyle(aria!, "::before").opacity).toBe("0");
+      expect(layer(aria!)).toBe("0");
     },
   );
 });

@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
-import { test } from 'node:test'
+import { after, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 const script = resolve(dirname(fileURLToPath(import.meta.url)), 'build-registry.ts')
@@ -50,6 +50,12 @@ const registryPackage = {
   devDependencies: { 'reka-ui': '4.5.6', vite: '^8.3.0' },
 }
 
+const roots: string[] = []
+
+after(async () => {
+  await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })))
+})
+
 const run = async (
   items: unknown[],
   env: Record<string, string> = {},
@@ -57,6 +63,7 @@ const run = async (
   registry: unknown = registryPackage,
 ) => {
   const root = await mkdtemp(join(tmpdir(), 'kappa-registry-'))
+  roots.push(root)
   await mkdir(join(root, 'src/ui/demo'), { recursive: true })
   await mkdir(join(root, 'src/examples/demo'), { recursive: true })
   await mkdir(join(root, 'src/other'), { recursive: true })
@@ -679,6 +686,7 @@ test('writes the merged stylesheet of every item that is not an example', async 
 
 test('the committed registry.css is what the build generates', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'kappa-registry-css-'))
+  roots.push(dir)
   const result = spawnSync(process.execPath, [script, '--out', join(dir, 'r'), '--css', join(dir, 'registry.css')], {
     encoding: 'utf8',
   })

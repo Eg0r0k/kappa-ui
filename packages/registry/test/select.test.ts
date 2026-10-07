@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
@@ -7,10 +7,6 @@ import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const options = () =>
   ["viewer", "editor", "admin"].map((value) => h(SelectItem, { value, disabled: value === "admin" }, () => value));
@@ -45,7 +41,7 @@ describe("Select", () => {
     expect(trigger.attributes("aria-describedby")).toBe(
       `${wrapper.get("[data-slot=field-description]").attributes("id")} ${wrapper.get("[data-slot=field-error]").attributes("id")}`,
     );
-    expect(trigger.attributes("data-placeholder")).toBeDefined();
+    expect(trigger.attributes("data-placeholder")).toBe("");
     expect(document.querySelector("select[name=role]")).not.toBeNull();
     wrapper.unmount();
   });
@@ -60,7 +56,7 @@ describe("Select", () => {
       }),
     );
 
-    expect(wrapper.get("[data-slot=select-trigger]").attributes("disabled")).toBeDefined();
+    expect(wrapper.get("[data-slot=select-trigger]").attributes("disabled")).toBe("");
     wrapper.unmount();
   });
 

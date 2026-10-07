@@ -160,19 +160,12 @@ describe('theme', () => {
   })
 
   it('keeps muted text at 4.5:1 on the page, cards, popovers and muted fills with every surface option', () => {
-    const raised: Record<string, number> = {
-      background: 0.98,
-      card: 1,
-      popover: 1,
-      muted: 0.955,
-      'muted-foreground': 0.53,
-    }
     const luminance = (value: number) => value ** 3
     const contrast = (a: number, b: number) =>
       (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05)
     for (const option of surfaces) {
       const { light } = themeTokens({ ...defaultTheme, surfaces: option.key })
-      const level = (name: string) => Number(light[name]?.match(/oklch\(([\d.]+)/)?.[1] ?? raised[name])
+      const level = (name: string) => Number((light[name] ?? staticToken(':root', name))?.match(/oklch\(([\d.]+)/)?.[1])
       for (const surface of ['background', 'card', 'popover', 'muted']) {
         expect(
           contrast(level('muted-foreground'), level(surface)),

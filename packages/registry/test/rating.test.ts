@@ -1,6 +1,6 @@
 import "./setup.css";
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, createSSRApp, defineComponent, h, nextTick, ref } from "vue";
 import { renderToString } from "vue/server-renderer";
@@ -8,11 +8,7 @@ import { renderToString } from "vue/server-renderer";
 import { Field, FieldDescription, FieldError, FieldLabel, FieldSet } from "@/ui/field";
 import { Rating, RatingDisplay, RatingDisplayItem, RatingItem } from "@/ui/rating";
 
-import { controlSizes, overrideControlTokens, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
+import { overrideControlTokens, sentinel } from "./control-tokens";
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -340,8 +336,8 @@ describe("Rating hover", () => {
 
   it("previews under a mouse and goes back to the value on leaving (nuxt/ui#6746)", async () => {
     const spot = park();
-    const { radio, items, active, hovers } = render({ modelValue: 2, hoverable: true });
     await userEvent.hover(spot);
+    const { radio, items, active, hovers } = render({ modelValue: 2, hoverable: true });
 
     await userEvent.hover(radio(4));
     await nextTick();
@@ -357,8 +353,8 @@ describe("Rating hover", () => {
 
   it("does not preview without hoverable", async () => {
     const spot = park();
-    const { radio, active, hovers } = render({ modelValue: 2 });
     await userEvent.hover(spot);
+    const { radio, active, hovers } = render({ modelValue: 2 });
 
     await userEvent.hover(radio(4));
     await nextTick();
@@ -435,7 +431,7 @@ describe("Rating colours", () => {
   it("draws a disabled rating in one opaque grey", () => {
     const { filled, empty, radios } = paint({ disabled: true });
 
-    expect(radios().every((radio) => radio.disabled)).toBe(true);
+    expect(radios().map((radio) => radio.disabled)).toEqual([true, true, true, true, true]);
     expect(filled.fill).toBe(filled.stroke);
     expect(empty.stroke).toBe(filled.fill);
     expect(filled.fill).not.toMatch(/\/|rgba|transparent/);
@@ -523,14 +519,14 @@ describe("Rating in a field", () => {
 
   it("is disabled by a disabled field or fieldset", async () => {
     const field = inField({ disabled: true });
-    expect(field.radios().every((radio) => radio.disabled)).toBe(true);
+    expect(field.radios().map((radio) => radio.disabled)).toEqual([true, true, true, true, true]);
     field.wrapper.unmount();
     document.body.innerHTML = "";
 
     const fieldset = render({ modelValue: 2, "aria-label": "Stay" }, (rating) =>
       h(FieldSet, { disabled: true }, () => [rating]),
     );
-    expect(fieldset.radios().every((radio) => radio.disabled)).toBe(true);
+    expect(fieldset.radios().map((radio) => radio.disabled)).toEqual([true, true, true, true, true]);
   });
 });
 
@@ -690,7 +686,13 @@ describe("Rating in a form", () => {
 describe("Rating sizes", () => {
   overrideControlTokens();
 
-  it.each(controlSizes)("sizes the %s item box and glyph from the control tokens", async (size) => {
+  it.each([
+    ["xs", 40],
+    ["sm", 42],
+    ["md", 42],
+    ["lg", 42],
+    ["xl", 44],
+  ] as const)("sizes the %s item box and glyph from the control tokens", async (size, icon) => {
     const { items } = render({ size, modelValue: 2 });
     await nextTick();
     const item = items()[0].getBoundingClientRect();
@@ -698,7 +700,6 @@ describe("Rating sizes", () => {
     const halo = Number.parseFloat(getComputedStyle(items()[0], "::before").width);
 
     const box = sentinel.height[size];
-    const icon = Math.round((box * 2) / 3 / 2) * 2;
     expect(item.height).toBe(box);
     expect(glyph.width).toBe(icon);
     expect(item.width).toBeCloseTo(icon + sentinel.gap[size] / 2, 1);

@@ -1,3 +1,7 @@
+let clock = 0;
+
+export const stamp = <T extends Event>(event: T) => Object.defineProperty(event, "timeStamp", { value: clock });
+
 export const pointer = (
   type: "pointerdown" | "pointermove" | "pointerup",
   target: Element,
@@ -6,21 +10,26 @@ export const pointer = (
   pointerType: "touch" | "mouse" | "pen" = "touch",
 ) =>
   target.dispatchEvent(
-    new PointerEvent(type, {
-      pointerId: 1,
-      pointerType,
-      isPrimary: true,
-      button: 0,
-      buttons: type === "pointerup" ? 0 : 1,
-      clientX: x,
-      clientY: y,
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-    }),
+    stamp(
+      new PointerEvent(type, {
+        pointerId: 1,
+        pointerType,
+        isPrimary: true,
+        button: 0,
+        buttons: type === "pointerup" ? 0 : 1,
+        clientX: x,
+        clientY: y,
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+      }),
+    ),
   );
 
-export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const wait = (ms: number) => {
+  clock += ms;
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
 
 export const drag = async (target: Element, from: [number, number], to: [number, number], steps = 4, pause = 40) => {
   pointer("pointerdown", target, from[0], from[1]);

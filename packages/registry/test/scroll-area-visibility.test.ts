@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { beforeEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { h } from "vue";
+import { h, nextTick } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
 
@@ -21,10 +21,6 @@ beforeEach(async () => {
   away.style.cssText = "position: fixed; right: 0; bottom: 0; width: 8px; height: 8px";
   await userEvent.hover(away);
   away.remove();
-});
-
-afterEach(() => {
-  document.body.innerHTML = "";
 });
 
 it("shows the bars while scrolling and hides them after the delay", async () => {
@@ -111,7 +107,8 @@ it("makes a scrollable viewport focusable and a full one not", async () => {
     slots: { default: () => h("div", { style: "height: 50px; width: 50px" }) },
   });
   const fullViewport = full.element.querySelector("[data-slot=scroll-area-viewport]")!;
-  await vi.waitFor(() => expect(fullViewport.hasAttribute("tabindex")).toBe(false));
+  await nextTick();
+  expect(fullViewport.hasAttribute("tabindex")).toBe(false);
   full.unmount();
 });
 

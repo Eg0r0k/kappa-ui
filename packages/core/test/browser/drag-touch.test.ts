@@ -4,24 +4,25 @@ import { cdp } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { DrawerContent, DrawerRoot } from "../../src/drawer";
-import { pointer, wait } from "./pointer";
+import { pointer, stamp, wait } from "./pointer";
 
 afterEach(async () => {
-  document.body.innerHTML = "";
   await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false });
 });
 
 const touch = (type: "touchstart" | "touchmove" | "touchend", target: Element, x: number, y: number) => {
   const point = new Touch({ identifier: 1, target, clientX: x, clientY: y, pageX: x, pageY: y });
   target.dispatchEvent(
-    new TouchEvent(type, {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-      touches: type === "touchend" ? [] : [point],
-      targetTouches: type === "touchend" ? [] : [point],
-      changedTouches: [point],
-    }),
+    stamp(
+      new TouchEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+        touches: type === "touchend" ? [] : [point],
+        targetTouches: type === "touchend" ? [] : [point],
+        changedTouches: [point],
+      }),
+    ),
   );
 };
 

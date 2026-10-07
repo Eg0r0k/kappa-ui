@@ -1,8 +1,4 @@
-import { afterEach, expect, it, vi } from "vitest";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
+import { expect, it, vi } from "vitest";
 
 const table = (rows: number) => {
   const scroller = document.createElement("div");

@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { nextTick } from "vue";
 
 import InputFloatingDemo from "@/examples/input-floating/InputFloatingDemo.vue";
 import InputStates from "@/examples/input/InputStates.vue";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const invalidFields = (wrapper: ReturnType<typeof mount>) =>
   wrapper.findAll("[data-slot=field]").filter((field) => field.find("[data-slot=field-error]").exists());

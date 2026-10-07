@@ -1,11 +1,9 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 
 import HomeShowcase from '~/components/home/HomeShowcase.vue'
 import { showcaseCss } from '~/lib/showcase-styles'
-
-enableAutoUnmount(afterEach)
 
 beforeAll(() => {
   const style = document.createElement('style')
@@ -24,7 +22,6 @@ describe('HomeShowcase', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     mountShowcase('kappa')
     expect(warn).not.toHaveBeenCalled()
-    warn.mockRestore()
   })
 
   it('scopes a preset to the showcase', () => {
@@ -76,6 +73,5 @@ describe('HomeShowcase', () => {
     document.body.append(frame)
     mount(HomeShowcase, { props: { styleKey: 'kappa' }, attrs: { style: 'height: 20rem' }, attachTo: frame })
     expect(frame.scrollHeight).toBe(frame.clientHeight)
-    frame.remove()
   })
 })

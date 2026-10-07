@@ -7,14 +7,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
-const settle = (ms = 350) => new Promise((resolve) => setTimeout(resolve, ms));
-
 let unmount: (() => void) | undefined;
 
 afterEach(() => {
   unmount?.();
   unmount = undefined;
-  document.body.innerHTML = "";
 });
 
 const renderTabs = (
@@ -45,7 +42,20 @@ const list = () => document.querySelector<HTMLElement>("[data-slot=tabs-list]")!
 const triggers = () => [...document.querySelectorAll<HTMLElement>("[data-slot=tabs-trigger]")];
 const indicator = () => document.querySelector<HTMLElement>("[data-slot=tabs-indicator]")!;
 const panel = (name: string) => document.querySelector<HTMLElement>(`[data-test=panel-${name}]`);
-const near = (a: number, b: number) => Math.abs(a - b) < 0.5;
+const gap = (a: number, b: number) => Math.abs(Math.round(a - b));
+const shown = () => expect.poll(() => document.querySelector("[data-slot=tabs-indicator]")).not.toBeNull();
+
+const alongX = (trigger: HTMLElement) => {
+  const bar = indicator().getBoundingClientRect();
+  const box = trigger.getBoundingClientRect();
+  return [gap(bar.left, box.left), gap(bar.width, box.width)];
+};
+
+const alongY = (trigger: HTMLElement) => {
+  const bar = indicator().getBoundingClientRect();
+  const box = trigger.getBoundingClientRect();
+  return [gap(bar.top, box.top), gap(bar.height, box.height)];
+};
 
 it("switches panels by click and by arrow keys, skipping disabled triggers and wrapping", async () => {
   renderTabs();
@@ -70,28 +80,19 @@ it("keeps inactive panels mounted but hidden when unmount-on-hide is off", () =>
 
 it("slides the indicator under the active trigger", async () => {
   renderTabs();
-  await settle();
-  const first = triggers()[0]!.getBoundingClientRect();
-  let bar = indicator().getBoundingClientRect();
-  expect(near(bar.left, first.left) && near(bar.width, first.width)).toBe(true);
+  await expect.poll(() => alongX(triggers()[0]!)).toEqual([0, 0]);
 
   await userEvent.click(triggers()[1]!);
-  await settle();
-  const second = triggers()[1]!.getBoundingClientRect();
-  bar = indicator().getBoundingClientRect();
-  expect(near(bar.left, second.left) && near(bar.width, second.width)).toBe(true);
+  await expect.poll(() => alongX(triggers()[1]!)).toEqual([0, 0]);
 });
 
 it("moves the indicator along the vertical axis when vertical", async () => {
   renderTabs({ orientation: "vertical" });
-  await settle();
   expect(list().getAttribute("aria-orientation")).toBe("vertical");
+  await expect.poll(() => alongY(triggers()[0]!)).toEqual([0, 0]);
 
   await userEvent.click(triggers()[1]!);
-  await settle();
-  const second = triggers()[1]!.getBoundingClientRect();
-  const bar = indicator().getBoundingClientRect();
-  expect(near(bar.top, second.top) && near(bar.height, second.height)).toBe(true);
+  await expect.poll(() => alongY(triggers()[1]!)).toEqual([0, 0]);
 });
 
 it("sizes triggers from the list and defaults to a medium pill", () => {
@@ -125,16 +126,16 @@ it("keeps the triggers' stacking context inside the list", () => {
 
 it("draws a line along the list's edge for the line variant", async () => {
   renderTabs({}, { variant: "line" });
-  await settle();
+  await shown();
   const bar = indicator().getBoundingClientRect();
   expect(list().dataset.variant).toBe("line");
   expect(bar.height).toBe(2);
-  expect(near(bar.bottom, list().getBoundingClientRect().bottom)).toBe(true);
+  expect(gap(bar.bottom, list().getBoundingClientRect().bottom)).toBe(0);
 });
 
 it("draws the line indicator in its color's text shade, primary by default", async () => {
   renderTabs({}, { variant: "line", style: "--primary: rgb(0, 0, 255)" });
-  await settle();
+  await shown();
   expect(list().dataset.color).toBe("primary");
   expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(0, 0, 255)");
   unmount?.();
@@ -143,7 +144,7 @@ it("draws the line indicator in its color's text shade, primary by default", asy
     {},
     { variant: "line", color: "success", style: "--success: rgb(0, 200, 0); --success-text: rgb(0, 90, 0)" },
   );
-  await settle();
+  await shown();
   expect(list().dataset.color).toBe("success");
   expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(0, 90, 0)");
   unmount?.();
@@ -153,7 +154,7 @@ it("draws the line indicator in its color's text shade, primary by default", asy
   document.head.append(style);
   try {
     renderTabs({}, { variant: "line", color: "brand" });
-    await settle();
+    await shown();
     expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(255, 0, 200)");
   } finally {
     style.remove();
@@ -163,7 +164,7 @@ it("draws the line indicator in its color's text shade, primary by default", asy
 it("keeps the pill thumb concentric with its track", async () => {
   for (const size of ["xs", "md", "xl"] as const) {
     renderTabs({}, { size });
-    await settle();
+    await shown();
     const trackRadius = Number.parseFloat(getComputedStyle(list()).borderTopLeftRadius);
     const thumbRadius = Number.parseFloat(getComputedStyle(indicator()).borderTopLeftRadius);
     const triggerRadius = Number.parseFloat(getComputedStyle(triggers()[0]!).borderTopLeftRadius);
@@ -178,7 +179,7 @@ it("squares the pill when --radius is zero", async () => {
   document.documentElement.style.setProperty("--radius", "0px");
   try {
     renderTabs();
-    await settle();
+    await shown();
     expect(getComputedStyle(list()).borderTopLeftRadius).toBe("0px");
     expect(getComputedStyle(indicator()).borderTopLeftRadius).toBe("0px");
     expect(getComputedStyle(triggers()[0]!).borderTopLeftRadius).toBe("0px");
@@ -189,29 +190,23 @@ it("squares the pill when --radius is zero", async () => {
 
 it("lifts the pill indicator with a shadow and no border, and the line indicator with neither", async () => {
   renderTabs();
-  await settle();
+  await shown();
   expect(getComputedStyle(indicator()).borderTopWidth).toBe("0px");
   expect(getComputedStyle(indicator()).boxShadow).not.toBe("none");
   unmount?.();
 
   renderTabs({}, { variant: "line" });
-  await settle();
+  await shown();
   expect(getComputedStyle(indicator()).borderTopWidth).toBe("0px");
   expect(getComputedStyle(indicator()).boxShadow).toBe("none");
 });
 
 it("slides the indicator under the active trigger in right-to-left", async () => {
   renderTabs({ dir: "rtl" });
-  await settle();
-  const first = triggers()[0]!.getBoundingClientRect();
-  let bar = indicator().getBoundingClientRect();
-  expect(near(bar.left, first.left) && near(bar.width, first.width)).toBe(true);
+  await expect.poll(() => alongX(triggers()[0]!)).toEqual([0, 0]);
 
   await userEvent.click(triggers()[1]!);
-  await settle();
-  const second = triggers()[1]!.getBoundingClientRect();
-  bar = indicator().getBoundingClientRect();
-  expect(near(bar.left, second.left) && near(bar.width, second.width)).toBe(true);
+  await expect.poll(() => alongX(triggers()[1]!)).toEqual([0, 0]);
 });
 
 describe("Tabs control tokens", () => {

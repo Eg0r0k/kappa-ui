@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { h } from "vue";
 
 import { Card } from "@/ui/card";
@@ -23,10 +23,6 @@ const radiiUnder = (radius?: string) => {
   document.body.append(host);
   return [...host.children].map((child) => getComputedStyle(child).borderRadius);
 };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("scales every radius token with --radius", () => {
   expect(radiiUnder()).toEqual(["1.6px", "4.8px", "6.4px", "8px", "11.2px", "14.4px", "17.6px", "20.8px"]);

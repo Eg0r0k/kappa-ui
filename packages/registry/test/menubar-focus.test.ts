@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, ref, withDirectives } from "vue";
 
@@ -17,10 +17,11 @@ import {
 import { Popover, PopoverAnchor, PopoverContent } from "@/ui/popover";
 import { vTooltip } from "@/ui/tooltip";
 
-import { item, openMenus, parkPointer, q, settle, trigger } from "./menubar-fixture";
-import { pointer, wait } from "./pointer";
+import { animations, focused, gone, item, openMenus, parkPointer, q, settle, trigger } from "./menubar-fixture";
+import { pointer } from "./pointer";
 
-enableAutoUnmount(afterEach);
+const closed = () => expect.poll(openMenus).toEqual([]);
+
 beforeEach(parkPointer);
 
 const editMenu = (content: Record<string, unknown>, items: () => VNode[]) =>
@@ -33,11 +34,10 @@ describe("Menubar focus on close", () => {
     mount({ render: () => editMenu({}, () => [h(MenubarItem, () => "Undo")]) }, { attachTo: document.body });
     trigger("Edit").focus();
     await userEvent.keyboard("{Enter}");
-    await settle();
+    await focused(() => item("Undo"));
     await userEvent.keyboard("{Enter}");
-    await settle();
-    expect(openMenus()).toEqual([]);
-    expect(document.activeElement).toBe(trigger("Edit"));
+    await closed();
+    await focused(() => trigger("Edit"));
   });
 
   // Reka's MenubarContent refocuses the trigger even when close-auto-focus is prevented
@@ -53,10 +53,11 @@ describe("Menubar focus on close", () => {
     );
     trigger("Edit").focus();
     await userEvent.keyboard("{Enter}");
-    await settle();
+    await focused(() => item("Toggle sidebar"));
     await userEvent.keyboard("{Enter}");
+    await closed();
+    await gone("[data-slot=menubar-content]");
     await settle();
-    expect(openMenus()).toEqual([]);
     expect(document.activeElement).not.toBe(trigger("Edit"));
   });
 
@@ -95,21 +96,21 @@ describe("Menubar focus on close", () => {
     );
     trigger("Edit").focus();
     await userEvent.keyboard("{Enter}");
-    await settle();
+    await focused(() => item("Find"));
     await userEvent.keyboard("{Enter}");
+    await closed();
+    await gone("[data-slot=menubar-content]");
+    await vi.waitFor(() => expect(closeEvents).toHaveLength(1));
     await settle();
-    await wait(200);
 
     expect(closeEvents).toHaveLength(1);
-    expect(openMenus()).toEqual([]);
     expect(document.activeElement).toBe(q("#search"));
     // the trigger is back in the menu context for the next close
     trigger("Edit").focus();
     await userEvent.keyboard("{Enter}");
-    await settle();
+    await focused(() => item("Find"));
     await userEvent.keyboard("{Escape}");
-    await settle();
-    expect(document.activeElement).toBe(trigger("Edit"));
+    await focused(() => trigger("Edit"));
   });
 
   // nuxt/ui#6463, nuxt/ui#5105: a non-modal overlay opened from an item lost focus to the trigger and closed
@@ -136,10 +137,11 @@ describe("Menubar focus on close", () => {
       { attachTo: document.body },
     );
     await userEvent.click(trigger("Edit"));
-    await settle();
+    await expect.poll(() => openMenus().length).toBe(1);
     await userEvent.click(item("Share"));
+    await vi.waitFor(() => expect(document.activeElement?.closest(".share-popover")).not.toBeNull());
+    await gone("[data-slot=menubar-content]");
     await settle();
-    await wait(300);
     expect(share.value).toBe(true);
     expect(q(".share-popover")).not.toBeNull();
     expect(document.activeElement?.closest(".share-popover")).not.toBeNull();
@@ -167,7 +169,8 @@ describe("Menubar with other overlays", () => {
     const settings = q("[data-slot=menubar-trigger]")!;
     pointer("pointermove", settings, 1, 1, "mouse");
     await userEvent.click(settings);
-    await settle();
+    await expect.poll(() => openMenus().length).toBe(1);
+    await animations();
     const triggerBox = settings.getBoundingClientRect();
     const contentBox = q("[data-slot=menubar-content]")!.getBoundingClientRect();
     expect(Math.round(contentBox.top - triggerBox.bottom)).toBe(4);
@@ -193,13 +196,12 @@ describe("Menubar with other overlays", () => {
       },
       { attachTo: document.body },
     );
-    await settle();
+    await expect.poll(() => q("[data-slot=dialog-content]")).not.toBeNull();
     await userEvent.click(trigger("File"));
-    await settle();
-    expect(openMenus()).toHaveLength(1);
+    await expect.poll(() => openMenus().length).toBe(1);
     await userEvent.click(item("Save"));
+    await expect.poll(() => chosen).toEqual(["save"]);
     await settle();
-    expect(chosen).toEqual(["save"]);
     expect(q("[data-slot=dialog-content]")).not.toBeNull();
   });
 
@@ -216,8 +218,7 @@ describe("Menubar with other overlays", () => {
       { attachTo: document.body },
     );
     await userEvent.click(trigger("Edit"));
-    await settle();
-    expect(opened).toHaveLength(1);
+    await vi.waitFor(() => expect(opened).toHaveLength(1));
     expect(q("[data-slot=menubar-content]")!.dataset.test).toBe("menu");
   });
 });
@@ -239,11 +240,10 @@ describe("Menubar submenus", () => {
       { attachTo: document.body },
     );
     await userEvent.click(trigger("Edit"));
-    await settle();
+    await expect.poll(() => openMenus().length).toBe(1);
     const find = item("Find");
     await userEvent.hover(find, { position: { x: 10, y: 10 } });
-    await settle();
-    expect(q("[data-slot=menubar-sub-content]")).not.toBeNull();
+    await expect.poll(() => q("[data-slot=menubar-sub-content]")).not.toBeNull();
     await userEvent.hover(find, { position: { x: 40, y: 12 } });
     await userEvent.hover(find, { position: { x: 70, y: 14 } });
     await settle();

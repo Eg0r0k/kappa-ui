@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { type VNode, h } from "vue";
 
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/ui/empty";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const icon = (props: Record<string, unknown> = {}) => h("svg", { viewBox: "0 0 24 24", ...props });
 

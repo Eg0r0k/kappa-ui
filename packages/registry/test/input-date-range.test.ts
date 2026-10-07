@@ -2,17 +2,13 @@ import { CalendarDate, CalendarDateTime } from "@internationalized/date";
 import { CalendarDays } from "@lucide/vue";
 import { mount } from "@vue/test-utils";
 import type { DateRange } from "reka-ui";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
 import { Field, FieldLabel } from "@/ui/field";
 import { InputDateRange } from "@/ui/input-date";
 import { InputGroup, InputGroupAddon } from "@/ui/input-group";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const colors = "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0)";
 

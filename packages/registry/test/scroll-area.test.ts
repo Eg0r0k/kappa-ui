@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
-import { h } from "vue";
+import { expect, it, vi } from "vitest";
+import { h, nextTick } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
 
@@ -27,10 +27,6 @@ const partsOf = (root: Element) => ({
   horizontalThumb: root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=horizontal]")!,
   verticalBar: root.querySelector<HTMLElement>("[data-slot=scroll-area-bar][data-axis=vertical]")!,
   horizontalBar: root.querySelector<HTMLElement>("[data-slot=scroll-area-bar][data-axis=horizontal]")!,
-});
-
-afterEach(() => {
-  document.body.innerHTML = "";
 });
 
 it("renders every slot of the structure", () => {
@@ -101,10 +97,11 @@ it("moves the thumb as the viewport scrolls", async () => {
 });
 
 it("hides the thumb when its own axis does not overflow", async () => {
-  const wrapper = mountArea({ content: { height: "100px", width: "400px" } });
+  const wrapper = mountArea({ props: { visible: true }, content: { height: "100px", width: "400px" } });
   const { verticalThumb } = partsOf(wrapper.element);
 
-  await vi.waitFor(() => expect(verticalThumb.className).toContain("opacity-0"));
+  await nextTick();
+  expect(verticalThumb.className).toContain("opacity-0");
 
   wrapper.unmount();
 });

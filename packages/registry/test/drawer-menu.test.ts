@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { type VNodeChild, h, nextTick } from "vue";
 
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/ui/drawer";
@@ -18,15 +18,19 @@ import {
 } from "@/ui/drawer-menu";
 
 import { type ControlSize, controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-import { wait } from "./pointer";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const settle = async () => {
   await nextTick();
   await nextTick();
+};
+const animations = async () => {
+  await settle();
+  await Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );
 };
 
 const render = (items: () => VNodeChild, menu: Record<string, unknown> = {}) =>
@@ -145,7 +149,7 @@ it("colours a destructive item", async () => {
 
 it("slides between panels and follows the visible one's height", async () => {
   render(everything);
-  await wait(500);
+  await animations();
   const menu = slot("drawer-menu")!;
   slot("drawer-menu-sub-trigger")!.click();
   await settle();
@@ -154,13 +158,12 @@ it("slides between panels and follows the visible one's height", async () => {
   expect(sub.getAnimations().map((animation) => (animation as CSSAnimation).animationName)).toContain(
     "kappa-drawer-menu-from-end",
   );
-  await wait(500);
+  await animations();
   expect(Math.round(menu.getBoundingClientRect().height)).toBe(Math.round(sub.getBoundingClientRect().height));
   slot("drawer-menu-back")!.click();
   await settle();
   expect(sub.dataset.motion).toBe("to-end");
-  await wait(500);
-  expect(slot("drawer-menu-sub-content")).toBeNull();
+  await expect.poll(() => slot("drawer-menu-sub-content")).toBeNull();
 });
 
 it("does not scroll while a taller panel leaves", async () => {
@@ -171,16 +174,23 @@ it("does not scroll while a taller panel leaves", async () => {
       h(DrawerMenuSubContent, () => Array.from({ length: 10 }, (_, index) => h(DrawerMenuItem, () => `Row ${index}`))),
     ]),
   ]);
-  await wait(500);
+  await animations();
   slot("drawer-menu-sub-trigger")!.click();
-  await wait(500);
+  await animations();
   slot("drawer-menu-back")!.click();
-  await wait(80);
+  await settle();
   const menu = slot("drawer-menu")!;
+  const leaving = slot("drawer-menu-sub-content")!;
+  const motion = [...menu.getAnimations(), ...leaving.getAnimations()];
+  expect(motion).toHaveLength(2);
+  for (const animation of motion) {
+    animation.pause();
+    animation.currentTime = 150;
+  }
   expect(menu.scrollHeight).toBeGreaterThan(menu.clientHeight);
   expect(["clip", "hidden"]).toContain(getComputedStyle(menu).overflowY);
-  await wait(500);
-  expect(getComputedStyle(menu).overflowY).toBe("auto");
+  for (const animation of motion) animation.play();
+  await expect.poll(() => getComputedStyle(menu).overflowY).toBe("auto");
 });
 
 it("brings a long root back to where it was scrolled", async () => {
@@ -191,17 +201,18 @@ it("brings a long root back to where it was scrolled", async () => {
       h(DrawerMenuSubContent, () => h(DrawerMenuItem, () => "Mail")),
     ]),
   ]);
-  await wait(500);
+  await animations();
   const menu = slot("drawer-menu")!;
+  const scrollEvent = new Promise((resolve) => menu.addEventListener("scroll", resolve, { once: true }));
   menu.scrollTop = menu.scrollHeight;
-  await wait(100);
+  await scrollEvent;
   const scrolled = menu.scrollTop;
   expect(scrolled).toBeGreaterThan(0);
   slot("drawer-menu-sub-trigger")!.click();
-  await wait(500);
+  await animations();
   expect(menu.scrollTop).toBe(0);
   slot("drawer-menu-back")!.click();
-  await wait(500);
+  await animations();
   expect(menu.scrollTop).toBe(scrolled);
   expect(document.activeElement).toBe(slot("drawer-menu-sub-trigger"));
 });

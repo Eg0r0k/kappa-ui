@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type Component, type VNodeChild, defineComponent, h, ref } from "vue";
 
@@ -17,6 +17,13 @@ import {
 } from "@/ui/dialog";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 300));
+const animations = () =>
+  Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );
 const dialog = () => document.querySelector<HTMLElement>("[role=dialog]");
 const part = (slot: string) => dialog()!.querySelector<HTMLElement>(`[data-slot=${slot}]`)!;
 const overlay = () => document.querySelector<HTMLElement>("[data-slot=dialog-overlay]")!;
@@ -24,14 +31,10 @@ const titles = () =>
   [...document.querySelectorAll("[role=dialog]")].map(
     (element) => element.querySelector("[data-slot=dialog-title]")?.textContent,
   );
-
-afterEach(() => {
-  document.body.innerHTML = "";
-  document.body.style.pointerEvents = "";
-  document.body.removeAttribute("style");
-});
-
-enableAutoUnmount(afterEach);
+const opened = async () => {
+  await expect.poll(dialog).not.toBeNull();
+  await animations();
+};
 
 type Options = {
   content?: Record<string, unknown>;
@@ -63,8 +66,8 @@ const mountDialog = ({ content = {}, as = DialogContent, body, footer }: Options
 
 describe("Dialog", () => {
   it("is named and described by its parts, and closes from its button", async () => {
-    const { wrapper, open } = mountDialog();
-    await settle();
+    const { open } = mountDialog();
+    await opened();
     const window = dialog()!;
 
     expect(window.getAttribute("data-slot")).toBe("dialog-content");
@@ -72,70 +75,59 @@ describe("Dialog", () => {
     expect(document.getElementById(window.getAttribute("aria-describedby")!)?.textContent).toBe("Pick a new name.");
 
     await userEvent.click(part("dialog-close"));
-    await settle();
+    await expect.poll(dialog).toBeNull();
     expect(open.value).toBe(false);
-    expect(dialog()).toBeNull();
-    wrapper.unmount();
   });
 
   it("focuses the first field when it opens, not the close button", async () => {
-    const { wrapper } = mountDialog({
+    mountDialog({
       body: () => [h("input", { "data-test": "first" }), h("input", { "data-test": "second" })],
     });
-    await settle();
 
-    expect(document.activeElement).toBe(document.querySelector("[data-test=first]"));
-    wrapper.unmount();
+    await expect.poll(() => document.activeElement?.getAttribute("data-test")).toBe("first");
   });
 
   it("falls back to the close button when nothing else can take focus", async () => {
-    const { wrapper } = mountDialog({ body: () => h("p", "Nothing to focus.") });
-    await settle();
+    mountDialog({ body: () => h("p", "Nothing to focus.") });
 
-    expect(document.activeElement?.getAttribute("data-slot")).toBe("dialog-close");
-    wrapper.unmount();
+    await expect.poll(() => document.activeElement?.getAttribute("data-slot")).toBe("dialog-close");
   });
 
   it("closes on Escape and on an outside press", async () => {
     const escaped = mountDialog();
-    await settle();
+    await opened();
     await userEvent.keyboard("{Escape}");
-    await settle();
-    expect(escaped.open.value).toBe(false);
+    await expect.poll(() => escaped.open.value).toBe(false);
     escaped.wrapper.unmount();
 
     const pressed = mountDialog();
-    await settle();
+    await opened();
     await userEvent.click(overlay(), { position: { x: 5, y: 5 } } as never);
-    await settle();
-    expect(pressed.open.value).toBe(false);
-    pressed.wrapper.unmount();
+    await expect.poll(() => pressed.open.value).toBe(false);
   });
 
   it("stays open when the window prevents both ways of dismissing it", async () => {
     const prevent = (event: Event) => event.preventDefault();
-    const { wrapper, open } = mountDialog({ content: { onEscapeKeyDown: prevent, onInteractOutside: prevent } });
-    await settle();
+    const { open } = mountDialog({ content: { onEscapeKeyDown: prevent, onInteractOutside: prevent } });
+    await opened();
 
     await userEvent.keyboard("{Escape}");
     await userEvent.click(overlay(), { position: { x: 5, y: 5 } } as never);
     await settle();
     expect(open.value).toBe(true);
-    wrapper.unmount();
   });
 
   it("sizes the body to its content, and scrolls only the body once the window reaches the screen's edge", async () => {
     const short = mountDialog({ body: () => h("p", { style: "height:120px" }, "Short") });
-    await settle();
+    await opened();
     expect(Math.round(part("dialog-body").getBoundingClientRect().height)).toBe(120 + 8);
     short.wrapper.unmount();
-    await settle();
 
-    const tall = mountDialog({
+    mountDialog({
       body: () => h("div", { style: "height:3000px" }, "Tall"),
       footer: () => h("button", "Save"),
     });
-    await settle();
+    await opened();
     const window = dialog()!.getBoundingClientRect();
     const body = part("dialog-body");
 
@@ -146,28 +138,25 @@ describe("Dialog", () => {
     expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
     body.scrollTop = 500;
     expect(body.scrollTop).toBe(500);
-    tall.wrapper.unmount();
   });
 
   it("keeps the header clear of the close button, and only while there is one", async () => {
     const withButton = mountDialog();
-    await settle();
+    await opened();
     expect(getComputedStyle(part("dialog-header")).paddingInlineEnd).toBe("56px");
     withButton.wrapper.unmount();
-    await settle();
 
-    const without = mountDialog({ content: { showCloseButton: false } });
-    await settle();
+    mountDialog({ content: { showCloseButton: false } });
+    await opened();
     expect(dialog()!.querySelector("[data-slot=dialog-close]")).toBeNull();
     expect(getComputedStyle(part("dialog-header")).paddingInlineEnd).toBe("24px");
-    without.wrapper.unmount();
   });
 
   it("covers the viewport with the fullscreen classes", async () => {
-    const { wrapper } = mountDialog({
+    mountDialog({
       content: { class: "inset-0 size-full max-h-none max-w-none translate-none rounded-none border-0" },
     });
-    await settle();
+    await opened();
     const rect = dialog()!.getBoundingClientRect();
 
     expect([rect.left, rect.top, Math.round(rect.width), Math.round(rect.height)]).toEqual([
@@ -176,22 +165,20 @@ describe("Dialog", () => {
       document.body.clientWidth,
       document.body.clientHeight,
     ]);
-    wrapper.unmount();
   });
 
   it("scrolls the overlay, not the body, in DialogScrollContent", async () => {
-    const { wrapper } = mountDialog({ as: DialogScrollContent, body: () => h("div", { style: "height:3000px" }) });
-    await settle();
+    mountDialog({ as: DialogScrollContent, body: () => h("div", { style: "height:3000px" }) });
+    await opened();
     const body = part("dialog-body");
 
     expect(dialog()!.getBoundingClientRect().height).toBeGreaterThan(3000);
     expect(body.scrollHeight).toBe(body.clientHeight);
     expect(overlay().scrollHeight).toBeGreaterThan(overlay().clientHeight);
-    wrapper.unmount();
   });
 
   it("opens from a DialogTrigger", async () => {
-    const wrapper = mount(
+    mount(
       defineComponent({
         setup: () => () =>
           h(Dialog, null, () => [
@@ -205,13 +192,11 @@ describe("Dialog", () => {
 
     expect(trigger.getAttribute("aria-haspopup")).toBe("dialog");
     await userEvent.click(trigger);
-    await settle();
-    expect(titles()).toEqual(["Notes"]);
-    wrapper.unmount();
+    await expect.poll(titles).toEqual(["Notes"]);
   });
 
   it("stacks a nested dialog and closes only the top one on Escape", async () => {
-    const wrapper = mount(
+    mount(
       defineComponent({
         setup: () => () =>
           h(Dialog, null, () => [
@@ -231,16 +216,15 @@ describe("Dialog", () => {
     );
 
     await userEvent.click(document.getElementById("outer")!);
-    await settle();
+    await expect.poll(titles).toEqual(["Outer"]);
+    await animations();
     await userEvent.click(document.getElementById("inner")!);
-    await settle();
-    expect(titles()).toEqual(["Outer", "Inner"]);
+    await expect.poll(titles).toEqual(["Outer", "Inner"]);
+    await animations();
 
     await userEvent.keyboard("{Escape}");
-    await settle();
-    expect(titles()).toEqual(["Outer"]);
-    expect(document.activeElement?.id).toBe("inner");
-    wrapper.unmount();
+    await expect.poll(titles).toEqual(["Outer"]);
+    await expect.poll(() => document.activeElement?.id).toBe("inner");
   });
 
   it("closes only the inner dialog when a button in it closes it", async () => {
@@ -251,9 +235,11 @@ describe("Dialog", () => {
       )!;
 
     await userEvent.click(wrapper.get("button").element);
-    await settle();
+    await expect.poll(titles).toEqual(["Share project"]);
+    await animations();
     await userEvent.click(button("Stop sharing"));
-    await settle();
+    await expect.poll(titles).toEqual(["Share project", "Stop sharing?"]);
+    await animations();
     const innerTitle = [...document.querySelectorAll("[role=dialog] [data-slot=dialog-title]")].at(-1)!;
     const changes: string[] = [];
     new MutationObserver(() => changes.push(innerTitle.textContent ?? "")).observe(innerTitle, {
@@ -262,12 +248,10 @@ describe("Dialog", () => {
       subtree: true,
     });
     await userEvent.click(button("Confirm"));
-    await settle();
+    await expect.poll(titles).toEqual(["Share project"]);
     expect(changes).toEqual([]);
 
-    expect(titles()).toEqual(["Share project"]);
     expect(document.querySelector("[role=dialog] [aria-live]")?.textContent).toContain("Sharing is off");
-    expect(document.activeElement?.textContent?.trim()).toBe("Share again");
-    wrapper.unmount();
+    await expect.poll(() => document.activeElement?.textContent?.trim()).toBe("Share again");
   });
 });

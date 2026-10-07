@@ -1,14 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { Input } from "@/ui/input";
 import { InputFloating } from "@/ui/input-floating";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const style = (slot: string) => getComputedStyle(document.querySelector(`[data-slot=${slot}]`)!);
 

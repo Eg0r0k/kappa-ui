@@ -10,7 +10,6 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
-  document.body.innerHTML = "";
 });
 
 const renderAccordion = (root: Record<string, unknown> = {}, items: Record<string, Record<string, unknown>> = {}) => {
@@ -41,12 +40,16 @@ const panel = (value: string) =>
     .querySelector<HTMLElement>(`[data-test=answer-${value}]`)
     ?.closest<HTMLElement>("[data-slot=accordion-content]") ?? null;
 const isOpen = (value: string) => trigger(value).getAttribute("data-state") === "open";
-const settle = () => new Promise((resolve) => setTimeout(resolve, 400));
+const settled = (value: string) => {
+  const animations = panel(value)!.getAnimations();
+  return Promise.all(animations.map((animation) => animation.finished));
+};
 
 it("opens one item at a time in single mode and closes the open one on a second click", async () => {
   renderAccordion({ type: "single" });
   await userEvent.click(trigger("one"));
   expect(isOpen("one")).toBe(true);
+  await settled("one");
 
   await userEvent.click(trigger("two"));
   expect(isOpen("two")).toBe(true);
@@ -68,8 +71,9 @@ it("animates a panel's height open and closed", async () => {
 it("keeps several items open in multiple mode", async () => {
   renderAccordion({ type: "multiple" });
   await userEvent.click(trigger("one"));
+  await settled("one");
   await userEvent.click(trigger("two"));
-  expect(isOpen("one") && isOpen("two")).toBe(true);
+  expect([isOpen("one"), isOpen("two")]).toEqual([true, true]);
 });
 
 it("ignores clicks on a disabled root and on a disabled item", async () => {
@@ -96,8 +100,7 @@ it("keeps closed answers findable and opens an item when find-in-page matches it
   expect(closed.getAttribute("hidden")).toBe("until-found");
 
   closed.dispatchEvent(new Event("beforematch"));
-  await settle();
-  expect(isOpen("two")).toBe(true);
+  await expect.poll(() => isOpen("two")).toBe(true);
 });
 
 it("removes closed answers with unmount-on-hide, which items inherit", async () => {

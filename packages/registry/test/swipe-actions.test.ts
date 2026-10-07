@@ -1,18 +1,14 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick } from "vue";
 
 import { SwipeAction, SwipeActions, SwipeContent, SwipeItem, SwipeRoot } from "@/ui/swipe-actions";
 
-afterEach(() => {
-  document.body.innerHTML = "";
-});
-
-const clicks: string[] = [];
+const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
 
 const setup = async () => {
-  clicks.length = 0;
+  const clicks: string[] = [];
   mount(
     defineComponent({
       setup: () => () =>
@@ -28,7 +24,9 @@ const setup = async () => {
     }),
     { attachTo: document.body },
   );
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  await nextFrame();
+  await nextFrame();
+  return clicks;
 };
 
 const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot=${name}]`)!;
@@ -60,7 +58,7 @@ it("transitions the row and stops while it is dragged", async () => {
 });
 
 it("opens from the keyboard and closes after an action", async () => {
-  await setup();
+  const clicks = await setup();
   document.querySelector<HTMLElement>("[data-test=body]")!.focus();
   await userEvent.keyboard("{ArrowLeft}");
   expect(slot("swipe-item").dataset.state).toBe("end");

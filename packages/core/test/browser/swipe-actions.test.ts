@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { ConfigProvider } from "reka-ui";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
@@ -14,10 +14,6 @@ import {
   type SwipeState,
 } from "../../src/swipe-actions";
 import { drag, pointer, wait } from "./pointer";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 type Sides = { start?: string[]; end?: string[]; full?: "start" | "end" };
 

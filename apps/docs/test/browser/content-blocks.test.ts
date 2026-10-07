@@ -1,11 +1,9 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { expect, it } from 'vitest'
 import { h } from 'vue'
 
 import Callout from '~/components/content/Callout.vue'
 import DoDont from '~/components/content/DoDont.vue'
-
-enableAutoUnmount(afterEach)
 
 it('draws a note as an info alert and a warning as a warning alert', () => {
   const note = mount(Callout, { slots: { default: () => 'Note' } })

@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
@@ -7,10 +7,6 @@ import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { InputNumber, InputNumberDecrement, InputNumberIncrement, InputNumberInput } from "@/ui/input-number";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const colors =
   "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --disabled-opacity: 38%";
@@ -28,7 +24,6 @@ const root = () => document.querySelector<HTMLElement>("[data-slot=input-number]
 const input = () => document.querySelector<HTMLInputElement>("[data-slot=input-number-input]")!;
 const increment = () => document.querySelector<HTMLButtonElement>("[data-slot=input-number-increment]")!;
 const decrement = () => document.querySelector<HTMLButtonElement>("[data-slot=input-number-decrement]")!;
-const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
 
 it("renders a spinbutton inside a group frame with two stepper buttons", () => {
   render(field({ name: "qty", defaultValue: 3 }));
@@ -165,8 +160,7 @@ it("rings the frame while the input has focus and turns it destructive when inva
   render(field());
   expect(getComputedStyle(root()).borderTopColor).toBe("rgb(0, 0, 255)");
   input().focus();
-  await settle();
-  expect(getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
   expect(getComputedStyle(root()).boxShadow).not.toBe("none");
   document.body.innerHTML = "";
 

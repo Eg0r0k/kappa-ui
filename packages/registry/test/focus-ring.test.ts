@@ -1,14 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
 import { Button } from "@/ui/button";
 import { Switch } from "@/ui/switch";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const ring = (element: Element) => {
   const style = getComputedStyle(element);

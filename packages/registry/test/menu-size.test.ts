@@ -17,15 +17,24 @@ import type { MenuSize } from "@/ui/menu";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
-const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
+const animations = () =>
+  Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );
 const query = (selector: string) => document.querySelector(selector) as HTMLElement;
+const opened = async (selector: string) => {
+  await expect.poll(() => document.querySelector<HTMLElement>(selector)?.dataset.state).toBe("open");
+  await animations();
+};
 const minHeight = (selector: string) => getComputedStyle(query(selector)).minHeight;
 
 let unmount: (() => void) | undefined;
 
 afterEach(() => {
   unmount?.();
-  document.body.innerHTML = "";
 });
 
 const openMenu = async (size?: MenuSize, subSize?: MenuSize) => {
@@ -49,12 +58,12 @@ const openMenu = async (size?: MenuSize, subSize?: MenuSize) => {
   );
   unmount = () => wrapper.unmount();
   await userEvent.click(wrapper.get("button").element);
-  await settle();
+  await opened("[data-slot=menu]");
 };
 
 const openSubmenu = async () => {
   await userEvent.hover(query("[data-slot=menu-sub-trigger]"));
-  await settle();
+  await opened("[data-slot=menu-sub-content]");
 };
 
 describe("menu sizes", () => {
@@ -137,7 +146,7 @@ describe("menu control tokens", () => {
     );
     unmount = () => wrapper.unmount();
     await userEvent.click(wrapper.get("button").element);
-    await settle();
+    await opened("[data-slot=menu]");
 
     const starts = [...document.querySelectorAll(".label")].map((element) => element.getBoundingClientRect().left);
     expect(new Set(starts).size).toBe(1);

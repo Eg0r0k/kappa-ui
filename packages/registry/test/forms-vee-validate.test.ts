@@ -26,8 +26,6 @@ const mounted: VueWrapper[] = [];
 
 afterEach(() => {
   for (const wrapper of mounted.splice(0)) wrapper.unmount();
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
 });
 
 const render = (component: Component) => {

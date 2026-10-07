@@ -14,7 +14,6 @@ let fake: FakeViewport;
 
 afterEach(() => {
   if (original) Object.defineProperty(window, "visualViewport", original);
-  document.body.innerHTML = "";
 });
 
 const settle = async () => {

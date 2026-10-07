@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createSSRApp, h, nextTick, reactive } from "vue";
 import { renderToString } from "vue/server-renderer";
 
 import { Image, ImageError, ImageLoading } from "@/ui/image";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const png = (width: number, height: number) => {
   const canvas = document.createElement("canvas");

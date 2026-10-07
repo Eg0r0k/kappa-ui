@@ -21,34 +21,30 @@ const mountScroller = () => {
   return host;
 };
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const fakeFrames = () => vi.useFakeTimers({ toFake: ["requestAnimationFrame", "cancelAnimationFrame", "performance"] });
 
-const record = (host: HTMLElement, ms: number) =>
-  new Promise<number[]>((resolve) => {
-    const samples: number[] = [];
-    const end = performance.now() + ms;
-    const sample = () => {
-      samples.push(host.scrollTop);
-      if (performance.now() < end) requestAnimationFrame(sample);
-      else resolve(samples);
-    };
-    requestAnimationFrame(sample);
+const record = (host: HTMLElement, frames: number) =>
+  Array.from({ length: frames }, () => {
+    vi.advanceTimersToNextFrame();
+    return host.scrollTop;
   });
 
 afterEach(() => {
-  vi.restoreAllMocks();
-  document.body.innerHTML = "";
+  vi.useRealTimers();
+  window.scrollTo(0, 0);
 });
 
 it("reads the position of an element and of the window", () => {
   const host = mountScroller();
   host.scrollTop = 120;
   host.scrollLeft = 80;
+  document.body.style.cssText = "height: 2000px; width: 3000px";
+  window.scrollTo(30, 70);
 
   expect(getVerticalScrollPosition(host)).toBe(120);
   expect(getHorizontalScrollPosition(host)).toBe(80);
-  expect(getVerticalScrollPosition(window)).toBe(window.scrollY);
-  expect(getHorizontalScrollPosition(window)).toBe(window.scrollX);
+  expect(getVerticalScrollPosition(window)).toBe(70);
+  expect(getHorizontalScrollPosition(window)).toBe(30);
 });
 
 it("jumps when no duration is given", () => {
@@ -90,56 +86,61 @@ it("animates window scrolling vertically", async () => {
   await vi.waitFor(() => expect(window.scrollY).toBe(500), { timeout: 2000 });
 });
 
-it("does not restart when called again with the same destination", async () => {
+it("does not restart when called again with the same destination", () => {
   const host = mountScroller();
-  const start = performance.now();
+  fakeFrames();
 
   setVerticalScrollPosition(host, 1000, 300);
-  await wait(150);
+  vi.advanceTimersByTime(150);
+  expect(host.scrollTop).toBeGreaterThan(0);
   setVerticalScrollPosition(host, 1000, 300);
+  vi.advanceTimersByTime(160);
 
-  await vi.waitFor(() => expect(host.scrollTop).toBe(1000), { timeout: 1000, interval: 5 });
-  expect(performance.now() - start).toBeLessThan(400);
+  expect(host.scrollTop).toBe(1000);
 });
 
-it("turns around once when the destination reverses", async () => {
+it("turns around once when the destination reverses", () => {
   const host = mountScroller();
+  fakeFrames();
 
   setVerticalScrollPosition(host, 1000, 400);
-  await wait(150);
+  const rising = record(host, 9);
   setVerticalScrollPosition(host, 0, 400);
 
-  const samples = await record(host, 600);
+  const samples = [...rising, ...record(host, 40)];
   const steps = samples
     .slice(1)
     .map((value, index) => Math.sign(value - samples[index]!))
     .filter(Boolean);
   const turns = steps.slice(1).filter((step, index) => step !== steps[index]).length;
 
-  expect(turns).toBeLessThanOrEqual(1);
-  await vi.waitFor(() => expect(host.scrollTop).toBe(0), { timeout: 1000 });
+  expect(turns).toBe(1);
+  expect(host.scrollTop).toBe(0);
 });
 
-it("stops where the user takes over with the wheel", async () => {
+it("stops where the user takes over with the wheel", () => {
   const host = mountScroller();
+  fakeFrames();
 
   setVerticalScrollPosition(host, 1000, 400);
-  await wait(100);
+  vi.advanceTimersByTime(100);
   host.dispatchEvent(new WheelEvent("wheel", { deltaY: 10 }));
   const stoppedAt = host.scrollTop;
-  await wait(400);
+  vi.advanceTimersByTime(400);
 
+  expect(stoppedAt).toBeGreaterThan(0);
   expect(host.scrollTop).toBe(stoppedAt);
   expect(host.scrollTop).toBeLessThan(1000);
 });
 
-it("lets a jump cancel a running animation", async () => {
+it("lets a jump cancel a running animation", () => {
   const host = mountScroller();
+  fakeFrames();
 
   setVerticalScrollPosition(host, 1000, 300);
-  await wait(50);
+  vi.advanceTimersByTime(50);
   setVerticalScrollPosition(host, 100);
-  await wait(350);
+  vi.advanceTimersByTime(350);
 
   expect(host.scrollTop).toBe(100);
 });

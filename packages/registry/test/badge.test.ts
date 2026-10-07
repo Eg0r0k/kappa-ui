@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import { Badge } from "@/ui/badge";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (props: Record<string, unknown> = {}, children: () => unknown = () => "New") =>
   mount({ render: () => h(Badge, props, { default: children }) }, { attachTo: document.body }).get("[data-slot=badge]")

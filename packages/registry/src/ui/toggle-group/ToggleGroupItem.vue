@@ -8,6 +8,8 @@ import { buttonVariants } from "@/ui/button";
 import { toggleVariants } from "@/ui/toggle";
 import { type ToggleGroupStyle, injectToggleGroupStyle } from ".";
 
+defineOptions({ inheritAttrs: false });
+
 const props = withDefaults(
   defineProps<ToggleGroupItemProps & ToggleGroupStyle & { class?: HTMLAttributes["class"] }>(),
   { as: "button" },
@@ -55,6 +57,7 @@ const forwarded = useForwardProps(delegated);
           props.class,
         )
       "
+      v-bind="$attrs"
     >
       <slot v-bind="slotProps" />
     </Primitive>

@@ -53,18 +53,23 @@ describe("RadioGroup", () => {
     const before = document.createElement("button");
     document.body.append(before);
     const { wrapper, value } = mountGroup();
+    const after = document.createElement("button");
+    document.body.append(after);
+    const radios = wrapper.findAll("button[role=radio]").map((radio) => radio.element);
     await wrapper.findAll("button[role=radio]")[1].trigger("click");
     before.focus();
 
     await userEvent.tab();
-    expect(document.activeElement).toBe(wrapper.findAll("button[role=radio]")[1].element);
+    expect(document.activeElement).toBe(radios[1]);
+    await userEvent.tab();
+    expect(document.activeElement).toBe(after);
+    await userEvent.tab({ shift: true });
+    expect(document.activeElement).toBe(radios[1]);
 
     await userEvent.keyboard("{ArrowDown>}");
-    await new Promise((resolve) => setTimeout(resolve, 20));
+    await expect.poll(() => document.activeElement).toBe(radios[2]);
     await userEvent.keyboard("{/ArrowDown}");
     expect(value.value).toBe("l");
-    wrapper.unmount();
-    before.remove();
   });
 
   it("takes invalid, required and its error from the fieldset around it", async () => {
@@ -82,7 +87,11 @@ describe("RadioGroup", () => {
   it("is disabled by a disabled fieldset", () => {
     const { wrapper } = mountGroup({ disabled: true });
 
-    expect(wrapper.findAll("button[role=radio]").every((radio) => radio.element.matches(":disabled"))).toBe(true);
+    expect(wrapper.findAll("button[role=radio]").map((radio) => radio.element.matches(":disabled"))).toEqual([
+      true,
+      true,
+      true,
+    ]);
     wrapper.unmount();
   });
 
@@ -91,7 +100,9 @@ describe("RadioGroup", () => {
     const radios = wrapper.findAll("button[role=radio]");
     const labels = wrapper.findAll("label");
 
-    radios.forEach((radio, index) => expect(labels[index].attributes("for")).toBe(radio.attributes("id")));
+    const ids = radios.map((radio) => radio.attributes("id"));
+    expect(ids).toEqual([expect.any(String), expect.any(String), expect.any(String)]);
+    expect(labels.map((label) => label.attributes("for"))).toEqual(ids);
     wrapper.unmount();
   });
 });

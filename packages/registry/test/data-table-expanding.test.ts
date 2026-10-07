@@ -52,7 +52,6 @@ const columns: DataTableColumn<Person>[] = [
 ];
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 

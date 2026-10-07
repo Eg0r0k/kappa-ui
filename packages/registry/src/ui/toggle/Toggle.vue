@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { type ButtonColor, type ButtonVariants, buttonVariants } from "@/ui/button";
 import { type ToggleVariants, toggleVariants } from ".";
 
+defineOptions({ inheritAttrs: false });
+
 const props = withDefaults(
   defineProps<
     ToggleProps & {
@@ -55,6 +57,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
           props.class,
         )
       "
+      v-bind="$attrs"
     >
       <slot v-bind="slotProps" />
     </Primitive>

@@ -20,7 +20,6 @@ const mounted: VueWrapper[] = [];
 afterEach(() => {
   for (const wrapper of mounted.splice(0)) wrapper.unmount();
   vi.useRealTimers();
-  document.body.innerHTML = "";
 });
 
 const flush = async () => {
@@ -195,6 +194,4 @@ it("shares one window scroll listener between every root", () => {
   expect(scrolls(add)).toHaveLength(1);
   wrapper.unmount();
   expect(scrolls(remove)).toHaveLength(1);
-  add.mockRestore();
-  remove.mockRestore();
 });

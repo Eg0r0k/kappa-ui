@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { h } from "vue";
 
 import { Checkbox } from "@/ui/checkbox";
@@ -8,10 +8,6 @@ import { DrawerMenu, DrawerMenuItem } from "@/ui/drawer-menu";
 import { Radio, RadioGroup } from "@/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 import { Switch } from "@/ui/switch";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const openSelect = (trigger: Record<string, unknown> = {}) =>
   mount(

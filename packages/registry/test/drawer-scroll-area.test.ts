@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/ui/drawer";
@@ -8,10 +8,6 @@ import { ScrollArea } from "@/ui/scroll-area";
 import { pointer, wait } from "./pointer";
 
 const area: Record<string, unknown> = { class: "min-h-0 flex-1" };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("scrolls instead of moving the drawer when a mouse drags the scroll thumb", async () => {
   mount(
@@ -26,7 +22,12 @@ it("scrolls instead of moving the drawer when a mouse drags the scroll thumb", a
     },
     { attachTo: document.body },
   );
-  await wait(500);
+  await Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );
   const panel = document.querySelector<HTMLElement>("[data-slot=drawer-content]")!;
   const viewport = document.querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
   const thumb = document.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=vertical]")!;

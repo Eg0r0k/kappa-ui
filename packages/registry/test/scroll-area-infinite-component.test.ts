@@ -1,15 +1,11 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { createSSRApp, h, nextTick, ref } from "vue";
 import { renderToString } from "vue/server-renderer";
 
 import { type InfiniteDirection, InfiniteScroll, ScrollArea } from "@/ui/scroll-area";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 50));
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (
   props: Record<string, unknown> | (() => Record<string, unknown>) = {},
@@ -93,12 +89,12 @@ it("shows the loading part while loading, keeps its room when idle and hides it 
 });
 
 it("renders the end slot in place of the loading part once stopped", async () => {
-  const { viewport, finish } = render(
+  const { viewport, calls, finish } = render(
     {},
     { end: ({ direction }: { direction: string }) => h("p", `no more ${direction}`) },
   );
   viewport.scrollTop = 400;
-  await settle();
+  await vi.waitFor(() => expect(calls).toHaveLength(1));
   await finish("stop");
   expect(document.querySelector("[data-slot=infinite-scroll-end][data-direction=bottom]")?.textContent).toBe(
     "no more bottom",

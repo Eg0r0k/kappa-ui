@@ -2,6 +2,8 @@ import vue from "@vitejs/plugin-vue";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
+process.env.TZ = "UTC";
+
 export default defineConfig({
   plugins: [vue()],
   optimizeDeps: {
@@ -11,6 +13,10 @@ export default defineConfig({
     dedupe: ["vue"],
   },
   test: {
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
+    expect: { requireAssertions: true },
     projects: [
       {
         extends: true,
@@ -25,10 +31,11 @@ export default defineConfig({
         test: {
           name: "browser",
           include: ["test/browser/**/*.test.ts"],
+          setupFiles: ["./test/setup.ts"],
           browser: {
             enabled: true,
             headless: true,
-            provider: playwright(),
+            provider: playwright({ contextOptions: { timezoneId: "UTC", locale: "en-US" } }),
             instances: [{ browser: "chromium" }],
           },
         },
@@ -38,10 +45,11 @@ export default defineConfig({
         test: {
           name: "touch",
           include: ["test/touch/**/*.test.ts"],
+          setupFiles: ["./test/setup.ts"],
           browser: {
             enabled: true,
             headless: true,
-            provider: playwright({ contextOptions: { hasTouch: true } }),
+            provider: playwright({ contextOptions: { hasTouch: true, timezoneId: "UTC", locale: "en-US" } }),
             instances: [{ browser: "chromium" }],
           },
         },

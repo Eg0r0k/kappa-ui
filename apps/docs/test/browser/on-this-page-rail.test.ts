@@ -1,10 +1,8 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { describe, expect, it } from 'vitest'
 import { defineComponent, h } from 'vue'
 
 import OnThisPageRail from '~/components/layout/OnThisPageRail.vue'
-
-enableAutoUnmount(afterEach)
 
 const NuxtLink = defineComponent({
   props: { to: { type: String, required: true } },

@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
@@ -15,10 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/table";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 type RowsOptions = {
   rows?: number;

@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 
 import PageIndicatorDemo from "@/examples/page-indicator/PageIndicatorDemo.vue";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const items = () => [...document.querySelectorAll<HTMLElement>("[data-slot=page-indicator-item]")];
 const active = () => items().findIndex((element) => element.dataset.state === "active") + 1;

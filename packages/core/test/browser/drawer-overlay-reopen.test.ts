@@ -3,7 +3,6 @@ import { expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { DrawerContent, DrawerOverlay, DrawerRoot } from "../../src/drawer";
-import { wait } from "./pointer";
 
 it("keeps overlay and panel variables after close and reopen", async () => {
   const open = ref(true);
@@ -35,8 +34,7 @@ it("keeps overlay and panel variables after close and reopen", async () => {
   await nextTick();
   expect(read()).toEqual({ overlay: "0", movement: "0px" });
   open.value = false;
-  await wait(400);
-  expect(document.getElementById("overlay")).toBeNull();
+  await expect.poll(() => document.getElementById("overlay")).toBeNull();
   open.value = true;
   await nextTick();
   await nextTick();

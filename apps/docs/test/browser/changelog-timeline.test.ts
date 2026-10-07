@@ -1,9 +1,7 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { expect, it } from 'vitest'
 
 import ChangelogTimeline from '~/components/ChangelogTimeline.vue'
-
-enableAutoUnmount(afterEach)
 
 const releases = [
   {

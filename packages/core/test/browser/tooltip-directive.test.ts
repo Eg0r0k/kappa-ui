@@ -1,6 +1,6 @@
 import { type VueWrapper, mount } from "@vue/test-utils";
 import { TooltipPortal } from "reka-ui";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 import { type VNodeChild, defineComponent, h, nextTick, ref, withCtx, withDirectives } from "vue";
 
 import { TooltipContent, type TooltipDirectiveValue, TooltipProvider, createTooltipDirective } from "../../src/tooltip";
@@ -24,7 +24,7 @@ const mounted: VueWrapper[] = [];
 
 afterEach(() => {
   for (const wrapper of mounted.splice(0)) wrapper.unmount();
-  document.body.innerHTML = "";
+  vi.useRealTimers();
 });
 
 const render = (children: () => VNodeChild) => {
@@ -143,12 +143,18 @@ it("names an icon button with .label and keeps a name the button already has", a
 });
 
 it("reaches a TooltipProvider in the same template", async () => {
+  vi.useFakeTimers();
   render(() => h(TooltipProvider, { delay: 50 }, { default: withCtx(() => [button(() => "Save")]) }));
   await nextTick();
   move(element("trigger"));
-  await wait(20);
+  vi.advanceTimersByTime(49);
+  await nextTick();
+  await nextTick();
   expect(content()).toBeNull();
-  await expect.poll(() => content(), { timeout: 400 }).not.toBeNull();
+  vi.advanceTimersByTime(1);
+  await nextTick();
+  await nextTick();
+  expect(content()).not.toBeNull();
 });
 
 it("reaches a TooltipProvider above a child component, and works on a component's root", async () => {

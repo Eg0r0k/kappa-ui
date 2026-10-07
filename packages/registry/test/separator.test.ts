@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import { Separator } from "@/ui/separator";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (props: Record<string, unknown> = {}, slot?: string) =>
   mount(
@@ -44,7 +40,7 @@ describe("Separator", () => {
     ["md", 3],
     ["lg", 4],
     ["xl", 5],
-  ] as const)("is %ipx thick at %s", (size, thickness) => {
+  ] as const)("at size %s is %ipx thick", (size, thickness) => {
     expect(render({ size }).getBoundingClientRect().height).toBe(thickness);
   });
 

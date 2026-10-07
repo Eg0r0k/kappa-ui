@@ -121,7 +121,7 @@ const scrollEvents = (el: HTMLElement, count: number) => {
 const settle = () => new Promise((resolve) => setTimeout(resolve, 50));
 
 afterEach(() => {
-  document.body.innerHTML = "";
+  vi.useRealTimers();
   window.scrollTo(0, 0);
 });
 
@@ -331,14 +331,24 @@ it("stays quiet while the container has no size and polls once it appears", asyn
 });
 
 it("ignores a promise that settles after unmount", async () => {
-  const { calls, scroller, finish, wrapper } = render({ directions: ["top"] });
+  const { calls, scroller, finish, wrapper, api } = render({ directions: ["top"] });
   await vi.waitFor(() => expect(calls).toHaveLength(1));
   const el = scroller();
   wrapper.unmount();
   await finish();
-  expect(el.isConnected).toBe(false);
+  expect(api().state.value.top).toEqual({ index: 1, loading: true, stopped: false });
   el.dispatchEvent(new Event("scroll"));
   expect(calls).toHaveLength(1);
+});
+
+it("reports no error for a load that fails after unmount", async () => {
+  const errors: unknown[] = [];
+  const { calls, fail, wrapper, api } = render({ directions: ["top"], onError: (error) => errors.push(error) });
+  await vi.waitFor(() => expect(calls).toHaveLength(1));
+  wrapper.unmount();
+  await fail(new Error("offline"));
+  expect(errors).toEqual([]);
+  expect(api().state.value.top).toEqual({ index: 1, loading: true, stopped: false });
 });
 
 it("rolls the index back on a rejected load and reports the error", async () => {
@@ -383,12 +393,21 @@ it("exposes trigger, setIndex, stop and reset", async () => {
   expect(calls[2]).toEqual({ direction: "bottom", index: 1 });
 });
 
-it("checks at most once per debounce window", async () => {
+it("checks once the scroll events pause for the debounce window", async () => {
   const { calls, scroller } = render({ debounce: 100 });
+  await nextTick();
+  vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+  const scrolled = new Promise((resolve) => scroller().addEventListener("scroll", resolve, { once: true }));
   scroller().scrollTop = 400;
-  scrollEvents(scroller(), 5);
+  await scrolled;
+  vi.advanceTimersByTime(50);
+  scrollEvents(scroller(), 1);
+  vi.advanceTimersByTime(49);
+  scrollEvents(scroller(), 1);
+  vi.advanceTimersByTime(99);
   expect(calls).toEqual([]);
-  await vi.waitFor(() => expect(calls).toHaveLength(1), { timeout: 500 });
+  vi.advanceTimersByTime(1);
+  expect(calls).toEqual([{ direction: "bottom", index: 1 }]);
 });
 
 it("falls back to the pixel check when shouldLoad returns undefined", async () => {

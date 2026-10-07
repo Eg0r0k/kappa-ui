@@ -1,4 +1,4 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type Component, nextTick } from "vue";
@@ -28,10 +28,7 @@ import TreeComposition from "@/examples/tree/TreeComposition.vue";
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
-enableAutoUnmount(afterEach);
-
 const all = (slot: string) => [...document.querySelectorAll<HTMLElement>(`[data-slot=${slot}]`)];
 
 const ripples = (element: HTMLElement) => {

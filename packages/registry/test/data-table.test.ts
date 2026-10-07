@@ -25,7 +25,6 @@ const columns = [
 ];
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 
@@ -199,14 +198,18 @@ it("shows the empty, no-results and loading states", () => {
   expect(document.querySelector("thead [data-slot=progress]")).not.toBeNull();
 });
 
-it("sets the size, stripes by absolute parity and switches hover off", () => {
+it("sets the size, stripes by absolute parity and switches hover off", async () => {
   const { table, rows } = render({ size: "sm", striped: true, hoverable: false });
   expect(table().dataset.size).toBe("sm");
   expect(table().dataset.striped).toBe("");
   expect(rows()[0]!.parentElement!.dataset.parity).toBe("odd");
   expect(rows()[1]!.parentElement!.dataset.parity).toBe("even");
   expect(getComputedStyle(rows()[1]!.querySelector("td")!).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
-  expect(table().className).toContain("[--table-hover-bg:transparent]");
+  const cell = rows()[0]!.querySelector("td")!;
+  await userEvent.hover(cell);
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(cell.matches(":hover")).toBe(true);
+  expect(getComputedStyle(cell).backgroundColor).toBe("rgba(0, 0, 0, 0)");
 });
 
 it("fits its sort button, checkboxes and toggles inside a 28px row at xs", async () => {

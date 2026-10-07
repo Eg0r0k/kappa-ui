@@ -19,7 +19,6 @@ const install = () => {
 
 afterEach(() => {
   if (original) Object.defineProperty(window, "visualViewport", original);
-  document.body.innerHTML = "";
 });
 
 const host = (active: Ref<boolean>) => {

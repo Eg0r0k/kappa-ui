@@ -127,7 +127,7 @@ describe("Slider", () => {
     expect(root.attributes("role")).toBe("group");
     expect(root.attributes("aria-labelledby")).toBe(range.get("label").attributes("id"));
     expect(root.attributes("data-disabled")).toBeDefined();
-    expect(thumbs(range).every((item) => item.attributes("tabindex") === undefined)).toBe(true);
+    expect(thumbs(range).map((item) => item.attributes("tabindex"))).toEqual([undefined, undefined]);
     range.unmount();
   });
 
@@ -172,9 +172,9 @@ describe("Slider", () => {
       return { top: centre - reach, bottom: centre + reach };
     });
 
-    for (const [index, extent] of extents.entries()) {
-      if (index > 0) expect(extent.top).toBeGreaterThanOrEqual(extents[index - 1]!.bottom);
-    }
+    const gaps = extents.slice(1).map((extent, index) => extent.top - extents[index]!.bottom);
+    expect(gaps).toHaveLength(2);
+    expect(Math.min(...gaps)).toBeGreaterThanOrEqual(0);
     wrapper.unmount();
   });
 });
@@ -314,13 +314,11 @@ describe("Slider inset", () => {
     });
     await nextTick();
 
-    const alpha = (color: string) => Number(color.match(/rgba?\([^)]+,\s*([\d.]+)\)/)?.[1] ?? 1);
     const range = getComputedStyle(wrapper.get("[data-slot=slider-range]").element).backgroundColor;
     const thumb = getComputedStyle(wrapper.get("[data-slot=slider-thumb]").element).backgroundColor;
 
     expect(range).toBe(thumb);
-    expect(range).not.toBe("transparent");
-    expect(alpha(range)).toBe(1);
+    expect(range).not.toMatch(/\/|rgba|transparent/);
     wrapper.unmount();
   });
 

@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import * as internal from "reka-ui/internal";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const peer = (
@@ -14,7 +15,6 @@ afterEach(() => {
 
 describe("menu", () => {
   it("re-exports the Menu parts from reka-ui/internal", async () => {
-    const internal = await import("reka-ui/internal");
     const menu = await import("../../src/menu/index.ts");
     expect(menu.MenuRoot).toBe(internal.MenuRoot);
     expect(menu.MenuContent).toBe(internal.MenuContent);

@@ -1,14 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h, nextTick, ref } from "vue";
 
 import { InnerLoading, InnerLoadingContent, InnerLoadingOverlay } from "@/ui/inner-loading";
 
 type Classes = Partial<Record<"root" | "content" | "overlay", string>>;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (loading = false, indicator?: () => unknown, classes: Classes = {}) => {
   const state = ref(loading);
@@ -53,7 +49,7 @@ it("covers and blocks the content while loading", async () => {
   expect(content().hasAttribute("inert")).toBe(true);
   expect(overlay()!.getAttribute("role")).toBe("status");
   expect(overlay()!.querySelector("[data-slot=spinner]")).not.toBeNull();
-  expect(overlay()!.getBoundingClientRect()).toEqual(root.getBoundingClientRect());
+  expect(overlay()!.getBoundingClientRect().toJSON()).toEqual(root.getBoundingClientRect().toJSON());
   button().focus();
   expect(document.activeElement).not.toBe(button());
 });

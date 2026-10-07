@@ -28,7 +28,6 @@ import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tok
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
   document.documentElement.removeAttribute("dir");
 });
 
@@ -975,16 +974,16 @@ describe("FileUpload sizes", () => {
 
 describe("FileUpload variants", () => {
   it.each([
-    ["outline", "dashed", false],
-    ["soft", "solid", true],
-    ["subtle", "dashed", true],
-  ] as const)("draws the %s frame", (variant, borderStyle, filled) => {
+    ["outline", "dashed", "rgba(0, 0, 0, 0)", "rgb(1, 2, 3)"],
+    ["soft", "solid", "rgb(1, 2, 3)", "rgb(4, 5, 6)"],
+    ["subtle", "dashed", "rgb(1, 2, 3)", "rgb(4, 5, 6)"],
+  ] as const)("draws the %s frame", (variant, borderStyle, background, iconBackground) => {
     render(() => upload({ style: "--muted: rgb(1, 2, 3); --background: rgb(4, 5, 6)" }, { variant }));
     const style = getComputedStyle(dropzone());
     expect(style.borderTopStyle).toBe(borderStyle);
-    expect(style.backgroundColor === "rgb(1, 2, 3)").toBe(filled);
+    expect(style.backgroundColor).toBe(background);
     // the icon circle stays visible on a filled frame
-    expect(getComputedStyle($("file-upload-icon")).backgroundColor).toBe(filled ? "rgb(4, 5, 6)" : "rgb(1, 2, 3)");
+    expect(getComputedStyle($("file-upload-icon")).backgroundColor).toBe(iconBackground);
   });
 
   it("rings the frame while the trigger has keyboard focus", async () => {

@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/ui/hover-card";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (props: Record<string, unknown> = {}) =>
   mount(

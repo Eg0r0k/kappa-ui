@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
-import { h } from "vue";
+import { expect, it, vi } from "vitest";
+import { h, nextTick } from "vue";
 
 import { getEdgeZones, ScrollArea, type ScrollAreaApi, type ScrollAreaEdge } from "@/ui/scroll-area";
 
@@ -19,10 +19,6 @@ const mountArea = (props: Record<string, unknown> = {}, attrs: Record<string, un
 };
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 50));
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("computes the zones with a pixel of tolerance", () => {
   expect(getEdgeZones(0, 400, 100, 0)).toEqual({ start: true, end: false });
@@ -50,7 +46,8 @@ it("fires once on entering the bottom zone and again only after leaving it", asy
   expect(hits).toEqual(["bottom"]);
 
   viewport.scrollTop = 100;
-  await settle();
+  viewport.dispatchEvent(new Event("scroll"));
+  await nextTick();
   viewport.scrollTop = 300;
   await vi.waitFor(() => expect(hits).toEqual(["bottom", "bottom"]));
 
@@ -62,8 +59,10 @@ it("fires once on entering the bottom zone and again only after leaving it", asy
 
 it("moves the zone out by edgeOffset", async () => {
   const { wrapper, hits, viewport } = mountArea({ edgeOffset: 100 });
+  await nextTick();
   viewport.scrollTop = 150;
-  await settle();
+  viewport.dispatchEvent(new Event("scroll"));
+  await nextTick();
   expect(hits).toEqual([]);
   viewport.scrollTop = 200;
   await vi.waitFor(() => expect(hits).toEqual(["bottom"]));

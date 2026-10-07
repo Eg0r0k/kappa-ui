@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { type VNode, defineComponent, h, nextTick } from "vue";
 
 import { Checkbox } from "@/ui/checkbox";
@@ -12,10 +12,6 @@ const GREEN = "rgb(0, 128, 0)";
 const GREY = "rgb(128, 128, 128)";
 const RED = "rgb(255, 0, 0)";
 const palette = `--primary: ${BLUE}; --foreground: ${GREEN}; --input: ${GREY}; --destructive: ${RED}`;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = async (node: () => VNode | VNode[]) => {
   mount(defineComponent({ setup: () => () => h("div", { style: palette }, node()) }), { attachTo: document.body });

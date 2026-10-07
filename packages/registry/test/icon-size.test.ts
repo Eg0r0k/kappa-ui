@@ -1,14 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import { Item, ItemMedia } from "@/ui/item";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const icon = (attrs: Record<string, unknown> = {}) => h("svg", { viewBox: "0 0 24 24", ...attrs });
 

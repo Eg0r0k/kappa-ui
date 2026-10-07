@@ -26,10 +26,14 @@ export default defineConfig({
   },
   test: {
     setupFiles: ["./test/setup.ts"],
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
+    expect: { requireAssertions: true },
     browser: {
       enabled: true,
       headless: true,
-      provider: playwright(),
+      provider: playwright({ contextOptions: { timezoneId: "UTC", locale: "en-US" } }),
       instances: [
         { browser: "chromium" },
         {

@@ -1,15 +1,11 @@
 import { mount } from "@vue/test-utils";
 import * as v from "valibot";
 import { type TypedSchema, useForm } from "vee-validate";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { defineComponent, h } from "vue";
 import * as z from "zod";
 
 import { issuePath, toTypedSchema } from "@/lib/standard-schema";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const formWith = (validationSchema: unknown, initialValues: Record<string, unknown>) => {
   let form!: ReturnType<typeof useForm>;

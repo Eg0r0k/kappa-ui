@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
 import { once } from 'node:events'
-import { mkdtemp, writeFile } from 'node:fs/promises'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { tmpdir } from 'node:os'
@@ -44,6 +44,7 @@ const dryRun = async (versions: string[] | null) => {
   child.stderr.setEncoding('utf8').on('data', (chunk: string) => (output += chunk))
   const [code] = (await once(child, 'close')) as [number | null]
   server.close()
+  await rm(root, { recursive: true, force: true })
   return { code, output }
 }
 

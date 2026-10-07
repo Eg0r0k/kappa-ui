@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils";
+import { expect, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, h } from "vue";
 
@@ -117,3 +118,14 @@ export const parkPointer = async () => {
 
 export const openMenus = () =>
   all("[data-slot=menubar-content][data-state=open]").map((el) => el.getAttribute("aria-labelledby"));
+export const opened = (...names: string[]) => expect.poll(openMenus).toEqual(names.map((name) => trigger(name).id));
+export const gone = (selector: string) => expect.poll(() => q(selector)).toBeNull();
+export const focused = (target: () => Element | null | undefined) =>
+  vi.waitFor(() => expect(document.activeElement).toBe(target()));
+export const animations = () =>
+  Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );

@@ -1,19 +1,28 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
-import badges from '~/generated/badges.json'
 import { badgeOf } from '~/lib/badges'
 
-describe('badgeOf', () => {
-  const [name, badge] = Object.entries(badges as Record<string, { kind: string; until: string }>)[0]!
+vi.mock('~/generated/badges.json', () => ({
+  default: { button: { kind: 'new', until: '2026-11-06T12:00:00.000Z' } },
+}))
 
-  it('reads the built badge, and drops it once its window has passed', () => {
-    expect(badgeOf(name)).toBe(badge.kind)
-    expect(badgeOf(name, Date.parse(badge.until) - 1)).toBe(badge.kind)
-    expect(badgeOf(name, Date.parse(badge.until) + 1)).toBeUndefined()
+const until = Date.parse('2026-11-06T12:00:00Z')
+
+describe('badgeOf', () => {
+  it('reads the built badge of a component', () => {
+    expect(badgeOf('button', until - 1)).toBe('new')
+  })
+
+  it('drops the badge once its window has passed', () => {
+    expect(badgeOf('button', until + 1)).toBeUndefined()
+  })
+
+  it('keeps the badge when no time is given', () => {
+    expect(badgeOf('button')).toBe('new')
   })
 
   it('has nothing for an unknown or missing component', () => {
-    expect(badgeOf('no-such-item')).toBeUndefined()
-    expect(badgeOf(undefined)).toBeUndefined()
+    expect(badgeOf('no-such-item', until - 1)).toBeUndefined()
+    expect(badgeOf(undefined, until - 1)).toBeUndefined()
   })
 })

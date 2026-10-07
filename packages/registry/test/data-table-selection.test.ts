@@ -25,7 +25,6 @@ const helper = createDataTableColumnHelper<Person>();
 const columns = helper.columns([helper.accessor("name", { header: "Name" })]);
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 
@@ -112,7 +111,7 @@ it("walks the page → all → none machine with the banner under pagination", a
   expect(t.sources.at(-1)).toBe("header");
   expect(t.header().getAttribute("aria-checked")).toBe("true");
   expect(t.banner()!.textContent).toContain("All 12,000 selected");
-  expect(t.boxes().every((box) => box.getAttribute("aria-checked") === "true")).toBe(true);
+  expect(t.boxes().map((box) => box.getAttribute("aria-checked"))).toEqual(Array(10).fill("true"));
 
   await userEvent.click(t.boxes()[2]!);
   await nextTick();
@@ -124,7 +123,7 @@ it("walks the page → all → none machine with the banner under pagination", a
   t.api.value!.table.setPageIndex(1);
   t.extra.value = { data: people.slice(10, 20) };
   await nextTick();
-  expect(t.boxes().every((box) => box.getAttribute("aria-checked") === "true")).toBe(true);
+  expect(t.boxes().map((box) => box.getAttribute("aria-checked"))).toEqual(Array(10).fill("true"));
   expect(t.banner()).not.toBeNull();
 
   await userEvent.click(t.header());

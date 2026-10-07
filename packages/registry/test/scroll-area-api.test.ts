@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { ScrollArea, type ScrollAreaApi, type ScrollAreaScrollInfo } from "@/ui/scroll-area";
@@ -13,10 +13,6 @@ const mountArea = (props: Record<string, unknown> = {}) =>
   });
 
 const apiOf = (wrapper: ReturnType<typeof mountArea>) => wrapper.vm as unknown as ScrollAreaApi;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("exposes the scroll target", async () => {
   const wrapper = mountArea();

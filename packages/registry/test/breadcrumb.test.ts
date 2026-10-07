@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import {
@@ -11,10 +11,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/ui/breadcrumb";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = () =>
   mount(
@@ -42,7 +38,12 @@ describe("Breadcrumb", () => {
     expect(nav.tagName).toBe("NAV");
     expect(nav.getAttribute("aria-label")).toBe("breadcrumb");
     expect(wrapper.get("[data-slot=breadcrumb-list]").element.tagName).toBe("OL");
-    expect(wrapper.findAll("[data-slot=breadcrumb-item]").every((item) => item.element.tagName === "LI")).toBe(true);
+    expect(wrapper.findAll("[data-slot=breadcrumb-item]").map((item) => item.element.tagName)).toEqual([
+      "LI",
+      "LI",
+      "LI",
+      "LI",
+    ]);
   });
 
   it("renders links as anchors, also through as-child", () => {
@@ -64,11 +65,15 @@ describe("Breadcrumb", () => {
 
   it("hides separators and the ellipsis from assistive tech", () => {
     const wrapper = render();
-    for (const separator of wrapper.findAll("[data-slot=breadcrumb-separator]")) {
-      expect(separator.element.tagName).toBe("LI");
-      expect(separator.attributes()).toMatchObject({ role: "presentation", "aria-hidden": "true" });
-      expect(separator.get("svg").element.getBoundingClientRect().width).toBe(14);
-    }
+    const separators = wrapper
+      .findAll("[data-slot=breadcrumb-separator]")
+      .map((separator) => [
+        separator.element.tagName,
+        separator.attributes("role"),
+        separator.attributes("aria-hidden"),
+        separator.get("svg").element.getBoundingClientRect().width,
+      ]);
+    expect(separators).toEqual(Array(3).fill(["LI", "presentation", "true", 14]));
     const ellipsis = wrapper.get("[data-slot=breadcrumb-ellipsis]");
     expect(ellipsis.attributes()).toMatchObject({ role: "presentation", "aria-hidden": "true" });
     expect(ellipsis.text()).toBe("More");

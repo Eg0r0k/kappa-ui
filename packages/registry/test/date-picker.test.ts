@@ -1,7 +1,7 @@
 import { CalendarDate, CalendarDateTime, isWeekend } from "@internationalized/date";
 import { mount } from "@vue/test-utils";
 import { ConfigProvider, type DateValue } from "reka-ui";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
@@ -25,8 +25,13 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
-  document.body.innerHTML = "";
+  vi.useRealTimers();
 });
+
+const setToday = (iso: string) => {
+  vi.useFakeTimers({ toFake: ["Date"], shouldAdvanceTime: true, advanceTimeDelta: 1 });
+  vi.setSystemTime(new Date(`${iso}T12:00:00Z`));
+};
 
 const palette = [
   "--input: rgb(0, 0, 255)",
@@ -225,9 +230,10 @@ describe("calendar", () => {
   });
 
   it("focuses today when there is no value", async () => {
+    setToday("2026-10-07");
     bound(undefined);
     await open();
-    expect(document.activeElement?.hasAttribute("data-today")).toBe(true);
+    expect(document.activeElement).toBe(day("2026-10-07"));
     expect(content()!.contains(document.activeElement)).toBe(true);
   });
 
@@ -323,7 +329,7 @@ describe("calendar", () => {
     expect(content()).not.toBeNull();
   });
 
-  it("closes or stays open as closeOnSelect says", async () => {
+  it("stays open on a pick when closeOnSelect is false", async () => {
     bound(oct6, { closeOnSelect: false });
     await open();
     await userEvent.click(day("2026-10-14"));
@@ -362,7 +368,9 @@ describe("in a field", () => {
     const label = q("[data-slot=field-label]");
     const group = frame().querySelector<HTMLElement>("[role=group]")!;
     expect(group.getAttribute("aria-labelledby")).toBe(label.id);
-    expect(group.getAttribute("aria-describedby")!.split(" ")).toHaveLength(2);
+    expect(group.getAttribute("aria-describedby")).toBe(
+      `${q("[data-slot=field-description]").id} ${q("[data-slot=field-error]").id}`,
+    );
     expect(segments()[0]!.getAttribute("aria-invalid")).toBe("true");
 
     await userEvent.click(label);
@@ -479,6 +487,7 @@ describe("with a button trigger", () => {
   });
 
   it("submits through a hidden input that hands focus to the trigger", async () => {
+    setToday("2026-10-07");
     const submits: FormData[] = [];
     render(() =>
       h(
@@ -500,7 +509,7 @@ describe("with a button trigger", () => {
     await userEvent.keyboard("{Enter}");
     await closed();
     form.requestSubmit();
-    expect(submits[0]!.get("due")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(submits[0]!.get("due")).toBe("2026-10-07");
   });
 });
 
@@ -529,8 +538,7 @@ describe("focus and blur", () => {
     await settle();
     expect(events).toEqual(["focus"]);
     await userEvent.click(q("[data-test=after]"));
-    await settle();
-    expect(events).toEqual(["focus", "blur"]);
+    await expect.poll(() => events).toEqual(["focus", "blur"]);
   });
 
   it("count a select in the calendar's heading as inside, though its list is portalled out", async () => {
@@ -575,8 +583,7 @@ describe("focus and blur", () => {
     // A click outside closes the panel, and that is leaving the picker.
     await userEvent.click(q("[data-test=before]"));
     await closed();
-    await settle();
-    expect(events).toEqual(["focus", "blur"]);
+    await expect.poll(() => events).toEqual(["focus", "blur"]);
   });
 });
 

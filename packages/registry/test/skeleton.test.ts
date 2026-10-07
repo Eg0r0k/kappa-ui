@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import { Skeleton } from "@/ui/skeleton";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (props: Record<string, unknown> = {}, parent = "") =>
   mount(
@@ -49,6 +45,6 @@ describe("Skeleton", () => {
     const box = skeleton.getBoundingClientRect();
 
     expect([box.width, box.height]).toEqual([40, 40]);
-    expect(getComputedStyle(skeleton).borderRadius).toMatch(/px$/);
+    expect(parseFloat(getComputedStyle(skeleton).borderRadius)).toBeGreaterThanOrEqual(20);
   });
 });

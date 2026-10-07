@@ -8,11 +8,8 @@ import FileUploadForm from "@/examples/file-upload/FileUploadForm.vue";
 import FileUploadMultiple from "@/examples/file-upload/FileUploadMultiple.vue";
 import FileUploadPageDrop from "@/examples/file-upload/FileUploadPageDrop.vue";
 
-const settle = () => new Promise((resolve) => setTimeout(resolve, 100));
-
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
 
 const transferOf = (...files: File[]) => {
@@ -47,44 +44,40 @@ describe("FileUpload examples", () => {
   it("validates files with Formisch: errors on submit, focus on the first trigger, one error per bad file", async () => {
     mount(FileUploadForm, { attachTo: document.body });
     document.querySelector<HTMLButtonElement>("button[type=submit]")!.click();
-    await settle();
-    await nextTick();
 
     // the cover's zone is its trigger; the floor plans have a trigger Button
-    const triggers = [
+    const triggers = () => [
       ...document.querySelectorAll<HTMLElement>(
         "button[data-slot=file-upload-dropzone], [data-slot=file-upload-trigger]",
       ),
     ];
-    expect(all("field-error").map((error) => error.textContent)).toEqual([
-      "Choose a cover photo.",
-      "Add at least one floor plan.",
-    ]);
-    expect(triggers.map((trigger) => trigger.getAttribute("aria-invalid"))).toEqual(["true", "true"]);
-    expect(document.activeElement).toBe(triggers[0]);
+    await expect
+      .poll(() => all("field-error").map((error) => error.textContent))
+      .toEqual(["Choose a cover photo.", "Add at least one floor plan."]);
+    expect(triggers().map((trigger) => trigger.getAttribute("aria-invalid"))).toEqual(["true", "true"]);
+    await expect.poll(() => document.activeElement).toBe(triggers()[0]);
 
     await drop(all("file-upload-dropzone")[0]!, png("front.png"));
     await userEvent.upload(all("file-upload-input")[1]!, [pdf("ground.pdf"), png("upstairs.png")]);
-    await settle();
-    await nextTick();
 
-    const [cover, plans] = all("file-upload-list");
-    expect(all("file-upload-item-size", cover).map((size) => size.textContent?.trim())).toEqual(["16 B"]);
-    const lines = all("file-upload-item-content", plans).map((content) =>
-      [...content.children].map((line) => line.textContent?.trim()),
-    );
-    expect(lines).toEqual([
+    const list = (index: number) => all("file-upload-list")[index]!;
+    const lines = () =>
+      all("file-upload-item-content", list(1)).map((content) =>
+        [...content.children].map((line) => line.textContent?.trim()),
+      );
+    await expect.poll(lines).toEqual([
       ["ground.pdf", "1 KB"],
       ["upstairs.png", "Floor plans must be PDFs."],
     ]);
+    expect(all("file-upload-item-size", list(0)).map((size) => size.textContent?.trim())).toEqual(["16 B"]);
 
     all("file-upload-item-delete")[2]!.click();
     await nextTick();
     document.querySelector<HTMLButtonElement>("button[type=submit]")!.click();
-    await settle();
-    await nextTick();
+    await expect
+      .poll(() => document.querySelector("[role=status]")?.textContent)
+      .toBe("Published with front.png and 1 floor plan(s).");
     expect(all("field-error")).toHaveLength(0);
-    expect(document.querySelector("[role=status]")?.textContent).toBe("Published with front.png and 1 floor plan(s).");
   });
 
   it("attaches files dropped anywhere on the page, once", async () => {

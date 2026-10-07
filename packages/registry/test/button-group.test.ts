@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import { Button } from "@/ui/button";
 import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@/ui/button-group";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const three = () =>
   ["One", "Two", "Three"].map((label) => h(Button, { variant: "outline", color: "neutral" }, () => label));

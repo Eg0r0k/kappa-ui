@@ -23,8 +23,6 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
-  document.body.innerHTML = "";
-  document.body.style.cssText = "";
   window.scrollTo(0, 0);
 });
 
@@ -101,8 +99,7 @@ it("indents the page while a modal drawer is open and keeps its side until the r
   await expect.poll(() => page().hasAttribute("data-open")).toBe(false);
   expect(page().dataset.side).toBe("bottom");
   expect(pageVariable("--drawer-indent-progress")).toBe("0");
-  await wait(200);
-  expect(page().hasAttribute("data-side")).toBe(false);
+  await expect.poll(() => page().hasAttribute("data-side")).toBe(false);
   expect(pageVariable("--drawer-indent-progress")).toBe("");
 });
 

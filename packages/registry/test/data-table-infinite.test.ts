@@ -14,7 +14,6 @@ const helper = createDataTableColumnHelper<Item>();
 const columns = [helper.accessor("name", { header: "Name" })];
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 
@@ -57,7 +56,6 @@ const render = (props: Record<string, unknown> = {}, slots: Record<string, unkno
   const finish = async (result?: "stop") => {
     pending.shift()!.resolve(result);
     await nextTick();
-    await settle();
   };
   return { wrapper, data, extra, calls, errors, pending, settle, viewport, groups, loading, end, finish };
 };
@@ -73,12 +71,13 @@ it("fills a short first page, shows the loading row below the last row and stops
   expect(t.end()).toBeNull();
   t.data.value = make(6);
   await t.finish();
-  expect(t.calls).toEqual([1, 2]);
+  await vi.waitFor(() => expect(t.calls).toEqual([1, 2]));
   t.data.value = make(9);
   await t.finish("stop");
-  expect(t.calls).toEqual([1, 2]);
+  await vi.waitFor(() => expect(t.end()?.textContent).toContain("That's all"));
   expect(t.loading()).toBeNull();
-  expect(t.end()!.textContent).toContain("That's all");
+  await t.settle();
+  expect(t.calls).toEqual([1, 2]);
   t.viewport().scrollTop = 1000;
   await t.settle();
   expect(t.calls).toEqual([1, 2]);
@@ -92,6 +91,7 @@ it("waits while hasMore is false and loads once it turns true", async () => {
   await vi.waitFor(() => expect(t.calls).toEqual([1]));
   t.data.value = make(12);
   await t.finish();
+  await t.settle();
   expect(t.calls).toEqual([1]);
   t.extra.value = { hasMore: { bottom: false } };
   await nextTick();
@@ -105,9 +105,10 @@ it("restarts the index when a manual filter changes", async () => {
   await vi.waitFor(() => expect(t.calls).toEqual([1]));
   t.data.value = make(6);
   await t.finish();
-  expect(t.calls).toEqual([1, 2]);
+  await vi.waitFor(() => expect(t.calls).toEqual([1, 2]));
   t.data.value = make(30);
   await t.finish();
+  await t.settle();
   await t.settle();
   expect(t.calls).toEqual([1, 2]);
   t.data.value = make(3);
@@ -119,9 +120,8 @@ it("leaves a rejected load retryable and reports the error", async () => {
   const t = render();
   await vi.waitFor(() => expect(t.calls).toEqual([1]));
   t.pending.shift()!.reject(new Error("offline"));
-  await t.settle();
-  expect(t.errors).toHaveLength(1);
-  expect(t.loading()).toBeNull();
+  await vi.waitFor(() => expect(t.loading()).toBeNull());
+  expect(t.errors).toEqual([new Error("offline")]);
   t.viewport().dispatchEvent(new Event("scroll"));
   await vi.waitFor(() => expect(t.calls).toEqual([1, 1]));
 });

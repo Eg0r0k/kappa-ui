@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick } from "vue";
 
@@ -28,10 +28,6 @@ const palette = [
   `--success-text: ${FOREST}`,
   `--warning: ${AMBER}`,
 ].join("; ");
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = async (node: () => VNode | VNode[]) => {
   mount(defineComponent({ setup: () => () => h("div", { style: palette }, node()) }), { attachTo: document.body });
@@ -280,6 +276,7 @@ it("rings a focused card like the control in it, in the group's color", async ()
   ]);
   const expected = [ring(FOREST), ring(RED), ring(RED), ring()];
 
+  expect(parts("checkbox")).toHaveLength(expected.length);
   for (const [index, checkbox] of parts("checkbox").entries()) {
     await userEvent.tab();
     expect(document.activeElement).toBe(checkbox);

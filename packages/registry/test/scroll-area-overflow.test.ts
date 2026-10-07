@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { type ScrollAreaApi, ScrollArea } from "@/ui/scroll-area";
@@ -16,10 +16,6 @@ const edges = (root: Element) =>
   ["x-start", "x-end", "y-start", "y-end"].filter((edge) => root.hasAttribute(`data-overflow-${edge}`));
 
 const viewportOf = (root: Element) => root.querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("marks the vertical edges an area can still scroll towards", async () => {
   const wrapper = mountArea({});

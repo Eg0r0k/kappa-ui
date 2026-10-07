@@ -7,6 +7,8 @@ import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { injectNavigationMenuContext, navigationMenuChevron, navigationMenuTriggerStyle } from ".";
 
+defineOptions({ inheritAttrs: false });
+
 const props = withDefaults(defineProps<NavigationMenuTriggerProps & { class?: HTMLAttributes["class"] }>(), {
   as: "button",
 });
@@ -27,6 +29,7 @@ const delegated = computed(() => {
       :as-child="props.asChild"
       data-slot="navigation-menu-trigger"
       :class="cn(navigationMenuTriggerStyle({ size: context.size.value, variant: context.variant.value }), props.class)"
+      v-bind="$attrs"
     >
       <slot />
       <slot name="icon">
