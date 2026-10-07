@@ -5,16 +5,12 @@ import { computed } from 'vue'
 import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/ui/collapsible'
-import type { PageOutline } from '~/lib/outline'
 import { filterGroups, highlight, pageId, type SidebarGroup } from '~/lib/sidebar'
 
 const props = defineProps<{
   groups: SidebarGroup[]
   activePath: string
   query: string
-  outline?: PageOutline
-  activeHeading?: string
-  currentExample?: string
   badges: Record<string, 'new' | 'updated'>
   mod: string
   idPrefix?: string
@@ -39,13 +35,6 @@ const pageLink = `
   focus-visible:focus-ring
   aria-[current=page]:bg-primary/10 aria-[current=page]:font-medium aria-[current=page]:text-primary
   max-md:min-h-11
-`
-const anchorLink = `
-  block rounded-sm py-1 text-body-sm text-muted-foreground transition-colors
-  hover:text-foreground
-  focus-visible:focus-ring
-  aria-[current=location]:font-medium aria-[current=location]:text-primary
-  max-md:min-h-11 max-md:py-2.5
 `
 </script>
 
@@ -88,7 +77,7 @@ const anchorLink = `
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <ul class="flex flex-col gap-0.5 py-1">
+          <ul class="ms-3 flex flex-col gap-0.5 border-s py-1 ps-2">
             <li v-for="page in group.pages" :key="page.path">
               <NuxtLink
                 :id="props.idPrefix && pageId(props.idPrefix, page.path)"
@@ -116,34 +105,6 @@ const anchorLink = `
                   {{ props.badges[page.path] }}
                 </Badge>
               </NuxtLink>
-              <ul
-                v-if="page.path === props.activePath && props.outline && !filtering"
-                class="my-1 ms-4 flex flex-col border-s ps-3"
-              >
-                <li v-for="heading in props.outline.headings" :key="heading.id">
-                  <NuxtLink
-                    :to="`#${heading.id}`"
-                    :aria-current="props.activeHeading === heading.id ? 'location' : undefined"
-                    :class="anchorLink"
-                    @click="emit('navigate')"
-                  >
-                    {{ heading.text }}
-                  </NuxtLink>
-                  <ul v-if="heading.id === 'examples' && props.outline.examples.length" class="ms-3 flex flex-col">
-                    <li v-for="example in props.outline.examples" :key="example.slug">
-                      <NuxtLink :to="`#${example.slug}`" :class="anchorLink" @click="emit('navigate')">
-                        <span
-                          v-if="example.slug === props.currentExample"
-                          data-slot="sidebar-example-dot"
-                          class="me-1.5 hidden size-1.5 rounded-full bg-primary align-middle md:inline-block"
-                          aria-hidden="true"
-                        />
-                        {{ example.title }}
-                      </NuxtLink>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
             </li>
           </ul>
         </CollapsibleContent>

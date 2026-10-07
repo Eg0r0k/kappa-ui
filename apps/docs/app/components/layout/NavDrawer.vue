@@ -2,9 +2,6 @@
 import { Drawer, DrawerContent, DrawerTitle } from '@/ui/drawer'
 import DocsSidebar from '~/components/layout/DocsSidebar.vue'
 import MainNav from '~/components/layout/MainNav.vue'
-import type { PageOutline } from '~/lib/outline'
-
-const props = defineProps<{ outline?: PageOutline }>()
 const { drawer } = useDocsShell()
 const route = useRoute()
 
@@ -23,7 +20,7 @@ watch(
         <DrawerTitle class="font-semibold">kappa</DrawerTitle>
         <MainNav class="ms-auto" @navigate="drawer = false" />
       </div>
-      <DocsSidebar class="min-h-0 flex-1" :outline="props.outline" @navigate="drawer = false" />
+      <DocsSidebar class="min-h-0 flex-1" @navigate="drawer = false" />
     </DrawerContent>
   </Drawer>
 </template>

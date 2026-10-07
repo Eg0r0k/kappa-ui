@@ -30,18 +30,6 @@ const groups: SidebarGroup[] = [
   { key: 'forms', title: 'Forms', section: 'components', pages: [{ title: 'Field', path: '/docs/components/field' }] },
 ]
 
-const outline = {
-  headings: [
-    { id: 'installation', text: 'Installation' },
-    { id: 'examples', text: 'Examples' },
-    { id: 'api-reference', text: 'API Reference' },
-  ],
-  examples: [
-    { name: 'button-demo', slug: 'demo', title: 'Button demo' },
-    { name: 'button-sizes', slug: 'sizes', title: 'Button sizes' },
-  ],
-}
-
 const renderNav = (props: Record<string, unknown> = {}) => {
   const open = ref<string[]>((props.open as string[] | undefined) ?? ['actions'])
   const searched: string[] = []
@@ -52,8 +40,6 @@ const renderNav = (props: Record<string, unknown> = {}) => {
           groups,
           activePath: '/docs/components/button',
           query: '',
-          outline,
-          activeHeading: 'examples',
           badges: { '/docs/components/toggle-group': 'new' },
           mod: 'Ctrl',
           onSearch: (query: string) => searched.push(query),
@@ -79,21 +65,11 @@ const visibleTexts = () =>
     )
 
 describe('SidebarNav', () => {
-  it('shows open groups, marks the current page and badges, and nests anchors under it', async () => {
+  it('shows open groups, marks the current page and badges, and keeps the page outline out', async () => {
     renderNav()
-    await expect
-      .poll(visibleTexts)
-      .toEqual([
-        'Button',
-        'Installation',
-        'Examples',
-        'Button demo',
-        'Button sizes',
-        'API Reference',
-        'Toggle Group new',
-      ])
+    await expect.poll(visibleTexts).toEqual(['Button', 'Toggle Group new'])
     expect(document.querySelector('a[href="/docs/components/button"]')!.getAttribute('aria-current')).toBe('page')
-    expect(document.querySelector('a[href="#examples"]')!.getAttribute('aria-current')).toBe('location')
+    expect(document.querySelector('a[href^="#"]')).toBeNull()
   })
 
   it('opens and closes a group through v-model', async () => {

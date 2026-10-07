@@ -2,17 +2,14 @@
 import { ScrollArea } from '@/ui/scroll-area'
 import SidebarFilter from '~/components/layout/SidebarFilter.vue'
 import SidebarNav from '~/components/layout/SidebarNav.vue'
-import type { PageOutline } from '~/lib/outline'
 import { badgeOf } from '~/lib/badges'
 import { bestMatch, groupOf, modKey, navigablePages, pageId, sidebarGroups, stepPage } from '~/lib/sidebar'
 
-const props = defineProps<{ outline?: PageOutline }>()
 const emit = defineEmits<{ navigate: [] }>()
 
 const route = useRoute()
 const nav = useDocsNavigation()
 const { show } = useSearchDialog()
-const demo = injectDemo(null)
 
 const groups = computed(() => sidebarGroups(nav.value))
 
@@ -48,8 +45,6 @@ const badges = computed(() =>
       }),
   ),
 )
-
-const activeHeading = useScrollSpy(() => props.outline?.headings.map((heading) => heading.id) ?? [])
 
 const search = (value: string) => {
   emit('navigate')
@@ -118,9 +113,6 @@ const submit = async () => {
           :groups="groups"
           :active-path="route.path"
           :query="query"
-          :outline="props.outline"
-          :active-heading="activeHeading"
-          :current-example="demo?.open.value ? demo.selected.value?.slug : undefined"
           :badges="badges"
           :mod="mod"
           :id-prefix="prefix"
