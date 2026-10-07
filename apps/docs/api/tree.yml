@@ -19,7 +19,7 @@ props:
   selectionBehavior:
     description: "`toggle` adds or removes a node on each click, so clicking the selected node clears it. `replace` keeps a node selected; with `multiple`, a click replaces the selection, Ctrl or ⌘ adds to it, and Shift or Shift + arrows select a range."
   checkbox:
-    description: Checkbox mode. Rows use `aria-checked`, and `TreeItemCheckbox` shows their state; put one in each row. Turns on `multiple` and `cascade`; add `multiple` too so `v-model` is typed as an array.
+    description: Checkbox mode. Rows use `aria-checked`, and `TreeItemCheckbox` shows their state; put one in each row. A click checks only on that checkbox, Space anywhere on the row. Turns on `multiple` and `cascade`; add `multiple` too so `v-model` is typed as an array.
   cascade:
     description: Checking a parent checks every enabled node under it, and a parent counts as checked while all its children are, indeterminate while some are. On by default with `checkbox`.
   getKey:

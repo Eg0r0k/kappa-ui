@@ -1,4 +1,5 @@
 component: TreeItemToggle
 file: ui/tree/TreeItemToggle.vue
+description: The chevron of a node with children. It is drawn, not a control, so it takes no focus. A click on it opens or closes the node without selecting or checking it.
 slots:
   default: The icon of a node with children, with `{ expanded }`; a chevron that turns when the node opens. A spinner replaces it while the node is `loading`, and a leaf keeps the space empty so labels line up.
