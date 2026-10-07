@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   chromaRange,
+  controlTokens,
   defaultTheme,
   isDefaultTheme,
   neutrals,
@@ -111,6 +112,21 @@ describe('theme', () => {
     expect(siteCss(off)).toContain('--kappa-ripple: none;')
   })
 
+  it('reproduces the static control size tokens, and shifts the scale a step for a density', () => {
+    const scale = controlTokens('default')
+    expect(Object.keys(scale)).toHaveLength(20)
+    for (const [name, value] of Object.entries(scale)) expect(value).toBe(staticToken(':root', name, tokens))
+
+    expect(themeCss(defaultTheme)).not.toContain('--control-')
+    const compact = themeTokens({ ...defaultTheme, density: 'compact' }).light
+    expect(compact['control-height-md']).toBe(scale['control-height-sm'])
+    expect(compact['control-icon-lg']).toBe(scale['control-icon-md'])
+    expect(compact['control-height-xs']).toBe('calc(var(--spacing) * 6)')
+    const comfortable = themeTokens({ ...defaultTheme, density: 'comfortable' }).light
+    expect(comfortable['control-padding-md']).toBe(scale['control-padding-lg'])
+    expect(comfortable['control-height-xl']).toBe('calc(var(--spacing) * 14)')
+  })
+
   it('tells the default theme apart', () => {
     expect(isDefaultTheme({ ...defaultTheme })).toBe(true)
     expect(isDefaultTheme({ ...defaultTheme, radius: 1 })).toBe(false)
@@ -208,6 +224,7 @@ describe('theme', () => {
       surfaceBorder: 'strong' as const,
       shadows: 'subtle' as const,
       ripple: 'off' as const,
+      density: 'compact' as const,
       infoChroma: 0.2,
     }
 
@@ -218,6 +235,7 @@ describe('theme', () => {
       surfaceBorder: 'strong',
       shadows: 'subtle',
       ripple: 'off',
+      density: 'compact',
       infoChroma: '0.2',
     })
     expect(themeFromQuery(themeToQuery(theme))).toEqual(theme)
@@ -234,6 +252,7 @@ describe('theme', () => {
         surfaceBorder: 'dotted',
         shadows: 'huge',
         ripple: 'sometimes',
+        density: 'cosy',
         successHue: 'green',
         warningChroma: '0',
       }),

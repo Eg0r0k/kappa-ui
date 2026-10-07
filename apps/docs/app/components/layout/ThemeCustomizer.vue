@@ -8,6 +8,7 @@ import {
   type ThemeConfig,
   chromaRange,
   defaultTheme,
+  densities,
   fontStack,
   fonts,
   lightnessRange,
@@ -53,7 +54,7 @@ const font = setting('font')
 const ripple = computed({ get: () => theme.value.ripple === 'on', set: (on) => update({ ripple: on ? 'on' : 'off' }) })
 
 // A single ToggleGroup lets the pressed item go; a theme always has a value.
-const choice = <K extends 'surfaces' | 'surfaceBorder' | 'shadows'>(key: K) =>
+const choice = <K extends 'density' | 'surfaces' | 'surfaceBorder' | 'shadows'>(key: K) =>
   computed({
     get: () => theme.value[key],
     set: (value?: ThemeConfig[K]) => {
@@ -61,6 +62,7 @@ const choice = <K extends 'surfaces' | 'surfaceBorder' | 'shadows'>(key: K) =>
     },
   })
 
+const densityChoice = choice('density')
 const surfacesChoice = choice('surfaces')
 const bordersChoice = choice('surfaceBorder')
 const shadowsChoice = choice('shadows')
@@ -162,14 +164,10 @@ const { height: bodyHeight } = useElementSize(body, undefined, { box: 'border-bo
               :step="0.01"
               :track="chromaTrack(hue)"
             />
-          </section>
-
-          <section class="flex flex-col gap-3" aria-labelledby="customizer-type">
-            <h3 id="customizer-type" :class="heading">Neutrals and type</h3>
             <Field orientation="horizontal">
               <FieldLabel>Neutral</FieldLabel>
               <Select v-model="neutral">
-                <SelectTrigger size="sm" class="w-40">
+                <SelectTrigger variant="soft" size="sm" class="w-40">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -177,10 +175,36 @@ const { height: bodyHeight } = useElementSize(body, undefined, { box: 'border-bo
                 </SelectContent>
               </Select>
             </Field>
+          </section>
+
+          <section class="flex flex-col gap-3" aria-labelledby="customizer-size">
+            <h3 id="customizer-size" :class="heading">Size and type</h3>
+            <Field>
+              <FieldLabel id="customizer-density">Density</FieldLabel>
+              <ToggleGroup
+                type="single"
+                v-bind="segmented"
+                v-model="densityChoice"
+                aria-labelledby="customizer-density"
+                class="w-full"
+              >
+                <ToggleGroupItem v-for="option in densities" :key="option.key" :value="option.key" class="flex-1">
+                  {{ option.name }}
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </Field>
+            <ThemeSlider
+              v-model="radius"
+              label="Radius"
+              :value="`${radius}rem`"
+              :min="radii[0]!"
+              :max="radii.at(-1)!"
+              :step="radii[1]! - radii[0]!"
+            />
             <Field orientation="horizontal">
               <FieldLabel>Font</FieldLabel>
               <Select v-model="font">
-                <SelectTrigger size="sm" class="w-40">
+                <SelectTrigger variant="soft" size="sm" class="w-40">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -197,16 +221,8 @@ const { height: bodyHeight } = useElementSize(body, undefined, { box: 'border-bo
             </Field>
           </section>
 
-          <section class="flex flex-col gap-3" aria-labelledby="customizer-shape">
-            <h3 id="customizer-shape" :class="heading">Shape and depth</h3>
-            <ThemeSlider
-              v-model="radius"
-              label="Radius"
-              :value="`${radius}rem`"
-              :min="radii[0]!"
-              :max="radii.at(-1)!"
-              :step="radii[1]! - radii[0]!"
-            />
+          <section class="flex flex-col gap-3" aria-labelledby="customizer-depth">
+            <h3 id="customizer-depth" :class="heading">Depth</h3>
             <Field>
               <FieldLabel id="customizer-surfaces">Surfaces</FieldLabel>
               <ToggleGroup
@@ -222,7 +238,7 @@ const { height: bodyHeight } = useElementSize(body, undefined, { box: 'border-bo
               </ToggleGroup>
             </Field>
             <Field>
-              <FieldLabel id="customizer-borders">Surface borders</FieldLabel>
+              <FieldLabel id="customizer-borders">Borders</FieldLabel>
               <ToggleGroup
                 type="single"
                 v-bind="segmented"
@@ -249,11 +265,12 @@ const { height: bodyHeight } = useElementSize(body, undefined, { box: 'border-bo
                 </ToggleGroupItem>
               </ToggleGroup>
             </Field>
-            <Field orientation="horizontal">
-              <FieldLabel>Ripple on press</FieldLabel>
-              <Switch v-model="ripple" size="sm" />
-            </Field>
           </section>
+
+          <Field orientation="horizontal">
+            <FieldLabel>Ripple on press</FieldLabel>
+            <Switch v-model="ripple" size="sm" />
+          </Field>
 
           <Collapsible>
             <CollapsibleTrigger as-child>
