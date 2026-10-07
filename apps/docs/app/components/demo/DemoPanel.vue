@@ -29,9 +29,10 @@ const setResizing = (value: boolean) => {
   <aside
     data-slot="demo-panel"
     aria-label="Example"
+    :data-expanded="expanded || undefined"
     :class="[
-      'sticky top-14 hidden h-[calc(100svh-3.5rem)] shrink flex-col bg-background md:flex',
-      expanded ? 'md:flex-1' : 'border-s md:w-100 lg:w-(--demo-width) lg:min-w-105',
+      'sticky top-14 h-[calc(100svh-3.5rem)] shrink flex-col bg-background',
+      expanded ? 'flex flex-1' : 'hidden border-s md:flex md:w-100 lg:w-(--demo-width) lg:min-w-105',
     ]"
   >
     <DemoWidthHandle
