@@ -27,7 +27,6 @@ afterEach(() => {
   for (const wrapper of mounted.splice(0)) wrapper.unmount();
   vi.useRealTimers();
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
 
 const flush = async () => {

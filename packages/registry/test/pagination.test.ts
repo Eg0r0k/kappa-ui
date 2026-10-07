@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
@@ -16,10 +16,6 @@ import {
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 type Item = { type: "page"; value: number } | { type: "ellipsis" };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (
   props: Record<string, unknown> = {},

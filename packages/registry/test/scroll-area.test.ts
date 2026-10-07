@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
@@ -27,10 +27,6 @@ const partsOf = (root: Element) => ({
   horizontalThumb: root.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=horizontal]")!,
   verticalBar: root.querySelector<HTMLElement>("[data-slot=scroll-area-bar][data-axis=vertical]")!,
   horizontalBar: root.querySelector<HTMLElement>("[data-slot=scroll-area-bar][data-axis=horizontal]")!,
-});
-
-afterEach(() => {
-  document.body.innerHTML = "";
 });
 
 it("renders every slot of the structure", () => {

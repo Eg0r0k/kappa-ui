@@ -25,7 +25,6 @@ const helper = createDataTableColumnHelper<Person>();
 const columns = helper.columns([helper.accessor("name", { header: "Name" })]);
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 

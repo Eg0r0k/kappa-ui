@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { DialogTitle } from "reka-ui";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
 
@@ -21,10 +21,6 @@ import {
   DrawerMenuSubTrigger,
 } from "../../src/drawer-menu";
 import { pointer, wait } from "./pointer";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const settle = async () => {
   await nextTick();

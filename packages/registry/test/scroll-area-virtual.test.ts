@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
@@ -33,10 +33,6 @@ const nextFrame = () =>
   new Promise((resolve) => {
     requestAnimationFrame(() => requestAnimationFrame(resolve));
   });
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("renders a small window instead of every item", async () => {
   const wrapper = mountVirtual();

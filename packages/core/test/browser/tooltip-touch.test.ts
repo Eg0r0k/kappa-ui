@@ -26,8 +26,6 @@ afterEach(() => {
   vi.advanceTimersByTime(20);
   vi.useRealTimers();
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
 });
 
 const flush = async () => {

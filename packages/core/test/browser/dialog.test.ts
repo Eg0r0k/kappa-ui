@@ -25,7 +25,6 @@ const copies = (id: string | null) => document.querySelectorAll(`[id="${id}"]`).
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
 
 it("names and describes a window that has neither with a hidden fallback, so Reka warns about nothing", async () => {

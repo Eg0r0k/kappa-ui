@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, expectTypeOf, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, reactive, ref } from "vue";
 
@@ -7,7 +7,6 @@ import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } fro
 
 import { all, item, openMenus, parkPointer, q, renderMenubar, settle, trigger, viewMenu } from "./menubar-fixture";
 
-enableAutoUnmount(afterEach);
 beforeEach(parkPointer);
 
 describe("Menubar structure", () => {

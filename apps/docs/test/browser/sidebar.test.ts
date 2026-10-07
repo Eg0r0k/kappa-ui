@@ -1,13 +1,11 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { defineComponent, h, ref } from 'vue'
 
 import SidebarFilter from '~/components/layout/SidebarFilter.vue'
 import SidebarNav from '~/components/layout/SidebarNav.vue'
 import type { SidebarGroup } from '~/lib/sidebar'
-
-enableAutoUnmount(afterEach)
 
 const NuxtLink = defineComponent({
   props: { to: { type: [String, Object], required: true } },

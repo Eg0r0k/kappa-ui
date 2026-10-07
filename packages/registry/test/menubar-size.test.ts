@@ -1,6 +1,6 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import { ConfigProvider } from "reka-ui";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { h } from "vue";
 
@@ -19,7 +19,6 @@ import type { MenubarSize } from "@/ui/menubar";
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 import { fileMenu, openMenus, parkPointer, q, renderMenubar, settle, trigger, viewMenu } from "./menubar-fixture";
 
-enableAutoUnmount(afterEach);
 beforeEach(parkPointer);
 
 const sized = (root: Record<string, unknown>, content: Record<string, unknown> = {}, subSize?: MenubarSize) =>

@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
@@ -18,10 +18,6 @@ import {
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const colors = "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0)";
 

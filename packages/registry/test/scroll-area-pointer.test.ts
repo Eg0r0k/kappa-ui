@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { cdp } from "vitest/browser";
 import { h } from "vue";
 
@@ -26,10 +26,6 @@ const partsOf = (root: Element) => ({
 
 const pointer = (type: string, init: PointerEventInit) =>
   new PointerEvent(type, { bubbles: true, pointerId: 1, isPrimary: true, ...init });
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("scrolls the content by the drag multiplier", async () => {
   const wrapper = mountArea();

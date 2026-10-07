@@ -7,7 +7,6 @@ import { DrawerContent, DrawerRoot } from "../../src/drawer";
 import { pointer, wait } from "./pointer";
 
 afterEach(async () => {
-  document.body.innerHTML = "";
   await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false });
 });
 

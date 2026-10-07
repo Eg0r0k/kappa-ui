@@ -1,15 +1,11 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { createSSRApp, h, nextTick, ref } from "vue";
 import { renderToString } from "vue/server-renderer";
 
 import { type InfiniteDirection, InfiniteScroll, ScrollArea } from "@/ui/scroll-area";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 50));
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (
   props: Record<string, unknown> | (() => Record<string, unknown>) = {},

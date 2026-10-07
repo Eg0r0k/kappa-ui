@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { type VNode, h } from "vue";
 
 import { Button } from "@/ui/button";
@@ -11,10 +11,6 @@ import { Separator } from "@/ui/separator";
 import { Textarea } from "@/ui/textarea";
 import { Toggle } from "@/ui/toggle";
 import { ToggleGroup, ToggleGroupItem } from "@/ui/toggle-group";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const marks = (node: () => VNode, slot: string) => {
   mount({ render: node }, { attachTo: document.body });

@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type Component, type VNodeChild, defineComponent, h, ref } from "vue";
 
@@ -24,14 +24,6 @@ const titles = () =>
   [...document.querySelectorAll("[role=dialog]")].map(
     (element) => element.querySelector("[data-slot=dialog-title]")?.textContent,
   );
-
-afterEach(() => {
-  document.body.innerHTML = "";
-  document.body.style.pointerEvents = "";
-  document.body.removeAttribute("style");
-});
-
-enableAutoUnmount(afterEach);
 
 type Options = {
   content?: Record<string, unknown>;

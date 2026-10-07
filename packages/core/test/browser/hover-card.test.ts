@@ -20,7 +20,6 @@ const mounted: VueWrapper[] = [];
 afterEach(() => {
   for (const wrapper of mounted.splice(0)) wrapper.unmount();
   vi.useRealTimers();
-  document.body.innerHTML = "";
 });
 
 const flush = async () => {

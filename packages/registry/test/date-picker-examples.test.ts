@@ -15,7 +15,6 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
-  document.body.innerHTML = "";
 });
 
 const render = (component: Component) => {

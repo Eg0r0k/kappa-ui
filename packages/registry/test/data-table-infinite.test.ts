@@ -14,7 +14,6 @@ const helper = createDataTableColumnHelper<Item>();
 const columns = [helper.accessor("name", { header: "Name" })];
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 

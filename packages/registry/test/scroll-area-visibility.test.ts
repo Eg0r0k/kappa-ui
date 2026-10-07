@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { beforeEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
@@ -21,10 +21,6 @@ beforeEach(async () => {
   away.style.cssText = "position: fixed; right: 0; bottom: 0; width: 8px; height: 8px";
   await userEvent.hover(away);
   away.remove();
-});
-
-afterEach(() => {
-  document.body.innerHTML = "";
 });
 
 it("shows the bars while scrolling and hides them after the delay", async () => {

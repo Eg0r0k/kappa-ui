@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, h, nextTick } from "vue";
 
@@ -11,10 +11,6 @@ import {
   ToolbarToggleGroup,
   ToolbarToggleItem,
 } from "@/ui/toolbar";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (root: Record<string, unknown> = {}, children?: () => VNode[]) =>
   mount(

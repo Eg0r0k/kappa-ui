@@ -18,7 +18,6 @@ beforeEach(() => style("[data-slot=page-indicator-item] { transition: none !impo
 
 afterEach(() => {
   cleanups.splice(0).forEach((cleanup) => cleanup());
-  document.body.innerHTML = "";
 });
 
 const render = (

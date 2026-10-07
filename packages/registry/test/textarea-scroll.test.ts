@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { Textarea } from "@/ui/textarea";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const lines = (count: number) => Array.from({ length: count }, (_, index) => `Line ${index + 1}`).join("\n");
 

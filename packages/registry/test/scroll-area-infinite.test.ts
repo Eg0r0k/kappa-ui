@@ -121,7 +121,6 @@ const scrollEvents = (el: HTMLElement, count: number) => {
 const settle = () => new Promise((resolve) => setTimeout(resolve, 50));
 
 afterEach(() => {
-  document.body.innerHTML = "";
   window.scrollTo(0, 0);
 });
 

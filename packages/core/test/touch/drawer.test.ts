@@ -1,15 +1,11 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { DrawerContent, DrawerHandle, DrawerOverlay, DrawerRoot } from "../../src/drawer";
 import { pointer, wait } from "../browser/pointer";
 
 const PANEL = "position: fixed; left: 0; bottom: 0; width: 300px; height: 400px";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const touch = (type: "touchstart" | "touchmove" | "touchend", target: Element, x: number, y: number) => {
   const point = new Touch({ identifier: 1, target, clientX: x, clientY: y, pageX: x, pageY: y });

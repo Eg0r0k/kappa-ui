@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
 
 import {
@@ -25,10 +25,6 @@ sheet.textContent = [
   "[role=dialog] { translate: 0 calc(var(--drawer-swipe-movement, 0px) + var(--drawer-snap-offset, 0px)); }",
 ].join(" ");
 document.head.append(sheet);
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const harness = (
   root: Partial<DrawerRootProps> = {},

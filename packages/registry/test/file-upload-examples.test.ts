@@ -12,7 +12,6 @@ const settle = () => new Promise((resolve) => setTimeout(resolve, 100));
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
 
 const transferOf = (...files: File[]) => {

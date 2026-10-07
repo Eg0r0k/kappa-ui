@@ -2,7 +2,7 @@ import { CalendarDate, CalendarDateTime, isWeekend } from "@internationalized/da
 import { CalendarDays } from "@lucide/vue";
 import { mount } from "@vue/test-utils";
 import { ConfigProvider, type DateValue } from "reka-ui";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
@@ -13,10 +13,6 @@ import { InputDate } from "@/ui/input-date";
 import { InputGroup, InputGroupAddon, InputGroupButton } from "@/ui/input-group";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const colors =
   "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --disabled-opacity: 38%";

@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { Card } from "@/ui/card";
 import { Menu, MenuItem } from "@/ui/menu";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const borderColor = () => {
   const probe = document.createElement("div");

@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { defineComponent, h, nextTick } from "vue";
 
 import { SwipeAction, SwipeActionContent, SwipeActions, SwipeContent, SwipeItem } from "../../src/swipe-actions";
 import { wait } from "../browser/pointer";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const touch = (type: "touchstart" | "touchmove" | "touchend", target: Element, x: number, y: number) => {
   const point = new Touch({ identifier: 1, target, clientX: x, clientY: y, pageX: x, pageY: y });

@@ -1,10 +1,8 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { expect, it } from "vitest";
 import { h } from "vue";
 
 import { Kbd } from "@/ui/kbd";
-
-enableAutoUnmount(afterEach);
 
 const render = (props: Record<string, unknown> = {}) =>
   mount({ render: () => h(Kbd, props, () => "K") }, { attachTo: document.body });

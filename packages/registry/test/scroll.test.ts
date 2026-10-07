@@ -37,7 +37,6 @@ const record = (host: HTMLElement, ms: number) =>
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
 
 it("reads the position of an element and of the window", () => {

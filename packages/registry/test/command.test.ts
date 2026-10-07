@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, h, nextTick, ref } from "vue";
 
@@ -15,8 +15,6 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/ui/command";
-
-enableAutoUnmount(afterEach);
 
 const content = (onSelect: (value: string) => void = () => {}) => [
   h(CommandInput, { placeholder: "Search" }),

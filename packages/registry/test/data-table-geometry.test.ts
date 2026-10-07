@@ -38,7 +38,6 @@ const mixed: DataTableColumn<Item>[] = [
 ];
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 

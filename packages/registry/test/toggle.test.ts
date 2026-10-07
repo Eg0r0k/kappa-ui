@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { type VNode, h, nextTick } from "vue";
 
 import { Button } from "@/ui/button";
 import { Toggle } from "@/ui/toggle";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (nodes: () => VNode[]) => {
   mount({ render: () => h("div", nodes()) }, { attachTo: document.body });

@@ -1,6 +1,6 @@
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { nextTick } from "vue";
 
@@ -14,10 +14,6 @@ const submit = async () => {
   await settle();
   await nextTick();
 };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("shows every error on submit and focuses the first segment of the first invalid field", async () => {
   mount(InputDateForm, { attachTo: document.body });

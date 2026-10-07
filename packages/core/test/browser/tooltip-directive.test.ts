@@ -24,7 +24,6 @@ const mounted: VueWrapper[] = [];
 
 afterEach(() => {
   for (const wrapper of mounted.splice(0)) wrapper.unmount();
-  document.body.innerHTML = "";
 });
 
 const render = (children: () => VNodeChild) => {

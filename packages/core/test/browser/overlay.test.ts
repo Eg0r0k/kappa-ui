@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { OverlayScrim, useModalScrim } from "../../src/overlay";
@@ -29,10 +29,6 @@ const settle = async () => {
   await nextTick();
   await nextTick();
 };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("renders nothing while the overlay is closed", async () => {
   harness();

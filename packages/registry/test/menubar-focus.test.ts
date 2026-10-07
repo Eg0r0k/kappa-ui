@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { beforeEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, ref, withDirectives } from "vue";
 
@@ -20,7 +20,6 @@ import { vTooltip } from "@/ui/tooltip";
 import { item, openMenus, parkPointer, q, settle, trigger } from "./menubar-fixture";
 import { pointer, wait } from "./pointer";
 
-enableAutoUnmount(afterEach);
 beforeEach(parkPointer);
 
 const editMenu = (content: Record<string, unknown>, items: () => VNode[]) =>

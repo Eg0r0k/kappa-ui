@@ -1,4 +1,4 @@
-import { beforeEach, describe, expectTypeOf, it, vi } from "vitest";
+import { describe, expectTypeOf, it } from "vitest";
 import { type PropType, defineComponent, h } from "vue";
 
 import {
@@ -22,11 +22,6 @@ const Card = defineComponent({
 const Loose = defineComponent({ props: { note: String }, setup: () => () => h("div") });
 
 const Generic = <T>(props: { items: T[] }) => h("div", props.items.length);
-
-beforeEach(() => {
-  vi.restoreAllMocks();
-  vi.spyOn(console, "warn").mockImplementation(() => {});
-});
 
 describe("dialog types", () => {
   it("types the result from the type argument and narrows it (T1, T7)", () => {

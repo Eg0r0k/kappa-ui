@@ -22,7 +22,6 @@ beforeEach(async () => {
 afterEach(() => {
   wrappers.forEach((wrapper) => wrapper.unmount());
   wrappers = [];
-  document.body.innerHTML = "";
 });
 
 const render = (props: Record<string, unknown> = {}, slots: Record<string, unknown> = {}) => {

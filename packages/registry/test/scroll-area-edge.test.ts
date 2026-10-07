@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { getEdgeZones, ScrollArea, type ScrollAreaApi, type ScrollAreaEdge } from "@/ui/scroll-area";
@@ -19,10 +19,6 @@ const mountArea = (props: Record<string, unknown> = {}, attrs: Record<string, un
 };
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 50));
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("computes the zones with a pixel of tolerance", () => {
   expect(getEdgeZones(0, 400, 100, 0)).toEqual({ start: true, end: false });

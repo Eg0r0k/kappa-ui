@@ -1,11 +1,9 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 
 import HomeShowcase from '~/components/home/HomeShowcase.vue'
 import { showcaseCss } from '~/lib/showcase-styles'
-
-enableAutoUnmount(afterEach)
 
 beforeAll(() => {
   const style = document.createElement('style')

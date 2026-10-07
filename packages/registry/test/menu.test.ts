@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, ref } from "vue";
 
@@ -7,10 +7,6 @@ import { Menu, MenuCheckboxItem, MenuItem, MenuRadioGroup, MenuRadioItem, MenuSh
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
 const query = (selector: string) => document.querySelector(selector) as HTMLElement | null;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 describe("Menu items", () => {
   it("fires select on an item and closes", async () => {

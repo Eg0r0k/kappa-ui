@@ -1,14 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h, nextTick, ref } from "vue";
 
 import { InnerLoading, InnerLoadingContent, InnerLoadingOverlay } from "@/ui/inner-loading";
 
 type Classes = Partial<Record<"root" | "content" | "overlay", string>>;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (loading = false, indicator?: () => unknown, classes: Classes = {}) => {
   const state = ref(loading);

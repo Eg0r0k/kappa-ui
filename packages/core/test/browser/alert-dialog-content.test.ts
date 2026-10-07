@@ -1,6 +1,6 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import { AlertDialogCancel } from "reka-ui";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h } from "vue";
 
@@ -50,13 +50,6 @@ const pressOutside = async () => {
   } as never);
   await settle();
 };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
-});
-
-enableAutoUnmount(afterEach);
 
 describe("AlertDialogContent", () => {
   it("opens as an alertdialog with focus on Cancel and ignores outside presses", async () => {

@@ -1,14 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, ref } from "vue";
 
 import { type DragMove, releaseVerdict, scrollBlocksDrag, useDrag } from "../../src/drag";
 import { drag, flick, pointer, wait } from "./pointer";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: () => VNodeChild = () => null) => {
   const moves: DragMove[] = [];

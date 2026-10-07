@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick } from "vue";
 
 import { SwipeAction, SwipeActions, SwipeContent, SwipeItem, SwipeRoot } from "@/ui/swipe-actions";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const clicks: string[] = [];
 

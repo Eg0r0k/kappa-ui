@@ -1,15 +1,11 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { type VNodeChild, h } from "vue";
 
 import { Checkbox, CheckboxGroup } from "@/ui/checkbox";
 import { ChoiceGroup } from "@/ui/choice-group";
 import { Field, FieldLabel } from "@/ui/field";
 import { Radio, RadioGroup } from "@/ui/radio-group";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const option = (control: VNodeChild) =>
   h(Field, { orientation: "horizontal" }, () => [control, h(FieldLabel, () => "Option")]);

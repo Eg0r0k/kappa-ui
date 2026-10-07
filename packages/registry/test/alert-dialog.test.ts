@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { mount } from "@vue/test-utils";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, ref } from "vue";
 
@@ -33,13 +33,6 @@ const mountHost = () => {
   });
   return { ...useConfirm(), errors };
 };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
-});
-
-enableAutoUnmount(afterEach);
 
 describe("AlertDialog", () => {
   it("opens from its trigger, focuses Cancel, ignores outside presses and closes from either button", async () => {

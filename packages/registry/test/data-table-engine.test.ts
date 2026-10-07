@@ -84,7 +84,6 @@ const engine = (setup: Setup = {}) => {
 };
 
 afterEach(() => {
-  document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
 

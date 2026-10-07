@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 
 import TreeContextMenu from "@/examples/tree/TreeContextMenu.vue";
@@ -14,10 +14,6 @@ const row = (root: Element, label: string) =>
   [...root.querySelectorAll<HTMLElement>("[role=treeitem]")].find(
     (item) => item.querySelector("[data-slot=tree-item-label]")?.textContent?.trim() === label,
   )!;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 describe("Tree examples", () => {
   it("validates the field on submit and stores the checked leaves as keys", async () => {

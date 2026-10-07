@@ -1,6 +1,6 @@
 import "./setup.css";
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, createSSRApp, defineComponent, h, nextTick, ref } from "vue";
 import { renderToString } from "vue/server-renderer";
@@ -9,10 +9,6 @@ import { Field, FieldDescription, FieldError, FieldLabel, FieldSet } from "@/ui/
 import { Rating, RatingDisplay, RatingDisplayItem, RatingItem } from "@/ui/rating";
 
 import { controlSizes, overrideControlTokens, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

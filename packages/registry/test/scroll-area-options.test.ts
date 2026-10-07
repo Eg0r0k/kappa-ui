@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
@@ -14,10 +14,6 @@ const mountArea = (props: Record<string, unknown> = {}) =>
 
 const barsOf = (root: Element) =>
   Array.from(root.querySelectorAll<HTMLElement>("[data-slot=scroll-area-bar]")).map((el) => el.dataset.axis);
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("renders only the vertical bar by default", () => {
   const wrapper = mountArea();

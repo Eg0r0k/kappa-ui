@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type PropType, type VNodeChild, defineComponent, h, ref } from "vue";
 
@@ -22,13 +22,6 @@ const mountHost = (extra?: () => VNodeChild) =>
     attachTo: document.body,
     global: { plugins: [createDialogs()] },
   });
-
-afterEach(() => {
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
-});
-
-enableAutoUnmount(afterEach);
 
 describe("programmatic dialogs", () => {
   it("dims the page with one scrim however many dialogs are stacked", async () => {

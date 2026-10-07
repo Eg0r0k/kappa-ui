@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import { Alert, AlertActions, AlertDescription, AlertTitle } from "@/ui/alert";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const all = { icon: true, title: true, description: true, actions: false };
 

@@ -25,7 +25,6 @@ let unmount: (() => void) | undefined;
 
 afterEach(() => {
   unmount?.();
-  document.body.innerHTML = "";
 });
 
 const openMenu = async (size?: MenuSize, subSize?: MenuSize) => {

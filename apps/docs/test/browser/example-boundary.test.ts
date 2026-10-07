@@ -1,11 +1,9 @@
 import '~/assets/css/globals.css'
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { expect, it } from 'vitest'
 import { defineComponent, h } from 'vue'
 
 import ExampleBoundary from '~/components/ExampleBoundary.vue'
-
-enableAutoUnmount(afterEach)
 
 it('shows Empty when the example throws, and Restart remounts it', async () => {
   let failures = 1

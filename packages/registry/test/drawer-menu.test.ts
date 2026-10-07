@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { type VNodeChild, h, nextTick } from "vue";
 
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/ui/drawer";
@@ -19,10 +19,6 @@ import {
 
 import { type ControlSize, controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 import { wait } from "./pointer";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const settle = async () => {
   await nextTick();

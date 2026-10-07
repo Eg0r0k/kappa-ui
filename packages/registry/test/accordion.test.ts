@@ -10,7 +10,6 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
-  document.body.innerHTML = "";
 });
 
 const renderAccordion = (root: Record<string, unknown> = {}, items: Record<string, Record<string, unknown>> = {}) => {

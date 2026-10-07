@@ -1,13 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, h } from "vue";
 
 import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (node: () => VNode) =>
   mount({ render: () => h("div", { style: "width:400px;height:200px" }, node()) }, { attachTo: document.body });

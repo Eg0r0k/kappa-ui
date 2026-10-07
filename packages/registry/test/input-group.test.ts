@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { Search } from "@lucide/vue";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { Checkbox } from "@/ui/checkbox";
@@ -15,10 +15,6 @@ import {
 } from "@/ui/input-group";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const colors =
   "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --disabled-opacity: 38%";

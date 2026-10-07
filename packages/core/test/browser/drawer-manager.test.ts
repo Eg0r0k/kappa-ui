@@ -1,5 +1,5 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h } from "vue";
 
@@ -46,13 +46,6 @@ const mountHost = () =>
     attachTo: document.body,
     global: { plugins: [createDialogs()] },
   });
-
-afterEach(() => {
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
-});
-
-enableAutoUnmount(afterEach);
 
 const settle = () => wait(50);
 const panels = () => [...document.querySelectorAll<HTMLElement>("[data-test=panel]")];

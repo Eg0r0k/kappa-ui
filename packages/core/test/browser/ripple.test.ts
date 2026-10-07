@@ -48,7 +48,6 @@ const mediaMatching = (feature: string) =>
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
 
 it("adds a clipped container and a growing wave on press", () => {

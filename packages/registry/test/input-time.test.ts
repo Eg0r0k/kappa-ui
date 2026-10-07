@@ -2,7 +2,7 @@ import { Time } from "@internationalized/date";
 import { Clock } from "@lucide/vue";
 import { mount } from "@vue/test-utils";
 import type { TimeValue } from "reka-ui";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type Component, type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
@@ -11,10 +11,6 @@ import { InputGroup, InputGroupAddon, InputGroupButton } from "@/ui/input-group"
 import { InputTime, InputTimeRange } from "@/ui/input-time";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const colors =
   "--input: rgb(0, 0, 255); --primary: rgb(0, 128, 0); --destructive: rgb(255, 0, 0); --disabled-opacity: 38%";

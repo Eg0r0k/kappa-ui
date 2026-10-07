@@ -24,8 +24,6 @@ afterEach(() => {
   for (const wrapper of mounted.splice(0)) wrapper.unmount();
   vi.advanceTimersByTime(20);
   vi.useRealTimers();
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
 });
 
 const flush = async () => {

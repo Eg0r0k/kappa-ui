@@ -1,10 +1,8 @@
 import '~/assets/css/globals.css'
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { expect, it } from 'vitest'
 
 import DemoWidthHandle from '~/components/demo/DemoWidthHandle.vue'
-
-enableAutoUnmount(afterEach)
 
 const setup = (modelValue = 560) => {
   const wrapper = mount(DemoWidthHandle, {

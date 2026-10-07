@@ -23,8 +23,6 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
-  document.body.innerHTML = "";
-  document.body.style.cssText = "";
   window.scrollTo(0, 0);
 });
 

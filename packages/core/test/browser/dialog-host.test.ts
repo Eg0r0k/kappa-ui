@@ -1,4 +1,4 @@
-import { enableAutoUnmount, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import {
@@ -80,11 +80,7 @@ const mountHost = (extra?: () => VNodeChild) => {
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
-  document.body.removeAttribute("style");
 });
-
-enableAutoUnmount(afterEach);
 
 describe("DialogHost", () => {
   it("renders an opened dialog and resolves the value it closes with", async () => {

@@ -28,7 +28,6 @@ import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tok
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
   document.documentElement.removeAttribute("dir");
 });
 

@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, h, nextTick } from "vue";
 
@@ -7,10 +7,6 @@ import { Field, FieldError, FieldLabel } from "@/ui/field";
 import { PinInput, PinInputGroup, PinInputSeparator, PinInputSlot } from "@/ui/pin-input";
 
 import { controlSizes, overrideControlTokens, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const pin = (props: Record<string, unknown> = {}, count = 4) =>
   h(PinInput, props, () => [

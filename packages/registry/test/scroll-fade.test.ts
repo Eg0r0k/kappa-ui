@@ -1,6 +1,6 @@
 import { vScrollFade } from "@kappa-ui/core/scroll-fade";
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, withDirectives } from "vue";
 
@@ -10,10 +10,6 @@ import { dialogSurface } from "@/ui/dialog";
 import { listboxVariants } from "@/ui/listbox";
 import { ScrollArea } from "@/ui/scroll-area";
 import { overlaySurface } from "@/ui/popover";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 it("masks the edges of a scroll container in mask mode", () => {
   const element = document.createElement("div");

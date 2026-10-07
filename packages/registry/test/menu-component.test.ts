@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
@@ -19,10 +19,6 @@ const centre = (element: Element) => {
   const box = element.getBoundingClientRect();
   return [box.left + box.width / 2, box.top + box.height / 2] as const;
 };
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const items = (label = "Item") => [h(MenuItem, () => `${label} one`), h(MenuItem, () => `${label} two`)];
 

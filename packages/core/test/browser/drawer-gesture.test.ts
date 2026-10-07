@@ -25,8 +25,6 @@ sheet.textContent = [
 document.head.append(sheet);
 
 afterEach(() => {
-  document.body.innerHTML = "";
-  document.body.style.cssText = "";
   document.documentElement.classList.remove("drawer-test-enter");
   window.scrollTo(0, 0);
 });

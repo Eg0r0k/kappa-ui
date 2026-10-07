@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 const classes = {
   xs: "shadow-shadow-xs",
@@ -7,10 +7,6 @@ const classes = {
   lg: "shadow-shadow-lg",
   xl: "shadow-shadow-xl",
 } as const;
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (className: string) => {
   const element = document.createElement("div");

@@ -29,7 +29,6 @@ const withoutScrollTimelines = () =>
 
 afterEach(() => {
   vi.restoreAllMocks();
-  document.body.innerHTML = "";
 });
 
 it("leaves the element alone where scroll-driven animations run", () => {

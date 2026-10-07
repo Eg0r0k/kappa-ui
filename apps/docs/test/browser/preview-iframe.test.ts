@@ -1,9 +1,7 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { expect, it } from 'vitest'
 
 import PreviewIframe from '~/components/PreviewIframe.vue'
-
-enableAutoUnmount(afterEach)
 
 const fakePreview = () =>
   URL.createObjectURL(

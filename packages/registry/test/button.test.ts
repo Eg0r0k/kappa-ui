@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
@@ -8,10 +8,6 @@ import { Button } from "@/ui/button";
 import { ButtonGroup } from "@/ui/button-group";
 
 import { overrideControlTokens, px, sentinel } from "./control-tokens";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (props: Record<string, unknown> = {}) =>
   mount({ render: () => h(Button, props, () => "Button") }, { attachTo: document.body }).get("[data-slot=button]")

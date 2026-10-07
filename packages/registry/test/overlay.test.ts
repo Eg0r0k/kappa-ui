@@ -78,7 +78,6 @@ const overlays: Record<string, { open: () => Promise<void>; render: () => VNode;
 
 afterEach(() => {
   clicks.length = 0;
-  document.body.innerHTML = "";
 });
 
 describe.each(Object.entries(overlays))("%s", (_, overlay) => {

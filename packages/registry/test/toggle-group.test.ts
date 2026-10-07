@@ -1,12 +1,8 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { h, nextTick } from "vue";
 
 import { ToggleGroup, ToggleGroupItem } from "@/ui/toggle-group";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 const render = (props: Record<string, unknown>, items: Record<string, unknown>[] = [{}, {}, {}]) => {
   mount(

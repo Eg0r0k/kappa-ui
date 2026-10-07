@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { type ComponentPublicInstance, defineComponent, h, nextTick, ref } from "vue";
 
 import FormischDemo from "@/examples/forms/FormischDemo.vue";
@@ -7,10 +7,6 @@ import { Input } from "@/ui/input";
 import { InputFloating } from "@/ui/input-floating";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 100));
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
 
 describe("Formisch", () => {
   it("shows every error on submit and focuses the first invalid field", async () => {
