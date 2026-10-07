@@ -1,5 +1,13 @@
 # @kappa-ui/core
 
+## 0.11.0
+
+### Minor Changes
+
+- [`3e1a8a0`](https://github.com/Eg0r0k/kappa-ui/commit/3e1a8a0fbd233bef58298a5da89f1f8ef3aa56a7) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `vRipple` leaves a disabled host alone (`:disabled`, `aria-disabled="true"` or `data-disabled`), and a `v-ripple` on a component that already ripples now overrides the one inside it from the first render, not only after an update.
+  
+  `--kappa-ripple: none` turns the ripple off for an element and everything inside it, read at the moment of the press: put it on `:root` to go without ripples, built-in ones included. `state-layer` now yields its pressed layer only while a wave is showing, so a press keeps its feedback once the ripple is off.
+
 ## 0.10.0
 
 ### Minor Changes
