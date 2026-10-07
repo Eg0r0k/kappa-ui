@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 import {
   chromaRange,
   controlTokens,
+  darkRoleShadowTokens,
   defaultTheme,
   isDefaultTheme,
   neutrals,
@@ -26,7 +27,7 @@ const tokens = readFileSync(new URL('../../../../packages/core/src/tokens.css', 
 
 const staticToken = (selector: string, name: string, css = source) => {
   const block = css.slice(css.indexOf(`${selector} {`))
-  return block.match(new RegExp(`--${name}: ([^;]+);`))?.[1]
+  return block.match(new RegExp(`--${name}:\\s*([^;]+);`))?.[1]?.replace(/\s+/g, ' ')
 }
 
 const statusSource = (selector: string, name: string) =>
@@ -103,6 +104,19 @@ describe('theme', () => {
     )
     expect(Object.values(shadowTokens('none'))).toEqual(Array(5).fill('0 0 #0000'))
     expect(themeTokens({ ...defaultTheme, shadows: 'none' }).dark['shadow-md']).toBeUndefined()
+  })
+
+  it('reproduces the dark role shadows, and scales only their drop with the shadows', () => {
+    for (const [name, value] of Object.entries(darkRoleShadowTokens('default'))) {
+      expect(value, name).toBe(staticToken('.dark', name))
+    }
+    expect(themeTokens(defaultTheme).dark['shadow-popover']).toBeUndefined()
+    expect(themeTokens({ ...defaultTheme, shadows: 'none' }).dark['shadow-popover']).toBe(
+      'inset 0 1px 0 0 oklch(1 0 0 / 3%), inset 0 0 0 1px oklch(1 0 0 / 4%), 0 0 0 1px oklch(0 0 0 / 22%)',
+    )
+    expect(themeTokens({ ...defaultTheme, shadows: 'strong' }).dark['shadow-dialog']).toContain(
+      '0 24px 24px -12px oklch(0 0 0 / 50%)',
+    )
   })
 
   it('turns the ripple off for the whole page only once asked', () => {

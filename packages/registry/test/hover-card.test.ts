@@ -35,7 +35,7 @@ it("draws the popover surface and merges the class", async () => {
   await expect.poll(() => content()).not.toBeNull();
   const panel = content()!;
   expect(panel.className).toContain("bg-popover");
-  expect(panel.className).toContain("shadow-shadow-lg");
+  expect(panel.className).toContain("shadow-shadow-popover");
   expect(panel.className).toContain("w-80");
   expect(panel.className).not.toContain("w-64");
   expect(panel.dataset.state).toBe("open");

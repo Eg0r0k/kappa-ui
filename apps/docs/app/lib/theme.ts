@@ -184,6 +184,26 @@ export const shadowTokens = (option: Shadows) =>
     ]),
   )
 
+// A dark surface keeps its edge, a highlight on top and a ring inside and out, whatever the shadows; only the drop scales.
+const roleShadows: Record<string, [highlight: number, layers: number]> = { popover: [3, 4], dialog: [5, 5] }
+
+export const darkRoleShadowTokens = (option: Shadows) =>
+  Object.fromEntries(
+    Object.entries(roleShadows).map(([role, [highlight, layers]]) => [
+      `shadow-${role}`,
+      [
+        `inset 0 1px 0 0 oklch(1 0 0 / ${highlight}%)`,
+        'inset 0 0 0 1px oklch(1 0 0 / 4%)',
+        '0 0 0 1px oklch(0 0 0 / 22%)',
+        ...(option === 'none'
+          ? []
+          : [1, 3, 6, 12, 24]
+              .slice(0, layers)
+              .map((size) => `0 ${px(size)} ${px(size)} ${px(-size / 2)} oklch(0 0 0 / ${25 * shadowScale[option]}%)`)),
+      ].join(', '),
+    ]),
+  )
+
 export const chromaRange = { min: 0.04, max: 0.26 }
 
 export const lightnessRange = { min: 0.3, max: 0.95 }
@@ -277,6 +297,8 @@ const neutralTokens = {
     'card-foreground': 0.145,
     popover: 1,
     'popover-foreground': 0.145,
+    dialog: 1,
+    'dialog-foreground': 0.145,
     secondary: 0.955,
     'secondary-foreground': 0.205,
     muted: 0.955,
@@ -291,8 +313,10 @@ const neutralTokens = {
     foreground: 0.985,
     card: 0.205,
     'card-foreground': 0.985,
-    popover: 0.205,
+    popover: 0.24,
     'popover-foreground': 0.985,
+    dialog: 0.205,
+    'dialog-foreground': 0.985,
     secondary: 0.269,
     'secondary-foreground': 0.985,
     muted: 0.269,
@@ -366,7 +390,10 @@ export const themeTokens = (config: ThemeConfig) => {
     dark['surface-border'] = surfaceBorderValues[config.surfaceBorder]
   }
 
-  if (config.shadows !== 'default') Object.assign(light, shadowTokens(config.shadows))
+  if (config.shadows !== 'default') {
+    Object.assign(light, shadowTokens(config.shadows))
+    Object.assign(dark, darkRoleShadowTokens(config.shadows))
+  }
 
   if (config.ripple === 'off') light['kappa-ripple'] = 'none'
 

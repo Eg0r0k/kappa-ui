@@ -224,9 +224,9 @@ const real = { tokens: core('tokens.css'), theme: core('theme.css'), tailwind: c
 test('reads the real core sources', () => {
   const { payload, gamutMapped } = tokensOf(real, light)
   const count = (collection: string) => payload.variables.filter((item) => item.collection === collection).length
-  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [33, 47, 9, 20])
+  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [35, 47, 9, 20])
   assert.equal(payload.textStyles.length, 15)
-  assert.equal(payload.effectStyles.length, 5)
+  assert.equal(payload.effectStyles.length, 7)
   const tones = payload.variables.filter((item) => item.collection === 'Tone')
   const groups = new Set(tones.map((item) => item.name.split('/')[0]))
   assert.deepEqual(

@@ -17,8 +17,8 @@ export { type DialogHandle, type DialogResult, useDialogContext } from "@kappa-u
 export { type DrawerOptions, defineDrawer, openDrawer } from "@kappa-ui/core/drawer";
 
 export const drawerSurface = `
-  group/drawer fixed z-50 flex flex-col gap-4 bg-popover py-4 text-popover-foreground ring-1 ring-surface-border
-  outline-none drawer-slide [--scroll-fade-color:var(--popover)]
+  group/drawer fixed z-50 flex flex-col gap-4 bg-dialog py-4 text-dialog-foreground ring-1 ring-surface-border
+  outline-none drawer-slide [--scroll-fade-color:--theme(--color-dialog)]
 `;
 
 // side names a screen edge, not a reading direction, so everything placed by it is physical: under dir="rtl" the
