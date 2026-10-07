@@ -583,10 +583,18 @@ describe("initial focus", () => {
     expect(document.activeElement).toBe(day("2026-11-01"));
   });
 
-  it("focuses the placeholder's day when nothing is selected", async () => {
-    render(() => h(Calendar, { defaultPlaceholder: oct6, initialFocus: true }));
+  it("focuses today when nothing is selected and today is in view", async () => {
+    const now = today(getLocalTimeZone());
+    render(() => h(Calendar, { defaultPlaceholder: now, initialFocus: true }));
     await nextTick();
-    expect(document.activeElement).toBe(day("2026-10-06"));
+    expect(document.activeElement).toBe(day(now.toString()));
+  });
+
+  it("focuses the placeholder's day when nothing is selected and today is out of view", async () => {
+    const later = today(getLocalTimeZone()).add({ months: 2 });
+    render(() => h(Calendar, { defaultPlaceholder: later, initialFocus: true }));
+    await nextTick();
+    expect(document.activeElement).toBe(day(later.toString()));
   });
 });
 
