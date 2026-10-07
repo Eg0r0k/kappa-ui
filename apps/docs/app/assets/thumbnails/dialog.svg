@@ -1,5 +1,5 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#dialog-clip0_26_25783)">
+<g clip-path="url(#dialog-1)">
 <rect width="320" height="200" style="fill:var(--scrim)"/>
 <path d="M71.2002 40.5H248.8C254.709 40.5 259.5 45.2907 259.5 51.2002V148.8C259.5 154.709 254.709 159.5 248.8 159.5H71.2002C65.2907 159.5 60.5 154.709 60.5 148.8V51.2002C60.5 45.2907 65.2907 40.5 71.2002 40.5Z" style="fill:var(--background);stroke:var(--border)"/>
 <rect opacity="0.8" x="76" y="58" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
@@ -11,7 +11,7 @@
 <rect opacity="0.9" x="202" y="131" width="28" height="6" rx="3" style="fill:var(--primary-foreground)"/>
 </g>
 <defs>
-<clipPath id="dialog-clip0_26_25783">
+<clipPath id="dialog-1">
 <rect width="320" height="200"/>
 </clipPath>
 </defs>

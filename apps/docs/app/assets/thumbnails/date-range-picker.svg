@@ -1,5 +1,5 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#date-range-picker-clip0_26_26291)">
+<g clip-path="url(#date-range-picker-1)">
 <path d="M48 20.5H272C276.142 20.5 279.5 23.8579 279.5 28V48C279.5 52.1421 276.142 55.5 272 55.5H48C43.8579 55.5 40.5 52.1421 40.5 48V28C40.5 23.8579 43.8579 20.5 48 20.5Z" style="fill:var(--background);stroke:var(--border)"/>
 <rect opacity="0.8" x="56" y="35" width="52" height="6" rx="3" style="fill:var(--foreground)"/>
 <path d="M125.5 37.0881V38.1818H118.5V37.0881H125.5Z" style="fill:var(--muted-foreground)"/>
@@ -47,7 +47,7 @@
 <rect opacity="0.45" x="234" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
 </g>
 <defs>
-<clipPath id="date-range-picker-clip0_26_26291">
+<clipPath id="date-range-picker-1">
 <rect width="320" height="200"/>
 </clipPath>
 </defs>

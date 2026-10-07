@@ -1,5 +1,5 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#range-calendar-clip0_26_25674)">
+<g clip-path="url(#range-calendar-1)">
 <path d="M87.2002 20.5H232.8C238.709 20.5 243.5 25.2907 243.5 31.2002V208.8C243.5 214.709 238.709 219.5 232.8 219.5H87.2002C81.2907 219.5 76.5 214.709 76.5 208.8V31.2002L76.5137 30.6494C76.8002 24.9958 81.4754 20.5 87.2002 20.5Z" style="fill:var(--background);stroke:var(--border)"/>
 <rect opacity="0.8" x="92" y="37" width="64" height="6" rx="3" style="fill:var(--foreground)"/>
 <path d="M209.146 36.6465C209.342 36.4512 209.658 36.4512 209.853 36.6465C210.049 36.8418 210.049 37.1583 209.853 37.3535L207.207 40L209.853 42.6465C210.049 42.8418 210.049 43.1583 209.853 43.3535C209.658 43.5488 209.342 43.5488 209.146 43.3535L206.146 40.3535C205.951 40.1583 205.951 39.8418 206.146 39.6465L209.146 36.6465Z" style="fill:var(--muted-foreground)"/>
@@ -52,7 +52,7 @@
 <rect opacity="0.45" x="220" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
 </g>
 <defs>
-<clipPath id="range-calendar-clip0_26_25674">
+<clipPath id="range-calendar-1">
 <rect width="320" height="200"/>
 </clipPath>
 </defs>

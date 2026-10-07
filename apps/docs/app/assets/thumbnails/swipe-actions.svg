@@ -1,5 +1,5 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#swipe-actions-clip0_26_26089)">
+<g clip-path="url(#swipe-actions-1)">
 <path d="M196 80C196 75.5817 199.582 72 204 72H312C316.418 72 320 75.5817 320 80V120C320 124.418 316.418 128 312 128H204C199.582 128 196 124.418 196 120V80Z" style="fill:var(--destructive)"/>
 <rect x="196" y="72" width="62" height="56" style="fill:var(--info)"/>
 <path d="M229.5 99.25C229.914 99.25 230.25 99.5858 230.25 100C230.25 100.414 229.914 100.75 229.5 100.75H226.5C226.086 100.75 225.75 100.414 225.75 100C225.75 99.5858 226.086 99.25 226.5 99.25H229.5Z" style="fill:var(--info-foreground)"/>
@@ -19,7 +19,7 @@
 </g>
 </g>
 <defs>
-<clipPath id="swipe-actions-clip0_26_26089">
+<clipPath id="swipe-actions-1">
 <rect width="320" height="200"/>
 </clipPath>
 </defs>

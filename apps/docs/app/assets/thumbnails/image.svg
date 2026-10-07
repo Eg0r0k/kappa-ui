@@ -1,11 +1,11 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M71.2002 36.5H248.8C254.709 36.5 259.5 41.2907 259.5 47.2002V152.8C259.5 158.709 254.709 163.5 248.8 163.5H71.2002C65.2907 163.5 60.5 158.709 60.5 152.8V47.2002C60.5 41.2907 65.2907 36.5 71.2002 36.5Z" style="fill:var(--background);stroke:var(--border)"/>
-<g clip-path="url(#image-clip0_26_26233)">
+<g clip-path="url(#image-1)">
 <circle opacity="0.4" cx="211" cy="73" r="11" style="fill:var(--muted-foreground)"/>
 <path opacity="0.35" d="M61 163L117 111L149 139L197 91L261 163H61Z" style="fill:var(--muted-foreground)"/>
 </g>
 <defs>
-<clipPath id="image-clip0_26_26233">
+<clipPath id="image-1">
 <path d="M61 48.2C61 42.0144 66.0144 37 72.2 37H247.8C253.986 37 259 42.0144 259 48.2V151.8C259 157.986 253.986 163 247.8 163H72.2C66.0144 163 61 157.986 61 151.8V48.2Z"/>
 </clipPath>
 </defs>

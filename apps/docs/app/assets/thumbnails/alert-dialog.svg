@@ -1,5 +1,5 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#alert-dialog-clip0_26_25793)">
+<g clip-path="url(#alert-dialog-1)">
 <rect width="320" height="200" style="fill:var(--scrim)"/>
 <path d="M91.2002 28.5H228.8C234.709 28.5 239.5 33.2907 239.5 39.2002V160.8C239.5 166.709 234.709 171.5 228.8 171.5H91.2002C85.2907 171.5 80.5 166.709 80.5 160.8V39.2002C80.5 33.2907 85.2907 28.5 91.2002 28.5Z" style="fill:var(--background);stroke:var(--border)"/>
 <circle opacity="0.16" cx="160" cy="58" r="16" style="fill:var(--destructive)"/>
@@ -14,7 +14,7 @@
 <rect opacity="0.9" x="180" y="139" width="32" height="6" rx="3" style="fill:var(--destructive-foreground)"/>
 </g>
 <defs>
-<clipPath id="alert-dialog-clip0_26_25793">
+<clipPath id="alert-dialog-1">
 <rect width="320" height="200"/>
 </clipPath>
 </defs>

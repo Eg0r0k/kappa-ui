@@ -1,5 +1,5 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#data-table-clip0_26_26361)">
+<g clip-path="url(#data-table-1)">
 <path d="M32 16.5H168C172.142 16.5 175.5 19.8579 175.5 24V38C175.5 42.1421 172.142 45.5 168 45.5H32C27.8579 45.5 24.5 42.1421 24.5 38V24C24.5 19.8579 27.8579 16.5 32 16.5Z" style="fill:var(--background);stroke:var(--border)"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M41.4167 25.1666C44.3162 25.1666 46.6667 27.5171 46.6667 30.4166C46.6667 31.6562 46.2361 32.7946 45.5176 33.6927L47.6624 35.8375C47.8901 36.0653 47.8902 36.4346 47.6624 36.6624C47.4346 36.8902 47.0654 36.8901 46.8376 36.6624L44.6928 34.5176C43.7946 35.236 42.6562 35.6666 41.4167 35.6666C38.5172 35.6666 36.1667 33.3161 36.1667 30.4166C36.1667 27.5171 38.5172 25.1666 41.4167 25.1666ZM41.4167 26.3333C39.1615 26.3333 37.3333 28.1615 37.3333 30.4166C37.3333 32.6718 39.1615 34.5 41.4167 34.5C43.6718 34.5 45.5 32.6718 45.5 30.4166C45.5 28.1615 43.6718 26.3333 41.4167 26.3333Z" style="fill:var(--muted-foreground)"/>
 <rect opacity="0.22" x="56" y="28" width="72" height="6" rx="3" style="fill:var(--muted-foreground)"/>
@@ -42,7 +42,7 @@
 <rect opacity="0.45" x="253" y="189" width="28" height="6" rx="3" style="fill:var(--muted-foreground)"/>
 </g>
 <defs>
-<clipPath id="data-table-clip0_26_26361">
+<clipPath id="data-table-1">
 <rect width="320" height="200"/>
 </clipPath>
 </defs>
