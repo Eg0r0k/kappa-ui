@@ -1,0 +1,7 @@
+component: SliderRange
+file: ui/slider/SliderRange.vue
+props:
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the range's attributes and classes onto it.

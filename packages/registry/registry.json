@@ -3074,6 +3074,22 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/slider/SliderTrack.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/slider/SliderRange.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/slider/SliderThumb.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/slider/SliderHandle.vue",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/slider/index.ts",
           "type": "registry:ui"
         }
@@ -6694,6 +6710,24 @@
       "files": [
         {
           "path": "src/examples/slider/SliderTouchTarget.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "slider-parts",
+      "type": "registry:block",
+      "title": "Slider parts",
+      "description": "A thin seek bar laid out from the slider's parts, its handle showing on hover and keyboard focus.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider"
+      ],
+      "files": [
+        {
+          "path": "src/examples/slider/SliderParts.vue",
           "type": "registry:component"
         }
       ]

@@ -1,0 +1,9 @@
+component: SliderTrack
+file: ui/slider/SliderTrack.vue
+props:
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the track's attributes and classes onto it.
+slots:
+  default: The range, a `SliderRange`.

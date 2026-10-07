@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import { SliderRange, SliderRoot, type SliderRootProps, SliderThumb, SliderTrack, useForwardProps } from "reka-ui";
-import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
+import { SliderRoot, type SliderRootProps, useForwardProps } from "reka-ui";
+import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import {
-  type SliderColor,
-  type SliderVariants,
-  sliderHandleVariants,
-  sliderRangeVariants,
-  sliderThumbVariants,
-  sliderTrackVariants,
-  sliderVariants,
-} from ".";
+import { type SliderColor, type SliderVariants, provideSliderContext, sliderVariants } from ".";
+import SliderRange from "./SliderRange.vue";
+import SliderThumb from "./SliderThumb.vue";
+import SliderTrack from "./SliderTrack.vue";
 
 defineOptions({ inheritAttrs: false });
 
@@ -31,6 +26,7 @@ const props = withDefaults(
   { color: "primary" },
 );
 const emits = defineEmits<{ valueCommit: [value: number | number[]] }>();
+defineSlots<{ default?: (props: { thumbs: number; values: number[] }) => unknown }>();
 
 const model = defineModel<number | number[]>();
 if (model.value === undefined) model.value = props.defaultValue ?? props.min ?? 0;
@@ -75,13 +71,11 @@ const thumbAttrs = computed(() => ({
   }),
 }));
 
-const hovered = ref<number>();
-const onPointerEnter = (event: PointerEvent, index: number) => {
-  if (event.pointerType === "mouse") hovered.value = index;
-};
-const onPointerLeave = () => {
-  hovered.value = undefined;
-};
+provideSliderContext({
+  variant: computed(() => props.variant),
+  touchTarget: computed(() => props.touchTarget),
+  thumbAttrs,
+});
 
 const onPointerDown = (event: PointerEvent) => {
   const root = event.currentTarget as HTMLElement;
@@ -113,20 +107,11 @@ const onPointerDown = (event: PointerEvent) => {
     @update:model-value="onUpdate"
     @value-commit="emits('valueCommit', shape($event))"
   >
-    <SliderTrack data-slot="slider-track" :class="sliderTrackVariants({ variant: props.variant })">
-      <SliderRange data-slot="slider-range" :class="sliderRangeVariants({ variant: props.variant })" />
-    </SliderTrack>
-    <SliderThumb
-      v-for="(_, index) in values"
-      :key="index"
-      v-bind="thumbAttrs"
-      data-slot="slider-thumb"
-      :data-hovered="hovered === index || undefined"
-      :class="sliderThumbVariants({ variant: props.variant, touchTarget: props.touchTarget })"
-      @pointerenter="onPointerEnter($event, index)"
-      @pointerleave="onPointerLeave"
-    >
-      <span data-slot="slider-handle" :class="sliderHandleVariants({ variant: props.variant, shade: 'text' })" />
-    </SliderThumb>
+    <slot :thumbs="values.length" :values="values">
+      <SliderTrack>
+        <SliderRange />
+      </SliderTrack>
+      <SliderThumb v-for="(_, index) in values" :key="index" />
+    </slot>
   </SliderRoot>
 </template>
