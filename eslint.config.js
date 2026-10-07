@@ -11,6 +11,7 @@ const sources = [
   'packages/registry/src/**/*.{ts,vue}',
   'apps/docs/app/**/*.{ts,vue}',
   'scripts/*.ts',
+  'scripts/figma/**/*.ts',
 ]
 
 const components = ['packages/core/src/**/*.vue', 'packages/registry/src/**/*.vue', 'apps/docs/app/**/*.vue']
