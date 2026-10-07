@@ -1,0 +1,54 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#date-range-picker-clip0_26_26291)">
+<path d="M48 20.5H272C276.142 20.5 279.5 23.8579 279.5 28V48C279.5 52.1421 276.142 55.5 272 55.5H48C43.8579 55.5 40.5 52.1421 40.5 48V28C40.5 23.8579 43.8579 20.5 48 20.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="56" y="35" width="52" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M125.5 37.0881V38.1818H118.5V37.0881H125.5Z" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="136" y="35" width="52" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M260.667 40.6667C261.035 40.6667 261.333 40.9652 261.333 41.3334C261.333 41.7015 261.035 42 260.667 42H256.667C256.299 42 256 41.7015 256 41.3334C256 40.9652 256.299 40.6667 256.667 40.6667H260.667Z" style="fill:var(--muted-foreground)"/>
+<path d="M263.34 40.6667C263.708 40.6667 264.007 40.9652 264.007 41.3334C264.007 41.7015 263.708 42 263.34 42H263.333C262.965 42 262.667 41.7015 262.667 41.3334C262.667 40.9652 262.965 40.6667 263.333 40.6667H263.34Z" style="fill:var(--muted-foreground)"/>
+<path d="M256.673 38C257.042 38 257.34 38.2985 257.34 38.6667C257.34 39.0349 257.042 39.3334 256.673 39.3334H256.667C256.299 39.3334 256 39.0349 256 38.6667C256 38.2985 256.299 38 256.667 38H256.673Z" style="fill:var(--muted-foreground)"/>
+<path d="M263.333 38C263.702 38 264 38.2985 264 38.6667C264 39.0349 263.702 39.3334 263.333 39.3334H259.333C258.965 39.3334 258.667 39.0349 258.667 38.6667C258.667 38.2985 258.965 38 259.333 38H263.333Z" style="fill:var(--muted-foreground)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M262.667 30.6667C263.035 30.6667 263.333 30.9652 263.333 31.3334H264.667C265.771 31.3334 266.667 32.2288 266.667 33.3334V42.6667C266.667 43.7713 265.771 44.6667 264.667 44.6667H255.333C254.229 44.6667 253.333 43.7713 253.333 42.6667V33.3334C253.333 32.2288 254.229 31.3334 255.333 31.3334H256.667C256.667 30.9652 256.965 30.6667 257.333 30.6667C257.702 30.6667 258 30.9652 258 31.3334H262C262 30.9652 262.299 30.6667 262.667 30.6667ZM254.667 42.6667C254.667 43.0349 254.965 43.3334 255.333 43.3334H264.667C265.035 43.3334 265.333 43.0349 265.333 42.6667V36.6667H254.667V42.6667ZM255.333 32.6667C254.965 32.6667 254.667 32.9652 254.667 33.3334V35.3334H265.333V33.3334C265.333 32.9652 265.035 32.6667 264.667 32.6667H263.333V33.3334C263.333 33.7015 263.035 34 262.667 34C262.299 34 262 33.7015 262 33.3334V32.6667H258V33.3334C258 33.7015 257.702 34 257.333 34C256.965 34 256.667 33.7015 256.667 33.3334V32.6667H255.333Z" style="fill:var(--muted-foreground)"/>
+<path d="M51.2002 64.5H268.8C274.709 64.5 279.5 69.2907 279.5 75.2002V212.8C279.5 218.709 274.709 223.5 268.8 223.5H51.2002C45.2907 223.5 40.5 218.709 40.5 212.8V75.2002C40.5 69.2907 45.2907 64.5 51.2002 64.5Z" style="fill:var(--popover);stroke:var(--border)"/>
+<rect opacity="0.8" x="56" y="80" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M237.146 79.6465C237.342 79.4512 237.658 79.4512 237.853 79.6465C238.049 79.8418 238.049 80.1583 237.853 80.3535L235.207 83L237.853 85.6465C238.049 85.8418 238.049 86.1583 237.853 86.3535C237.658 86.5488 237.342 86.5488 237.146 86.3535L234.146 83.3535C233.951 83.1583 233.951 82.8418 234.146 82.6465L237.146 79.6465Z" style="fill:var(--muted-foreground)"/>
+<path d="M254.146 79.6465C254.342 79.4512 254.658 79.4512 254.853 79.6465L257.853 82.6465C258.049 82.8418 258.049 83.1583 257.853 83.3535L254.853 86.3535C254.658 86.5488 254.342 86.5488 254.146 86.3535C253.951 86.1583 253.951 85.8418 254.146 85.6465L256.793 83L254.146 80.3535C253.951 80.1583 253.951 79.8418 254.146 79.6465Z" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.16" x="174.5" y="98.5" width="75" height="23" rx="11.5" style="fill:var(--primary)"/>
+<rect opacity="0.16" x="70.5" y="124.5" width="75" height="23" rx="11.5" style="fill:var(--primary)"/>
+<rect opacity="0.45" x="78" y="108" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="104" y="108" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="130" y="108" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="156" y="108" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<circle cx="186" cy="110" r="11.5" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="182" y="108" width="8" height="4" rx="2" style="fill:var(--primary-foreground)"/>
+<rect x="208" y="108" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<rect x="234" y="108" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<rect x="78" y="134" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<rect x="104" y="134" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<circle cx="134" cy="136" r="11.5" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="130" y="134" width="8" height="4" rx="2" style="fill:var(--primary-foreground)"/>
+<rect opacity="0.45" x="156" y="134" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="182" y="134" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="208" y="134" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="234" y="134" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="78" y="160" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="104" y="160" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="130" y="160" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="156" y="160" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="182" y="160" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="208" y="160" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="234" y="160" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="78" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="104" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="130" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="156" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="182" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="208" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="234" y="186" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+</g>
+<defs>
+<clipPath id="date-range-picker-clip0_26_26291">
+<rect width="320" height="200"/>
+</clipPath>
+</defs>
+</svg>

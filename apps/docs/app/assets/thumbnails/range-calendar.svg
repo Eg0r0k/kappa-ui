@@ -1,0 +1,59 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#range-calendar-clip0_26_25674)">
+<path d="M87.2002 20.5H232.8C238.709 20.5 243.5 25.2907 243.5 31.2002V208.8C243.5 214.709 238.709 219.5 232.8 219.5H87.2002C81.2907 219.5 76.5 214.709 76.5 208.8V31.2002L76.5137 30.6494C76.8002 24.9958 81.4754 20.5 87.2002 20.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="92" y="37" width="64" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M209.146 36.6465C209.342 36.4512 209.658 36.4512 209.853 36.6465C210.049 36.8418 210.049 37.1583 209.853 37.3535L207.207 40L209.853 42.6465C210.049 42.8418 210.049 43.1583 209.853 43.3535C209.658 43.5488 209.342 43.5488 209.146 43.3535L206.146 40.3535C205.951 40.1583 205.951 39.8418 206.146 39.6465L209.146 36.6465Z" style="fill:var(--muted-foreground)"/>
+<path d="M226.146 36.6465C226.342 36.4512 226.658 36.4512 226.853 36.6465L229.853 39.6465C230.049 39.8418 230.049 40.1583 229.853 40.3535L226.853 43.3535C226.658 43.5488 226.342 43.5488 226.146 43.3535C225.951 43.1583 225.951 42.8418 226.146 42.6465L228.793 40L226.146 37.3535C225.951 37.1583 225.951 36.8418 226.146 36.6465Z" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.16" x="131" y="78" width="102" height="18" rx="9" style="fill:var(--primary)"/>
+<rect opacity="0.16" x="89" y="99" width="39" height="18" rx="9" style="fill:var(--primary)"/>
+<rect opacity="0.22" x="94" y="64" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.22" x="115" y="64" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.22" x="136" y="64" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.22" x="157" y="64" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="178" y="64" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="199" y="64" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="220" y="64" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="94" y="85" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="115" y="85" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<circle cx="140" cy="87" r="9" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="136" y="85" width="8" height="4" rx="2" style="fill:var(--primary-foreground)"/>
+<rect x="157" y="85" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<rect x="178" y="85" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<rect x="199" y="85" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<rect x="220" y="85" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<rect x="94" y="106" width="8" height="4" rx="2" style="fill:var(--primary)"/>
+<circle cx="119" cy="108" r="9" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="115" y="106" width="8" height="4" rx="2" style="fill:var(--primary-foreground)"/>
+<rect opacity="0.45" x="136" y="106" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="157" y="106" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="178" y="106" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="199" y="106" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="220" y="106" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="94" y="127" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="115" y="127" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="136" y="127" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="157" y="127" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="178" y="127" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="199" y="127" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="220" y="127" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="94" y="148" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="115" y="148" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="136" y="148" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="157" y="148" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="178" y="148" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="199" y="148" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="220" y="148" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="94" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="115" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="136" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="157" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="178" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="199" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="220" y="169" width="8" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+</g>
+<defs>
+<clipPath id="range-calendar-clip0_26_25674">
+<rect width="320" height="200"/>
+</clipPath>
+</defs>
+</svg>

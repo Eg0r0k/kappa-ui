@@ -1,0 +1,28 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M55.2002 32.5H140.8C146.709 32.5 151.5 37.2907 151.5 43.2002V156.8C151.5 162.709 146.709 167.5 140.8 167.5H55.2002C49.2907 167.5 44.5 162.709 44.5 156.8V43.2002L44.5137 42.6494C44.791 37.1782 49.1782 32.791 54.6494 32.5137L55.2002 32.5Z" style="fill:var(--card);stroke:var(--border)"/>
+<g clip-path="url(#card-clip0_26_26423)">
+<rect x="52" y="40" width="92" height="60" style="fill:var(--muted)"/>
+<path opacity="0.3" d="M52 100.8L77.76 76.8799L92.48 89.7599L114.56 67.6799L144 100.8H52Z" style="fill:var(--muted-foreground)"/>
+</g>
+<rect opacity="0.8" x="54" y="112" width="64" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="54" y="126" width="84" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="54" y="138" width="60" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="54" y="152" width="32" height="4" rx="2" style="fill:var(--primary)"/>
+<path d="M179.2 32.5H264.8C270.709 32.5 275.5 37.2907 275.5 43.2002V156.8C275.5 162.709 270.709 167.5 264.8 167.5H179.2C173.291 167.5 168.5 162.709 168.5 156.8V43.2002L168.514 42.6494C168.791 37.1782 173.178 32.791 178.649 32.5137L179.2 32.5Z" style="fill:var(--card);stroke:var(--border)"/>
+<g clip-path="url(#card-clip1_26_26423)">
+<rect x="176" y="40" width="92" height="60" style="fill:var(--muted)"/>
+<path opacity="0.3" d="M176 100.8L201.76 76.8799L216.48 89.7599L238.56 67.6799L268 100.8H176Z" style="fill:var(--muted-foreground)"/>
+</g>
+<rect opacity="0.8" x="178" y="112" width="52" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="178" y="126" width="84" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="178" y="138" width="60" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="178" y="152" width="32" height="4" rx="2" style="fill:var(--primary)"/>
+<defs>
+<clipPath id="card-clip0_26_26423">
+<path d="M52 48C52 43.5817 55.5817 40 60 40H136C140.418 40 144 43.5817 144 48V92C144 96.4183 140.418 100 136 100H60C55.5817 100 52 96.4183 52 92V48Z"/>
+</clipPath>
+<clipPath id="card-clip1_26_26423">
+<path d="M176 48C176 43.5817 179.582 40 184 40H260C264.418 40 268 43.5817 268 48V92C268 96.4183 264.418 100 260 100H184C179.582 100 176 96.4183 176 92V48Z"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,18 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M48 24.5H272C276.142 24.5 279.5 27.8579 279.5 32V52C279.5 56.1421 276.142 59.5 272 59.5H48C43.8579 59.5 40.5 56.1421 40.5 52V32C40.5 27.8579 43.8579 24.5 48 24.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<path d="M44 34.4C44 30.8654 46.8654 28 50.4 28H85.6C89.1346 28 92 30.8654 92 34.4V49.6C92 53.1346 89.1346 56 85.6 56H50.4C46.8654 56 44 53.1346 44 49.6V34.4Z" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="52" y="39" width="32" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="104" y="39" width="32" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="152" y="39" width="36" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="204" y="39" width="52" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M55.2002 66.5H208.8C214.709 66.5 219.5 71.2907 219.5 77.2002V180.8C219.5 186.709 214.709 191.5 208.8 191.5H55.2002C49.2907 191.5 44.5 186.709 44.5 180.8V77.2002C44.5 71.2907 49.2907 66.5 55.2002 66.5Z" style="fill:var(--popover);stroke:var(--border)"/>
+<rect opacity="0.8" x="60" y="82" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.22" x="184" y="82" width="20" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="60" y="110" width="88" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.22" x="184" y="110" width="20" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="60" y="146" width="64" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.8" x="60" y="174" width="80" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.22" x="184" y="174" width="20" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M194.147 145.646C194.342 145.451 194.658 145.451 194.854 145.646L197.854 148.646C198.049 148.842 198.049 149.158 197.854 149.353L194.854 152.353C194.658 152.549 194.342 152.549 194.147 152.353C193.951 152.158 193.951 151.842 194.147 151.646L196.793 149L194.147 146.353C193.951 146.158 193.951 145.842 194.147 145.646Z" style="fill:var(--muted-foreground)"/>
+<rect x="45" y="130" width="174" height="1" style="fill:var(--border)"/>
+</svg>

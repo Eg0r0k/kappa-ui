@@ -1,0 +1,17 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M75.2002 16.5H244.8C250.709 16.5 255.5 21.2907 255.5 27.2002V180.8C255.5 186.709 250.709 191.5 244.8 191.5H75.2002C69.2907 191.5 64.5 186.709 64.5 180.8V27.2002C64.5 21.2907 69.2907 16.5 75.2002 16.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<path d="M76 34.4C76 30.8654 78.8654 28 82.4 28H237.6C241.135 28 244 30.8654 244 34.4V105.6C244 109.135 241.135 112 237.6 112H82.4C78.8654 112 76 109.135 76 105.6V34.4Z" style="fill:var(--primary)"/>
+<circle cx="204" cy="52" r="6" stroke-width="2" style="stroke:var(--background)"/>
+<path d="M76 128C76 125.791 77.7909 124 80 124H109.6V132H80C77.7909 132 76 130.209 76 128V128Z" style="fill:var(--destructive)"/>
+<rect x="109.6" y="124" width="33.6" height="8" style="fill:var(--warning)"/>
+<rect x="143.2" y="124" width="33.6" height="8" style="fill:var(--success)"/>
+<rect x="176.8" y="124" width="33.6" height="8" style="fill:var(--info)"/>
+<path d="M210.4 124H240C242.209 124 244 125.791 244 128V128C244 130.209 242.209 132 240 132H210.4V124Z" style="fill:var(--primary)"/>
+<circle cx="220" cy="128" r="6" stroke-width="2" style="fill:var(--background);stroke:var(--border)"/>
+<circle cx="86" cy="160" r="9" style="fill:var(--destructive)"/>
+<circle cx="115.6" cy="160" r="9" style="fill:var(--warning)"/>
+<circle cx="145.2" cy="160" r="9" style="fill:var(--success)"/>
+<circle cx="174.8" cy="160" r="9" style="fill:var(--info)"/>
+<circle cx="204.4" cy="160" r="9" style="fill:var(--primary)"/>
+<circle cx="234" cy="160" r="9" style="fill:var(--foreground)"/>
+</svg>

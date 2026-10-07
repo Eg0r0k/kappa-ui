@@ -1,0 +1,30 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#table-clip0_26_26400)">
+<path d="M32 36.5H288C292.142 36.5 295.5 39.8579 295.5 44V212C295.5 216.142 292.142 219.5 288 219.5H32C27.8579 219.5 24.5 216.142 24.5 212V44C24.5 39.8579 27.8579 36.5 32 36.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect x="25" y="37" width="270" height="30" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="41" y="49" width="39.2" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.8" x="129" y="49" width="50.4" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.8" x="229" y="49" width="28" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect x="25" y="67" width="270" height="1" style="fill:var(--border)"/>
+<rect opacity="0.45" x="41" y="80" width="56" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="129" y="80" width="72" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="229" y="80" width="40" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="25" y="99" width="270" height="1" style="fill:var(--border)"/>
+<rect opacity="0.45" x="41" y="112" width="44.8" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="129" y="112" width="57.6" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="229" y="112" width="32" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="25" y="131" width="270" height="1" style="fill:var(--border)"/>
+<rect opacity="0.45" x="41" y="144" width="56" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="129" y="144" width="72" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="229" y="144" width="40" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="25" y="163" width="270" height="1" style="fill:var(--border)"/>
+<rect opacity="0.45" x="41" y="176" width="44.8" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="129" y="176" width="57.6" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="229" y="176" width="32" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+</g>
+<defs>
+<clipPath id="table-clip0_26_26400">
+<rect width="320" height="200"/>
+</clipPath>
+</defs>
+</svg>

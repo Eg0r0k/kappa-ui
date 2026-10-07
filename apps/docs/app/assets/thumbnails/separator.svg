@@ -1,0 +1,12 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect opacity="0.8" x="80" y="52" width="120" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="80" y="66" width="160" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.25" x="60" y="100" width="80" height="1" rx="0.5" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.22" x="148" y="97" width="24" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.25" x="180" y="100" width="80" height="1" rx="0.5" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="80" y="133" width="40" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.25" x="140" y="126" width="1" height="20" rx="0.5" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="160" y="133" width="40" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.25" x="220" y="126" width="1" height="20" rx="0.5" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="240" y="133" width="24" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+</svg>

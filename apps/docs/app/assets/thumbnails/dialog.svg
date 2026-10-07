@@ -1,0 +1,18 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#dialog-clip0_26_25783)">
+<rect width="320" height="200" style="fill:var(--scrim)"/>
+<path d="M71.2002 40.5H248.8C254.709 40.5 259.5 45.2907 259.5 51.2002V148.8C259.5 154.709 254.709 159.5 248.8 159.5H71.2002C65.2907 159.5 60.5 154.709 60.5 148.8V51.2002C60.5 45.2907 65.2907 40.5 71.2002 40.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="76" y="58" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="76" y="76" width="152" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="76" y="88" width="120" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M124 120.5H172C176.142 120.5 179.5 123.858 179.5 128V140C179.5 144.142 176.142 147.5 172 147.5H124C119.858 147.5 116.5 144.142 116.5 140V128L116.51 127.614C116.711 123.651 119.987 120.5 124 120.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="132" y="131" width="32" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M188 128C188 123.582 191.582 120 196 120H236C240.418 120 244 123.582 244 128V140C244 144.418 240.418 148 236 148H196C191.582 148 188 144.418 188 140V128Z" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="202" y="131" width="28" height="6" rx="3" style="fill:var(--primary-foreground)"/>
+</g>
+<defs>
+<clipPath id="dialog-clip0_26_25783">
+<rect width="320" height="200"/>
+</clipPath>
+</defs>
+</svg>

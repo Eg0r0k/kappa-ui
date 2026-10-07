@@ -1,0 +1,6 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M56 88C56 83.5817 59.5817 80 64 80H160C164.418 80 168 83.5817 168 88V112C168 116.418 164.418 120 160 120H64C59.5817 120 56 116.418 56 112V88Z" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="84" y="97" width="56" height="6" rx="3" style="fill:var(--primary-foreground)"/>
+<path d="M188 80.5H256C260.142 80.5 263.5 83.8579 263.5 88V112C263.5 116.142 260.142 119.5 256 119.5H188C183.858 119.5 180.5 116.142 180.5 112V88C180.5 83.8579 183.858 80.5 188 80.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="201" y="97" width="42" height="6" rx="3" style="fill:var(--foreground)"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect opacity="0.8" x="48" y="66" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="248" y="66" width="24" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.25" x="48" y="82" width="224" height="8" rx="4" style="fill:var(--muted-foreground)"/>
+<rect x="48" y="82" width="139" height="8" rx="4" style="fill:var(--primary)"/>
+<rect x="48" y="118" width="53" height="8" rx="4" style="fill:var(--primary)"/>
+<rect x="105" y="118" width="53" height="8" rx="4" style="fill:var(--primary)"/>
+<rect opacity="0.25" x="162" y="118" width="53" height="8" rx="4" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.25" x="219" y="118" width="53" height="8" rx="4" style="fill:var(--muted-foreground)"/>
+</svg>

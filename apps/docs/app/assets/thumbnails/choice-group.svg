@@ -1,0 +1,12 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.08" d="M48 67.2C48 61.0144 53.0144 56 59.2 56H144.8C150.986 56 156 61.0144 156 67.2V132.8C156 138.986 150.986 144 144.8 144H59.2C53.0144 144 48 138.986 48 132.8V67.2Z" style="fill:var(--primary)"/>
+<path d="M59.2002 57H144.8C150.433 57 155 61.5669 155 67.2002V132.8C155 138.433 150.433 143 144.8 143H59.2002C53.5669 143 49 138.433 49 132.8V67.2002C49 61.743 53.2856 57.287 58.6748 57.0137L59.2002 57Z" stroke-width="2" style="stroke:var(--primary)"/>
+<circle cx="71" cy="79" r="8" stroke-width="2" style="stroke:var(--primary)"/>
+<circle cx="71" cy="79" r="4.05" style="fill:var(--primary)"/>
+<rect opacity="0.8" x="62" y="106" width="56" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="62" y="120" width="76" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M175.2 56.5H260.8C266.709 56.5 271.5 61.2907 271.5 67.2002V132.8C271.5 138.709 266.709 143.5 260.8 143.5H175.2C169.291 143.5 164.5 138.709 164.5 132.8V67.2002C164.5 61.4754 168.996 56.8002 174.649 56.5137L175.2 56.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<circle cx="187" cy="79" r="8" stroke-width="2" style="stroke:var(--input)"/>
+<rect opacity="0.8" x="178" y="106" width="48" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="178" y="120" width="72" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+</svg>

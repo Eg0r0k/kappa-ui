@@ -1,0 +1,10 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M64 24.5H136C140.142 24.5 143.5 27.8579 143.5 32V48C143.5 52.1421 140.142 55.5 136 55.5H64C59.8579 55.5 56.5 52.1421 56.5 48V32C56.5 27.8579 59.8579 24.5 64 24.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="78" y="37" width="44" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M94 68H106L100 62L94 68Z" style="fill:var(--border)"/>
+<path d="M67.2002 68.5H252.8C258.709 68.5 263.5 73.2907 263.5 79.2002V164.8C263.5 170.709 258.709 175.5 252.8 175.5H67.2002C61.2907 175.5 56.5 170.709 56.5 164.8V79.2002L56.5137 78.6494C56.8002 72.9958 61.4754 68.5 67.2002 68.5Z" style="fill:var(--popover);stroke:var(--border)"/>
+<rect opacity="0.8" x="72" y="84" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="72" y="100" width="160" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M80 124.5H240C244.142 124.5 247.5 127.858 247.5 132V148C247.5 152.142 244.142 155.5 240 155.5H80C75.8579 155.5 72.5 152.142 72.5 148V132C72.5 127.858 75.8579 124.5 80 124.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="84" y="137" width="80" height="6" rx="3" style="fill:var(--foreground)"/>
+</svg>

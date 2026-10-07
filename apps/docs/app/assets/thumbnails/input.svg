@@ -1,0 +1,6 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect opacity="0.8" x="40" y="62" width="56" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M48 78.5H272C276.142 78.5 279.5 81.8579 279.5 86V110C279.5 114.142 276.142 117.5 272 117.5H48C43.8579 117.5 40.5 114.142 40.5 110V86C40.5 81.8579 43.8579 78.5 48 78.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="56" y="95" width="104" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect x="164" y="90" width="2" height="16" style="fill:var(--primary)"/>
+</svg>

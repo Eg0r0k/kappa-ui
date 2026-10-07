@@ -34,6 +34,7 @@ defineOgImage('KappaDocs', {
         <li v-for="page in group.pages" :key="page.path">
           <NuxtLink :to="page.path" class="block h-full rounded-xl focus-visible:focus-ring">
             <Card size="sm" class="h-full transition-colors hover:bg-accent">
+              <ComponentThumbnail :path="page.path" />
               <CardHeader>
                 <CardTitle class="flex items-center gap-2">
                   {{ page.title }}

@@ -1,0 +1,18 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M36 22.4C36 18.8654 38.8654 16 42.4 16H137.6C141.135 16 144 18.8654 144 22.4V37.6C144 41.1346 141.135 44 137.6 44H42.4C38.8654 44 36 41.1346 36 37.6V22.4Z" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="48" y="27" width="64" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M127.685 28.1123C127.881 27.9521 128.17 27.9634 128.354 28.1465L131.354 31.1465C131.549 31.3418 131.549 31.6583 131.354 31.8535C131.158 32.0487 130.842 32.0487 130.646 31.8535L128 29.207L125.354 31.8535C125.158 32.0487 124.842 32.0487 124.646 31.8535C124.451 31.6583 124.451 31.3418 124.646 31.1465L127.646 28.1465L127.685 28.1123Z" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="160" y="27" width="64" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M238.647 28.1464C238.842 27.9512 239.158 27.9512 239.354 28.1464C239.549 28.3417 239.549 28.6582 239.354 28.8535L236.354 31.8535C236.158 32.0487 235.842 32.0487 235.647 31.8535L232.647 28.8535C232.451 28.6582 232.451 28.3417 232.647 28.1464C232.842 27.9512 233.158 27.9512 233.354 28.1464L236 30.7929L238.647 28.1464Z" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="256" y="27" width="32" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M47.2002 52.5H276.8C282.709 52.5 287.5 57.2907 287.5 63.2002V180.8C287.5 186.709 282.709 191.5 276.8 191.5H47.2002C41.2907 191.5 36.5 186.709 36.5 180.8V63.2002C36.5 57.2907 41.2907 52.5 47.2002 52.5Z" style="fill:var(--popover);stroke:var(--border)"/>
+<path d="M44 68C44 63.5817 47.5817 60 52 60H124C128.418 60 132 63.5817 132 68V176C132 180.418 128.418 184 124 184H52C47.5817 184 44 180.418 44 176V68Z" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="56" y="156" width="48" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="56" y="168" width="64" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="144" y="70" width="64" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="144" y="84" width="120" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="144" y="110" width="56" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="144" y="124" width="120" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="144" y="150" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="144" y="164" width="120" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+</svg>

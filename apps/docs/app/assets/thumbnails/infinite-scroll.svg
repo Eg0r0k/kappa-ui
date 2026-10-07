@@ -1,0 +1,17 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M75.2002 12.5H244.8C250.709 12.5 255.5 17.2907 255.5 23.2002V176.8C255.5 182.709 250.709 187.5 244.8 187.5H75.2002C69.2907 187.5 64.5 182.709 64.5 176.8V23.2002C64.5 17.2907 69.2907 12.5 75.2002 12.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<circle cx="88" cy="38" r="12" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="108" y="29" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="108" y="41" width="128" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="76" y="56" width="168" height="1" style="fill:var(--border)"/>
+<circle cx="88" cy="74" r="12" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="108" y="65" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="108" y="77" width="104" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="76" y="92" width="168" height="1" style="fill:var(--border)"/>
+<circle cx="88" cy="110" r="12" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="108" y="101" width="88" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="108" y="113" width="120" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="76" y="128" width="168" height="1" style="fill:var(--border)"/>
+<circle opacity="0.2" cx="160" cy="156" r="10.5" stroke-width="3" style="stroke:var(--muted-foreground)"/>
+<path d="M160 145.5C162.785 145.5 165.455 146.606 167.425 148.575C169.394 150.545 170.5 153.215 170.5 156" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--primary)"/>
+</svg>

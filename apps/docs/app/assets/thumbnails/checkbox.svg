@@ -1,0 +1,10 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M90 64.8C90 62.149 92.149 60 94.8 60H107.2C109.851 60 112 62.149 112 64.8V77.2C112 79.851 109.851 82 107.2 82H94.8C92.149 82 90 79.851 90 77.2V64.8Z" style="fill:var(--primary)"/>
+<path d="M95.5 71.4583L99.1667 75.125L106.5 66.875" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--primary-foreground)"/>
+<rect opacity="0.8" x="124" y="68" width="120" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M90 97.8C90 95.149 92.149 93 94.8 93H107.2C109.851 93 112 95.149 112 97.8V110.2C112 112.851 109.851 115 107.2 115H94.8C92.149 115 90 112.851 90 110.2V97.8Z" style="fill:var(--primary)"/>
+<path d="M95.5 104.458L99.1667 108.125L106.5 99.875" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--primary-foreground)"/>
+<rect opacity="0.8" x="124" y="101" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M94.7998 127H107.2C109.299 127 111 128.701 111 130.8V143.2C111 145.299 109.299 147 107.2 147H94.7998C92.7013 147 91.0001 145.299 91 143.2V130.8C91.0001 128.701 92.7013 127 94.7998 127Z" stroke-width="2" style="stroke:var(--input)"/>
+<rect opacity="0.8" x="124" y="134" width="108" height="6" rx="3" style="fill:var(--foreground)"/>
+</svg>

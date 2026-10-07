@@ -1,0 +1,9 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M75.2002 36.5H244.8C250.709 36.5 255.5 41.2907 255.5 47.2002V152.8C255.5 158.709 250.709 163.5 244.8 163.5H75.2002C69.2907 163.5 64.5 158.709 64.5 152.8V47.2002C64.5 41.2907 69.2907 36.5 75.2002 36.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.8" x="80" y="54" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="80" y="70" width="152" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M80 96C80 91.5817 83.5817 88 88 88H232C236.418 88 240 91.5817 240 96V136C240 140.418 236.418 144 232 144H88C83.5817 144 80 140.418 80 136V96Z" style="fill:var(--muted)"/>
+<path opacity="0.7" d="M65 48.2C65 42.0144 70.0144 37 76.2 37H243.8C249.986 37 255 42.0144 255 48.2V151.8C255 157.986 249.986 163 243.8 163H76.2C70.0144 163 65 157.986 65 151.8V48.2Z" style="fill:var(--background)"/>
+<circle opacity="0.2" cx="160" cy="100" r="14" stroke-width="4" style="stroke:var(--muted-foreground)"/>
+<path d="M160 86C163.713 86 167.274 87.475 169.899 90.1005C172.525 92.726 174 96.287 174 100" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--primary)"/>
+</svg>

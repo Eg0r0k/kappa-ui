@@ -1,0 +1,7 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M48 44.5H272C276.142 44.5 279.5 47.8579 279.5 52V84C279.5 88.1421 276.142 91.5 272 91.5H48C43.8579 91.5 40.5 88.1421 40.5 84V52L40.5098 51.6143C40.7105 47.6514 43.9872 44.5 48 44.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.45" x="56" y="65" width="88" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M48 109H272C275.866 109 279 112.134 279 116V148C279 151.866 275.866 155 272 155H48C44.134 155 41 151.866 41 148V116L41.0088 115.64C41.1963 111.941 44.2549 109 48 109Z" stroke-width="2" style="fill:var(--background);stroke:var(--primary)"/>
+<rect x="56" y="118" width="52" height="4" rx="2" style="fill:var(--primary)"/>
+<rect opacity="0.8" x="56" y="134" width="128" height="6" rx="3" style="fill:var(--foreground)"/>
+</svg>

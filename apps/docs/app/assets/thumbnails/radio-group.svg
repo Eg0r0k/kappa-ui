@@ -1,0 +1,9 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="101" cy="71" r="10" stroke-width="2" style="stroke:var(--input)"/>
+<rect opacity="0.8" x="124" y="68" width="104" height="6" rx="3" style="fill:var(--foreground)"/>
+<circle cx="101" cy="104" r="10" stroke-width="2" style="stroke:var(--primary)"/>
+<circle cx="101" cy="104" r="4.95" style="fill:var(--primary)"/>
+<rect opacity="0.8" x="124" y="101" width="128" height="6" rx="3" style="fill:var(--foreground)"/>
+<circle cx="101" cy="137" r="10" stroke-width="2" style="stroke:var(--input)"/>
+<rect opacity="0.8" x="124" y="134" width="88" height="6" rx="3" style="fill:var(--foreground)"/>
+</svg>

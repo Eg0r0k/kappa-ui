@@ -1,0 +1,18 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M51.2002 36.5H268.8C274.709 36.5 279.5 41.2907 279.5 47.2002V152.8C279.5 158.709 274.709 163.5 268.8 163.5H51.2002C45.2907 163.5 40.5 158.709 40.5 152.8V47.2002C40.5 41.2907 45.2907 36.5 51.2002 36.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect x="148" y="37" width="1" height="126" style="fill:var(--border)"/>
+<rect x="143.5" y="86.5" width="10" height="27" rx="5" style="fill:var(--background);stroke:var(--border)"/>
+<path d="M147 102.5C147.552 102.5 148 102.948 148 103.5C148 104.052 147.552 104.5 147 104.5C146.448 104.5 146 104.052 146 103.5C146 102.948 146.448 102.5 147 102.5Z" style="fill:var(--muted-foreground)"/>
+<path d="M150 102.5C150.552 102.5 151 102.948 151 103.5C151 104.052 150.552 104.5 150 104.5C149.448 104.5 149 104.052 149 103.5C149 102.948 149.448 102.5 150 102.5Z" style="fill:var(--muted-foreground)"/>
+<path d="M147 99C147.552 99 148 99.4477 148 100C148 100.552 147.552 101 147 101C146.448 101 146 100.552 146 100C146 99.4477 146.448 99 147 99Z" style="fill:var(--muted-foreground)"/>
+<path d="M150 99C150.552 99 151 99.4477 151 100C151 100.552 150.552 101 150 101C149.448 101 149 100.552 149 100C149 99.4477 149.448 99 150 99Z" style="fill:var(--muted-foreground)"/>
+<path d="M147 95.5C147.552 95.5 148 95.9477 148 96.5C148 97.0523 147.552 97.5 147 97.5C146.448 97.5 146 97.0523 146 96.5C146 95.9477 146.448 95.5 147 95.5Z" style="fill:var(--muted-foreground)"/>
+<path d="M150 95.5C150.552 95.5 151 95.9477 151 96.5C151 97.0523 150.552 97.5 150 97.5C149.448 97.5 149 97.0523 149 96.5C149 95.9477 149.448 95.5 150 95.5Z" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="56" y="56" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="56" y="72" width="64" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="56" y="84" width="56" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="168" y="56" width="88" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="168" y="72" width="96" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="168" y="84" width="72" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="168" y="96" width="80" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+</svg>
