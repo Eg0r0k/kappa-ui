@@ -57,16 +57,18 @@ test('rewrites gradient stops', () => {
   assert.match(result, /<stop offset="1" stop-opacity="0" style="stop-color:var\(--background\)"\/>/)
 })
 
-test('drops colours inside a clip path and prefixes ids with the thumbnail name', () => {
+test('drops colours inside a clip path and numbers ids after the thumbnail name', () => {
   const result = thumbnailSvg({
     name: 'image',
     svg: svg(
-      '<g clip-path="url(#clip0_26_1)">\n<circle fill="#133701"/>\n</g>\n<defs>\n<clipPath id="clip0_26_1">\n<path d="M0 0" fill="white"/>\n</clipPath>\n</defs>',
+      '<g clip-path="url(#clip0_26_9)">\n<circle fill="#133701"/>\n</g>\n<g clip-path="url(#clip1_26_4)"/>\n<defs>\n<clipPath id="clip0_26_9">\n<path d="M0 0" fill="white"/>\n</clipPath>\n<clipPath id="clip1_26_4"/>\n</defs>',
     ),
     sentinels: { '#133701': 'muted-foreground' },
   })
-  assert.match(result, /<g clip-path="url\(#image-clip0_26_1\)">/)
-  assert.match(result, /<clipPath id="image-clip0_26_1">\n<path d="M0 0"\/>/)
+  assert.match(result, /<g clip-path="url\(#image-1\)">/)
+  assert.match(result, /<g clip-path="url\(#image-2\)"\/>/)
+  assert.match(result, /<clipPath id="image-1">\n<path d="M0 0"\/>/)
+  assert.match(result, /<clipPath id="image-2"\/>/)
 })
 
 test('rejects a colour that is not a sentinel', () => {

@@ -16,6 +16,11 @@ export const thumbnailSvg = ({ name, svg, sentinels }: ThumbExport) => {
     if (!CSS_NAME.test(variable)) throw new Error(`${name}: ${variable} has no CSS variable`)
     return `var(--${variable})`
   }
+  const ids = new Map<string, string>()
+  const idOf = (original: string) => {
+    if (!ids.has(original)) ids.set(original, `${name}-${ids.size + 1}`)
+    return ids.get(original)
+  }
   let clipDepth = 0
   return svg.replace(TAG, (_tag, closing: string, tag: string, source: string, selfClosing: string) => {
     if (closing) {
@@ -27,7 +32,7 @@ export const thumbnailSvg = ({ name, svg, sentinels }: ThumbExport) => {
     for (const [key, value] of attributesOf(source)) {
       if (tag === 'svg' && (key === 'width' || key === 'height')) continue
       if (key === 'id') {
-        kept.push(`id="${name}-${value}"`)
+        kept.push(`id="${idOf(value)}"`)
         continue
       }
       if (key === 'style') {
@@ -36,7 +41,7 @@ export const thumbnailSvg = ({ name, svg, sentinels }: ThumbExport) => {
       }
       const property = COLOR_ATTRIBUTES[key]
       if (!property || value === 'none') {
-        kept.push(`${key}="${value.replace(/url\(#([^)]+)\)/g, `url(#${name}-$1)`)}"`)
+        kept.push(`${key}="${value.replace(/url\(#([^)]+)\)/g, (_url, id: string) => `url(#${idOf(id)})`)}"`)
         continue
       }
       if (clipDepth > 0) continue
