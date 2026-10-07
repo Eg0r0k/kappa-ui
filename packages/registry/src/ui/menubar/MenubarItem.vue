@@ -2,6 +2,7 @@
 import { MenubarItem, type MenubarItemEmits, type MenubarItemProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuItem } from "@/ui/menu";
 
@@ -23,6 +24,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <MenubarItem
+    v-ripple
     v-bind="forwarded"
     data-slot="menubar-item"
     :data-inset="props.inset || undefined"

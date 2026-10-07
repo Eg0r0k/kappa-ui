@@ -3,6 +3,7 @@ import { MenuItem, type MenuItemEmits, type MenuItemProps } from "@kappa-ui/core
 import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuItem } from ".";
 
@@ -24,6 +25,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <MenuItem
+    v-ripple
     v-bind="forwarded"
     data-slot="menu-item"
     :data-inset="props.inset || undefined"

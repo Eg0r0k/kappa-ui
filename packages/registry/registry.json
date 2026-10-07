@@ -183,7 +183,8 @@
       ],
       "registryDependencies": [
         "utils",
-        "tokens"
+        "tokens",
+        "ripple"
       ],
       "files": [
         {
@@ -832,7 +833,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "separator"
+        "separator",
+        "ripple"
       ],
       "files": [
         {
@@ -945,7 +947,8 @@
       ],
       "registryDependencies": [
         "utils",
-        "tokens"
+        "tokens",
+        "ripple"
       ],
       "css": {
         "@layer base": {
@@ -1176,7 +1179,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "field-context"
+        "field-context",
+        "ripple"
       ],
       "files": [
         {
@@ -1240,7 +1244,8 @@
         "tokens",
         "field-context",
         "spinner",
-        "checkbox"
+        "checkbox",
+        "ripple"
       ],
       "files": [
         {
@@ -1298,7 +1303,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "popover"
+        "popover",
+        "ripple"
       ],
       "files": [
         {
@@ -1381,7 +1387,8 @@
         "utils",
         "tokens",
         "popover",
-        "menu"
+        "menu",
+        "ripple"
       ],
       "files": [
         {
@@ -2117,7 +2124,8 @@
         "tokens",
         "field-context",
         "input",
-        "badge"
+        "badge",
+        "ripple"
       ],
       "files": [
         {
@@ -2612,7 +2620,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "drawer"
+        "drawer",
+        "ripple"
       ],
       "files": [
         {
@@ -2850,7 +2859,8 @@
       ],
       "registryDependencies": [
         "utils",
-        "tokens"
+        "tokens",
+        "ripple"
       ],
       "files": [
         {
@@ -2891,7 +2901,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "popover"
+        "popover",
+        "ripple"
       ],
       "files": [
         {
@@ -2985,7 +2996,8 @@
         "field-context",
         "input",
         "popover",
-        "menu"
+        "menu",
+        "ripple"
       ],
       "files": [
         {
@@ -4436,7 +4448,7 @@
       "name": "ripple-demo",
       "type": "registry:block",
       "title": "Ripple demo",
-      "description": "The ripple directive on buttons.",
+      "description": "The ripple directive on an element of your own, and a Button's built-in ripple tinted and turned off.",
       "categories": [
         "example"
       ],
@@ -10940,7 +10952,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "button"
+        "button",
+        "ripple"
       ],
       "files": [
         {
@@ -11073,7 +11086,8 @@
         "utils",
         "toggle",
         "button",
-        "button-group"
+        "button-group",
+        "ripple"
       ],
       "files": [
         {
@@ -12440,7 +12454,8 @@
         "utils",
         "tokens",
         "field-context",
-        "button"
+        "button",
+        "ripple"
       ],
       "files": [
         {
@@ -12514,7 +12529,8 @@
         "utils",
         "tokens",
         "button",
-        "calendar"
+        "calendar",
+        "ripple"
       ],
       "files": [
         {
@@ -13300,7 +13316,8 @@
         "field-context",
         "input",
         "popover",
-        "menu"
+        "menu",
+        "ripple"
       ],
       "files": [
         {
@@ -13373,7 +13390,8 @@
         "utils",
         "tokens",
         "menu",
-        "dialog"
+        "dialog",
+        "ripple"
       ],
       "files": [
         {

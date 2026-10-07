@@ -3,6 +3,7 @@ import { X } from "@lucide/vue";
 import { ComboboxCancel, type ComboboxCancelProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { comboboxCancel } from ".";
 
@@ -16,6 +17,7 @@ const delegated = computed(() => {
 
 <template>
   <ComboboxCancel
+    v-ripple
     v-bind="delegated"
     data-slot="combobox-cancel"
     aria-label="Clear"

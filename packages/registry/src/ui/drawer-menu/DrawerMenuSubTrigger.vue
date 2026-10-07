@@ -3,6 +3,7 @@ import { ChevronRight } from "@lucide/vue";
 import { DrawerMenuSubTrigger, type DrawerMenuItemProps } from "@kappa-ui/core/drawer-menu";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { drawerMenuItem } from ".";
 
@@ -16,6 +17,7 @@ const delegated = computed(() => {
 
 <template>
   <DrawerMenuSubTrigger
+    v-ripple
     v-bind="delegated"
     data-slot="drawer-menu-sub-trigger"
     :data-inset="props.inset || undefined"

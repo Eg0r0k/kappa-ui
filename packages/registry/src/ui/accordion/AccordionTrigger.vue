@@ -3,6 +3,7 @@ import { ChevronDown } from "@lucide/vue";
 import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 
 const props = defineProps<AccordionTriggerProps & { class?: HTMLAttributes["class"] }>();
@@ -16,6 +17,7 @@ const delegated = computed(() => {
 <template>
   <AccordionHeader data-slot="accordion-header" class="flex">
     <AccordionTrigger
+      v-ripple
       v-bind="delegated"
       data-slot="accordion-trigger"
       :class="

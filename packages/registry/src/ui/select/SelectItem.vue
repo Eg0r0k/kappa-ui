@@ -9,6 +9,7 @@ import {
 } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuItem } from "@/ui/menu";
 import SelectItemText from "./SelectItemText.vue";
@@ -25,6 +26,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <SelectItem
+    v-ripple
     v-bind="forwarded"
     data-slot="select-item"
     :class="

@@ -7,6 +7,7 @@ import {
 } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuIndicatorItem, menuRadioDot } from "@/ui/menu";
 import MenubarItemIndicator from "./MenubarItemIndicator.vue";
@@ -23,6 +24,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <MenubarRadioItem
+    v-ripple
     v-slot="slotProps"
     v-bind="forwarded"
     data-slot="menubar-radio-item"

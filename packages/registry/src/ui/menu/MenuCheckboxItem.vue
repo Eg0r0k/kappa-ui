@@ -9,6 +9,7 @@ import { Check } from "@lucide/vue";
 import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuIndicator, menuIndicatorItem } from ".";
 
@@ -23,7 +24,12 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 </script>
 
 <template>
-  <MenuCheckboxItem v-bind="forwarded" data-slot="menu-checkbox-item" :class="cn(menuIndicatorItem, props.class)">
+  <MenuCheckboxItem
+    v-ripple
+    v-bind="forwarded"
+    data-slot="menu-checkbox-item"
+    :class="cn(menuIndicatorItem, props.class)"
+  >
     <span :class="menuIndicator">
       <MenuItemIndicator data-slot="menu-item-indicator" class="flex items-center justify-center">
         <slot name="indicator-icon">

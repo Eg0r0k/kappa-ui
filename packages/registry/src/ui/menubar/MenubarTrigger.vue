@@ -2,6 +2,7 @@
 import { MenubarTrigger, type MenubarTriggerProps, injectMenubarMenuContext, useId } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menubarTrigger } from ".";
 
@@ -19,7 +20,7 @@ menuContext.contentId ||= useId(undefined, "reka-menubar-content");
 </script>
 
 <template>
-  <MenubarTrigger v-bind="delegated" data-slot="menubar-trigger" :class="cn(menubarTrigger, props.class)">
+  <MenubarTrigger v-ripple v-bind="delegated" data-slot="menubar-trigger" :class="cn(menubarTrigger, props.class)">
     <slot />
   </MenubarTrigger>
 </template>

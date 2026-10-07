@@ -3,6 +3,7 @@ import { X } from "@lucide/vue";
 import { TagsInputItemDelete, type TagsInputItemDeleteProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { injectTagsInputContext, tagsInputItemDeleteVariants } from ".";
 
@@ -18,6 +19,7 @@ const delegated = computed(() => {
 
 <template>
   <TagsInputItemDelete
+    v-ripple
     v-bind="delegated"
     data-slot="tags-input-item-delete"
     data-icon="inline-end"

@@ -9,6 +9,7 @@ import {
 } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 
 const props = defineProps<ListboxItemProps & { class?: HTMLAttributes["class"] }>();
@@ -23,6 +24,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <ListboxItem
+    v-ripple
     v-bind="forwarded"
     data-slot="listbox-item"
     :class="
@@ -33,7 +35,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
           before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-foreground
           before:opacity-0 before:transition-opacity before:duration-short-4 before:ease-standard
           hover:before:opacity-(--state-hover)
-          active:before:opacity-(--state-pressed)
+          active:not-has-[>[data-slot=ripple]]:before:opacity-(--state-pressed)
           focus-visible:focus-ring
           data-[state=checked]:bg-primary/(--state-selected)
           data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)

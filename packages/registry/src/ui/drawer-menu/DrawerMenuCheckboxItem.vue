@@ -9,6 +9,7 @@ import {
 import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { drawerMenuIndicator, drawerMenuIndicatorItem } from ".";
 
@@ -24,6 +25,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <DrawerMenuCheckboxItem
+    v-ripple
     v-bind="forwarded"
     data-slot="drawer-menu-checkbox-item"
     :class="cn(drawerMenuIndicatorItem, props.class)"

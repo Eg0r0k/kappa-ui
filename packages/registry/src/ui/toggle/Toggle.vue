@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Toggle, type ToggleEmits, type ToggleProps, useForwardPropsEmits } from "reka-ui";
+import { Primitive, Toggle, type ToggleEmits, type ToggleProps, useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { type ButtonColor, type ButtonVariants, buttonVariants } from "@/ui/button";
 import { type ToggleVariants, toggleVariants } from ".";
@@ -17,7 +18,7 @@ const props = withDefaults(
       class?: HTMLAttributes["class"];
     }
   >(),
-  { variant: "ghost", activeVariant: "soft", color: "neutral", size: "md", disabled: false },
+  { as: "button", variant: "ghost", activeVariant: "soft", color: "neutral", size: "md", disabled: false },
 );
 const emits = defineEmits<ToggleEmits>();
 
@@ -37,22 +38,25 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 </script>
 
 <template>
-  <Toggle
-    v-slot="slotProps"
-    v-bind="forwarded"
-    data-slot="toggle"
-    :data-variant="props.variant"
-    :data-color="props.color"
-    :data-active-color="props.activeColor"
-    :data-size="props.size"
-    :class="
-      cn(
-        buttonVariants({ variant: props.variant, size: props.size }),
-        toggleVariants({ activeVariant: props.activeVariant }),
-        props.class,
-      )
-    "
-  >
-    <slot v-bind="slotProps" />
+  <Toggle v-slot="slotProps" v-bind="forwarded" as-child>
+    <Primitive
+      v-ripple
+      :as="props.as"
+      :as-child="props.asChild"
+      data-slot="toggle"
+      :data-variant="props.variant"
+      :data-color="props.color"
+      :data-active-color="props.activeColor"
+      :data-size="props.size"
+      :class="
+        cn(
+          buttonVariants({ variant: props.variant, size: props.size }),
+          toggleVariants({ activeVariant: props.activeVariant }),
+          props.class,
+        )
+      "
+    >
+      <slot v-bind="slotProps" />
+    </Primitive>
   </Toggle>
 </template>
