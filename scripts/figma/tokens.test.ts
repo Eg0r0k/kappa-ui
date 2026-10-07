@@ -172,6 +172,27 @@ test('reads the typescale into text styles and the shadows into effect styles', 
   ])
 })
 
+test('reads inset layers and the shadows a role shadow refers to', () => {
+  const theme = sources.theme.replace(
+    '  --secondary: oklch(0.955 0 0);\n}',
+    '  --secondary: oklch(0.955 0 0);\n  --shadow-popover: inset 0 1px 0 0 oklch(1 0 0 / 50%), var(--shadow-sm);\n}',
+  )
+  const { payload } = tokensOf({ ...sources, theme }, light)
+  const shadow = { r: 0, g: 0, b: 0, a: 0.1 }
+  assert.deepEqual(
+    payload.effectStyles.find((style) => style.id === 'Effect/shadow/popover'),
+    {
+      id: 'Effect/shadow/popover',
+      name: 'shadow/popover',
+      layers: [
+        { x: 0, y: 1, blur: 0, spread: 0, color: { r: 1, g: 1, b: 1, a: 0.5 }, inset: true },
+        { x: 0, y: 1, blur: 3, spread: 0, color: shadow },
+        { x: 0, y: 1, blur: 2, spread: -1, color: shadow },
+      ],
+    },
+  )
+})
+
 test('resolves the control size tokens into Size variables', () => {
   const { payload } = tokensOf(sources, light)
   const sizes = payload.variables.filter((item) => item.collection === 'Size')

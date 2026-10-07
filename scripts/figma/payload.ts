@@ -13,7 +13,7 @@ export type TokenVariable = {
 }
 
 export type TextStyleToken = { id: string; name: string; fontSize: number; lineHeight: number; fontWeight: number }
-export type ShadowLayer = { x: number; y: number; blur: number; spread: number; color: Rgba }
+export type ShadowLayer = { x: number; y: number; blur: number; spread: number; color: Rgba; inset?: true }
 export type EffectStyleToken = { id: string; name: string; layers: ShadowLayer[] }
 
 export type TokenPayload = {

@@ -250,18 +250,27 @@ const textStylesOf = (vars: Record<string, string>): TextStyleToken[] =>
 
 const shadowLayerOf = (layer: string): ShadowLayer => {
   const parts = splitTopLevel(layer, ' ')
-  if (parts.length !== 5) throw new Error(`Unsupported shadow layer: ${layer}`)
-  const [x, y, blur, spread] = parts.slice(0, 4).map(pxOf)
-  return { x, y, blur, spread, color: parseColor(parts[4]).rgba }
+  const inset = parts[0] === 'inset'
+  const rest = inset ? parts.slice(1) : parts
+  if (rest.length !== 5) throw new Error(`Unsupported shadow layer: ${layer}`)
+  const [x, y, blur, spread] = rest.slice(0, 4).map(pxOf)
+  return { x, y, blur, spread, color: parseColor(rest[4]).rgba, ...(inset && { inset }) }
 }
+
+const shadowLayersOf = (value: string, vars: Record<string, string>): ShadowLayer[] =>
+  splitTopLevel(value, ',').flatMap((layer) => {
+    const name = /^var\(--([a-z0-9-]+)\)$/.exec(layer)?.[1]
+    if (name === undefined) return [shadowLayerOf(layer)]
+    const target = vars[name]
+    if (target === undefined) throw new Error(`Unknown shadow: ${layer}`)
+    return shadowLayersOf(target, vars)
+  })
 
 const effectStylesOf = (vars: Record<string, string>): EffectStyleToken[] =>
   Object.entries(vars).flatMap(([key, value]) => {
     const size = /^shadow-([a-z0-9]+)$/.exec(key)?.[1]
     if (!size) return []
-    return [
-      { id: `Effect/shadow/${size}`, name: `shadow/${size}`, layers: splitTopLevel(value, ',').map(shadowLayerOf) },
-    ]
+    return [{ id: `Effect/shadow/${size}`, name: `shadow/${size}`, layers: shadowLayersOf(value, vars) }]
   })
 
 export const tokensOf = (sources: TokenSources, options: TokenOptions): TokenResult => {
