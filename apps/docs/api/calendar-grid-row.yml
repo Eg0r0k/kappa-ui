@@ -1,0 +1,9 @@
+component: CalendarGridRow
+file: ui/calendar/CalendarGridRow.vue
+props:
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a tr, merging this part's attributes and classes onto it."
+slots:
+  default: "A week's cells, or the weekday headers."

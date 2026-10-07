@@ -36,6 +36,7 @@ const line = `
   <Separator
     v-bind="delegated"
     data-slot="separator"
+    :data-size="props.size ?? 'xs'"
     :class="
       cn(
         separatorVariants({ size: props.size }),

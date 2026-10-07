@@ -1,0 +1,4 @@
+component: MenubarShortcut
+file: ui/menubar/MenubarShortcut.vue
+slots:
+  default: "The key combination, for display only. It does not register the shortcut."

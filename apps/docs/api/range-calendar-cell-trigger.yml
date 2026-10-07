@@ -1,0 +1,13 @@
+component: RangeCalendarCellTrigger
+file: ui/range-calendar/RangeCalendarCellTrigger.vue
+props:
+  day:
+    description: "The day this trigger picks."
+  month:
+    description: "The month of the grid it sits in, which tells days from the neighbouring months apart."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a div, merging this part's attributes and classes onto it."
+slots:
+  default: "The day's content, with the Calendar fields plus `{ highlighted, highlightedStart, highlightedEnd, selectionStart, selectionEnd }`."

@@ -17,6 +17,8 @@ import {
 } from "@/ui/combobox";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -210,5 +212,87 @@ describe("Combobox", () => {
     await userEvent.keyboard("{Enter}");
     await expect.poll(() => value.value).toBe("Cherry");
     await expect.poll(() => document.activeElement).toBe(button);
+  });
+
+  it("marks the anchor with its variant and size, md and outline by default", () => {
+    controlled(undefined, {}, () => [h(ComboboxAnchor, () => h(ComboboxInput, { "aria-label": "Fruit" })), list()]);
+    expect(anchor().dataset.variant).toBe("outline");
+    expect(anchor().dataset.size).toBe("md");
+  });
+
+  it("opens a list of the anchor's size, and follows it when it changes", async () => {
+    const size = ref<"xs" | "md" | "xl" | undefined>(undefined);
+    controlled(undefined, { open: true }, () => [
+      h(ComboboxAnchor, { size: size.value }, () => h(ComboboxInput, { "aria-label": "Fruit" })),
+      list(),
+    ]);
+    const content = () => document.querySelector<HTMLElement>("[data-slot=combobox-list]");
+    const item = () => getComputedStyle(items()[0]!);
+
+    await expect.poll(() => content()?.dataset.size).toBe("md");
+    expect(item().minHeight).toBe("36px");
+
+    size.value = "xl";
+    await expect.poll(() => content()?.dataset.size).toBe("xl");
+    expect(item().minHeight).toBe("48px");
+
+    size.value = "xs";
+    await expect.poll(() => item().minHeight).toBe("28px");
+  });
+
+  it("lets the list's own size win over the anchor's", async () => {
+    controlled(undefined, { open: true }, () => [
+      h(ComboboxAnchor, { size: "xl" }, () => h(ComboboxInput, { "aria-label": "Fruit" })),
+      h(ComboboxList, { size: "sm" }, () =>
+        h(ComboboxViewport, () => fruits.map((fruit) => h(ComboboxItem, { key: fruit, value: fruit }, () => fruit))),
+      ),
+    ]);
+
+    await expect.poll(() => document.querySelector<HTMLElement>("[data-slot=combobox-list]")?.dataset.size).toBe("sm");
+    expect(getComputedStyle(items()[0]!).minHeight).toBe("32px");
+  });
+
+  it("shares an as-child anchor's size with the list without restyling the button", async () => {
+    controlled(undefined, { open: true }, () => [
+      h(ComboboxAnchor, { asChild: true, size: "lg" }, () =>
+        h(ComboboxTrigger, { asChild: true }, () => h(Button, { variant: "ghost" }, () => "Pick a fruit")),
+      ),
+      h(ComboboxList, () => [
+        h(ComboboxInput, { "aria-label": "Search fruits" }),
+        h(ComboboxViewport, () => fruits.map((fruit) => h(ComboboxItem, { key: fruit, value: fruit }, () => fruit))),
+      ]),
+    ]);
+    const button = document.querySelector<HTMLButtonElement>("button")!;
+
+    expect(button.dataset.variant).toBe("ghost");
+    expect(button.dataset.size).toBe("md");
+    await expect.poll(() => document.querySelector<HTMLElement>("[data-slot=combobox-list]")?.dataset.size).toBe("lg");
+    expect(getComputedStyle(items()[0]!).minHeight).toBe("40px");
+  });
+});
+
+describe("Combobox control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("the %s anchor reads its height and padding tokens", (size) => {
+    controlled(undefined, {}, () => [
+      h(ComboboxAnchor, { size }, () => [h(ComboboxInput, { "aria-label": "Fruit" }), h(ComboboxTrigger)]),
+      list(),
+    ]);
+
+    expect(px(getComputedStyle(anchor()).height)).toBe(sentinel.height[size]);
+    expect(px(getComputedStyle(input()).paddingInlineStart)).toBe(sentinel.padding[size]);
+  });
+
+  it.each(controlSizes)("the list of a %s anchor reads the same tokens", async (size) => {
+    controlled(undefined, { open: true }, () => [
+      h(ComboboxAnchor, { size }, () => h(ComboboxInput, { "aria-label": "Fruit" })),
+      list(),
+    ]);
+    await expect.poll(() => items().length).toBeGreaterThan(0);
+    const item = getComputedStyle(items()[0]!);
+
+    expect(px(item.minHeight)).toBe(sentinel.height[size]);
+    expect(px(item.paddingInlineStart)).toBe(sentinel.padding[size]);
   });
 });

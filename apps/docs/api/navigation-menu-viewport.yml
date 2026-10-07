@@ -1,0 +1,11 @@
+component: NavigationMenuViewport
+file: ui/navigation-menu/NavigationMenuViewport.vue
+props:
+  align:
+    description: "Where the viewport lines up with the open trigger. `start` and `end` follow the reading direction; in a vertical menu they are the top and bottom edges."
+  forceMount:
+    description: "Keeps the viewport mounted while no panel is open, for animating it with your own code."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."

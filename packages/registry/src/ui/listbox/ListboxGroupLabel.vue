@@ -16,7 +16,7 @@ const delegated = computed(() => {
   <ListboxGroupLabel
     v-bind="delegated"
     data-slot="listbox-group-label"
-    :class="cn('px-3 pt-2 pb-1 text-label-md text-muted-foreground', props.class)"
+    :class="cn('px-(--listbox-item-px) pt-2 pb-1 text-label-md text-muted-foreground', props.class)"
   >
     <slot />
   </ListboxGroupLabel>

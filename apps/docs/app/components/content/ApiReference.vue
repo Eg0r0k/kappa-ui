@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/accordion'
+import BreakAtSpaces from '~/components/BreakAtSpaces.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
+import TableFrame from '~/components/TableFrame.vue'
 import InlineText from '~/components/content/InlineText.vue'
 import api from '~/generated/api.json'
 import type { ApiRow, ComponentApi } from '~~/scripts/lib/api-meta'
@@ -58,10 +60,10 @@ const parts = props.parts
         <p v-if="part.sections.length === 0" class="text-body-md text-muted-foreground">
           No props, events, slots or exposed members.
         </p>
-        <div v-for="section in part.sections" :key="section.key" class="overflow-hidden rounded-lg border">
+        <TableFrame v-for="section in part.sections" :key="section.key" :title="section.title">
           <ScrollBox>
             <table class="w-full text-left text-sm">
-              <thead class="border-b bg-muted/40 text-xs text-muted-foreground">
+              <thead class="border-b text-xs text-muted-foreground">
                 <tr>
                   <th class="px-4 py-2 font-medium">{{ section.label }}</th>
                   <th v-if="section.key === 'props'" class="px-4 py-2 font-medium">Default</th>
@@ -77,18 +79,18 @@ const parts = props.parts
                     {{ row.label }}<span v-if="row.required" class="text-destructive" aria-label="required">*</span>
                   </td>
                   <td v-if="section.key === 'props'" class="px-4 py-3">
-                    <code v-if="row.default" class="font-mono text-xs">{{ row.default }}</code>
+                    <code v-if="row.default" class="font-mono text-xs"><BreakAtSpaces :text="row.default" /></code>
                     <span v-else class="text-muted-foreground">—</span>
                   </td>
                   <td class="min-w-64 px-4 py-3">
-                    <code class="font-mono text-xs break-words">{{ row.type }}</code>
+                    <code class="font-mono text-xs"><BreakAtSpaces :text="row.type" /></code>
                     <p class="mt-1.5 text-muted-foreground"><InlineText :text="row.description" /></p>
                   </td>
                 </tr>
               </tbody>
             </table>
           </ScrollBox>
-        </div>
+        </TableFrame>
       </section>
     </div>
     <Accordion type="multiple" class="md:hidden">
@@ -101,16 +103,18 @@ const parts = props.parts
             </p>
             <div v-for="section in part.sections" :key="section.key" class="flex flex-col gap-2">
               <h4 class="text-label-lg text-muted-foreground">{{ section.title }}</h4>
-              <dl class="flex flex-col divide-y rounded-lg border">
+              <dl class="flex flex-col divide-y rounded-lg border bg-card">
                 <div v-for="row in section.rows" :key="row.label" class="flex flex-col gap-1 px-3 py-2.5">
                   <dt class="flex flex-wrap items-baseline justify-between gap-2">
                     <span class="font-mono text-xs" :class="row.nested && 'text-muted-foreground'">
                       {{ row.label }}<span v-if="row.required" class="text-destructive" aria-label="required">*</span>
                     </span>
-                    <code v-if="row.default" class="font-mono text-xs text-muted-foreground">{{ row.default }}</code>
+                    <code v-if="row.default" class="font-mono text-xs text-muted-foreground"
+                      ><BreakAtSpaces :text="row.default"
+                    /></code>
                   </dt>
                   <dd class="flex flex-col gap-1">
-                    <code class="font-mono text-xs break-words">{{ row.type }}</code>
+                    <code class="font-mono text-xs"><BreakAtSpaces :text="row.type" /></code>
                     <span class="text-body-sm text-muted-foreground"><InlineText :text="row.description" /></span>
                   </dd>
                 </div>

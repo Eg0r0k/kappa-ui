@@ -1,0 +1,9 @@
+component: NavigationMenuList
+file: ui/navigation-menu/NavigationMenuList.vue
+props:
+  as:
+    description: "The element or component to render; a `ul` by default. `class` lands on it, inside the wrapper that tracks the indicator."
+  asChild:
+    description: "Render the single child instead of the `ul`, merging this part's attributes and classes onto it."
+slots:
+  default: "The items, and an optional `NavigationMenuIndicator`."

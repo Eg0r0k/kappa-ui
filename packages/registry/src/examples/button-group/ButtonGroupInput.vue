@@ -14,7 +14,7 @@ import { Input } from "@/ui/input";
     </ButtonGroup>
     <ButtonGroup class="w-full">
       <Input placeholder="Search files" aria-label="Search files" />
-      <Button variant="outline" color="neutral" size="icon" aria-label="Search"><Search /></Button>
+      <Button variant="outline" color="neutral" size="icon-md" aria-label="Search"><Search /></Button>
     </ButtonGroup>
   </div>
 </template>

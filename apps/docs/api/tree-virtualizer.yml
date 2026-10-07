@@ -1,0 +1,11 @@
+component: TreeVirtualizer
+file: ui/tree/TreeVirtualizer.vue
+props:
+  overscan:
+    description: Rows rendered past each edge of the view.
+  estimateSize:
+    description: Row height in pixels. Measured from `--tree-item-height` by default, again when the tree first shows or its size changes.
+  textContent:
+    description: The text typeahead matches for a node, since only the rows near the view are in the page. The node's `label` by default.
+slots:
+  default: "One row, with `{ item }`: render a `TreeItem` for it."

@@ -1,0 +1,4 @@
+component: FileUploadItemDelete
+file: ui/file-upload/FileUploadItemDelete.vue
+slots:
+  default: "The button's icon, an X by default."

@@ -2,13 +2,15 @@ import { Time } from "@internationalized/date";
 import { Clock } from "@lucide/vue";
 import { mount } from "@vue/test-utils";
 import type { TimeValue } from "reka-ui";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
+import { type Component, type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
 import { Field, FieldError, FieldLabel } from "@/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupButton } from "@/ui/input-group";
 import { InputTime, InputTimeRange } from "@/ui/input-time";
+
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -179,6 +181,172 @@ it("emits the range once both ends are typed", async () => {
   expect(updates.at(-1)).toBe("09:00:00-17:30:00");
 });
 
+it("submits each end of a range under name[start] and name[end], empty while unset", async () => {
+  const value = shallowRef<{ start: TimeValue | undefined; end: TimeValue | undefined } | undefined>(undefined);
+  mount(
+    defineComponent(
+      () => () =>
+        h("form", [
+          h(InputTimeRange, {
+            name: "hours",
+            required: true,
+            modelValue: value.value,
+            "onUpdate:modelValue": (next: { start: TimeValue | undefined; end: TimeValue | undefined }) =>
+              (value.value = next),
+          }),
+        ]),
+    ),
+    { attachTo: document.body },
+  );
+  const form = document.querySelector("form")!;
+  expect([...new FormData(form).entries()]).toEqual([
+    ["hours[start]", ""],
+    ["hours[end]", ""],
+  ]);
+  expect(form.checkValidity()).toBe(false);
+  value.value = { start: new Time(9, 0), end: new Time(17, 30) };
+  await nextTick();
+  expect([...new FormData(form).entries()]).toEqual([
+    ["hours[start]", "09:00:00"],
+    ["hours[end]", "17:30:00"],
+  ]);
+  expect(form.checkValidity()).toBe(true);
+});
+
+it("points a Field's label at the range's start input", async () => {
+  render(h(Field, () => [h(FieldLabel, () => "Opening hours"), h(InputTimeRange, { hourCycle: 24 })]));
+  await nextTick();
+  const label = document.querySelector<HTMLElement>("[data-slot=field-label]")!;
+  const native = document.getElementById(label.getAttribute("for")!) as HTMLInputElement;
+  expect(native.getAttribute("aria-hidden")).toBe("true");
+  await userEvent.click(label);
+  expect(document.activeElement).toBe(editable()[0]);
+});
+
+it.each([
+  ["InputTime", InputTime as Component],
+  ["InputTimeRange", InputTimeRange as Component],
+])("%s emits focus and blur once per field and submits the form on Enter", async (_, component) => {
+  const events: string[] = [];
+  let submitted = 0;
+  render(
+    h(
+      "form",
+      {
+        onSubmit: (event: SubmitEvent) => {
+          event.preventDefault();
+          submitted++;
+        },
+      },
+      [
+        h(component, {
+          hourCycle: 24,
+          onFocus: () => events.push("focus"),
+          onBlur: () => events.push("blur"),
+        }),
+        h("button", { type: "button" }, "after"),
+      ],
+    ),
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard("{Tab}");
+  expect(document.activeElement).toBe(editable()[1]);
+  expect(events).toEqual(["focus"]);
+  await userEvent.keyboard("{Enter}");
+  expect(submitted).toBe(1);
+  editable().at(-1)!.focus();
+  await userEvent.keyboard("{Tab}");
+  expect(events).toEqual(["focus", "blur"]);
+});
+
+it.each([
+  ["InputTime", InputTime as Component],
+  ["InputTimeRange", InputTimeRange as Component],
+])("%s does nothing on Enter while the form's default button is disabled", async (_, component) => {
+  const disabled = shallowRef(true);
+  const events: string[] = [];
+  mount(
+    defineComponent(
+      () => () =>
+        h(
+          "form",
+          {
+            onSubmit: (event: SubmitEvent) => {
+              event.preventDefault();
+              events.push("submit");
+            },
+          },
+          [
+            h(component, { hourCycle: 24 }),
+            h("button", { type: "submit", disabled: disabled.value, onClick: () => events.push("click") }, "Save"),
+          ],
+        ),
+    ),
+    { attachTo: document.body },
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard("{Enter}");
+  expect(events).toEqual([]);
+  disabled.value = false;
+  await nextTick();
+  editable()[0]!.focus();
+  await userEvent.keyboard("{Enter}");
+  expect(events).toEqual(["click", "submit"]);
+});
+
+it.each([
+  ["InputTime", InputTime as Component, 2],
+  ["InputTimeRange", InputTimeRange as Component, 4],
+])("%s keeps a typed value without v-model when it remounts", async (_, component, count) => {
+  const granularity = shallowRef<"minute" | "second">("minute");
+  mount(
+    defineComponent(() => () => h(component, { granularity: granularity.value, hourCycle: 24 })),
+    { attachTo: document.body },
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard(count === 2 ? "0945" : "09451730");
+  granularity.value = "second";
+  await nextTick();
+  await nextTick();
+  const shown = editable().map((segment) => segment.textContent);
+  expect(shown).toEqual(count === 2 ? ["09", "45", "00"] : ["09", "45", "00", "17", "30", "00"]);
+});
+
+it("focuses the first segment when the frame's padding is clicked", async () => {
+  render(h(InputTime, { class: "w-60", hourCycle: 24 }));
+  const box = root().getBoundingClientRect();
+  await userEvent.click(root(), { position: { x: box.width - 8, y: box.height / 2 } });
+  expect(document.activeElement).toBe(editable()[0]);
+});
+
+it("remounts when the granularity or the hour cycle changes", async () => {
+  const granularity = shallowRef<"minute" | "second">("minute");
+  const hourCycle = shallowRef<12 | 24>(24);
+  mount(
+    defineComponent(
+      () => () =>
+        h(InputTime, {
+          granularity: granularity.value,
+          hourCycle: hourCycle.value,
+          defaultValue: new Time(14, 30, 15),
+        }),
+    ),
+    { attachTo: document.body },
+  );
+  expect(editable().map((segment) => segment.textContent)).toEqual(["14", "30"]);
+  granularity.value = "second";
+  await nextTick();
+  await nextTick();
+  expect(editable().map((segment) => segment.textContent)).toEqual(["14", "30", "15"]);
+  await userEvent.click(editable()[1]!);
+  await userEvent.keyboard("{ArrowRight}");
+  expect(document.activeElement).toBe(editable()[2]);
+  hourCycle.value = 12;
+  await nextTick();
+  await nextTick();
+  expect(editable().map((segment) => segment.textContent)).toEqual(["2", "30", "15", "PM"]);
+});
+
 const groupFrame = () => document.querySelector<HTMLElement>("[data-slot=input-group]")!;
 const groupControl = () => document.querySelector<HTMLElement>("[data-slot=input-group-control]")!;
 
@@ -216,4 +384,16 @@ it("fades the group when disabled inside it", () => {
   const addon = document.querySelector<HTMLElement>("[data-slot=input-group-addon]")!;
   expect(Number(getComputedStyle(addon).opacity)).toBeLessThan(1);
   expect(getComputedStyle(groupFrame()).borderTopColor).not.toBe("rgb(0, 0, 255)");
+});
+
+describe("InputTime control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s reads its height and padding tokens", (size) => {
+    render(h(InputTime, { size }));
+    const style = getComputedStyle(root());
+
+    expect(px(style.height)).toBe(sentinel.height[size]);
+    expect(px(style.paddingInlineStart)).toBe(sentinel.padding[size]);
+  });
 });

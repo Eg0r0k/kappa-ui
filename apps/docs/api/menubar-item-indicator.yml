@@ -1,0 +1,11 @@
+component: MenubarItemIndicator
+file: ui/menubar/MenubarItemIndicator.vue
+props:
+  forceMount:
+    description: "Keeps the indicator mounted while unchecked, for animating it. Needs `reka-ui` 2.11 or later."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+slots:
+  default: "The mark shown while the item is checked. Checkbox and radio items already render one."

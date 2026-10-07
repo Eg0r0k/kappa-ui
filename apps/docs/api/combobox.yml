@@ -23,10 +23,14 @@ props:
     description: "Opens the list when the input gets focus."
   openOnClick:
     description: "Opens the list when the input is clicked."
+  unmountOnHide:
+    description: "Turn off to keep the list mounted while closed, hidden with CSS, instead of rendering it again on every open. On by default. Needs `reka-ui` 2.11 or later."
   ignoreFilter:
     description: "Turns off the built-in filter, for filtering the options yourself, for example on a server."
   highlightOnHover:
     description: "Moves the highlight with the pointer. On by default."
+  loop:
+    description: "Wraps arrow-key navigation from the last option to the first and back. Needs `reka-ui` 2.11 or later."
   disabled:
     description: "Disables the input, the buttons and every option. Also set by a disabled field."
   required:

@@ -38,7 +38,7 @@ watch(
 <template>
   <div
     data-slot="command-input-wrapper"
-    class="flex h-[calc(var(--menu-item-height)+var(--menu-pad)*2)] shrink-0 items-center gap-(--menu-item-gap) border-b border-border px-[calc(var(--menu-pad)+var(--menu-item-px))] text-muted-foreground icon-size-(--menu-icon)"
+    class="flex h-[calc(var(--menu-item-height)+var(--menu-pad)*2)] shrink-0 items-center gap-(--menu-item-gap) px-[calc(var(--menu-pad)+var(--menu-item-px))] text-muted-foreground icon-size-(--menu-icon)"
   >
     <Search class="shrink-0" />
     <ListboxFilter

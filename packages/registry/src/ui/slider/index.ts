@@ -2,6 +2,8 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Slider } from "./Slider.vue";
 
+export type SliderColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 export const sliderVariants = cva(
   `
     group/slider relative flex h-(--slider-h) w-(--slider-w) touch-none items-center select-none slider-axis
@@ -53,12 +55,12 @@ export const sliderTrackVariants = cva(
   },
 );
 
-export const sliderRangeVariants = cva("absolute h-(--range-h) w-(--range-w) bg-tone", {
+export const sliderRangeVariants = cva("absolute h-(--range-h) w-(--range-w)", {
   variants: {
     variant: {
-      default: "rounded-full data-disabled:bg-foreground/(--disabled-opacity)",
+      default: "rounded-full bg-tone-text data-disabled:bg-foreground/(--disabled-opacity)",
       inset: `
-        slider-range-inset
+        slider-range-inset bg-tone
         data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
       `,
     },
@@ -104,7 +106,6 @@ export const sliderHandleVariants = cva(
     variants: {
       variant: {
         default: `
-          bg-tone
           group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-short-2
           group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
         `,
@@ -114,8 +115,17 @@ export const sliderHandleVariants = cva(
           group-data-disabled/thumb:bg-background
         `,
       },
+      // The shade of a default handle: Slider draws it on the page in --tone-text; ColorPicker shows the colour itself.
+      shade: {
+        fill: "",
+        text: "",
+      },
     },
-    defaultVariants: { variant: "default" },
+    compoundVariants: [
+      { variant: "default", shade: "fill", class: "bg-tone" },
+      { variant: "default", shade: "text", class: "bg-tone-text" },
+    ],
+    defaultVariants: { variant: "default", shade: "fill" },
   },
 );
 

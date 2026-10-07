@@ -158,12 +158,15 @@ const place = (toast: Toast) => {
   inset-inline: 0;
   bottom: 0;
   z-index: calc(100 - var(--toast-index));
-  height: var(--toast-front-height);
+  /* min- and max-height rather than height: Reka UI 2.11 measures a toast by setting its inline height to auto,
+     which would cut a height transition short */
+  min-height: var(--toast-front-height);
+  max-height: var(--toast-front-height);
   translate: 0 var(--toast-y);
   scale: calc(1 - min(var(--toast-index), 3) * 0.05);
   transform-origin: 50% 100%;
   opacity: calc(1 - max(var(--toast-index) - 2, 0));
-  transition-property: translate, scale, height, opacity, transform;
+  transition-property: translate, scale, min-height, max-height, opacity, transform;
   transition-duration: var(--transition-duration-medium-4, 400ms);
   transition-timing-function: var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
 
@@ -175,7 +178,8 @@ const place = (toast: Toast) => {
 
   .kappa-toaster:is(:hover, :focus-within, [data-expand]) > & {
     --toast-y: calc(var(--toast-sign) * (var(--toast-offset) + var(--toast-index) * var(--toast-gap)));
-    height: var(--toast-height);
+    min-height: var(--toast-height);
+    max-height: var(--toast-height);
     scale: 1;
     opacity: 1;
   }
@@ -208,7 +212,7 @@ const place = (toast: Toast) => {
 
   &[data-swipe="move"] {
     transform: translate(var(--reka-toast-swipe-move-x, 0px), var(--reka-toast-swipe-move-y, 0px));
-    transition-property: translate, scale, height, opacity;
+    transition-property: translate, scale, min-height, max-height, opacity;
   }
 
   &[data-swipe="end"] {

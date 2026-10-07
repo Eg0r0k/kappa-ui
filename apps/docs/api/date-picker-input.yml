@@ -1,0 +1,9 @@
+component: DatePickerInput
+file: ui/date-picker/DatePickerInput.vue
+props:
+  variant:
+    description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`. Defaults to the root's, then `outline`. Inside an input group, the group's."
+  size:
+    description: "The field's height, from 28px at `xs` to 48px at `xl`. Defaults to the root's, then `md`. Inside an input group, the group's. The calendar follows it unless it has its own."
+slots:
+  default: "What follows the segments in the frame. `DatePickerTrigger` by default; put your own trigger, or other buttons, here."

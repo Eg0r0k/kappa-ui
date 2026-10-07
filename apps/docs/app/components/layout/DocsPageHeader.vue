@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ChevronDown, Copy, FileText } from '@lucide/vue'
+import { Atom, ChevronDown, Copy, FileText, Layers, Package } from '@lucide/vue'
+import type { Component } from 'vue'
 
 import { Badge } from '@/ui/badge'
 import { Button } from '@/ui/button'
@@ -8,10 +9,12 @@ import { Menu, MenuItem, MenuTrigger } from '@/ui/menu'
 import { useToast } from '@/ui/toast'
 import GithubIcon from '~/components/GithubIcon.vue'
 import { badgeOf } from '~/lib/badges'
+import { type DependencyLabel, dependencyLinks } from '~/lib/dependencies'
 import { rawPath } from '~/lib/raw'
 import { findItem } from '~/lib/registry'
+import { loadSource } from '~/lib/sources'
 
-const props = defineProps<{ title: string; description?: string; path: string; component?: string; reka?: string }>()
+const props = defineProps<{ title: string; description?: string; path: string; component?: string }>()
 
 const toast = useToast()
 const now = ref<number>()
@@ -25,6 +28,22 @@ const source = computed(() => {
   if (!file) return undefined
   return `https://github.com/Eg0r0k/kappa-ui/tree/main/packages/registry/${file.slice(0, file.lastIndexOf('/'))}`
 })
+
+const { data: dependencies } = useAsyncData(`dependencies:${props.component ?? props.path}`, async () => {
+  const item = props.component ? findItem(props.component) : undefined
+  const files = item?.files ?? []
+  const sources = await Promise.all(
+    files.filter((file) => /\.(vue|ts)$/.test(file.path)).map((file) => loadSource(file.path)),
+  )
+  return dependencyLinks(sources, props.component ?? '', item?.dependencies ?? [])
+})
+
+const icons: Record<DependencyLabel, Component> = {
+  'Reka UI': Atom,
+  'Kappa UI': Package,
+  'TanStack Table': Layers,
+  'TanStack Virtual': Layers,
+}
 
 const copyPage = async () => {
   const markdown = await $fetch<string>(rawPath(props.path), { responseType: 'text' })
@@ -41,6 +60,25 @@ const copyPage = async () => {
     </div>
     <p v-if="props.description" class="text-lg text-muted-foreground">{{ props.description }}</p>
     <div class="flex flex-wrap items-center gap-2">
+      <Button
+        v-for="dependency in dependencies"
+        :key="dependency.href"
+        variant="soft"
+        color="neutral"
+        size="sm"
+        as-child
+      >
+        <a :href="dependency.href" target="_blank" rel="noreferrer">
+          <component :is="icons[dependency.label]" data-icon="inline-start" />
+          {{ dependency.label }}
+        </a>
+      </Button>
+      <Button v-if="source" variant="soft" color="neutral" size="sm" as-child>
+        <a :href="source" target="_blank" rel="noreferrer">
+          <GithubIcon data-icon="inline-start" class="size-4" />
+          Source
+        </a>
+      </Button>
       <ButtonGroup>
         <Button variant="soft" color="neutral" size="sm" @click="copyPage">
           <Copy data-icon="inline-start" />
@@ -67,15 +105,6 @@ const copyPage = async () => {
           </a>
         </MenuItem>
       </Menu>
-      <Button v-if="source" variant="ghost" color="neutral" size="sm" as-child>
-        <a :href="source" target="_blank" rel="noreferrer">
-          <GithubIcon data-icon="inline-start" class="size-4" />
-          Source
-        </a>
-      </Button>
-      <Button v-if="props.reka" variant="ghost" color="neutral" size="sm" as-child>
-        <a :href="props.reka" target="_blank" rel="noreferrer">Reka UI</a>
-      </Button>
     </div>
   </header>
 </template>

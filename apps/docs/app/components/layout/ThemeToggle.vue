@@ -14,7 +14,7 @@ const toggle = () => {
 <template>
   <Tooltip>
     <TooltipTrigger as-child>
-      <Button variant="ghost" color="neutral" size="icon" aria-label="Toggle theme" @click="toggle">
+      <Button variant="ghost" color="neutral" size="icon-md" aria-label="Toggle theme" @click="toggle">
         <Sun class="dark:hidden" />
         <Moon class="hidden dark:block" />
       </Button>

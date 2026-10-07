@@ -4,7 +4,7 @@ import SidebarFilter from '~/components/layout/SidebarFilter.vue'
 import SidebarNav from '~/components/layout/SidebarNav.vue'
 import type { PageOutline } from '~/lib/outline'
 import { badgeOf } from '~/lib/badges'
-import { groupOf, modKey, sidebarGroups } from '~/lib/sidebar'
+import { bestMatch, groupOf, modKey, navigablePages, pageId, sidebarGroups, stepPage } from '~/lib/sidebar'
 
 const props = defineProps<{ outline?: PageOutline }>()
 const emit = defineEmits<{ navigate: [] }>()
@@ -55,14 +55,63 @@ const search = (value: string) => {
   emit('navigate')
   show(value)
 }
+
+const prefix = `${useId()}-`
+const focused = ref(false)
+const highlighted = ref<string>()
+const pages = computed(() => navigablePages(groups.value, query.value, open.value))
+const active = computed(() =>
+  focused.value && pages.value.some((page) => page.path === highlighted.value) ? highlighted.value : undefined,
+)
+
+watch(query, (value) => {
+  highlighted.value = bestMatch(groups.value, value)?.path
+})
+watch(active, async (path) => {
+  if (!path) return
+  await nextTick()
+  document.getElementById(pageId(prefix, path))?.scrollIntoView({ block: 'nearest' })
+})
+
+const onFocus = () => {
+  focused.value = true
+  highlighted.value = bestMatch(groups.value, query.value)?.path
+}
+const onHighlight = (path: string) => {
+  if (focused.value) highlighted.value = path
+}
+const move = (delta: 1 | -1) => {
+  highlighted.value = stepPage(pages.value, active.value, delta, route.path)
+}
+
+const submit = async () => {
+  const page = pages.value.find((item) => item.path === active.value) ?? bestMatch(groups.value, query.value)
+  if (!page) {
+    search(query.value)
+    return
+  }
+  query.value = ''
+  emit('navigate')
+  await navigateTo(page.path)
+}
 </script>
 
 <template>
-  <div data-slot="docs-sidebar" class="flex h-full flex-col">
+  <div data-slot="docs-sidebar" class="flex h-full flex-col bg-card">
     <div class="p-4 pb-2">
-      <SidebarFilter v-model="query" />
+      <SidebarFilter
+        v-model="query"
+        :active-descendant="active && pageId(prefix, active)"
+        :controls="`${prefix}nav`"
+        @submit="submit"
+        @move="move"
+        @focus="onFocus"
+        @blur="focused = false"
+      />
     </div>
-    <ScrollArea class="min-h-0 flex-1">
+    <ScrollArea
+      class="min-h-0 flex-1 scroll-fade-overlay-y [--scroll-fade-color:var(--card)] [--scroll-fade-size:--spacing(6)]"
+    >
       <div class="px-4 pt-2 pb-6">
         <SidebarNav
           v-model:open="open"
@@ -71,11 +120,14 @@ const search = (value: string) => {
           :query="query"
           :outline="props.outline"
           :active-heading="activeHeading"
-          :current-example="demo?.selected.value?.slug"
+          :current-example="demo?.open.value ? demo.selected.value?.slug : undefined"
           :badges="badges"
           :mod="mod"
+          :id-prefix="prefix"
+          :highlighted="active"
           @navigate="emit('navigate')"
           @search="search"
+          @highlight="onHighlight"
         />
       </div>
     </ScrollArea>

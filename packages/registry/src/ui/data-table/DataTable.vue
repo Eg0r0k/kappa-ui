@@ -16,7 +16,7 @@ import type {
 } from "@tanstack/vue-table";
 import type { HTMLAttributes } from "vue";
 
-import type { TableDensity, TableOverflow } from "@/ui/table";
+import type { TableOverflow, TableSize } from "@/ui/table";
 import type {
   DataTableColumn,
   DataTableExpandingProp,
@@ -42,7 +42,7 @@ export type DataTableProps<T extends RowData> = {
   getRowId?: TableOptions<DataTableFeatures, T>["getRowId"];
   getSubRows?: (row: T) => readonly T[] | undefined;
   caption?: string;
-  density?: TableDensity;
+  size?: TableSize;
   striped?: boolean;
   hoverable?: boolean;
   height?: string | number;
@@ -76,8 +76,8 @@ export type DataTableProps<T extends RowData> = {
 </script>
 
 <script setup lang="ts" generic="T extends RowData">
-import { type Cell, type CellContext, FlexRender, type Header, type HeaderContext } from "@tanstack/vue-table";
-import { computed, nextTick, onBeforeUnmount, onMounted, type Ref, ref, shallowRef, watch } from "vue";
+import { type Cell, type CellContext, type Header, type HeaderContext } from "@tanstack/vue-table";
+import { computed, nextTick, onBeforeUnmount, onMounted, type Ref, ref, shallowRef, toRef, watch } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Progress } from "@/ui/progress";
@@ -91,6 +91,7 @@ import {
   type DataTableLoadDirection,
   type DataTableSelectAll,
   type DataTableSelectionSource,
+  DataTableRender,
   dataTableRowHeights,
   provideDataTableContext,
   resolveManual,
@@ -108,7 +109,7 @@ import { useRowVirtualizer } from "./useRowVirtualizer";
 import { useSelectAll } from "./useSelectAll";
 
 const props = withDefaults(defineProps<DataTableProps<T>>(), {
-  density: "md",
+  size: "md",
   striped: false,
   hoverable: true,
   overflow: "x",
@@ -220,7 +221,7 @@ const selectAll = useSelectAll<T>({
   manual: () => manualFlags.value.pagination || manualFlags.value.sorting || manualFlags.value.filtering,
   total: () => (manualFlags.value.pagination ? (props.rowCount ?? 0) : table.getPrePaginatedRowModel().rows.length),
 });
-provideDataTableContext({ selectAll });
+provideDataTableContext({ selectAll, size: toRef(() => props.size) });
 
 const tableRef = shallowRef<HTMLTableElement | null>(null);
 const theadRef = shallowRef<HTMLElement | null>(null);
@@ -246,7 +247,7 @@ const heightStyle = computed(() =>
     : { height: typeof props.height === "number" ? `${props.height}px` : props.height },
 );
 const scrolled = computed(() => props.height !== undefined);
-const rowHeight = computed(() => dataTableRowHeights[props.density]);
+const rowHeight = computed(() => dataTableRowHeights[props.size]);
 
 const virtualOptions = computed(() => resolveVirtualize(props.virtualize));
 const detailRows = computed(() => expanding.value.enabled && slots.expanded !== undefined);
@@ -593,7 +594,7 @@ const scrollerAttrs = computed(() =>
 <template>
   <div
     data-slot="data-table"
-    :data-density="props.density"
+    :data-size="props.size"
     :data-loading="props.loading ? '' : undefined"
     :class="cn('flex flex-col gap-3', props.ui?.root, props.class)"
     :style="{
@@ -628,7 +629,7 @@ const scrollerAttrs = computed(() =>
         ref="tableRef"
         data-slot="table"
         :data-layout="layoutMode"
-        :data-density="props.density"
+        :data-size="props.size"
         :data-striped="props.striped ? '' : undefined"
         :aria-rowcount="ariaRowCount"
         :aria-busy="props.loading ? 'true' : undefined"
@@ -677,7 +678,7 @@ const scrollerAttrs = computed(() =>
                 <template v-if="!header.isPlaceholder">
                   <slot :name="`header-${header.column.id}`" v-bind="header.getContext()">
                     <DataTableColumnHeader v-if="header.column.getCanSort()" :header="header" />
-                    <FlexRender v-else :header="header" />
+                    <DataTableRender v-else :header="header" />
                   </slot>
                 </template>
               </th>
@@ -700,11 +701,11 @@ const scrollerAttrs = computed(() =>
             <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
               <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
                 <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                  <FlexRender :cell="cell" />
+                  <DataTableRender :cell="cell" />
                 </slot>
               </DataTableGroupCell>
               <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                <FlexRender :cell="cell" />
+                <DataTableRender :cell="cell" />
               </slot>
             </td>
             <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
@@ -753,11 +754,11 @@ const scrollerAttrs = computed(() =>
               <td v-for="cell in segment.row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
                 <DataTableGroupCell v-if="cell.getIsGrouped()" :row="segment.row">
                   <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                    <FlexRender :cell="cell" />
+                    <DataTableRender :cell="cell" />
                   </slot>
                 </DataTableGroupCell>
                 <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                  <FlexRender :cell="cell" />
+                  <DataTableRender :cell="cell" />
                 </slot>
               </td>
               <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
@@ -816,11 +817,11 @@ const scrollerAttrs = computed(() =>
             <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
               <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
                 <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                  <FlexRender :cell="cell" />
+                  <DataTableRender :cell="cell" />
                 </slot>
               </DataTableGroupCell>
               <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                <FlexRender :cell="cell" />
+                <DataTableRender :cell="cell" />
               </slot>
             </td>
             <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
@@ -869,7 +870,7 @@ const scrollerAttrs = computed(() =>
                 :class="infoOf(header.column.id)?.tdClass ?? cn(tableStyles.cell, props.ui?.td)"
               >
                 <slot v-if="!header.isPlaceholder" :name="`footer-${header.column.id}`" v-bind="header.getContext()">
-                  <FlexRender :footer="header" />
+                  <DataTableRender :footer="header" />
                 </slot>
               </td>
             </template>

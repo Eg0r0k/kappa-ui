@@ -1,10 +1,12 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { InputNumber, InputNumberDecrement, InputNumberIncrement, InputNumberInput } from "@/ui/input-number";
+
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -233,4 +235,18 @@ it("exposes the input element through the part's ref", async () => {
   );
   await nextTick();
   expect((exposed as { $el: HTMLElement }).$el).toBe(input());
+});
+
+describe("InputNumber control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s reads its height token", (size) => {
+    render(field({ size }));
+    expect(px(getComputedStyle(root()).height)).toBe(sentinel.height[size]);
+  });
+
+  it.each(controlSizes)("a bare %s input reads the padding token", (size) => {
+    render(h(InputNumber, { size }, () => h(InputNumberInput)));
+    expect(px(getComputedStyle(input()).paddingInlineStart)).toBe(sentinel.padding[size]);
+  });
 });

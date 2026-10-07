@@ -1,9 +1,11 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h } from "vue";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 const settle = (ms = 350) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -130,6 +132,34 @@ it("draws a line along the list's edge for the line variant", async () => {
   expect(near(bar.bottom, list().getBoundingClientRect().bottom)).toBe(true);
 });
 
+it("draws the line indicator in its color's text shade, primary by default", async () => {
+  renderTabs({}, { variant: "line", style: "--primary: rgb(0, 0, 255)" });
+  await settle();
+  expect(list().dataset.color).toBe("primary");
+  expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(0, 0, 255)");
+  unmount?.();
+
+  renderTabs(
+    {},
+    { variant: "line", color: "success", style: "--success: rgb(0, 200, 0); --success-text: rgb(0, 90, 0)" },
+  );
+  await settle();
+  expect(list().dataset.color).toBe("success");
+  expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(0, 90, 0)");
+  unmount?.();
+
+  const style = document.createElement("style");
+  style.textContent = '@layer base { [data-slot][data-color="brand"] { --tone-text: rgb(255, 0, 200); } }';
+  document.head.append(style);
+  try {
+    renderTabs({}, { variant: "line", color: "brand" });
+    await settle();
+    expect(getComputedStyle(indicator()).backgroundColor).toBe("rgb(255, 0, 200)");
+  } finally {
+    style.remove();
+  }
+});
+
 it("keeps the pill thumb concentric with its track", async () => {
   for (const size of ["xs", "md", "xl"] as const) {
     renderTabs({}, { size });
@@ -182,4 +212,18 @@ it("slides the indicator under the active trigger in right-to-left", async () =>
   const second = triggers()[1]!.getBoundingClientRect();
   bar = indicator().getBoundingClientRect();
   expect(near(bar.left, second.left) && near(bar.width, second.width)).toBe(true);
+});
+
+describe("Tabs control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s triggers read the height, padding, icon and gap tokens", (size) => {
+    renderTabs({}, { size });
+    const trigger = triggers()[0]!;
+
+    expect(trigger.offsetHeight).toBe(sentinel.height[size]);
+    expect(px(getComputedStyle(trigger).paddingInlineStart)).toBe(sentinel.padding[size]);
+    expect(px(getComputedStyle(trigger).getPropertyValue("--tabs-icon"))).toBe(sentinel.icon[size]);
+    expect(px(getComputedStyle(trigger).columnGap)).toBe(sentinel.gap[size]);
+  });
 });

@@ -1,0 +1,15 @@
+component: NavigationMenuLink
+file: ui/navigation-menu/NavigationMenuLink.vue
+props:
+  active:
+    description: "Marks the link as the current page with `aria-current=\"page\"` and the selected look."
+  disabled:
+    description: "Keeps the link focusable and announced, with `aria-disabled`, but a click neither follows it nor closes the menu."
+  as:
+    description: "The element or component to render; an `a` by default."
+  asChild:
+    description: "Render the single child, such as your router's link, merging the link's attributes and classes onto it."
+emits:
+  select: "Fires when the link is chosen by click or keyboard. Call `event.preventDefault()` to keep the menu open."
+slots:
+  default: "The link text. In a panel, a title and an optional description under it; a leading icon puts them in a row."

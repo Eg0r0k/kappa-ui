@@ -27,6 +27,8 @@ const markdown = [
   '  ',
   '  `Input` now exports `textControlFrameVariant`.',
   '',
+  `- [#12](https://github.com/Eg0r0k/kappa-ui/pull/12) ${entry('d9c272f', 'New `DatePicker`.').slice(2)}`,
+  '',
   '### Patch Changes',
   '',
   entry('f4d7e8e', "ScrollArea's scrollbar carries `data-no-drag`."),
@@ -47,6 +49,7 @@ describe('parseChangelog', () => {
     expect(releases[0]!.entries.map((item) => [item.hash, item.bump])).toEqual([
       ['f3e1bd4', 'minor'],
       ['0c326fd', 'minor'],
+      ['d9c272f', 'minor'],
       ['f4d7e8e', 'patch'],
     ])
     expect(releases[0]!.entries[1]!.text).toBe(
@@ -93,6 +96,14 @@ describe('introduces', () => {
     expect(introduces('`InputFloating` is the input with a floating label', 'InputFloating')).toBe(true)
     expect(introduces('Add `MenuTrigger`: a part', 'Menu')).toBe(false)
     expect(introduces('Drawer: `DrawerIndent` scales the page', 'Drawer')).toBe(false)
+  })
+
+  it('finds a component later in the list an entry opens with, by component or item name', () => {
+    expect(introduces('New `Calendar` and `RangeCalendar`: a grid', 'RangeCalendar')).toBe(true)
+    expect(introduces('New `Tabs`, `Tree` and `Toast`', 'Tree')).toBe(true)
+    expect(introduces('New `navigation-menu` item: `NavigationMenu`', 'NavigationMenu', 'navigation-menu')).toBe(true)
+    expect(introduces('New `Calendar`, built on `RangeCalendar`', 'RangeCalendar')).toBe(false)
+    expect(introduces('`DatePicker` and `DateRangePicker` take a size', 'DateRangePicker')).toBe(false)
   })
 })
 

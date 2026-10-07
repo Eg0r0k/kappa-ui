@@ -20,13 +20,14 @@ const NuxtLink = defineComponent({
 const groups: SidebarGroup[] = [
   {
     key: 'actions',
+    section: 'components',
     title: 'Actions',
     pages: [
       { title: 'Button', path: '/docs/components/button' },
       { title: 'Toggle Group', path: '/docs/components/toggle-group' },
     ],
   },
-  { key: 'forms', title: 'Forms', pages: [{ title: 'Field', path: '/docs/components/field' }] },
+  { key: 'forms', title: 'Forms', section: 'components', pages: [{ title: 'Field', path: '/docs/components/field' }] },
 ]
 
 const outline = {
@@ -159,5 +160,73 @@ describe('SidebarFilter', () => {
     await userEvent.click(document.querySelector('#other')!)
     await userEvent.keyboard('/')
     expect(document.activeElement!.id).toBe('other')
+  })
+})
+
+describe('SidebarNav keyboard highlight', () => {
+  it('marks the highlighted page, names every page link by id, and reports pointer moves', async () => {
+    const highlighted: string[] = []
+    renderNav({
+      idPrefix: 'side-',
+      highlighted: '/docs/components/toggle-group',
+      onHighlight: (path: string) => highlighted.push(path),
+    })
+    const link = document.querySelector<HTMLAnchorElement>('#side--docs-components-toggle-group')!
+
+    expect(link.dataset.highlighted).toBe('')
+    expect(document.querySelector('#side--docs-components-button')!.hasAttribute('data-highlighted')).toBe(false)
+    expect(document.querySelector('nav')!.id).toBe('side-nav')
+
+    await userEvent.hover(document.querySelector('#side--docs-components-button')!)
+    expect(highlighted.at(-1)).toBe('/docs/components/button')
+  })
+})
+
+describe('SidebarFilter keys', () => {
+  it('moves with the arrows, submits on Enter, clears on Escape and points at the highlighted page', async () => {
+    const query = ref('tog')
+    const moves: number[] = []
+    let submits = 0
+    mount(
+      {
+        setup: () => () =>
+          h(SidebarFilter, {
+            modelValue: query.value,
+            'onUpdate:modelValue': (value: string) => (query.value = value),
+            activeDescendant: 'side--docs-components-toggle',
+            controls: 'side-nav',
+            onMove: (delta: number) => moves.push(delta),
+            onSubmit: () => submits++,
+          }),
+      },
+      { attachTo: document.body },
+    )
+    const input = document.querySelector<HTMLInputElement>('[data-slot=sidebar-filter] input')!
+
+    expect(input.getAttribute('aria-activedescendant')).toBe('side--docs-components-toggle')
+    expect(input.getAttribute('aria-controls')).toBe('side-nav')
+
+    input.focus()
+    await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowUp}{Enter}')
+    expect(moves).toEqual([1, 1, -1])
+    expect(submits).toBe(1)
+
+    await userEvent.keyboard('{Escape}')
+    expect(query.value).toBe('')
+  })
+})
+
+describe('SidebarFilter in a hidden sidebar', () => {
+  it('leaves / alone when the sidebar is hidden with visibility', async () => {
+    mount(
+      { setup: () => () => h('aside', { style: 'visibility: hidden' }, [h(SidebarFilter, { modelValue: '' })]) },
+      { attachTo: document.body },
+    )
+    let prevented: boolean | undefined
+    window.addEventListener('keydown', (event) => (prevented = event.defaultPrevented), { once: true })
+
+    await userEvent.keyboard('/')
+    expect(prevented).toBe(false)
+    expect(document.activeElement).toBe(document.body)
   })
 })

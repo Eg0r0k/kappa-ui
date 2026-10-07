@@ -14,7 +14,7 @@ onMounted(() => {
 
 <template>
   <Button
-    variant="outline"
+    variant="soft"
     color="neutral"
     size="sm"
     aria-keyshortcuts="Meta+K Control+K"
@@ -28,7 +28,7 @@ onMounted(() => {
   <Button
     variant="ghost"
     color="neutral"
-    size="icon"
+    size="icon-md"
     aria-label="Search"
     aria-keyshortcuts="Meta+K Control+K"
     class="md:hidden"

@@ -30,6 +30,7 @@ afterEach(() => {
   unmount?.();
   unmount = undefined;
   document.body.innerHTML = "";
+  document.documentElement.removeAttribute("dir");
 });
 
 const render = (
@@ -63,6 +64,20 @@ const settle = async () => {
 };
 const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot=${name}]`);
 const translateY = (element: HTMLElement) => parseFloat(getComputedStyle(element).translate.split(" ")[1] ?? "0") || 0;
+// A transition only moves when a rendered frame advances the document timeline. One slow frame after a release
+// can take longer than any fixed wait, and the value read then is still the one it started from, so wait for the
+// release's own transition to have run before reading where it has got to.
+const runningTranslate = async (element: HTMLElement) => {
+  const transition = element
+    .getAnimations()
+    .find(
+      (animation): animation is CSSTransition =>
+        animation instanceof CSSTransition && animation.transitionProperty === "translate",
+    );
+  expect(transition).toBeDefined();
+  await expect.poll(() => Number(transition!.currentTime ?? 0)).toBeGreaterThan(0);
+  return transition!;
+};
 const animations = (element: HTMLElement) =>
   element
     .getAnimations()
@@ -112,6 +127,47 @@ it("takes its side classes from the root and hides the handle on the sides", asy
   expect(slot("drawer-content")!.classList.contains("touch-pan-y")).toBe(true);
   expect(slot("drawer-handle")).toBeNull();
 });
+
+it.each([
+  ["ltr", "left"],
+  ["ltr", "right"],
+  ["rtl", "left"],
+  ["rtl", "right"],
+] as const)(
+  "in %s, keeps a %s drawer on its screen edge with the corners and handle on its inner edge",
+  async (dir, side) => {
+    document.documentElement.dir = dir;
+    render({ side }, { showHandle: true });
+    await settle();
+    await wait(500);
+    const content = slot("drawer-content")!;
+    const panel = content.getBoundingClientRect();
+    const handle = slot("drawer-handle")!.getBoundingClientRect();
+    const area = slot("drawer-swipe-area")!.getBoundingClientRect();
+    const style = getComputedStyle(content);
+    const left = [style.borderTopLeftRadius, style.borderBottomLeftRadius];
+    const right = [style.borderTopRightRadius, style.borderBottomRightRadius];
+    const [inner, outer] = side === "left" ? [right, left] : [left, right];
+
+    // the box fixed elements are placed in: under rtl the page scrollbar moves to the left
+    const probe = document.body.appendChild(
+      Object.assign(document.createElement("div"), { style: "position:fixed;inset:0" }),
+    );
+    const viewport = probe.getBoundingClientRect();
+
+    expect(outer).toEqual(["0px", "0px"]);
+    for (const radius of inner) expect(parseFloat(radius)).toBeGreaterThan(0);
+    if (side === "left") {
+      expect(panel.left).toBe(viewport.left);
+      expect(panel.right - handle.right).toBeCloseTo(8, 0);
+      expect(area.left).toBe(viewport.left);
+    } else {
+      expect(panel.right).toBe(viewport.right);
+      expect(handle.left - panel.left).toBeCloseTo(8, 0);
+      expect(area.right).toBe(viewport.right);
+    }
+  },
+);
 
 it("lets class replace the background and showHandle/showCloseButton flip the defaults", async () => {
   render({}, { class: "bg-red-500", showHandle: false, showCloseButton: true });
@@ -189,12 +245,13 @@ it("returns a released drag by its transition instead of replaying the enter ani
   expect(held).toBeCloseTo(50, 0);
   pointer("pointerup", body, 100, 160);
   await settle();
-  await wait(30);
   expect(open.value).toBe(true);
   expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(animations(content)).toContain("transition:translate");
+  const release = await runningTranslate(content);
+  expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(translateY(content)).toBeLessThan(held);
-  await wait(400);
+  await release.finished;
   expect(translateY(content)).toBe(0);
 
   open.value = false;
@@ -243,12 +300,13 @@ it("settles a swipe-to-open release by its transition instead of replaying the e
   expect(held).toBeGreaterThan(0);
   pointer("pointerup", area, 100, 400);
   await settle();
-  await wait(30);
   expect(open.value).toBe(true);
   expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(animations(content)).toContain("transition:translate");
+  const release = await runningTranslate(content);
+  expect(animations(content)).not.toContain("kappa-drawer-in-bottom");
   expect(translateY(content)).toBeLessThan(held);
-  await wait(400);
+  await release.finished;
   expect(translateY(content)).toBe(0);
 });
 

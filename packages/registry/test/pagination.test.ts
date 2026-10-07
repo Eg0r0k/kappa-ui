@@ -13,6 +13,8 @@ import {
   PaginationPrevious,
 } from "@/ui/pagination";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 type Item = { type: "page"; value: number } | { type: "ellipsis" };
 
 afterEach(() => {
@@ -139,5 +141,22 @@ describe("Pagination", () => {
 
     expect(link(1).tagName).toBe("A");
     expect(link(1).getAttribute("aria-current")).toBe("page");
+  });
+});
+
+describe("Pagination control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("%s pages are at least the height token wide, the ellipsis is its square", (size) => {
+    render({ size, total: 200, showEdges: true });
+    const ellipsis = slot("pagination-ellipsis").getBoundingClientRect();
+
+    expect(px(getComputedStyle(link(1)).minWidth)).toBe(sentinel.height[size]);
+    expect([ellipsis.width, ellipsis.height]).toEqual([sentinel.height[size], sentinel.height[size]]);
+  });
+
+  it.each(controlSizes)("the %s ellipsis icon reads the icon token", (size) => {
+    render({ size, total: 200, showEdges: true });
+    expect(slot("pagination-ellipsis").querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[size]);
   });
 });

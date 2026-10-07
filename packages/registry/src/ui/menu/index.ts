@@ -23,25 +23,29 @@ export const menuSizeVariants = cva("group/menu p-(--menu-pad)", {
   variants: {
     size: {
       xs: `
-        rounded-lg text-body-sm [--menu-pad:--spacing(0.5)] [--menu-item-height:--spacing(7)]
-        [--menu-item-px:--spacing(2)] [--menu-item-py:--spacing(1.5)] [--menu-item-gap:--spacing(2)]
-        [--menu-icon:--spacing(3.5)]
+        rounded-lg text-body-sm [--menu-pad:--spacing(0.5)] [--menu-item-height:var(--control-height-xs)]
+        [--menu-item-px:var(--control-padding-xs)] [--menu-item-py:--spacing(1.5)]
+        [--menu-item-gap:var(--control-gap-xs)] [--menu-icon:var(--control-icon-xs)]
       `,
       sm: `
-        text-body-sm [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(8)] [--menu-item-px:--spacing(2.5)]
-        [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(2.5)] [--menu-icon:--spacing(4)]
+        text-body-sm [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-sm)]
+        [--menu-item-px:var(--control-padding-sm)] [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-sm)]
+        [--menu-icon:var(--control-icon-sm)]
       `,
       md: `
-        text-body-md [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(9)] [--menu-item-px:--spacing(3)]
-        [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(3)] [--menu-icon:--spacing(4)]
+        text-body-md [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-md)]
+        [--menu-item-px:var(--control-padding-md)] [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-md)]
+        [--menu-icon:var(--control-icon-md)]
       `,
       lg: `
-        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(10)] [--menu-item-px:--spacing(3)]
-        [--menu-item-py:--spacing(2)] [--menu-item-gap:--spacing(3)] [--menu-icon:--spacing(5)]
+        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-lg)]
+        [--menu-item-px:var(--control-padding-lg)] [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-lg)]
+        [--menu-icon:var(--control-icon-lg)]
       `,
       xl: `
-        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:--spacing(12)] [--menu-item-px:--spacing(4)]
-        [--menu-item-py:--spacing(3)] [--menu-item-gap:--spacing(3)] [--menu-icon:--spacing(5)]
+        text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-xl)]
+        [--menu-item-px:var(--control-padding-xl)] [--menu-item-py:--spacing(3)] [--menu-item-gap:var(--control-gap-xl)]
+        [--menu-icon:var(--control-icon-xl)]
       `,
     },
   },
@@ -54,7 +58,7 @@ export type MenuSize = NonNullable<VariantProps<typeof menuSizeVariants>["size"]
 
 export const [injectMenuSize, provideMenuSize] = createContext<Ref<MenuSize>>("MenuContent");
 
-const indicatorInset = "ps-[calc(var(--menu-item-px)*2+var(--menu-icon))]";
+const indicatorInset = "ps-[calc(var(--menu-item-px)+var(--menu-icon)+var(--menu-item-gap))]";
 
 export const menuItem = `
   group/menu-item relative flex min-h-(--menu-item-height) cursor-default items-center gap-(--menu-item-gap) rounded-lg
@@ -66,7 +70,7 @@ export const menuItem = `
   data-highlighted:before:opacity-(--state-hover)
   active:before:opacity-(--state-pressed)
   data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)
-  data-inset:ps-[calc(var(--menu-item-px)*2+var(--menu-icon))]
+  data-inset:ps-[calc(var(--menu-item-px)+var(--menu-icon)+var(--menu-item-gap))]
   data-[variant=destructive]:text-destructive
   data-[variant=destructive]:before:bg-destructive
   forced-colors:before:hidden
@@ -95,7 +99,7 @@ const labelText = `
   group-data-[size=xl]/menu:text-label-lg
 `;
 
-export const menuLabel = `px-(--menu-item-px) pt-(--menu-item-py) pb-1 ${labelText} text-muted-foreground data-inset:ps-[calc(var(--menu-item-px)*2+var(--menu-icon))]`;
+export const menuLabel = `px-(--menu-item-px) pt-(--menu-item-py) pb-1 ${labelText} text-muted-foreground data-inset:ps-[calc(var(--menu-item-px)+var(--menu-icon)+var(--menu-item-gap))]`;
 
 export const menuSeparator = "-mx-(--menu-pad) my-(--menu-pad) h-px shrink-0 bg-border";
 

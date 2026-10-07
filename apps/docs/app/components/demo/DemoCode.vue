@@ -14,6 +14,15 @@ const current = computed(() => files.value?.find((file) => file.filename === cho
 const choose = (value: string | number) => {
   chosen.value = String(value)
 }
+const shown = ref(false)
+watch(
+  files,
+  (value) => {
+    if (value?.length) requestAnimationFrame(() => (shown.value = true))
+  },
+  { immediate: true },
+)
+
 const basename = (filename: string) => filename.slice(filename.lastIndexOf('/') + 1)
 </script>
 
@@ -39,7 +48,13 @@ const basename = (filename: string) => filename.slice(filename.lastIndexOf('/') 
       <CopyButton v-if="current" :value="current.source" @copied="toast.add({ title: 'Copied', color: 'success' })" />
     </div>
     <TabsContent v-for="file in files" :key="file.filename" :value="file.filename" class="min-h-0 flex-1">
-      <ScrollArea class="h-full bg-card">
+      <ScrollArea
+        orientation="both"
+        :class="[
+          'h-full bg-card transition-opacity duration-medium-2 ease-standard motion-reduce:transition-none',
+          shown ? 'opacity-100' : 'opacity-0',
+        ]"
+      >
         <div class="p-4 text-sm leading-6" v-html="file.html" />
       </ScrollArea>
     </TabsContent>

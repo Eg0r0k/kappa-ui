@@ -11,7 +11,6 @@ export const buttonVariants = cva(
     forced-colors:border
     disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity)
     [&_svg]:pointer-events-none [&_svg]:shrink-0
-    icon-size-4
     aria-disabled:cursor-default aria-disabled:text-foreground/(--disabled-opacity)
   `,
   {
@@ -44,28 +43,57 @@ export const buttonVariants = cva(
       },
       size: {
         xs: `
-          h-7 gap-1 rounded-md px-2.5 text-label-sm [--touch-h:1.75rem]
+          h-(--control-height-xs) gap-(--control-gap-xs) rounded-md px-2.5 text-label-sm
+          [--touch-h:var(--control-height-xs)]
           has-data-[icon=inline-start]:ps-2
           has-data-[icon=inline-end]:pe-2
-          icon-size-3.5
+          icon-size-(--control-icon-xs)
         `,
         sm: `
-          h-8 gap-1.5 px-3 text-label-md [--touch-h:2rem]
+          h-(--control-height-sm) gap-(--control-gap-sm) px-3 text-label-md [--touch-h:var(--control-height-sm)]
           has-data-[icon=inline-start]:ps-2.5
           has-data-[icon=inline-end]:pe-2.5
+          icon-size-(--control-icon-sm)
         `,
-        default: "h-9 px-4 py-2 [--touch-h:2.25rem] has-data-[icon=inline-start]:ps-3 has-data-[icon=inline-end]:pe-3",
-        lg: "h-10 px-6 [--touch-h:2.5rem] has-data-[icon=inline-start]:ps-4 has-data-[icon=inline-end]:pe-4",
+        md: `
+          h-(--control-height-md) gap-(--control-gap-md) px-4 py-2 [--touch-h:var(--control-height-md)]
+          has-data-[icon=inline-start]:ps-3
+          has-data-[icon=inline-end]:pe-3
+          icon-size-(--control-icon-md)
+        `,
+        lg: `
+          h-(--control-height-lg) gap-(--control-gap-lg) px-6 [--touch-h:var(--control-height-lg)]
+          has-data-[icon=inline-start]:ps-4
+          has-data-[icon=inline-end]:pe-4
+          icon-size-(--control-icon-lg)
+        `,
         xl: `
-          h-12 rounded-xl px-8 text-title-md [--touch-h:3rem]
+          h-(--control-height-xl) gap-(--control-gap-xl) rounded-xl px-8 text-title-md
+          [--touch-h:var(--control-height-xl)]
           has-data-[icon=inline-start]:ps-6
           has-data-[icon=inline-end]:pe-6
+          icon-size-(--control-icon-xl)
         `,
-        "icon-xs": "size-7 rounded-md [--touch-w:1.75rem] [--touch-h:1.75rem] icon-size-3.5",
-        "icon-sm": "size-8 [--touch-w:2rem] [--touch-h:2rem]",
-        icon: "size-9 [--touch-w:2.25rem] [--touch-h:2.25rem]",
-        "icon-lg": "size-10 [--touch-w:2.5rem] [--touch-h:2.5rem]",
-        "icon-xl": "size-12 rounded-xl [--touch-w:3rem] [--touch-h:3rem]",
+        "icon-xs": `
+          size-(--control-height-xs) rounded-md [--touch-w:var(--control-height-xs)]
+          [--touch-h:var(--control-height-xs)] icon-size-(--control-icon-xs)
+        `,
+        "icon-sm": `
+          size-(--control-height-sm) [--touch-w:var(--control-height-sm)] [--touch-h:var(--control-height-sm)]
+          icon-size-(--control-icon-sm)
+        `,
+        "icon-md": `
+          size-(--control-height-md) [--touch-w:var(--control-height-md)] [--touch-h:var(--control-height-md)]
+          icon-size-(--control-icon-md)
+        `,
+        "icon-lg": `
+          size-(--control-height-lg) [--touch-w:var(--control-height-lg)] [--touch-h:var(--control-height-lg)]
+          icon-size-(--control-icon-lg)
+        `,
+        "icon-xl": `
+          size-(--control-height-xl) rounded-xl [--touch-w:var(--control-height-xl)]
+          [--touch-h:var(--control-height-xl)] icon-size-(--control-icon-xl)
+        `,
       },
       focusRing: {
         outward: "focus-visible:focus-ring",
@@ -79,7 +107,7 @@ export const buttonVariants = cva(
     },
     defaultVariants: {
       variant: "solid",
-      size: "default",
+      size: "md",
       touchTarget: "none",
       focusRing: "outward",
     },
@@ -87,3 +115,4 @@ export const buttonVariants = cva(
 );
 
 export type ButtonVariants = VariantProps<typeof buttonVariants>;
+export type ButtonSize = NonNullable<ButtonVariants["size"]>;

@@ -55,6 +55,8 @@ props:
     description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
   as:
     description: "The element or component to render."
+  size:
+    description: "Item height, padding and text, `xs` to `xl` as on Menu. Left out, the list takes the anchor's size."
 emits:
   escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
   pointerDownOutside: "Fires on a pointer press outside. Call `preventDefault()` to keep it open."

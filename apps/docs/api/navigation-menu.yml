@@ -1,0 +1,39 @@
+component: NavigationMenu
+file: ui/navigation-menu/NavigationMenu.vue
+props:
+  modelValue:
+    description: "The `value` of the item whose panel is open, bound with `v-model`. An empty string means none."
+  defaultValue:
+    description: "The item open at first when `v-model` is not used."
+  dir:
+    description: "Reading direction. Inherits from a surrounding `ConfigProvider` when not set. Otherwise `ltr`. Arrow keys and `align` follow it."
+  orientation:
+    description: "`horizontal` lays the items out in a row with panels below; `vertical` in a column with panels beside it. Changing it remounts the menu, which closes it."
+  delayDuration:
+    description: "Milliseconds the pointer rests on a trigger before its panel opens."
+  skipDelayDuration:
+    description: "Milliseconds after a panel closes during which hovering another trigger opens it without the delay."
+  disableClickTrigger:
+    description: "A mouse click no longer opens or closes a panel. Keyboard and touch still do."
+  disableHoverTrigger:
+    description: "Hovering a trigger no longer opens its panel; only a click or a key does."
+  disablePointerLeaveClose:
+    description: "The panel stays open when the pointer leaves the menu."
+  unmountOnHide:
+    description: "Removes a closed panel's content from the DOM. Turn it off to keep every panel's links in the page, hidden."
+  size:
+    description: "Item height, from 28px for `xs` to 48px for `xl`, with matching padding, text and icon size. Panel links follow it."
+  variant:
+    description: "`ghost` gives items a hover and current-page fill; `link` underlines them instead."
+  viewport:
+    description: "Opens every panel in one shared viewport under the list, which resizes between them. Turn it off to open each panel under its own trigger."
+  align:
+    description: "Where the shared viewport lines up with the open trigger. `start` and `end` follow the reading direction; in a vertical menu they are the top and bottom edges."
+  as:
+    description: "The element or component to render; a `nav` by default."
+  asChild:
+    description: "Render the single child instead of the `nav`, merging this part's attributes and classes onto it."
+emits:
+  update:modelValue: "Fires with the item's `value` when a panel opens, and with an empty string when it closes."
+slots:
+  default: "The `NavigationMenuList`. Receives `modelValue`. The viewport is added after it."

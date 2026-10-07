@@ -32,7 +32,8 @@ const createDemo = (source: DemoSource) => {
   const previous = computed(() => neighbourExample(examples.value, selected.value, -1))
   const next = computed(() => neighbourExample(examples.value, selected.value, 1))
 
-  const select = (slug: string) => router.replace({ query: route.query, hash: `#${slug}`, state: { demo: true } })
+  const quietly = (hash: string) => router.replace({ query: route.query, hash, state: { demo: true } })
+  const select = (slug: string) => quietly(`#${slug}`)
 
   const scheme = ref<DemoScheme>('site')
   const colorScheme = computed<ColorScheme>(() => {
@@ -43,6 +44,7 @@ const createDemo = (source: DemoSource) => {
   const color = ref<Tone>('primary')
   const inspect = ref(false)
   const restart = ref(0)
+  const open = ref(false)
   const expanded = ref(false)
   const resizing = ref(false)
   const width = ref(clampWidth(cookie.value))
@@ -50,6 +52,27 @@ const createDemo = (source: DemoSource) => {
   const commitWidth = () => {
     cookie.value = width.value
   }
+
+  const show = (slug: string, expand = false) => {
+    select(slug)
+    open.value = true
+    expanded.value = expand
+  }
+
+  const close = () => {
+    open.value = false
+    expanded.value = false
+    quietly('')
+  }
+
+  const enter = () => {
+    const slug = decodeURIComponent(route.hash.replace(/^#/, ''))
+    open.value = examples.value.some((example) => example.slug === slug)
+    expanded.value = false
+  }
+
+  onMounted(enter)
+  watch([() => route.path, examples], enter)
 
   return {
     examples,
@@ -66,6 +89,9 @@ const createDemo = (source: DemoSource) => {
     color,
     inspect,
     restart,
+    open,
+    show,
+    close,
     expanded,
     resizing,
     width,

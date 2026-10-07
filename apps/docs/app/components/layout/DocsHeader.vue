@@ -18,11 +18,11 @@ const version = useRuntimeConfig().public.registryVersion
 </script>
 
 <template>
-  <header data-slot="docs-header" class="sticky top-0 z-40 border-b bg-background">
+  <header data-slot="docs-header" class="sticky top-0 z-40 border-b bg-card">
     <div class="flex h-14 items-center gap-2 px-4">
       <Tooltip v-if="props.navigation">
         <TooltipTrigger as-child>
-          <Button variant="ghost" color="neutral" size="icon" aria-label="Toggle navigation" @click="toggle">
+          <Button variant="ghost" color="neutral" size="icon-md" aria-label="Toggle navigation" @click="toggle">
             <PanelLeft />
           </Button>
         </TooltipTrigger>
@@ -37,7 +37,7 @@ const version = useRuntimeConfig().public.registryVersion
         <SearchTrigger />
         <Tooltip>
           <TooltipTrigger as-child>
-            <Button variant="ghost" color="neutral" size="icon" as-child>
+            <Button variant="ghost" color="neutral" size="icon-md" as-child>
               <a href="https://github.com/Eg0r0k/kappa-ui" target="_blank" rel="noreferrer" aria-label="GitHub">
                 <GithubIcon />
               </a>

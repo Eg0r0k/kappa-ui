@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import { createContext } from "reka-ui";
-import type { ComputedRef } from "vue";
+import type { ComputedRef, Ref } from "vue";
 
 import { type TextControlSize, textControlBase, textControlFrameVariant, textControlRadius } from "@/ui/input";
 
@@ -17,8 +17,15 @@ export { default as ComboboxSeparator } from "./ComboboxSeparator.vue";
 export { default as ComboboxTrigger } from "./ComboboxTrigger.vue";
 export { default as ComboboxViewport } from "./ComboboxViewport.vue";
 
+export type ComboboxSize = TextControlSize;
+
+export const [injectComboboxSize, provideComboboxSize] = createContext<Ref<ComboboxSize | undefined>>("Combobox");
+
 export const [injectComboboxAnchorContext, provideComboboxAnchorContext] =
-  createContext<ComputedRef<{ size: TextControlSize }>>("ComboboxAnchor");
+  createContext<ComputedRef<{ size: ComboboxSize }>>("ComboboxAnchor");
+
+export const [injectComboboxListContext, provideComboboxListContext] =
+  createContext<ComputedRef<{ size: ComboboxSize }>>("ComboboxList");
 
 export const comboboxAnchorVariants = cva(
   `
@@ -29,11 +36,11 @@ export const comboboxAnchorVariants = cva(
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `h-7 ${textControlRadius.xs} [--control-padding:--spacing(2)]`,
-        sm: `h-8 ${textControlRadius.sm} [--control-padding:--spacing(2.5)]`,
-        md: `h-9 ${textControlRadius.md} [--control-padding:--spacing(3)]`,
-        lg: `h-10 ${textControlRadius.lg} [--control-padding:--spacing(3)]`,
-        xl: `h-12 ${textControlRadius.xl} [--control-padding:--spacing(4)]`,
+        xs: `h-(--control-height-xs) ${textControlRadius.xs} [--control-padding:var(--control-padding-xs)]`,
+        sm: `h-(--control-height-sm) ${textControlRadius.sm} [--control-padding:var(--control-padding-sm)]`,
+        md: `h-(--control-height-md) ${textControlRadius.md} [--control-padding:var(--control-padding-md)]`,
+        lg: `h-(--control-height-lg) ${textControlRadius.lg} [--control-padding:var(--control-padding-lg)]`,
+        xl: `h-(--control-height-xl) ${textControlRadius.xl} [--control-padding:var(--control-padding-xl)]`,
       },
     },
     defaultVariants: { variant: "outline", size: "md" },

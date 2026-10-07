@@ -6,6 +6,8 @@ import { defineComponent, h, nextTick, ref } from "vue";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 
+import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -105,8 +107,116 @@ describe("Select", () => {
     const trigger = wrapper.get("[data-slot=select-trigger]");
 
     expect(trigger.attributes("data-variant")).toBe("filled");
-    expect(trigger.classes()).toContain("h-12");
+    expect(trigger.attributes("data-size")).toBe("xl");
+    expect(trigger.classes()).toContain("h-(--control-height-xl)");
     expect(trigger.classes()).toContain("border-b");
+    wrapper.unmount();
+  });
+
+  it("marks the trigger with its default variant and size", () => {
+    const wrapper = mount(Select, {
+      slots: { default: () => h(SelectTrigger, { "aria-label": "Role" }, () => h(SelectValue)) },
+    });
+    const trigger = wrapper.get("[data-slot=select-trigger]");
+
+    expect(trigger.attributes("data-variant")).toBe("outline");
+    expect(trigger.attributes("data-size")).toBe("md");
+    wrapper.unmount();
+  });
+
+  it("opens a list of the trigger's size, and follows it when it changes", async () => {
+    const size = ref<"xs" | "md" | "xl" | undefined>(undefined);
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Select, { open: true }, () => [
+            h(SelectTrigger, { size: size.value, "aria-label": "Role" }, () => h(SelectValue)),
+            h(SelectContent, options),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    const content = () => document.querySelector<HTMLElement>("[data-slot=select-content]");
+    const item = () => getComputedStyle(document.querySelector("[data-slot=select-item]")!);
+
+    await expect.poll(() => content()?.dataset.size).toBe("md");
+    expect(item().minHeight).toBe("36px");
+
+    size.value = "xl";
+    await expect.poll(() => content()?.dataset.size).toBe("xl");
+    expect(item().minHeight).toBe("48px");
+
+    size.value = "xs";
+    await expect.poll(() => item().minHeight).toBe("28px");
+    wrapper.unmount();
+  });
+
+  it("lets the content's own size win over the trigger's", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Select, { open: true }, () => [
+            h(SelectTrigger, { size: "xl", "aria-label": "Role" }, () => h(SelectValue)),
+            h(SelectContent, { size: "sm" }, options),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+
+    await expect.poll(() => document.querySelector<HTMLElement>("[data-slot=select-content]")?.dataset.size).toBe("sm");
+    expect(getComputedStyle(document.querySelector("[data-slot=select-item]")!).minHeight).toBe("32px");
+    wrapper.unmount();
+  });
+
+  it("takes a menu variable from a class on the content", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Select, { open: true }, () => [
+            h(SelectTrigger, { "aria-label": "Role" }, () => h(SelectValue)),
+            h(SelectContent, { class: "[--menu-item-height:50px]" }, options),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+
+    await expect.poll(() => document.querySelector("[data-slot=select-item]")).not.toBeNull();
+    expect(getComputedStyle(document.querySelector("[data-slot=select-item]")!).minHeight).toBe("50px");
+    wrapper.unmount();
+  });
+});
+
+describe("Select control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("the %s trigger reads its height and padding tokens", (size) => {
+    const wrapper = mount(Select, {
+      slots: { default: () => h(SelectTrigger, { size, "aria-label": "Role" }, () => h(SelectValue)) },
+      attachTo: document.body,
+    });
+    const trigger = getComputedStyle(wrapper.get("[data-slot=select-trigger]").element);
+
+    expect(px(trigger.height)).toBe(sentinel.height[size]);
+    expect(px(trigger.paddingInlineStart)).toBe(sentinel.padding[size]);
+    wrapper.unmount();
+  });
+
+  it.each(controlSizes)("the list of a %s trigger reads the same tokens", async (size) => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Select, { open: true }, () => [
+            h(SelectTrigger, { size, "aria-label": "Role" }, () => h(SelectValue)),
+            h(SelectContent, options),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    await expect.poll(() => document.querySelector("[data-slot=select-item]")).not.toBeNull();
+    const item = getComputedStyle(document.querySelector("[data-slot=select-item]")!);
+
+    expect(px(item.minHeight)).toBe(sentinel.height[size]);
+    expect(px(item.paddingInlineStart)).toBe(sentinel.padding[size]);
     wrapper.unmount();
   });
 });

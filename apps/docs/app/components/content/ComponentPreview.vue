@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import { Moon, Sun } from '@lucide/vue'
-import { computed, ref, watch, type HTMLAttributes } from 'vue'
+import { CodeXml, Maximize2, PanelRight } from '@lucide/vue'
+import type { HTMLAttributes } from 'vue'
 
-import { Button } from '@/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
-import CodeBlock from '~/components/CodeBlock.vue'
-import CommandLine from '~/components/CommandLine.vue'
-import DeferredPreview from '~/components/DeferredPreview.vue'
-import MiniPreview from '~/components/MiniPreview.vue'
 import { cn } from '@/lib/utils'
+import { Button } from '@/ui/button'
+import { ScrollArea } from '@/ui/scroll-area'
+import { vTooltip } from '@/ui/tooltip'
+import ExampleCode from '~/components/ExampleCode.vue'
+import ScrollBox from '~/components/ScrollBox.vue'
 import { exampleSlug, pageSlugOf } from '~/lib/examples'
-import { addCommand, registryItemUrl } from '~/lib/install'
 import { registryItems, resolveExample } from '~/lib/registry'
 import { exampleModules } from '~/lib/sources'
-import { themeToQuery } from '~/lib/theme'
 
-const props = defineProps<{ name: string; height?: string; class?: HTMLAttributes['class'] }>()
+const props = defineProps<{
+  name: string
+  height?: string
+  align?: 'center' | 'start'
+  class?: HTMLAttributes['class']
+}>()
 
 const resolve = () => {
   try {
@@ -25,118 +27,92 @@ const resolve = () => {
   }
 }
 
-const { item } = resolve()
+const { item, key } = resolve()
+const loaded = ref(import.meta.server || useNuxtApp().isHydrating)
+const load = exampleModules[key]!
+const Example = defineAsyncComponent(() =>
+  load().then((module) => {
+    loaded.value = true
+    return module
+  }),
+)
 const slug = exampleSlug(props.name, pageSlugOf(useRoute().path))
-const exampleCommand = addCommand('npm', registryItemUrl(useRuntimeConfig().public.siteUrl, item.name))
-
-const { data: code } = useExampleCode(() => props.name)
 
 const demo = injectDemo(null)
-const docked = computed(() => demo?.active.value ?? false)
-const selected = computed(() => demo?.selected.value?.name === props.name)
 const label = computed(() => demo?.examples.value.find((example) => example.name === props.name)?.title ?? item.title)
+const current = computed(() => (demo?.open.value ?? false) && demo?.selected.value?.name === props.name)
+const codeOpen = ref(false)
+const codeId = useId()
 
-const colorMode = useColorMode()
-const theme = ref<'light' | 'dark'>()
-const dir = ref<'ltr' | 'rtl'>('ltr')
-
-const toggleTheme = () => {
-  const dark = theme.value ? theme.value === 'dark' : colorMode.value === 'dark'
-  theme.value = dark ? 'light' : 'dark'
-}
-
-const toggleDir = () => {
-  dir.value = dir.value === 'ltr' ? 'rtl' : 'ltr'
-}
-
-watch(
-  () => colorMode.value,
-  () => {
-    theme.value = undefined
-  },
+const canvas = computed(() =>
+  cn(
+    `
+      flex min-h-72 justify-center-safe p-10 transition-opacity duration-medium-2 ease-standard
+      motion-reduce:transition-none
+    `,
+    props.align === 'start' ? 'items-start' : 'items-center-safe',
+    loaded.value ? 'opacity-100' : 'opacity-0',
+  ),
 )
-
-const { theme: siteThemeConfig } = useSiteTheme()
-const siteTheme = computed(() => JSON.stringify(themeToQuery(siteThemeConfig.value)))
-const colorScheme = computed(() => theme.value ?? (colorMode.value === 'dark' ? 'dark' : 'light'))
-const { show } = useSearchDialog()
 </script>
 
 <template>
   <div :data-example="slug" class="not-prose my-6 scroll-mt-20 max-md:scroll-mt-30">
-    <MiniPreview
-      v-if="docked"
-      :name="props.name"
-      :title="label"
-      :selected="selected"
-      :color-scheme="colorMode.value === 'dark' ? 'dark' : 'light'"
-      :site-theme="siteTheme"
-      class="hidden md:flex"
-      @select="demo?.select(slug)"
-    />
-    <Tabs default-value="preview" :class="['gap-4', docked && 'md:hidden']">
-      <div class="flex items-end justify-between gap-2 border-b">
-        <TabsList variant="line" size="sm" class="-mb-px" aria-label="Example view">
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-          <TabsTrigger value="code">Code</TabsTrigger>
-        </TabsList>
-        <div class="flex items-center gap-1 pb-1">
+    <div data-slot="example" class="rounded-xl border bg-muted/40 p-1">
+      <div class="mb-1 flex h-9 items-center gap-2 ps-2.5 pe-0.5">
+        <span class="min-w-0 flex-1 truncate text-body-sm text-muted-foreground">{{ label }}</span>
+        <Button
+          v-tooltip="codeOpen ? 'Hide code' : 'Show code'"
+          :variant="codeOpen ? 'soft' : 'ghost'"
+          :color="codeOpen ? 'primary' : 'neutral'"
+          size="icon-sm"
+          aria-label="Show code"
+          :aria-expanded="codeOpen"
+          :aria-controls="codeId"
+          @click="codeOpen = !codeOpen"
+        >
+          <CodeXml />
+        </Button>
+        <div v-if="demo?.active.value" class="hidden items-center gap-0.5 md:flex">
           <Button
+            v-tooltip="current ? 'Close the panel' : 'Open in panel'"
+            :variant="current ? 'soft' : 'ghost'"
+            :color="current ? 'primary' : 'neutral'"
+            size="icon-sm"
+            aria-label="Open in panel"
+            :aria-pressed="current"
+            @click="current ? demo.close() : demo.show(slug)"
+          >
+            <PanelRight />
+          </Button>
+          <Button
+            v-tooltip="'Fullscreen'"
             variant="ghost"
             color="neutral"
             size="icon-sm"
-            aria-label="Toggle the example's theme"
-            @click="toggleTheme"
+            aria-label="Open fullscreen"
+            @click="demo.show(slug, true)"
           >
-            <template v-if="theme">
-              <Moon v-if="theme === 'dark'" />
-              <Sun v-else />
-            </template>
-            <template v-else>
-              <Sun class="dark:hidden" />
-              <Moon class="hidden dark:block" />
-            </template>
-          </Button>
-          <Button
-            variant="ghost"
-            color="neutral"
-            size="sm"
-            :aria-pressed="dir === 'rtl'"
-            aria-label="Toggle right-to-left"
-            @click="toggleDir"
-          >
-            {{ dir === 'rtl' ? 'RTL' : 'LTR' }}
+            <Maximize2 />
           </Button>
         </div>
       </div>
-      <TabsContent value="preview">
-        <div :class="cn('overflow-hidden rounded-lg border', props.class)">
-          <DeferredPreview
-            :name="props.name"
-            :title="item.title"
-            :color-scheme="colorScheme"
-            :dir="dir"
-            :site-theme="siteTheme"
-            :height="props.height"
-            @shortcut="show()"
-          />
-        </div>
-      </TabsContent>
-      <TabsContent value="code">
-        <div v-if="code" class="grid gap-3">
-          <CodeBlock
-            v-for="block in code"
-            :key="block.filename"
-            :filename="block.filename"
-            :html="block.html"
-            :source="block.source"
-          />
-        </div>
-        <div class="mt-3 grid gap-2">
-          <p class="text-xs text-muted-foreground">Add this example to your project:</p>
-          <CommandLine :command="exampleCommand" />
-        </div>
-      </TabsContent>
-    </Tabs>
+      <div
+        data-slot="example-canvas"
+        :class="cn('overflow-hidden rounded-[max(0px,calc(var(--radius-xl)-0.25rem))] bg-card', props.class)"
+      >
+        <ScrollArea v-if="props.height" orientation="both" :style="{ height: props.height }">
+          <div :class="cn(canvas, 'min-h-full')">
+            <Example />
+          </div>
+        </ScrollArea>
+        <ScrollBox v-else>
+          <div :class="canvas">
+            <Example />
+          </div>
+        </ScrollBox>
+      </div>
+      <ExampleCode v-if="codeOpen" :id="codeId" :name="props.name" />
+    </div>
   </div>
 </template>

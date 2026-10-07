@@ -1,0 +1,11 @@
+component: RangeCalendarHeading
+file: ui/range-calendar/RangeCalendarHeading.vue
+props:
+  id:
+    description: "Overrides the id the root gives the heading for its `aria-labelledby`."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a div, merging this part's attributes and classes onto it."
+slots:
+  default: "The heading's content, with `{ headingValue, date, setPlaceholder }`. `setPlaceholder` moves the view to a date's month without selecting it."

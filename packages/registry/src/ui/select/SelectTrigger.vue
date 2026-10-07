@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ChevronDown } from "@lucide/vue";
 import { SelectIcon, SelectTrigger, type SelectTriggerProps, useForwardProps } from "reka-ui";
-import { type HTMLAttributes, computed, useAttrs } from "vue";
+import { type HTMLAttributes, computed, useAttrs, watchEffect } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type SelectTriggerVariants, selectTriggerVariants } from ".";
+import { type SelectTriggerVariants, injectSelectSize, selectTriggerVariants } from ".";
 
 const props = defineProps<
   SelectTriggerProps & {
@@ -23,6 +23,12 @@ const delegated = computed(() => {
 const forwarded = useForwardProps(delegated);
 
 const control = useFieldControl(props, useAttrs());
+
+const size = computed(() => props.size ?? "md");
+const sharedSize = injectSelectSize(null);
+watchEffect(() => {
+  if (sharedSize) sharedSize.value = size.value;
+});
 </script>
 
 <template>
@@ -30,11 +36,12 @@ const control = useFieldControl(props, useAttrs());
     v-bind="forwarded"
     data-slot="select-trigger"
     :data-variant="props.variant ?? 'outline'"
+    :data-size="size"
     :id="control.id.value"
     :disabled="control.disabled.value"
     :aria-invalid="control.invalid.value"
     :aria-describedby="control.describedBy.value"
-    :class="cn(selectTriggerVariants({ variant: props.variant, size: props.size }), props.class)"
+    :class="cn(selectTriggerVariants({ variant: props.variant, size }), props.class)"
   >
     <slot />
     <SelectIcon as-child>

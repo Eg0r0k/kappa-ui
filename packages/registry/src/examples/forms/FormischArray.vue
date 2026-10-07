@@ -55,7 +55,7 @@ const form = useForm({ schema: Contacts, initialInput: { emails: [{ address: "" 
                   type="button"
                   variant="ghost"
                   color="neutral"
-                  size="icon"
+                  size="icon-md"
                   :aria-label="`Remove email ${index + 1}`"
                   @click="remove(form, { path: ['emails'], at: index })"
                 >

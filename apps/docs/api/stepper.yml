@@ -1,6 +1,8 @@
 component: Stepper
 file: ui/stepper/Stepper.vue
 props:
+  color:
+    description: "Colour role of the active step's indicator. Any other name picks up a colour you declare on `[data-slot][data-color=\"<name>\"]`. Completed steps stay grey."
   size:
     description: "Indicator size, from 24px for `xs` to 48px for `xl`, with matching icon, type, gaps and separator thickness."
   modelValue:

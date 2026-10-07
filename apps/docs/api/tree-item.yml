@@ -1,0 +1,14 @@
+component: TreeItem
+file: ui/tree/TreeItem.vue
+props:
+  item:
+    description: One of the flattened rows from the tree's default slot. Key the loop by its `_id`.
+  disabled:
+    description: "Disables the row. A node with `disabled: true` is disabled already."
+  as:
+    description: The element to render, `li` by default and `div` in a virtualized tree.
+emits:
+  select: Fires when the row is clicked or chosen with Enter or Space. Call `event.preventDefault()` to keep the selection as it is.
+  toggle: Fires before the row expands or collapses. Call `event.preventDefault()` to stop it.
+slots:
+  default: The row's content, with `{ item, level, expanded, selected, checked, disabled, loading, hasChildren, select, toggle }`, such as `TreeItemToggle`, `TreeItemCheckbox`, `TreeItemIcon` and `TreeItemLabel`.

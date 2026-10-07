@@ -5,12 +5,14 @@ export { default as TabsContent } from "./TabsContent.vue";
 export { default as TabsList } from "./TabsList.vue";
 export { default as TabsTrigger } from "./TabsTrigger.vue";
 
+export type TabsColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 const sizes = {
-  xs: "text-label-sm [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:--spacing(7)] [--tabs-trigger-px:--spacing(2)] [--tabs-trigger-gap:--spacing(1.5)] [--tabs-icon:--spacing(3.5)]",
-  sm: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:--spacing(8)] [--tabs-trigger-px:--spacing(2.5)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(4)]",
-  md: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:--spacing(9)] [--tabs-trigger-px:--spacing(3)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(4)]",
-  lg: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:--spacing(10)] [--tabs-trigger-px:--spacing(3)] [--tabs-trigger-gap:--spacing(2)] [--tabs-icon:--spacing(5)]",
-  xl: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:--spacing(12)] [--tabs-trigger-px:--spacing(4)] [--tabs-trigger-gap:--spacing(2.5)] [--tabs-icon:--spacing(5)]",
+  xs: "text-label-sm [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-xs)] [--tabs-trigger-px:var(--control-padding-xs)] [--tabs-trigger-gap:var(--control-gap-xs)] [--tabs-icon:var(--control-icon-xs)]",
+  sm: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-sm)] [--tabs-trigger-px:var(--control-padding-sm)] [--tabs-trigger-gap:var(--control-gap-sm)] [--tabs-icon:var(--control-icon-sm)]",
+  md: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-md)] [--tabs-trigger-px:var(--control-padding-md)] [--tabs-trigger-gap:var(--control-gap-md)] [--tabs-icon:var(--control-icon-md)]",
+  lg: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:var(--control-height-lg)] [--tabs-trigger-px:var(--control-padding-lg)] [--tabs-trigger-gap:var(--control-gap-lg)] [--tabs-icon:var(--control-icon-lg)]",
+  xl: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:var(--control-height-xl)] [--tabs-trigger-px:var(--control-padding-xl)] [--tabs-trigger-gap:var(--control-gap-xl)] [--tabs-icon:var(--control-icon-xl)]",
 };
 
 const pillInnerRadius = "rounded-[max(0px,calc(var(--tabs-radius)-var(--spacing)))]";
@@ -56,7 +58,7 @@ export const tabsIndicatorVariants = cva(
           group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)
         `,
         line: `
-          rounded-full bg-primary
+          rounded-full bg-tone-text
           group-aria-[orientation=horizontal]/tabs-list:-bottom-px group-aria-[orientation=horizontal]/tabs-list:h-0.5
           group-aria-[orientation=vertical]/tabs-list:-end-px group-aria-[orientation=vertical]/tabs-list:w-0.5
         `,

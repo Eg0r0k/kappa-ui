@@ -11,8 +11,12 @@ props:
     description: "`toggle` selects and clears an option on each click, so clicking the selected option clears it. `replace` keeps a single-select listbox from ever emptying, and in a multiple one makes a click replace the selection unless Ctrl or Shift is held."
   highlightOnHover:
     description: Moves the keyboard highlight with the pointer, as in a menu.
+  loop:
+    description: Wraps arrow-key navigation from the last option to the first and back. Needs `reka-ui` 2.11 or later.
   variant:
     description: "`outline` draws a card-like frame around the options; `ghost` draws none, for a listbox inside another surface."
+  size:
+    description: Sets the height, padding, gap, icon and text of the options, from `xs` to `xl`, after the [control scale](/docs/getting-started/sizing). `md` is the default.
   orientation:
     description: "`horizontal` lays the options out in a row and moves between them with left and right."
   by:

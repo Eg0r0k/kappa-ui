@@ -17,7 +17,7 @@ export type ChangelogData = { releases: Release[]; items: Record<string, ItemCha
 
 const RELEASE = /^## (\S+)\s*$/
 const BUMP = /^### (Major|Minor|Patch) Changes\s*$/
-const ENTRY = /^- \[`([0-9a-f]+)`\]\(([^)]+)\)(?: Thanks \[[^\]]*\]\([^)]*\)!)? - (.*)$/
+const ENTRY = /^- (?:\[#\d+\]\([^)]+\) )?\[`([0-9a-f]+)`\]\(([^)]+)\)(?: Thanks \[[^\]]*\]\([^)]*\)!)? - (.*)$/
 const BADGE_DAYS = 30
 
 const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -85,13 +85,16 @@ export const pascalName = (name: string) =>
 export const mentions = (text: string, tokens: readonly string[]) =>
   tokens.some((token) => new RegExp(`(?<![\\w$])${escape(token)}(?![\\w$])`).test(text))
 
-export const introduces = (text: string, main: string) => {
-  const name = escape(main)
-  return [
-    new RegExp(`^(?:New|Add)(?: the)? \`?${name}\`?(?![\\w$])`),
-    new RegExp(`^${name}: \`${name}\``),
-    new RegExp(`^\`${name}\` is `),
-  ].some((pattern) => pattern.test(text))
+export const introduces = (text: string, main: string, name = main) => {
+  const component = escape(main)
+  const leads = [
+    new RegExp(`^(?:New|Add)(?: the)? \`?${component}\`?(?![\\w$])`),
+    new RegExp(`^${component}: \`${component}\``),
+    new RegExp(`^\`${component}\` is `),
+  ]
+  if (leads.some((pattern) => pattern.test(text))) return true
+  const listed = /^(?:New|Add)(?: the)? (`[\w-]+`(?:(?:, |,? and )`[\w-]+`)*)/.exec(text)?.[1] ?? ''
+  return listed.split(/, |,? and /).some((code) => code === `\`${main}\`` || code === `\`${name}\``)
 }
 
 export const releaseDate = (git: (args: string[]) => string, file: string, version: string) => {
@@ -125,7 +128,9 @@ export const buildChangelog = (releases: readonly Release[], items: readonly Ite
     }
     const introduction = [...matching]
       .reverse()
-      .find(({ entries }) => entries.some((entry) => entry.bump !== 'patch' && introduces(entry.text, item.main)))
+      .find(({ entries }) =>
+        entries.some((entry) => entry.bump !== 'patch' && introduces(entry.text, item.main, item.name)),
+      )
     const latest = matching[0]
     const newUntil = introduction && addDays(introduction.release.date, BADGE_DAYS)
     const updatedUntil = latest && addDays(latest.release.date, BADGE_DAYS)

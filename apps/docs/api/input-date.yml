@@ -1,0 +1,56 @@
+component: InputDate
+file: ui/input-date/InputDate.vue
+props:
+  modelValue:
+    description: "The date, bound with `v-model`. A `CalendarDate`, `CalendarDateTime` or `ZonedDateTime` from `@internationalized/date`, or `undefined` while a segment is empty."
+  defaultValue:
+    description: The starting date when `v-model` is not used.
+  placeholder:
+    description: "The date the segments step from while they are empty, not hint text. Its type decides the segments: a `CalendarDateTime` adds time. Bound with `v-model:placeholder`."
+  defaultPlaceholder:
+    description: The starting placeholder when `v-model:placeholder` is not used.
+  granularity:
+    description: "The last segment shown: `day`, `hour`, `minute` or `second`. Defaults to `day` for a `CalendarDate` and `minute` for a value with time."
+  hourCycle:
+    description: "`12` or `24` for the time segments. Defaults to the locale's cycle; `12` adds an AM/PM segment."
+  step:
+    description: "How far the arrow keys move each segment, as `{ year, month, day, hour, minute, second }`. `1` by default."
+  stepSnapping:
+    description: Snaps a typed time to the nearest step.
+  minValue:
+    description: The earliest valid date. An earlier one marks the segments invalid and fails the hidden input's `min`.
+  maxValue:
+    description: The latest valid date. A later one marks the segments invalid and fails the hidden input's `max`. A date without time covers that whole day.
+  isDateUnavailable:
+    description: A function that returns `true` for a date that cannot be picked. Such a date marks the segments invalid.
+  hideTimeZone:
+    description: Hides the time zone segment that a `ZonedDateTime` value shows.
+  locale:
+    description: The locale for the segment order and the literals. Defaults to the one Reka UI's `ConfigProvider` sets.
+  dir:
+    description: The reading direction. Defaults to the one Reka UI's `ConfigProvider` sets.
+  variant:
+    description: "The text control look, shared with `Input`: `outline`, `soft`, `filled`, `ghost` or `subtle`. Inside an input group, the group's."
+  size:
+    description: The field's height, from 28px at `xs` to 48px at `xl`. Inside an input group, the group's.
+  loading:
+    description: Shows a spinner at the end of the field and marks it `aria-busy`.
+  readonly:
+    description: Keeps the segments focusable but not editable.
+  disabled:
+    description: Disables every segment. Also set by a disabled field.
+  required:
+    description: Marks the hidden form input required. Also set by a required field.
+  id:
+    description: Overrides the `id` taken from a surrounding field. It lands on the hidden input, so the field's label focuses the first segment.
+  name:
+    description: "Submits the date with the form under this name, through a hidden input: `YYYY-MM-DD`, or `YYYY-MM-DDTHH:mm` with time, plus `:ss` at the `second` granularity."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
+emits:
+  update:modelValue: Fires when a typed, stepped or pasted segment completes or clears the date.
+  update:placeholder: Fires when the placeholder date changes.
+  focus: Fires once when focus enters the field, not for every segment.
+  blur: Fires once when focus leaves the field.

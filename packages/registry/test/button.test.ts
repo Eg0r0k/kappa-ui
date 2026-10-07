@@ -7,6 +7,8 @@ import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { ButtonGroup } from "@/ui/button-group";
 
+import { overrideControlTokens, px, sentinel } from "./control-tokens";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -62,8 +64,8 @@ describe("Button", () => {
       const style = getComputedStyle(render({ touchTarget: "wrapper", ...props }));
       return [style.marginTop, style.marginLeft];
     };
-    expect(margins({ size: "default" })).toEqual(["6px", "0px"]);
-    expect(margins({ size: "icon" })).toEqual(["6px", "6px"]);
+    expect(margins({ size: "md" })).toEqual(["6px", "0px"]);
+    expect(margins({ size: "icon-md" })).toEqual(["6px", "6px"]);
     expect(margins({ size: "xl" })).toEqual(["0px", "0px"]);
   });
 
@@ -120,4 +122,51 @@ describe("Button aria-disabled", () => {
       expect(getComputedStyle(aria!, "::before").opacity).toBe("0");
     },
   );
+});
+
+describe("Button control tokens", () => {
+  overrideControlTokens();
+
+  const textSizes = [
+    ["xs", "xs"],
+    ["sm", "sm"],
+    ["md", "md"],
+    ["lg", "lg"],
+    ["xl", "xl"],
+  ] as const;
+
+  const withIcon = (size: (typeof textSizes)[number][0]) =>
+    mount(
+      { render: () => h(Button, { size }, () => [h("svg", { viewBox: "0 0 24 24" }), "Save"]) },
+      { attachTo: document.body },
+    ).get("[data-slot=button]").element as HTMLElement;
+
+  it.each(textSizes)("%s reads the %s height, gap and touch height", (size, token) => {
+    const style = getComputedStyle(withIcon(size));
+    expect(px(style.height)).toBe(sentinel.height[token]);
+    expect(px(style.columnGap)).toBe(sentinel.gap[token]);
+    expect(px(style.getPropertyValue("--touch-h"))).toBe(sentinel.height[token]);
+  });
+
+  it.each(textSizes)("%s reads the %s icon", (size, token) => {
+    expect(withIcon(size).querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[token]);
+  });
+
+  it.each([
+    ["icon-xs", "xs"],
+    ["icon-sm", "sm"],
+    ["icon-md", "md"],
+    ["icon-lg", "lg"],
+    ["icon-xl", "xl"],
+  ] as const)("%s is a square of the %s height around an icon of its size", (size, token) => {
+    const button = mount(
+      { render: () => h(Button, { size, "aria-label": "Add" }, () => h("svg", { viewBox: "0 0 24 24" })) },
+      { attachTo: document.body },
+    ).get("[data-slot=button]").element as HTMLElement;
+    const box = button.getBoundingClientRect();
+
+    expect([box.width, box.height]).toEqual([sentinel.height[token], sentinel.height[token]]);
+    expect(px(getComputedStyle(button).getPropertyValue("--touch-w"))).toBe(sentinel.height[token]);
+    expect(button.querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[token]);
+  });
 });

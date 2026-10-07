@@ -16,7 +16,7 @@ const tools = [
   <div class="flex gap-1">
     <Tooltip v-for="tool in tools" :key="tool.label" role="label">
       <TooltipTrigger as-child>
-        <Button variant="ghost" color="neutral" size="icon" :aria-label="tool.label">
+        <Button variant="ghost" color="neutral" size="icon-md" :aria-label="tool.label">
           <component :is="tool.icon" />
         </Button>
       </TooltipTrigger>

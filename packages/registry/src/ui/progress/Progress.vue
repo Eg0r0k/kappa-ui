@@ -19,6 +19,7 @@ import { type HTMLAttributes, computed, ref } from "vue";
 import { cn } from "@/lib/utils";
 import {
   type ProgressAnimation,
+  type ProgressColor,
   type ProgressOrientation,
   type ProgressSize,
   progressIndicatorVariants,
@@ -35,6 +36,7 @@ interface Props extends Pick<ProgressRootProps, "getValueLabel" | "getValueText"
   max?: number | unknown[];
   status?: boolean;
   inverted?: boolean;
+  color?: ProgressColor | (string & {});
   size?: ProgressSize;
   orientation?: ProgressOrientation;
   animation?: ProgressAnimation;
@@ -46,6 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: null,
   max: undefined,
   inverted: false,
+  color: "primary",
   size: "md",
   orientation: "horizontal",
   animation: "carousel",
@@ -114,6 +117,7 @@ provideProgressContext({
   <Primitive
     :as="props.as"
     data-slot="progress"
+    :data-color="props.color"
     :data-orientation="props.orientation"
     :data-size="props.size"
     :class="cn(progressVariants({ orientation: props.orientation, size: props.size }), props.class)"

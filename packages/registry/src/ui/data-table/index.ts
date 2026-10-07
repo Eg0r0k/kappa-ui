@@ -10,6 +10,7 @@ import {
   aggregationFn_sum,
   aggregationFn_unique,
   aggregationFn_uniqueCount,
+  type Cell,
   type CellContext,
   type ColumnDef,
   columnFilteringFeature,
@@ -35,7 +36,9 @@ import {
   filterFn_includesStringSensitive,
   filterFn_inNumberRange,
   filterFn_weakEquals,
+  flexRender,
   globalFilteringFeature,
+  type Header,
   type HeaderContext,
   type Row,
   type RowData,
@@ -55,9 +58,9 @@ import {
   tableFeatures,
 } from "@tanstack/vue-table";
 import { createContext } from "reka-ui";
-import { type HTMLAttributes, type StyleValue, h } from "vue";
+import { type FunctionalComponent, type HTMLAttributes, type Ref, type StyleValue, type VNodeChild, h } from "vue";
 
-import type { TableAlign, TableDensity } from "@/ui/table";
+import type { TableAlign, TableSize } from "@/ui/table";
 import DataTableExpandCell from "./DataTableExpandCell.vue";
 import DataTableSelectCell from "./DataTableSelectCell.vue";
 import DataTableSelectHeader from "./DataTableSelectHeader.vue";
@@ -175,6 +178,31 @@ export type DataTableRow<T extends RowData> = Row<DataTableFeatures, T>;
 
 export const createDataTableColumnHelper = <T extends RowData>() => createColumnHelper<DataTableFeatures, T>();
 
+type DataTableRenderProps = { cell?: object; header?: object; footer?: object };
+type RenderCell = Cell<DataTableFeatures, RowData, unknown>;
+type RenderHeader = Header<DataTableFeatures, RowData, unknown>;
+
+const rendered = (props: DataTableRenderProps) => {
+  const cell = props.cell as RenderCell | undefined;
+  const header = (props.header ?? props.footer) as RenderHeader | undefined;
+  if (cell) {
+    const def = cell.column.columnDef;
+    if (cell.getIsAggregated()) return flexRender(def.aggregatedCell ?? def.cell, cell.getContext());
+    if (cell.getIsPlaceholder()) return null;
+    return flexRender(def.cell, cell.getContext());
+  }
+  if (!header) return null;
+  const def = header.column.columnDef;
+  return flexRender(props.header ? def.header : def.footer, header.getContext());
+};
+
+// FlexRender, except that an empty string renders nothing: Vue hydrates it as a text node the server never wrote.
+export const DataTableRender: FunctionalComponent<DataTableRenderProps> = (props) => {
+  const output = rendered(props);
+  return output === "" ? null : (output as VNodeChild);
+};
+DataTableRender.props = ["cell", "header", "footer"];
+
 export type DataTableVirtualize =
   | boolean
   | "auto"
@@ -269,7 +297,7 @@ export type DataTableRowSelectionState = Record<string, boolean>;
 
 export type DataTableSelection = { mode: DataTableSelectAll; ids: string[]; excluded: string[]; count: number };
 
-export type DataTableContext = { selectAll: UseSelectAllReturn };
+export type DataTableContext = { selectAll: UseSelectAllReturn; size: Readonly<Ref<TableSize>> };
 
 export const [injectDataTableContext, provideDataTableContext] = createContext<DataTableContext>(
   "DataTable",
@@ -349,7 +377,7 @@ export type DataTableLoadMoreFn = (context: {
   index: number;
 }) => Promise<void | "stop">;
 
-export const dataTableRowHeights: Record<TableDensity, number> = { sm: 36, md: 44, lg: 52 };
+export const dataTableRowHeights: Record<TableSize, number> = { xs: 28, sm: 36, md: 44, lg: 52, xl: 60 };
 
 export const resolveVirtualize = (value: DataTableVirtualize | undefined): ResolvedVirtualize => {
   const given =

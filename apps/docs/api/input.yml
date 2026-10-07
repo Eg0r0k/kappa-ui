@@ -8,7 +8,7 @@ props:
   variant:
     description: "`outline` draws a border, `soft` a tinted surface without one, `filled` a tinted surface with a line underneath, `ghost` nothing until hovered or focused, and `subtle` a tinted surface with a border."
   size:
-    description: Height, from 28px for `xs` to 48px for `xl`. `sm`, `lg` and `xl` match the button sizes of the same name and `md` the default button.
+    description: Height, from 28px for `xs` to 48px for `xl`, `md` by default. Each size matches the button size of the same name.
   id:
     description: Overrides the `id` taken from a surrounding field.
   disabled:

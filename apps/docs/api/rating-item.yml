@@ -1,0 +1,7 @@
+component: RatingItem
+file: ui/rating/RatingItem.vue
+props:
+  item:
+    description: The star's number, from 1 to the rating's `length`.
+slots:
+  default: "The icon, a star by default. Rendered for the empty layer with `filled` false and for the filled layer with `filled` true; an `svg` in the filled layer is filled with the colour."

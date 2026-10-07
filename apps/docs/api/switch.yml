@@ -5,6 +5,8 @@ props:
     description: Whether the switch is on, bound with `v-model`.
   defaultValue:
     description: The starting state when `v-model` is not used.
+  color:
+    description: Colour role of the track while on. Any other name picks up a colour you declare on `[data-slot][data-color="<name>"]`. Off, the edge stays `--input`; an invalid switch turns `destructive` whatever its colour.
   size:
     description: Track height, from 16px for `xs` to 32px for `xl` in steps of 4px. `md` is 24px, between shadcn's switch and Material's, and `xl` is Material's; the width and handle scale with the height.
   touchTarget:

@@ -7,6 +7,8 @@ props:
     description: The starting value when `v-model` is not used.
   variant:
     description: "`card`, `list` or `table` restyle every option in the group, making each whole card or row clickable."
+  color:
+    description: Colour role of every radio in the group that has no `color` of its own, and of a selected card's edge or row's tint.
   orientation:
     description: "`horizontal` lays the options out in a row, and makes left and right arrows move between them."
   disabled:

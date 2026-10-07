@@ -1,0 +1,45 @@
+component: FileUpload
+file: ui/file-upload/FileUpload.vue
+exposedType:
+  file: ui/file-upload/index.ts
+  name: FileUploadExpose
+props:
+  modelValue:
+    description: "The picked files, bound with `v-model`: a `File` or `null`, or a `File[]` with `multiple`. Every change is a new value, never a mutated array."
+  defaultValue:
+    description: "The starting files when `v-model` is not used. A native form reset puts them back."
+  multiple:
+    description: "Holds a list of files instead of one. New files are added to the list; without it, a new file replaces the old one. Changing it converts the value, and files that no longer fit are reported through `reject`."
+  accept:
+    description: "The file types allowed: MIME types, `type/*` wildcards and `.ext` extensions, comma-separated. Checked on every file from the dialog, a drop or a paste, since the dialog's own filter is only a hint."
+  maxFiles:
+    description: "With `multiple`, the most files the list holds. Files past it are rejected with `count`."
+  maxSize:
+    description: "The largest file allowed, in bytes. Bigger files are rejected with `size`."
+  paste:
+    description: "Takes files pasted with Ctrl+V or Cmd+V while focus is inside the component."
+  size:
+    description: "From `xs` to `xl` on the control scale: the zone's icon, padding and gaps, and the list's rows, tiles and Remove buttons."
+  id:
+    description: "Overrides the `id` taken from a surrounding field. It lands on the trigger, so the field's label opens the dialog."
+  name:
+    description: "Submits the files with the form under this name. The hidden file input always holds exactly the files shown."
+  form:
+    description: "The `id` of a form elsewhere on the page to submit the files with."
+  capture:
+    description: "On phones, opens the camera instead of the file dialog: `user` for the front camera, `environment` for the back one."
+  disabled:
+    description: "Disables the trigger, the Remove buttons and the hidden input, and ignores drops and pastes. Also set by a disabled field."
+  required:
+    description: "Marks the hidden file input required, so a form with no file fails native validation. Also set by a required field."
+emits:
+  update:modelValue: "Fires when files are added or removed, with the new `File`, `null` or `File[]`."
+  reject: "Fires once per pick, drop or paste with the files that were turned away, each as `{ file, reason }`. The reason is `type`, `size`, `count`, `duplicate` or `directory`."
+slots:
+  default: "The parts. Receives `files` (always an array, even without `multiple`), `open`, `clear`, `removeFile`, `addFiles`, `urlOf` (the thumbnail URL of an image file, made once the page runs in the browser), `dragging` and `invalid`."
+exposed:
+  open: "Opens the file dialog. Browsers allow this only straight from a user's click or key press."
+  clear: Removes every file.
+  addFiles: "Adds files from your own source, such as a drop on the whole page, through the same checks and `reject` as a drop."
+  removeFile: "Removes a file and moves focus to the next Remove button, the previous one, or the trigger."
+  inputRef: The hidden file input.

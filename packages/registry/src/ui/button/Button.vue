@@ -17,7 +17,9 @@ interface Props extends PrimitiveProps {
 
 const props = withDefaults(defineProps<Props>(), {
   as: "button",
+  variant: "solid",
   color: "primary",
+  size: "md",
 });
 
 const swallowWhenDisabled = (event: MouseEvent) => {

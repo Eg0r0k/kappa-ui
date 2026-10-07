@@ -60,7 +60,7 @@ it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px"
     {
       render: () =>
         h("div", [
-          ...(["xs", "sm", "default", "lg", "xl", "icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"] as const).map(
+          ...(["xs", "sm", "md", "lg", "xl", "icon-xs", "icon-sm", "icon-md", "icon-lg", "icon-xl"] as const).map(
             (size) => h(Button, { size, "data-case": `button-${size}` }, () => "B"),
           ),
           ...(["xs", "sm", "md", "lg", "xl"] as const).flatMap((size) => [
@@ -75,14 +75,14 @@ it("rounds controls by their height: md up to 28px, lg up to 40px, xl from 48px"
   );
   const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
 
-  expect(["xs", "sm", "default", "lg", "xl"].map((size) => radius(`button-${size}`))).toEqual([
+  expect(["xs", "sm", "md", "lg", "xl"].map((size) => radius(`button-${size}`))).toEqual([
     "6.4px",
     "8px",
     "8px",
     "8px",
     "11.2px",
   ]);
-  expect(["icon-xs", "icon-sm", "icon", "icon-lg", "icon-xl"].map((size) => radius(`button-${size}`))).toEqual([
+  expect(["icon-xs", "icon-sm", "icon-md", "icon-lg", "icon-xl"].map((size) => radius(`button-${size}`))).toEqual([
     "6.4px",
     "8px",
     "8px",

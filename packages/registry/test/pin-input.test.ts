@@ -1,10 +1,12 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, h, nextTick } from "vue";
 
 import { Field, FieldError, FieldLabel } from "@/ui/field";
 import { PinInput, PinInputGroup, PinInputSeparator, PinInputSlot } from "@/ui/pin-input";
+
+import { controlSizes, overrideControlTokens, sentinel } from "./control-tokens";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -120,4 +122,15 @@ it("is disabled by the prop or by a disabled field", async () => {
   render(h(Field, { disabled: true }, () => [h(FieldLabel, () => "Code"), pin()]));
   await nextTick();
   for (const slot of slots()) expect(slot.disabled).toBe(true);
+});
+
+describe("PinInput control tokens", () => {
+  overrideControlTokens();
+
+  it.each(controlSizes)("draws %s slots as squares of the height token", (size) => {
+    render(pin({ size }));
+    const box = slots()[0]!.getBoundingClientRect();
+
+    expect([box.width, box.height]).toEqual([sentinel.height[size], sentinel.height[size]]);
+  });
 });

@@ -1,0 +1,11 @@
+component: NavigationMenuItem
+file: ui/navigation-menu/NavigationMenuItem.vue
+props:
+  value:
+    description: "Names the item for `v-model`. Generated when not set."
+  as:
+    description: "The element or component to render; an `li` by default."
+  asChild:
+    description: "Render the single child instead of the `li`, merging this part's attributes and classes onto it."
+slots:
+  default: "A `NavigationMenuTrigger` and its `NavigationMenuContent`, or a single `NavigationMenuLink`. Put them straight inside the item: the arrow keys skip anything wrapped."

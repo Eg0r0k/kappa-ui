@@ -13,7 +13,7 @@ import { Spinner } from "@/ui/spinner";
       <Spinner />
       Downloading
     </Button>
-    <Button size="icon" disabled aria-label="Saving">
+    <Button size="icon-md" disabled aria-label="Saving">
       <Spinner />
     </Button>
   </div>

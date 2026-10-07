@@ -40,7 +40,7 @@
     {
       "name": "field-context",
       "type": "registry:lib",
-      "title": "Field context",
+      "title": "Field Context",
       "description": "The context a Field provides so the control inside it can wire its id, description and error.",
       "dependencies": [
         "reka-ui"
@@ -48,6 +48,24 @@
       "files": [
         {
           "path": "src/lib/field-context.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "standard-schema",
+      "type": "registry:lib",
+      "title": "Standard Schema for VeeValidate",
+      "description": "Lets VeeValidate 4 validate with Zod 4, Valibot or any other Standard Schema.",
+      "categories": [
+        "forms"
+      ],
+      "dependencies": [
+        "vee-validate"
+      ],
+      "files": [
+        {
+          "path": "src/lib/standard-schema.ts",
           "type": "registry:lib"
         }
       ]
@@ -134,7 +152,7 @@
     {
       "name": "scroll-fade",
       "type": "registry:item",
-      "title": "Scroll fade",
+      "title": "Scroll Fade",
       "description": "Utilities that fade the edges of a scroll region while there is more to scroll that way, by mask or by overlay gradients.",
       "categories": [
         "utilities"
@@ -142,6 +160,9 @@
       "docs": "Put v-scroll-fade from @kappa-ui/core/scroll-fade on the scroll container so the edges also follow the scroll in Firefox.",
       "dependencies": [
         "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "tokens"
       ],
       "css": {
         "@import \"@kappa-ui/core/tailwind.css\"": {}
@@ -713,7 +734,7 @@
     {
       "name": "button-group",
       "type": "registry:ui",
-      "title": "Button group",
+      "title": "Button Group",
       "description": "Buttons joined into one control, horizontal or vertical, with an optional separator and text.",
       "categories": [
         "actions"
@@ -999,6 +1020,9 @@
       "categories": [
         "data-display"
       ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
       "registryDependencies": [
         "utils",
         "tokens"
@@ -1198,6 +1222,66 @@
       ]
     },
     {
+      "name": "tree",
+      "type": "registry:ui",
+      "title": "Tree",
+      "description": "A tree of nested items to browse, select or check, with keyboard navigation, lazy folders, a checkbox mode with cascading checks and virtualization for large trees, built on Reka UI.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@lucide/vue",
+        "reka-ui",
+        "@tanstack/vue-virtual"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "spinner",
+        "checkbox"
+      ],
+      "files": [
+        {
+          "path": "src/ui/tree/Tree.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemCheckbox.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemIcon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeItemToggle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/TreeVirtualizer.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tree/selection.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "menu",
       "type": "registry:ui",
       "title": "Menu",
@@ -1275,6 +1359,97 @@
         },
         {
           "path": "src/ui/menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A desktop-style bar of menus, like File, Edit and View, with roving focus, hover switching, submenus, checkbox and radio items, built on Reka UI and styled like Menu.",
+      "categories": [
+        "navigation"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover",
+        "menu"
+      ],
+      "files": [
+        {
+          "path": "src/ui/menubar/Menubar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarCheckboxItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarItemIndicator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarLabel.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarRadioGroup.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarRadioItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarShortcut.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSub.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSubContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarSubTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/MenubarTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/menubar/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -1601,7 +1776,7 @@
     {
       "name": "input-floating",
       "type": "registry:ui",
-      "title": "Input floating",
+      "title": "Input Floating",
       "description": "A text input with a label that floats inside it, as in Material's text fields, in Input's variants and sizes, wired to a surrounding Field.",
       "categories": [
         "text-input"
@@ -1649,7 +1824,7 @@
     {
       "name": "input-group",
       "type": "registry:ui",
-      "title": "Input group",
+      "title": "Input Group",
       "description": "An input or textarea framed together with icons, text and buttons, in the input's variants and sizes, with button radii concentric with the frame.",
       "categories": [
         "text-input"
@@ -1700,7 +1875,7 @@
     {
       "name": "input-number",
       "type": "registry:ui",
-      "title": "Input number",
+      "title": "Input Number",
       "description": "A number field with stepper buttons inside the frame, in Input's variants and sizes, laid out horizontally or vertically, with min, max, step and Intl formatting. Built on Reka UI.",
       "categories": [
         "text-input"
@@ -1743,7 +1918,7 @@
     {
       "name": "input-time",
       "type": "registry:ui",
-      "title": "Input time",
+      "title": "Input Time",
       "description": "A segmented time field in Input's variants and sizes, with a range variant, 12- or 24-hour cycles, min, max, step and a loading spinner, nestable in an input group. Built on Reka UI.",
       "categories": [
         "text-input"
@@ -1770,7 +1945,156 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/ui/input-time/time-field.ts",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/ui/input-time/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-date",
+      "type": "registry:ui",
+      "title": "Input Date",
+      "description": "A segmented date field in Input's variants and sizes, with a range variant, optional time segments, min, max, unavailable dates, ISO paste and a loading spinner, nestable in an input group. Built on Reka UI.",
+      "categories": [
+        "text-input"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "input",
+        "input-group",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/ui/input-date/InputDate.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-date/InputDateRange.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-date/date-field.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/input-date/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "InputDate's segments with a calendar button that opens Calendar in a popover, so a date can be typed or picked. Five sizes and the text control variants, a button trigger for a shadcn-style picker, time segments, Field wiring, native form submission and one focus and blur for the whole control. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "button",
+        "input",
+        "input-group",
+        "input-date",
+        "popover",
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/ui/date-picker/DatePicker.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerValue.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/DatePickerCalendar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/picker.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-picker/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-range-picker",
+      "type": "registry:ui",
+      "title": "Date Range Picker",
+      "description": "DatePicker for a start and an end: InputDateRange's segments with a calendar button that opens RangeCalendar in a popover. Type both ends or pick them, with maximum length, unavailable days, several months, a button trigger that formats the range, and name[start] and name[end] for native forms. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "date-picker",
+        "input-date",
+        "input-group",
+        "popover",
+        "calendar",
+        "range-calendar"
+      ],
+      "files": [
+        {
+          "path": "src/ui/date-range-picker/DateRangePicker.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/DateRangePickerInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/DateRangePickerValue.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/DateRangePickerCalendar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/date-range-picker/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -1778,7 +2102,7 @@
     {
       "name": "tags-input",
       "type": "registry:ui",
-      "title": "Tags input",
+      "title": "Tags Input",
       "description": "Tags typed into one text control frame, drawn as badges, with delimiter, paste, max and duplicate handling and Field integration. Built on Reka UI.",
       "categories": [
         "text-input"
@@ -1851,6 +2175,80 @@
       ]
     },
     {
+      "name": "file-upload",
+      "type": "registry:ui",
+      "title": "File Upload",
+      "description": "File upload parts: a drop zone, a trigger, and a list of files with previews, over a File or File[] v-model with accept, size and count checks that report rejected files, paste, native form submission and Field integration.",
+      "categories": [
+        "forms"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/file-upload/FileUpload.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadDropzone.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadIcon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItemPreview.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItemMetadata.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadItemDelete.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/FileUploadClear.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/file-upload/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
@@ -1886,7 +2284,7 @@
     {
       "name": "choice-group",
       "type": "registry:ui",
-      "title": "Choice group",
+      "title": "Choice Group",
       "description": "The layouts a checkbox group or radio group lays its options out in: plain, cards, one bordered list or a table, in a column or a row, with the whole card or row clickable.",
       "categories": [
         "choice"
@@ -1951,10 +2349,30 @@
       ]
     },
     {
+      "name": "choice-group-colors",
+      "type": "registry:block",
+      "title": "Choice group colours",
+      "description": "A neutral card group and a success list: the selected card's edge and the selected row's tint follow the group's colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group",
+        "checkbox",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/choice-group/ChoiceGroupColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "data-table",
       "type": "registry:ui",
       "title": "Data Table",
-      "description": "A table over TanStack Table: columns and data, column slots, sorting, sticky header and footer, pinned columns, density, row events, pagination, loading and empty states, and row virtualization.",
+      "description": "A table over TanStack Table: columns and data, column slots, sorting, sticky header and footer, pinned columns, row sizes, row events, pagination, loading and empty states, and row virtualization.",
       "categories": [
         "data-display"
       ],
@@ -2367,7 +2785,7 @@
       "name": "table",
       "type": "registry:ui",
       "title": "Table",
-      "description": "Semantic table parts with borders on the cells, sticky header and footer, pinned cells, density and striping, sharing their classes with the data table.",
+      "description": "Semantic table parts with borders on the cells, sticky header and footer, pinned cells, row sizes and striping, sharing their classes with the data table.",
       "categories": [
         "data-display"
       ],
@@ -2453,6 +2871,63 @@
         },
         {
           "path": "src/ui/tabs/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A site header of links and triggers whose panels open in one shared viewport that morphs between them, in ghost and link variants and five sizes, horizontal or vertical, built on Reka UI.",
+      "categories": [
+        "navigation"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "src/ui/navigation-menu/NavigationMenu.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuIndicator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuLink.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuList.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/NavigationMenuViewport.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/navigation-menu/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -2587,6 +3062,47 @@
         },
         {
           "path": "src/ui/slider/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "rating",
+      "type": "registry:ui",
+      "title": "Rating",
+      "description": "A row of stars to pick a score, in whole, half, quarter or tenth steps, five sizes, any tone and both orientations, with a readonly picture for exact fractions. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context"
+      ],
+      "files": [
+        {
+          "path": "src/ui/rating/Rating.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/rating/RatingItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/rating/RatingDisplay.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/rating/RatingDisplayItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/rating/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -3455,6 +3971,27 @@
       ]
     },
     {
+      "name": "button-touch-target-row",
+      "type": "registry:block",
+      "title": "Button touch target row",
+      "description": "Three rows of tight icon buttons with no touch target, expand and wrapper, their areas tinted.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/button/ButtonTouchTargetRow.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "spinner-demo",
       "type": "registry:block",
       "title": "Spinner demo",
@@ -4156,6 +4693,24 @@
       ]
     },
     {
+      "name": "kbd-sizes",
+      "type": "registry:block",
+      "title": "Kbd sizes",
+      "description": "Keys from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "kbd"
+      ],
+      "files": [
+        {
+          "path": "src/examples/kbd/KbdSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "input-demo",
       "type": "registry:block",
       "title": "Input demo",
@@ -4797,6 +5352,656 @@
       ]
     },
     {
+      "name": "input-date-demo",
+      "type": "registry:block",
+      "title": "Input date demo",
+      "description": "A date of birth in a field, bound with v-model.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-range",
+      "type": "registry:block",
+      "title": "Input date range",
+      "description": "Trip dates as a start and an end date in one field.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateRangeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-date-time",
+      "type": "registry:block",
+      "title": "Input date with time",
+      "description": "A departure date and time in the 24-hour and the 12-hour cycle.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateDateTime.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-min-max",
+      "type": "registry:block",
+      "title": "Input date min and max",
+      "description": "A booking date that turns invalid outside the next 90 days.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateMinMax.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-unavailable",
+      "type": "registry:block",
+      "title": "Input date unavailable dates",
+      "description": "A delivery day that turns invalid at weekends.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateUnavailable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-locale",
+      "type": "registry:block",
+      "title": "Input date locale",
+      "description": "The same date in English, German and Japanese order.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateLocale.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-variants",
+      "type": "registry:block",
+      "title": "Input date variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-sizes",
+      "type": "registry:block",
+      "title": "Input date sizes",
+      "description": "The field from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-loading",
+      "type": "registry:block",
+      "title": "Input date loading",
+      "description": "A spinner at the end while availability is checked.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateLoading.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-group",
+      "type": "registry:block",
+      "title": "Input date in a group",
+      "description": "A calendar icon and a Today button around the field in an input group.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "input-group",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateGroup.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-states",
+      "type": "registry:block",
+      "title": "Input date states",
+      "description": "Disabled and read-only fields.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-date-form",
+      "type": "registry:block",
+      "title": "Input date form",
+      "description": "A booking form validated with a Valibot schema through Formisch.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "@internationalized/date",
+        "reka-ui",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "input-date",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/input-date/InputDateForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-demo",
+      "type": "registry:block",
+      "title": "Date picker demo",
+      "description": "An invoice's due date, typed or picked, in a field.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-button",
+      "type": "registry:block",
+      "title": "Date picker with a button",
+      "description": "A shadcn-style outline button that shows the date and opens the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-birthday",
+      "type": "registry:block",
+      "title": "Date picker birthday",
+      "description": "A date of birth with month and year selects in the calendar's heading.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "select",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerBirthday.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-form",
+      "type": "registry:block",
+      "title": "Date picker form",
+      "description": "A weekday delivery date kept as an ISO string by Formisch and checked by Valibot.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "@internationalized/date",
+        "reka-ui",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-unavailable",
+      "type": "registry:block",
+      "title": "Date picker unavailable dates",
+      "description": "Appointments on weekdays only, with fully booked days struck through.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerUnavailable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-date-time",
+      "type": "registry:block",
+      "title": "Date picker with time",
+      "description": "A departure date and time, with a Done button under the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerDateTime.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-presets",
+      "type": "registry:block",
+      "title": "Date picker presets",
+      "description": "Quick picks for today, tomorrow, next Monday and in a month under the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerPresets.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-locale",
+      "type": "registry:block",
+      "title": "Date picker locale",
+      "description": "German order and an Arabic picker laid out right to left.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerLocale.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-sizes",
+      "type": "registry:block",
+      "title": "Date picker sizes",
+      "description": "The field and its calendar from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "date-picker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-variants",
+      "type": "registry:block",
+      "title": "Date picker variants",
+      "description": "The five text control variants.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "date-picker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-states",
+      "type": "registry:block",
+      "title": "Date picker states",
+      "description": "Disabled, read-only, invalid and required pickers.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-input-group",
+      "type": "registry:block",
+      "title": "Date picker in an input group",
+      "description": "A text addon before the picker, in one input group frame.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "input-group",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerInputGroup.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-dialog",
+      "type": "registry:block",
+      "title": "Date picker in a dialog",
+      "description": "Rescheduling a meeting from a dialog.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-picker",
+        "button",
+        "dialog",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DatePickerDialog.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-range",
+      "type": "registry:block",
+      "title": "Date range picker",
+      "description": "Trip dates over two months, one on a phone.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@vueuse/core",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-range-picker",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DateRangePickerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-range-button",
+      "type": "registry:block",
+      "title": "Date range picker with a button",
+      "description": "A report period behind a button, with presets beside the calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-range-picker",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DateRangePickerButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-range-form",
+      "type": "registry:block",
+      "title": "Date range picker form",
+      "description": "Hotel nights in a plain form, at most two weeks, around sold-out nights.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "date-range-picker",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/date-picker/DateRangePickerForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "tags-input-demo",
       "type": "registry:block",
       "title": "Tags input demo",
@@ -5039,6 +6244,263 @@
       ]
     },
     {
+      "name": "file-upload-demo",
+      "type": "registry:block",
+      "title": "File upload demo",
+      "description": "A drop zone for one image up to 2 MB.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-multiple",
+      "type": "registry:block",
+      "title": "File upload multiple",
+      "description": "Up to five documents, listed under the drop zone.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-button",
+      "type": "registry:block",
+      "title": "File upload button",
+      "description": "An image picker that shows the picked image, and an Attach button that lists files under it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-sizes",
+      "type": "registry:block",
+      "title": "File upload sizes",
+      "description": "The five sizes, each holding one file.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-variants",
+      "type": "registry:block",
+      "title": "File upload variants",
+      "description": "The outline, soft and subtle frames.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-layouts",
+      "type": "registry:block",
+      "title": "File upload layouts",
+      "description": "Pictures and a PDF in a list and a grid, outside and inside the frame.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadLayouts.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-rejections",
+      "type": "registry:block",
+      "title": "File upload rejections",
+      "description": "Rejected files explained in a status message.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadRejections.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-field",
+      "type": "registry:block",
+      "title": "File upload field",
+      "description": "A required résumé upload in a form, and a disabled field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "field",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadField.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-form",
+      "type": "registry:block",
+      "title": "File upload form",
+      "description": "A cover photo and floor plans validated with a Valibot schema through Formisch, with an error on each bad file.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "field",
+        "button"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-progress",
+      "type": "registry:block",
+      "title": "File upload progress",
+      "description": "Files uploaded as soon as they are added, with a progress bar each.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadProgress.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-avatar",
+      "type": "registry:block",
+      "title": "File upload avatar",
+      "description": "An edit form that shows the saved avatar until a new one is picked.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "avatar",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadAvatar.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-custom",
+      "type": "registry:block",
+      "title": "File upload custom",
+      "description": "A drop zone that only opens the dialog from its own button, with a Remove all action.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "button"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadCustom.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-page-drop",
+      "type": "registry:block",
+      "title": "File upload page drop",
+      "description": "Files dropped anywhere on the page attach to a message.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "file-upload",
+        "textarea"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "files": [
+        {
+          "path": "src/examples/file-upload/FileUploadPageDrop.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "slider-demo",
       "type": "registry:block",
       "title": "Slider demo",
@@ -5169,6 +6631,24 @@
       ]
     },
     {
+      "name": "slider-colors",
+      "type": "registry:block",
+      "title": "Slider colours",
+      "description": "Sliders in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "slider"
+      ],
+      "files": [
+        {
+          "path": "src/examples/slider/SliderColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "slider-states",
       "type": "registry:block",
       "title": "Slider states",
@@ -5220,6 +6700,259 @@
       "files": [
         {
           "path": "src/examples/slider/SliderInset.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-demo",
+      "type": "registry:block",
+      "title": "Rating demo",
+      "description": "A star rating in a field, with its value next to it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-sizes",
+      "type": "registry:block",
+      "title": "Rating sizes",
+      "description": "The five sizes, each next to a button of the same size.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-half",
+      "type": "registry:block",
+      "title": "Rating half steps",
+      "description": "Half and quarter steps with a hover preview.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingHalf.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-readonly",
+      "type": "registry:block",
+      "title": "Rating readonly",
+      "description": "A product's review summary: an exact 4.3 average, the spread of scores and small ratings in a review list.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "progress"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingReadonly.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-colors",
+      "type": "registry:block",
+      "title": "Rating colours",
+      "description": "One rating in each colour, gold stars with warning.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-clearable",
+      "type": "registry:block",
+      "title": "Rating clearable",
+      "description": "A rating that clears when the current star is picked again.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingClearable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-hover-label",
+      "type": "registry:block",
+      "title": "Rating hover label",
+      "description": "A word for the star under the pointer, which screen readers hear as each star's name.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingHoverLabel.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-icons",
+      "type": "registry:block",
+      "title": "Rating icons",
+      "description": "Hearts and a three-chilli spice level in place of stars.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingIcons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-states",
+      "type": "registry:block",
+      "title": "Rating states",
+      "description": "Disabled, readonly, and required with an error.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-touch-target",
+      "type": "registry:block",
+      "title": "Rating touch target",
+      "description": "The pressable area of each star for each touch target option, outlined.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingTouchTarget.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-direction",
+      "type": "registry:block",
+      "title": "Rating direction",
+      "description": "A half-step rating that fills from the right in a right-to-left layout.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingDirection.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-vertical",
+      "type": "registry:block",
+      "title": "Rating vertical",
+      "description": "A rating running from top to bottom.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "rating"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-form",
+      "type": "registry:block",
+      "title": "Rating form",
+      "description": "An order review validated with a Valibot schema through Formisch.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "rating",
+        "button",
+        "card",
+        "field",
+        "textarea"
+      ],
+      "files": [
+        {
+          "path": "src/examples/rating/RatingForm.vue",
           "type": "registry:component"
         }
       ]
@@ -5278,6 +7011,27 @@
       "files": [
         {
           "path": "src/examples/listbox/ListboxIcons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "listbox-sizes",
+      "type": "registry:block",
+      "title": "Listbox sizes",
+      "description": "The same listbox in every size, from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "listbox"
+      ],
+      "files": [
+        {
+          "path": "src/examples/listbox/ListboxSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -5414,6 +7168,312 @@
       "files": [
         {
           "path": "src/examples/listbox/ListboxField.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-demo",
+      "type": "registry:block",
+      "title": "Tree demo",
+      "description": "Project files with folder icons that open and close, keyed by path.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-sizes",
+      "type": "registry:block",
+      "title": "Tree sizes",
+      "description": "The same tree in every size, from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-variants",
+      "type": "registry:block",
+      "title": "Tree variants",
+      "description": "A ghost tree in a card next to an outline tree.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-multiple",
+      "type": "registry:block",
+      "title": "Tree multiple",
+      "description": "Photos picked by click, Ctrl-click, Shift-click and Shift + arrows.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-checkbox",
+      "type": "registry:block",
+      "title": "Tree checkbox",
+      "description": "Role permissions with cascading checks, a locked permission and the checked leaves listed.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeCheckbox.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-field",
+      "type": "registry:block",
+      "title": "Tree field",
+      "description": "A required permissions tree in a field, validated with vee-validate and zod and stored as keys.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "tree",
+        "field",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeField.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-mail-folders",
+      "type": "registry:block",
+      "title": "Tree mail folders",
+      "description": "Mailboxes that select on click and open from the chevron or a double click, with unread counts.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeMailFolders.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-virtual",
+      "type": "registry:block",
+      "title": "Tree virtual",
+      "description": "Ten thousand stores in a virtualized tree.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeVirtual.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-lazy",
+      "type": "registry:block",
+      "title": "Tree lazy",
+      "description": "A bucket browser that loads each folder when it opens.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeLazy.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-reveal",
+      "type": "registry:block",
+      "title": "Tree reveal",
+      "description": "Expand all, collapse all, and reveal a page from outside the tree.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeReveal.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-filter",
+      "type": "registry:block",
+      "title": "Tree filter",
+      "description": "Cities filtered by a search field, with the matches opened.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "input-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeFilter.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-git-status",
+      "type": "registry:block",
+      "title": "Tree git status",
+      "description": "Changed files with status letters and counts in the row slots.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeGitStatus.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-context-menu",
+      "type": "registry:block",
+      "title": "Tree context menu",
+      "description": "Notes with a context menu to rename in place, duplicate and delete.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tree",
+        "menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeContextMenu.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-disabled",
+      "type": "registry:block",
+      "title": "Tree disabled",
+      "description": "Disabled nodes and a disabled tree.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeDisabled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-composition",
+      "type": "registry:block",
+      "title": "Tree composition",
+      "description": "An org chart built from TreeItem parts in the default slot.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tree",
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tree/TreeComposition.vue",
           "type": "registry:component"
         }
       ]
@@ -6200,7 +8260,7 @@
       "name": "drawer-menu-sizes",
       "type": "registry:block",
       "title": "Drawer menu sizes",
-      "description": "The sm, md and lg row heights.",
+      "description": "The xs to xl row heights.",
       "categories": [
         "example"
       ],
@@ -6425,6 +8485,194 @@
       "files": [
         {
           "path": "src/examples/forms/FormischArray.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-demo",
+      "type": "registry:block",
+      "title": "VeeValidate demo",
+      "description": "A bug report form validated with a Zod schema through VeeValidate.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "card",
+        "field",
+        "input",
+        "textarea"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-select",
+      "type": "registry:block",
+      "title": "VeeValidate select",
+      "description": "A required select and combobox bound to VeeValidate fields.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "combobox",
+        "field",
+        "select"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateSelect.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-choices",
+      "type": "registry:block",
+      "title": "VeeValidate choices",
+      "description": "A checkbox group, a radio group and a switch bound to VeeValidate fields.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "checkbox",
+        "field",
+        "radio-group",
+        "switch"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateChoices.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-controls",
+      "type": "registry:block",
+      "title": "VeeValidate controls",
+      "description": "A number input, tags input, range slider and pin input bound to VeeValidate fields with v-model.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "field",
+        "input-number",
+        "pin-input",
+        "slider",
+        "tags-input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateControls.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-array",
+      "type": "registry:block",
+      "title": "VeeValidate array",
+      "description": "A list of email fields added and removed with the field arrays of VeeValidate.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateArray.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-dialog",
+      "type": "registry:block",
+      "title": "VeeValidate dialog",
+      "description": "An invite form in a dialog, with an async submit and an error from the server.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "dialog",
+        "field",
+        "input",
+        "select",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateDialog.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "vee-validate-field-slot",
+      "type": "registry:block",
+      "title": "VeeValidate Field slot",
+      "description": "The Form and Field components of VeeValidate bound to kappa-ui controls through the slot.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "vee-validate",
+        "zod"
+      ],
+      "registryDependencies": [
+        "standard-schema",
+        "button",
+        "field",
+        "input",
+        "input-number"
+      ],
+      "files": [
+        {
+          "path": "src/examples/forms/VeeValidateFieldSlot.vue",
           "type": "registry:component"
         }
       ]
@@ -6707,6 +8955,208 @@
       "files": [
         {
           "path": "src/examples/menu/MenuNonModal.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-demo",
+      "type": "registry:block",
+      "title": "Menubar",
+      "description": "A browser-style menubar with shortcuts, a submenu, checkbox and radio items.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-sizes",
+      "type": "registry:block",
+      "title": "Menubar sizes",
+      "description": "The same menubar from xs to xl; one menu keeps its own size.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-variants",
+      "type": "registry:block",
+      "title": "Menubar variants",
+      "description": "Outline, soft and ghost bars, and a ghost bar in a document header.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-icons",
+      "type": "registry:block",
+      "title": "Menubar icons and states",
+      "description": "Leading icons, labels, inset items, a disabled item and a disabled menu.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarIcons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-checkbox-radio",
+      "type": "registry:block",
+      "title": "Menubar settings",
+      "description": "Editor view settings bound to one reactive object with checkbox and radio items.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarCheckboxRadio.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-open-state",
+      "type": "registry:block",
+      "title": "Controlled menubar",
+      "description": "The open menu bound with v-model and opened from buttons outside the bar.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarOpenState.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-dialogs",
+      "type": "registry:block",
+      "title": "Menubar with dialogs",
+      "description": "Items that open a rename form, a delete confirmation, and move focus to a search field.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "alert-dialog",
+        "button",
+        "dialog",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarDialogs.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-icon-triggers",
+      "type": "registry:block",
+      "title": "Icon menubar",
+      "description": "Icon-only menus labelled with the v-tooltip directive.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarIconTriggers.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-rtl",
+      "type": "registry:block",
+      "title": "Right-to-left menubar",
+      "description": "A menubar mirrored under dir=\"rtl\", with arrows, menus and submenus flipped.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "menubar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarRtl.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "menubar-app-shell",
+      "type": "registry:block",
+      "title": "Menubar app shell",
+      "description": "A document editor with a ghost menubar above a formatting toolbar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "menu",
+        "toolbar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/menubar/MenubarAppShell.vue",
           "type": "registry:component"
         }
       ]
@@ -7160,7 +9610,7 @@
       "name": "progress-colors",
       "type": "registry:block",
       "title": "Progress colours",
-      "description": "Bars recoloured with a text class.",
+      "description": "Bars in every colour, and step names in the colour's text shade.",
       "categories": [
         "example"
       ],
@@ -7309,6 +9759,25 @@
       ]
     },
     {
+      "name": "checkbox-colors",
+      "type": "registry:block",
+      "title": "Checkbox colours",
+      "description": "Checked boxes in every colour, and a group that passes its colour to the checkboxes without one.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/checkbox/CheckboxColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "checkbox-sizes",
       "type": "registry:block",
       "title": "Checkbox sizes",
@@ -7342,6 +9811,25 @@
       "files": [
         {
           "path": "src/examples/checkbox/CheckboxTouchTarget.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "checkbox-touch-target-list",
+      "type": "registry:block",
+      "title": "Checkbox touch target list",
+      "description": "A tight checkbox list with expand and with wrapper, their areas tinted.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/checkbox/CheckboxTouchTargetList.vue",
           "type": "registry:component"
         }
       ]
@@ -7437,6 +9925,24 @@
       "files": [
         {
           "path": "src/examples/switch/SwitchDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "switch-colors",
+      "type": "registry:block",
+      "title": "Switch colours",
+      "description": "Switches turned on in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "switch"
+      ],
+      "files": [
+        {
+          "path": "src/examples/switch/SwitchColors.vue",
           "type": "registry:component"
         }
       ]
@@ -7635,10 +10141,10 @@
       ]
     },
     {
-      "name": "table-density",
+      "name": "table-sizes",
       "type": "registry:block",
-      "title": "Table density",
-      "description": "Compact, default and comfortable rows, striped.",
+      "title": "Table sizes",
+      "description": "Row heights from xs to xl, striped.",
       "categories": [
         "example"
       ],
@@ -7648,7 +10154,7 @@
       ],
       "files": [
         {
-          "path": "src/examples/table/TableDensity.vue",
+          "path": "src/examples/table/TableSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -7767,7 +10273,7 @@
       "name": "table-large",
       "type": "registry:block",
       "title": "Large table",
-      "description": "Two hundred rows with two pinned columns at the start, one at the end, density and stripes.",
+      "description": "Two hundred rows with two pinned columns at the start, one at the end, row sizes and stripes.",
       "categories": [
         "example"
       ],
@@ -7861,6 +10367,24 @@
       ]
     },
     {
+      "name": "tabs-colors",
+      "type": "registry:block",
+      "title": "Tabs colours",
+      "description": "Line tabs with the indicator in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tabs"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tabs/TabsColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "tabs-sizes",
       "type": "registry:block",
       "title": "Tabs sizes",
@@ -7937,6 +10461,245 @@
       ]
     },
     {
+      "name": "navigation-menu-demo",
+      "type": "registry:block",
+      "title": "Navigation menu demo",
+      "description": "A docs site header with a featured card, a grid of described links and a plain link.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-sizes",
+      "type": "registry:block",
+      "title": "Navigation menu sizes",
+      "description": "The same menu in the five sizes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-link-variant",
+      "type": "registry:block",
+      "title": "Navigation menu link variant",
+      "description": "Underlined links with the current page marked and a disabled panel link.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuLinkVariant.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-as-child",
+      "type": "registry:block",
+      "title": "Navigation menu with your own links",
+      "description": "Router-style links passed through as-child.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuAsChild.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-no-viewport",
+      "type": "registry:block",
+      "title": "Navigation menu without a viewport",
+      "description": "Panels under their own triggers, one with a search form that closes the menu on submit.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuNoViewport.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-controlled",
+      "type": "registry:block",
+      "title": "Navigation menu controlled",
+      "description": "The open panel bound with v-model, opened and closed from outside and after a form submits.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "button",
+        "field",
+        "input"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuControlled.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-indicator",
+      "type": "registry:block",
+      "title": "Navigation menu indicator",
+      "description": "An arrow that follows the open trigger.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuWithIndicator.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-click-only",
+      "type": "registry:block",
+      "title": "Navigation menu click only",
+      "description": "Panels that open on click and stay open when the pointer leaves.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuClickOnly.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-keep-mounted",
+      "type": "registry:block",
+      "title": "Navigation menu keeping panels mounted",
+      "description": "Closed panels kept in the page, hidden.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuKeepMounted.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-align",
+      "type": "registry:block",
+      "title": "Navigation menu align",
+      "description": "Panel alignment at start, center and end, in both reading directions.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuAlign.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-vertical",
+      "type": "registry:block",
+      "title": "Navigation menu vertical",
+      "description": "A sidebar whose panels open beside it.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu-responsive",
+      "type": "registry:block",
+      "title": "Navigation menu responsive",
+      "description": "A header with a navigation menu on wide screens and a drawer menu on narrow ones.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "@vueuse/core"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "drawer",
+        "drawer-menu",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/navigation-menu/NavigationMenuResponsive.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "radio-demo",
       "type": "registry:block",
       "title": "Radio demo",
@@ -7951,6 +10714,24 @@
       "files": [
         {
           "path": "src/examples/radio/RadioDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "radio-colors",
+      "type": "registry:block",
+      "title": "Radio colours",
+      "description": "A radio group in every colour, passed to its radios.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "radio-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/radio/RadioColors.vue",
           "type": "registry:component"
         }
       ]
@@ -9329,7 +12110,7 @@
     {
       "name": "inner-loading",
       "type": "registry:ui",
-      "title": "Inner loading",
+      "title": "Inner Loading",
       "description": "A loading overlay for one region: a translucent scrim with an indicator over content that turns inert, so nothing behind it can be clicked, focused or read until it is done.",
       "categories": [
         "feedback"
@@ -9520,6 +12301,24 @@
       ]
     },
     {
+      "name": "stepper-colors",
+      "type": "registry:block",
+      "title": "Stepper colours",
+      "description": "Steppers with the active step in every colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "stepper"
+      ],
+      "files": [
+        {
+          "path": "src/examples/stepper/StepperColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "stepper-sizes",
       "type": "registry:block",
       "title": "Stepper sizes",
@@ -9571,7 +12370,7 @@
     {
       "name": "color-picker",
       "type": "registry:ui",
-      "title": "Color picker",
+      "title": "Color Picker",
       "description": "A colour picker from parts: a saturation and brightness area, channel sliders with hue and alpha, a hex or channel field, a preview and preset swatches, bound to one v-model string in hex, rgb, hsl or hsb. Keyboard and screen-reader support from Reka UI, one size from xs to xl, wired to Field.",
       "categories": [
         "choice"
@@ -9619,6 +12418,155 @@
         },
         {
           "path": "src/ui/color-picker/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A month grid for picking one date or several, in Material 3 look: round days, today outlined, the heading at the start and the arrows at the end. Min and max, disabled and unavailable days, several months, week numbers, a heading slot for month and year pickers, five sizes, any tone and Field wiring. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "field-context",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/calendar/Calendar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarHeading.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarPrevButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarNextButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarGrid.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarGridHead.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarGridBody.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarGridRow.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarHeadCell.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarCell.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/CalendarCellTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/calendar/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "range-calendar",
+      "type": "registry:ui",
+      "title": "Range Calendar",
+      "description": "Calendar's sibling for a start and an end date: solid ends, a soft band between them and a live preview while the end is picked. Maximum length, unavailable days with or without gaps, several months, five sizes, any tone and Field wiring. Built on Reka UI.",
+      "categories": [
+        "choice"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "button",
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/ui/range-calendar/RangeCalendar.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarHeading.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarPrevButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarNextButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarGrid.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarGridHead.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarGridBody.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarGridRow.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarHeadCell.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarCell.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/RangeCalendarCellTrigger.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/range-calendar/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -9731,6 +12679,442 @@
       "files": [
         {
           "path": "src/examples/color-picker/ColorPickerField.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-demo",
+      "type": "registry:block",
+      "title": "Calendar demo",
+      "description": "One date with v-model, written out below the grid.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-sizes",
+      "type": "registry:block",
+      "title": "Calendar sizes",
+      "description": "The five sizes, from xs to xl.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-color",
+      "type": "registry:block",
+      "title": "Calendar color",
+      "description": "Selected days and today's outline in primary, neutral and success.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarColor.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-multiple",
+      "type": "registry:block",
+      "title": "Calendar multiple",
+      "description": "On-call days picked with multiple, listed beside the grid.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-min-max",
+      "type": "registry:block",
+      "title": "Calendar min and max",
+      "description": "A booking window: nothing before the opening day or more than 60 days ahead.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarMinMax.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-disabled-dates",
+      "type": "registry:block",
+      "title": "Calendar disabled dates",
+      "description": "Weekends switched off with is-date-disabled.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarDisabledDates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-unavailable-dates",
+      "type": "registry:block",
+      "title": "Calendar unavailable dates",
+      "description": "Fully booked days struck through with is-date-unavailable, and a legend.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarUnavailableDates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-week-numbers",
+      "type": "registry:block",
+      "title": "Calendar week numbers",
+      "description": "Week numbers for de-DE's ISO weeks and for en-US starting on Monday.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarWeekNumbers.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-locale",
+      "type": "registry:block",
+      "title": "Calendar locale",
+      "description": "Arabic digits right to left, and the Persian calendar.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarLocale.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-month-year-select",
+      "type": "registry:block",
+      "title": "Calendar month and year select",
+      "description": "Month and year Selects in the heading slot for a birthday a long way back.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar",
+        "select"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarMonthYearSelect.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-placeholder",
+      "type": "registry:block",
+      "title": "Calendar placeholder",
+      "description": "Buttons that move the month on screen without selecting a day.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarPlaceholder.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-events",
+      "type": "registry:block",
+      "title": "Calendar events",
+      "description": "A dot under days with events, drawn in the day slot, and the day's agenda beside it.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarEvents.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-date-picker",
+      "type": "registry:block",
+      "title": "Calendar date picker",
+      "description": "A button that opens the calendar in a popover and closes it on a pick.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "calendar",
+        "button",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarDatePicker.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-form",
+      "type": "registry:block",
+      "title": "Calendar form",
+      "description": "A date of birth kept as an ISO string by Formisch and checked by valibot, in a Field.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "@internationalized/date",
+        "reka-ui",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "calendar",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/calendar/CalendarForm.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "range-calendar-demo",
+      "type": "registry:block",
+      "title": "Range calendar demo",
+      "description": "Two months side by side, paged together, stacked on a phone.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "range-calendar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/range-calendar/RangeCalendarDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "range-calendar-maximum-days",
+      "type": "registry:block",
+      "title": "Range calendar maximum days",
+      "description": "A stay of up to seven days around booked nights, with a switch to allow gaps.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "range-calendar",
+        "label",
+        "switch"
+      ],
+      "files": [
+        {
+          "path": "src/examples/range-calendar/RangeCalendarMaximumDays.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "range-calendar-presets",
+      "type": "registry:block",
+      "title": "Range calendar presets",
+      "description": "Last 7 days, last 30 days, this month and last month beside the grid.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "range-calendar",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/range-calendar/RangeCalendarPresets.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "range-calendar-date-picker",
+      "type": "registry:block",
+      "title": "Range calendar date picker",
+      "description": "A button with the trip's dates that opens two months in a popover and closes on a full range.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@internationalized/date",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "range-calendar",
+        "button",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "src/examples/range-calendar/RangeCalendarDatePicker.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "range-calendar-form",
+      "type": "registry:block",
+      "title": "Range calendar form",
+      "description": "Check-in and check-out kept as ISO strings by Formisch and checked by valibot, in a Field.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@formisch/vue",
+        "@internationalized/date",
+        "reka-ui",
+        "valibot"
+      ],
+      "registryDependencies": [
+        "range-calendar",
+        "button",
+        "field"
+      ],
+      "files": [
+        {
+          "path": "src/examples/range-calendar/RangeCalendarForm.vue",
           "type": "registry:component"
         }
       ]
@@ -10261,7 +13645,7 @@
     {
       "name": "alert-dialog",
       "type": "registry:ui",
-      "title": "Alert dialog",
+      "title": "Alert Dialog",
       "description": "A modal that interrupts with a question that needs an answer: no outside dismissal, focus on Cancel, Button-styled actions and a small size, built on Reka UI's AlertDialog and Dialog's surface.",
       "categories": [
         "overlays"

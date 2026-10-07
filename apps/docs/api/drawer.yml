@@ -10,7 +10,7 @@ props:
   unmountOnHide:
     description: "Removes the panel from the DOM while closed. Turn it off to keep its state between openings."
   side:
-    description: "The edge the panel slides in from and swipes back to: `bottom` (the default), `top`, `left` or `right`."
+    description: "The edge the panel slides in from and swipes back to: `bottom` (the default), `top`, `left` or `right`. A screen edge, so `left` stays on the left in right-to-left text."
   dismissible:
     description: "Whether a swipe, Escape or a press outside closes it. Off, the panel still follows a drag and springs back."
   handleOnly:

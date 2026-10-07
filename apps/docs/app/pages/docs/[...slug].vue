@@ -27,13 +27,7 @@ defineOgImage('KappaDocs', {
 
 <template>
   <article v-if="page" class="mx-auto w-full max-w-175 px-6 py-10">
-    <DocsPageHeader
-      :title="page.title"
-      :description="page.description"
-      :path="path"
-      :component="page.component"
-      :reka="page.reka"
-    />
+    <DocsPageHeader :title="page.title" :description="page.description" :path="path" :component="page.component" />
     <ContentRenderer :value="page" class="prose max-w-none" />
     <ComponentChangelog v-if="page.component" :component="page.component" />
     <DocsPageFooter :path="path" />

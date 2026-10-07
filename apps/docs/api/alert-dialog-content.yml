@@ -2,7 +2,7 @@ component: AlertDialogContent
 file: ui/alert-dialog/AlertDialogContent.vue
 props:
   size:
-    description: "`default` is as wide as a dialog. `sm` is 320px wide, centres the header and splits the footer into two equal buttons."
+    description: "`md` is as wide as a dialog. `sm` is 320px wide, centres the header and splits the footer into two equal buttons."
   forceMount:
     description: "Keeps the window mounted while closed, for animating it with a JavaScript library."
   disableOutsidePointerEvents:

@@ -4,22 +4,33 @@ import { type HTMLAttributes, computed, ref, useAttrs, useSlots } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type SwitchVariants, switchHandleClass, switchIconClass, switchThumbClass, switchVariants } from ".";
+import {
+  type SwitchColor,
+  type SwitchVariants,
+  switchHandleClass,
+  switchIconClass,
+  switchThumbClass,
+  switchVariants,
+} from ".";
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<
-  SwitchRootProps & {
-    size?: SwitchVariants["size"];
-    touchTarget?: SwitchVariants["touchTarget"];
-    class?: HTMLAttributes["class"];
-  }
->();
+const props = withDefaults(
+  defineProps<
+    SwitchRootProps & {
+      color?: SwitchColor | (string & {});
+      size?: SwitchVariants["size"];
+      touchTarget?: SwitchVariants["touchTarget"];
+      class?: HTMLAttributes["class"];
+    }
+  >(),
+  { color: "primary" },
+);
 const emits = defineEmits<SwitchRootEmits>();
 const slots = useSlots();
 
 const delegated = computed(() => {
-  const { class: _, size: __, touchTarget: ___, ...rest } = props;
+  const { class: _, size: __, touchTarget: ___, color: ____, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
@@ -40,6 +51,8 @@ const onPointerLeave = () => {
   <SwitchRoot
     v-bind="{ ...attrs, ...forwarded }"
     data-slot="switch"
+    :data-color="props.color"
+    :data-size="props.size ?? 'md'"
     :data-touch-target="props.touchTarget"
     :data-unchecked-icon="slots['unchecked-icon'] ? '' : undefined"
     :id="control.id.value"

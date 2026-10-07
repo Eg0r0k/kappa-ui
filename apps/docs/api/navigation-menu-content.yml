@@ -1,0 +1,18 @@
+component: NavigationMenuContent
+file: ui/navigation-menu/NavigationMenuContent.vue
+props:
+  forceMount:
+    description: "Keeps the panel mounted while closed, for animating it with your own code."
+  disableOutsidePointerEvents:
+    description: "Blocks pointer events outside the panel while it is open."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  escapeKeyDown: "Fires on Escape. Call `event.preventDefault()` to keep the panel open."
+  pointerDownOutside: "Fires on a press outside the panel. Call `event.preventDefault()` to keep it open."
+  focusOutside: "Fires when focus moves outside the panel. Call `event.preventDefault()` to keep it open."
+  interactOutside: "Fires on a press or focus outside the panel. Call `event.preventDefault()` to keep it open."
+slots:
+  default: "The panel: links, and any other content, forms included."

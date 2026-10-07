@@ -38,24 +38,24 @@ export const inputNumberVariants = cva(
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `h-7 ${textControlRadius.xs}
-          [--control-padding:--spacing(2)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(0.5)]
+        xs: `h-(--control-height-xs) ${textControlRadius.xs}
+          [--control-padding:var(--control-padding-xs)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(0.5)]
           [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]
         `,
-        sm: `h-8 ${textControlRadius.sm}
-          [--control-padding:--spacing(2.5)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(1)]
+        sm: `h-(--control-height-sm) ${textControlRadius.sm}
+          [--control-padding:var(--control-padding-sm)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]
         `,
-        md: `h-9 ${textControlRadius.md}
-          [--control-padding:--spacing(3)] [--stepper-size:--spacing(7)] [--stepper-inset:--spacing(1)]
+        md: `h-(--control-height-md) ${textControlRadius.md}
+          [--control-padding:var(--control-padding-md)] [--stepper-size:--spacing(7)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]
         `,
-        lg: `h-10 ${textControlRadius.lg}
-          [--control-padding:--spacing(3)] [--stepper-size:--spacing(8)] [--stepper-inset:--spacing(1)]
+        lg: `h-(--control-height-lg) ${textControlRadius.lg}
+          [--control-padding:var(--control-padding-lg)] [--stepper-size:--spacing(8)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]
         `,
-        xl: `h-12 ${textControlRadius.xl}
-          [--control-padding:--spacing(4)] [--stepper-size:--spacing(10)] [--stepper-inset:--spacing(1)]
+        xl: `h-(--control-height-xl) ${textControlRadius.xl}
+          [--control-padding:var(--control-padding-xl)] [--stepper-size:--spacing(10)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(5)] [--stepper-chevron:--spacing(4)]
         `,
       },
