@@ -1,6 +1,6 @@
 export type ChangelogPackage = 'registry' | 'core'
 export type Bump = 'major' | 'minor' | 'patch'
-export type ChangelogEntry = { hash: string; url: string; bump: Bump; text: string }
+export type ChangelogEntry = { hash?: string; url?: string; bump: Bump; text: string }
 export type ParsedRelease = { version: string; entries: ChangelogEntry[] }
 export type Release = ParsedRelease & { package: ChangelogPackage; date: string }
 export type ItemTokens = { name: string; main: string; tokens: string[] }
@@ -10,14 +10,16 @@ export type ItemChangelog = {
     package: ChangelogPackage
     version: string
     date: string
-    entries: { hash: string; url: string; text: string }[]
+    entries: { hash?: string; url?: string; text: string }[]
   }[]
 }
 export type ChangelogData = { releases: Release[]; items: Record<string, ItemChangelog> }
 
 const RELEASE = /^## (\S+)\s*$/
 const BUMP = /^### (Major|Minor|Patch) Changes\s*$/
-const ENTRY = /^- (?:\[#\d+\]\([^)]+\) )?\[`([0-9a-f]+)`\]\(([^)]+)\)(?: Thanks \[[^\]]*\]\([^)]*\)!)? - (.*)$/
+const LINKED =
+  /^- (?:\[#\d+\]\([^)]+\) )?(?:\[`([0-9a-f]+)`\]\(([^)]+)\) )?(?:Thanks \[[^\]]*\]\([^)]*\)(?:, \[[^\]]*\]\([^)]*\))*! )?- (.*)$/
+const DEPENDENCIES = '- Updated dependencies'
 const BADGE_DAYS = 30
 
 const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -39,9 +41,12 @@ export const parseChangelog = (markdown: string) => {
       current = undefined
       continue
     }
-    const entry = ENTRY.exec(line)
-    if (entry && releases.length > 0) {
-      current = { hash: entry[1]!, url: entry[2]!, bump, text: entry[3]!.trim() }
+    // changelog-github leaves out the links it could not find, down to a bare `- text`
+    if (line.startsWith('- ') && !line.startsWith(DEPENDENCIES) && releases.length > 0) {
+      const linked = LINKED.exec(line)
+      current = linked
+        ? { hash: linked[1], url: linked[2], bump, text: linked[3]!.trim() }
+        : { bump, text: line.slice(2).trim() }
       releases.at(-1)!.entries.push(current)
       continue
     }

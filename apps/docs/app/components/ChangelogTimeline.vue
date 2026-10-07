@@ -16,7 +16,7 @@ type Release = {
   package: 'registry' | 'core'
   version: string
   date: string
-  entries: { hash: string; url: string; text: string }[]
+  entries: { hash?: string; url?: string; text: string }[]
 }
 
 const props = defineProps<{ releases: Release[] }>()
@@ -48,9 +48,9 @@ const paragraphs = (text: string) => text.split(/\n{2,}/)
           </time>
         </StepperTitle>
         <StepperDescription as="div" class="flex flex-col gap-3 text-body-md text-foreground">
-          <div v-for="entry in release.entries" :key="entry.hash" class="flex flex-col gap-1.5">
+          <div v-for="(entry, index) in release.entries" :key="entry.hash ?? index" class="flex flex-col gap-1.5">
             <p v-for="(paragraph, at) in paragraphs(entry.text)" :key="at">
-              <template v-if="at === 0">
+              <template v-if="at === 0 && entry.hash">
                 <a
                   :href="entry.url"
                   target="_blank"

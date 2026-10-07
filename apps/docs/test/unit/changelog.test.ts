@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+
 import { describe, expect, it } from 'vitest'
 
 import {
@@ -56,6 +58,39 @@ describe('parseChangelog', () => {
       'New `InputNumber`: a number field.\n\n`Input` now exports `textControlFrameVariant`.',
     )
     expect(releases[0]!.entries[0]!.url).toBe('https://github.com/Eg0r0k/kappa-ui/commit/f3e1bd4aaaa')
+  })
+
+  it('reads an entry that thanks several authors', () => {
+    const line = entry('b2c3d4e', 'New `Kbd`.').replace('!', ', [@other](https://github.com/other)!')
+    const [release] = parseChangelog(['## 1.0.0', '', '### Minor Changes', '', line].join('\n'))
+    expect(release!.entries.map((item) => item.text)).toEqual(['New `Kbd`.'])
+  })
+
+  it('reads entries changelog-github could not link, and ones linked to a pull request only', () => {
+    const pullOnly =
+      '- [#7](https://github.com/Eg0r0k/kappa-ui/pull/7) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `Kbd`.'
+    const [release] = parseChangelog(
+      ['## 1.0.0', '', '### Patch Changes', '', '- The frame ignores addons.', '', pullOnly].join('\n'),
+    )
+    expect(release!.entries).toEqual([
+      { bump: 'patch', text: 'The frame ignores addons.' },
+      { bump: 'patch', text: 'New `Kbd`.' },
+    ])
+  })
+
+  it('reads every entry of the real changelogs down to its text', () => {
+    for (const file of ['packages/registry/CHANGELOG.md', 'packages/core/CHANGELOG.md']) {
+      const markdown = readFileSync(new URL(`../../../../${file}`, import.meta.url), 'utf8')
+      const entries = parseChangelog(markdown).flatMap((release) => release.entries)
+      const lines = markdown
+        .split(/\r?\n/)
+        .filter((line) => line.startsWith('- ') && !line.startsWith('- Updated dependencies'))
+      expect(entries.length, file).toBe(lines.length)
+      expect(
+        entries.filter((item) => /^\[|Thanks \[@/.test(item.text)).map((item) => item.text),
+        file,
+      ).toEqual([])
+    }
   })
 })
 

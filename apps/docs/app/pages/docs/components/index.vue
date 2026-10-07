@@ -9,6 +9,11 @@ definePageMeta({ layout: 'docs' })
 const nav = useDocsNavigation()
 const groups = computed(() => componentGroups(nav.value))
 
+const now = ref<number>()
+onMounted(() => {
+  now.value = Date.now()
+})
+
 useSeoMeta({ title: 'Components', description: 'Every kappa-ui component, grouped by what it is for.' })
 
 defineOgImage('KappaDocs', {
@@ -33,12 +38,12 @@ defineOgImage('KappaDocs', {
                 <CardTitle class="flex items-center gap-2">
                   {{ page.title }}
                   <Badge
-                    v-if="badgeOf(page.component)"
+                    v-if="badgeOf(page.component, now)"
                     size="xs"
                     variant="soft"
-                    :color="badgeOf(page.component) === 'new' ? 'success' : 'info'"
+                    :color="badgeOf(page.component, now) === 'new' ? 'success' : 'info'"
                   >
-                    {{ badgeOf(page.component) }}
+                    {{ badgeOf(page.component, now) }}
                   </Badge>
                 </CardTitle>
                 <CardDescription class="line-clamp-2">{{ page.description }}</CardDescription>
