@@ -74,38 +74,73 @@ const ariaChecked = computed(() => {
 const within = (event: Event, slot: string) =>
   event.target instanceof Element && event.target.closest(`[data-slot=${slot}]`) !== null;
 
+const isClick = (event: Event): event is MouseEvent => event.type === "click";
+
+// A leaf's chevron slot is empty space, so it counts as the row.
+const partOf = (event: Event) => {
+  if (within(event, "tree-item-checkbox")) return "checkbox";
+  if (hasChildren.value && within(event, "tree-item-toggle")) return "chevron";
+  return "row";
+};
+
+const clickSelects = (event: MouseEvent) => {
+  // The second click of a double click opens the folder instead.
+  if (!tree.toggleOnClick.value && event.detail > 1) return false;
+  if (tree.checkbox.value) return partOf(event) === "checkbox";
+  return partOf(event) !== "chevron";
+};
+
+const clickToggles = (event: MouseEvent) => {
+  const part = partOf(event);
+  if (part === "checkbox") return false;
+  if (part === "chevron") return true;
+  return tree.toggleOnClick.value;
+};
+
+// A Space in the middle of a typed name goes on with the search; it doesn't select.
+const keySelects = (event: KeyboardEvent) => event.key !== " " || !tree.isTyping();
+
+const selects = (event: Event) => (isClick(event) ? clickSelects(event) : keySelects(event as KeyboardEvent));
+const toggles = (event: Event) => !isClick(event) || clickToggles(event);
+
+const emitSelect = (event: TreeItemSelectEvent<T>) => {
+  emits("select", event);
+  if (!event.defaultPrevented) tree.onSelect(event, node.value);
+};
+
+const emitToggle = (event: TreeItemToggleEvent<T>) => {
+  emits("toggle", event);
+  if (!event.defaultPrevented) tree.onToggle(event, node.value);
+};
+
 const onSelect = (event: TreeItemSelectEvent<T>) => {
-  const original = event.detail.originalEvent;
-  const click = original.type === "click";
-  const skip =
-    (click && hasChildren.value && within(original, "tree-item-toggle")) ||
-    (click && !tree.toggleOnClick.value && (original as MouseEvent).detail > 1) ||
-    // A Space in the middle of a typed name goes on with the search; it doesn't select.
-    ((original as KeyboardEvent).key === " " && tree.isTyping());
-  if (!skip) {
-    emits("select", event);
-    if (!event.defaultPrevented) tree.onSelect(event, node.value);
-  }
+  if (selects(event.detail.originalEvent)) emitSelect(event);
   // The tree keeps the selection; Reka's stays empty.
   event.preventDefault();
 };
 
 const onToggle = (event: TreeItemToggleEvent<T>) => {
-  const original = event.detail.originalEvent;
-  if (
-    original.type === "click" &&
-    (within(original, "tree-item-checkbox") || (!tree.toggleOnClick.value && !within(original, "tree-item-toggle")))
-  ) {
-    event.preventDefault();
-    return;
-  }
-  emits("toggle", event);
-  if (!event.defaultPrevented) tree.onToggle(event, node.value);
+  if (toggles(event.detail.originalEvent)) emitToggle(event);
+  else event.preventDefault();
 };
 
 const NAVIGATION = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End", "PageUp", "PageDown"]);
 const RANGE = new Set(["ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
 const UNTYPED = new Set(["Enter", "Shift", "Control", "Alt", "Meta", "*"]);
+
+// Reka UI's TreeRoot adds every key to its typeahead for a second, so ArrowDown then "d" matches
+// nothing. Keys that can't be typed stop at the row; Escape and Tab still bubble, and a
+// virtualized tree needs the arrows at its root. A Space that selects stops too, or "d" typed
+// after it would search for " d"; a Space typed mid-name goes on to the search.
+const reachesRoot = (event: KeyboardEvent) => {
+  if (event.key === " ") return tree.isTyping();
+  if (UNTYPED.has(event.key)) return false;
+  if (NAVIGATION.has(event.key)) return tree.virtual.value;
+  return true;
+};
+
+const isCharacter = (event: KeyboardEvent) =>
+  event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey;
 
 const onKeydown = (event: KeyboardEvent) => {
   if (event.target !== event.currentTarget) return;
@@ -114,24 +149,16 @@ const onKeydown = (event: KeyboardEvent) => {
     tree.expandSiblings(key.value);
   }
   if (event.shiftKey && RANGE.has(event.key)) tree.extendOnFocus(key.value);
-  // Reka UI's TreeRoot adds every key to its typeahead for a second, so ArrowDown then "d" matches
-  // nothing. Keys that can't be typed stop at the row; Escape and Tab still bubble, and a
-  // virtualized tree needs the arrows at its root. A Space that selects stops too, or "d" typed
-  // after it would search for " d"; a Space typed mid-name goes on to the search.
-  if (event.key === " ") {
-    if (tree.isTyping()) tree.typed();
-    else event.stopPropagation();
-  } else if (UNTYPED.has(event.key) || (!tree.virtual.value && NAVIGATION.has(event.key))) {
+  if (!reachesRoot(event)) {
     event.stopPropagation();
-  } else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-    tree.typed();
+    return;
   }
+  if (event.key === " " || isCharacter(event)) tree.typed();
 };
 
 const onDblclick = (event: MouseEvent) => {
-  if (tree.toggleOnClick.value || !hasChildren.value || disabled.value) return;
-  if (within(event, "tree-item-toggle") || within(event, "tree-item-checkbox")) return;
-  tree.toggle(key.value);
+  if (tree.toggleOnClick.value || disabled.value || !hasChildren.value) return;
+  if (partOf(event) === "row") tree.toggle(key.value);
 };
 </script>
 

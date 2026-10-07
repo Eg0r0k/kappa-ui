@@ -654,6 +654,18 @@ describe("Tree checkbox", () => {
     expect(value.value).toEqual([]);
   });
 
+  it("checks only from the checkbox: a click on the row expands a folder and leaves a leaf alone", async () => {
+    const { row, value, expanded } = mountTree({ checkbox: true, multiple: true, modelValue: [], expanded: [] });
+
+    await row("app").get("[data-slot=tree-item-label]").trigger("click");
+    expect(expanded.value).toEqual(["app"]);
+    expect(value.value).toEqual([]);
+
+    await row("main.ts").trigger("click");
+    await row("docs").get("[data-slot=tree-item-label]").trigger("click");
+    expect(value.value).toEqual([]);
+  });
+
   // nuxt/ui#6499: a model holding leaves only showed the parent unchecked.
   it("shows a parent checked when the model holds its leaves only", () => {
     const items = makeItems();
