@@ -275,7 +275,9 @@ it("runs its exit animation when Escape closes it in the middle of a drag", asyn
   }
   await wait(50);
   expect(slot("drawer-content")!.hasAttribute("data-swiping")).toBe(true);
-  await userEvent.keyboard("{Escape}");
+  (document.activeElement ?? document.body).dispatchEvent(
+    new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+  );
   await settle();
   expect(open.value).toBe(false);
   const content = slot("drawer-content")!;
