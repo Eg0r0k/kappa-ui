@@ -19,3 +19,10 @@ test('the icons runtime bundles into a valid async function body', () => {
   const bundle = bundleOf(runtime('shared.ts', 'icons.ts'), 'syncIcons', { icons: [] })
   assert.doesNotThrow(() => new AsyncFunction(bundle))
 })
+
+test('the thumbnails runtime bundles into a valid async function body', () => {
+  const bundle = bundleOf(runtime('shared.ts', 'thumbs.ts'), 'exportThumbnails', {
+    endpoint: 'http://localhost/thumbs',
+  })
+  assert.doesNotThrow(() => new AsyncFunction(bundle))
+})

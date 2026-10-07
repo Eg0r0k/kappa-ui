@@ -27,4 +27,7 @@ export type TokenPayload = {
 export type IconToken = { id: string; name: string; svg: string }
 export type IconPayload = { icons: IconToken[] }
 
+export type ThumbPayload = { endpoint: string; only?: string[] }
+export type ThumbExport = { name: string; svg: string; sentinels: Record<string, string> }
+
 export type SyncReport = { created: string[]; updated: number; orphans: string[]; removed: string[] }

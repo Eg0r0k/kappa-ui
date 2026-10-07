@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
@@ -7,14 +7,16 @@ import { parseArgs } from 'node:util'
 
 import { bundleOf } from './bundle.ts'
 import { iconFilesOf, type IconNode, lucideIndexOf, svgOf } from './icons.ts'
-import type { IconPayload } from './payload.ts'
+import type { IconPayload, ThumbExport, ThumbPayload } from './payload.ts'
+import { thumbnailSvg } from './thumbs.ts'
 import { tokensOf } from './tokens.ts'
 
 const root = join(import.meta.dirname, '../..')
 const PORT = 9232
 const LIFETIME = 120_000
+const THUMBS_LIFETIME = 600_000
 const USAGE =
-  'Usage: node scripts/figma/cli.ts tokens [--theme light|dark] [--prune] | icons [name…] | run <file.ts…> [--call build] [--payload <json>]'
+  'Usage: node scripts/figma/cli.ts tokens [--theme light|dark] [--prune] | icons [name…] | run <file.ts…> [--call build] [--payload <json>] | thumbs --out <dir> [--only <slug>…]'
 
 const read = (path: string) => readFileSync(join(root, path), 'utf8')
 
@@ -105,6 +107,73 @@ const serve = (kind: string, bundle: string) => {
   })
 }
 
+const serveThumbs = (args: string[]) => {
+  const { values } = parseArgs({ args, options: { out: { type: 'string' }, only: { type: 'string', multiple: true } } })
+  if (!values.out) throw new Error(USAGE)
+  const out = resolve(values.out)
+  mkdirSync(out, { recursive: true })
+  const payload: ThumbPayload = {
+    endpoint: `http://localhost:${PORT}/thumbs`,
+    ...(values.only ? { only: values.only } : {}),
+  }
+  const bundle = bundleOf(runtime('shared.ts', 'thumbs.ts'), 'exportThumbnails', payload)
+  new AsyncFunction(bundle)
+  const headers = { 'Access-Control-Allow-Origin': '*', Connection: 'close' }
+  const written = new Set<string>()
+  const stop = () => {
+    server.close()
+    server.closeAllConnections()
+  }
+  const finish = (done: string[]) => {
+    const stale = values.only ? [] : readdirSync(out).filter((file) => file.endsWith('.svg') && !written.has(file))
+    for (const file of stale) rmSync(join(out, file))
+    if (stale.length > 0) console.log(`Removed ${stale.join(', ')}`)
+    console.log(`Wrote ${written.size} of ${done.length} thumbnails to ${out}`)
+    stop()
+  }
+  const receive = (body: string) => {
+    const message = JSON.parse(body) as ThumbExport | { done: string[] }
+    if ('done' in message) {
+      finish(message.done)
+      return
+    }
+    writeFileSync(join(out, `${message.name}.svg`), thumbnailSvg(message))
+    written.add(`${message.name}.svg`)
+  }
+  const server = createServer((request, response) => {
+    if (request.method === 'GET' && request.url === '/thumbs.js') {
+      response.writeHead(200, { ...headers, 'Content-Type': 'text/javascript' }).end(bundle)
+      console.log(`Served thumbs.js (${bundle.length} bytes)`)
+      return
+    }
+    if (request.method !== 'POST' || request.url !== '/thumbs') {
+      response.writeHead(404, headers).end()
+      return
+    }
+    let body = ''
+    request.on('data', (chunk: Buffer) => (body += chunk))
+    request.on('end', () => {
+      try {
+        receive(body)
+        response.writeHead(204, headers).end()
+      } catch (error) {
+        console.error(String(error))
+        response.writeHead(422, headers).end(String(error))
+      }
+    })
+  })
+  const timer = setTimeout(() => {
+    console.log('The export did not finish; stopping.')
+    stop()
+  }, THUMBS_LIFETIME)
+  server.on('close', () => clearTimeout(timer))
+  server.listen(PORT, 'localhost', () => {
+    console.log('Run in figma_execute with timeout 30000:')
+    console.log(`const source = await (await fetch('http://localhost:${PORT}/thumbs.js')).text()`)
+    console.log('return await eval(`(async () => {\\n${source}\\n})()`)')
+  })
+}
+
 const builders: Record<string, (args: string[]) => string | Promise<string>> = {
   tokens: tokensBundle,
   icons: iconsBundle,
@@ -113,5 +182,6 @@ const builders: Record<string, (args: string[]) => string | Promise<string>> = {
 
 const [kind = '', ...args] = process.argv.slice(2)
 const build = builders[kind]
-if (!build) throw new Error(USAGE)
-serve(kind, await build(args))
+if (kind === 'thumbs') serveThumbs(args)
+else if (build) serve(kind, await build(args))
+else throw new Error(USAGE)
