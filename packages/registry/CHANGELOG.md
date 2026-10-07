@@ -1,5 +1,16 @@
 # @kappa-ui/registry
 
+## 0.15.0
+
+### Minor Changes
+
+- [`d09f26a`](https://github.com/Eg0r0k/kappa-ui/commit/d09f26af39cf8740b38a3c3c97f19ccdbd2fe3e3) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Pressable parts ripple on their own: Button, Toggle, ToggleGroupItem, Item as a link or a button, the calendar days, tabs, accordion, menubar and navigation menu triggers, the items of Menu, Menubar, Select, Combobox, Command, DrawerMenu, Listbox and Tree, and the clear buttons of TagsInput and Combobox. Each imports the directive from `@/lib/ripple`, so `add` brings the `ripple` item along and nothing needs registering. On menu, listbox and tree rows the wave replaces the pressed layer, as `state-layer` already did. Bind `v-ripple="false"` on a Button to turn one off, or set `--kappa-ripple: none` on `:root` to turn them all off.
+
+### Patch Changes
+
+- Updated dependencies [[`3e1a8a0`](https://github.com/Eg0r0k/kappa-ui/commit/3e1a8a0fbd233bef58298a5da89f1f8ef3aa56a7)]:
+  - @kappa-ui/core@0.11.0
+
 ## 0.14.0
 
 ### Minor Changes
