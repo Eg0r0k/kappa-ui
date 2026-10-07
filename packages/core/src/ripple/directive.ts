@@ -13,6 +13,7 @@ const SOFT_EDGE_MINIMUM_SIZE = 75;
 const SOFT_EDGE_CONTAINER_RATIO = 0.35;
 
 const INTERACTIVE_SELECTOR = 'button, a, input, select, textarea, [role="button"]';
+const DISABLED_SELECTOR = ':disabled, [aria-disabled="true"], [data-disabled]';
 
 export type RippleOptions = {
   disabled?: boolean;
@@ -185,7 +186,11 @@ const belongsToNestedControl = (el: HTMLElement, target: EventTarget | null) => 
 };
 
 const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
-  if (el._ripple) return;
+  // a v-ripple on a component that already ripples runs last and overrides it
+  if (el._ripple) {
+    el._ripple.options = parseBinding(binding);
+    return;
+  }
 
   const releaseCurrent = () => {
     const state = el._ripple;
@@ -196,13 +201,18 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
     if (event.isPrimary) releaseCurrent();
   };
 
+  const activeState = () => {
+    const state = el._ripple;
+    if (!state || state.options.disabled || el.matches(DISABLED_SELECTOR)) return undefined;
+    return matches("(forced-colors: active)") ? undefined : state;
+  };
+
   // detail is 0 only when no pointer produced the click: keyboard, label, .click()
   const onClick = (event: MouseEvent) => {
     if (event.detail !== 0) return;
 
-    const state = el._ripple;
-    if (!state || state.options.disabled) return;
-    if (matches("(forced-colors: active)")) return;
+    const state = activeState();
+    if (!state) return;
     if (belongsToNestedControl(el, event.target)) return;
 
     releaseCurrent();
@@ -217,9 +227,8 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
     if (event.button === 1) return;
     if (!event.isPrimary) return;
 
-    const state = el._ripple;
-    if (!state || state.options.disabled) return;
-    if (matches("(forced-colors: active)")) return;
+    const state = activeState();
+    if (!state) return;
 
     // a wave whose release was lost must not outlive the next press
     releaseCurrent();
