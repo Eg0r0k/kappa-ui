@@ -47,12 +47,12 @@
 @supports (color: oklch(from red l c h)) {
   :root {
     --primary: oklch(from var(--brand) 0.48 c h);
-    --ring: oklch(from var(--brand) 0.7 calc(c * 0.6) h);
+    --ring: oklch(from color-mix(in oklch, var(--brand) 60%, oklch(0 0 none)) 0.7 c h);
   }
   .dark {
-    --primary: oklch(from var(--brand) 0.78 calc(c * 0.5) h);
-    --primary-foreground: oklch(from var(--brand) 0.25 calc(c * 0.4) h);
-    --ring: oklch(from var(--brand) 0.6 calc(c * 0.6) h);
+    --primary: oklch(from color-mix(in oklch, var(--brand) 50%, oklch(0 0 none)) 0.78 c h);
+    --primary-foreground: oklch(from color-mix(in oklch, var(--brand) 40%, oklch(0 0 none)) 0.25 c h);
+    --ring: oklch(from color-mix(in oklch, var(--brand) 60%, oklch(0 0 none)) 0.6 c h);
   }
 }
 
