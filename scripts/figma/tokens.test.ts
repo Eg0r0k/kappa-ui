@@ -115,6 +115,15 @@ test('rejects tone values it cannot express', () => {
   assert.throws(() => tokensOf({ ...sources, tailwind }, light), /Unsupported tone value in primary: --tone-soft/)
 })
 
+test('aliases a theme colour written with a fallback', () => {
+  const tailwind = sources.tailwind.replace(
+    '--tone-text: --theme(--color-primary)',
+    '--tone-text: --theme(--color-primary, oklch(0.5 0.13 152))',
+  )
+  const { payload } = tokensOf({ ...sources, tailwind }, light)
+  assert.deepEqual(variable(payload.variables, 'Tone/primary/text').value, { alias: 'Color/primary' })
+})
+
 test('rejects aliases to unknown theme colours', () => {
   const tailwind = sources.tailwind.replace('--tone: --theme(--color-primary)', '--tone: --theme(--color-nope)')
   assert.throws(() => tokensOf({ ...sources, tailwind }, light), /Unknown theme colour --color-nope/)
@@ -165,7 +174,7 @@ const real = { tokens: core('tokens.css'), theme: core('theme.css'), tailwind: c
 test('reads the real core sources', () => {
   const { payload, gamutMapped } = tokensOf(real, light)
   const count = (collection: string) => payload.variables.filter((item) => item.collection === collection).length
-  assert.deepEqual([count('Color'), count('Tone'), count('Radius')], [33, 48, 9])
+  assert.deepEqual([count('Color'), count('Tone'), count('Radius')], [33, 47, 9])
   assert.equal(payload.textStyles.length, 15)
   assert.equal(payload.effectStyles.length, 5)
   const tones = payload.variables.filter((item) => item.collection === 'Tone')

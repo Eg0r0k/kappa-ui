@@ -25,7 +25,7 @@ const DISABLED = [
   ['disabled', 'disabled-opacity'],
   ['disabled-container', 'disabled-container-opacity'],
 ] as const
-const THEME_COLOR = /^--theme\(--color-([a-z-]+)\)$/
+const THEME_COLOR = /^--theme\(--color-([a-z-]+)(?:, .+)?\)$/
 const TONE_VAR = /^var\(--tone(?:-([a-z-]+))?\)$/
 const TONE_MIX = /^color-mix\(in oklab, var\(--tone(?:-([a-z-]+))?\) ([\d.]+)%, transparent\)$/
 
