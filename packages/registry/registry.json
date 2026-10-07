@@ -1931,6 +1931,7 @@
         "text-input"
       ],
       "dependencies": [
+        "@internationalized/date",
         "class-variance-authority",
         "reka-ui"
       ],
