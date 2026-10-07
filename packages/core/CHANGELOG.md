@@ -1,5 +1,11 @@
 # @kappa-ui/core
 
+## 0.12.0
+
+### Minor Changes
+
+- [`d675257`](https://github.com/Eg0r0k/kappa-ui/commit/d67525707fcd1aaf8f55ae07a32c4743e79b4e40) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A DrawerMenu panel that leaves now waits for any animation or transition running on it, not only for a keyframe animation, so the slide between panels can be replaced with plain CSS: keyframes on `data-motion`, or a transition on `data-state` with `@starting-style` for the arriving panel. A transition used to be cut short: the panel hid at once when `animation-name` was `none`.
+
 ## 0.11.0
 
 ### Minor Changes

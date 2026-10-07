@@ -1,5 +1,27 @@
 # @kappa-ui/registry
 
+## 0.16.0
+
+### Minor Changes
+
+- [`39324b3`](https://github.com/Eg0r0k/kappa-ui/commit/39324b361ee48bee6d0286e968532b37ce6797a7) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - InfiniteScroll takes `shouldLoad`, the "time to load?" check `useInfiniteScroll()` already had: it gets the direction and replaces the `offset` check, and returning `undefined` falls back to `offset`.
+
+- [`18e317c`](https://github.com/Eg0r0k/kappa-ui/commit/18e317c6d7a19dfbefb04e88ba628c6bd72548cb) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Slider's parts are components of their own: `SliderTrack`, `SliderRange`, `SliderThumb` and `SliderHandle`, each taking a `class`. Slider still draws them itself when given no children, so `<Slider v-model>` works as before. Lay them out in its slot, which gives `{ thumbs, values }`, to restyle a part or to name each thumb of a range on its own.
+
+- [`2244090`](https://github.com/Eg0r0k/kappa-ui/commit/2244090e4ef8856c8ec55c3b51595e7dafdf4ae7) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Menus, select lists and popovers no longer melt into the dialog or card they open on. Dialogs, alert dialogs and drawers take a new `--dialog` surface, and in the dark theme `--popover` sits a step above it (0.24 instead of 0.205). Menus and popovers draw their shadow from a new `--shadow-popover`, dialogs from `--shadow-dialog`: a 1px ring over the old shadow in the light theme, and in the dark theme a top highlight, a ring inside and out and a layered drop, so two surfaces of one tone keep an edge between them. A theme without these tokens falls back to `--popover`, `--shadow-lg` and `--shadow-xl`, which is how they looked before; set the role shadows to those to drop the edge.
+
+- [`df7e5fd`](https://github.com/Eg0r0k/kappa-ui/commit/df7e5fd7e74a15a5edccee798f4cb38fb91a3811) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A click on a Tree folder's chevron only opens or closes it. It used to select the row as well, and in checkbox mode check the whole folder, so a folder couldn't be opened without changing what was checked.
+  
+  In checkbox mode a click checks only on `TreeItemCheckbox`. A click on the rest of the row opens or closes a folder, as in a tree without checkboxes, and does nothing on a leaf; Space still checks the focused row.
+
+### Patch Changes
+
+- [`635a4f4`](https://github.com/Eg0r0k/kappa-ui/commit/635a4f4c0f4836ce87b51ecb2cf7e981d67aaa8a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The theme derives `--primary`, `--primary-foreground` and `--ring` from `--brand` without `calc()` over a colour channel. cssnano, which Nuxt runs on production CSS, can't parse `calc(c * 0.6)` and warned on every CSS chunk; the same chroma now comes from mixing `--brand` with a hueless colour, so the colours don't change.
+
+- [`f6972bc`](https://github.com/Eg0r0k/kappa-ui/commit/f6972bc81df1474b4c9013109e9d6c78eb267cec) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `add input-time` installs `@internationalized/date`. InputTime's value is a `Time` from that package, which a project has to import to set one, and pnpm doesn't let a project import what only reka-ui depends on.
+- Updated dependencies [[`d675257`](https://github.com/Eg0r0k/kappa-ui/commit/d67525707fcd1aaf8f55ae07a32c4743e79b4e40)]:
+  - @kappa-ui/core@0.12.0
+
 ## 0.15.0
 
 ### Minor Changes
