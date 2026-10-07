@@ -69,6 +69,19 @@ it("finds the ScrollArea viewport through the injection and loads at its end", a
   await vi.waitFor(() => expect(calls).toEqual([{ direction: "bottom", index: 1 }]));
 });
 
+it("loads far from any edge when shouldLoad says so", async () => {
+  const { calls, api } = render({ shouldLoad: () => true });
+  api.value!.poll();
+  await vi.waitFor(() => expect(calls).toEqual([{ direction: "bottom", index: 1 }]));
+});
+
+it("does not load at an edge while shouldLoad says no", () => {
+  const { calls, viewport, api } = render({ shouldLoad: () => false });
+  viewport.scrollTop = 400;
+  api.value!.poll();
+  expect(calls).toEqual([]);
+});
+
 it("shows the loading part while loading, keeps its room when idle and hides it once stopped", async () => {
   const { viewport, root, loading, finish } = render();
   const part = loading("bottom")!;
