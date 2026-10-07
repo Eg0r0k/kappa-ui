@@ -1,13 +1,11 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
 import { Menu, MenuItem, MenuSub, MenuSubContent, MenuSubTrigger } from "@/ui/menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
-
-const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
 
 const clickAt = async (element: Element, button: "left" | "right" = "left") => {
   const rect = element.getBoundingClientRect();
@@ -16,8 +14,8 @@ const clickAt = async (element: Element, button: "left" | "right" = "left") => {
     button,
     force: true,
   } as never);
-  await settle();
 };
+const shown = (slot: string) => expect.poll(() => document.querySelector(`[data-slot=${slot}]`)).not.toBeNull();
 
 const clicks: string[] = [];
 
@@ -82,10 +80,10 @@ afterEach(() => {
 
 describe.each(Object.entries(overlays))("%s", (_, overlay) => {
   it("takes the first outside click with a scrim, so it only closes the overlay", async () => {
-    const wrapper = host(overlay.render);
+    host(overlay.render);
 
     await overlay.open();
-    expect(document.querySelector(`[data-slot=${overlay.content}]`)).not.toBeNull();
+    await shown(overlay.content);
     expect(document.querySelector(`[data-slot=${overlay.scrim}]`)).not.toBeNull();
 
     await clickAt(byTest("auto"));
@@ -95,74 +93,73 @@ describe.each(Object.entries(overlays))("%s", (_, overlay) => {
 
     await clickAt(byTest("auto"));
     expect(clicks).toEqual(["auto"]);
-    wrapper.unmount();
   });
 });
 
 describe("modal scrim", () => {
   it("is left out of a non-modal popover, which lets outside clicks through", async () => {
-    const wrapper = host(() =>
+    host(() =>
       h(Popover, () => [h(PopoverTrigger, { "data-test": "trigger" }, () => "Open"), h(PopoverContent, () => "Body")]),
     );
 
     await clickAt(byTest("trigger"));
-    expect(document.querySelector("[data-slot=popover-content]")).not.toBeNull();
+    await shown("popover-content");
     expect(document.querySelector("[data-slot=popover-scrim]")).toBeNull();
 
     await clickAt(byTest("auto"));
     expect(clicks).toEqual(["auto"]);
-    wrapper.unmount();
   });
 
   it("is left out of a menu with modal off", async () => {
-    const wrapper = host(() =>
+    host(() =>
       h("button", { "data-test": "trigger" }, ["Open", h(Menu, { modal: false }, () => h(MenuItem, () => "Item"))]),
     );
 
     await clickAt(byTest("trigger"));
-    expect(document.querySelector("[data-slot=menu]")).not.toBeNull();
+    await shown("menu");
     expect(document.querySelector("[data-slot=menu-scrim]")).toBeNull();
-    wrapper.unmount();
   });
 
   it("does not linger after a select closes by choosing an option", async () => {
-    const wrapper = host(overlays.select.render);
+    host(overlays.select.render);
 
     await overlays.select.open();
+    await shown("select-content");
+    await vi.waitFor(() =>
+      expect(document.querySelector("[data-slot=select-content]")?.contains(document.activeElement)).toBe(true),
+    );
     await userEvent.keyboard("{ArrowDown}");
     await userEvent.keyboard("{Enter}");
     await expect.poll(() => document.querySelector("[data-slot=select-content]")).toBeNull();
     await expect.poll(() => document.querySelector("[data-slot=select-scrim]")).toBeNull();
     expect(byTest("trigger").textContent).toContain("b");
-    wrapper.unmount();
   });
 
   it("stays single for a menu with an open submenu and closes both on an outside click", async () => {
-    const wrapper = host(() =>
+    host(() =>
       h("button", { "data-test": "trigger" }, [
         "Open",
         h(Menu, () =>
-          h(MenuSub, { defaultOpen: true }, () => [
-            h(MenuSubTrigger, () => "More"),
-            h(MenuSubContent, () => h(MenuItem, () => "Nested")),
-          ]),
+          h(MenuSub, () => [h(MenuSubTrigger, () => "More"), h(MenuSubContent, () => h(MenuItem, () => "Nested"))]),
         ),
       ]),
     );
 
     await clickAt(byTest("trigger"));
+    await shown("menu");
+    await userEvent.hover(document.querySelector<HTMLElement>("[data-slot=menu-sub-trigger]")!);
+    await shown("menu-sub-content");
     expect(document.querySelectorAll("[data-slot=menu-scrim]")).toHaveLength(1);
 
     await clickAt(byTest("auto"));
     expect(clicks).toEqual([]);
     await expect.poll(() => document.querySelector("[data-slot=menu]")).toBeNull();
     await expect.poll(() => document.querySelector("[data-slot=menu-sub-content]")).toBeNull();
-    wrapper.unmount();
   });
 
   it("follows a controlled open state", async () => {
     const open = ref(false);
-    const wrapper = host(() =>
+    host(() =>
       h(Popover, { modal: true, open: open.value, "onUpdate:open": (value: boolean) => (open.value = value) }, () => [
         h(PopoverTrigger, () => "Open"),
         h(PopoverContent, () => "Body"),
@@ -170,13 +167,10 @@ describe("modal scrim", () => {
     );
 
     open.value = true;
-    await nextTick();
-    await settle();
-    expect(document.querySelector("[data-slot=popover-scrim]")).not.toBeNull();
+    await shown("popover-scrim");
 
     open.value = false;
     await nextTick();
     await expect.poll(() => document.querySelector("[data-slot=popover-scrim]")).toBeNull();
-    wrapper.unmount();
   });
 });

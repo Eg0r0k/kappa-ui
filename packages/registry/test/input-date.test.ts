@@ -206,9 +206,8 @@ it("auto-advances and mirrors the arrow keys in RTL (reka-ui#2812)", async () =>
 it("rings the frame and highlights the segment that has focus", async () => {
   render(h(InputDate, { style: colors, defaultValue: date }));
   editable()[1]!.focus();
-  await settle();
-  expect(getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
-  expect(getComputedStyle(editable()[1]!).backgroundColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(editable()[1]!).backgroundColor).toBe("rgb(0, 128, 0)");
 });
 
 it("marks the segments and the frame invalid outside min and max", () => {
@@ -539,11 +538,9 @@ it("becomes the frameless control of an InputGroup at the group's size", async (
   expect(getComputedStyle(groupControl()).borderTopWidth).toBe("0px");
   expect(groupFrame().offsetHeight).toBe(32);
   editable()[0]!.focus();
-  await settle();
-  expect(getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 128, 0)");
   document.querySelector<HTMLElement>("[data-slot=input-group-button]")!.focus();
-  await settle();
-  expect(getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 0, 255)");
+  await expect.poll(() => getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 0, 255)");
 });
 
 it("focuses its first segment when an addon of its group is clicked", async () => {

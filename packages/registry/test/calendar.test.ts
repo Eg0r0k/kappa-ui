@@ -1,7 +1,7 @@
-import { CalendarDate, type DateValue, getLocalTimeZone, isWeekend, today } from "@internationalized/date";
+import { CalendarDate, type DateValue, isWeekend } from "@internationalized/date";
 import { mount } from "@vue/test-utils";
 import { CalendarRoot, ConfigProvider } from "reka-ui";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
@@ -14,7 +14,13 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
+  vi.useRealTimers();
 });
+
+const setToday = (iso: string) => {
+  vi.useFakeTimers({ toFake: ["Date"], shouldAdvanceTime: true, advanceTimeDelta: 1 });
+  vi.setSystemTime(new Date(`${iso}T12:00:00Z`));
+};
 
 const palette = [
   "--primary: rgb(0, 0, 255)",
@@ -219,10 +225,11 @@ describe("tones", () => {
   });
 
   it("outlines today in the tone's text colour", () => {
-    const now = today(getLocalTimeZone());
-    render(() => h(Calendar, { defaultPlaceholder: now, color: "success" }));
-    const element = day(now.toString());
+    setToday("2026-10-07");
+    render(() => h(Calendar, { defaultPlaceholder: oct6, color: "success" }));
+    const element = day("2026-10-07");
     expect(element.hasAttribute("data-today")).toBe(true);
+    expect(day("2026-10-06").hasAttribute("data-today")).toBe(false);
     expect(style(element).color).toBe("rgb(0, 90, 0)");
     expect(style(element).boxShadow).toContain("rgb(0, 90, 0)");
     expect(style(element).boxShadow).toContain("inset");
@@ -362,7 +369,13 @@ describe("v-model", () => {
   });
 
   // Upstream: Reka moves the view to the last remaining date (CalendarRoot's modelValue watch).
-  it.todo("keeps the view when a day is deselected in multiple mode");
+  it.fails("keeps the view when a day is deselected in multiple mode", async () => {
+    controlled({ multiple: true }, [oct6, new CalendarDate(2026, 12, 10)]);
+    expect(heading()).toBe("October 2026");
+    await userEvent.click(day("2026-10-06"));
+    await nextTick();
+    expect(heading()).toBe("October 2026");
+  });
 });
 
 describe("matchers", () => {
@@ -550,9 +563,9 @@ describe("field", () => {
 
   it("takes disabled from the field", () => {
     render(() => h(Field, { disabled: true }, () => [h(Calendar, { defaultPlaceholder: oct6 })]));
-    expect(all("[data-slot=calendar-cell-trigger]").every((element) => element.hasAttribute("data-disabled"))).toBe(
-      true,
-    );
+    const days = all("[data-slot=calendar-cell-trigger]");
+    expect(days).toHaveLength(42);
+    expect(days.filter((element) => !element.hasAttribute("data-disabled"))).toEqual([]);
     expect(prev().disabled).toBe(true);
     expect(next().disabled).toBe(true);
   });
@@ -583,17 +596,17 @@ describe("initial focus", () => {
   });
 
   it("focuses today when nothing is selected and today is in view", async () => {
-    const now = today(getLocalTimeZone());
-    render(() => h(Calendar, { defaultPlaceholder: now, initialFocus: true }));
+    setToday("2026-10-07");
+    render(() => h(Calendar, { defaultPlaceholder: new CalendarDate(2026, 10, 20), initialFocus: true }));
     await nextTick();
-    expect(document.activeElement).toBe(day(now.toString()));
+    expect(document.activeElement).toBe(day("2026-10-07"));
   });
 
   it("focuses the placeholder's day when nothing is selected and today is out of view", async () => {
-    const later = today(getLocalTimeZone()).add({ months: 2 });
-    render(() => h(Calendar, { defaultPlaceholder: later, initialFocus: true }));
+    setToday("2026-10-07");
+    render(() => h(Calendar, { defaultPlaceholder: new CalendarDate(2026, 12, 20), initialFocus: true }));
     await nextTick();
-    expect(document.activeElement).toBe(day(later.toString()));
+    expect(document.activeElement).toBe(day("2026-12-20"));
   });
 });
 

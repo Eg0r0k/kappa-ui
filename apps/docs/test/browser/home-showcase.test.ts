@@ -22,7 +22,6 @@ describe('HomeShowcase', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     mountShowcase('kappa')
     expect(warn).not.toHaveBeenCalled()
-    warn.mockRestore()
   })
 
   it('scopes a preset to the showcase', () => {
@@ -74,6 +73,5 @@ describe('HomeShowcase', () => {
     document.body.append(frame)
     mount(HomeShowcase, { props: { styleKey: 'kappa' }, attrs: { style: 'height: 20rem' }, attachTo: frame })
     expect(frame.scrollHeight).toBe(frame.clientHeight)
-    frame.remove()
   })
 })

@@ -40,7 +40,7 @@ describe("Separator", () => {
     ["md", 3],
     ["lg", 4],
     ["xl", 5],
-  ] as const)("is %ipx thick at %s", (size, thickness) => {
+  ] as const)("at size %s is %ipx thick", (size, thickness) => {
     expect(render({ size }).getBoundingClientRect().height).toBe(thickness);
   });
 

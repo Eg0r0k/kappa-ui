@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { page, userEvent } from "vitest/browser";
+import { page, server, userEvent } from "vitest/browser";
 import { type VNodeChild, createSSRApp, defineComponent, h, nextTick, ref } from "vue";
 import { renderToString } from "vue/server-renderer";
 
@@ -17,6 +17,13 @@ import {
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
 const settle = (ms = 400) => new Promise((resolve) => setTimeout(resolve, ms));
+const animations = () =>
+  Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );
 const frames = async () => {
   await nextTick();
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
@@ -24,9 +31,10 @@ const frames = async () => {
 
 let unmount: (() => void) | undefined;
 
-afterEach(() => {
+afterEach(async () => {
   unmount?.();
   unmount = undefined;
+  await page.viewport(server.config.browser.viewport.width, server.config.browser.viewport.height);
 });
 
 type Entry =
@@ -117,7 +125,8 @@ const openContent = () => q("[data-slot=navigation-menu-content][data-state=open
 // A click first moves the pointer, which opens the panel on hover after the delay; Reka then ignores the click.
 const clickOpen = async (element: HTMLElement) => {
   await userEvent.click(element);
-  await settle(350);
+  await expect.poll(() => element.getAttribute("aria-expanded")).toBe("true");
+  await animations();
 };
 const away = () => h("div", { class: "away", style: "position: fixed; right: 0; bottom: 0; width: 8px; height: 8px" });
 const near = (a: number, b: number, tolerance = 1) => Math.abs(a - b) <= tolerance;
@@ -218,10 +227,14 @@ describe("open and close", () => {
   });
 
   it("opens the default value on mount and emits raw values", async () => {
-    renderMenu({ defaultValue: "components" });
+    const { updates } = renderMenu({ defaultValue: "components" });
     await frames();
     expect(triggers()[1]!.getAttribute("aria-expanded")).toBe("true");
     expect(openContent().textContent).toContain("Button");
+    triggers()[0]!.focus();
+    await userEvent.keyboard("{Enter}");
+    await frames();
+    expect(updates).toEqual(["learn"]);
   });
 
   it("follows v-model both ways", async () => {
@@ -334,12 +347,16 @@ describe("value encoding (Reka matches values by substring)", () => {
     await userEvent.hover(q(".away"));
     for (const [index, value] of ["docs-api", "docs", "menu", "a"].entries()) {
       model.value = value;
-      await settle(300);
-      expect(openContent().textContent).toBe(`Panel ${value}`);
-      const indicator = q("[data-slot=navigation-menu-indicator]");
-      expect(indicator.style.getPropertyValue("--reka-navigation-menu-indicator-position")).toBe(
-        `${triggers()[index]!.offsetLeft}px`,
-      );
+      await expect
+        .poll(() => document.querySelector("[data-slot=navigation-menu-content][data-state=open]")?.textContent)
+        .toBe(`Panel ${value}`);
+      await expect
+        .poll(() =>
+          q("[data-slot=navigation-menu-indicator]").style.getPropertyValue(
+            "--reka-navigation-menu-indicator-position",
+          ),
+        )
+        .toBe(`${triggers()[index]!.offsetLeft}px`);
     }
     // Hovering another trigger while a panel is open switches to it at once.
     await userEvent.hover(triggers()[1]!);
@@ -353,7 +370,10 @@ describe("value encoding (Reka matches values by substring)", () => {
     ]);
     await clickOpen(triggers()[1]!);
     expect(openContent().textContent).toBe("Panel two");
-    expect(updates.at(-1)).not.toBe("");
+    await clickOpen(triggers()[0]!);
+    expect(openContent().textContent).toBe("Panel one");
+    expect(updates.filter(Boolean)).toHaveLength(2);
+    expect(new Set(updates.filter(Boolean)).size).toBe(2);
     expect(triggers()[1]!.id).not.toMatch(/\s/);
   });
 });
@@ -536,12 +556,13 @@ describe("geometry", () => {
     await clickOpen(triggers()[0]!);
     const viewport = q("[data-slot=navigation-menu-viewport]");
     const content = openContent();
-    expect(viewport.clientHeight).toBeGreaterThan(0);
-    expect(viewport.clientHeight).toBe(content.offsetHeight);
-    expect(viewport.clientWidth).toBe(content.offsetWidth);
+    expect(content.offsetHeight).toBeGreaterThan(0);
+    await expect.poll(() => viewport.clientHeight).toBe(content.offsetHeight);
+    await expect.poll(() => viewport.clientWidth).toBe(content.offsetWidth);
 
     await clickOpen(triggers()[1]!);
-    expect(q("[data-slot=navigation-menu-viewport]").clientWidth).toBe(openContent().offsetWidth);
+    expect(openContent().offsetWidth).not.toBe(content.offsetWidth);
+    await expect.poll(() => q("[data-slot=navigation-menu-viewport]").clientWidth).toBe(openContent().offsetWidth);
   });
 
   it.each([
@@ -553,34 +574,37 @@ describe("geometry", () => {
     mountCentered({ dir, align, class: "mx-auto" });
     document.querySelector<HTMLElement>("[data-slot=navigation-menu]")!.style.marginInline = "400px";
     const trigger = triggers()[1]!;
-    await userEvent.click(trigger);
-    await settle();
-    const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
-    const rect = trigger.getBoundingClientRect();
-    expect(near(panel[edge], rect[edge], 2), `${panel[edge]} vs ${rect[edge]}`).toBe(true);
+    await clickOpen(trigger);
+    await vi.waitFor(() => {
+      const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
+      const rect = trigger.getBoundingClientRect();
+      expect(near(panel[edge], rect[edge], 2), `${panel[edge]} vs ${rect[edge]}`).toBe(true);
+    });
   });
 
   it("centres the panel under its trigger by default", async () => {
     mountCentered({});
     document.querySelector<HTMLElement>("[data-slot=navigation-menu]")!.style.marginInline = "400px";
     const trigger = triggers()[1]!;
-    await userEvent.click(trigger);
-    await settle();
-    const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
-    const rect = trigger.getBoundingClientRect();
-    expect(near(panel.left + panel.width / 2, rect.left + rect.width / 2, 2)).toBe(true);
-    expect(panel.top).toBeGreaterThanOrEqual(rect.bottom);
+    await clickOpen(trigger);
+    await vi.waitFor(() => {
+      const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
+      const rect = trigger.getBoundingClientRect();
+      expect(near(panel.left + panel.width / 2, rect.left + rect.width / 2, 2)).toBe(true);
+      expect(panel.top).toBeGreaterThanOrEqual(rect.bottom);
+    });
   });
 
   it("opens the vertical panel beside the list", async () => {
     renderMenu({ orientation: "vertical", align: "start" }, wideEntries);
     const trigger = triggers()[1]!;
-    await userEvent.click(trigger);
-    await settle();
-    const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
-    const list = q("[data-slot=navigation-menu-list]").getBoundingClientRect();
-    expect(panel.left).toBeGreaterThanOrEqual(list.right);
-    expect(near(panel.top, trigger.getBoundingClientRect().top, 2)).toBe(true);
+    await clickOpen(trigger);
+    await vi.waitFor(() => {
+      const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
+      const list = q("[data-slot=navigation-menu-list]").getBoundingClientRect();
+      expect(panel.left).toBeGreaterThanOrEqual(list.right);
+      expect(near(panel.top, trigger.getBoundingClientRect().top, 2)).toBe(true);
+    });
     expect(openContent().dataset.orientation).toBe("vertical");
   });
 
@@ -589,11 +613,13 @@ describe("geometry", () => {
       before: () => h("div", { style: "height: 200px" }),
     });
     const trigger = triggers()[1]!;
-    await userEvent.click(trigger);
-    await settle();
+    await clickOpen(trigger);
+    await vi.waitFor(() => {
+      const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
+      const rect = trigger.getBoundingClientRect();
+      expect(near(panel.top, rect.top, 2), `${panel.top} vs ${rect.top}`).toBe(true);
+    });
     const panel = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
-    const rect = trigger.getBoundingClientRect();
-    expect(near(panel.top, rect.top, 2), `${panel.top} vs ${rect.top}`).toBe(true);
     const list = q("[data-slot=navigation-menu-list]").getBoundingClientRect();
     if (dir === "rtl") expect(panel.right).toBeLessThanOrEqual(list.left);
     else expect(panel.left).toBeGreaterThanOrEqual(list.right);
@@ -603,11 +629,13 @@ describe("geometry", () => {
     renderMenu({}, wideEntries, { indicator: true });
     await clickOpen(triggers()[1]!);
     const indicator = q("[data-slot=navigation-menu-indicator]");
-    const rect = indicator.getBoundingClientRect();
     const trigger = triggers()[1]!.getBoundingClientRect();
     expect(triggers()[1]!.offsetLeft).toBeGreaterThan(0);
-    expect(near(rect.left, trigger.left)).toBe(true);
-    expect(near(rect.width, trigger.width)).toBe(true);
+    await vi.waitFor(() => {
+      const rect = indicator.getBoundingClientRect();
+      expect(near(rect.left, trigger.left), `${rect.left} vs ${trigger.left}`).toBe(true);
+      expect(near(rect.width, trigger.width), `${rect.width} vs ${trigger.width}`).toBe(true);
+    });
     expect(indicator.dataset.state).toBe("visible");
   });
 });
@@ -616,17 +644,15 @@ describe("hover", () => {
   it("opens on hover after the delay and switches between triggers", async () => {
     const { updates } = renderMenu({ delayDuration: 0 });
     await userEvent.hover(triggers()[0]!);
-    await settle(250);
-    expect(updates.at(-1)).toBe("learn");
+    await expect.poll(() => updates.at(-1)).toBe("learn");
     await userEvent.hover(triggers()[1]!);
-    await settle(250);
-    expect(updates.at(-1)).toBe("components");
+    await expect.poll(() => updates.at(-1)).toBe("components");
   });
 
   it("slides the next panel in from the side of the trigger it belongs to", async () => {
     renderMenu({ delayDuration: 0 });
     await userEvent.hover(triggers()[0]!);
-    await settle(250);
+    await expect.poll(() => triggers()[0]!.getAttribute("aria-expanded")).toBe("true");
     await userEvent.hover(triggers()[1]!);
     await frames();
     const incoming = openContent();
@@ -682,8 +708,8 @@ describe("sizes and variants", () => {
     for (const item of [triggers()[0]!, topLinks()[0]!]) {
       expect(item.offsetHeight).toBe(sentinel.height[size]);
       expect(px(getComputedStyle(item).paddingInlineStart)).toBe(sentinel.padding[size]);
-      expect(item.querySelector("svg")?.getBoundingClientRect().width ?? sentinel.icon[size]).toBe(sentinel.icon[size]);
     }
+    expect(triggers()[0]!.querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[size]);
   });
 
   it("styles panel links apart from top-level links", async () => {
@@ -696,8 +722,6 @@ describe("sizes and variants", () => {
   });
 
   it("underlines the current page in the link variant", () => {
-    renderMenu({ variant: "link" }, [{ href: "#docs", label: "Docs" }]);
-    unmount?.();
     const wrapper = mount(
       defineComponent({
         setup: () => () =>
@@ -748,8 +772,6 @@ describe("server rendering", () => {
       unmount = () => instance.unmount();
       await frames();
       const messages = [...warn.mock.calls, ...error.mock.calls].map((call) => String(call[0]));
-      warn.mockRestore();
-      error.mockRestore();
       expect(messages).toEqual([]);
       expect(q("[data-slot=navigation-menu-link][href='#guide']")).not.toBeNull();
     },

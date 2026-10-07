@@ -51,13 +51,13 @@ const settle = () => wait(50);
 const panels = () => [...document.querySelectorAll<HTMLElement>("[data-test=panel]")];
 const page = () => document.querySelector<HTMLElement>("[data-test=page]")!;
 const text = () => document.querySelector<HTMLElement>("[data-test=text]")!;
+const measured = () => expect.poll(() => panels().at(-1)?.style.getPropertyValue("--drawer-size")).toBe("400px");
 
 it("opens a component in a drawer with the options given and resolves the value it closes with", async () => {
   mountHost();
   const handle = openDrawer<string>(Panel, { title: "Share" }, { side: "left" });
-  await settle();
-  expect(panels()[0]!.dataset.side).toBe("left");
-  expect(page().hasAttribute("data-open")).toBe(true);
+  await expect.poll(() => panels()[0]?.dataset.side).toBe("left");
+  await expect.poll(() => page().hasAttribute("data-open")).toBe(true);
   await userEvent.click(document.querySelector<HTMLElement>("[data-test=ok]")!);
   expect(await handle).toEqual({ ok: true, value: "ok" });
 });
@@ -65,7 +65,7 @@ it("opens a component in a drawer with the options given and resolves the value 
 it("resolves a swipe that closes it with the reason swipe", async () => {
   mountHost();
   const handle = openDrawer(Panel);
-  await settle();
+  await measured();
   await drag(text(), [150, 100], [150, 350]);
   expect(await handle).toEqual({ ok: false, reason: "swipe" });
 });
@@ -73,7 +73,7 @@ it("resolves a swipe that closes it with the reason swipe", async () => {
 it("springs back from a swipe while it is loading", async () => {
   mountHost();
   const handle = openDrawer(Panel, { busy: true });
-  await settle();
+  await measured();
   await drag(text(), [150, 100], [150, 350]);
   await settle();
   expect(handle.isOpen.value).toBe(true);
@@ -84,7 +84,7 @@ it("springs back from a swipe while it is loading", async () => {
 it("keeps a drawer that is not dismissible open on Escape and on a swipe", async () => {
   mountHost();
   const handle = openDrawer(Panel, {}, { dismissible: false });
-  await settle();
+  await measured();
   await userEvent.keyboard("{Escape}");
   await drag(text(), [150, 100], [150, 350]);
   await settle();
@@ -96,11 +96,9 @@ it("defines a drawer once, with its options, and lets its snap points move on th
   mountHost();
   const definition = defineDrawer(Panel, { props: { title: "Places" }, snapPoints: ["100px", "400px"] });
   const handle = definition.open();
-  await settle();
-  expect(panels()[0]!.style.getPropertyValue("--drawer-snap-offset")).toBe("300px");
+  await expect.poll(() => panels()[0]?.style.getPropertyValue("--drawer-snap-offset")).toBe("300px");
   document.querySelector<HTMLElement>("[data-test=handle]")!.click();
-  await settle();
-  expect(panels()[0]!.style.getPropertyValue("--drawer-snap-offset")).toBe("0px");
+  await expect.poll(() => panels()[0]?.style.getPropertyValue("--drawer-snap-offset")).toBe("0px");
   expect(definition.open()).toBe(handle);
   definition.dismiss();
   expect(await handle).toEqual({ ok: false, reason: "programmatic" });
@@ -109,10 +107,9 @@ it("defines a drawer once, with its options, and lets its snap points move on th
 it("stacks a drawer opened from code on an open one", async () => {
   mountHost();
   const first = openDrawer(Panel, { title: "First" });
-  await settle();
+  await expect.poll(() => panels()).toHaveLength(1);
   const second = openDrawer(Panel, { title: "Second" });
-  await settle();
-  expect(panels().map((panel) => panel.hasAttribute("data-nested-open"))).toEqual([true, false]);
+  await expect.poll(() => panels().map((panel) => panel.hasAttribute("data-nested-open"))).toEqual([true, false]);
   closeAllDialogs();
   expect(await Promise.all([first, second])).toEqual([
     { ok: false, reason: "close-all" },

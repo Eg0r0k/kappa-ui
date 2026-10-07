@@ -36,10 +36,17 @@ const renderInForm = (children: () => unknown[]) =>
     { attachTo: document.body },
   );
 
-const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
-
 const group = () => document.querySelector<HTMLElement>("[data-slot=input-group]")!;
 const control = () => document.querySelector<HTMLElement>("[data-slot=input-group-control]")!;
+const frameColor = () => getComputedStyle(group()).borderTopColor;
+const transitionsDone = async () => {
+  await nextTick();
+  await Promise.all(
+    group()
+      .getAnimations()
+      .map((animation) => animation.finished),
+  );
+};
 
 describe("InputGroup", () => {
   it("is a group with an outline frame of the medium height, and a frameless control", () => {
@@ -93,12 +100,10 @@ describe("InputGroup", () => {
     ]);
     expect(getComputedStyle(group()).boxShadow).toBe("none");
     control().focus();
-    await settle();
-    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 128, 0)");
+    await expect.poll(frameColor).toBe("rgb(0, 128, 0)");
     expect(getComputedStyle(group()).boxShadow).not.toBe("none");
     document.querySelector<HTMLElement>("[data-slot=input-group-button]")!.focus();
-    await settle();
-    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 0, 255)");
+    await expect.poll(frameColor).toBe("rgb(0, 0, 255)");
   });
 
   it("turns the frame destructive when the control is invalid", () => {
@@ -113,8 +118,7 @@ describe("InputGroup", () => {
       ]),
     ]);
     document.querySelector<HTMLElement>("[role=spinbutton]")!.focus();
-    await settle();
-    expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 128, 0)");
+    await expect.poll(frameColor).toBe("rgb(0, 128, 0)");
     document.body.innerHTML = "";
 
     render({}, () => [h("div", [h("span", { role: "spinbutton", tabindex: 0, "aria-invalid": "true" }, "12")])]);
@@ -132,8 +136,8 @@ describe("InputGroup", () => {
       h(InputGroupAddon, () => h(InputGroupText, () => "$")),
       h(InputGroupAddon, { align: "inline-end" }, () => h(Checkbox, { name: "agree", disabled: true })),
     ]);
-    await settle();
-    expect(document.querySelector("input[type=checkbox]:disabled")).not.toBeNull();
+    await expect.poll(() => document.querySelector("input[type=checkbox]:disabled")).not.toBeNull();
+    await transitionsDone();
     expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 0, 255)");
     expect(getComputedStyle(document.querySelector("[data-slot=input-group-addon]")!).opacity).toBe("1");
   });
@@ -145,22 +149,22 @@ describe("InputGroup", () => {
     ]);
     await nextTick();
     document.querySelector("form")!.requestSubmit();
-    await settle();
-    expect(document.activeElement!.matches("input[type=checkbox]:user-invalid")).toBe(true);
+    await expect.poll(() => document.activeElement!.matches("input[type=checkbox]:user-invalid")).toBe(true);
+    await transitionsDone();
     expect(getComputedStyle(group()).borderTopColor).toBe("rgb(0, 0, 255)");
   });
 
   it("keeps the frame destructive while an invalid control has focus", async () => {
     render({}, () => [h(InputGroupInput, { "aria-invalid": "true" })]);
     control().focus();
-    await settle();
+    await transitionsDone();
     expect(getComputedStyle(group()).borderTopColor).toBe("rgb(255, 0, 0)");
     document.body.innerHTML = "";
 
     renderInForm(() => [h(InputGroupInput, { required: true })]);
     document.querySelector("form")!.requestSubmit();
-    await settle();
-    expect(document.activeElement).toBe(control());
+    await expect.poll(() => document.activeElement).toBe(control());
+    await transitionsDone();
     expect(getComputedStyle(group()).borderTopColor).toBe("rgb(255, 0, 0)");
   });
 

@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { ConfigProvider } from "reka-ui";
-import { beforeEach, describe, expect, it } from "vitest";
-import { page, userEvent } from "vitest/browser";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { page, server, userEvent } from "vitest/browser";
 import { h } from "vue";
 
 import {
@@ -17,9 +17,21 @@ import {
 import type { MenubarSize } from "@/ui/menubar";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
-import { fileMenu, openMenus, parkPointer, q, renderMenubar, settle, trigger, viewMenu } from "./menubar-fixture";
+import {
+  animations,
+  fileMenu,
+  focused,
+  item,
+  opened,
+  parkPointer,
+  q,
+  renderMenubar,
+  trigger,
+  viewMenu,
+} from "./menubar-fixture";
 
 beforeEach(parkPointer);
+afterEach(() => page.viewport(server.config.browser.viewport.width, server.config.browser.viewport.height));
 
 const sized = (root: Record<string, unknown>, content: Record<string, unknown> = {}, subSize?: MenubarSize) =>
   mount(
@@ -43,9 +55,9 @@ const sized = (root: Record<string, unknown>, content: Record<string, unknown> =
 
 const openSub = async () => {
   await userEvent.click(trigger("File"));
-  await settle();
+  await opened("File");
   await userEvent.hover(q("[data-slot=menubar-sub-trigger]")!);
-  await settle();
+  await expect.poll(() => q("[data-slot=menubar-sub-content]")).not.toBeNull();
 };
 
 describe("menubar sizes", () => {
@@ -144,7 +156,7 @@ describe("menubar variants", () => {
     const file = trigger("File");
     expect(getComputedStyle(file, "::before").opacity).toBe("0");
     await userEvent.click(file);
-    await settle();
+    await opened("File");
     await parkPointer();
     await expect.poll(() => getComputedStyle(file, "::before").opacity).toBe("0.08");
   });
@@ -154,7 +166,8 @@ describe("menubar geometry", () => {
   it("opens 4px under the trigger, aligned to its start", async () => {
     renderMenubar();
     await userEvent.click(trigger("Edit"));
-    await settle();
+    await opened("Edit");
+    await animations();
     const box = trigger("Edit").getBoundingClientRect();
     const menu = q("[data-slot=menubar-content]")!.getBoundingClientRect();
     expect(Math.round(menu.top - box.bottom)).toBe(4);
@@ -164,29 +177,26 @@ describe("menubar geometry", () => {
   // nuxt/ui#6449: a long menu scrolls inside the viewport instead of being clipped
   it("caps a long menu to the space below and scrolls it", async () => {
     await page.viewport(800, 320);
-    try {
-      mount(
-        {
-          render: () =>
-            h(Menubar, { "aria-label": "App" }, () =>
-              h(MenubarMenu, () => [
-                h(MenubarTrigger, () => "Recent"),
-                h(MenubarContent, () =>
-                  Array.from({ length: 30 }, (_, index) => h(MenubarItem, () => `File ${index + 1}`)),
-                ),
-              ]),
-            ),
-        },
-        { attachTo: document.body },
-      );
-      await userEvent.click(trigger("Recent"));
-      await settle();
-      const menu = q("[data-slot=menubar-content]")!;
-      expect(menu.getBoundingClientRect().bottom).toBeLessThanOrEqual(320);
-      expect(menu.scrollHeight).toBeGreaterThan(menu.clientHeight);
-    } finally {
-      await page.viewport(414, 896);
-    }
+    mount(
+      {
+        render: () =>
+          h(Menubar, { "aria-label": "App" }, () =>
+            h(MenubarMenu, () => [
+              h(MenubarTrigger, () => "Recent"),
+              h(MenubarContent, () =>
+                Array.from({ length: 30 }, (_, index) => h(MenubarItem, () => `File ${index + 1}`)),
+              ),
+            ]),
+          ),
+      },
+      { attachTo: document.body },
+    );
+    await userEvent.click(trigger("Recent"));
+    await opened("Recent");
+    await animations();
+    const menu = q("[data-slot=menubar-content]")!;
+    expect(menu.getBoundingClientRect().bottom).toBeLessThanOrEqual(320);
+    expect(menu.scrollHeight).toBeGreaterThan(menu.clientHeight);
   });
 });
 
@@ -211,25 +221,24 @@ describe("menubar in right-to-left", () => {
     await userEvent.keyboard("{ArrowLeft}");
     expect(document.activeElement).toBe(trigger("View"));
     await userEvent.keyboard("{ArrowRight}{Enter}");
-    await settle();
-    expect(openMenus()).toEqual([trigger("File").id]);
+    await opened("File");
+    await animations();
     const box = trigger("File").getBoundingClientRect();
     const menu = q("[data-slot=menubar-content]")!.getBoundingClientRect();
     expect(Math.abs(menu.right - box.right)).toBeLessThanOrEqual(1);
 
     await userEvent.keyboard("{ArrowLeft}");
-    await settle();
-    expect(openMenus()).toEqual([trigger("View").id]);
+    await opened("View");
   });
 
   it("opens submenus with ArrowLeft and flips their chevron", async () => {
     rtl();
     trigger("File").focus();
     await userEvent.keyboard("{Enter}");
-    await settle();
+    await focused(() => item("New tab"));
     await userEvent.keyboard("{ArrowDown}{ArrowDown}");
     await userEvent.keyboard("{ArrowLeft}");
-    await settle();
+    await focused(() => item("Email link"));
     expect(q("[data-slot=menubar-sub-content]")).not.toBeNull();
     const chevron = q("[data-slot=menubar-sub-trigger] svg")!;
     expect(getComputedStyle(chevron).rotate).toBe("180deg");

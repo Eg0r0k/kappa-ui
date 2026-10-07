@@ -45,6 +45,6 @@ describe("Skeleton", () => {
     const box = skeleton.getBoundingClientRect();
 
     expect([box.width, box.height]).toEqual([40, 40]);
-    expect(getComputedStyle(skeleton).borderRadius).toMatch(/px$/);
+    expect(parseFloat(getComputedStyle(skeleton).borderRadius)).toBeGreaterThanOrEqual(20);
   });
 });

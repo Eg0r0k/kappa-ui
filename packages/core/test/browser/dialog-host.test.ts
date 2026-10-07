@@ -1,5 +1,5 @@
-import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { flushPromises, mount } from "@vue/test-utils";
+import { afterEach, describe, expect, it, onTestFinished, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import {
   type Component,
@@ -9,6 +9,7 @@ import {
   defineComponent,
   h,
   inject,
+  nextTick,
   onMounted,
   provide,
   ref,
@@ -34,6 +35,10 @@ const settle = () => wait(50);
 
 const titles = () =>
   [...document.querySelectorAll("[role=dialog]")].map((element) => element.querySelector("h2")?.textContent);
+const shown = () =>
+  [...document.querySelectorAll<HTMLElement>("[role=dialog]")].map((element) =>
+    element.dataset.state === "open" ? element.querySelector("h2")?.textContent : "(closed)",
+  );
 const overlays = () => [...document.querySelectorAll<HTMLElement>("[data-test=overlay]")];
 const pressOutside = async () => {
   await userEvent.click(overlays().at(-1)!, { position: { x: 5, y: 5 } } as never);
@@ -86,29 +91,27 @@ describe("DialogHost", () => {
   it("renders an opened dialog and resolves the value it closes with", async () => {
     const { dialogs } = mountHost();
     const handle = openDialog<string>(Window, { title: "Rename" });
-    await settle();
-    expect(titles()).toEqual(["Rename"]);
+    await expect.poll(shown).toEqual(["Rename"]);
 
     await userEvent.click(document.querySelector<HTMLElement>("[data-test=ok]")!);
     expect(await handle).toEqual({ ok: true, value: "ok" });
-    await settle();
-    expect(titles()).toEqual([]);
+    await expect.poll(shown).toEqual([]);
     expect(dialogs.stack.value).toHaveLength(0);
   });
 
   it("reports Escape, an outside press, DialogClose and dismiss() as their reasons (D1, D2, D12, L2)", async () => {
     mountHost();
     const escaped = openDialog(Window);
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     await userEvent.keyboard("{Escape}");
     const pressed = openDialog(Window);
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     await pressOutside();
     const clicked = openDialog(Window);
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     await userEvent.click(document.querySelector<HTMLElement>("[data-test=close]")!);
     const dismissed = openDialog(Window);
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     dismissed.dismiss();
 
     expect(await Promise.all([escaped, pressed, clicked, dismissed])).toEqual([
@@ -123,7 +126,7 @@ describe("DialogHost", () => {
     mountHost();
     const prevent = (event: Event) => event.preventDefault();
     const handle = openDialog(Window, { content: { onEscapeKeyDown: prevent, onInteractOutside: prevent } });
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     await userEvent.keyboard("{Escape}");
     await pressOutside();
     expect(handle.isOpen.value).toBe(true);
@@ -137,7 +140,7 @@ describe("DialogHost", () => {
         h(DialogPortal, () => h(DialogContent, null, () => h(DialogTitle, () => "Declarative"))),
       ),
     );
-    await settle();
+    await expect.poll(shown).toEqual(["Declarative"]);
     composingEscape();
     await settle();
     expect(open.value).toBe(true);
@@ -145,7 +148,7 @@ describe("DialogHost", () => {
     expect(open.value).toBe(false);
 
     const handle = openDialog(Window);
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     composingEscape();
     await settle();
     expect(handle.isOpen.value).toBe(true);
@@ -156,7 +159,7 @@ describe("DialogHost", () => {
   it("holds the dialog open while loading, except against code (F4, F5, F6)", async () => {
     mountHost();
     const handle = openDialog(Window, { busy: true });
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     await userEvent.keyboard("{Escape}");
     await pressOutside();
     await userEvent.click(document.querySelector<HTMLElement>("[data-test=close]")!);
@@ -170,9 +173,9 @@ describe("DialogHost", () => {
   it("removes a dialog without an exit animation at once (A2)", async () => {
     const { dialogs } = mountHost();
     const handle = openDialog(Window);
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     handle.dismiss();
-    await settle();
+    await flushPromises();
     expect(document.querySelector("[data-test=window]")).toBeNull();
     expect(dialogs.stack.value).toHaveLength(0);
   });
@@ -182,18 +185,21 @@ describe("DialogHost", () => {
     style.textContent =
       "@keyframes dialog-test-out { to { opacity: 0 } } [data-test=window][data-state=closed] { animation: dialog-test-out 300ms forwards }";
     document.head.append(style);
+    onTestFinished(() => style.remove());
     const { dialogs } = mountHost();
     const handle = openDialog(Window);
-    await settle();
+    await expect.poll(shown).toEqual(["Window"]);
     handle.dismiss();
+    await nextTick();
 
-    await wait(100);
+    const [exit] = document.querySelector<HTMLElement>("[data-test=window]")!.getAnimations();
+    await exit!.ready;
+    exit!.currentTime = 290;
+    await nextTick();
     expect(document.querySelector("[data-test=window]")).not.toBeNull();
     expect(dialogs.stack.value).toHaveLength(1);
-    await wait(400);
-    expect(document.querySelector("[data-test=window]")).toBeNull();
+    await expect.poll(() => document.querySelector("[data-test=window]")).toBeNull();
     expect(dialogs.stack.value).toHaveLength(0);
-    style.remove();
   });
 
   it("keeps a keepMounted dialog's state and resolves each open on its own (A4, A5)", async () => {
@@ -218,7 +224,7 @@ describe("DialogHost", () => {
     const { dialogs } = mountHost();
     const draft = defineDialog(Draft, { keepMounted: true });
     const first = draft.open<string>();
-    await settle();
+    await expect.poll(shown).toEqual(["Draft"]);
     await userEvent.fill(document.querySelector<HTMLElement>("[data-test=draft]")!, "hello");
     await userEvent.keyboard("{Escape}");
     expect(await first).toEqual({ ok: false, reason: "escape" });
@@ -226,7 +232,7 @@ describe("DialogHost", () => {
     expect(dialogs.stack.value).toHaveLength(1);
 
     const second = draft.open<string>();
-    await settle();
+    await expect.poll(shown).toEqual(["Draft"]);
     expect(document.querySelector<HTMLInputElement>("[data-test=draft]")!.value).toBe("hello");
     await userEvent.click(document.querySelector<HTMLElement>("[data-test=send]")!);
     expect(await second).toEqual({ ok: true, value: "hello" });
@@ -243,8 +249,7 @@ describe("DialogHost", () => {
     const { dialogs } = mountHost();
     const handle = openDialog<string>(Instant);
     expect(await handle).toEqual({ ok: true, value: "now" });
-    await settle();
-    expect(titles()).toEqual([]);
+    await expect.poll(shown).toEqual([]);
     expect(dialogs.stack.value).toHaveLength(0);
   });
 
@@ -263,12 +268,10 @@ describe("DialogHost", () => {
     });
     const { dialogs } = mountHost();
     const handle = openDialog(Outer);
-    await settle();
-    expect(titles()).toEqual(["Outer", "Inner"]);
+    await expect.poll(shown).toEqual(["Outer", "Inner"]);
 
     await userEvent.keyboard("{Escape}");
-    await settle();
-    expect(titles()).toEqual(["Outer"]);
+    await expect.poll(shown).toEqual(["Outer"]);
     expect(handle.isOpen.value).toBe(true);
     expect(dialogs.stack.value).toHaveLength(1);
 
@@ -310,8 +313,7 @@ describe("DialogHost edge cases", () => {
       expect.anything(),
       expect.anything(),
     );
-    await settle();
-    expect(dialogs.stack.value).toHaveLength(0);
+    await expect.poll(() => dialogs.stack.value).toHaveLength(0);
   });
 
   it("keeps a dialog open when one of its handlers throws (F2)", async () => {
@@ -340,10 +342,14 @@ describe("DialogHost edge cases", () => {
     });
 
     const handle = openDialog(Throwing);
-    await settle();
+    await expect.poll(shown).toEqual(["Throws"]);
     await userEvent.click(document.querySelector<HTMLElement>("[data-test=boom]")!);
     await settle();
-    expect(errorHandler).toHaveBeenCalled();
+    expect(errorHandler).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "boom" }),
+      expect.anything(),
+      expect.anything(),
+    );
     expect(handle.isOpen.value).toBe(true);
     handle.dismiss();
   });
@@ -378,8 +384,7 @@ describe("DialogHost edge cases", () => {
       { attachTo: document.body, global: { plugins: [createDialogs()] } },
     );
     const handle = openDialog(Injected);
-    await settle();
-    expect(titles()).toEqual(["from above"]);
+    await expect.poll(shown).toEqual(["from above"]);
     handle.dismiss();
   });
 
@@ -387,8 +392,7 @@ describe("DialogHost edge cases", () => {
     mountHost();
     let handle: ReturnType<typeof openDialog> | undefined;
     setTimeout(() => (handle = openDialog(Window, { title: "Timer" })));
-    await settle();
-    expect(titles()).toEqual(["Timer"]);
+    await expect.poll(shown).toEqual(["Timer"]);
     handle!.dismiss();
   });
 
@@ -399,20 +403,19 @@ describe("DialogHost edge cases", () => {
         h(DialogPortal, () => h(DialogContent, null, () => h(DialogTitle, () => "Declarative"))),
       ),
     );
-    await settle();
+    await expect.poll(shown).toEqual(["Declarative"]);
     const lower = openDialog(Window, { title: "Lower" });
-    await settle();
+    await expect.poll(shown).toEqual(["Declarative", "Lower"]);
     const upper = openDialog(Window, { title: "Upper" });
-    await settle();
-    expect(titles()).toEqual(["Declarative", "Lower", "Upper"]);
+    await expect.poll(shown).toEqual(["Declarative", "Lower", "Upper"]);
 
     await userEvent.keyboard("{Escape}");
     expect(await upper).toEqual({ ok: false, reason: "escape" });
-    await settle();
+    await expect.poll(shown).toEqual(["Declarative", "Lower"]);
     expect(lower.isOpen.value).toBe(true);
     await userEvent.keyboard("{Escape}");
     expect(await lower).toEqual({ ok: false, reason: "escape" });
-    await settle();
+    await expect.poll(shown).toEqual(["Declarative"]);
     expect(open.value).toBe(true);
     await userEvent.keyboard("{Escape}");
     expect(open.value).toBe(false);
@@ -425,24 +428,22 @@ describe("DialogHost edge cases", () => {
       global: { plugins: [createDialogs()] },
     });
     const handle = openDialog(Window, { title: "Once" });
-    await settle();
-    expect(titles()).toEqual(["Once"]);
+    await expect.poll(shown).toEqual(["Once"]);
     handle.dismiss();
   });
 
   it("settles open dialogs with unmount when the host goes (L9)", async () => {
-    const shown = ref(true);
+    const visible = ref(true);
     const dialogs = createDialogs();
-    mount(defineComponent({ setup: () => () => (shown.value ? h(DialogHost) : null) }), {
+    mount(defineComponent({ setup: () => () => (visible.value ? h(DialogHost) : null) }), {
       attachTo: document.body,
       global: { plugins: [dialogs] },
     });
     const handle = openDialog(Window);
-    await settle();
-    shown.value = false;
+    await expect.poll(shown).toEqual(["Window"]);
+    visible.value = false;
     expect(await handle).toEqual({ ok: false, reason: "unmount" });
-    await settle();
-    expect(titles()).toEqual([]);
+    await expect.poll(shown).toEqual([]);
     expect(dialogs.stack.value).toHaveLength(0);
   });
 
@@ -458,13 +459,12 @@ describe("DialogHost edge cases", () => {
     const { dialogs } = mountHost();
     const first = openDialog(Window, { title: "First" });
     const second = openDialog(Window, { title: "Second" });
-    await settle();
+    await expect.poll(shown).toEqual(["First", "Second"]);
     closeAllDialogs();
     expect(await Promise.all([first, second])).toEqual([
       { ok: false, reason: "close-all" },
       { ok: false, reason: "close-all" },
     ]);
-    await settle();
-    expect(dialogs.stack.value).toHaveLength(0);
+    await expect.poll(() => dialogs.stack.value).toHaveLength(0);
   });
 });

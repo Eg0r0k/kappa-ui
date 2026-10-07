@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { h } from "vue";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/card";
@@ -18,6 +18,10 @@ const render = (props: Record<string, unknown> = {}, contentClass?: string) => {
   );
   return document.querySelector<HTMLElement>("[data-slot=card]")!;
 };
+
+afterEach(() => {
+  document.documentElement.style.removeProperty("--surface-border");
+});
 
 const part = (name: string) => document.querySelector<HTMLElement>(`[data-slot=card-${name}]`)!;
 
@@ -79,14 +83,14 @@ describe("Card variants", () => {
       soft: ["soft", "0px", false, false],
       subtle: ["subtle", "0px", true, false],
     });
-    document.documentElement.style.removeProperty("--surface-border");
   });
 
-  it("tints soft and subtle with --muted", () => {
-    const muted = getComputedStyle(render({ variant: "soft" })).backgroundColor;
-    document.body.innerHTML = "";
-    const card = getComputedStyle(render({ variant: "outline" })).backgroundColor;
-    expect(muted).not.toBe(card);
+  it.each(["soft", "subtle"] as const)("tints %s with --muted", (variant) => {
+    const probe = document.createElement("div");
+    probe.style.backgroundColor = "var(--muted)";
+    document.body.append(probe);
+    const card = render({ variant });
+    expect(getComputedStyle(card).backgroundColor).toBe(getComputedStyle(probe).backgroundColor);
   });
 });
 

@@ -276,6 +276,7 @@ it("rings a focused card like the control in it, in the group's color", async ()
   ]);
   const expected = [ring(FOREST), ring(RED), ring(RED), ring()];
 
+  expect(parts("checkbox")).toHaveLength(expected.length);
   for (const [index, checkbox] of parts("checkbox").entries()) {
     await userEvent.tab();
     expect(document.activeElement).toBe(checkbox);

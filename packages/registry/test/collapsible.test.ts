@@ -32,7 +32,6 @@ const q = (selector: string) => document.querySelector<HTMLElement>(selector);
 const root = () => q("[data-slot=collapsible]")!;
 const trigger = () => q("[data-slot=collapsible-trigger]")!;
 const content = () => q("[data-slot=collapsible-content]");
-const settle = () => new Promise((resolve) => setTimeout(resolve, 400));
 
 it("renders a button trigger wired to the content", () => {
   render();
@@ -61,8 +60,7 @@ it("animates the height open and closed, clipping only while it moves", async ()
   await userEvent.click(trigger());
   expect(getComputedStyle(content()!).animationName).toBe("kappa-collapsible-down");
   expect(getComputedStyle(content()!).overflow).toBe("hidden");
-  await settle();
-  expect(getComputedStyle(content()!).overflow).toBe("visible");
+  await expect.poll(() => getComputedStyle(content()!).overflow).toBe("visible");
   await userEvent.click(trigger());
   expect(getComputedStyle(content()!).animationName).toBe("kappa-collapsible-up");
 });
@@ -81,9 +79,8 @@ it("unmounts closed content with unmount-on-hide, leaving an empty hidden panel"
   expect(content()!.hasAttribute("hidden")).toBe(false);
   expect(content()!.textContent).toBe("Details");
   await userEvent.click(trigger());
-  await settle();
+  await expect.poll(() => content()!.textContent).toBe("");
   expect(content()!.getAttribute("hidden")).toBe("");
-  expect(content()!.textContent).toBe("");
 });
 
 it("keeps closed content mounted and shown with force-mount", () => {
@@ -123,8 +120,7 @@ it("stays where a controlling parent keeps it", async () => {
 
 it("starts open from default-open without animating", async () => {
   render({ defaultOpen: true });
-  await nextTick();
-  await settle();
+  await expect.poll(() => content()!.dataset.state).toBe("open");
   expect(root().dataset.state).toBe("open");
   expect(content()!.getAttribute("hidden")).toBeNull();
   expect(getComputedStyle(content()!).animationName).toBe("none");

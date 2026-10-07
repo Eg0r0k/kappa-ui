@@ -40,6 +40,8 @@ const day = (value: string) =>
   q(`[data-slot=range-calendar-cell-trigger][data-value="${value}"]:not([data-outside-view])`);
 const cell = (value: string) => day(value).closest<HTMLElement>("[data-slot=range-calendar-cell]")!;
 const style = (element: Element) => getComputedStyle(element);
+// The band is --tone-soft: the tone at 12%.
+const band = / \/ 0\.12\)$/;
 const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
 const closed = () => expect.poll(() => content()).toBeNull();
 
@@ -112,14 +114,10 @@ describe("calendar", () => {
   });
 
   it("bands the days between the ends", async () => {
-    render(() =>
-      h("div", { style: "--tone-soft: rgb(0, 0, 255)" }, [
-        h(DateRangePicker, { defaultValue: { start: d(6), end: d(9) }, locale: "en-US" }),
-      ]),
-    );
+    render(() => h(DateRangePicker, { defaultValue: { start: d(6), end: d(9) }, locale: "en-US" }));
     await open();
     expect(day("2026-10-07").hasAttribute("data-selected")).toBe(true);
-    expect(style(cell("2026-10-07")).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    expect(style(cell("2026-10-07")).backgroundColor).toMatch(band);
     expect(style(cell("2026-10-12")).backgroundColor).toBe("rgba(0, 0, 0, 0)");
   });
 

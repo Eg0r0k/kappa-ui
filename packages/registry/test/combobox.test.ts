@@ -107,8 +107,8 @@ describe("Combobox", () => {
       }),
     );
 
-    expect(wrapper.get("[data-slot=combobox-input]").attributes("disabled")).toBeDefined();
-    expect(wrapper.get("[data-slot=combobox-trigger]").attributes("disabled")).toBeDefined();
+    expect(wrapper.get("[data-slot=combobox-input]").attributes("disabled")).toBe("");
+    expect(wrapper.get("[data-slot=combobox-trigger]").attributes("disabled")).toBe("");
     wrapper.unmount();
   });
 
@@ -140,7 +140,10 @@ describe("Combobox", () => {
 
     expect(document.querySelector("[data-slot=combobox-item][data-highlighted]")?.textContent).toBe("Blueberry");
     await userEvent.keyboard("{ArrowDown}");
-    expect(document.querySelector("[data-slot=combobox-item][data-highlighted]")?.textContent).not.toBe("Cherry");
+    await userEvent.keyboard("{ArrowUp}");
+    await expect
+      .poll(() => document.querySelector("[data-slot=combobox-item][data-highlighted]")?.textContent)
+      .toBe("Banana");
     await userEvent.keyboard("{Escape}");
   });
 

@@ -123,7 +123,7 @@ it("keeps the hue slider where it is on an achromatic colour", async () => {
   sliderThumb("hue").focus();
   await userEvent.keyboard("{ArrowRight}");
   expect(valueNow(sliderThumb("hue"))).toBe(1);
-  expect(updates.every((value) => value === "#ffffff")).toBe(true);
+  expect(updates.filter((value) => value !== "#ffffff")).toEqual([]);
 });
 
 it("adds alpha through the alpha slider and writes an eight-digit hex", async () => {

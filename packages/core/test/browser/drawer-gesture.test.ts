@@ -62,6 +62,7 @@ const body = () => document.getElementById("body")!;
 const handle = () => document.getElementById("handle")!;
 const area = () => document.getElementById("area")!;
 const variable = (name: string) => panel().style.getPropertyValue(name);
+const gone = () => expect.poll(() => document.querySelector("[role=dialog]")).toBeNull();
 
 it("closes after a drag past half of its height, writing the variables on the way", async () => {
   const open = harness();
@@ -218,8 +219,7 @@ it("writes no style on body and keeps the page scroll position", async () => {
   expect(window.scrollY).toBe(500);
   expect(document.body.style.background).toBe("");
   open.value = false;
-  await settle();
-  await wait(250);
+  await gone();
   expect(window.scrollY).toBe(500);
   expect(document.body.style.background).toBe("");
 });
@@ -230,7 +230,7 @@ it("starts the next opening from zero", async () => {
   await drag(body(), [150, 50], [150, 350]);
   await settle();
   expect(open.value).toBe(false);
-  await wait(250);
+  await gone();
   open.value = true;
   await settle();
   expect(variable("--drawer-swipe-movement")).toBe("0px");
@@ -248,7 +248,7 @@ it("drops a drag that a close interrupts and starts the next opening clean", asy
   open.value = false;
   await settle();
   expect(panel().hasAttribute("data-swiping")).toBe(false);
-  await wait(250);
+  await gone();
   open.value = true;
   await settle();
   expect(variable("--drawer-swipe-movement")).toBe("0px");
@@ -259,14 +259,16 @@ it("picks a drag up where the enter animation left the panel and lets it be pull
   document.documentElement.classList.add("drawer-test-enter");
   const open = harness();
   await settle();
-  await wait(60);
+  const [enter] = panel().getAnimations();
+  enter!.pause();
+  enter!.currentTime = 60;
   pointer("pointerdown", handle(), 150, 300);
   await wait(30);
   pointer("pointermove", handle(), 150, 270);
   await wait(30);
   expect(panel().hasAttribute("data-swiping")).toBe(true);
   const seeded = parseFloat(variable("--drawer-swipe-movement"));
-  expect(seeded).toBeGreaterThan(100);
+  expect(seeded).toBeCloseTo(300, 0);
   pointer("pointermove", handle(), 150, 240);
   await wait(30);
   expect(seeded - parseFloat(variable("--drawer-swipe-movement"))).toBeCloseTo(30, 0);

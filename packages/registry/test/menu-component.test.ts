@@ -7,13 +7,23 @@ import { Button } from "@/ui/button";
 import { Menu, MenuItem, MenuTrigger } from "@/ui/menu";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
+const animations = () =>
+  Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );
 const menus = () => document.querySelectorAll<HTMLElement>("[data-slot=menu]");
 const menu = () => menus()[menus().length - 1] ?? null;
-
-const clickAt = async (x: number, y: number, button: "left" | "right" = "left") => {
-  await userEvent.click(document.body, { position: { x, y }, button, force: true } as never);
-  await settle();
+const shown = async () => {
+  await expect.poll(() => menu()?.dataset.state).toBe("open");
+  await animations();
 };
+const hidden = () => expect.poll(menu).toBeNull();
+
+const clickAt = (x: number, y: number, button: "left" | "right" = "left") =>
+  userEvent.click(document.body, { position: { x, y }, button, force: true } as never);
 
 const centre = (element: Element) => {
   const box = element.getBoundingClientRect();
@@ -39,6 +49,7 @@ describe("Menu", () => {
     expect(button.getAttribute("aria-haspopup")).toBe("menu");
     expect(button.dataset.state).toBe("closed");
     await clickAt(...centre(button));
+    await shown();
     const panel = menu();
     const buttonBox = button.getBoundingClientRect();
 
@@ -49,10 +60,9 @@ describe("Menu", () => {
     expect(Math.round(panel!.getBoundingClientRect().left)).toBe(Math.round(buttonBox.left));
 
     await userEvent.keyboard("{Escape}");
-    await expect.poll(() => menu()).toBeNull();
+    await hidden();
     expect(button.getAttribute("aria-expanded")).toBe("false");
     expect(button.dataset.state).toBe("closed");
-    wrapper.unmount();
   });
 
   it("opens as a context menu at the pointer and keeps the browser's menu away", async () => {
@@ -71,14 +81,15 @@ describe("Menu", () => {
     area.addEventListener("contextmenu", (event) => (prevented = event.defaultPrevented));
 
     await clickAt(20, 20, "left");
+    await settle();
     expect(menu()).toBeNull();
 
     await clickAt(100, 70, "right");
+    await shown();
     const box = menu()!.getBoundingClientRect();
     expect(Math.round(box.left)).toBe(100);
     expect(Math.round(box.top)).toBe(70);
     expect(prevented).toBe(true);
-    wrapper.unmount();
   });
 
   it("serves a click menu and a context menu on one element", async () => {
@@ -95,18 +106,19 @@ describe("Menu", () => {
 
     const target = wrapper.element as HTMLElement;
     await clickAt(100, 60);
+    await shown();
     expect(menus()).toHaveLength(1);
     expect(menu()!.textContent).toContain("Click one");
     expect(target.dataset.state).toBe("open");
     await userEvent.keyboard("{Escape}");
-    await settle();
+    await hidden();
     expect(target.dataset.state).toBe("closed");
 
     await clickAt(100, 60, "right");
+    await shown();
     expect(menus()).toHaveLength(1);
     expect(menu()!.textContent).toContain("Context one");
     expect(target.dataset.state).toBe("open");
-    wrapper.unmount();
   });
 
   it("opens only the innermost menu when targets are nested", async () => {
@@ -122,14 +134,15 @@ describe("Menu", () => {
     );
 
     await clickAt(...centre(wrapper.get("button").element));
+    await shown();
+    await settle();
     expect(menus()).toHaveLength(1);
     expect(menu()!.textContent).toContain("Inner one");
-    wrapper.unmount();
   });
 
   it("attaches to a target given by selector, or to none and opens from code", async () => {
     const menuRef = ref<InstanceType<typeof Menu>>();
-    const wrapper = mount(
+    mount(
       defineComponent({
         setup: () => () =>
           h("div", [
@@ -145,19 +158,18 @@ describe("Menu", () => {
     );
 
     await clickAt(...centre(document.getElementById("elsewhere")!));
+    await shown();
     expect(menu()!.textContent).toContain("Selector one");
     await userEvent.keyboard("{Escape}");
-    await settle();
+    await hidden();
 
     menuRef.value!.show();
-    await nextTick();
-    await settle();
+    await shown();
     expect(menu()!.textContent).toContain("Code one");
-    wrapper.unmount();
   });
 
   it("stays open when persistent and closes on any click with auto-close", async () => {
-    const wrapper = mount(
+    mount(
       defineComponent({
         setup: () => () =>
           h("div", [
@@ -175,19 +187,21 @@ describe("Menu", () => {
     );
 
     await clickAt(...centre(document.getElementById("persistent")!));
+    await shown();
     expect(menu()?.textContent).toContain("Kept one");
     await userEvent.keyboard("{Escape}");
     await settle();
     expect(menu()?.textContent).toContain("Kept one");
     await clickAt(600, 500);
+    await settle();
     expect(menu()?.textContent).toContain("Kept one");
     await userEvent.click(menu()!.querySelector("[role=menuitem]")!);
-    await expect.poll(() => menu()).toBeNull();
+    await hidden();
 
     await clickAt(...centre(document.getElementById("auto")!));
+    await shown();
     await userEvent.click(document.getElementById("note")!);
-    await expect.poll(() => menu()).toBeNull();
-    wrapper.unmount();
+    await hidden();
   });
 
   it("opens another target's non-modal menu with one click", async () => {
@@ -211,18 +225,18 @@ describe("Menu", () => {
     const b = wrapper.get("[data-test=b]").element;
 
     await clickAt(...centre(a));
+    await shown();
     expect(a.getAttribute("aria-expanded")).toBe("true");
 
     await clickAt(...centre(b));
-    await settle();
+    await expect.poll(() => b.getAttribute("aria-expanded")).toBe("true");
     expect(a.getAttribute("aria-expanded")).toBe("false");
-    expect(b.getAttribute("aria-expanded")).toBe("true");
+    await expect.poll(() => menus().length).toBe(1);
     expect(menu()?.textContent).toContain("B one");
-    wrapper.unmount();
   });
 
   it("fits and covers its target", async () => {
-    const wrapper = mount(
+    mount(
       defineComponent({
         setup: () => () =>
           h("div", [
@@ -240,28 +254,29 @@ describe("Menu", () => {
     );
 
     await clickAt(...centre(document.getElementById("fit")!));
+    await shown();
     expect(Math.round(menu()!.getBoundingClientRect().width)).toBe(320);
     await userEvent.keyboard("{Escape}");
-    await settle();
+    await hidden();
 
     const cover = document.getElementById("cover")!;
     await clickAt(...centre(cover));
+    await shown();
     const [menuX, menuY] = centre(menu()!);
     const [coverX, coverY] = centre(cover);
     expect(Math.abs(menuX - coverX)).toBeLessThan(1);
     expect(Math.abs(menuY - coverY)).toBeLessThan(1);
-    wrapper.unmount();
   });
 
   it("keeps a tooltip's long press off a context menu's target while it is attached", async () => {
     const contextMenu = ref(true);
-    const shown = ref(true);
+    const shownMenu = ref(true);
     const wrapper = mount(
       defineComponent({
         setup: () => () =>
           h("div", [
             "Area",
-            shown.value ? h(Menu, { contextMenu: contextMenu.value }, () => h(MenuItem, () => "Copy")) : null,
+            shownMenu.value ? h(Menu, { contextMenu: contextMenu.value }, () => h(MenuItem, () => "Copy")) : null,
           ]),
       }),
       { attachTo: document.body },
@@ -276,28 +291,26 @@ describe("Menu", () => {
 
     contextMenu.value = true;
     await nextTick();
-    shown.value = false;
+    shownMenu.value = false;
     await nextTick();
     expect(area.hasAttribute("data-kappa-longpress")).toBe(false);
-    wrapper.unmount();
   });
 
   it("leaves an author's data-kappa-longpress in place", async () => {
-    const shown = ref(true);
+    const shownMenu = ref(true);
     const wrapper = mount(
       defineComponent({
         setup: () => () =>
           h("div", { "data-kappa-longpress": "" }, [
             "Area",
-            shown.value ? h(Menu, { contextMenu: true }, () => h(MenuItem, () => "Copy")) : null,
+            shownMenu.value ? h(Menu, { contextMenu: true }, () => h(MenuItem, () => "Copy")) : null,
           ]),
       }),
       { attachTo: document.body },
     );
-    shown.value = false;
+    shownMenu.value = false;
     await nextTick();
     expect(wrapper.get("div").element.hasAttribute("data-kappa-longpress")).toBe(true);
-    wrapper.unmount();
   });
 });
 
@@ -320,11 +333,11 @@ describe("MenuTrigger", () => {
     expect(trigger.dataset.state).toBe("closed");
     expect(parent.hasAttribute("data-state")).toBe(false);
     await clickAt(...centre(trigger));
+    await shown();
     expect(menu()?.getAttribute("role")).toBe("menu");
     expect(trigger.getAttribute("aria-expanded")).toBe("true");
     expect(trigger.dataset.state).toBe("open");
     expect(Math.abs(menu()!.getBoundingClientRect().left - trigger.getBoundingClientRect().left)).toBeLessThan(2);
-    wrapper.unmount();
   });
 
   it("merges into its child with as-child", async () => {
@@ -343,9 +356,7 @@ describe("MenuTrigger", () => {
     expect(button.textContent?.trim()).toBe("Open");
     expect(document.querySelectorAll("button")).toHaveLength(1);
     await clickAt(...centre(button));
-    expect(menu()).not.toBeNull();
+    await shown();
     expect(button.getAttribute("aria-expanded")).toBe("true");
-    await nextTick();
-    wrapper.unmount();
   });
 });

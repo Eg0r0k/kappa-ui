@@ -22,7 +22,12 @@ it("scrolls instead of moving the drawer when a mouse drags the scroll thumb", a
     },
     { attachTo: document.body },
   );
-  await wait(500);
+  await Promise.all(
+    document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)),
+  );
   const panel = document.querySelector<HTMLElement>("[data-slot=drawer-content]")!;
   const viewport = document.querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
   const thumb = document.querySelector<HTMLElement>("[data-slot=scroll-area-thumb][data-axis=vertical]")!;

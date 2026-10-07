@@ -85,6 +85,9 @@ const animations = (element: HTMLElement) =>
         ? `transition:${animation.transitionProperty}`
         : (animation as CSSAnimation).animationName,
     );
+const finished = (element: HTMLElement) =>
+  Promise.all(element.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
+const closed = () => expect.poll(() => slot("drawer-content")).toBeNull();
 
 it("renders every part with its data-slot and the side on the content", async () => {
   render();
@@ -103,18 +106,17 @@ it("renders every part with its data-slot and the side on the content", async ()
     expect(slot(name), name).not.toBeNull();
   }
   expect(slot("drawer-content")!.dataset.side).toBe("bottom");
-  expect(slot("drawer-content")!.classList.contains("bottom-0")).toBe(true);
-  expect(slot("drawer-content")!.classList.contains("touch-pan-x")).toBe(true);
+  expect(getComputedStyle(slot("drawer-content")!).bottom).toBe("0px");
+  expect(getComputedStyle(slot("drawer-content")!).touchAction).toBe("pan-x");
   expect(slot("drawer-swipe-area")).not.toBeNull();
 });
 
 it("keeps the swipe area rendered on both sides of a close", async () => {
   const open = render();
   await settle();
-  expect(slot("drawer-swipe-area")!.classList.contains("bottom-0")).toBe(true);
+  expect(getComputedStyle(slot("drawer-swipe-area")!).bottom).toBe("0px");
   open.value = false;
-  await settle();
-  await new Promise((resolve) => setTimeout(resolve, 300));
+  await closed();
   expect(slot("drawer-swipe-area")).not.toBeNull();
 });
 
@@ -122,8 +124,8 @@ it("takes its side classes from the root and hides the handle on the sides", asy
   render({ side: "left" });
   await settle();
   expect(slot("drawer-content")!.dataset.side).toBe("left");
-  expect(slot("drawer-content")!.classList.contains("left-0")).toBe(true);
-  expect(slot("drawer-content")!.classList.contains("touch-pan-y")).toBe(true);
+  expect(getComputedStyle(slot("drawer-content")!).left).toBe("0px");
+  expect(getComputedStyle(slot("drawer-content")!).touchAction).toBe("pan-y");
   expect(slot("drawer-handle")).toBeNull();
 });
 
@@ -138,8 +140,8 @@ it.each([
     document.documentElement.dir = dir;
     render({ side }, { showHandle: true });
     await settle();
-    await wait(500);
     const content = slot("drawer-content")!;
+    await finished(content);
     const panel = content.getBoundingClientRect();
     const handle = slot("drawer-handle")!.getBoundingClientRect();
     const area = slot("drawer-swipe-area")!.getBoundingClientRect();
@@ -220,20 +222,21 @@ it("keeps a Select inside it open and usable", async () => {
   );
   await settle();
   await userEvent.click(slot("select-trigger")!);
-  await settle();
-  const option = [...document.querySelectorAll<HTMLElement>("[role=option]")].find((item) => item.textContent === "B")!;
-  await userEvent.click(option);
-  await settle();
+  const option = () =>
+    [...document.querySelectorAll<HTMLElement>("[role=option]")].find((item) => item.textContent === "B");
+  await expect.poll(option).toBeDefined();
+  await userEvent.click(option()!);
+  await expect.poll(() => slot("select-trigger")!.textContent).toContain("B");
+  await wait(300);
   expect(open.value).toBe(true);
-  expect(slot("select-trigger")!.textContent).toContain("B");
 });
 
 it("returns a released drag by its transition instead of replaying the enter animation, and enters again on reopen", async () => {
   const open = render({}, {}, () => h("div", { style: "height: 300px" }));
   await settle();
-  await wait(500);
   const content = slot("drawer-content")!;
   const body = slot("drawer-body")!;
+  await finished(content);
   pointer("pointerdown", body, 100, 100);
   for (const y of [115, 125, 135, 145, 160]) {
     await wait(50);
@@ -254,8 +257,7 @@ it("returns a released drag by its transition instead of replaying the enter ani
   expect(translateY(content)).toBe(0);
 
   open.value = false;
-  await settle();
-  await wait(300);
+  await closed();
   open.value = true;
   await settle();
   expect(animations(slot("drawer-content")!)).toContain("kappa-drawer-in-bottom");
@@ -264,7 +266,7 @@ it("returns a released drag by its transition instead of replaying the enter ani
 it("runs its exit animation when Escape closes it in the middle of a drag", async () => {
   const open = render({}, {}, () => h("div", { style: "height: 300px" }));
   await settle();
-  await wait(500);
+  await finished(slot("drawer-content")!);
   const body = slot("drawer-body")!;
   pointer("pointerdown", body, 100, 100);
   for (const y of [115, 125, 135, 145, 160]) {
@@ -285,8 +287,7 @@ it("settles a swipe-to-open release by its transition instead of replaying the e
   const open = render({}, {}, () => h("div", { style: "height: 300px" }));
   await settle();
   open.value = false;
-  await settle();
-  await wait(300);
+  await closed();
   const area = slot("drawer-swipe-area")!;
   pointer("pointerdown", area, 100, 600);
   for (const y of [580, 560, 540, 520, 500, 480, 460, 440, 420, 400]) {
@@ -339,21 +340,23 @@ it("plays the enter animation with snap points, lands on the first point and scr
   const content = slot("drawer-content")!;
   const body = slot("drawer-body")!;
   expect(animations(content)).toContain("kappa-drawer-in-bottom");
-  await wait(500);
+  await finished(content);
   expect(translateY(content)).toBeCloseTo(280, 0);
   expect(content.hasAttribute("data-expanded")).toBe(false);
   expect(getComputedStyle(body).overflowY).toBe("hidden");
 
   snap.value = "400px";
   await settle();
-  await wait(400);
+  await finished(content);
   expect(translateY(content)).toBe(0);
   expect(content.hasAttribute("data-expanded")).toBe(true);
   expect(getComputedStyle(body).overflowY).toBe("auto");
 
   snap.value = "120px";
   await settle();
-  await wait(100);
+  const back = await runningTranslate(content);
+  back.pause();
+  back.currentTime = 100;
   const midway = translateY(content);
   expect(midway).toBeGreaterThan(0);
   expect(midway).toBeLessThan(280);
@@ -366,10 +369,8 @@ it("plays the enter animation with snap points, lands on the first point and scr
   expect(after).toBeGreaterThan(before - 20);
   expect(after).toBeLessThan(before + 60);
   pointer("pointerup", body, 100, 85);
-  await settle();
-  await wait(400);
+  await expect.poll(() => translateY(content)).toBeCloseTo(280, 0);
   expect(snap.value).toBe("120px");
-  expect(translateY(content)).toBeCloseTo(280, 0);
 });
 
 it("scales the page in DrawerIndent behind an open drawer and gives it back after the close", async () => {

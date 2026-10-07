@@ -4,7 +4,7 @@ import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, ref } from "vue";
 
 import { type DragMove, useDrag } from "../../src/drag";
-import { pointer, wait } from "../browser/pointer";
+import { pointer, stamp, wait } from "../browser/pointer";
 
 const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: () => VNodeChild = () => null) => {
   const releases: DragMove[] = [];
@@ -37,14 +37,16 @@ const host = (options: Partial<Parameters<typeof useDrag>[1]> = {}, children: ()
 
 const touch = (type: "touchstart" | "touchmove" | "touchend", target: Element, x: number, y: number) => {
   const point = new Touch({ identifier: 1, target, clientX: x, clientY: y, pageX: x, pageY: y });
-  const event = new TouchEvent(type, {
-    bubbles: true,
-    cancelable: true,
-    composed: true,
-    touches: type === "touchend" ? [] : [point],
-    targetTouches: type === "touchend" ? [] : [point],
-    changedTouches: [point],
-  });
+  const event = stamp(
+    new TouchEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      touches: type === "touchend" ? [] : [point],
+      targetTouches: type === "touchend" ? [] : [point],
+      changedTouches: [point],
+    }),
+  );
   target.dispatchEvent(event);
   return event;
 };

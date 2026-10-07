@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
-import { h } from "vue";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { h, nextTick } from "vue";
 
 import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/ui/avatar";
 
@@ -18,6 +18,10 @@ const render = (node: () => unknown) => {
   return document.body;
 };
 
+afterEach(() => {
+  vi.useRealTimers();
+});
+
 const fallback = (root: HTMLElement) => root.querySelector<HTMLElement>("[data-slot=avatar-fallback]");
 
 describe("Avatar", () => {
@@ -34,11 +38,16 @@ describe("Avatar", () => {
   });
 
   it("delays the fallback by delayMs", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
     const root = render(() =>
       h(Avatar, () => [h(AvatarImage, { src: broken }), h(AvatarFallback, { delayMs: 150 }, () => "KP")]),
     );
+    await vi.advanceTimersByTimeAsync(149);
+    await nextTick();
     expect(fallback(root)).toBeNull();
-    await expect.poll(() => fallback(root), { timeout: 2000 }).not.toBeNull();
+    await vi.advanceTimersByTimeAsync(1);
+    await nextTick();
+    expect(fallback(root)?.textContent).toBe("KP");
   });
 
   it.each([
@@ -47,7 +56,7 @@ describe("Avatar", () => {
     ["md", 40],
     ["lg", 48],
     ["xl", 64],
-  ] as const)("is %spx wide at size %s", (size, px) => {
+  ] as const)("at size %s is %ipx wide and tall", (size, px) => {
     const root = render(() => h(Avatar, { size }, () => h(AvatarFallback, () => "K")));
     const avatar = root.querySelector<HTMLElement>("[data-slot=avatar]")!;
     expect(avatar.dataset.size).toBe(size);

@@ -21,7 +21,7 @@ it.each([
   ["md", 20],
   ["lg", 24],
   ["xl", 28],
-] as const)("is %s tall at size %s, and at least as wide", (size, height) => {
+] as const)("at size %s is %ipx tall, and at least as wide", (size, height) => {
   render({ size });
   const box = kbd().getBoundingClientRect();
   expect(kbd().dataset.size).toBe(size);

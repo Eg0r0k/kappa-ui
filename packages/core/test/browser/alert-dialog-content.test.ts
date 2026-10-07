@@ -44,6 +44,8 @@ const mountHost = () => {
 };
 
 const cancel = () => document.querySelector<HTMLElement>("[data-test=cancel]")!;
+const alertDialog = () => document.querySelector<HTMLElement>("[role=alertdialog]");
+const focusedOnCancel = () => expect.poll(() => document.activeElement?.getAttribute("data-test")).toBe("cancel");
 const pressOutside = async () => {
   await userEvent.click(document.querySelector<HTMLElement>("[data-test=overlay]")!, {
     position: { x: 5, y: 5 },
@@ -55,10 +57,9 @@ describe("AlertDialogContent", () => {
   it("opens as an alertdialog with focus on Cancel and ignores outside presses", async () => {
     mountHost();
     const handle = openDialog(Alert);
-    await settle();
+    await focusedOnCancel();
 
-    expect(document.querySelector("[role=alertdialog]")).not.toBeNull();
-    expect(document.activeElement).toBe(cancel());
+    expect(alertDialog()).not.toBeNull();
     await pressOutside();
     expect(handle.isOpen.value).toBe(true);
 
@@ -69,22 +70,21 @@ describe("AlertDialogContent", () => {
   it("reports Escape and resolves the value from code", async () => {
     const dialogs = mountHost();
     const escaped = openDialog(Alert);
-    await settle();
+    await focusedOnCancel();
     await userEvent.keyboard("{Escape}");
     expect(await escaped).toEqual({ ok: false, reason: "escape" });
 
     const confirmed = openDialog(Alert);
-    await settle();
+    await focusedOnCancel();
     await userEvent.click(document.querySelector<HTMLElement>("[data-test=ok]")!);
     expect(await confirmed).toEqual({ ok: true, value: undefined });
-    await settle();
-    expect(dialogs.stack.value).toHaveLength(0);
+    await expect.poll(() => dialogs.stack.value).toHaveLength(0);
   });
 
   it("holds the dialog open while loading, against Escape and Cancel", async () => {
     mountHost();
     const handle = openDialog(Alert, { busy: true });
-    await settle();
+    await expect.poll(alertDialog).not.toBeNull();
     await userEvent.keyboard("{Escape}");
     await userEvent.click(cancel());
     await settle();
@@ -97,11 +97,11 @@ describe("AlertDialogContent", () => {
   it("names itself with a hidden title when it renders none", async () => {
     mountHost();
     openDialog(Alert, { titled: false });
-    await settle();
-    const dialog = document.querySelector("[role=alertdialog]")!;
+    await expect.poll(alertDialog).not.toBeNull();
+    const dialog = alertDialog()!;
     const title = document.getElementById(dialog.getAttribute("aria-labelledby")!);
 
-    expect(title).not.toBeNull();
-    expect(title?.closest("[data-test=ok]")).toBeNull();
+    expect(dialog.contains(title)).toBe(true);
+    expect(title?.textContent).toBe("");
   });
 });

@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, h, nextTick, ref } from "vue";
 
@@ -43,7 +43,6 @@ const input = () => document.querySelector<HTMLInputElement>("[data-slot=command
 const items = () => [...document.querySelectorAll<HTMLElement>("[data-slot=command-item]")];
 const groups = () => [...document.querySelectorAll<HTMLElement>("[data-slot=command-group]")];
 const texts = () => items().map((item) => item.textContent?.trim());
-const settle = () => new Promise((resolve) => setTimeout(resolve, 300));
 
 it("renders a listbox with a search input, labelled groups, items and a shortcut", async () => {
   render(h(Command, () => content()));
@@ -143,10 +142,9 @@ it("takes Menu's item heights from size", async () => {
 
 it("opens as a dialog named by its title, with the search focused and no close button", async () => {
   render(h(CommandDialog, { open: true }, () => content()));
-  await settle();
+  await vi.waitFor(() => expect(document.activeElement).toBe(input()));
   const dialog = document.querySelector<HTMLElement>("[role=dialog]")!;
   expect(document.getElementById(dialog.getAttribute("aria-labelledby")!)!.textContent).toBe("Command Palette");
-  expect(document.activeElement).toBe(input());
   expect(document.querySelector("[data-slot=dialog-close]")).toBeNull();
 });
 

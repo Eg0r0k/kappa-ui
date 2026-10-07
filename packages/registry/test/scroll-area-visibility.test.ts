@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { beforeEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { h } from "vue";
+import { h, nextTick } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
 
@@ -107,7 +107,8 @@ it("makes a scrollable viewport focusable and a full one not", async () => {
     slots: { default: () => h("div", { style: "height: 50px; width: 50px" }) },
   });
   const fullViewport = full.element.querySelector("[data-slot=scroll-area-viewport]")!;
-  await vi.waitFor(() => expect(fullViewport.hasAttribute("tabindex")).toBe(false));
+  await nextTick();
+  expect(fullViewport.hasAttribute("tabindex")).toBe(false);
   full.unmount();
 });
 

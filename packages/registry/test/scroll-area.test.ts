@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
-import { h } from "vue";
+import { h, nextTick } from "vue";
 
 import { ScrollArea } from "@/ui/scroll-area";
 
@@ -97,10 +97,11 @@ it("moves the thumb as the viewport scrolls", async () => {
 });
 
 it("hides the thumb when its own axis does not overflow", async () => {
-  const wrapper = mountArea({ content: { height: "100px", width: "400px" } });
+  const wrapper = mountArea({ props: { visible: true }, content: { height: "100px", width: "400px" } });
   const { verticalThumb } = partsOf(wrapper.element);
 
-  await vi.waitFor(() => expect(verticalThumb.className).toContain("opacity-0"));
+  await nextTick();
+  expect(verticalThumb.className).toContain("opacity-0");
 
   wrapper.unmount();
 });

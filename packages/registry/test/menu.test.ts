@@ -5,8 +5,9 @@ import { defineComponent, h, ref } from "vue";
 
 import { Menu, MenuCheckboxItem, MenuItem, MenuRadioGroup, MenuRadioItem, MenuShortcut } from "@/ui/menu";
 
-const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
 const query = (selector: string) => document.querySelector(selector) as HTMLElement | null;
+const opened = () => expect.poll(() => query("[data-slot=menu]")?.dataset.state).toBe("open");
+const closed = () => expect.poll(() => query("[data-slot=menu]")).toBeNull();
 
 describe("Menu items", () => {
   it("fires select on an item and closes", async () => {
@@ -26,15 +27,13 @@ describe("Menu items", () => {
     );
 
     await userEvent.click(wrapper.get("button").element);
-    await settle();
+    await opened();
     expect(query("[data-slot=menu-item][data-variant=destructive]")).not.toBeNull();
     expect(query("[data-slot=menu-shortcut]")?.getAttribute("dir")).toBe("ltr");
 
     await userEvent.click(query("[data-slot=menu-item]")!);
-    await settle();
+    await closed();
     expect(chosen).toEqual(["rename"]);
-    await expect.poll(() => query("[data-slot=menu]")).toBeNull();
-    wrapper.unmount();
   });
 
   it("binds checkbox items and radio groups with v-model", async () => {
@@ -72,18 +71,16 @@ describe("Menu items", () => {
     );
 
     await userEvent.click(wrapper.get("button").element);
-    await settle();
+    await opened();
     expect(query("[data-slot=menu-radio-item][data-state=checked]")?.textContent).toContain("Top");
     await userEvent.click(query("[data-slot=menu-checkbox-item]")!);
-    await settle();
-    expect(panel.value).toBe(true);
+    await expect.poll(() => panel.value).toBe(true);
+    await closed();
 
     await userEvent.click(wrapper.get("button").element);
-    await settle();
+    await opened();
     expect(query("[data-slot=menu-checkbox-item]")?.getAttribute("data-state")).toBe("checked");
     await userEvent.click(document.querySelectorAll<HTMLElement>("[data-slot=menu-radio-item]")[1]!);
-    await settle();
-    expect(position.value).toBe("bottom");
-    wrapper.unmount();
+    await expect.poll(() => position.value).toBe("bottom");
   });
 });

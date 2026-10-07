@@ -74,9 +74,10 @@ it("animates a delayed open, not an instant one, and cuts the exit when a siblin
   pointer("pointermove", trigger("b"));
   await nextTick();
   expect(content("a")?.dataset.instant).toBe("sibling");
+  expect(getComputedStyle(content("a")!).animationDuration).toBe("0s");
   await expect.poll(() => content("b")?.dataset.state).toBe("instant-open");
   expect(getComputedStyle(content("b")!).animationName).toBe("none");
-  await expect.poll(() => content("a"), { timeout: 60 }).toBeNull();
+  await expect.poll(() => content("a")).toBeNull();
 });
 
 it("leaves no closing tooltip behind when a real pointer moves to the next trigger", async () => {
@@ -90,7 +91,7 @@ it("leaves no closing tooltip behind when a real pointer moves to the next trigg
   );
   await userEvent.hover(trigger("b"));
   await expect.poll(() => content("b")?.dataset.state).toBe("instant-open");
-  await expect.poll(() => content("a"), { timeout: 300 }).toBeNull();
+  await expect.poll(() => content("a")).toBeNull();
 });
 
 it("draws a tooltip opened by touch larger", async () => {

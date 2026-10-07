@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { type App, type PropType, createApp, defineComponent, h, nextTick } from "vue";
 
 import {
@@ -82,7 +82,10 @@ const escape = (target: EventTarget) => {
   return event;
 };
 
+const timers = () => vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
+
 afterEach(() => {
+  vi.useRealTimers();
   apps.forEach((app) => app.unmount());
   apps = [];
   document.body.replaceChildren();
@@ -92,67 +95,80 @@ describe("ToastRecordRoot", () => {
   it("drops the record once the exit animation ends", async () => {
     const toaster = mount();
     const id = toaster.add({ title: "Saved" });
-    await wait(50);
+    await nextTick();
     toaster.remove(id);
-    await wait(80);
+    await nextTick();
     expect(item(id)?.dataset.state).toBe("closed");
     expect(toaster.toasts.value).toHaveLength(1);
-    await wait(250);
-    expect(item(id)).toBeNull();
+    await expect.poll(() => item(id)).toBeNull();
     expect(toaster.toasts.value).toEqual([]);
   });
 
   it("keeps a toast added again during its exit", async () => {
     const toaster = mount();
     const id = toaster.add({ id: "copy", title: "Copied" });
-    await wait(50);
+    await nextTick();
     toaster.remove(id);
-    await wait(80);
+    await nextTick();
+    await item(id)!.getAnimations()[0]!.ready;
     toaster.add({ id: "copy", title: "Copied again" });
-    await wait(300);
+    await nextTick();
+    expect(item(id)?.dataset.state).toBe("open");
+    await wait(400);
     expect(item(id)?.dataset.state).toBe("open");
     expect(item(id)?.textContent).toContain("Copied again");
     expect(toaster.toasts.value).toHaveLength(1);
   });
 
   it("closes on its own timer and drops afterwards", async () => {
+    timers();
     const toaster = mount({ duration: 150 });
-    toaster.add({ title: "Brief" });
-    await wait(500);
-    expect(toaster.toasts.value).toEqual([]);
+    const id = toaster.add({ title: "Brief" });
+    await vi.advanceTimersByTimeAsync(149);
+    expect(item(id)?.dataset.state).toBe("open");
+    await vi.advanceTimersByTimeAsync(1);
+    expect(item(id)?.dataset.state).toBe("closed");
+    await expect.poll(() => toaster.toasts.value).toEqual([]);
   });
 
   it("stays open while loading past the timer it had", async () => {
+    timers();
     const toaster = mount({ duration: 300 });
     const id = toaster.add({ title: "Upload" });
-    await wait(100);
+    await vi.advanceTimersByTimeAsync(100);
     toaster.update(id, { title: "Uploading", loading: true });
-    await wait(400);
+    await vi.advanceTimersByTimeAsync(400);
     expect(item(id)?.dataset.state).toBe("open");
     toaster.update(id, { title: "Uploaded", loading: false });
-    await wait(150);
+    await vi.advanceTimersByTimeAsync(299);
     expect(item(id)?.dataset.state).toBe("open");
-    await wait(450);
-    expect(toaster.toasts.value).toEqual([]);
+    await vi.advanceTimersByTimeAsync(1);
+    expect(item(id)?.dataset.state).toBe("closed");
+    await expect.poll(() => toaster.toasts.value).toEqual([]);
   });
 
   it("restarts the timer when an update changes the duration", async () => {
+    timers();
     const toaster = mount();
     const id = toaster.add({ title: "Draft", duration: 300 });
-    await wait(200);
+    await vi.advanceTimersByTimeAsync(200);
     toaster.update(id, { duration: 500 });
-    await wait(250);
+    await vi.advanceTimersByTimeAsync(499);
     expect(item(id)?.dataset.state).toBe("open");
-    await wait(500);
-    expect(toaster.toasts.value).toEqual([]);
+    await vi.advanceTimersByTimeAsync(1);
+    expect(item(id)?.dataset.state).toBe("closed");
+    await expect.poll(() => toaster.toasts.value).toEqual([]);
   });
 
   it("keeps the timer running when an update leaves the duration alone", async () => {
+    timers();
     const toaster = mount();
     const id = toaster.add({ title: "Draft", duration: 300 });
-    await wait(200);
+    await vi.advanceTimersByTimeAsync(200);
     toaster.update(id, { title: "Draft saved" });
-    await wait(150);
+    await vi.advanceTimersByTimeAsync(99);
+    expect(item(id)?.dataset.state).toBe("open");
+    await vi.advanceTimersByTimeAsync(1);
     expect(item(id)?.dataset.state).toBe("closed");
   });
 
@@ -160,7 +176,7 @@ describe("ToastRecordRoot", () => {
     const toaster = mount();
     toaster.add({ title: "One" });
     toaster.add({ title: "Two" });
-    await wait(50);
+    await nextTick();
     const event = escape(document.body);
     await nextTick();
     expect(toaster.toasts.value.map((toast) => toast.open)).toEqual([true, true]);
@@ -171,7 +187,7 @@ describe("ToastRecordRoot", () => {
     const toaster = mount();
     const first = toaster.add({ title: "One" });
     const second = toaster.add({ title: "Two" });
-    await wait(50);
+    await nextTick();
     const button = document.querySelector<HTMLButtonElement>(`[data-close="${second}"]`)!;
     button.focus();
     escape(button);
@@ -190,7 +206,7 @@ describe("useToastGroup", () => {
     toaster.add({ id: "a", group: "uploads" });
     toaster.add({ id: "b", group: "uploads" });
     toaster.add({ id: "c", group: "uploads" });
-    await wait(50);
+    await nextTick();
     expect(item("elsewhere")).toBeNull();
     expect(toaster.toasts.value.map((toast) => [toast.id, toast.open])).toEqual([
       ["elsewhere", true],
@@ -207,20 +223,18 @@ describe("useToastStack", () => {
     toaster.add({ id: "old", height: 40 });
     toaster.add({ id: "mid", height: 50 });
     toaster.add({ id: "new", height: 60 });
-    await wait(50);
     const read = () =>
       ["old", "mid", "new"].map((id) => {
         const data = item(id)?.dataset;
         return [id, Number(data?.index), Number(data?.offset), Number(data?.height)];
       });
-    expect(read()).toEqual([
+    await expect.poll(read).toEqual([
       ["old", 2, 110, 40],
       ["mid", 1, 60, 50],
       ["new", 0, 0, 60],
     ]);
     toaster.remove("new");
-    await wait(30);
-    expect(read()).toEqual([
+    await expect.poll(read).toEqual([
       ["old", 1, 50, 40],
       ["mid", 0, 0, 50],
       ["new", 0, 0, 60],
@@ -252,8 +266,7 @@ describe("useToastStack", () => {
     apps.push(app);
     toaster.add({ height: 30 });
     toaster.add({ height: 70 });
-    await wait(50);
-    expect([stack!.front.value, stack!.total.value, stack!.count.value]).toEqual([70, 100, 2]);
+    await expect.poll(() => [stack!.front.value, stack!.total.value, stack!.count.value]).toEqual([70, 100, 2]);
   });
 });
 

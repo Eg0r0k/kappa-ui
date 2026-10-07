@@ -168,7 +168,7 @@ it("returns to the first point after a close, holding the exit offset until then
   expect(changes.at(-1)).toBe("100px");
   expect(variable("--drawer-snap-offset")).toBe("0px");
   expect(opacity()).toBe(1);
-  await wait(250);
+  await expect.poll(() => document.querySelector("[role=dialog]")).toBeNull();
   open.value = true;
   await settle();
   expect(variable("--drawer-snap-offset")).toBe("300px");

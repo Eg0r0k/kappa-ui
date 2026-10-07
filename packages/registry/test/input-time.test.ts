@@ -20,7 +20,6 @@ const root = () => document.querySelector<HTMLElement>("[data-slot=input-time]")
 const segments = () => [...document.querySelectorAll<HTMLElement>("[data-slot=input-time-segment]")];
 const editable = () => segments().filter((segment) => segment.getAttribute("role") === "spinbutton");
 const hidden = () => document.querySelector<HTMLInputElement>("input[tabindex='-1']")!;
-const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
 
 it("renders hour and minute spinbuttons around a literal inside a group frame", () => {
   render(h(InputTime, { style: colors, hourCycle: 24, defaultValue: new Time(14, 30) }));
@@ -86,9 +85,8 @@ it("adds an AM/PM segment in the 12-hour cycle", () => {
 it("rings the frame and highlights the segment that has focus", async () => {
   render(h(InputTime, { style: colors, hourCycle: 24, defaultValue: new Time(9, 30) }));
   editable()[1]!.focus();
-  await settle();
-  expect(getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
-  expect(getComputedStyle(editable()[1]!).backgroundColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(editable()[1]!).backgroundColor).toBe("rgb(0, 128, 0)");
 });
 
 it("marks the segments and the frame invalid outside min and max", () => {
@@ -359,11 +357,9 @@ it("becomes the frameless control of an InputGroup at the group's size", async (
   expect(getComputedStyle(groupControl()).borderTopWidth).toBe("0px");
   expect(groupFrame().offsetHeight).toBe(32);
   editable()[0]!.focus();
-  await settle();
-  expect(getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 128, 0)");
   document.querySelector<HTMLElement>("[data-slot=input-group-button]")!.focus();
-  await settle();
-  expect(getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 0, 255)");
+  await expect.poll(() => getComputedStyle(groupFrame()).borderTopColor).toBe("rgb(0, 0, 255)");
 });
 
 it("focuses its first segment when an addon of its group is clicked", async () => {

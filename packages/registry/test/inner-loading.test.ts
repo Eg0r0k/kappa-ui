@@ -49,7 +49,7 @@ it("covers and blocks the content while loading", async () => {
   expect(content().hasAttribute("inert")).toBe(true);
   expect(overlay()!.getAttribute("role")).toBe("status");
   expect(overlay()!.querySelector("[data-slot=spinner]")).not.toBeNull();
-  expect(overlay()!.getBoundingClientRect()).toEqual(root.getBoundingClientRect());
+  expect(overlay()!.getBoundingClientRect().toJSON()).toEqual(root.getBoundingClientRect().toJSON());
   button().focus();
   expect(document.activeElement).not.toBe(button());
 });

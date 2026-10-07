@@ -1,5 +1,5 @@
 import { type VueWrapper, mount } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, onTestFinished, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
 
@@ -257,14 +257,13 @@ describe("hover", () => {
     expect(content()).not.toBeNull();
   });
 
-  it("stops its timers when unmounted", async () => {
-    const changes: Change[] = [];
-    render(() => tooltip("a", { changes }));
+  it("stops its timers when unmounted", () => {
+    render(() => tooltip("a"));
+    vi.clearAllTimers();
     move(trigger());
+    expect(vi.getTimerCount()).toBeGreaterThan(0);
     mounted.pop()!.unmount();
-    vi.advanceTimersByTime(200);
-    await flush();
-    expect(changes).toEqual([]);
+    expect(vi.getTimerCount()).toBe(0);
   });
 });
 
@@ -587,15 +586,17 @@ describe("follow cursor", () => {
     style.textContent =
       "@keyframes leave { to { opacity: 0 } } [data-test=a-content][data-state=closed] { animation: leave 300ms }";
     document.head.append(style);
+    onTestFinished(() => style.remove());
     render(() => wide({ followCursor: "both" }), { delay: 0 });
     const x = at(0.1);
     await expect.poll(() => Math.abs(centre() - x)).toBeLessThan(1);
     leave(trigger());
-    await expect.poll(() => content()?.dataset.state).toBe("closed");
+    await flush();
+    expect(content()?.dataset.state).toBe("closed");
+    content()!.getAnimations()[0]!.pause();
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     expect(content()).not.toBeNull();
     expect(Math.abs(centre() - x)).toBeLessThan(1);
-    style.remove();
   });
 
   it("opens on the trigger, not at the last pointer position, when focused after a hover", async () => {

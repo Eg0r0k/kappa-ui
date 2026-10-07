@@ -85,7 +85,7 @@ it("ignores a tap", async () => {
   expect(releases).toHaveLength(0);
 });
 
-it("cancels when canStart says no and when the target is inside data-no-drag", async () => {
+it("never starts, and reports no cancel, when canStart says no or the target is inside data-no-drag", async () => {
   const { element, starts, cancels } = host({ canStart: () => false });
   await drag(element, [100, 100], [100, 200]);
   expect(starts).toHaveLength(0);
@@ -165,8 +165,7 @@ it("cancels a running drag once when its host unmounts", async () => {
 it("keeps movement at or above the lower bound apart from the rubber band", async () => {
   const { element, moves } = host({ bounds: { min: 0 } });
   await drag(element, [100, 300], [100, 100]);
-  expect(moves.at(-1)!.movement).toBeGreaterThan(-200);
-  expect(moves.at(-1)!.movement).toBeLessThanOrEqual(0);
+  expect(moves.at(-1)!.movement).toBeCloseTo(-51.2, 1);
 });
 
 it("scrollBlocksDrag reads the scroll chain for each side", () => {

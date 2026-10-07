@@ -3,20 +3,22 @@ import { expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { DrawerContent, DrawerHandle, DrawerOverlay, DrawerRoot } from "../../src/drawer";
-import { pointer, wait } from "../browser/pointer";
+import { pointer, stamp, wait } from "../browser/pointer";
 
 const PANEL = "position: fixed; left: 0; bottom: 0; width: 300px; height: 400px";
 
 const touch = (type: "touchstart" | "touchmove" | "touchend", target: Element, x: number, y: number) => {
   const point = new Touch({ identifier: 1, target, clientX: x, clientY: y, pageX: x, pageY: y });
-  const event = new TouchEvent(type, {
-    bubbles: true,
-    cancelable: true,
-    composed: true,
-    touches: type === "touchend" ? [] : [point],
-    targetTouches: type === "touchend" ? [] : [point],
-    changedTouches: [point],
-  });
+  const event = stamp(
+    new TouchEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      touches: type === "touchend" ? [] : [point],
+      targetTouches: type === "touchend" ? [] : [point],
+      changedTouches: [point],
+    }),
+  );
   target.dispatchEvent(event);
   return event;
 };
@@ -198,13 +200,15 @@ it("leaves a gesture to the browser once its moves cannot be cancelled", async (
     await wait(30);
     const point = new Touch({ identifier: 1, target: text(), clientX: 150, clientY: y, pageX: 150, pageY: y });
     text().dispatchEvent(
-      new TouchEvent("touchmove", {
-        bubbles: true,
-        cancelable: false,
-        touches: [point],
-        targetTouches: [point],
-        changedTouches: [point],
-      }),
+      stamp(
+        new TouchEvent("touchmove", {
+          bubbles: true,
+          cancelable: false,
+          touches: [point],
+          targetTouches: [point],
+          changedTouches: [point],
+        }),
+      ),
     );
   }
   await settle();

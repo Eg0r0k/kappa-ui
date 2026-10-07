@@ -68,7 +68,7 @@ describe("Pagination", () => {
     expect(nav.tagName).toBe("NAV");
     expect(nav.getAttribute("aria-label")).toBe("Pagination");
     expect(list.tagName).toBe("UL");
-    expect([...list.children].every((child) => child.tagName === "LI")).toBe(true);
+    expect([...list.children].map((child) => child.tagName)).toEqual(Array(7).fill("LI"));
   });
 
   it("draws the current page solid primary and the others ghost neutral", () => {

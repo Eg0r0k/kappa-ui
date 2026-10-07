@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, expect, it, onTestFinished, vi } from "vitest";
 import { defineComponent, h, nextTick, ref, withDirectives } from "vue";
 
 import { vRipple } from "../../src/ripple";
@@ -39,14 +39,13 @@ const release = (target: HTMLElement) =>
 const container = () => element("host").querySelector<HTMLElement>(":scope > [data-slot=ripple]");
 const waves = () => [...(container()?.children ?? [])] as HTMLElement[];
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 const mediaMatching = (feature: string) =>
   vi
     .spyOn(window, "matchMedia")
     .mockImplementation((query: string) => ({ matches: query.includes(feature), media: query }) as MediaQueryList);
 
 afterEach(() => {
+  vi.useRealTimers();
   vi.restoreAllMocks();
 });
 
@@ -98,34 +97,41 @@ it("reads timing set on the ripple container", () => {
 });
 
 it("holds a short press for its minimum, then fades and removes the wave", async () => {
+  vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "performance"] });
   host(true, "--kappa-ripple-fade-duration:20ms");
   press(element("host"), 50, 50);
   release(element("host"));
 
   expect(waves()).toHaveLength(1);
-  await wait(120);
+  vi.advanceTimersByTime(224);
   expect(waves()[0]!.dataset.hiding).toBeUndefined();
-  await wait(400);
+  vi.advanceTimersByTime(1);
+  expect(waves()[0]!.dataset.hiding).toBe("");
+  vi.advanceTimersByTime(19);
+  expect(waves()).toHaveLength(1);
+  vi.advanceTimersByTime(1);
   expect(waves()).toHaveLength(0);
 });
 
-it("falls back to static waves where the Web Animations API is missing", async () => {
+it("falls back to static waves where the Web Animations API is missing", () => {
+  vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "performance"] });
   const original = HTMLElement.prototype.animate;
   Object.defineProperty(HTMLElement.prototype, "animate", { value: undefined, configurable: true, writable: true });
-
-  try {
-    host(true, "--kappa-ripple-fade-duration:20ms");
-    expect(() => press(element("host"), 50, 50)).not.toThrow();
-    expect(() => release(element("host"))).not.toThrow();
-
-    const wave = waves()[0]!;
-    expect(wave.style.transform).toMatch(/^translate\(80px, 30px\) scale\(7\.7\d*\)$/);
-
-    await wait(400);
-    expect(waves()).toHaveLength(0);
-  } finally {
+  onTestFinished(() => {
     Object.defineProperty(HTMLElement.prototype, "animate", { value: original, configurable: true, writable: true });
-  }
+  });
+
+  host(true, "--kappa-ripple-fade-duration:20ms");
+  expect(() => press(element("host"), 50, 50)).not.toThrow();
+  expect(() => release(element("host"))).not.toThrow();
+
+  const wave = waves()[0]!;
+  expect(wave.style.transform).toMatch(/^translate\(80px, 30px\) scale\(7\.7\d*\)$/);
+
+  vi.advanceTimersByTime(244);
+  expect(waves()).toHaveLength(1);
+  vi.advanceTimersByTime(1);
+  expect(waves()).toHaveLength(0);
 });
 
 it("tints the wave through the directive options", () => {

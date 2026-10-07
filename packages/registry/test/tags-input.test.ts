@@ -57,7 +57,6 @@ const root = () => document.querySelector<HTMLElement>("[data-slot=tags-input]")
 const input = () => document.querySelector<HTMLInputElement>("[data-slot=tags-input-input]")!;
 const chips = () => [...document.querySelectorAll<HTMLElement>("[data-slot=tags-input-item]")];
 const deletes = () => [...document.querySelectorAll<HTMLButtonElement>("[data-slot=tags-input-item-delete]")];
-const settle = () => new Promise((resolve) => setTimeout(resolve, 250));
 
 it("renders the tags as badges and a text box inside one frame", () => {
   render(tags({ name: "fruits" }));
@@ -167,8 +166,7 @@ it("rings the frame while the input has focus and turns it destructive when inva
   render(tags());
   expect(getComputedStyle(root()).borderTopColor).toBe("rgb(0, 0, 255)");
   input().focus();
-  await settle();
-  expect(getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
+  await expect.poll(() => getComputedStyle(root()).borderTopColor).toBe("rgb(0, 128, 0)");
   expect(getComputedStyle(root()).boxShadow).not.toBe("none");
   document.body.innerHTML = "";
 

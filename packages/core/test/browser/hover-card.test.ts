@@ -194,6 +194,4 @@ it("shares one window scroll listener between every root", () => {
   expect(scrolls(add)).toHaveLength(1);
   wrapper.unmount();
   expect(scrolls(remove)).toHaveLength(1);
-  add.mockRestore();
-  remove.mockRestore();
 });

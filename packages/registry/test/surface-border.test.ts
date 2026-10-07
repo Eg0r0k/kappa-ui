@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { expect, it, vi } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 import { h } from "vue";
 
 import { Card } from "@/ui/card";
@@ -11,6 +11,10 @@ const borderColor = () => {
   document.body.append(probe);
   return getComputedStyle(probe).borderTopColor;
 };
+
+afterEach(() => {
+  document.documentElement.style.removeProperty("--surface-border");
+});
 
 it("draws cards without an edge by default, and with the surface border once it is set", () => {
   const plain = mount(Card, { attachTo: document.body, slots: { default: () => "Card" } }).element as HTMLElement;
@@ -37,7 +41,7 @@ it("hides a card's edge with --surface-border: transparent, and the box never ha
 });
 
 it("draws menus with the surface border", async () => {
-  document.documentElement.style.setProperty("--surface-border", "transparent");
+  document.documentElement.style.setProperty("--surface-border", "rgb(1, 2, 3)");
   mount(
     {
       render: () => h("button", ["Open", h(Menu, { modelValue: true }, () => h(MenuItem, () => "Item"))]),
@@ -47,7 +51,6 @@ it("draws menus with the surface border", async () => {
 
   await vi.waitFor(() => {
     const content = document.querySelector<HTMLElement>("[data-slot=menu]")!;
-    expect(getComputedStyle(content).borderTopColor).toBe("rgba(0, 0, 0, 0)");
+    expect(getComputedStyle(content).borderTopColor).toBe("rgb(1, 2, 3)");
   });
-  document.documentElement.style.removeProperty("--surface-border");
 });

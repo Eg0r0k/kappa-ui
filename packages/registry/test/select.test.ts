@@ -41,7 +41,7 @@ describe("Select", () => {
     expect(trigger.attributes("aria-describedby")).toBe(
       `${wrapper.get("[data-slot=field-description]").attributes("id")} ${wrapper.get("[data-slot=field-error]").attributes("id")}`,
     );
-    expect(trigger.attributes("data-placeholder")).toBeDefined();
+    expect(trigger.attributes("data-placeholder")).toBe("");
     expect(document.querySelector("select[name=role]")).not.toBeNull();
     wrapper.unmount();
   });
@@ -56,7 +56,7 @@ describe("Select", () => {
       }),
     );
 
-    expect(wrapper.get("[data-slot=select-trigger]").attributes("disabled")).toBeDefined();
+    expect(wrapper.get("[data-slot=select-trigger]").attributes("disabled")).toBe("");
     wrapper.unmount();
   });
 
