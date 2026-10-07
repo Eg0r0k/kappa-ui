@@ -93,6 +93,26 @@ const radiusBoard = async (context: Context, payload: TokenPayload) => {
   return [grid('radii', tiles)]
 }
 
+const sizeBoard = async (context: Context, payload: TokenPayload) => {
+  const sizes = payload.variables.filter((token) => token.collection === 'Size')
+  const families = [...new Set(sizes.map((token) => token.name.split('-')[1]))]
+  return sequence(families, async (family) => {
+    const members = sizes.filter((token) => token.name.startsWith(`control-${family}-`))
+    const tiles = await sequence(members, (token) => {
+      const square = figma.createRectangle()
+      square.resize(token.value as number, token.value as number)
+      square.fills = [paintOf(variableOf(context, 'Color/primary'))]
+      square.setBoundVariable('width', variableOf(context, token.id))
+      square.setBoundVariable('height', variableOf(context, token.id))
+      return tile(context, token.name, square, [token.name, `${token.value}px`])
+    })
+    const row = stack(family, 'VERTICAL', 12)
+    row.appendChild(await title(context, family))
+    row.appendChild(grid('sizes', tiles))
+    return row
+  })
+}
+
 const typographyBoard = (context: Context, payload: TokenPayload) =>
   sequence(payload.textStyles, (token) =>
     textOf(
@@ -121,6 +141,7 @@ export const drawBoards = async (page: PageNode, payload: TokenPayload, context:
     ['Color', () => colorBoard(context, payload)],
     ['Tone', () => toneBoard(context, payload)],
     ['Radius', () => radiusBoard(context, payload)],
+    ['Size', () => sizeBoard(context, payload)],
     ['Typography', () => typographyBoard(context, payload)],
     ['Shadows', () => shadowBoard(context, payload)],
   ]
