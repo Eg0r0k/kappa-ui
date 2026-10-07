@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it, vi } from "vitest";
-import { defineComponent, h, withDirectives } from "vue";
+import { defineComponent, h, nextTick, ref, withDirectives } from "vue";
 
 import { vRipple } from "../../src/ripple";
 
@@ -138,10 +138,69 @@ it("tints the wave through the directive options", () => {
   expect(wave.style.getPropertyValue("--kappa-ripple-opacity")).toBe("0.3");
 });
 
+it("lets a directive on a component override the one inside it", async () => {
+  const Inner = defineComponent({
+    setup: () => () =>
+      withDirectives(h("div", { "data-test": "host", style: "width:200px;height:100px" }), [[vRipple, true]]),
+  });
+  const outer = ref<unknown>(false);
+  mount(defineComponent({ setup: () => () => withDirectives(h(Inner), [[vRipple, outer.value]]) }), {
+    attachTo: document.body,
+  });
+  press(element("host"), 50, 50);
+  expect(container()).toBeNull();
+
+  outer.value = { color: "red" };
+  await nextTick();
+  press(element("host"), 50, 50);
+  expect(waves()[0]!.style.getPropertyValue("--kappa-ripple-color")).toBe("red");
+});
+
 it("stays off when bound to false", () => {
   host(false);
   press(element("host"), 50, 50);
   expect(container()).toBeNull();
+});
+
+it("stays still while its host is disabled", () => {
+  host();
+  for (const [name, value] of [
+    ["aria-disabled", "true"],
+    ["data-disabled", ""],
+  ] as const) {
+    element("host").setAttribute(name, value);
+    press(element("host"), 50, 50);
+    element("host").click();
+    element("host").removeAttribute(name);
+  }
+  expect(container()).toBeNull();
+});
+
+it("stays still under --kappa-ripple: none, on the host or an ancestor", () => {
+  host(true, "--kappa-ripple: none");
+  press(element("host"), 50, 50);
+  element("host").click();
+  expect(container()).toBeNull();
+  element("host").style.removeProperty("--kappa-ripple");
+
+  document.documentElement.style.setProperty("--kappa-ripple", "none");
+  press(element("host"), 50, 50);
+  document.documentElement.style.removeProperty("--kappa-ripple");
+  expect(container()).toBeNull();
+
+  press(element("host"), 50, 50);
+  expect(waves()).toHaveLength(1);
+});
+
+it("stays still on a disabled button", () => {
+  mount(
+    defineComponent({
+      setup: () => () => withDirectives(h("button", { disabled: true, "data-test": "off" }), [[vRipple, true]]),
+    }),
+    { attachTo: document.body },
+  );
+  element("off").dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, isPrimary: true, button: 0 }));
+  expect(element("off").querySelector("[data-slot=ripple]")).toBeNull();
 });
 
 it("ignores presses that start on a nested control", () => {

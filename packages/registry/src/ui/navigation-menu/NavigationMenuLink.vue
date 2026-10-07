@@ -7,6 +7,7 @@ import {
 } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import {
   injectNavigationMenuContext,
@@ -49,6 +50,7 @@ const swallowWhenDisabled = (event: MouseEvent) => {
 
 <template>
   <NavigationMenuLink
+    v-ripple
     v-bind="forwarded"
     data-slot="navigation-menu-link"
     :aria-disabled="props.disabled || undefined"

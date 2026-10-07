@@ -2,6 +2,7 @@
 import { CalendarCellTrigger, type CalendarCellTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { calendarCellTrigger } from ".";
 
@@ -29,6 +30,7 @@ const delegated = computed(() => {
 
 <template>
   <CalendarCellTrigger
+    v-ripple
     v-slot="state"
     v-bind="delegated"
     data-slot="calendar-cell-trigger"

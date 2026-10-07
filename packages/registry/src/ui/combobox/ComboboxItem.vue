@@ -9,6 +9,7 @@ import {
 } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuItem } from "@/ui/menu";
 
@@ -24,6 +25,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <ComboboxItem
+    v-ripple
     v-bind="forwarded"
     data-slot="combobox-item"
     :class="

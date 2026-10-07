@@ -2,6 +2,7 @@
 import { Primitive, type PrimitiveProps } from "reka-ui";
 import type { HTMLAttributes } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { type ButtonColor, type ButtonVariants, buttonVariants } from ".";
 
@@ -31,6 +32,7 @@ const swallowWhenDisabled = (event: MouseEvent) => {
 
 <template>
   <Primitive
+    v-ripple
     data-slot="button"
     :data-variant="props.variant"
     :data-color="props.color"

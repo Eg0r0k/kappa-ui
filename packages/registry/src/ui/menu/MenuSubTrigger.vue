@@ -3,6 +3,7 @@ import { MenuSubTrigger, type MenuSubTriggerProps } from "@kappa-ui/core/menu";
 import { ChevronRight } from "@lucide/vue";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuSubTrigger } from ".";
 
@@ -16,6 +17,7 @@ const delegated = computed(() => {
 
 <template>
   <MenuSubTrigger
+    v-ripple
     v-bind="delegated"
     data-slot="menu-sub-trigger"
     :data-inset="props.inset || undefined"

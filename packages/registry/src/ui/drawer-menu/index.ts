@@ -62,7 +62,7 @@ export const drawerMenuItem = `
   before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-foreground
   before:opacity-0 before:transition-opacity before:duration-short-2 before:ease-standard
   data-highlighted:before:opacity-(--state-hover)
-  active:before:opacity-(--state-pressed)
+  active:not-has-[>[data-slot=ripple]>*]:before:opacity-(--state-pressed)
   data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)
   data-inset:ps-[calc(var(--menu-item-px)*2+var(--menu-icon))]
   data-[variant=destructive]:text-destructive

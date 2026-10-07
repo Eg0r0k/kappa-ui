@@ -3,6 +3,7 @@ import { DrawerMenuItem, type DrawerMenuItemEmits, type DrawerMenuItemProps } fr
 import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { drawerMenuItem } from ".";
 
@@ -24,6 +25,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 
 <template>
   <DrawerMenuItem
+    v-ripple
     v-bind="forwarded"
     data-slot="drawer-menu-item"
     :data-inset="props.inset || undefined"

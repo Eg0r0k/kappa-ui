@@ -9,6 +9,7 @@ import {
 } from "reka-ui";
 import { type HTMLAttributes, computed, onMounted, onUnmounted } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuItem } from "@/ui/menu";
 import { injectCommandContext, injectCommandGroupContext } from ".";
@@ -43,6 +44,7 @@ onUnmounted(() => {
 
 <template>
   <ListboxItem
+    v-ripple
     v-if="visible"
     v-bind="forwarded"
     :id="id"

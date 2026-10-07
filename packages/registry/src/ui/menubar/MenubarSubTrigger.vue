@@ -3,6 +3,7 @@ import { ChevronRight } from "@lucide/vue";
 import { MenubarSubTrigger, type MenubarSubTriggerProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuSubTrigger } from "@/ui/menu";
 
@@ -16,6 +17,7 @@ const delegated = computed(() => {
 
 <template>
   <MenubarSubTrigger
+    v-ripple
     v-bind="delegated"
     data-slot="menubar-sub-trigger"
     :data-inset="props.inset || undefined"

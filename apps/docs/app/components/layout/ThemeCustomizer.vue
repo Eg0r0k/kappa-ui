@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { Copy, Palette, RotateCcw } from '@lucide/vue'
 
-import { type ThemeConfig, fontStack, fonts, neutrals, presets, radii, surfaceBorders, themeCss } from '~/lib/theme'
+import {
+  type ThemeConfig,
+  fontStack,
+  fonts,
+  neutrals,
+  presets,
+  radii,
+  ripples,
+  surfaceBorders,
+  themeCss,
+} from '~/lib/theme'
 import { Button } from '@/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
@@ -100,6 +110,23 @@ const current = (preset: { hue: number; chroma: number }) =>
             :color="theme.surfaceBorder === option.key ? 'primary' : 'neutral'"
             :aria-pressed="theme.surfaceBorder === option.key"
             @click="update({ surfaceBorder: option.key })"
+          >
+            {{ option.name }}
+          </Button>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-2" aria-labelledby="customizer-ripple">
+        <h3 id="customizer-ripple" class="text-label-md text-muted-foreground">Ripple</h3>
+        <div class="flex flex-wrap gap-1.5">
+          <Button
+            v-for="option in ripples"
+            :key="option.key"
+            size="xs"
+            :variant="theme.ripple === option.key ? 'soft' : 'outline'"
+            :color="theme.ripple === option.key ? 'primary' : 'neutral'"
+            :aria-pressed="theme.ripple === option.key"
+            @click="update({ ripple: option.key })"
           >
             {{ option.name }}
           </Button>

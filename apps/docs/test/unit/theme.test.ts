@@ -104,6 +104,13 @@ describe('theme', () => {
     expect(themeTokens({ ...defaultTheme, shadows: 'none' }).dark['shadow-md']).toBeUndefined()
   })
 
+  it('turns the ripple off for the whole page only once asked', () => {
+    expect(themeCss(defaultTheme)).not.toContain('--kappa-ripple')
+    const off = { ...defaultTheme, ripple: 'off' as const }
+    expect(themeCss(off)).toMatch(/:root {[^}]*--kappa-ripple: none;/)
+    expect(siteCss(off)).toContain('--kappa-ripple: none;')
+  })
+
   it('tells the default theme apart', () => {
     expect(isDefaultTheme({ ...defaultTheme })).toBe(true)
     expect(isDefaultTheme({ ...defaultTheme, radius: 1 })).toBe(false)
@@ -200,6 +207,7 @@ describe('theme', () => {
       font: 'outfit',
       surfaceBorder: 'strong' as const,
       shadows: 'subtle' as const,
+      ripple: 'off' as const,
       infoChroma: 0.2,
     }
 
@@ -209,6 +217,7 @@ describe('theme', () => {
       font: 'outfit',
       surfaceBorder: 'strong',
       shadows: 'subtle',
+      ripple: 'off',
       infoChroma: '0.2',
     })
     expect(themeFromQuery(themeToQuery(theme))).toEqual(theme)
@@ -224,6 +233,7 @@ describe('theme', () => {
         font: 'comic',
         surfaceBorder: 'dotted',
         shadows: 'huge',
+        ripple: 'sometimes',
         successHue: 'green',
         warningChroma: '0',
       }),

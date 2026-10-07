@@ -3,7 +3,6 @@ import { Heart, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1, Vo
 import { computed, reactive, ref } from 'vue'
 
 import ShowcaseCard from '~/components/home/ShowcaseCard.vue'
-import vRipple from '@/lib/ripple'
 import { Button } from '@/ui/button'
 import { CardContent } from '@/ui/card'
 import { Image } from '@/ui/image'
@@ -106,7 +105,6 @@ const previous = () => {
           <Shuffle />
         </Toggle>
         <Button
-          v-ripple
           v-tooltip.label="'Previous'"
           variant="ghost"
           color="neutral"
@@ -118,7 +116,6 @@ const previous = () => {
           <SkipBack class="fill-current" />
         </Button>
         <Button
-          v-ripple
           v-tooltip.label="playing ? 'Pause' : 'Play'"
           size="icon-xl"
           class="rounded-full"
@@ -129,7 +126,6 @@ const previous = () => {
           <Play v-else class="fill-current" />
         </Button>
         <Button
-          v-ripple
           v-tooltip.label="'Next'"
           variant="ghost"
           color="neutral"

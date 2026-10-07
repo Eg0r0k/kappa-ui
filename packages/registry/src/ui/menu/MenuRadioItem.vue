@@ -8,6 +8,7 @@ import {
 import { useForwardPropsEmits } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
+import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
 import { menuIndicator, menuIndicatorItem, menuRadioDot } from ".";
 
@@ -22,7 +23,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 </script>
 
 <template>
-  <MenuRadioItem v-bind="forwarded" data-slot="menu-radio-item" :class="cn(menuIndicatorItem, props.class)">
+  <MenuRadioItem v-ripple v-bind="forwarded" data-slot="menu-radio-item" :class="cn(menuIndicatorItem, props.class)">
     <span :class="menuIndicator">
       <MenuItemIndicator data-slot="menu-item-indicator" class="flex items-center justify-center">
         <slot name="indicator-icon">
