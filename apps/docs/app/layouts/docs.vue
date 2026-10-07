@@ -3,6 +3,7 @@ import DocsHeader from '~/components/layout/DocsHeader.vue'
 import DocsSidebar from '~/components/layout/DocsSidebar.vue'
 import NavDrawer from '~/components/layout/NavDrawer.vue'
 import OnThisPage from '~/components/layout/OnThisPage.vue'
+import OnThisPageRail from '~/components/layout/OnThisPageRail.vue'
 import { pageSlugOf } from '~/lib/examples'
 import { outlineOf } from '~/lib/outline'
 
@@ -12,6 +13,7 @@ const route = useRoute()
 const { wide, narrow } = useDocsShell()
 const [{ data: page }] = await Promise.all([useDocsPage(() => route.path.replace(/\/+$/, '')), loadDocsNavigation()])
 const outline = computed(() => outlineOf(page.value))
+const activeHeading = useScrollSpy(() => outline.value?.headings.map((heading) => heading.id) ?? [])
 
 const { active, open, expanded, width } = provideDemo({
   examples: () => page.value?.examples ?? [],
@@ -29,17 +31,23 @@ const { active, open, expanded, width } = provideDemo({
     class="min-h-svh bg-background text-foreground"
   >
     <DocsHeader />
-    <OnThisPage :outline="outline" />
     <div class="flex">
       <aside
         aria-label="Navigation"
         class="invisible sticky top-14 hidden h-[calc(100svh-3.5rem)] w-0 shrink-0 overflow-hidden bg-card transition-[width,visibility] duration-medium-2 ease-standard motion-reduce:transition-none lg:block lg:in-data-[sidebar-narrow=open]:visible lg:in-data-[sidebar-narrow=open]:w-65 lg:in-data-[sidebar-narrow=open]:border-e wide:invisible wide:w-0 wide:border-e-0 wide:in-data-[sidebar-wide=open]:visible wide:in-data-[sidebar-wide=open]:w-65 wide:in-data-[sidebar-wide=open]:border-e"
       >
-        <DocsSidebar :outline="outline" class="w-65" />
+        <DocsSidebar class="w-65" />
       </aside>
       <main :class="['min-w-0 flex-1', active && open && 'md:min-w-80', active && open && expanded && 'md:hidden']">
+        <OnThisPage :outline="outline" />
         <slot />
       </main>
+      <div
+        v-if="outline?.headings.length && !(active && open)"
+        class="sticky top-14 hidden h-[calc(100svh-3.5rem)] w-56 shrink-0 overflow-y-auto py-10 pe-6 xl:block"
+      >
+        <OnThisPageRail :outline="outline" :active="activeHeading" />
+      </div>
       <Transition
         enter-active-class="overflow-hidden transition-[width,min-width] duration-medium-2 ease-standard motion-reduce:transition-none"
         enter-from-class="w-0! min-w-0!"
@@ -49,6 +57,6 @@ const { active, open, expanded, width } = provideDemo({
         <DemoPanel v-if="active && open" />
       </Transition>
     </div>
-    <NavDrawer :outline="outline" />
+    <NavDrawer />
   </div>
 </template>
