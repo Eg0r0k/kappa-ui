@@ -41,6 +41,8 @@ props:
     description: The element or component to render.
   asChild:
     description: Render the single child instead of a wrapper, merging the slider's attributes and classes onto it.
+slots:
+  default: "The parts, when you lay them out yourself: a `SliderTrack` holding a `SliderRange`, and a `SliderThumb` per value. Receives `{ thumbs, values }`, the number of thumbs and the current values. Left out, the slider draws its parts itself."
 emits:
   update:modelValue: Fires as a thumb moves.
   valueCommit: Fires once when a drag or key press ends, with the final value in the same shape as `v-model`.

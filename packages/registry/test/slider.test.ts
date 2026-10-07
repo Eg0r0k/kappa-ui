@@ -6,7 +6,7 @@ import { defineComponent, h, nextTick, ref } from "vue";
 import SliderStates from "@/examples/slider/SliderStates.vue";
 import SliderTouchTarget from "@/examples/slider/SliderTouchTarget.vue";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
-import { Slider } from "@/ui/slider";
+import { Slider, SliderHandle, SliderRange, SliderThumb, SliderTrack } from "@/ui/slider";
 
 const thumbs = (wrapper: ReturnType<typeof mount>) => wrapper.findAll("[role=slider]");
 
@@ -176,6 +176,87 @@ describe("Slider", () => {
     expect(gaps).toHaveLength(2);
     expect(Math.min(...gaps)).toBeGreaterThanOrEqual(0);
     wrapper.unmount();
+  });
+});
+
+describe("Slider parts", () => {
+  const composed = (props: Record<string, unknown>, part: (index: number) => ReturnType<typeof h>) =>
+    mount(
+      defineComponent({
+        setup: () => () =>
+          h(Slider, props, {
+            default: ({ thumbs: count }: { thumbs: number }) => [
+              h(SliderTrack, { class: "h-3" }, () => h(SliderRange, { class: "bg-success" })),
+              ...Array.from({ length: count }, (_, index) => part(index)),
+            ],
+          }),
+      }),
+      { attachTo: document.body },
+    );
+  const probe = (className: string) => {
+    const element = document.createElement("div");
+    element.className = className;
+    document.body.append(element);
+    return getComputedStyle(element).backgroundColor;
+  };
+
+  it("draws a track with its range and a handle in each thumb when given no children", async () => {
+    const wrapper = mount(Slider, { props: { defaultValue: [20, 80] }, attachTo: document.body });
+    await nextTick();
+
+    expect(wrapper.findAll("[data-slot=slider-track] > [data-slot=slider-range]")).toHaveLength(1);
+    expect(wrapper.findAll("[data-slot=slider-thumb] > [data-slot=slider-handle]")).toHaveLength(2);
+  });
+
+  it("merges a class into each part of a layout of its own", async () => {
+    const wrapper = composed({ defaultValue: 50, "aria-label": "Volume" }, (index) =>
+      h(SliderThumb, { key: index, class: "size-6" }, () => h(SliderHandle, { class: "bg-warning" })),
+    );
+    await nextTick();
+    const style = (slot: string) => getComputedStyle(wrapper.get(`[data-slot=${slot}]`).element);
+
+    expect(style("slider-track").height).toBe("12px");
+    expect(style("slider-range").backgroundColor).toBe(probe("bg-success"));
+    expect(style("slider-thumb").width).toBe("24px");
+    expect(style("slider-handle").backgroundColor).toBe(probe("bg-warning"));
+  });
+
+  it("gives its slot one thumb per value", async () => {
+    const wrapper = composed({ defaultValue: [20, 80] }, (index) => h(SliderThumb, { key: index }));
+    await nextTick();
+
+    expect(thumbs(wrapper).map((thumb) => thumb.attributes("aria-valuenow"))).toEqual(["20", "80"]);
+    expect(wrapper.findAll("[data-slot=slider-handle]")).toHaveLength(2);
+  });
+
+  it("names each thumb of a range on its own", async () => {
+    const names = ["Minimum price", "Maximum price"];
+    const wrapper = composed({ defaultValue: [20, 80] }, (index) =>
+      h(SliderThumb, { key: index, "aria-label": names[index] }),
+    );
+    await nextTick();
+
+    expect(thumbs(wrapper).map((thumb) => thumb.attributes("aria-label"))).toEqual(names);
+  });
+
+  it("wires the thumbs of a layout of its own to a field", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Field, { invalid: true }, () => [
+            h(FieldLabel, () => "Budget"),
+            h(Slider, { defaultValue: 85 }, () => [h(SliderTrack, () => h(SliderRange)), h(SliderThumb)]),
+            h(FieldError, { errors: "Too high." }),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    await nextTick();
+    const [thumb] = thumbs(wrapper);
+
+    expect(thumb!.attributes("aria-labelledby")).toBe(wrapper.get("label").attributes("id"));
+    expect(thumb!.attributes("aria-invalid")).toBe("true");
+    expect(thumb!.attributes("aria-describedby")).toBe(wrapper.get("[data-slot=field-error]").attributes("id"));
   });
 });
 

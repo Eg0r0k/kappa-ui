@@ -1,0 +1,9 @@
+component: SliderThumb
+file: ui/slider/SliderThumb.vue
+props:
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the thumb's attributes and classes onto it.
+slots:
+  default: What the thumb holds, a `SliderHandle` by default.

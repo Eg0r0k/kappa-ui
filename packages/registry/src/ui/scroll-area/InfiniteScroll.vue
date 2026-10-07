@@ -11,6 +11,7 @@ export type InfiniteScrollProps = {
   initialFill?: boolean;
   disabled?: boolean;
   resetKey?: unknown;
+  shouldLoad?: (direction: InfiniteDirection) => boolean | undefined;
   onLoad: InfiniteScrollLoad;
   class?: HTMLAttributes["class"];
 };
@@ -50,6 +51,7 @@ const infinite = useInfiniteScroll({
   debounce: () => props.debounce,
   initialFill: () => props.initialFill,
   disabled: () => props.disabled,
+  shouldLoad: (direction) => props.shouldLoad?.(direction),
   onLoad: (context) => props.onLoad(context),
 });
 

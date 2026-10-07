@@ -1,6 +1,12 @@
 import { type VariantProps, cva } from "class-variance-authority";
+import { createContext } from "reka-ui";
+import type { ComputedRef } from "vue";
 
 export { default as Slider } from "./Slider.vue";
+export { default as SliderHandle } from "./SliderHandle.vue";
+export { default as SliderRange } from "./SliderRange.vue";
+export { default as SliderThumb } from "./SliderThumb.vue";
+export { default as SliderTrack } from "./SliderTrack.vue";
 
 export type SliderColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
@@ -130,3 +136,9 @@ export const sliderHandleVariants = cva(
 );
 
 export type SliderVariants = VariantProps<typeof sliderVariants>;
+
+export const [injectSliderContext, provideSliderContext] = createContext<{
+  variant: ComputedRef<SliderVariants["variant"]>;
+  touchTarget: ComputedRef<SliderVariants["touchTarget"]>;
+  thumbAttrs: ComputedRef<Record<string, unknown>>;
+}>("Slider");

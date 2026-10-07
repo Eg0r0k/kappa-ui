@@ -19,6 +19,8 @@ props:
     description: Stops loading. Turning it off checks the edges at once.
   resetKey:
     description: Any value; when it changes, every direction resets to index 0 and starts over.
+  shouldLoad:
+    description: Your own "time to load?" check for an edge, called with its direction in place of the `offset` check. Return `undefined` to fall back to `offset`.
   onLoad:
     description: Called with `{ direction, index }` when an edge is near. `index` counts loads in that direction from 1. Resolve to load again later, resolve `'stop'` when that direction has no more; a rejection rolls the index back and reports the error.
 slots:

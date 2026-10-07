@@ -34,8 +34,8 @@ const brands = ['oklch(0.9 0.15 95)', 'oklch(0.6 0.2 150)', 'oklch(0.35 0.12 25)
   }
 
   :global(.dark) .kappa-brand-sample {
-    --primary: oklch(from var(--brand) 0.78 calc(c * 0.5) h);
-    --primary-foreground: oklch(from var(--brand) 0.25 calc(c * 0.4) h);
+    --primary: oklch(from color-mix(in oklch, var(--brand) 50%, oklch(0 0 none)) 0.78 c h);
+    --primary-foreground: oklch(from color-mix(in oklch, var(--brand) 40%, oklch(0 0 none)) 0.25 c h);
   }
 }
 </style>
