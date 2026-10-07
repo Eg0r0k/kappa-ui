@@ -103,6 +103,7 @@ const copyLink = async () => {
         size="icon-sm"
         :aria-label="expanded ? 'Collapse the panel' : 'Expand the panel'"
         :aria-pressed="expanded"
+        class="max-md:hidden"
         @click="expanded = !expanded"
       >
         <Minimize2 v-if="expanded" />

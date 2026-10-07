@@ -8,6 +8,8 @@ export type Shadows = 'none' | 'subtle' | 'default' | 'strong'
 
 export type Ripple = 'on' | 'off'
 
+export type Density = 'compact' | 'default' | 'comfortable'
+
 export type StatusName = 'destructive' | 'success' | 'warning' | 'info'
 
 type StatusKey = `${StatusName}${'Hue' | 'Chroma' | 'Lightness'}`
@@ -22,6 +24,7 @@ export interface ThemeConfig {
   surfaces: Surfaces
   shadows: Shadows
   ripple: Ripple
+  density: Density
   destructiveHue: number
   destructiveChroma: number
   destructiveLightness: number
@@ -113,6 +116,34 @@ export const ripples: { key: Ripple; name: string }[] = [
   { key: 'on', name: 'On' },
   { key: 'off', name: 'Off' },
 ]
+
+export const densities: { key: Density; name: string }[] = [
+  { key: 'compact', name: 'Compact' },
+  { key: 'default', name: 'Default' },
+  { key: 'comfortable', name: 'Comfortable' },
+]
+
+const controlSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+
+// Steps of --spacing from a step below xs to a step above xl, so a density can move every size one step.
+const controlScale: Record<string, number[]> = {
+  height: [6, 7, 8, 9, 10, 12, 14],
+  padding: [1.5, 2, 2.5, 3, 3, 4, 5],
+  icon: [3, 3.5, 4, 4, 5, 5, 6],
+  gap: [1, 1.5, 2, 2, 2.5, 3, 3.5],
+}
+
+const densityShift: Record<Density, number> = { compact: -1, default: 0, comfortable: 1 }
+
+export const controlTokens = (density: Density) =>
+  Object.fromEntries(
+    Object.entries(controlScale).flatMap(([part, steps]) =>
+      controlSizes.map((size, index) => [
+        `control-${part}-${size}`,
+        `calc(var(--spacing) * ${steps[index + 1 + densityShift[density]]})`,
+      ]),
+    ),
+  )
 
 const shadowScale: Record<Shadows, number> = { none: 0, subtle: 0.5, default: 1, strong: 2 }
 
@@ -227,6 +258,7 @@ export const defaultTheme: ThemeConfig = {
   surfaces: 'raised',
   shadows: 'default',
   ripple: 'on',
+  density: 'default',
   ...statusDefaults,
 }
 
@@ -338,6 +370,8 @@ export const themeTokens = (config: ThemeConfig) => {
 
   if (config.ripple === 'off') light['kappa-ripple'] = 'none'
 
+  if (config.density !== 'default') Object.assign(light, controlTokens(config.density))
+
   const status = statusTokens(config)
   return { light: { ...light, ...status.light }, dark: { ...dark, ...status.dark } }
 }
@@ -426,5 +460,8 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
       : defaultTheme.surfaces,
     shadows: shadows.some((option) => option.key === query.shadows) ? (query.shadows as Shadows) : defaultTheme.shadows,
     ripple: ripples.some((option) => option.key === query.ripple) ? (query.ripple as Ripple) : defaultTheme.ripple,
+    density: densities.some((option) => option.key === query.density)
+      ? (query.density as Density)
+      : defaultTheme.density,
   }
 }

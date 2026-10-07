@@ -1,21 +1,36 @@
 <script setup lang="ts">
-import { Copy, Palette, RotateCcw } from '@lucide/vue'
+import { Check, ChevronRight, Copy, Palette, RotateCcw } from '@lucide/vue'
+import { useElementSize } from '@vueuse/core'
 
+import ThemeSlider from '~/components/layout/ThemeSlider.vue'
 import {
+  type StatusName,
   type ThemeConfig,
+  chromaRange,
+  defaultTheme,
+  densities,
   fontStack,
   fonts,
+  lightnessRange,
   neutrals,
   presets,
   radii,
-  ripples,
+  shadows,
+  statusKeys,
+  statuses,
   surfaceBorders,
+  surfaces,
   themeCss,
 } from '~/lib/theme'
 import { Button } from '@/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/ui/collapsible'
+import { Field, FieldLabel } from '@/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover'
+import { ScrollArea } from '@/ui/scroll-area'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
+import { Switch } from '@/ui/switch'
 import { useToast } from '@/ui/toast'
+import { ToggleGroup, ToggleGroupItem } from '@/ui/toggle-group'
 import { vTooltip } from '@/ui/tooltip'
 
 const { theme, set, reset } = useSiteTheme()
@@ -28,11 +43,68 @@ const copyCss = async () => {
 
 const update = (patch: Partial<ThemeConfig>) => set({ ...theme.value, ...patch })
 
-const font = computed({ get: () => theme.value.font, set: (value) => update({ font: value }) })
+const setting = <K extends keyof ThemeConfig>(key: K) =>
+  computed({ get: () => theme.value[key], set: (value) => update({ [key]: value } as Partial<ThemeConfig>) })
+
+const hue = setting('hue')
+const chroma = setting('chroma')
+const radius = setting('radius')
+const neutral = setting('neutral')
+const font = setting('font')
+const ripple = computed({ get: () => theme.value.ripple === 'on', set: (on) => update({ ripple: on ? 'on' : 'off' }) })
+
+// A single ToggleGroup lets the pressed item go; a theme always has a value.
+const choice = <K extends 'density' | 'surfaces' | 'surfaceBorder' | 'shadows'>(key: K) =>
+  computed({
+    get: () => theme.value[key],
+    set: (value?: ThemeConfig[K]) => {
+      if (value) update({ [key]: value } as Partial<ThemeConfig>)
+    },
+  })
+
+const densityChoice = choice('density')
+const surfacesChoice = choice('surfaces')
+const bordersChoice = choice('surfaceBorder')
+const shadowsChoice = choice('shadows')
 
 const swatch = (preset: { hue: number; chroma: number }) => `oklch(0.6 ${preset.chroma} ${preset.hue})`
 const current = (preset: { hue: number; chroma: number }) =>
   theme.value.hue === preset.hue && theme.value.chroma === preset.chroma
+
+const hueTrack = (chroma: number) =>
+  `linear-gradient(to right in oklch longer hue, oklch(0.65 ${chroma} 0), oklch(0.65 ${chroma} 360))`
+const chromaTrack = (hue: number) =>
+  `linear-gradient(to right, oklch(0.65 ${chromaRange.min} ${hue}), oklch(0.65 ${chromaRange.max} ${hue}))`
+const lightnessTrack = (hue: number, chroma: number) =>
+  `linear-gradient(to right, oklch(${lightnessRange.min} ${chroma} ${hue}), oklch(${lightnessRange.max} ${chroma} ${hue}))`
+
+const status = ref<StatusName>('destructive')
+const statusSetting = (part: 'hue' | 'chroma' | 'lightness') =>
+  computed({
+    get: () => theme.value[statusKeys(status.value)[part]],
+    set: (value: number) => update({ [statusKeys(status.value)[part]]: value }),
+  })
+const statusHue = statusSetting('hue')
+const statusChroma = statusSetting('chroma')
+const statusLightness = statusSetting('lightness')
+const statusChanged = computed(() =>
+  Object.values(statusKeys(status.value)).some((key) => theme.value[key] !== defaultTheme[key]),
+)
+const resetStatus = () =>
+  update(Object.fromEntries(Object.values(statusKeys(status.value)).map((key) => [key, defaultTheme[key]])))
+
+const segmented = {
+  variant: 'soft',
+  color: 'primary',
+  activeVariant: 'solid',
+  activeColor: 'primary',
+  size: 'xs',
+} as const
+const heading = 'text-label-md text-muted-foreground'
+
+// The scroll area gets its content's height, so the popover fits it and shrinks only to the space there is.
+const body = useTemplateRef<HTMLElement>('body')
+const { height: bodyHeight } = useElementSize(body, undefined, { box: 'border-box' })
 </script>
 
 <template>
@@ -42,122 +114,238 @@ const current = (preset: { hue: number; chroma: number }) =>
         <Palette />
       </Button>
     </PopoverTrigger>
-    <PopoverContent align="end" class="flex w-80 flex-col gap-5 p-4">
-      <div class="flex flex-col gap-1">
+    <PopoverContent
+      align="end"
+      :collision-padding="8"
+      class="flex max-h-(--reka-popover-content-available-height) w-88 flex-col p-0"
+    >
+      <div class="flex flex-col gap-1 px-4 pt-4 pb-3">
         <h2 class="text-title-sm">Theme</h2>
         <p class="text-body-sm text-muted-foreground">Applies to the whole site and its examples.</p>
       </div>
 
-      <section class="flex flex-col gap-2" aria-labelledby="customizer-colour">
-        <h3 id="customizer-colour" class="text-label-md text-muted-foreground">Colour</h3>
-        <div class="flex flex-wrap gap-2">
-          <button
-            v-for="preset in presets"
-            :key="preset.name"
-            type="button"
-            :aria-label="preset.name"
-            :aria-pressed="current(preset)"
-            :title="preset.name"
-            class="size-7 rounded-full outline-offset-2 transition-transform duration-short-3 ease-standard hover:scale-110 focus-visible:focus-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
-            :style="{ background: swatch(preset) }"
-            @click="update({ hue: preset.hue, chroma: preset.chroma })"
-          />
+      <ScrollArea
+        class="min-h-0 scroll-fade-overlay-y [--scroll-fade-color:var(--popover)] [--scroll-fade-size:--spacing(6)]"
+        :style="{ height: `${bodyHeight}px` }"
+      >
+        <div ref="body" class="flex flex-col gap-5 px-4 pb-2">
+          <section class="flex flex-col gap-3" aria-labelledby="customizer-colour">
+            <h3 id="customizer-colour" :class="heading">Colour</h3>
+            <div class="grid grid-cols-10 gap-1.5">
+              <button
+                v-for="preset in presets"
+                :key="preset.name"
+                v-tooltip="preset.name"
+                type="button"
+                :aria-label="preset.name"
+                :aria-pressed="current(preset)"
+                class="flex aspect-square items-center justify-center rounded-full text-white outline-offset-2 transition-transform duration-short-3 ease-standard hover:scale-110 focus-visible:focus-ring aria-pressed:outline-2 aria-pressed:outline-foreground"
+                :style="{ background: swatch(preset) }"
+                @click="update({ hue: preset.hue, chroma: preset.chroma })"
+              >
+                <Check v-if="current(preset)" class="size-3.5" aria-hidden="true" />
+              </button>
+            </div>
+            <ThemeSlider
+              v-model="hue"
+              label="Hue"
+              :value="`${hue}°`"
+              :min="0"
+              :max="360"
+              :step="1"
+              :track="hueTrack(0.15)"
+            />
+            <ThemeSlider
+              v-model="chroma"
+              label="Chroma"
+              :value="chroma.toFixed(2)"
+              :min="chromaRange.min"
+              :max="chromaRange.max"
+              :step="0.01"
+              :track="chromaTrack(hue)"
+            />
+            <Field orientation="horizontal">
+              <FieldLabel>Neutral</FieldLabel>
+              <Select v-model="neutral">
+                <SelectTrigger variant="soft" size="sm" class="w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem v-for="item in neutrals" :key="item.key" :value="item.key">{{ item.name }}</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          </section>
+
+          <section class="flex flex-col gap-3" aria-labelledby="customizer-size">
+            <h3 id="customizer-size" :class="heading">Size and type</h3>
+            <Field>
+              <FieldLabel id="customizer-density">Density</FieldLabel>
+              <ToggleGroup
+                type="single"
+                v-bind="segmented"
+                v-model="densityChoice"
+                aria-labelledby="customizer-density"
+                class="w-full"
+              >
+                <ToggleGroupItem v-for="option in densities" :key="option.key" :value="option.key" class="flex-1">
+                  {{ option.name }}
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </Field>
+            <ThemeSlider
+              v-model="radius"
+              label="Radius"
+              :value="`${radius}rem`"
+              :min="radii[0]!"
+              :max="radii.at(-1)!"
+              :step="radii[1]! - radii[0]!"
+            />
+            <Field orientation="horizontal">
+              <FieldLabel>Font</FieldLabel>
+              <Select v-model="font">
+                <SelectTrigger variant="soft" size="sm" class="w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem
+                    v-for="item in fonts"
+                    :key="item.key"
+                    :value="item.key"
+                    :style="{ fontFamily: fontStack(item) }"
+                  >
+                    {{ item.name }}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          </section>
+
+          <section class="flex flex-col gap-3" aria-labelledby="customizer-depth">
+            <h3 id="customizer-depth" :class="heading">Depth</h3>
+            <Field>
+              <FieldLabel id="customizer-surfaces">Surfaces</FieldLabel>
+              <ToggleGroup
+                type="single"
+                v-bind="segmented"
+                v-model="surfacesChoice"
+                aria-labelledby="customizer-surfaces"
+                class="w-full"
+              >
+                <ToggleGroupItem v-for="option in surfaces" :key="option.key" :value="option.key" class="flex-1">
+                  {{ option.name }}
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </Field>
+            <Field>
+              <FieldLabel id="customizer-borders">Borders</FieldLabel>
+              <ToggleGroup
+                type="single"
+                v-bind="segmented"
+                v-model="bordersChoice"
+                aria-labelledby="customizer-borders"
+                class="w-full"
+              >
+                <ToggleGroupItem v-for="option in surfaceBorders" :key="option.key" :value="option.key" class="flex-1">
+                  {{ option.name }}
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </Field>
+            <Field>
+              <FieldLabel id="customizer-shadows">Shadows</FieldLabel>
+              <ToggleGroup
+                type="single"
+                v-bind="segmented"
+                v-model="shadowsChoice"
+                aria-labelledby="customizer-shadows"
+                class="w-full"
+              >
+                <ToggleGroupItem v-for="option in shadows" :key="option.key" :value="option.key" class="flex-1">
+                  {{ option.name }}
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </Field>
+          </section>
+
+          <Field orientation="horizontal">
+            <FieldLabel>Ripple on press</FieldLabel>
+            <Switch v-model="ripple" size="sm" />
+          </Field>
+
+          <Collapsible>
+            <CollapsibleTrigger as-child>
+              <Button variant="ghost" color="neutral" size="sm" class="group/status -mx-2 justify-start px-2">
+                <ChevronRight
+                  data-icon="inline-start"
+                  class="transition-transform duration-short-4 ease-standard group-data-[state=open]/status:rotate-90 motion-reduce:transition-none rtl:rotate-180"
+                />
+                Status colours
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div class="flex flex-col gap-3 pt-3">
+                <ToggleGroup
+                  type="single"
+                  v-bind="segmented"
+                  :model-value="status"
+                  aria-label="Status colour"
+                  class="w-full"
+                  @update:model-value="(value) => value && (status = value as StatusName)"
+                >
+                  <ToggleGroupItem v-for="entry in statuses" :key="entry.key" :value="entry.key" class="flex-1">
+                    {{ entry.name }}
+                  </ToggleGroupItem>
+                </ToggleGroup>
+                <ThemeSlider
+                  v-model="statusHue"
+                  label="Hue"
+                  :value="`${statusHue}°`"
+                  :min="0"
+                  :max="360"
+                  :step="1"
+                  :track="hueTrack(0.15)"
+                />
+                <ThemeSlider
+                  v-model="statusChroma"
+                  label="Chroma"
+                  :value="statusChroma.toFixed(2)"
+                  :min="chromaRange.min"
+                  :max="chromaRange.max"
+                  :step="0.01"
+                  :track="chromaTrack(statusHue)"
+                />
+                <ThemeSlider
+                  v-model="statusLightness"
+                  label="Fill lightness"
+                  :value="statusLightness.toFixed(2)"
+                  :min="lightnessRange.min"
+                  :max="lightnessRange.max"
+                  :step="0.01"
+                  :track="lightnessTrack(statusHue, statusChroma)"
+                />
+                <Button
+                  v-if="statusChanged"
+                  variant="ghost"
+                  color="neutral"
+                  size="xs"
+                  class="self-start"
+                  @click="resetStatus"
+                >
+                  <RotateCcw data-icon="inline-start" />
+                  Reset {{ statuses.find((entry) => entry.key === status)!.name.toLowerCase() }}
+                </Button>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
-      </section>
+      </ScrollArea>
 
-      <section class="flex flex-col gap-2" aria-labelledby="customizer-neutral">
-        <h3 id="customizer-neutral" class="text-label-md text-muted-foreground">Neutral</h3>
-        <div class="flex flex-wrap gap-1.5">
-          <Button
-            v-for="neutral in neutrals"
-            :key="neutral.key"
-            size="xs"
-            :variant="theme.neutral === neutral.key ? 'soft' : 'outline'"
-            :color="theme.neutral === neutral.key ? 'primary' : 'neutral'"
-            :aria-pressed="theme.neutral === neutral.key"
-            @click="update({ neutral: neutral.key })"
-          >
-            {{ neutral.name }}
-          </Button>
-        </div>
-      </section>
-
-      <section class="flex flex-col gap-2" aria-labelledby="customizer-radius">
-        <h3 id="customizer-radius" class="text-label-md text-muted-foreground">Radius</h3>
-        <div class="flex flex-wrap gap-1.5">
-          <Button
-            v-for="radius in radii"
-            :key="radius"
-            size="xs"
-            :variant="theme.radius === radius ? 'soft' : 'outline'"
-            :color="theme.radius === radius ? 'primary' : 'neutral'"
-            :aria-pressed="theme.radius === radius"
-            @click="update({ radius })"
-          >
-            {{ radius }}
-          </Button>
-        </div>
-      </section>
-
-      <section class="flex flex-col gap-2" aria-labelledby="customizer-borders">
-        <h3 id="customizer-borders" class="text-label-md text-muted-foreground">Surface borders</h3>
-        <div class="flex flex-wrap gap-1.5">
-          <Button
-            v-for="option in surfaceBorders"
-            :key="option.key"
-            size="xs"
-            :variant="theme.surfaceBorder === option.key ? 'soft' : 'outline'"
-            :color="theme.surfaceBorder === option.key ? 'primary' : 'neutral'"
-            :aria-pressed="theme.surfaceBorder === option.key"
-            @click="update({ surfaceBorder: option.key })"
-          >
-            {{ option.name }}
-          </Button>
-        </div>
-      </section>
-
-      <section class="flex flex-col gap-2" aria-labelledby="customizer-ripple">
-        <h3 id="customizer-ripple" class="text-label-md text-muted-foreground">Ripple</h3>
-        <div class="flex flex-wrap gap-1.5">
-          <Button
-            v-for="option in ripples"
-            :key="option.key"
-            size="xs"
-            :variant="theme.ripple === option.key ? 'soft' : 'outline'"
-            :color="theme.ripple === option.key ? 'primary' : 'neutral'"
-            :aria-pressed="theme.ripple === option.key"
-            @click="update({ ripple: option.key })"
-          >
-            {{ option.name }}
-          </Button>
-        </div>
-      </section>
-
-      <section class="flex flex-col gap-2" aria-labelledby="customizer-font">
-        <h3 id="customizer-font" class="text-label-md text-muted-foreground">Font</h3>
-        <Select v-model="font">
-          <SelectTrigger size="sm" aria-labelledby="customizer-font">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem
-              v-for="item in fonts"
-              :key="item.key"
-              :value="item.key"
-              :style="{ fontFamily: fontStack(item) }"
-            >
-              {{ item.name }}
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </section>
-
-      <div class="flex gap-2">
-        <Button variant="ghost" color="neutral" size="sm" @click="reset">
+      <div class="flex gap-2 px-4 pt-2 pb-4">
+        <Button variant="soft" color="destructive" size="sm" @click="reset">
           <RotateCcw data-icon="inline-start" />
           Reset
         </Button>
-        <Button variant="outline" color="neutral" size="sm" class="ms-auto" @click="copyCss">
+        <Button color="primary" size="sm" class="ms-auto" @click="copyCss">
           <Copy data-icon="inline-start" />
           Copy CSS
         </Button>

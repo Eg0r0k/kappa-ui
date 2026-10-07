@@ -4,10 +4,10 @@ import DocsSidebar from '~/components/layout/DocsSidebar.vue'
 import NavDrawer from '~/components/layout/NavDrawer.vue'
 import OnThisPage from '~/components/layout/OnThisPage.vue'
 import OnThisPageRail from '~/components/layout/OnThisPageRail.vue'
+import type { Component } from 'vue'
+
 import { pageSlugOf } from '~/lib/examples'
 import { outlineOf } from '~/lib/outline'
-
-const DemoPanel = defineAsyncComponent(() => import('~/components/demo/DemoPanel.vue'))
 
 const route = useRoute()
 const { wide, narrow } = useDocsShell()
@@ -19,6 +19,30 @@ const { active, open, expanded, width } = provideDemo({
   examples: () => page.value?.examples ?? [],
   pageSlug: () => pageSlugOf(route.path),
   component: () => page.value?.component,
+})
+
+// The panel opens once its chunk is in, so it unfolds in the same frame as the rail folds away.
+const DemoPanel = shallowRef<Component>()
+const loadDemoPanel = async () => {
+  DemoPanel.value ??= (await import('~/components/demo/DemoPanel.vue')).default
+}
+onMounted(() => watch(active, (value) => value && loadDemoPanel(), { immediate: true }))
+const panelOpen = computed(() => active.value && open.value && DemoPanel.value !== undefined)
+const fullscreen = computed(() => panelOpen.value && expanded.value)
+
+// The text column leaves the page while the panel is fullscreen; it comes back whole, where the reader was.
+let scrollBack = 0
+const returning = ref(false)
+watch(fullscreen, (value) => {
+  if (value) {
+    scrollBack = window.scrollY
+    return
+  }
+  returning.value = true
+  nextTick(() => {
+    window.scrollTo({ top: scrollBack })
+    returning.value = false
+  })
 })
 </script>
 
@@ -38,23 +62,35 @@ const { active, open, expanded, width } = provideDemo({
       >
         <DocsSidebar class="w-65" />
       </aside>
-      <main :class="['min-w-0 flex-1', active && open && 'md:min-w-80', active && open && expanded && 'md:hidden']">
+      <main :class="['min-w-0 flex-1', panelOpen && 'md:min-w-80', fullscreen && 'hidden']">
         <OnThisPage :outline="outline" />
         <slot />
       </main>
-      <div
-        v-if="outline?.headings.length && !(active && open)"
-        class="sticky top-14 hidden h-[calc(100svh-3.5rem)] w-56 shrink-0 overflow-y-auto py-10 pe-6 xl:block"
+      <Transition
+        :css="!returning"
+        enter-active-class="transition-[width] duration-medium-2 ease-standard motion-reduce:transition-none"
+        enter-from-class="w-0!"
+        leave-active-class="transition-[width] duration-medium-2 ease-standard motion-reduce:transition-none"
+        leave-to-class="w-0!"
       >
-        <OnThisPageRail :outline="outline" :active="activeHeading" />
-      </div>
+        <div
+          v-if="outline?.headings.length"
+          v-show="!panelOpen"
+          data-slot="on-this-page-column"
+          class="sticky top-14 hidden h-[calc(100svh-3.5rem)] w-56 shrink-0 overflow-hidden xl:block"
+        >
+          <div class="h-full w-56 overflow-y-auto py-10 pe-6">
+            <OnThisPageRail :outline="outline" :active="activeHeading" />
+          </div>
+        </div>
+      </Transition>
       <Transition
         enter-active-class="overflow-hidden transition-[width,min-width] duration-medium-2 ease-standard motion-reduce:transition-none"
         enter-from-class="w-0! min-w-0!"
-        leave-active-class="overflow-hidden transition-[width,min-width] duration-medium-2 ease-standard motion-reduce:transition-none"
+        leave-active-class="overflow-hidden transition-[width,min-width] duration-medium-2 ease-standard motion-reduce:transition-none data-expanded:hidden"
         leave-to-class="w-0! min-w-0!"
       >
-        <DemoPanel v-if="active && open" />
+        <component :is="DemoPanel" v-if="panelOpen" />
       </Transition>
     </div>
     <NavDrawer />

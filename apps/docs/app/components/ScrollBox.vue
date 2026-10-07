@@ -18,7 +18,8 @@ let observer: ResizeObserver | undefined
 const observe = () => {
   observer?.disconnect()
   observer = new ResizeObserver(() => {
-    if (inner.value) height.value = inner.value.offsetHeight
+    // A hidden ancestor reports 0: keep the last height, or the page is shorter for a frame when it shows again.
+    if (inner.value?.getClientRects().length) height.value = inner.value.offsetHeight
   })
   if (inner.value) observer.observe(inner.value)
 }

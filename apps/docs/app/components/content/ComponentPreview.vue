@@ -73,7 +73,7 @@ const canvas = computed(() =>
         >
           <CodeXml />
         </Button>
-        <div v-if="demo?.active.value" class="hidden items-center gap-0.5 md:flex">
+        <div v-if="demo?.active.value" class="flex items-center gap-0.5">
           <Button
             v-tooltip="current ? 'Close the panel' : 'Open in panel'"
             :variant="current ? 'soft' : 'ghost'"
@@ -81,6 +81,7 @@ const canvas = computed(() =>
             size="icon-sm"
             aria-label="Open in panel"
             :aria-pressed="current"
+            class="max-md:hidden"
             @click="current ? demo.close() : demo.show(slug)"
           >
             <PanelRight />
