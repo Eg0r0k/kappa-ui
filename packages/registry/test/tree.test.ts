@@ -642,6 +642,18 @@ describe("Tree checkbox", () => {
     expect(ids(value.value)).toEqual(["app", "main", "docs"]);
   });
 
+  it("expands from the chevron without checking", async () => {
+    const { row, value, expanded } = mountTree({ checkbox: true, multiple: true, modelValue: [], expanded: [] });
+
+    await row("app").get("[data-slot=tree-item-toggle]").trigger("click");
+    expect(expanded.value).toEqual(["app"]);
+    expect(value.value).toEqual([]);
+
+    await row("app").get("[data-slot=tree-item-toggle]").trigger("click");
+    expect(expanded.value).toEqual([]);
+    expect(value.value).toEqual([]);
+  });
+
   // nuxt/ui#6499: a model holding leaves only showed the parent unchecked.
   it("shows a parent checked when the model holds its leaves only", () => {
     const items = makeItems();
@@ -650,6 +662,19 @@ describe("Tree checkbox", () => {
 
     expect(row("Home").attributes("aria-checked")).toBe("true");
     expect(row("components").attributes("aria-checked")).toBe("true");
+  });
+});
+
+describe("Tree chevron", () => {
+  it("expands a folder without selecting it, and selects a leaf from the space it keeps", async () => {
+    const { row, value, expanded, items } = mountTree({ expanded: [] });
+
+    await row("app").get("[data-slot=tree-item-toggle]").trigger("click");
+    expect(expanded.value).toEqual(["app"]);
+    expect(value.value).toBeUndefined();
+
+    await row("docs").get("[data-slot=tree-item-toggle]").trigger("click");
+    expect(value.value).toBe(items[2]);
   });
 });
 

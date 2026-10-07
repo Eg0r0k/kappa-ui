@@ -78,9 +78,8 @@ const onSelect = (event: TreeItemSelectEvent<T>) => {
   const original = event.detail.originalEvent;
   const click = original.type === "click";
   const skip =
-    (click &&
-      !tree.toggleOnClick.value &&
-      ((hasChildren.value && within(original, "tree-item-toggle")) || (original as MouseEvent).detail > 1)) ||
+    (click && hasChildren.value && within(original, "tree-item-toggle")) ||
+    (click && !tree.toggleOnClick.value && (original as MouseEvent).detail > 1) ||
     // A Space in the middle of a typed name goes on with the search; it doesn't select.
     ((original as KeyboardEvent).key === " " && tree.isTyping());
   if (!skip) {
