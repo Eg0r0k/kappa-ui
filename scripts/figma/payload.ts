@@ -1,6 +1,6 @@
 export type Rgba = { r: number; g: number; b: number; a: number }
 export type Alias = { alias: string }
-export type TokenScope = 'ALL_FILLS' | 'STROKE_COLOR' | 'EFFECT_COLOR' | 'CORNER_RADIUS'
+export type TokenScope = 'ALL_FILLS' | 'STROKE_COLOR' | 'EFFECT_COLOR' | 'CORNER_RADIUS' | 'WIDTH_HEIGHT' | 'GAP'
 
 export type TokenVariable = {
   id: string

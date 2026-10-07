@@ -27,6 +27,15 @@ const DISABLED = [
 ] as const
 const THEME_COLOR = /^--theme\(--color-([a-z-]+)(?:, .+)?\)$/
 const TONE_VAR = /^var\(--tone(?:-([a-z-]+))?\)$/
+const SPACING = '0.25rem'
+const CONTROL_SIZE = /^control-(height|padding|icon|gap)-[a-z]+$/
+const SPACING_STEP = /^calc\(var\(--spacing\) \* ([\d.]+)\)$/
+const SIZE_SCOPES: Record<string, TokenScope[]> = {
+  height: ['WIDTH_HEIGHT'],
+  icon: ['WIDTH_HEIGHT'],
+  padding: ['GAP'],
+  gap: ['GAP'],
+}
 const TONE_MIX = /^color-mix\(in oklab, var\(--tone(?:-([a-z-]+))?\) ([\d.]+)%, transparent\)$/
 
 const pxOf = (value: string | undefined) => {
@@ -207,6 +216,27 @@ const radiiOf = (vars: Record<string, string>, themeVars: Record<string, string>
   return [radiusVariable('radius', radius), ...derived]
 }
 
+const sizesOf = (vars: Record<string, string>): TokenVariable[] => {
+  const spacing = pxOf(vars.spacing ?? SPACING)
+  return Object.entries(vars).flatMap(([name, value]) => {
+    const family = CONTROL_SIZE.exec(name)?.[1]
+    if (!family) return []
+    const step = SPACING_STEP.exec(value)?.[1]
+    if (!step) throw new Error(`Unsupported control size: --${name}: ${value}`)
+    return [
+      {
+        id: `Size/${name}`,
+        collection: 'Size',
+        name,
+        type: 'FLOAT' as const,
+        value: Math.round(spacing * Number(step) * 100) / 100,
+        code: `var(--${name})`,
+        scopes: SIZE_SCOPES[family],
+      },
+    ]
+  })
+}
+
 const textStylesOf = (vars: Record<string, string>): TextStyleToken[] =>
   Object.keys(vars).flatMap((key) => {
     const match = /^typescale-([a-z]+)-([a-z]+)-size$/.exec(key)
@@ -242,7 +272,7 @@ export const tokensOf = (sources: TokenSources, options: TokenOptions): TokenRes
     payload: {
       theme: options.theme,
       prune: options.prune,
-      variables: [...colors.variables, ...tones, ...radiiOf(vars, themeVars)],
+      variables: [...colors.variables, ...tones, ...radiiOf(vars, themeVars), ...sizesOf(vars)],
       textStyles: textStylesOf(vars),
       effectStyles: effectStylesOf(vars),
     },

@@ -33,6 +33,10 @@ const sources = {
   tokens: `:root {
   --disabled-opacity: 38%;
   --disabled-container-opacity: 12%;
+  --control-height-md: calc(var(--spacing) * 9);
+  --control-padding-sm: calc(var(--spacing) * 2.5);
+  --control-icon-xl: calc(var(--spacing) * 5);
+  --control-gap-xs: calc(var(--spacing) * 1.5);
   --typescale-label-lg-size: 0.875rem;
   --typescale-label-lg-line-height: 1.25rem;
   --typescale-label-lg-weight: 500;
@@ -168,13 +172,38 @@ test('reads the typescale into text styles and the shadows into effect styles', 
   ])
 })
 
+test('resolves the control size tokens into Size variables', () => {
+  const { payload } = tokensOf(sources, light)
+  const sizes = payload.variables.filter((item) => item.collection === 'Size')
+  assert.deepEqual(
+    sizes.map((item) => [item.id, item.value, item.code, item.scopes]),
+    [
+      ['Size/control-height-md', 36, 'var(--control-height-md)', ['WIDTH_HEIGHT']],
+      ['Size/control-padding-sm', 10, 'var(--control-padding-sm)', ['GAP']],
+      ['Size/control-icon-xl', 20, 'var(--control-icon-xl)', ['WIDTH_HEIGHT']],
+      ['Size/control-gap-xs', 6, 'var(--control-gap-xs)', ['GAP']],
+    ],
+  )
+})
+
+test('uses a declared --spacing instead of the Tailwind default', () => {
+  const tokens = sources.tokens.replace(':root {', ':root {\n  --spacing: 0.5rem;')
+  const { payload } = tokensOf({ ...sources, tokens }, light)
+  assert.equal(variable(payload.variables, 'Size/control-height-md').value, 72)
+})
+
+test('rejects a control size token in another form', () => {
+  const tokens = sources.tokens.replace('calc(var(--spacing) * 9)', '2.25rem')
+  assert.throws(() => tokensOf({ ...sources, tokens }, light), /Unsupported control size: --control-height-md: 2.25rem/)
+})
+
 const core = (file: string) => readFileSync(new URL(`../../packages/core/src/${file}`, import.meta.url), 'utf8')
 const real = { tokens: core('tokens.css'), theme: core('theme.css'), tailwind: core('tailwind.css') }
 
 test('reads the real core sources', () => {
   const { payload, gamutMapped } = tokensOf(real, light)
   const count = (collection: string) => payload.variables.filter((item) => item.collection === collection).length
-  assert.deepEqual([count('Color'), count('Tone'), count('Radius')], [33, 47, 9])
+  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [33, 47, 9, 20])
   assert.equal(payload.textStyles.length, 15)
   assert.equal(payload.effectStyles.length, 5)
   const tones = payload.variables.filter((item) => item.collection === 'Tone')
