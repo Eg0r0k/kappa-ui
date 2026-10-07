@@ -1,5 +1,5 @@
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { createServer } from 'node:http'
+import { createServer, type ServerResponse } from 'node:http'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -131,10 +131,10 @@ const serveThumbs = (args: string[]) => {
     console.log(`Wrote ${written.size} of ${done.length} thumbnails to ${out}`)
     stop()
   }
-  const receive = (body: string) => {
+  const receive = (body: string, response: ServerResponse) => {
     const message = JSON.parse(body) as ThumbExport | { done: string[] }
     if ('done' in message) {
-      finish(message.done)
+      response.on('finish', () => finish(message.done))
       return
     }
     writeFileSync(join(out, `${message.name}.svg`), thumbnailSvg(message))
@@ -154,7 +154,7 @@ const serveThumbs = (args: string[]) => {
     request.on('data', (chunk: Buffer) => (body += chunk))
     request.on('end', () => {
       try {
-        receive(body)
+        receive(body, response)
         response.writeHead(204, headers).end()
       } catch (error) {
         console.error(String(error))
