@@ -1,0 +1,11 @@
+component: TourNext
+file: ui/tour/TourNext.vue
+props:
+  variant:
+    description: "The button's variant, `solid` by default."
+  color:
+    description: "The button's colour, `primary` by default."
+  size:
+    description: "The button's size, `sm` by default."
+slots:
+  default: "The label, \"Next\" or \"Finish\" on the last step. Receives `hasNext`. Pressing it goes on, or finishes the tour."

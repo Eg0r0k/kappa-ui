@@ -1800,6 +1800,50 @@
       ]
     },
     {
+      "name": "tour-demo",
+      "type": "registry:block",
+      "title": "Tour demo",
+      "description": "A four-stop tour of a file manager's toolbar, opening with a centred welcome.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tour",
+        "button",
+        "input",
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tour/TourDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tour-dots",
+      "type": "registry:block",
+      "title": "Tour with dots",
+      "description": "Progress drawn with PageIndicator instead of the step count.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tour",
+        "button",
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tour/TourDots.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "image",
       "type": "registry:ui",
       "title": "Image",

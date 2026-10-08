@@ -1,0 +1,4 @@
+component: TourClose
+file: ui/tour/TourClose.vue
+slots:
+  default: The icon, an X by default. Pressing it ends the tour.

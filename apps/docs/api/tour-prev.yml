@@ -1,0 +1,11 @@
+component: TourPrev
+file: ui/tour/TourPrev.vue
+props:
+  variant:
+    description: "The button's variant, `outline` by default."
+  color:
+    description: "The button's colour, `neutral` by default."
+  size:
+    description: "The button's size, `sm` by default."
+slots:
+  default: "The label, \"Back\" by default. Pressing it goes to the previous step; on the first step it is aria-disabled."

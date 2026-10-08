@@ -1,0 +1,4 @@
+component: TourDescription
+file: ui/tour/TourDescription.vue
+slots:
+  default: The step's text. It describes the popover.

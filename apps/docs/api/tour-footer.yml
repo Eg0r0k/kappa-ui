@@ -1,0 +1,4 @@
+component: TourFooter
+file: ui/tour/TourFooter.vue
+slots:
+  default: TourProgress first, then the buttons, pushed to the end.
