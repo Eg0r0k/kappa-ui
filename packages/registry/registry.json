@@ -1696,6 +1696,68 @@
       ]
     },
     {
+      "name": "tour",
+      "type": "registry:ui",
+      "title": "Tour",
+      "description": "A guided tour: one popover that moves from step to step, with a title, a description, progress and Back, Next and Close, driven by useTour.",
+      "categories": [
+        "overlays"
+      ],
+      "dependencies": [
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/tour/Tour.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourClose.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourNext.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourPrev.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourProgress.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hover-card-demo",
       "type": "registry:block",
       "title": "Hover Card demo",
