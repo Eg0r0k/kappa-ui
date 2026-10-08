@@ -12,7 +12,7 @@ import {
   TourDescription,
   TourFooter,
   TourNext,
-  TourPrev,
+  TourPrevious,
   TourProgress,
   type TourStep,
   TourTitle,
@@ -61,7 +61,7 @@ const tour = useTour<Step>([
         <TourDescription>{{ step.body }}</TourDescription>
         <TourFooter>
           <TourProgress />
-          <TourPrev />
+          <TourPrevious />
           <TourNext />
         </TourFooter>
         <TourClose />

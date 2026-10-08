@@ -55,6 +55,13 @@ describe("Banner", () => {
     expect(onUpdate).toHaveBeenCalledWith(false);
   });
 
+  it("draws the close button in the banner's foreground", () => {
+    render();
+    const close = document.querySelector<HTMLElement>("[data-slot=banner-close]")!;
+    expect(getComputedStyle(close).color).toBe(getComputedStyle(banner()!).color);
+    expect(close.getBoundingClientRect().width).toBeLessThanOrEqual(40);
+  });
+
   it("stays hidden while open is false", () => {
     render({ open: false });
     expect(banner()).toBeNull();

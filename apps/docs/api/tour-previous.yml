@@ -1,5 +1,5 @@
-component: TourPrev
-file: ui/tour/TourPrev.vue
+component: TourPrevious
+file: ui/tour/TourPrevious.vue
 props:
   variant:
     description: "The button's variant, `outline` by default."

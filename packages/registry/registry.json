@@ -490,7 +490,7 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "ripple"
+        "button"
       ],
       "files": [
         {
@@ -1740,7 +1740,7 @@
           "type": "registry:ui"
         },
         {
-          "path": "src/ui/tour/TourPrev.vue",
+          "path": "src/ui/tour/TourPrevious.vue",
           "type": "registry:ui"
         },
         {

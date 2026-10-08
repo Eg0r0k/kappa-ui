@@ -9,7 +9,7 @@ export type MarkerColor = "primary" | "neutral" | "destructive" | "success" | "w
 export const markerVariants = cva(
   `
     group/marker relative flex min-h-4 w-full items-center gap-2 text-start text-body-md text-muted-foreground
-    icon-size-4 [--marker-hover:var(--foreground)]
+    icon-size-4 [--marker-hover:--theme(--color-foreground)]
     data-color:text-tone-text data-color:[--marker-hover:var(--tone-text)]
     [a&]:underline [a&]:underline-offset-3
     [a&]:hover:text-(--marker-hover)

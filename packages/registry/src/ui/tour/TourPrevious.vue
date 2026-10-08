@@ -19,7 +19,7 @@ const { tour } = injectTourContext();
 
 <template>
   <Button
-    data-slot="tour-prev"
+    data-slot="tour-previous"
     :variant="props.variant"
     :color="props.color"
     :size="props.size"

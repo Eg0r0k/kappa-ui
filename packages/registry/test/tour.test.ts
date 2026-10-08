@@ -10,7 +10,7 @@ import {
   TourDescription,
   TourFooter,
   TourNext,
-  TourPrev,
+  TourPrevious,
   TourProgress,
   TourTitle,
   type TourStep,
@@ -41,7 +41,7 @@ const Harness = defineComponent(() => {
           h(TourContent, () => [
             h(TourTitle, () => step.title),
             h(TourDescription, () => step.body),
-            h(TourFooter, () => [h(TourProgress), h(TourPrev), h(TourNext)]),
+            h(TourFooter, () => [h(TourProgress), h(TourPrevious), h(TourNext)]),
             h(TourClose),
           ]),
       },
@@ -63,13 +63,13 @@ describe("Tour", () => {
     await start();
     expect(part("tour-title").textContent).toBe("First");
     expect(part("tour-progress").textContent).toBe("1 / 3");
-    expect(part("tour-prev").getAttribute("aria-disabled")).toBe("true");
+    expect(part("tour-previous").getAttribute("aria-disabled")).toBe("true");
     await expect.poll(() => document.activeElement).toBe(part("tour-next"));
 
     await userEvent.click(part("tour-next"));
     await expect.poll(() => part("tour-title").textContent).toBe("Second");
     expect(part("tour-progress").textContent).toBe("2 / 3");
-    expect(part("tour-prev").hasAttribute("aria-disabled")).toBe(false);
+    expect(part("tour-previous").hasAttribute("aria-disabled")).toBe(false);
 
     await userEvent.click(part("tour-next"));
     await expect.poll(() => part("tour-title").textContent).toBe("Done");
