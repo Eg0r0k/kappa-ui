@@ -37,6 +37,8 @@
     "./ripple": "./src/ripple/index.ts",
     "./scroll-fade": "./src/scroll-fade/index.ts",
     "./snap": "./src/snap/index.ts",
+    "./swipe-snap": "./src/swipe-snap/index.ts",
+    "./swipe-views": "./src/swipe-views/index.ts",
     "./swipe-actions": "./src/swipe-actions/index.ts",
     "./tailwind.css": "./src/tailwind.css",
     "./toast": "./src/toast/index.ts",
@@ -85,6 +87,14 @@
       "./snap": {
         "types": "./dist/snap/index.d.ts",
         "default": "./dist/snap/index.js"
+      },
+      "./swipe-snap": {
+        "types": "./dist/swipe-snap/index.d.ts",
+        "default": "./dist/swipe-snap/index.js"
+      },
+      "./swipe-views": {
+        "types": "./dist/swipe-views/index.d.ts",
+        "default": "./dist/swipe-views/index.js"
       },
       "./swipe-actions": {
         "types": "./dist/swipe-actions/index.d.ts",

@@ -1,5 +1,7 @@
 import * as internal from "reka-ui/internal";
 
+import { isDev } from "../internal/dev";
+
 const parts = [
   "MenuAnchor",
   "MenuCheckboxItem",
@@ -18,7 +20,7 @@ const parts = [
   "MenuSubTrigger",
 ] as const;
 
-if ((import.meta as ImportMeta & { env?: { DEV?: boolean } }).env?.DEV) {
+if (isDev) {
   const missing = parts.filter((name) => !(name in internal));
   if (missing.length > 0) {
     throw new Error(

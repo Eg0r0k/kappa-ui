@@ -1,6 +1,6 @@
+import { isDev } from "../internal/dev";
 import type { TooltipRole } from "./context";
 
-const isDev = Boolean((import.meta as ImportMeta & { env?: { DEV?: boolean } }).env?.DEV);
 const warned = new Set<string>();
 
 export const warnOnce = (key: string, message: string) => {

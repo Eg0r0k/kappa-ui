@@ -1,0 +1,23 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="96.5" y="20.5" width="127" height="159" rx="11.5" style="fill:var(--background);stroke:var(--border)"/>
+<g clip-path="url(#swipe-views-1)">
+<rect x="76" y="36" width="96" height="56" rx="8" style="fill:var(--muted)"/>
+<rect opacity="0.8" x="76" y="104" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="76" y="118" width="96" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="76" y="130" width="60" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="184" y="21" width="120" height="158" style="fill:var(--muted)"/>
+<rect x="196" y="36" width="96" height="56" rx="8" style="fill:var(--primary)"/>
+<rect opacity="0.8" x="196" y="104" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="196" y="118" width="96" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M184.5 21V179" style="stroke:var(--border)"/>
+</g>
+<rect x="142" y="158" width="16" height="6" rx="3" style="fill:var(--primary)"/>
+<circle opacity="0.4" cx="167" cy="161" r="3" style="fill:var(--muted-foreground)"/>
+<circle opacity="0.4" cx="179" cy="161" r="3" style="fill:var(--muted-foreground)"/>
+<path d="M264 100H242M242 100L249 93M242 100L249 107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<defs>
+<clipPath id="swipe-views-1">
+<rect x="97" y="21" width="126" height="158" rx="11"/>
+</clipPath>
+</defs>
+</svg>

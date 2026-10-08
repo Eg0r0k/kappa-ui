@@ -2792,6 +2792,172 @@
       ]
     },
     {
+      "name": "swipe-views",
+      "type": "registry:ui",
+      "title": "Swipe Views",
+      "description": "Pages that follow the finger, the way native apps page between tabs: one page in the frame, settled on the nearest one with the speed of the swipe, with CSS variables to build layouts and effects on.",
+      "categories": [
+        "navigation"
+      ],
+      "dependencies": [
+        "@kappa-ui/core",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/swipe-views/SwipeView.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-views/SwipeViews.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-views/SwipeViewsSwipeArea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-views/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "swipe-views-demo",
+      "type": "registry:block",
+      "title": "Swipe views demo",
+      "description": "Chat tabs on one v-model with Tabs: swipe between them or tap a tab.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "swipe-views",
+        "tabs",
+        "scroll-area",
+        "item"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-views/SwipeViewsDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "swipe-views-onboarding",
+      "type": "registry:block",
+      "title": "Swipe views onboarding",
+      "description": "Onboarding steps with number values, a page indicator and a Next button.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "swipe-views",
+        "page-indicator",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-views/SwipeViewsOnboarding.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "swipe-views-sidebars",
+      "type": "registry:block",
+      "title": "Swipe views sidebars",
+      "description": "Discord on a phone: server avatars beside the channel list, a swipe for the server names, and the conversation over everything.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "swipe-views",
+        "avatar",
+        "button",
+        "item"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-views/SwipeViewsSidebars.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "swipe-views-vertical",
+      "type": "registry:block",
+      "title": "Swipe views vertical",
+      "description": "A feed that pages up and down.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "swipe-views"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-views/SwipeViewsVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "swipe-views-fling",
+      "type": "registry:block",
+      "title": "Swipe views fling",
+      "description": "Ten frames where a hard flick runs to the first or the last one.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "swipe-views"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-views/SwipeViewsFling.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "swipe-views-swipe-area",
+      "type": "registry:block",
+      "title": "Swipe views swipe area",
+      "description": "Folders of swipeable rows that change only from the strips at the edges.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "swipe-views",
+        "swipe-actions",
+        "item"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-views/SwipeViewsSwipeArea.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "table",
       "type": "registry:ui",
       "title": "Table",

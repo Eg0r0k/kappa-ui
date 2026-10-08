@@ -74,6 +74,8 @@ const hasSelection = () => {
 
 const preventDefault = (event: Event) => event.preventDefault();
 
+const claimed = new WeakSet<Event>();
+
 const releaseVelocity = (samples: [number, number][], now: number) => {
   const latest = samples.at(-1);
   if (!latest || now - latest[0] > VELOCITY_REST) return 0;
@@ -96,9 +98,9 @@ export const scrollBlocksDrag = (target: Element, boundary: Element, towards: Dr
     if (scrollable(element, vertical)) {
       const position = vertical ? element.scrollTop : Math.abs(element.scrollLeft);
       const max = vertical ? element.scrollHeight - element.clientHeight : element.scrollWidth - element.clientWidth;
-      const atStart = position <= 0;
-      const atEnd = position >= max - 1;
-      if (signOf(towards) > 0 ? !atStart : !atEnd) return true;
+      const mirrored = !vertical && getComputedStyle(element).direction === "rtl";
+      const back = signOf(towards) > 0 !== mirrored;
+      if (back ? position > 0 : position < max - 1) return true;
     }
     element = element.parentElement;
   }
@@ -134,6 +136,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
   };
 
   const allowed = (move: DragMove) => {
+    if (claimed.has(move.event)) return false;
     if (move.target.closest("[data-no-drag]")) return false;
     if (preselected) return false;
     return options.canStart ? options.canStart(move) : true;
@@ -175,6 +178,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
       options.onStart?.(move);
     }
     if (decided !== "drag") return;
+    claimed.add(state.event);
     if (state.active) {
       samples.push([state.event.timeStamp, move.movement]);
       options.onMove(move);
@@ -268,6 +272,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     if (!track || !point || event.touches.length > 1 || track.decided === "cancel") return;
     if (!track.decided) decide(track, point, event);
     if (track.decided !== "drag") return;
+    claimed.add(event);
     if (event.cancelable) event.preventDefault();
     const movement = rubberbandIfOutOfBounds(along(track, point) - track.origin, track.min, track.max, 0.15);
     track.samples.push([event.timeStamp, movement]);

@@ -113,11 +113,26 @@ it("stops at the strip, rubber-bands past it and opens the start side to the rig
   expect(offset()).toBe("80px");
 });
 
-it("barely moves towards a side without a strip", async () => {
+it("does not start towards a side without a strip", async () => {
   await setup({}, { end: ["delete"] });
-  await drag(content(), [20, 24], [120, 24]);
+  pointer("pointerdown", content(), 20, 24);
+  for (const x of [40, 70, 100]) {
+    await wait(40);
+    pointer("pointermove", content(), x, 24);
+  }
+  expect(item().hasAttribute("data-dragging")).toBe(false);
+  await wait(40);
+  pointer("pointerup", content(), 100, 24);
   expect(item().dataset.state).toBe("closed");
   expect(offset()).toBe("0px");
+});
+
+it("drags an open row back towards a side without a strip", async () => {
+  await setup({}, { end: ["delete"] });
+  await drag(content(), [250, 24], [150, 24], 4, 80);
+  expect(item().dataset.state).toBe("end");
+  await drag(content(), [100, 24], [250, 24], 4, 80);
+  expect(item().dataset.state).toBe("closed");
 });
 
 it("arms a full swipe past half the row and clicks the outermost action on release", async () => {

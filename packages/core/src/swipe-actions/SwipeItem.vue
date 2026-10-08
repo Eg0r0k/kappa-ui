@@ -136,7 +136,7 @@ useDrag(content, {
   towards: "right",
   enabled: () => !props.disabled,
   bounds,
-  canStart: () => widthOf("start") > 0 || widthOf("end") > 0,
+  canStart: (move) => state.value !== "closed" || widthOf(move.direction * sign.value > 0 ? "start" : "end") > 0,
   onStart: () => {
     seed = offset.value;
     dragging.value = true;

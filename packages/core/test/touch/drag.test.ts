@@ -188,3 +188,34 @@ it("keys the input model off the start event instead of a flag left over from th
   await wait(30);
   expect(starts).toHaveLength(2);
 });
+
+it("gives a nested finger gesture to the innermost drag and keeps the outer one off", async () => {
+  const log: string[] = [];
+  mount(
+    defineComponent({
+      setup: () => {
+        const outer = ref<HTMLElement>();
+        const child = ref<HTMLElement>();
+        useDrag(outer, { towards: "right", onStart: () => log.push("outer"), onMove: () => {}, onRelease: () => {} });
+        useDrag(child, { towards: "right", onStart: () => log.push("inner"), onMove: () => {}, onRelease: () => {} });
+        return () =>
+          h(
+            "div",
+            { ref: outer, style: "position: fixed; left: 0; top: 0; width: 300px; height: 300px" },
+            h("div", { ref: child, "data-test": "inner", style: "width: 200px; height: 100px" }),
+          );
+      },
+    }),
+    { attachTo: document.body },
+  );
+  await wait(30);
+  const inner = document.querySelector<HTMLElement>("[data-test=inner]")!;
+  touch("touchstart", inner, 20, 50);
+  for (const x of [40, 70, 100, 130]) {
+    await wait(30);
+    touch("touchmove", inner, x, 50);
+  }
+  await wait(30);
+  touch("touchend", inner, 130, 50);
+  expect(log).toEqual(["inner"]);
+});
