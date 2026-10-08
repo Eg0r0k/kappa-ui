@@ -134,6 +134,48 @@
   }
 }
 
+@property --swipe-snap-offset {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --swipe-snap-position {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --swipe-view-position {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@utility swipe-snap {
+  transition:
+    --swipe-snap-offset var(--swipe-snap-duration, var(--transition-duration-medium-4, 400ms))
+      var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    --swipe-snap-position var(--swipe-snap-duration, var(--transition-duration-medium-4, 400ms))
+      var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  &[data-dragging] {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* Per-frame values inherit one level only, so the rest of a page does not restyle on every frame. */
+@utility swipe-view {
+  --swipe-snap-offset: inherit;
+  --swipe-snap-position: inherit;
+  --swipe-view-position: calc(var(--swipe-view-index, 0) - var(--swipe-snap-position));
+  :where([data-dragging], [data-settling]) > & {
+    will-change: translate;
+  }
+}
+
 @property --touch-w {
   syntax: "*";
   inherits: false;
