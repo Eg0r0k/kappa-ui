@@ -32,7 +32,7 @@ const pickChannel = (name: string) => {
 </script>
 
 <template>
-  <SwipeViews v-model="view" class="h-96 w-full max-w-sm rounded-xl border border-border bg-muted">
+  <SwipeViews v-model="view" :rubberband="false" class="h-96 w-full max-w-sm rounded-xl border border-border bg-muted">
     <ul class="absolute inset-y-0 start-0 flex w-16 flex-col items-center gap-2 py-2">
       <li v-for="item in servers" :key="item.name">
         <button

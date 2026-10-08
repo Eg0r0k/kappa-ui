@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<SwipeViewsRootProps>(), {
   defaultValue: undefined,
   orientation: "horizontal",
   sequential: true,
+  rubberband: true,
   disabled: false,
   swipeAreaOnly: false,
 });
@@ -70,6 +71,7 @@ const snap = useSwipeSnap(root, {
   rtl: () => sign.value < 0,
   enabled: () => !props.disabled,
   sequential: () => props.sequential,
+  rubberband: () => props.rubberband,
   canStart: () => !props.swipeAreaOnly,
 });
 const moving = computed(() => snap.dragging.value || snap.settling.value);

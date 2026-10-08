@@ -11,6 +11,7 @@ export interface UseSwipeSnapOptions {
   rtl?: MaybeRefOrGetter<boolean>;
   enabled?: MaybeRefOrGetter<boolean>;
   sequential?: MaybeRefOrGetter<boolean>;
+  rubberband?: MaybeRefOrGetter<boolean>;
   canStart?: (move: DragMove) => boolean;
 }
 
@@ -122,11 +123,22 @@ export const useSwipeSnap = (
     return mirrored() ? -physical : physical;
   };
 
+  const reach = (index: number) => {
+    const low = sequential() ? Math.max(0, index - 1) : 0;
+    const high = sequential() ? Math.min(last(), index + 1) : last();
+    return { min: -pointOf(high), max: -pointOf(low) };
+  };
+
   const bounds = () => {
-    const low = sequential() ? Math.max(0, active.value - 1) : 0;
-    const high = sequential() ? Math.min(last(), active.value + 1) : last();
+    const { min, max } = reach(active.value);
     const from = current();
-    return { min: -pointOf(high) - from, max: -pointOf(low) - from };
+    return { min: min - from, max: max - from };
+  };
+
+  const follow = (next: number) => {
+    if (toValue(options.rubberband ?? true)) return next;
+    const { min, max } = reach(anchor);
+    return Math.min(max, Math.max(min, next));
   };
 
   const swallowClick = () => {
@@ -167,7 +179,7 @@ export const useSwipeSnap = (
         write();
       },
       onMove: (move) => {
-        offset.value = seed + move.movement;
+        offset.value = follow(seed + move.movement);
         write();
       },
       onRelease: (move) => {

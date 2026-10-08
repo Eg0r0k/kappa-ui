@@ -24,6 +24,7 @@ interface HostOptions {
   axis?: "x" | "y";
   rtl?: boolean;
   sequential?: boolean;
+  rubberband?: boolean;
   enabled?: MaybeRefOrGetter<boolean>;
   children?: () => VNodeChild;
 }
@@ -34,6 +35,7 @@ const host = async ({
   axis = "x",
   rtl = false,
   sequential = true,
+  rubberband = true,
   enabled = true,
   children,
 }: HostOptions = {}) => {
@@ -43,7 +45,7 @@ const host = async ({
     defineComponent({
       setup: () => {
         const element = ref<HTMLElement>();
-        snap = useSwipeSnap(element, { points, active: index, axis, rtl, sequential, enabled });
+        snap = useSwipeSnap(element, { points, active: index, axis, rtl, sequential, rubberband, enabled });
         return () =>
           h(
             "div",
@@ -295,4 +297,27 @@ it("swallows the click that ends a drag, not a later one", async () => {
   await wait(10);
   button.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
   expect(clicks).toBe(1);
+});
+
+it("stops hard at the first point and at the neighbour without the rubber band", async () => {
+  const { element, index, offset } = await host({ rubberband: false });
+  pointer("pointerdown", element, 50, 100);
+  for (const x of [70, 120, 170, 250]) {
+    await wait(40);
+    pointer("pointermove", element, x, 100);
+  }
+  expect(offset()).toBe("0px");
+  await wait(80);
+  pointer("pointerup", element, 250, 100);
+  expect(index.value).toBe(0);
+
+  pointer("pointerdown", element, 290, 100);
+  for (const x of [270, 150, -100, -300]) {
+    await wait(40);
+    pointer("pointermove", element, x, 100);
+  }
+  expect(offset()).toBe("-300px");
+  await wait(80);
+  pointer("pointerup", element, -300, 100);
+  expect(index.value).toBe(1);
 });

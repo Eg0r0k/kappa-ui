@@ -15,6 +15,7 @@ export interface SwipeViewsRootProps extends PrimitiveProps {
   orientation?: SwipeViewsOrientation;
   dir?: Direction;
   sequential?: boolean;
+  rubberband?: boolean;
   disabled?: boolean;
   swipeAreaOnly?: boolean;
 }

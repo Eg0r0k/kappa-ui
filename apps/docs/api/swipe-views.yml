@@ -11,6 +11,8 @@ props:
     description: "The reading direction, `ltr` or `rtl`, taken from `ConfigProvider` when unset. In `rtl` horizontal pages run from right to left."
   sequential:
     description: "Move one page per swipe at most. `true` by default; with `false` a hard flick runs to the first or the last page."
+  rubberband:
+    description: "Let a drag stretch past the first and the last page and spring back. `true` by default; with `false` the pages stop hard at the edge, and at the neighbouring page when `sequential`."
   disabled:
     description: "Turn off the drag. The model still moves the pages."
   swipeAreaOnly:

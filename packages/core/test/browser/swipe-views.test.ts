@@ -9,7 +9,7 @@ import {
   SwipeViewsSwipeArea,
   type SwipeViewsValue,
 } from "../../src/swipe-views";
-import { drag, wait } from "./pointer";
+import { drag, pointer, wait } from "./pointer";
 
 const css = document.createElement("style");
 css.textContent = `
@@ -167,6 +167,18 @@ it("starts only from a strip under swipeAreaOnly", async () => {
   expect(tab.value).toBe("b");
   await drag(document.querySelector(".strip")!, [10, 50], [250, 50], 4, 80);
   expect(tab.value).toBe("a");
+});
+
+it("stops at the first view without the rubber band", async () => {
+  await host({ root: { rubberband: false } });
+  pointer("pointerdown", root(), 50, 50);
+  for (const x of [70, 120, 170, 250]) {
+    await wait(40);
+    pointer("pointermove", root(), x, 50);
+  }
+  expect(offset()).toBe("0px");
+  await wait(80);
+  pointer("pointerup", root(), 250, 50);
 });
 
 it("warns when a view is not a direct child of the root", async () => {
