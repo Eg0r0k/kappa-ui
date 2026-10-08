@@ -32,7 +32,12 @@ const pickChannel = (name: string) => {
 </script>
 
 <template>
-  <SwipeViews v-model="view" :rubberband="false" class="h-96 w-full max-w-sm rounded-xl border border-border bg-muted">
+  <SwipeViews
+    v-model="view"
+    layout="stack"
+    :rubberband="false"
+    class="h-96 w-full max-w-sm rounded-xl border border-border bg-muted"
+  >
     <ul class="absolute inset-y-0 start-0 flex w-16 flex-col items-center gap-2 py-2">
       <li v-for="item in servers" :key="item.name">
         <button
@@ -50,7 +55,7 @@ const pickChannel = (name: string) => {
     </ul>
     <SwipeView
       value="servers"
-      class="absolute inset-y-0 start-16 flex w-[calc(100%-4rem)] translate-x-0 flex-col gap-2 py-2 pe-2 opacity-[clamp(0,1+var(--swipe-view-position),1)]"
+      class="start-16 flex w-[calc(100%-4rem)] flex-col gap-2 py-2 pe-2 opacity-[clamp(0,1+var(--swipe-view-position),1)]"
     >
       <button
         v-for="item in servers"
@@ -63,10 +68,7 @@ const pickChannel = (name: string) => {
         <span class="text-body-sm text-muted-foreground">{{ item.note }}</span>
       </button>
     </SwipeView>
-    <SwipeView
-      value="channels"
-      class="pointer-events-none absolute inset-y-0 start-0 z-1 translate-x-[max(0px,calc(var(--swipe-snap-offset)+var(--swipe-view-start)))] ps-16"
-    >
+    <SwipeView value="channels" class="pointer-events-none ps-16">
       <div class="pointer-events-auto h-full rounded-ss-2xl bg-background p-2 shadow-lg">
         <p class="px-2 pt-1 pb-2 text-title-sm">{{ server.name }}</p>
         <button
@@ -83,10 +85,7 @@ const pickChannel = (name: string) => {
         </button>
       </div>
     </SwipeView>
-    <SwipeView
-      value="chat"
-      class="absolute inset-y-0 start-0 z-10 flex translate-x-[calc(var(--swipe-snap-offset)+var(--swipe-view-start))] flex-col bg-background"
-    >
+    <SwipeView value="chat" class="flex flex-col bg-background">
       <header class="flex items-center gap-1.5 border-b border-border px-2 py-2 text-title-sm">
         <button
           type="button"

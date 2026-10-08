@@ -7,12 +7,15 @@ export type SwipeViewsValue = string | number;
 
 export type SwipeViewsOrientation = "horizontal" | "vertical";
 
+export type SwipeViewsLayout = "row" | "stack";
+
 export type SwipeViewsSide = "start" | "end";
 
 export interface SwipeViewsRootProps extends PrimitiveProps {
   modelValue?: SwipeViewsValue;
   defaultValue?: SwipeViewsValue;
   orientation?: SwipeViewsOrientation;
+  layout?: SwipeViewsLayout;
   dir?: Direction;
   sequential?: boolean;
   rubberband?: boolean;
@@ -41,6 +44,7 @@ export interface SwipeViewEntry {
 export interface SwipeViewsRootContext {
   root: Ref<HTMLElement | undefined>;
   orientation: ComputedRef<SwipeViewsOrientation>;
+  layout: ComputedRef<SwipeViewsLayout>;
   sign: ComputedRef<1 | -1>;
   views: Ref<SwipeViewEntry[]>;
   starts: ComputedRef<number[]>;

@@ -321,3 +321,10 @@ it("stops hard at the first point and at the neighbour without the rubber band",
   pointer("pointerup", element, -300, 100);
   expect(index.value).toBe(1);
 });
+
+it("keeps a duration set inline on the element through an instant move", async () => {
+  const { element, snap } = await host();
+  element.style.setProperty("--swipe-snap-duration", "50ms");
+  snap.snapTo(2, { animate: false });
+  expect(element.style.getPropertyValue("--swipe-snap-duration")).toBe("50ms");
+});

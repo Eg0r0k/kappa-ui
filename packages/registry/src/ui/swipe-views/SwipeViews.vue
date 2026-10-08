@@ -26,7 +26,7 @@ defineExpose({ position: computed(() => root.value?.position ?? 0) });
     v-slot="slotProps"
     v-bind="forwarded"
     data-slot="swipe-views"
-    :class="cn(swipeViewsVariants({ orientation: props.orientation }), props.class)"
+    :class="cn(swipeViewsVariants({ orientation: props.orientation, layout: props.layout }), props.class)"
   >
     <slot v-bind="slotProps" />
   </SwipeViewsRoot>

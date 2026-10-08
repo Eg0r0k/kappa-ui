@@ -152,6 +152,18 @@
   initial-value: 0;
 }
 
+@property --swipe-view-offset {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --swipe-view-stack {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 @utility swipe-snap {
   transition:
     --swipe-snap-offset var(--swipe-snap-duration, var(--transition-duration-medium-4, 400ms))
@@ -171,6 +183,11 @@
   --swipe-snap-offset: inherit;
   --swipe-snap-position: inherit;
   --swipe-view-position: calc(var(--swipe-view-index, 0) - var(--swipe-snap-position));
+  --swipe-view-offset: calc(var(--swipe-snap-offset) + var(--swipe-view-start, 0px));
+  --swipe-view-stack: max(0px, var(--swipe-view-offset));
+  &:dir(rtl):not([data-orientation="vertical"]) {
+    --swipe-view-stack: min(0px, var(--swipe-view-offset));
+  }
   :where([data-dragging], [data-settling]) > & {
     will-change: translate;
   }

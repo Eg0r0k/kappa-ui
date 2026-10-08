@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<SwipeViewsRootProps>(), {
   modelValue: undefined,
   defaultValue: undefined,
   orientation: "horizontal",
+  layout: "row",
   sequential: true,
   rubberband: true,
   disabled: false,
@@ -124,6 +125,7 @@ watch(views, (list, previous) => {
 provideSwipeViewsRootContext({
   root,
   orientation: computed(() => props.orientation),
+  layout: computed(() => props.layout),
   sign,
   views,
   starts,
@@ -141,7 +143,9 @@ defineExpose({ position: snap.position });
     :ref="setInstance"
     :as="props.as"
     :as-child="props.asChild"
+    :dir="dir"
     :data-orientation="props.orientation"
+    :data-layout="props.layout"
     :data-disabled="props.disabled ? '' : undefined"
   >
     <slot :model-value="model" :dragging="snap.dragging.value" :settling="snap.settling.value" />

@@ -11,7 +11,11 @@ const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve))
 const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot=${name}]`)!;
 const views = () => [...document.querySelectorAll<HTMLElement>("[data-slot=swipe-view]")];
 
-const setup = async (viewProps: Record<string, unknown> = {}, extra: () => VNode[] = () => []) => {
+const setup = async (
+  viewProps: Record<string, unknown> = {},
+  extra: () => VNode[] = () => [],
+  rootProps: Record<string, unknown> = {},
+) => {
   const tab = ref<string | number>("a");
   mount(
     defineComponent({
@@ -22,6 +26,7 @@ const setup = async (viewProps: Record<string, unknown> = {}, extra: () => VNode
             modelValue: tab.value,
             "onUpdate:modelValue": (value: string | number) => (tab.value = value),
             style: "width: 300px; height: 200px",
+            ...rootProps,
           },
           () => [
             ...["a", "b", "c"].map((value) => h(SwipeView, { key: value, value, ...viewProps }, () => value)),
@@ -107,4 +112,38 @@ it("pairs with Tabs on one model through TabsContent as-child", async () => {
   await userEvent.click(document.querySelectorAll<HTMLElement>("[role=tab]")[1]!);
   await nextTick();
   expect(slot("swipe-views").style.getPropertyValue("--swipe-snap-offset")).toBe("-300px");
+});
+
+const lefts = () => views().map(left);
+
+it("stacks the pages: each slides in over the one before and stays once covered", async () => {
+  const tab = await setup({}, () => [], {
+    layout: "stack",
+    style: "width: 300px; height: 200px; --swipe-snap-duration: 0s",
+  });
+  expect(slot("swipe-views").dataset.layout).toBe("stack");
+  expect(lefts()).toEqual([0, 300, 600]);
+  tab.value = "b";
+  await nextTick();
+  await nextFrame();
+  expect(lefts()).toEqual([0, 0, 300]);
+  tab.value = "c";
+  await nextTick();
+  await nextFrame();
+  expect(lefts()).toEqual([0, 0, 0]);
+  expect(getComputedStyle(views()[0]!).getPropertyValue("--swipe-view-offset")).toBe("-600px");
+});
+
+it("mirrors the stack in right-to-left", async () => {
+  const tab = await setup({}, () => [], {
+    layout: "stack",
+    dir: "rtl",
+    style: "width: 300px; height: 200px; --swipe-snap-duration: 0s",
+  });
+  expect(slot("swipe-views").getAttribute("dir")).toBe("rtl");
+  expect(lefts()).toEqual([0, -300, -600]);
+  tab.value = "b";
+  await nextTick();
+  await nextFrame();
+  expect(lefts()).toEqual([0, 0, -300]);
 });

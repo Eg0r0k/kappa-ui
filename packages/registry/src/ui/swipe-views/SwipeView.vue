@@ -19,7 +19,9 @@ const delegated = computed(() => {
     v-slot="slotProps"
     v-bind="delegated"
     data-slot="swipe-view"
-    :class="cn(swipeViewVariants({ orientation: context.orientation.value }), props.class)"
+    :class="
+      cn(swipeViewVariants({ orientation: context.orientation.value, layout: context.layout.value }), props.class)
+    "
   >
     <slot v-bind="slotProps" />
   </SwipeView>

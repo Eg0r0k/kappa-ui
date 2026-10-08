@@ -90,10 +90,12 @@ export const useSwipeSnap = (
     rest();
     const node = target.value;
     if (!node) return;
+    const duration = node.style.getPropertyValue(DURATION);
     node.style.setProperty(DURATION, "0s");
     write();
     getComputedStyle(node).getPropertyValue(OFFSET);
-    node.style.removeProperty(DURATION);
+    if (duration) node.style.setProperty(DURATION, duration);
+    else node.style.removeProperty(DURATION);
   };
 
   const glide = (next: number) => {

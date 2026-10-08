@@ -3,6 +3,7 @@ export { default as SwipeViewsRoot } from "./SwipeViewsRoot.vue";
 export { default as SwipeViewsSwipeArea } from "./SwipeViewsSwipeArea.vue";
 export {
   type SwipeViewProps,
+  type SwipeViewsLayout,
   type SwipeViewsOrientation,
   type SwipeViewsRootContext,
   type SwipeViewsRootEmits,
