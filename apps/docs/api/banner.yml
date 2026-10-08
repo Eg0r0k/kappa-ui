@@ -1,0 +1,16 @@
+component: Banner
+file: ui/banner/Banner.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
+props:
+  color:
+    description: "Colour role of the fill. `neutral` inverts the page's colours. Any name declared on `[data-slot][data-color]` works too."
+  open:
+    description: "Whether the banner is shown, bound with `v-model:open`. `true` by default; `BannerClose` sets it to `false`."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child instead of a wrapper, merging the banner's attributes and classes onto it.
+emits:
+  update:open: "Fires with `false` when `BannerClose` is pressed."
+slots:
+  default: "An icon as a direct `svg` child, then `BannerTitle`, `BannerSubtitle`, `BannerActions` and `BannerClose`."

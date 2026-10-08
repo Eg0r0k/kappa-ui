@@ -476,6 +476,50 @@
       ]
     },
     {
+      "name": "banner",
+      "type": "registry:ui",
+      "title": "Banner",
+      "description": "A full-width notice across the top of a page: a title, a subtitle, actions and a close button, in any colour role.",
+      "categories": [
+        "feedback"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "ripple"
+      ],
+      "files": [
+        {
+          "path": "src/ui/banner/Banner.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerClose.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerSubtitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "alert-demo",
       "type": "registry:block",
       "title": "Alert demo",
@@ -574,6 +618,68 @@
       "files": [
         {
           "path": "src/examples/alert/AlertAsLink.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "banner-demo",
+      "type": "registry:block",
+      "title": "Banner demo",
+      "description": "A release banner with an icon, a subtitle, an action and a close button.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "banner",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/banner/BannerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "banner-colors",
+      "type": "registry:block",
+      "title": "Banner colours",
+      "description": "A banner in every colour role.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "banner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/banner/BannerColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "banner-persistent",
+      "type": "registry:block",
+      "title": "Persistent banner",
+      "description": "A banner that stays closed after a reload, its open state kept in localStorage.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@vueuse/core"
+      ],
+      "registryDependencies": [
+        "banner",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/banner/BannerPersistent.vue",
           "type": "registry:component"
         }
       ]
