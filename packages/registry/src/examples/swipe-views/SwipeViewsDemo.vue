@@ -55,7 +55,7 @@ const tab = ref("chats");
     <TabsList variant="line" class="w-full">
       <TabsTrigger v-for="item in tabs" :key="item.value" :value="item.value">{{ item.label }}</TabsTrigger>
     </TabsList>
-    <SwipeViews v-model="tab" class="h-72">
+    <SwipeViews v-model="tab" class="h-72 select-none">
       <TabsContent v-for="item in tabs" :key="item.value" :value="item.value" force-mount as-child>
         <SwipeView :value="item.value" class="outline-none focus-visible:focus-ring-inset">
           <ScrollArea class="h-full">

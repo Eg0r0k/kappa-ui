@@ -16,7 +16,7 @@ const folder = ref("inbox");
 </script>
 
 <template>
-  <SwipeViews v-model="folder" swipe-area-only class="h-72 w-full max-w-sm rounded-xl border border-border">
+  <SwipeViews v-model="folder" swipe-area-only class="h-72 w-full max-w-sm rounded-xl border border-border select-none">
     <SwipeView v-for="item in folders" :key="item.value" :value="item.value">
       <p class="px-4 pt-3 pb-2 text-label-md text-muted-foreground">{{ item.label }}</p>
       <SwipeRoot as="ul" class="divide-y divide-border">
@@ -37,7 +37,7 @@ const folder = ref("inbox");
         </SwipeItem>
       </SwipeRoot>
     </SwipeView>
-    <SwipeViewsSwipeArea side="start" class="bg-foreground/5 data-disabled:bg-transparent" />
-    <SwipeViewsSwipeArea side="end" class="bg-foreground/5 data-disabled:bg-transparent" />
+    <SwipeViewsSwipeArea side="start" class="w-12 bg-foreground/5 data-disabled:bg-transparent" />
+    <SwipeViewsSwipeArea side="end" class="w-12 bg-foreground/5 data-disabled:bg-transparent" />
   </SwipeViews>
 </template>

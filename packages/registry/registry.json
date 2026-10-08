@@ -2886,7 +2886,10 @@
         "@lucide/vue"
       ],
       "registryDependencies": [
-        "swipe-views"
+        "swipe-views",
+        "avatar",
+        "button",
+        "item"
       ],
       "files": [
         {

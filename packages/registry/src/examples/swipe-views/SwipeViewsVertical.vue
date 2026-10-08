@@ -10,7 +10,7 @@ const clips = [
 </script>
 
 <template>
-  <SwipeViews orientation="vertical" class="h-96 w-full max-w-xs rounded-xl">
+  <SwipeViews orientation="vertical" class="h-96 w-full max-w-xs rounded-xl select-none">
     <SwipeView
       v-for="(clip, index) in clips"
       :key="clip.title"

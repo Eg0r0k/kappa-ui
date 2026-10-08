@@ -2,6 +2,9 @@
 import { ArrowLeft, Hash } from "@lucide/vue";
 import { ref } from "vue";
 
+import { Avatar, AvatarFallback } from "@/ui/avatar";
+import { Button } from "@/ui/button";
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/ui/item";
 import { SwipeView, SwipeViews } from "@/ui/swipe-views";
 
 const servers = [
@@ -13,7 +16,7 @@ const servers = [
 const channels = ["general", "releases", "design", "random"];
 const messages = [
   ["Mia", "The avatars stay where they are"],
-  ["Leo", "Swipe right twice for the server names"],
+  ["Leo", "Swipe right for the server names"],
   ["Ana", "And the arrow brings the channels back"],
 ];
 
@@ -36,73 +39,75 @@ const pickChannel = (name: string) => {
     v-model="view"
     layout="stack"
     :rubberband="false"
-    class="h-96 w-full max-w-sm rounded-xl border border-border bg-muted"
+    class="h-96 w-full max-w-sm rounded-xl border border-border bg-muted select-none"
   >
     <ul class="absolute inset-y-0 start-0 flex w-16 flex-col items-center gap-2 py-2">
       <li v-for="item in servers" :key="item.name">
-        <button
-          type="button"
+        <Button
+          :variant="item.name === server.name ? 'solid' : 'subtle'"
+          :color="item.name === server.name ? 'primary' : 'neutral'"
+          size="icon-md"
+          class="rounded-xl"
           :aria-label="item.name"
-          :class="[
-            'flex size-10 items-center justify-center rounded-xl text-label-lg outline-none focus-visible:focus-ring',
-            item.name === server.name ? 'bg-primary text-primary-foreground' : 'bg-background',
-          ]"
           @click="pickServer(item)"
         >
           {{ item.initial }}
-        </button>
+        </Button>
       </li>
     </ul>
     <SwipeView
       value="servers"
       class="start-16 flex w-[calc(100%-4rem)] flex-col gap-2 py-2 pe-2 opacity-[clamp(0,1+var(--swipe-view-position),1)]"
     >
-      <button
-        v-for="item in servers"
-        :key="item.name"
-        type="button"
-        class="flex h-10 flex-col justify-center rounded-md px-2 text-start outline-none focus-visible:focus-ring"
-        @click="pickServer(item)"
-      >
-        <span class="text-label-lg">{{ item.name }}</span>
-        <span class="text-body-sm text-muted-foreground">{{ item.note }}</span>
-      </button>
+      <Item v-for="item in servers" :key="item.name" as="button" size="xs" class="h-9 py-0" @click="pickServer(item)">
+        <ItemContent class="gap-0">
+          <ItemTitle>{{ item.name }}</ItemTitle>
+          <ItemDescription>{{ item.note }}</ItemDescription>
+        </ItemContent>
+      </Item>
     </SwipeView>
     <SwipeView value="channels" class="pointer-events-none ps-16">
-      <div class="pointer-events-auto h-full rounded-ss-2xl bg-background p-2 shadow-lg">
-        <p class="px-2 pt-1 pb-2 text-title-sm">{{ server.name }}</p>
-        <button
+      <div class="pointer-events-auto flex h-full flex-col gap-0.5 rounded-ss-2xl bg-background p-2 shadow-lg">
+        <p class="px-3 pt-1 pb-2 text-title-sm">{{ server.name }}</p>
+        <Button
           v-for="name in channels"
           :key="name"
-          type="button"
-          :class="[
-            'flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-body-md outline-none focus-visible:focus-ring',
-            name === channel ? 'bg-muted text-foreground' : 'text-muted-foreground',
-          ]"
+          :variant="name === channel ? 'soft' : 'ghost'"
+          color="neutral"
+          size="sm"
+          class="justify-start"
           @click="pickChannel(name)"
         >
-          <Hash class="size-4" />{{ name }}
-        </button>
+          <Hash data-icon="inline-start" />{{ name }}
+        </Button>
       </div>
     </SwipeView>
     <SwipeView value="chat" class="flex flex-col bg-background">
-      <header class="flex items-center gap-1.5 border-b border-border px-2 py-2 text-title-sm">
-        <button
-          type="button"
+      <header class="flex items-center gap-1 border-b border-border p-2 text-title-sm">
+        <Button
+          variant="ghost"
+          color="neutral"
+          size="icon-sm"
           aria-label="Back to the channels"
-          class="flex size-8 items-center justify-center rounded-md outline-none focus-visible:focus-ring"
           @click="view = 'channels'"
         >
-          <ArrowLeft class="size-4" />
-        </button>
+          <ArrowLeft />
+        </Button>
         <Hash class="size-4 text-muted-foreground" />{{ channel }}
       </header>
-      <ul class="flex flex-col gap-3 p-4">
-        <li v-for="([name, text], index) in messages" :key="index">
-          <p class="text-label-md">{{ name }}</p>
-          <p class="text-body-md text-muted-foreground">{{ text }}</p>
-        </li>
-      </ul>
+      <div class="flex flex-col p-2">
+        <Item v-for="([name, text], index) in messages" :key="index" size="xs">
+          <ItemMedia>
+            <Avatar size="sm">
+              <AvatarFallback>{{ name!.slice(0, 2) }}</AvatarFallback>
+            </Avatar>
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>{{ name }}</ItemTitle>
+            <ItemDescription>{{ text }}</ItemDescription>
+          </ItemContent>
+        </Item>
+      </div>
     </SwipeView>
   </SwipeViews>
 </template>

@@ -18,7 +18,7 @@ const next = () => (page.value = page.value === steps.length ? 1 : page.value + 
 
 <template>
   <div class="flex w-full max-w-sm flex-col items-center gap-4 overflow-clip rounded-xl border border-border pb-5">
-    <SwipeViews v-model="page" class="w-full">
+    <SwipeViews v-model="page" class="w-full select-none">
       <SwipeView
         v-for="(step, index) in steps"
         :key="step.title"

@@ -8,7 +8,7 @@ const frame = ref(1);
 
 <template>
   <div class="flex w-full max-w-sm flex-col items-center gap-3">
-    <SwipeViews v-model="frame" :sequential="false" class="aspect-video w-full rounded-xl">
+    <SwipeViews v-model="frame" :sequential="false" class="aspect-video w-full rounded-xl select-none">
       <SwipeView
         v-for="index in 10"
         :key="index"
