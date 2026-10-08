@@ -238,3 +238,58 @@ it("releaseVerdict closes at the swipe velocity or half of the size, on 10px whi
   expect(releaseVerdict(0, 400, 3)).toBe("return");
   expect(releaseVerdict(300, 400, -1)).toBe("close");
 });
+
+const nested = (inner: Partial<Parameters<typeof useDrag>[1]> = {}) => {
+  const log: string[] = [];
+  mount(
+    defineComponent({
+      setup: () => {
+        const outer = ref<HTMLElement>();
+        const child = ref<HTMLElement>();
+        useDrag(outer, { towards: "right", onStart: () => log.push("outer"), onMove: () => {}, onRelease: () => {} });
+        useDrag(child, {
+          towards: "right",
+          onStart: () => log.push("inner"),
+          onMove: () => {},
+          onRelease: () => {},
+          ...inner,
+        });
+        return () =>
+          h(
+            "div",
+            { ref: outer, style: "position: fixed; left: 0; top: 0; width: 300px; height: 300px" },
+            h("div", { ref: child, "data-test": "inner", style: "width: 200px; height: 100px" }),
+          );
+      },
+    }),
+    { attachTo: document.body },
+  );
+  return { log, inner: () => document.querySelector<HTMLElement>("[data-test=inner]")! };
+};
+
+it("gives a nested gesture to the innermost drag only", async () => {
+  const { log, inner } = nested();
+  await wait(30);
+  await drag(inner(), [20, 50], [150, 50]);
+  expect(log).toEqual(["inner"]);
+});
+
+it("gives a nested gesture to the outer drag when the inner one refuses it", async () => {
+  const { log, inner } = nested({ canStart: () => false });
+  await wait(30);
+  await drag(inner(), [20, 50], [150, 50]);
+  expect(log).toEqual(["outer"]);
+});
+
+it("reads a right-to-left scroller from its start on the right", () => {
+  const boundary = document.createElement("div");
+  boundary.innerHTML = `<div dir="rtl" style="width: 100px; overflow-x: auto"><div style="width: 300px; height: 10px"></div></div>`;
+  document.body.append(boundary);
+  const scroller = boundary.firstElementChild as HTMLElement;
+  const content = scroller.firstElementChild!;
+  expect(scrollBlocksDrag(content, boundary, "left")).toBe(false);
+  expect(scrollBlocksDrag(content, boundary, "right")).toBe(true);
+  scroller.scrollLeft = -200;
+  expect(scrollBlocksDrag(content, boundary, "left")).toBe(true);
+  expect(scrollBlocksDrag(content, boundary, "right")).toBe(false);
+});
