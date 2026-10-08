@@ -1,0 +1,27 @@
+component: SwipeViews
+file: ui/swipe-views/SwipeViews.vue
+props:
+  modelValue:
+    description: "The `value` of the page in the frame, bound with `v-model`. Setting it moves there with the transition."
+  defaultValue:
+    description: "The page in the frame on mount when there is no `v-model`."
+  orientation:
+    description: "`horizontal` pages sideways, `vertical` up and down. `horizontal` by default."
+  dir:
+    description: "The reading direction, `ltr` or `rtl`, taken from `ConfigProvider` when unset. In `rtl` horizontal pages run from right to left."
+  sequential:
+    description: "Move one page per swipe at most. `true` by default; with `false` a hard flick runs to the first or the last page."
+  disabled:
+    description: "Turn off the drag. The model still moves the pages."
+  swipeAreaOnly:
+    description: "Start a swipe only from a `SwipeViewsSwipeArea`, never from the pages."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+emits:
+  update:modelValue: "Fires when a swipe lands on another page."
+slots:
+  default: "The `SwipeView`s and any `SwipeViewsSwipeArea`. Slot props: `modelValue`, `dragging` and `settling`."
+exposed:
+  position: "The index of the page in the frame, fractional while a finger moves the pages, for script that follows the swipe."

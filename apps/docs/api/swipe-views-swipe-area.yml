@@ -1,0 +1,11 @@
+component: SwipeViewsSwipeArea
+file: ui/swipe-views/SwipeViewsSwipeArea.vue
+props:
+  side:
+    description: "`start` leads back to the previous page, `end` on to the next. For horizontal pages it follows the reading direction; for vertical ones it is the top or the bottom."
+  as:
+    description: "The element or component to render."
+  asChild:
+    description: "Render the single child instead of a wrapper and put the swipe behaviour on it."
+slots:
+  default: "Content shown inside the strip, such as a grip; empty by default."
