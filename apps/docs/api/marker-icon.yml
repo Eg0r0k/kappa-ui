@@ -1,0 +1,4 @@
+component: MarkerIcon
+file: ui/marker/MarkerIcon.vue
+slots:
+  default: An icon or a spinner, hidden from assistive technology.

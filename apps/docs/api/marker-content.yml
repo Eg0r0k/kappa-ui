@@ -1,0 +1,4 @@
+component: MarkerContent
+file: ui/marker/MarkerContent.vue
+slots:
+  default: The marker's text. Links inside it are underlined.

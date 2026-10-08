@@ -1046,6 +1046,41 @@
       ]
     },
     {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "An inline status, a bordered row or a labelled separator in a conversation or a log, in any colour role.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/marker/Marker.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/marker/MarkerContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/marker/MarkerIcon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/marker/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "label",
       "type": "registry:ui",
       "title": "Label",
@@ -4942,6 +4977,88 @@
       "files": [
         {
           "path": "src/examples/kbd/KbdSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-demo",
+      "type": "registry:block",
+      "title": "Marker demo",
+      "description": "A branch switch, a thinking status with a spinner and shimmer, a separator and an exploration note.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marker",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-variants",
+      "type": "registry:block",
+      "title": "Marker variants",
+      "description": "The default, separator and border variants.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "marker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-colors",
+      "type": "registry:block",
+      "title": "Marker colours",
+      "description": "A red New messages separator and success, warning and info markers.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-links",
+      "type": "registry:block",
+      "title": "Marker links and buttons",
+      "description": "Markers rendered as a link and as a button with asChild.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerLinks.vue",
           "type": "registry:component"
         }
       ]
