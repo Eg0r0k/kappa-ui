@@ -938,6 +938,7 @@
   position: relative;
   overflow: hidden;
   &::after {
+    --skeleton-wave: var(--foreground);
     content: "";
     position: absolute;
     inset: 0;
@@ -945,10 +946,13 @@
     background: linear-gradient(
       90deg,
       transparent,
-      color-mix(in oklab, var(--foreground) var(--state-hover, 8%), transparent),
+      color-mix(in oklab, var(--skeleton-wave) var(--state-hover, 8%), transparent),
       transparent
     );
     animation: kappa-skeleton-wave 1.5s linear 0.5s infinite;
+  }
+  &:where([data-color])::after {
+    --skeleton-wave: var(--tone-text);
   }
   &:dir(rtl)::after {
     animation-direction: reverse;

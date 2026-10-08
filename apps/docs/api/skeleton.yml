@@ -5,3 +5,5 @@ props:
     description: "`rect`, a block with rounded corners; `text`, a line as tall as the font; `circle`, a round square."
   animation:
     description: "`pulse` fades in and out, as in shadcn; `wave` sweeps a band of light across; `none` stays still."
+  color:
+    description: "Colour role of the fill and the wave. Without it the block is `--accent`. Any name declared on `[data-slot][data-color]` works too."

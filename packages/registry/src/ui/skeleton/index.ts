@@ -2,7 +2,9 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 export { default as Skeleton } from "./Skeleton.vue";
 
-export const skeletonVariants = cva("bg-accent", {
+export type SkeletonColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
+export const skeletonVariants = cva("bg-accent data-color:bg-tone-soft", {
   variants: {
     variant: {
       rect: "rounded-md",

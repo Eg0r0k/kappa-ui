@@ -9698,6 +9698,24 @@
       ]
     },
     {
+      "name": "skeleton-colors",
+      "type": "registry:block",
+      "title": "Skeleton colours",
+      "description": "Skeletons in every colour role, the bars with the wave.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "skeleton"
+      ],
+      "files": [
+        {
+          "path": "src/examples/skeleton/SkeletonColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "popover-demo",
       "type": "registry:block",
       "title": "Popover demo",
