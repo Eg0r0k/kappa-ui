@@ -1,0 +1,4 @@
+component: BannerActions
+file: ui/banner/BannerActions.vue
+slots:
+  default: Buttons or links. `size="xs"` and `color="neutral"` read well on a coloured fill.

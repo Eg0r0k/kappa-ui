@@ -1,0 +1,4 @@
+component: BannerSubtitle
+file: ui/banner/BannerSubtitle.vue
+slots:
+  default: The text after the headline, in a softer shade of the banner's foreground.

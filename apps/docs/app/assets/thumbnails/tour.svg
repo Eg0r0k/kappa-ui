@@ -1,0 +1,14 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M64 24.5H136C140.142 24.5 143.5 27.858 143.5 32V48C143.5 52.142 140.142 55.5 136 55.5H64C59.858 55.5 56.5 52.142 56.5 48V32C56.5 27.858 59.858 24.5 64 24.5Z" style="fill:var(--background);stroke:var(--primary)" stroke-width="2"/>
+<rect opacity="0.8" x="78" y="37" width="44" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M94 68H106L100 62L94 68Z" style="fill:var(--border)"/>
+<path d="M67.2 68.5H252.8C258.709 68.5 263.5 73.291 263.5 79.2V164.8C263.5 170.709 258.709 175.5 252.8 175.5H67.2C61.291 175.5 56.5 170.709 56.5 164.8V79.2C56.5 73.291 61.291 68.5 67.2 68.5Z" style="fill:var(--popover);stroke:var(--border)"/>
+<rect opacity="0.8" x="72" y="84" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="72" y="100" width="160" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="72" y="112" width="120" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="72" y="146" width="24" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect x="152.5" y="136.5" width="35" height="25" rx="7.5" style="stroke:var(--border)"/>
+<rect opacity="0.8" x="160" y="146" width="20" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect x="196" y="136" width="52" height="26" rx="8" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="208" y="146" width="28" height="6" rx="3" style="fill:var(--primary-foreground)"/>
+</svg>

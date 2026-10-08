@@ -1,0 +1,8 @@
+component: Tour
+file: ui/tour/Tour.vue
+description: "`class` is also accepted on every part except `Tour` and merged over its classes with tailwind-merge."
+props:
+  tour:
+    description: "What `useTour` returns. The popover opens and moves with it."
+slots:
+  default: "`TourContent`, rendered for the current step. Receives `step`, typed after your steps, and `index`, `total`, `hasNext`, `hasPrev`."

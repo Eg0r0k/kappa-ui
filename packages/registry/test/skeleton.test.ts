@@ -47,4 +47,32 @@ describe("Skeleton", () => {
     expect([box.width, box.height]).toEqual([40, 40]);
     expect(parseFloat(getComputedStyle(skeleton).borderRadius)).toBeGreaterThanOrEqual(20);
   });
+  const probe = (color: string, className: string) => {
+    const element = document.createElement("span");
+    element.dataset.slot = "probe";
+    element.dataset.color = color;
+    element.className = className;
+    document.body.append(element);
+    return getComputedStyle(element);
+  };
+
+  it("fills with the soft tone of a colour, and stays accent without one", () => {
+    const plain = render({ class: "h-4" });
+    expect(plain.hasAttribute("data-color")).toBe(false);
+    const accent = document.createElement("span");
+    accent.className = "bg-accent";
+    document.body.append(accent);
+    expect(getComputedStyle(plain).backgroundColor).toBe(getComputedStyle(accent).backgroundColor);
+
+    const success = render({ color: "success", class: "h-4" });
+    expect(success.dataset.color).toBe("success");
+    expect(getComputedStyle(success).backgroundColor).toBe(probe("success", "bg-tone-soft").backgroundColor);
+  });
+
+  it("draws the wave in the tone of its colour", () => {
+    const plain = getComputedStyle(render({ animation: "wave", class: "h-4" }), "::after").backgroundImage;
+    const toned = getComputedStyle(render({ animation: "wave", color: "success", class: "h-4" }), "::after");
+    expect(toned.backgroundImage).not.toBe(plain);
+    expect(toned.getPropertyValue("--skeleton-wave")).not.toBe("");
+  });
 });

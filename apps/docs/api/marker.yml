@@ -1,0 +1,14 @@
+component: Marker
+file: ui/marker/Marker.vue
+description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
+props:
+  variant:
+    description: "`default` is an inline note; `border` draws a line under the row; `separator` centres the label between two lines."
+  color:
+    description: "Colour role of the text, the icon and the lines. Muted without it. Any name declared on `[data-slot][data-color]` works too."
+  as:
+    description: The element or component to render.
+  asChild:
+    description: Render the single child, a link or a button, instead of a wrapper, merging the marker's attributes and classes onto it.
+slots:
+  default: "`MarkerIcon` and `MarkerContent`."

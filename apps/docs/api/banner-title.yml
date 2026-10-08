@@ -1,0 +1,4 @@
+component: BannerTitle
+file: ui/banner/BannerTitle.vue
+slots:
+  default: The banner's headline.

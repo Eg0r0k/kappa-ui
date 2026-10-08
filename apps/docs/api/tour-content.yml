@@ -1,0 +1,60 @@
+component: TourContent
+file: ui/tour/TourContent.vue
+props:
+  forceMount:
+    description: "Keeps the panel mounted while closed, for animating it with a JavaScript library."
+  memoDependencies:
+    description: "Values that should re-run the position update when they change."
+  side:
+    description: "The side of the step's element to open on. Ignored on a centred step."
+  sideOffset:
+    description: "Distance in pixels from the step's element. 8 by default."
+  sideFlip:
+    description: "Flips to the opposite side when the preferred one would overflow."
+  align:
+    description: "Alignment against the trigger along the chosen side."
+  alignOffset:
+    description: "Offset in pixels from the `align` position."
+  alignFlip:
+    description: "Flips the alignment when it would overflow."
+  avoidCollisions:
+    description: "Keeps the panel inside the collision boundary by flipping and shifting it."
+  collisionBoundary:
+    description: "The element or elements used as the collision boundary. The viewport by default."
+  collisionPadding:
+    description: "Distance in pixels from the boundary edges where collisions start."
+  arrowPadding:
+    description: "Padding between an arrow and the panel's corners."
+  hideShiftedArrow:
+    description: "Hides an arrow when the panel is shifted so far that the arrow would not point at the trigger."
+  sticky:
+    description: "`partial` keeps the panel attached to the trigger while scrolling; `always` also lets it detach from the trigger to stay in the boundary."
+  hideWhenDetached:
+    description: "Hides the panel when the trigger is scrolled out of view."
+  positionStrategy:
+    description: "The CSS position used to place the panel."
+  updatePositionStrategy:
+    description: "`always` recomputes the position on every animation frame instead of only on layout changes."
+  disableUpdateOnLayoutShift:
+    description: "Stops recomputing the position when the layout shifts."
+  prioritizePosition:
+    description: "Keeps the preferred side and alignment and lets the panel overflow instead of flipping."
+  reference:
+    description: "A virtual element to position against instead of the trigger."
+  dir:
+    description: "Reading direction. Mirrors the layout and arrow keys in `rtl`."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+  as:
+    description: "The element or component to render."
+  disableOutsidePointerEvents:
+    description: "Shuts the page to the pointer while open, as `modal` on the root does."
+emits:
+  escapeKeyDown: "Fires on Escape. Call `preventDefault()` to keep it open."
+  pointerDownOutside: "Fires on a pointer press outside. Call `preventDefault()` to keep it open."
+  focusOutside: "Fires when focus moves outside. Call `preventDefault()` to keep it open."
+  interactOutside: "Fires on any press or focus outside. The tour ignores it and stays open."
+  openAutoFocus: "Fires when the popover opens. Focus goes to TourNext when there is one; call preventDefault() to keep focus where it is."
+  closeAutoFocus: "Fires when the tour ends. Focus returns to the element that started it."
+slots:
+  default: "TourTitle, TourDescription, TourFooter and TourClose."

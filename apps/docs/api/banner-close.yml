@@ -1,0 +1,4 @@
+component: BannerClose
+file: ui/banner/BannerClose.vue
+slots:
+  default: The icon. An X by default.

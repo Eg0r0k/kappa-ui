@@ -1,0 +1,4 @@
+component: TourProgress
+file: ui/tour/TourProgress.vue
+slots:
+  default: "The step count, \"2 / 5\" by default. Receives `index`, from 0, and `total`."

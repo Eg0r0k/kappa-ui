@@ -1,0 +1,10 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M67.2 32.5H252.8C258.709 32.5 263.5 37.291 263.5 43.2V156.8C263.5 162.709 258.709 167.5 252.8 167.5H67.2C61.291 167.5 56.5 162.709 56.5 156.8V43.2C56.5 37.291 61.291 32.5 67.2 32.5Z" style="fill:var(--background);stroke:var(--border)"/>
+<path d="M57 43.2C57 37.566 61.566 33 67.2 33H252.8C258.434 33 263 37.566 263 43.2V60H57V43.2Z" style="fill:var(--primary)"/>
+<rect opacity="0.9" x="112" y="43.5" width="64" height="6" rx="3" style="fill:var(--primary-foreground)"/>
+<rect opacity="0.6" x="184" y="43.5" width="32" height="6" rx="3" style="fill:var(--primary-foreground)"/>
+<path d="M245 43.5L251 49.5M251 43.5L245 49.5" style="stroke:var(--primary-foreground)" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="72" y="80" width="112" height="10" rx="5" style="fill:var(--muted)"/>
+<rect x="72" y="100" width="176" height="6" rx="3" style="fill:var(--muted)"/>
+<rect x="72" y="114" width="144" height="6" rx="3" style="fill:var(--muted)"/>
+</svg>

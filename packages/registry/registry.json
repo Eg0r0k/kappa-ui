@@ -476,6 +476,50 @@
       ]
     },
     {
+      "name": "banner",
+      "type": "registry:ui",
+      "title": "Banner",
+      "description": "A full-width notice across the top of a page: a title, a subtitle, actions and a close button, in any colour role.",
+      "categories": [
+        "feedback"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/banner/Banner.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerClose.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerSubtitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/BannerTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/banner/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "alert-demo",
       "type": "registry:block",
       "title": "Alert demo",
@@ -574,6 +618,68 @@
       "files": [
         {
           "path": "src/examples/alert/AlertAsLink.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "banner-demo",
+      "type": "registry:block",
+      "title": "Banner demo",
+      "description": "A release banner with an icon, a subtitle, an action and a close button.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "banner",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/banner/BannerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "banner-colors",
+      "type": "registry:block",
+      "title": "Banner colours",
+      "description": "A banner in every colour role.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "banner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/banner/BannerColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "banner-persistent",
+      "type": "registry:block",
+      "title": "Persistent banner",
+      "description": "A banner that stays closed after a reload, its open state kept in localStorage.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@vueuse/core"
+      ],
+      "registryDependencies": [
+        "banner",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/banner/BannerPersistent.vue",
           "type": "registry:component"
         }
       ]
@@ -1041,6 +1147,41 @@
         },
         {
           "path": "src/ui/kbd/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "An inline status, a bordered row or a labelled separator in a conversation or a log, in any colour role.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/marker/Marker.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/marker/MarkerContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/marker/MarkerIcon.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/marker/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -1555,6 +1696,68 @@
       ]
     },
     {
+      "name": "tour",
+      "type": "registry:ui",
+      "title": "Tour",
+      "description": "A guided tour: one popover that moves from step to step, with a title, a description, progress and Back, Next and Close, driven by useTour.",
+      "categories": [
+        "overlays"
+      ],
+      "dependencies": [
+        "@kappa-ui/core",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "popover",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/ui/tour/Tour.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourClose.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourFooter.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourNext.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourPrevious.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourProgress.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/TourTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/tour/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hover-card-demo",
       "type": "registry:block",
       "title": "Hover Card demo",
@@ -1592,6 +1795,50 @@
       "files": [
         {
           "path": "src/examples/hover-card/HoverCardDelay.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tour-demo",
+      "type": "registry:block",
+      "title": "Tour demo",
+      "description": "A four-stop tour of a file manager's toolbar, opening with a centred welcome.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "tour",
+        "button",
+        "input",
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tour/TourDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tour-dots",
+      "type": "registry:block",
+      "title": "Tour with dots",
+      "description": "Progress drawn with PageIndicator instead of the step count.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tour",
+        "button",
+        "page-indicator"
+      ],
+      "files": [
+        {
+          "path": "src/examples/tour/TourDots.vue",
           "type": "registry:component"
         }
       ]
@@ -4942,6 +5189,88 @@
       "files": [
         {
           "path": "src/examples/kbd/KbdSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-demo",
+      "type": "registry:block",
+      "title": "Marker demo",
+      "description": "A branch switch, a thinking status with a spinner and shimmer, a separator and an exploration note.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marker",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-variants",
+      "type": "registry:block",
+      "title": "Marker variants",
+      "description": "The default, separator and border variants.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "marker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerVariants.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-colors",
+      "type": "registry:block",
+      "title": "Marker colours",
+      "description": "A red New messages separator and success, warning and info markers.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marker-links",
+      "type": "registry:block",
+      "title": "Marker links and buttons",
+      "description": "Markers rendered as a link and as a button with asChild.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marker"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marker/MarkerLinks.vue",
           "type": "registry:component"
         }
       ]
@@ -9698,6 +10027,24 @@
       ]
     },
     {
+      "name": "skeleton-colors",
+      "type": "registry:block",
+      "title": "Skeleton colours",
+      "description": "Skeletons in every colour role, the bars with the wave.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "skeleton"
+      ],
+      "files": [
+        {
+          "path": "src/examples/skeleton/SkeletonColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "popover-demo",
       "type": "registry:block",
       "title": "Popover demo",
@@ -11176,6 +11523,98 @@
       "files": [
         {
           "path": "src/examples/press-scale/PressScaleDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-demo",
+      "type": "registry:block",
+      "title": "Shimmer demo",
+      "description": "Muted text with a highlight sweeping across it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-color",
+      "type": "registry:block",
+      "title": "Shimmer colour",
+      "description": "The highlight in a theme colour at 60% and in an arbitrary colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerColor.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-options",
+      "type": "registry:block",
+      "title": "Shimmer options",
+      "description": "The default sweep next to a faster one, a wider band and a steeper angle.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerOptions.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-once",
+      "type": "registry:block",
+      "title": "Shimmer once",
+      "description": "A single sweep, replayed with a button.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerOnce.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-none",
+      "type": "registry:block",
+      "title": "Shimmer none",
+      "description": "shimmer-none turns the sweep off once the response is ready.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerNone.vue",
           "type": "registry:component"
         }
       ]

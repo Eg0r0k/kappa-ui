@@ -1,0 +1,4 @@
+component: TourTitle
+file: ui/tour/TourTitle.vue
+slots:
+  default: The step's heading. It names the popover.
