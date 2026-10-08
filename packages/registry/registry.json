@@ -2878,7 +2878,7 @@
       "name": "swipe-views-sidebars",
       "type": "registry:block",
       "title": "Swipe views sidebars",
-      "description": "Sidebars under a conversation: the server list trails it, the member list waits beneath, and both peek past it.",
+      "description": "Discord on a phone: server avatars beside the channel list, a swipe for the server names, and the conversation over everything.",
       "categories": [
         "example"
       ],
