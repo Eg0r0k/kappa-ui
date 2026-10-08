@@ -1,0 +1,19 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="96.5" y="20.5" width="127" height="159" rx="11.5" style="fill:var(--muted);stroke:var(--border)"/>
+<g clip-path="url(#swipe-snap-1)">
+<path d="M96.5 112C96.5 105.649 101.649 100.5 108 100.5H212C218.351 100.5 223.5 105.649 223.5 112V180H96.5V112Z" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.4" x="148" y="107" width="24" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.8" x="110" y="122" width="64" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.45" x="110" y="138" width="96" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.45" x="110" y="152" width="80" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+</g>
+<rect opacity="0.4" x="236" y="58" width="16" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<rect x="236" y="98" width="16" height="4" rx="2" style="fill:var(--primary)"/>
+<rect opacity="0.4" x="236" y="138" width="16" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+<path d="M244 74V86M244 74L240 78M244 74L248 78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<defs>
+<clipPath id="swipe-snap-1">
+<rect x="97" y="21" width="126" height="158" rx="11"/>
+</clipPath>
+</defs>
+</svg>
