@@ -17,6 +17,7 @@ kappa-ui adapts code from the projects below. Each adapted file names its source
 - Licence: MIT, full text below
 - Copyright (c) 2023 Nuxt
 - Adapted in:
+  - `packages/core/src/tour/index.ts` — the tour's step state, target resolution (a plain word as an id, a selector, an element, a getter, the viewport centre) and scrolling the target into view
   - `packages/core/src/tailwind.css` — the progress bar's indeterminate keyframes (`animate-progress-*`)
   - `packages/registry/src/ui/file-upload/index.ts` — the file upload's file-size format (B, KB, MB, GB, base 1024)
   - `packages/registry/src/ui/progress/index.ts` — the progress bar's sizes, status, steps and animation variants

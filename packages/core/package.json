@@ -43,6 +43,7 @@
     "./tailwind.css": "./src/tailwind.css",
     "./toast": "./src/toast/index.ts",
     "./tooltip": "./src/tooltip/index.ts",
+    "./tour": "./src/tour/index.ts",
     "./virtual-keyboard": "./src/virtual-keyboard/index.ts"
   },
   "publishConfig": {
@@ -108,6 +109,10 @@
       "./tooltip": {
         "types": "./dist/tooltip/index.d.ts",
         "default": "./dist/tooltip/index.js"
+      },
+      "./tour": {
+        "types": "./dist/tour/index.d.ts",
+        "default": "./dist/tour/index.js"
       },
       "./virtual-keyboard": {
         "types": "./dist/virtual-keyboard/index.d.ts",
