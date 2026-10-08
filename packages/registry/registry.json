@@ -2792,6 +2792,42 @@
       ]
     },
     {
+      "name": "swipe-views",
+      "type": "registry:ui",
+      "title": "Swipe Views",
+      "description": "Pages that follow the finger, the way native apps page between tabs: one page in the frame, settled on the nearest one with the speed of the swipe, with CSS variables to build layouts and effects on.",
+      "categories": [
+        "navigation"
+      ],
+      "dependencies": [
+        "@kappa-ui/core",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/swipe-views/SwipeView.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-views/SwipeViews.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-views/SwipeViewsSwipeArea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/swipe-views/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "table",
       "type": "registry:ui",
       "title": "Table",

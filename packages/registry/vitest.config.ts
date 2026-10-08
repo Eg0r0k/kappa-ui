@@ -45,6 +45,7 @@ export default defineConfig({
             "test/scroll-area-both.test.ts",
             "test/scroll-area-infinite.test.ts",
             "test/data-table-geometry.test.ts",
+            "test/swipe-views.test.ts",
           ],
         },
         {
