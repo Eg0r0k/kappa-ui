@@ -4666,6 +4666,47 @@
       ]
     },
     {
+      "name": "swipe-snap",
+      "type": "registry:lib",
+      "title": "Swipe Snap",
+      "description": "A drag that settles on snap points measured in pixels, writing CSS variables for your classes to move things with: the mechanism under Swipe Views.",
+      "categories": [
+        "utilities"
+      ],
+      "dependencies": [
+        "@kappa-ui/core"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/lib/swipe-snap/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "swipe-snap-demo",
+      "type": "registry:block",
+      "title": "Swipe snap demo",
+      "description": "A sheet that rests at three heights: drag it, flick it, or pick a height.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "swipe-snap",
+        "button",
+        "item"
+      ],
+      "files": [
+        {
+          "path": "src/examples/swipe-snap/SwipeSnapDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "scroll-fade-mask",
       "type": "registry:block",
       "title": "Scroll fade mask",

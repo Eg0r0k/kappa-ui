@@ -9,12 +9,6 @@ export type {
   SwipeViewsSide,
   SwipeViewsValue,
 } from "@kappa-ui/core/swipe-views";
-export {
-  type SwipeSnapSourceOptions,
-  type UseSwipeSnapOptions,
-  type UseSwipeSnapReturn,
-  useSwipeSnap,
-} from "@kappa-ui/core/swipe-snap";
 
 export const swipeViewsVariants = cva("relative overflow-clip swipe-snap", {
   variants: {
