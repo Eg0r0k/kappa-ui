@@ -281,3 +281,18 @@ it("drags from an attached element", async () => {
   await drag(document.querySelector(".strip")!, [250, 220], [50, 220], 4, 80);
   expect(index.value).toBe(1);
 });
+
+it("swallows the click that ends a drag, not a later one", async () => {
+  let clicks = 0;
+  const { element, index } = await host({
+    children: () => h("button", { type: "button", onClick: () => (clicks += 1) }, "Grab"),
+  });
+  const button = element.querySelector("button")!;
+  await drag(button, [10, 10], [250, 10], 4, 80);
+  button.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+  expect(clicks).toBe(0);
+  expect(index.value).toBe(0);
+  await wait(10);
+  button.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+  expect(clicks).toBe(1);
+});

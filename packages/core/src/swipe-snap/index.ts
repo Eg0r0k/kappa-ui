@@ -129,10 +129,20 @@ export const useSwipeSnap = (
     return { min: -pointOf(high) - from, max: -pointOf(low) - from };
   };
 
+  const swallowClick = () => {
+    const stop = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    window.addEventListener("click", stop, { capture: true, once: true });
+    setTimeout(() => window.removeEventListener("click", stop, { capture: true }));
+  };
+
   const finish = () => {
     owner = undefined;
     dragging.value = false;
     flag("data-dragging", false);
+    swallowClick();
   };
 
   const source = (element: Ref<HTMLElement | null | undefined>, veto?: (move: DragMove) => boolean) =>
