@@ -11181,6 +11181,98 @@
       ]
     },
     {
+      "name": "shimmer-demo",
+      "type": "registry:block",
+      "title": "Shimmer demo",
+      "description": "Muted text with a highlight sweeping across it.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-color",
+      "type": "registry:block",
+      "title": "Shimmer colour",
+      "description": "The highlight in a theme colour at 60% and in an arbitrary colour.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerColor.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-options",
+      "type": "registry:block",
+      "title": "Shimmer options",
+      "description": "The default sweep next to a faster one, a wider band and a steeper angle.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerOptions.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-once",
+      "type": "registry:block",
+      "title": "Shimmer once",
+      "description": "A single sweep, replayed with a button.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerOnce.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-none",
+      "type": "registry:block",
+      "title": "Shimmer none",
+      "description": "shimmer-none turns the sweep off once the response is ready.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "tokens",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/shimmer/ShimmerNone.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "scroll-demo",
       "type": "registry:block",
       "title": "Scroll helpers demo",
