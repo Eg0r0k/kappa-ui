@@ -48,7 +48,7 @@ const host = async ({
           h(
             "div",
             { ref: element, class: "snap", style: "position: fixed; left: 0; top: 0; width: 300px; height: 200px" },
-            children?.(),
+            children?.() ?? undefined,
           );
       },
     }),
