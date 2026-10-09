@@ -1,24 +1,17 @@
 <script setup lang="ts">
 import { Check, Copy } from '@lucide/vue'
-import { onBeforeUnmount, ref } from 'vue'
 
 import { Button } from '@/ui/button'
 
 const props = defineProps<{ value: string }>()
 const emit = defineEmits<{ copied: [] }>()
 
-const copied = ref(false)
-let timer: ReturnType<typeof setTimeout> | undefined
+const { copied, copy: write } = useCopied(() => props.value)
 
 const copy = async () => {
-  await navigator.clipboard.writeText(props.value)
-  copied.value = true
+  await write()
   emit('copied')
-  clearTimeout(timer)
-  timer = setTimeout(() => (copied.value = false), 1500)
 }
-
-onBeforeUnmount(() => clearTimeout(timer))
 </script>
 
 <template>
