@@ -78,7 +78,14 @@ const setKnob = (key: RadiusRole, value: number) => {
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Field data-test="knob-base">
           <FieldLabel>Base, px</FieldLabel>
-          <InputNumber v-model="knobs.base" :min="0" :max="32" :step="1" size="sm">
+          <InputNumber
+            :model-value="knobs.base"
+            :min="0"
+            :max="32"
+            :step="1"
+            size="sm"
+            @update:model-value="(value?: number) => (knobs = { ...knobs, base: value ?? 0 })"
+          >
             <InputNumberDecrement />
             <InputNumberInput aria-label="Base radius in px" />
             <InputNumberIncrement />
@@ -104,7 +111,7 @@ const setKnob = (key: RadiusRole, value: number) => {
             :max="32"
             :step="1"
             size="sm"
-            @update:model-value="(value: number) => setKnob(entry.key, value)"
+            @update:model-value="(value?: number) => setKnob(entry.key, value ?? 0)"
           >
             <InputNumberDecrement />
             <InputNumberInput :aria-label="`${entry.label} radius in px`" />
@@ -180,7 +187,13 @@ const setKnob = (key: RadiusRole, value: number) => {
         <div class="grid grid-cols-2 gap-4">
           <Field>
             <FieldLabel>Outer radius, px</FieldLabel>
-            <InputNumber v-model="outer" :min="0" :max="48" size="sm">
+            <InputNumber
+              :model-value="outer"
+              :min="0"
+              :max="48"
+              size="sm"
+              @update:model-value="(value?: number) => (outer = value ?? 0)"
+            >
               <InputNumberDecrement />
               <InputNumberInput aria-label="Outer radius in px" />
               <InputNumberIncrement />
@@ -188,7 +201,13 @@ const setKnob = (key: RadiusRole, value: number) => {
           </Field>
           <Field>
             <FieldLabel>Inset, px</FieldLabel>
-            <InputNumber v-model="inset" :min="0" :max="24" size="sm">
+            <InputNumber
+              :model-value="inset"
+              :min="0"
+              :max="24"
+              size="sm"
+              @update:model-value="(value?: number) => (inset = value ?? 0)"
+            >
               <InputNumberDecrement />
               <InputNumberInput aria-label="Inset in px" />
               <InputNumberIncrement />
