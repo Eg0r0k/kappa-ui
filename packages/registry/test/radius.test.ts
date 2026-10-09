@@ -352,3 +352,44 @@ it("squares every control, small ones included, when the control knob is zero, a
   expect(radius("card")).not.toBe("0px");
   wrapper.unmount();
 });
+
+it("squares cards and dialogs with the surface knob and keeps controls round", async () => {
+  const { Button } = await import("@/ui/button");
+  const { dialogSurface } = await import("@/ui/dialog");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "--surface-radius: 0px" }, [
+          ...(["xs", "md", "xl"] as const).map((size) => h(Card, { size, "data-case": `card-${size}` }, () => "C")),
+          h("div", { class: dialogSurface, "data-case": "dialog" }),
+          h(Button, { "data-case": "button" }, () => "B"),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect(["card-xs", "card-md", "card-xl", "dialog"].map(radius)).toEqual(["0px", "0px", "0px", "0px"]);
+  expect(radius("button")).toBe("8px");
+  wrapper.unmount();
+});
+
+it("keeps card radii per size at the default theme", () => {
+  const wrapper = mount(
+    {
+      render: () =>
+        h(
+          "div",
+          (["xs", "sm", "md", "lg", "xl"] as const).map((size) => h(Card, { size, "data-case": size }, () => "C")),
+        ),
+    },
+    { attachTo: document.body },
+  );
+  expect(
+    ["xs", "sm", "md", "lg", "xl"].map((size) => radiusOf(document.querySelector(`[data-case=${size}]`)!)),
+  ).toEqual(["8px", "8px", "11.2px", "14.4px", "17.6px"]);
+  wrapper.unmount();
+});
+
+it("keeps the toast close button round at a small base radius", () => {
+  expect(computedRadii(["rounded-inset-surface-md/2.5"], "--radius: 4px")).toEqual(["2.8px"]);
+});

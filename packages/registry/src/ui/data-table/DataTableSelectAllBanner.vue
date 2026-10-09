@@ -24,7 +24,10 @@ const labels = computed<DataTableSelectAllLabels>(() => ({ ...defaultSelectAllLa
     :data-mode="props.mode"
     role="status"
     :class="
-      cn('flex flex-wrap items-center justify-center gap-x-2 rounded-md bg-muted px-3 py-2 text-body-sm', props.class)
+      cn(
+        'flex flex-wrap items-center justify-center gap-x-2 rounded-surface-xs bg-muted px-3 py-2 text-body-sm',
+        props.class,
+      )
     "
   >
     <template v-if="props.mode === 'all'">

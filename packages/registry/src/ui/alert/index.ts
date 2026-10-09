@@ -28,23 +28,23 @@ export const alertVariants = cva(
       },
       size: {
         xs: `
-          rounded-md p-2.5 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(3.5)]
+          rounded-surface-xs p-2.5 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(3.5)]
           [--alert-line:var(--typescale-label-md-line-height)]
         `,
         sm: `
-          rounded-md p-3 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(4)]
+          rounded-surface-xs p-3 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(4)]
           [--alert-line:var(--typescale-title-sm-line-height)]
         `,
         md: `
-          rounded-lg p-4 [--alert-gap:--spacing(2.5)] [--alert-icon:--spacing(5)]
+          rounded-surface-sm p-4 [--alert-gap:--spacing(2.5)] [--alert-icon:--spacing(5)]
           [--alert-line:var(--typescale-title-sm-line-height)]
         `,
         lg: `
-          rounded-lg p-5 [--alert-gap:--spacing(3)] [--alert-icon:--spacing(5)]
+          rounded-surface-sm p-5 [--alert-gap:--spacing(3)] [--alert-icon:--spacing(5)]
           [--alert-line:var(--typescale-title-md-line-height)]
         `,
         xl: `
-          rounded-xl p-6 [--alert-gap:--spacing(3.5)] [--alert-icon:--spacing(6)]
+          rounded-surface-md p-6 [--alert-gap:--spacing(3.5)] [--alert-icon:--spacing(6)]
           [--alert-line:var(--typescale-title-lg-line-height)]
         `,
       },
