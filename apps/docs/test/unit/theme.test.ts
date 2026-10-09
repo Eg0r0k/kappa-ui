@@ -270,3 +270,18 @@ describe('theme', () => {
     })
   })
 })
+
+it('keeps the role radii on Auto by default and writes only the ones set', () => {
+  expect([defaultTheme.controlRadius, defaultTheme.surfaceRadius, defaultTheme.itemRadius]).toEqual([null, null, null])
+  expect(themeCss(defaultTheme)).not.toMatch(/--(control|surface|item)-radius/)
+  const css = themeCss({ ...defaultTheme, controlRadius: 1.25, surfaceRadius: 0 })
+  expect(css).toContain('--control-radius: 1.25rem;')
+  expect(css).toContain('--surface-radius: 0rem;')
+  expect(css).not.toContain('--item-radius')
+})
+
+it('reads the role radii from the query and ignores values off the list', () => {
+  const theme = themeFromQuery({ controlRadius: '0.75', surfaceRadius: '0.3', itemRadius: 'auto' })
+  expect([theme.controlRadius, theme.surfaceRadius, theme.itemRadius]).toEqual([0.75, null, null])
+  expect(themeToQuery({ ...defaultTheme, itemRadius: 0 })).toEqual({ itemRadius: '0' })
+})

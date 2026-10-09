@@ -19,6 +19,9 @@ export interface ThemeConfig {
   chroma: number
   neutral: NeutralName
   radius: number
+  controlRadius: number | null
+  surfaceRadius: number | null
+  itemRadius: number | null
   font: string
   surfaceBorder: SurfaceBorder
   surfaces: Surfaces
@@ -273,6 +276,9 @@ export const defaultTheme: ThemeConfig = {
   chroma: 0.2,
   neutral: 'neutral',
   radius: 0.5,
+  controlRadius: null,
+  surfaceRadius: null,
+  itemRadius: null,
   font: 'inter',
   surfaceBorder: 'none',
   surfaces: 'raised',
@@ -361,6 +367,9 @@ export const themeTokens = (config: ThemeConfig) => {
 
   const light: Record<string, string> = {
     radius: `${config.radius}rem`,
+    ...(config.controlRadius === null ? {} : { 'control-radius': `${config.controlRadius}rem` }),
+    ...(config.surfaceRadius === null ? {} : { 'surface-radius': `${config.surfaceRadius}rem` }),
+    ...(config.itemRadius === null ? {} : { 'item-radius': `${config.itemRadius}rem` }),
     brand: oklch(0.48, chroma, hue),
     primary: oklch(0.48, chroma, hue),
     'primary-foreground': oklch(1, 0, 0),
@@ -449,6 +458,10 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
   const hue = number('hue')
   const chroma = number('chroma')
   const radius = number('radius')
+  const roleRadius = (key: 'controlRadius' | 'surfaceRadius' | 'itemRadius') => {
+    const value = number(key)
+    return value !== undefined && radii.includes(value) ? value : null
+  }
   const status = Object.fromEntries(
     statuses.flatMap((entry) => {
       const keys = statusKeys(entry.key)
@@ -478,6 +491,9 @@ export const themeFromQuery = (query: Record<string, unknown>): ThemeConfig => {
       ? (query.neutral as NeutralName)
       : defaultTheme.neutral,
     radius: radius !== undefined && radii.includes(radius) ? radius : defaultTheme.radius,
+    controlRadius: roleRadius('controlRadius'),
+    surfaceRadius: roleRadius('surfaceRadius'),
+    itemRadius: roleRadius('itemRadius'),
     font: fonts.some((font) => font.key === query.font) ? (query.font as string) : defaultTheme.font,
     surfaceBorder: surfaceBorders.some((option) => option.key === query.surfaceBorder)
       ? (query.surfaceBorder as SurfaceBorder)

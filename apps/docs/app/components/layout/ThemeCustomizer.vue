@@ -49,6 +49,17 @@ const setting = <K extends keyof ThemeConfig>(key: K) =>
 const hue = setting('hue')
 const chroma = setting('chroma')
 const radius = setting('radius')
+
+const roleRadii = [
+  { key: 'controlRadius', label: 'Controls' },
+  { key: 'surfaceRadius', label: 'Surfaces' },
+  { key: 'itemRadius', label: 'Items' },
+] as const
+
+type RoleRadius = (typeof roleRadii)[number]['key']
+
+const roleRadiusValue = (key: RoleRadius) => theme.value[key] ?? theme.value.radius
+const setRoleRadius = (key: RoleRadius, value: number | null) => update({ [key]: value } as Partial<ThemeConfig>)
 const neutral = setting('neutral')
 const font = setting('font')
 const ripple = computed({ get: () => theme.value.ripple === 'on', set: (on) => update({ ripple: on ? 'on' : 'off' }) })
@@ -201,6 +212,26 @@ const { height: bodyHeight } = useElementSize(body, undefined, { box: 'border-bo
               :max="radii.at(-1)!"
               :step="radii[1]! - radii[0]!"
             />
+            <div v-for="role in roleRadii" :key="role.key" class="grid gap-1">
+              <ThemeSlider
+                :model-value="roleRadiusValue(role.key)"
+                :label="role.label"
+                :value="theme[role.key] === null ? 'Auto' : `${theme[role.key]}rem`"
+                :min="radii[0]!"
+                :max="radii.at(-1)!"
+                :step="radii[1]! - radii[0]!"
+                @update:model-value="(value: number) => setRoleRadius(role.key, value)"
+              />
+              <Button
+                v-if="theme[role.key] !== null"
+                variant="ghost"
+                size="xs"
+                class="justify-self-end"
+                @click="setRoleRadius(role.key, null)"
+              >
+                Back to Auto
+              </Button>
+            </div>
             <Field orientation="horizontal">
               <FieldLabel>Font</FieldLabel>
               <Select v-model="font">
