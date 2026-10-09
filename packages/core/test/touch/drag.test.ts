@@ -308,3 +308,47 @@ it("starts no drag when a second finger lands before the drag is decided", async
   fingers("touchend", element, [finger(2, element, 200, 160)], []);
   expect(starts).toHaveLength(0);
 });
+
+it("keeps a pen out of a running finger drag", async () => {
+  const { element, starts, releases, cancels } = host();
+  fingers("touchstart", element, [finger(1, element, 100, 100)], [finger(1, element, 100, 100)]);
+  for (const y of [130, 160]) {
+    await wait(30);
+    fingers("touchmove", element, [finger(1, element, 100, y)], [finger(1, element, 100, y)]);
+  }
+  await wait(30);
+  pointer("pointerdown", element, 200, 100, "pen");
+  for (const y of [130, 160, 190]) {
+    await wait(30);
+    pointer("pointermove", element, 200, y, "pen");
+  }
+  await wait(30);
+  pointer("pointerup", element, 200, 190, "pen");
+  fingers("touchend", element, [finger(1, element, 100, 160)], []);
+  await wait(30);
+  expect(starts).toHaveLength(1);
+  expect(releases).toHaveLength(1);
+  expect(cancels()).toBe(0);
+});
+
+it("keeps a finger out of a running mouse drag", async () => {
+  const { element, starts, releases, cancels } = host();
+  pointer("pointerdown", element, 200, 100, "mouse");
+  for (const y of [130, 160]) {
+    await wait(30);
+    pointer("pointermove", element, 200, y, "mouse");
+  }
+  expect(starts).toHaveLength(1);
+  fingers("touchstart", element, [finger(1, element, 100, 100)], [finger(1, element, 100, 100)]);
+  for (const y of [130, 160, 190]) {
+    await wait(30);
+    fingers("touchmove", element, [finger(1, element, 100, y)], [finger(1, element, 100, y)]);
+  }
+  expect(starts).toHaveLength(1);
+  await wait(30);
+  pointer("pointerup", element, 200, 160, "mouse");
+  fingers("touchend", element, [finger(1, element, 100, 190)], []);
+  await wait(30);
+  expect(releases).toHaveLength(1);
+  expect(cancels()).toBe(0);
+});

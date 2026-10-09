@@ -136,6 +136,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
   };
 
   const allowed = (move: DragMove) => {
+    if (decided === "drag" || touch?.decided === "drag") return false;
     if (claimed.has(move.event)) return false;
     if (move.target.closest("[data-no-drag]")) return false;
     if (preselected) return false;
