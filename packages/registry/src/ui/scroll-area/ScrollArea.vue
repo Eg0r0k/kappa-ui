@@ -65,6 +65,7 @@ const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
 });
 
 const isHorizontal = computed(() => props.orientation === "horizontal");
+const contentSize = { vertical: "min-h-full w-full", horizontal: "h-full min-w-full", both: "min-h-full min-w-full" };
 const scrollsX = computed(() => props.orientation !== "vertical");
 const scrollsY = computed(() => props.orientation !== "horizontal");
 
@@ -286,8 +287,11 @@ const api: ScrollAreaApi = {
   }),
   setScrollPosition,
   setScrollPercentage: (axis, percentage, duration) => {
-    const state = axisState(axis);
-    setScrollPosition(axis, percentage * (state.size - state.container), duration);
+    const el = viewportRef.value;
+    if (el === null) return;
+
+    const travel = axis === "vertical" ? el.scrollHeight - el.clientHeight : el.scrollWidth - el.clientWidth;
+    setScrollPosition(axis, percentage * travel, duration);
   },
   scrollTo: (index, edge) => virtual.scrollTo(index, edge),
   reset: () => virtual.reset(),
@@ -570,9 +574,7 @@ onBeforeUnmount(() => {
         ref="contentRef"
         data-slot="scroll-area-content"
         :data-active="active ? '' : undefined"
-        :class="
-          cn(isHorizontal ? 'h-full min-w-full' : 'min-h-full min-w-full', isExternalScroll ? 'relative' : 'absolute')
-        "
+        :class="cn(contentSize[props.orientation], isExternalScroll ? 'relative' : 'absolute')"
       >
         <div v-if="props.virtualize" data-slot="scroll-area-virtual" :style="virtual.containerStyle.value">
           <div

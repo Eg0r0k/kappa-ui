@@ -164,3 +164,33 @@ it("gives a horizontal area's content the area's height", () => {
   expect(wrapper.get("[data-test=row]").element.getBoundingClientRect().height).toBe(100);
   wrapper.unmount();
 });
+
+it("gives a vertical area's content the area's width, so truncate and percentages work inside", () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    attrs: { style: "height: 100px; width: 200px" },
+    slots: {
+      default: () => [
+        h("div", { class: "truncate", "data-test": "line" }, "x".repeat(400)),
+        h("div", { class: "w-1/2", "data-test": "half" }),
+      ],
+    },
+  });
+
+  expect(wrapper.get("[data-slot=scroll-area-content]").element.getBoundingClientRect().width).toBe(200);
+  expect(wrapper.get("[data-test=line]").element.getBoundingClientRect().width).toBe(200);
+  expect(wrapper.get("[data-test=half]").element.getBoundingClientRect().width).toBe(100);
+  wrapper.unmount();
+});
+
+it("lets a both-axes area's content grow past the area's width", () => {
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: { orientation: "both" },
+    attrs: { style: "height: 100px; width: 200px" },
+    slots: { default: () => h("div", { class: "whitespace-nowrap", "data-test": "line" }, "x".repeat(400)) },
+  });
+
+  expect(wrapper.get("[data-slot=scroll-area-content]").element.getBoundingClientRect().width).toBeGreaterThan(200);
+  wrapper.unmount();
+});

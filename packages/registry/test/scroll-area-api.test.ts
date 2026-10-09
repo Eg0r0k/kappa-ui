@@ -1,13 +1,13 @@
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
-import { h } from "vue";
+import { h, nextTick, ref } from "vue";
 
 import { ScrollArea, type ScrollAreaApi, type ScrollAreaScrollInfo } from "@/ui/scroll-area";
 
 const mountArea = (props: Record<string, unknown> = {}) =>
   mount(ScrollArea, {
     attachTo: document.body,
-    props,
+    props: { orientation: "both", ...props },
     attrs: { style: "height: 300px; width: 400px" },
     slots: { default: () => h("div", { style: "height: 1200px; width: 800px" }) },
   });
@@ -115,5 +115,24 @@ it("emits every field of the payload plus a usable ref", async () => {
   payload.ref.setScrollPosition("vertical", 0);
   expect(viewport.scrollTop).toBe(0);
 
+  wrapper.unmount();
+});
+
+it("scrolls to the end of content that changed since the last measurement", async () => {
+  const tall = ref(false);
+  const wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    attrs: { style: "height: 300px; width: 400px" },
+    slots: { default: () => h("div", { style: { height: tall.value ? "2400px" : "600px" } }) },
+  });
+  const api = wrapper.vm as unknown as ScrollAreaApi;
+  const viewport = wrapper.get<HTMLElement>("[data-slot=scroll-area-viewport]").element;
+
+  await vi.waitFor(() => expect(api.getScroll().verticalSize).toBe(600));
+  tall.value = true;
+  await nextTick();
+  api.setScrollPercentage("vertical", 1);
+
+  await vi.waitFor(() => expect(viewport.scrollTop).toBe(2100));
   wrapper.unmount();
 });
