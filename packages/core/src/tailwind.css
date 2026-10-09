@@ -276,6 +276,27 @@
   }
 }
 
+@utility rounded-inset-* {
+  border-radius: max(
+    calc(--value(--radius-*, [length], [*]) - var(--spacing) * --modifier(number)),
+    calc(--value(--radius-*, [length], [*]) / 2)
+  );
+  border-radius: max(
+    calc(--value(--radius-*, [length], [*]) - --modifier([length], [*])),
+    calc(--value(--radius-*, [length], [*]) / 2)
+  );
+}
+
+@utility rounded-outset-* {
+  border-radius: calc(
+    --value(--radius-*, [length], [*]) +
+      min(var(--spacing) * --modifier(number), --value(--radius-*, [length], [*]) * 3)
+  );
+  border-radius: calc(
+    --value(--radius-*, [length], [*]) + min(--modifier([length], [*]), --value(--radius-*, [length], [*]) * 3)
+  );
+}
+
 @utility choice-row {
   & > [data-slot="field"] {
     position: relative;

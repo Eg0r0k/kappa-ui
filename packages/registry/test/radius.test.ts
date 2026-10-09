@@ -273,3 +273,26 @@ it("lets a later radius class win over a role or nesting class in cn()", () => {
   expect(cn("rounded-inset-control-md/1.5", "rounded-outset-item-md/1")).toBe("rounded-outset-item-md/1");
   expect(cn("rounded-control-md", "rounded-t-none")).toBe("rounded-control-md rounded-t-none");
 });
+
+it("keeps an inset corner concentric and never below half the outer radius", () => {
+  expect(
+    computedRadii([
+      "rounded-inset-[16px]/1",
+      "rounded-inset-[4px]/1.5",
+      "rounded-inset-[8px]/[6px]",
+      "rounded-inset-[0px]/2",
+      "rounded-inset-control-md/1.5",
+    ]),
+  ).toEqual(["12px", "2px", "4px", "0px", "4px"]);
+});
+
+it("grows an outset corner by the inset and keeps a square inside square", () => {
+  expect(
+    computedRadii([
+      "rounded-outset-[8px]/1",
+      "rounded-outset-[1px]/1",
+      "rounded-outset-[0px]/1",
+      "rounded-outset-item-md/[5px]",
+    ]),
+  ).toEqual(["12px", "4px", "0px", "13px"]);
+});
