@@ -35,7 +35,7 @@ const select = async (key: unknown) => {
       type="single"
       :model-value="model"
       aria-label="Showcase style"
-      class="flex-wrap gap-1 [--button-group-radius:var(--radius-lg)]"
+      class="flex-wrap gap-1 [--button-group-radius:--theme(--radius-control-md)]"
       @update:model-value="select"
     >
       <ToggleGroupItem
