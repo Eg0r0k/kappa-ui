@@ -1,5 +1,20 @@
 # @kappa-ui/registry
 
+## 0.18.0
+
+### Minor Changes
+
+- [`779955e`](https://github.com/Eg0r0k/kappa-ui/commit/779955e6b5e698179c9900e5feef1658cef56df4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Corners come in three roles: `rounded-control-*`, `rounded-surface-*` and `rounded-item-*`, each scaled from `--radius` and tunable on its own with `--control-radius`, `--surface-radius` and `--item-radius`, on `:root` or any element. Every component uses them, and `cn()` merges them, so a `class` prop still wins.
+  
+  - `--control-radius` was the Input family's frame variable. It now sets every control, and the frames use `--frame-radius`.
+  - Nested parts no longer turn square at small radii: the InputGroup button, the InputNumber steppers, the TagsInput chips, the DatePicker trigger and the Toast and Tour close buttons.
+  - Menus, lists, pill tabs, the menubar and the toolbar wrap their corners around their items. Pill tabs are rounder (12/8px at md instead of 8/4px), menus and lists grow by up to 2px, and their rows at sizes `xs` and `xl` follow their height. Item `sm` takes 8px instead of 6.4px.
+
+### Patch Changes
+
+- Updated dependencies [[`6887534`](https://github.com/Eg0r0k/kappa-ui/commit/6887534c8c7d8b707da54f663e312a95b75d1284), [`779955e`](https://github.com/Eg0r0k/kappa-ui/commit/779955e6b5e698179c9900e5feef1658cef56df4)]:
+  - @kappa-ui/core@0.14.0
+
 ## 0.17.0
 
 ### Minor Changes
