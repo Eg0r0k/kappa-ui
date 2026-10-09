@@ -86,7 +86,7 @@ export const inputGroupAddonVariants = cva(
 
 export const inputGroupButtonVariants = cva(
   `
-    rounded-[max(0px,calc(var(--control-radius)-var(--input-group-button-inset)))] shadow-none
+    rounded-[max(0px,calc(var(--frame-radius)-var(--input-group-button-inset)))] shadow-none
     [--input-group-button-inset:calc((var(--input-group-height)-var(--input-group-button-height))/2)]
     in-data-[align=inline-start]:first:-ms-[calc(var(--input-group-padding)-var(--input-group-button-inset)+1px)]
     in-data-[align=inline-end]:last:-me-[calc(var(--input-group-padding)-var(--input-group-button-inset)+1px)]

@@ -180,3 +180,85 @@ it("follows a --radius set on an ancestor, not only on the root", async () => {
   });
   wrapper.unmount();
 });
+
+const roleSteps = [
+  "rounded-control-3xs",
+  "rounded-control-2xs",
+  "rounded-control-xs",
+  "rounded-control-sm",
+  "rounded-control-md",
+  "rounded-control-lg",
+  "rounded-control-xl",
+  "rounded-surface-xs",
+  "rounded-surface-sm",
+  "rounded-surface-md",
+  "rounded-surface-lg",
+  "rounded-surface-xl",
+  "rounded-item-xs",
+  "rounded-item-sm",
+  "rounded-item-md",
+  "rounded-item-lg",
+  "rounded-item-xl",
+];
+
+const computedRadii = (classes: string[], style = "") => {
+  const host = document.createElement("div");
+  host.setAttribute("style", style);
+  host.innerHTML = classes.map((name) => `<div class="${name}"></div>`).join("");
+  document.body.append(host);
+  const radii = [...host.children].map((child) => getComputedStyle(child).borderRadius);
+  host.remove();
+  return radii;
+};
+
+it("derives every role step from the base when no knob is set", () => {
+  expect(computedRadii(roleSteps)).toEqual([
+    "1.6px",
+    "4.8px",
+    "6.4px",
+    "8px",
+    "8px",
+    "8px",
+    "11.2px",
+    "6.4px",
+    "8px",
+    "11.2px",
+    "14.4px",
+    "17.6px",
+    "6.4px",
+    "8px",
+    "8px",
+    "8px",
+    "11.2px",
+  ]);
+});
+
+it("scales a role from its own knob, set on any ancestor", () => {
+  const style = "--control-radius: 10px; --surface-radius: 0px; --item-radius: 20px";
+  expect(
+    computedRadii(
+      [
+        "rounded-control-xs",
+        "rounded-control-md",
+        "rounded-control-xl",
+        "rounded-surface-lg",
+        "rounded-item-md",
+        "rounded-item-xl",
+        "rounded-lg",
+      ],
+      style,
+    ),
+  ).toEqual(["8px", "10px", "14px", "0px", "20px", "28px", "8px"]);
+});
+
+it("follows a base set on an ancestor through every role", () => {
+  expect(computedRadii(["rounded-control-md", "rounded-surface-md", "rounded-item-xs"], "--radius: 10px")).toEqual([
+    "10px",
+    "14px",
+    "8px",
+  ]);
+});
+
+it("squares every role when the base is zero", () => {
+  expect(computedRadii(roleSteps, "--radius: 0px")).toEqual(roleSteps.map(() => "0px"));
+});
