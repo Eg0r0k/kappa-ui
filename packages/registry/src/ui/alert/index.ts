@@ -15,6 +15,7 @@ export const alertVariants = cva(
     [&>svg]:h-(--alert-line) [&>svg]:w-(--alert-icon) [&>svg]:shrink-0
     data-[orientation=horizontal]:[&>svg]:row-span-full data-[orientation=horizontal]:[&>svg]:h-(--alert-icon)
     data-[orientation=horizontal]:[&>svg]:self-center
+    [--alert-line:var(--typescale-title-sm-line-height)]
   `,
   {
     variants: {
@@ -27,26 +28,11 @@ export const alertVariants = cva(
         link: "text-tone-text underline-offset-4 hover:underline",
       },
       size: {
-        xs: `
-          rounded-surface-xs p-2.5 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(3.5)]
-          [--alert-line:var(--typescale-label-md-line-height)]
-        `,
-        sm: `
-          rounded-surface-xs p-3 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(4)]
-          [--alert-line:var(--typescale-title-sm-line-height)]
-        `,
-        md: `
-          rounded-surface-sm p-4 [--alert-gap:--spacing(2.5)] [--alert-icon:--spacing(5)]
-          [--alert-line:var(--typescale-title-sm-line-height)]
-        `,
-        lg: `
-          rounded-surface-sm p-5 [--alert-gap:--spacing(3)] [--alert-icon:--spacing(5)]
-          [--alert-line:var(--typescale-title-md-line-height)]
-        `,
-        xl: `
-          rounded-surface-md p-6 [--alert-gap:--spacing(3.5)] [--alert-icon:--spacing(6)]
-          [--alert-line:var(--typescale-title-lg-line-height)]
-        `,
+        xs: `rounded-surface-xs p-2.5 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(3.5)]`,
+        sm: `rounded-surface-xs p-3 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(4)]`,
+        md: `rounded-surface-sm p-4 [--alert-gap:--spacing(2.5)] [--alert-icon:--spacing(5)]`,
+        lg: `rounded-surface-sm p-5 [--alert-gap:--spacing(3)] [--alert-icon:--spacing(5)]`,
+        xl: `rounded-surface-md p-6 [--alert-gap:--spacing(3.5)] [--alert-icon:--spacing(6)]`,
       },
     },
     defaultVariants: {

@@ -14,10 +14,6 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
         `
           col-start-2 min-w-0 text-body-md opacity-90
           group-data-[orientation=horizontal]/alert:row-start-3
-          group-data-[size=xs]/alert:text-body-sm
-          group-data-[size=sm]/alert:text-body-sm
-          group-data-[size=lg]/alert:text-body-lg
-          group-data-[size=xl]/alert:text-body-lg
           [[data-slot=alert-title]+&]:mt-1
         `,
         props.class,

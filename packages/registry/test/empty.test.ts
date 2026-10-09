@@ -56,17 +56,17 @@ it("titles with an h3 unless told otherwise", () => {
 });
 
 it.each([
-  ["xs", 24, "text-label-lg", "text-body-sm"],
-  ["sm", 32, "text-title-sm", "text-body-sm"],
-  ["md", 40, "text-title-md", "text-body-md"],
-  ["lg", 48, "text-title-lg", "text-body-md"],
-  ["xl", 56, "text-headline-sm", "text-body-lg"],
-] as const)("sizes a bare icon and the text at %s", (size, px, titleClass, descriptionClass) => {
+  ["xs", 24],
+  ["sm", 32],
+  ["md", 40],
+  ["lg", 48],
+  ["xl", 56],
+] as const)("sizes a bare icon at %s and keeps the text", (size, px) => {
   render({ size });
   expect(q("[data-slot=empty]").dataset.size).toBe(size);
   expect(q("[data-slot=empty-media] > svg").getBoundingClientRect().width).toBe(px);
-  expect(getComputedStyle(q("[data-slot=empty-title]")).fontSize).toBe(probeFont(titleClass));
-  expect(getComputedStyle(q("[data-slot=empty-description]")).fontSize).toBe(probeFont(descriptionClass));
+  expect(getComputedStyle(q("[data-slot=empty-title]")).fontSize).toBe(probeFont("text-title-md"));
+  expect(getComputedStyle(q("[data-slot=empty-description]")).fontSize).toBe(probeFont("text-body-md"));
 });
 
 it("leaves an icon with its own size alone", () => {

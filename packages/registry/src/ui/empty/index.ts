@@ -12,11 +12,13 @@ export const emptyVariants = cva(
   {
     variants: {
       size: {
-        xs: "gap-3 p-4",
-        sm: "gap-4 p-6",
-        md: "gap-6 p-8",
-        lg: "gap-8 p-10",
-        xl: "gap-10 p-12",
+        xs: "gap-3 p-4 [--empty-icon:--spacing(6)] [--empty-header-gap:--spacing(1.5)] [--empty-content-gap:--spacing(3)]",
+        sm: "gap-4 p-6 [--empty-icon:--spacing(8)] [--empty-header-gap:--spacing(1.5)] [--empty-content-gap:--spacing(3)]",
+        md: "gap-6 p-8 [--empty-icon:--spacing(10)] [--empty-header-gap:--spacing(2)] [--empty-content-gap:--spacing(4)]",
+        lg: "gap-8 p-10 [--empty-icon:--spacing(12)] [--empty-header-gap:--spacing(3)] [--empty-content-gap:--spacing(5)]",
+        xl: `
+          gap-10 p-12 [--empty-icon:--spacing(14)] [--empty-header-gap:--spacing(3)] [--empty-content-gap:--spacing(5)]
+        `,
       },
     },
     defaultVariants: { size: "md" },

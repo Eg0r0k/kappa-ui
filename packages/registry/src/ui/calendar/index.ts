@@ -33,23 +33,38 @@ export const calendarVariants = cva(
       size: {
         xs: `
           text-body-sm [--calendar-cell:var(--control-height-xs)] [--calendar-gap:var(--control-gap-xs)]
-          [--calendar-icon:var(--control-icon-xs)]
+          [--calendar-icon:var(--control-icon-xs)] [--calendar-heading:var(--typescale-title-sm-size)]
+          [--calendar-heading-leading:var(--typescale-title-sm-line-height)]
+          [--calendar-label:var(--typescale-label-sm-size)]
+          [--calendar-label-leading:var(--typescale-label-sm-line-height)]
         `,
         sm: `
           text-body-sm [--calendar-cell:var(--control-height-sm)] [--calendar-gap:var(--control-gap-sm)]
-          [--calendar-icon:var(--control-icon-sm)]
+          [--calendar-icon:var(--control-icon-sm)] [--calendar-heading:var(--typescale-title-sm-size)]
+          [--calendar-heading-leading:var(--typescale-title-sm-line-height)]
+          [--calendar-label:var(--typescale-label-sm-size)]
+          [--calendar-label-leading:var(--typescale-label-sm-line-height)]
         `,
         md: `
           text-body-md [--calendar-cell:var(--control-height-md)] [--calendar-gap:var(--control-gap-md)]
-          [--calendar-icon:var(--control-icon-md)]
+          [--calendar-icon:var(--control-icon-md)] [--calendar-heading:var(--typescale-title-sm-size)]
+          [--calendar-heading-leading:var(--typescale-title-sm-line-height)]
+          [--calendar-label:var(--typescale-label-md-size)]
+          [--calendar-label-leading:var(--typescale-label-md-line-height)]
         `,
         lg: `
           text-body-lg [--calendar-cell:var(--control-height-lg)] [--calendar-gap:var(--control-gap-lg)]
-          [--calendar-icon:var(--control-icon-lg)]
+          [--calendar-icon:var(--control-icon-lg)] [--calendar-heading:var(--typescale-title-md-size)]
+          [--calendar-heading-leading:var(--typescale-title-md-line-height)]
+          [--calendar-label:var(--typescale-label-lg-size)]
+          [--calendar-label-leading:var(--typescale-label-lg-line-height)]
         `,
         xl: `
           text-body-lg [--calendar-cell:var(--control-height-xl)] [--calendar-gap:var(--control-gap-xl)]
-          [--calendar-icon:var(--control-icon-xl)]
+          [--calendar-icon:var(--control-icon-xl)] [--calendar-heading:var(--typescale-title-md-size)]
+          [--calendar-heading-leading:var(--typescale-title-md-line-height)]
+          [--calendar-label:var(--typescale-label-lg-size)]
+          [--calendar-label-leading:var(--typescale-label-lg-line-height)]
         `,
       },
     },
@@ -67,9 +82,8 @@ export const calendarHeader = "flex items-center gap-(--calendar-gap)";
 
 /** The heading doesn't clip, so controls put in its slot keep their focus ring; its text truncates. */
 export const calendarHeading = `
-  flex min-w-0 flex-1 items-center gap-(--calendar-gap) text-start text-title-sm
-  group-data-[size=lg]/calendar:text-title-md
-  group-data-[size=xl]/calendar:text-title-md
+  flex min-w-0 flex-1 items-center gap-(--calendar-gap) text-start
+  text-(length:--calendar-heading)/(--calendar-heading-leading) font-medium
   data-disabled:text-foreground/(--disabled-opacity)
 `;
 
@@ -81,20 +95,13 @@ export const calendarNavButton = "size-(--calendar-cell) rounded-full p-0 icon-s
 export const calendarGrid = "table-fixed border-separate border-spacing-0 select-none";
 
 export const calendarHeadCell = `
-  size-(--calendar-cell) min-w-(--calendar-cell) p-0 text-center text-label-md font-normal text-muted-foreground
-  group-data-[size=lg]/calendar:text-label-lg
-  group-data-[size=sm]/calendar:text-label-sm
-  group-data-[size=xl]/calendar:text-label-lg
-  group-data-[size=xs]/calendar:text-label-sm
+  size-(--calendar-cell) min-w-(--calendar-cell) p-0 text-center
+  text-(length:--calendar-label)/(--calendar-label-leading) font-normal text-muted-foreground
 `;
 
 export const calendarWeekNumber = `
-  w-(--calendar-cell) min-w-(--calendar-cell) p-0 text-center text-label-md font-normal text-muted-foreground
-  tabular-nums
-  group-data-[size=lg]/calendar:text-label-lg
-  group-data-[size=sm]/calendar:text-label-sm
-  group-data-[size=xl]/calendar:text-label-lg
-  group-data-[size=xs]/calendar:text-label-sm
+  w-(--calendar-cell) min-w-(--calendar-cell) p-0 text-center text-(length:--calendar-label)/(--calendar-label-leading)
+  font-normal text-muted-foreground tabular-nums
 `;
 
 export const calendarCell = "relative size-(--calendar-cell) p-0 text-center";

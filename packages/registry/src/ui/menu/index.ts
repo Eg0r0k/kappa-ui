@@ -26,26 +26,31 @@ export const menuSizeVariants = cva("group/menu rounded-outset-(--menu-item-radi
         text-body-sm [--menu-pad:--spacing(0.5)] [--menu-item-height:var(--control-height-xs)]
         [--menu-item-radius:--theme(--radius-item-xs)] [--menu-item-px:var(--control-padding-xs)]
         [--menu-item-py:--spacing(1.5)] [--menu-item-gap:var(--control-gap-xs)] [--menu-icon:var(--control-icon-xs)]
+        [--menu-label:var(--typescale-label-sm-size)] [--menu-label-leading:var(--typescale-label-sm-line-height)]
       `,
       sm: `
         text-body-sm [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-sm)]
         [--menu-item-radius:--theme(--radius-item-sm)] [--menu-item-px:var(--control-padding-sm)]
         [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-sm)] [--menu-icon:var(--control-icon-sm)]
+        [--menu-label:var(--typescale-label-sm-size)] [--menu-label-leading:var(--typescale-label-sm-line-height)]
       `,
       md: `
         text-body-md [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-md)]
         [--menu-item-radius:--theme(--radius-item-md)] [--menu-item-px:var(--control-padding-md)]
         [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-md)] [--menu-icon:var(--control-icon-md)]
+        [--menu-label:var(--typescale-label-md-size)] [--menu-label-leading:var(--typescale-label-md-line-height)]
       `,
       lg: `
         text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-lg)]
         [--menu-item-radius:--theme(--radius-item-lg)] [--menu-item-px:var(--control-padding-lg)]
         [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-lg)] [--menu-icon:var(--control-icon-lg)]
+        [--menu-label:var(--typescale-label-lg-size)] [--menu-label-leading:var(--typescale-label-lg-line-height)]
       `,
       xl: `
         text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-xl)]
         [--menu-item-radius:--theme(--radius-item-xl)] [--menu-item-px:var(--control-padding-xl)]
         [--menu-item-py:--spacing(3)] [--menu-item-gap:var(--control-gap-xl)] [--menu-icon:var(--control-icon-xl)]
+        [--menu-label:var(--typescale-label-lg-size)] [--menu-label-leading:var(--typescale-label-lg-line-height)]
       `,
     },
   },
@@ -90,13 +95,7 @@ export const menuIndicator = `
 
 export const menuRadioDot = "size-[calc(var(--menu-icon)/2)] rounded-full bg-current";
 
-const labelText = `
-  text-label-md
-  group-data-[size=xs]/menu:text-label-sm
-  group-data-[size=sm]/menu:text-label-sm
-  group-data-[size=lg]/menu:text-label-lg
-  group-data-[size=xl]/menu:text-label-lg
-`;
+const labelText = "text-(length:--menu-label)/(--menu-label-leading) font-medium";
 
 export const menuLabel = `px-(--menu-item-px) pt-(--menu-item-py) pb-1 ${labelText} text-muted-foreground data-inset:ps-[calc(var(--menu-item-px)+var(--menu-icon)+var(--menu-item-gap))]`;
 

@@ -49,14 +49,14 @@ describe("Card sizes", () => {
     expect(getComputedStyle(card).paddingTop).toBe("24px");
   });
 
-  it("steps the title and description through the typescale", () => {
-    render({ size: "xs" });
-    expect(getComputedStyle(part("title")).fontSize).toBe("14px");
-    expect(getComputedStyle(part("description")).fontSize).toBe("12px");
-    document.body.innerHTML = "";
-    render({ size: "xl" });
-    expect(getComputedStyle(part("title")).fontSize).toBe("24px");
-    expect(getComputedStyle(part("description")).fontSize).toBe("16px");
+  it("keeps the title and description text at every size", () => {
+    for (const size of ["xs", "xl"] as const) {
+      render({ size });
+      expect(getComputedStyle(part("title")).fontSize, size).toBe("16px");
+      expect(getComputedStyle(part("description")).fontSize, size).toBe("14px");
+      expect(part("title").className).not.toMatch(/group-data-\[size/);
+      document.body.innerHTML = "";
+    }
   });
 });
 

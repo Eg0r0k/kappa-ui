@@ -220,13 +220,14 @@ it("sizes the indicator, the separator and the type from the size prop", () => {
   expect(indicators()[0]!.getBoundingClientRect().width).toBe(32);
   expect(separators()[0]!.getBoundingClientRect().height).toBe(2);
   expect(separators()[0]!.getBoundingClientRect().width).toBeGreaterThan(0);
-  const mdTitle = getComputedStyle(q("[data-slot=stepper-title]")).fontSize;
+  const mdNumber = getComputedStyle(indicators()[0]!).fontSize;
   reset();
 
   render({ size: "xl" });
   expect(root().dataset.size).toBe("xl");
   expect(indicators()[0]!.getBoundingClientRect().width).toBe(48);
-  expect(parseFloat(getComputedStyle(q("[data-slot=stepper-title]")).fontSize)).toBeGreaterThan(parseFloat(mdTitle));
+  expect(parseFloat(getComputedStyle(indicators()[0]!).fontSize)).toBeGreaterThan(parseFloat(mdNumber));
+  expect(getComputedStyle(q("[data-slot=stepper-title]")).fontSize).toBe("14px");
   reset();
 
   render({ size: "xs" });

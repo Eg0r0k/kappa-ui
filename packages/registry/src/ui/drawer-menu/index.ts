@@ -23,27 +23,32 @@ export const drawerMenuVariants = cva(
         xs: `
           text-body-md [--menu-item-height:calc(var(--control-height-xs)+--spacing(2))]
           [--menu-item-px:calc(var(--control-padding-xs)+--spacing(0.5))] [--menu-item-py:--spacing(1.5)]
-          [--menu-icon:var(--control-icon-xs)]
+          [--menu-icon:var(--control-icon-xs)] [--menu-label:var(--typescale-label-md-size)]
+          [--menu-label-leading:var(--typescale-label-md-line-height)]
         `,
         sm: `
           text-body-md [--menu-item-height:calc(var(--control-height-sm)+--spacing(2))]
           [--menu-item-px:calc(var(--control-padding-sm)+--spacing(0.5))] [--menu-item-py:--spacing(2)]
-          [--menu-icon:var(--control-icon-sm)]
+          [--menu-icon:var(--control-icon-sm)] [--menu-label:var(--typescale-label-md-size)]
+          [--menu-label-leading:var(--typescale-label-md-line-height)]
         `,
         md: `
           text-body-lg [--menu-item-height:calc(var(--control-height-md)+--spacing(3))]
           [--menu-item-px:calc(var(--control-padding-md)+--spacing(1))] [--menu-item-py:--spacing(3)]
-          [--menu-icon:calc(var(--control-icon-md)+--spacing(1))]
+          [--menu-icon:calc(var(--control-icon-md)+--spacing(1))] [--menu-label:var(--typescale-label-lg-size)]
+          [--menu-label-leading:var(--typescale-label-lg-line-height)]
         `,
         lg: `
           text-body-lg [--menu-item-height:calc(var(--control-height-lg)+--spacing(4))]
           [--menu-item-px:calc(var(--control-padding-lg)+--spacing(1))] [--menu-item-py:--spacing(3)]
-          [--menu-icon:calc(var(--control-icon-lg)+--spacing(1))]
+          [--menu-icon:calc(var(--control-icon-lg)+--spacing(1))] [--menu-label:var(--typescale-label-lg-size)]
+          [--menu-label-leading:var(--typescale-label-lg-line-height)]
         `,
         xl: `
           text-body-lg [--menu-item-height:calc(var(--control-height-xl)+--spacing(4))]
           [--menu-item-px:calc(var(--control-padding-xl)+--spacing(1))] [--menu-item-py:--spacing(4)]
-          [--menu-icon:calc(var(--control-icon-xl)+--spacing(1))]
+          [--menu-icon:calc(var(--control-icon-xl)+--spacing(1))] [--menu-label:var(--typescale-label-lg-size)]
+          [--menu-label-leading:var(--typescale-label-lg-line-height)]
         `,
       },
     },
@@ -86,9 +91,8 @@ export const drawerMenuIndicator = `
 export const drawerMenuRadioDot = "size-[calc(var(--menu-icon)/2)] rounded-full bg-current";
 
 export const drawerMenuLabel = `
-  px-(--menu-item-px) pt-(--menu-item-py) pb-1 text-label-lg text-muted-foreground
-  group-data-[size=xs]/drawer-menu:text-label-md
-  group-data-[size=sm]/drawer-menu:text-label-md
+  px-(--menu-item-px) pt-(--menu-item-py) pb-1 text-(length:--menu-label)/(--menu-label-leading) font-medium
+  text-muted-foreground
   data-inset:ps-[calc(var(--menu-item-px)*2+var(--menu-icon))]
 `;
 

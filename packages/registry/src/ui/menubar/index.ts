@@ -34,27 +34,32 @@ export const menubarVariants = cva("group/menubar flex w-fit items-center gap-1"
       xs: `
         [--menubar-radius:--theme(--radius-control-xs)] [--menubar-h:var(--control-height-xs)]
         [--menubar-px:var(--control-padding-xs)] [--menubar-gap:var(--control-gap-xs)]
-        [--menubar-icon:var(--control-icon-xs)]
+        [--menubar-icon:var(--control-icon-xs)] [--menubar-text:var(--typescale-label-sm-size)]
+        [--menubar-text-leading:var(--typescale-label-sm-line-height)]
       `,
       sm: `
         [--menubar-radius:--theme(--radius-control-sm)] [--menubar-h:var(--control-height-sm)]
         [--menubar-px:var(--control-padding-sm)] [--menubar-gap:var(--control-gap-sm)]
-        [--menubar-icon:var(--control-icon-sm)]
+        [--menubar-icon:var(--control-icon-sm)] [--menubar-text:var(--typescale-label-md-size)]
+        [--menubar-text-leading:var(--typescale-label-md-line-height)]
       `,
       md: `
         [--menubar-radius:--theme(--radius-control-md)] [--menubar-h:var(--control-height-md)]
         [--menubar-px:var(--control-padding-md)] [--menubar-gap:var(--control-gap-md)]
-        [--menubar-icon:var(--control-icon-md)]
+        [--menubar-icon:var(--control-icon-md)] [--menubar-text:var(--typescale-label-lg-size)]
+        [--menubar-text-leading:var(--typescale-label-lg-line-height)]
       `,
       lg: `
         [--menubar-radius:--theme(--radius-control-lg)] [--menubar-h:var(--control-height-lg)]
         [--menubar-px:var(--control-padding-lg)] [--menubar-gap:var(--control-gap-lg)]
-        [--menubar-icon:var(--control-icon-lg)]
+        [--menubar-icon:var(--control-icon-lg)] [--menubar-text:var(--typescale-label-lg-size)]
+        [--menubar-text-leading:var(--typescale-label-lg-line-height)]
       `,
       xl: `
         [--menubar-radius:--theme(--radius-control-xl)] [--menubar-h:var(--control-height-xl)]
         [--menubar-px:var(--control-padding-xl)] [--menubar-gap:var(--control-gap-xl)]
-        [--menubar-icon:var(--control-icon-xl)]
+        [--menubar-icon:var(--control-icon-xl)] [--menubar-text:var(--typescale-title-md-size)]
+        [--menubar-text-leading:var(--typescale-title-md-line-height)]
       `,
     },
   },
@@ -68,11 +73,8 @@ export type MenubarVariants = VariantProps<typeof menubarVariants>;
 
 export const menubarTrigger = `
   relative inline-flex h-(--menubar-h) shrink-0 cursor-default items-center gap-(--menubar-gap)
-  rounded-(--menubar-radius) px-(--menubar-px) text-label-lg whitespace-nowrap text-foreground outline-none select-none
-  group-data-[size=xs]/menubar:text-label-sm
-  group-data-[size=sm]/menubar:text-label-md
-  group-data-[size=xl]/menubar:text-title-md
-  state-layer
+  rounded-(--menubar-radius) px-(--menubar-px) text-(length:--menubar-text)/(--menubar-leading) font-medium
+  whitespace-nowrap text-foreground outline-none select-none state-layer
   focus-visible:focus-ring-inset
   data-[state=open]:before:opacity-(--state-hover)
   data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)
