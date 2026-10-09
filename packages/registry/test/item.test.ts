@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import { h } from "vue";
 
-import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/ui/item";
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, type ItemVariants, ItemTitle } from "@/ui/item";
 
 const render = (
   props: Record<string, unknown> = {},
@@ -64,7 +64,7 @@ describe("Item", () => {
   it.each([
     ["xs", 24, 32],
     ["md", 32, 40],
-    ["xl", 40, 56],
+    ["xl", 40, 48],
   ])("sizes media to the %s item: icon %ipx, image %ipx", (size, icon, image) => {
     const item = render({ size }, () => [
       h(ItemMedia, { variant: "icon", "data-test": "icon" }),
@@ -112,5 +112,69 @@ describe("ItemGroup", () => {
 
     expect(group.getAttribute("role")).toBe("group");
     expect(group.children[0]!.getAttribute("role")).toBeNull();
+  });
+});
+
+describe("Item parts", () => {
+  type Size = NonNullable<ItemVariants["size"]>;
+
+  const fontSizeOf = (className: string) => {
+    const probe = document.createElement("p");
+    probe.className = className;
+    document.body.append(probe);
+    const size = getComputedStyle(probe).fontSize;
+    probe.remove();
+    return size;
+  };
+
+  const row = (size: Size, title?: string, description?: string) =>
+    mount(
+      {
+        render: () =>
+          h(Item, { size }, () =>
+            h(ItemContent, () => [
+              h(ItemTitle, { class: title }, () => "Title"),
+              h(ItemDescription, { class: description }, () => "Text"),
+            ]),
+          ),
+      },
+      { attachTo: document.body },
+    );
+
+  const fontSize = (wrapper: ReturnType<typeof row>, slot: string) =>
+    getComputedStyle(wrapper.get(`[data-slot=${slot}]`).element).fontSize;
+
+  it("keeps the title and description text at every size", () => {
+    for (const size of ["xs", "sm", "md", "lg", "xl"] as const) {
+      const wrapper = row(size);
+      expect(fontSize(wrapper, "item-title"), size).toBe(fontSizeOf("text-label-lg"));
+      expect(fontSize(wrapper, "item-description"), size).toBe(fontSizeOf("text-body-md"));
+    }
+  });
+
+  it("lets a plain class win over the text and the description's clamp", () => {
+    const wrapper = row("sm", "text-title-md", "text-body-sm line-clamp-none");
+    expect(fontSize(wrapper, "item-title")).toBe(fontSizeOf("text-title-md"));
+    expect(fontSize(wrapper, "item-description")).toBe(fontSizeOf("text-body-sm"));
+
+    const description = wrapper.get("[data-slot=item-description]").element;
+    expect(description.className).toContain("line-clamp-none");
+    expect(description.className).not.toContain("line-clamp-2");
+  });
+
+  it("sizes the icon inside media from --item-media and lets a class win over the box", () => {
+    const media = (size: Size, variant: "icon" | "image", className?: string) =>
+      mount(
+        { render: () => h(Item, { size }, () => h(ItemMedia, { variant, class: className }, () => h("svg"))) },
+        {
+          attachTo: document.body,
+        },
+      ).get("[data-slot=item-media]").element;
+    const width = (element: Element) => element.getBoundingClientRect().width;
+
+    expect(width(media("md", "icon").querySelector("svg")!)).toBe(16);
+    expect(width(media("xs", "icon").querySelector("svg")!)).toBe(12);
+    expect(width(media("xl", "icon", "size-12"))).toBe(48);
+    expect(width(media("xl", "image", "size-14"))).toBe(56);
   });
 });
