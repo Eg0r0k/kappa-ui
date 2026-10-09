@@ -40,7 +40,7 @@ const barAxis: Record<ScrollAreaAxis, string> = {
 };
 
 const thumbBase = `
-  absolute select-none cursor-grab z-20 rounded-sm bg-foreground/20 transition-[opacity,background-color]
+  absolute select-none cursor-grab z-20 rounded-control-2xs bg-foreground/20 transition-[opacity,background-color]
   duration-medium-2 ease-standard
   hover:bg-foreground/30
   active:bg-foreground/50

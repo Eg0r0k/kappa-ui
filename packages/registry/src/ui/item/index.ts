@@ -61,7 +61,7 @@ export const itemMediaVariants = cva(
       variant: {
         default: "",
         icon: `
-          size-8 rounded-md border border-border bg-muted
+          size-8 rounded-control-xs border border-border bg-muted
           group-data-[size=xs]/item:size-6
           group-data-[size=sm]/item:size-7
           group-data-[size=lg]/item:size-9
@@ -72,7 +72,7 @@ export const itemMediaVariants = cva(
           group-data-[size=xl]/item:icon-size-5
         `,
         image: `
-          size-10 overflow-hidden rounded-md
+          size-10 overflow-hidden rounded-control-xs
           group-data-[size=xs]/item:size-8
           group-data-[size=sm]/item:size-9
           group-data-[size=lg]/item:size-12

@@ -329,3 +329,26 @@ it("rounds the date trigger from the frame, or from the md control step outside 
   expect(computedRadii([trigger], "--radius: 4px")).toEqual(["2px"]);
   expect(computedRadii([trigger], "--frame-radius: 12px")).toEqual(["8px"]);
 });
+
+it("squares every control, small ones included, when the control knob is zero, and nothing else", async () => {
+  const { Button } = await import("@/ui/button");
+  const { Badge } = await import("@/ui/badge");
+  const { Kbd } = await import("@/ui/kbd");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "--control-radius: 0px" }, [
+          h(Button, { "data-case": "button" }, () => "B"),
+          h(Badge, { "data-case": "badge" }, () => "1"),
+          h(Kbd, { "data-case": "kbd" }, () => "K"),
+          h(Checkbox, { "data-case": "checkbox" }),
+          h(Card, { "data-case": "card" }, () => "C"),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect(["button", "badge", "kbd", "checkbox"].map(radius)).toEqual(["0px", "0px", "0px", "0px"]);
+  expect(radius("card")).not.toBe("0px");
+  wrapper.unmount();
+});

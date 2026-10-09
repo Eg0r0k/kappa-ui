@@ -14,11 +14,11 @@ export { default as NavigationMenuTrigger } from "./NavigationMenuTrigger.vue";
 export { default as NavigationMenuViewport } from "./NavigationMenuViewport.vue";
 
 const sizes = {
-  xs: "text-label-sm [--nav-pad:--spacing(1)] [--nav-radius:--theme(--radius-md)] [--nav-item-height:var(--control-height-xs)] [--nav-item-px:var(--control-padding-xs)] [--nav-gap:var(--control-gap-xs)] [--nav-icon:var(--control-icon-xs)]",
-  sm: "text-label-md [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-lg)] [--nav-item-height:var(--control-height-sm)] [--nav-item-px:var(--control-padding-sm)] [--nav-gap:var(--control-gap-sm)] [--nav-icon:var(--control-icon-sm)]",
-  md: "text-label-lg [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-lg)] [--nav-item-height:var(--control-height-md)] [--nav-item-px:var(--control-padding-md)] [--nav-gap:var(--control-gap-md)] [--nav-icon:var(--control-icon-md)]",
-  lg: "text-label-lg [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-lg)] [--nav-item-height:var(--control-height-lg)] [--nav-item-px:var(--control-padding-lg)] [--nav-gap:var(--control-gap-lg)] [--nav-icon:var(--control-icon-lg)]",
-  xl: "text-title-md [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-xl)] [--nav-item-height:var(--control-height-xl)] [--nav-item-px:var(--control-padding-xl)] [--nav-gap:var(--control-gap-xl)] [--nav-icon:var(--control-icon-xl)]",
+  xs: "text-label-sm [--nav-pad:--spacing(1)] [--nav-radius:--theme(--radius-control-xs)] [--nav-item-height:var(--control-height-xs)] [--nav-item-px:var(--control-padding-xs)] [--nav-gap:var(--control-gap-xs)] [--nav-icon:var(--control-icon-xs)]",
+  sm: "text-label-md [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-control-sm)] [--nav-item-height:var(--control-height-sm)] [--nav-item-px:var(--control-padding-sm)] [--nav-gap:var(--control-gap-sm)] [--nav-icon:var(--control-icon-sm)]",
+  md: "text-label-lg [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-control-md)] [--nav-item-height:var(--control-height-md)] [--nav-item-px:var(--control-padding-md)] [--nav-gap:var(--control-gap-md)] [--nav-icon:var(--control-icon-md)]",
+  lg: "text-label-lg [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-control-lg)] [--nav-item-height:var(--control-height-lg)] [--nav-item-px:var(--control-padding-lg)] [--nav-gap:var(--control-gap-lg)] [--nav-icon:var(--control-icon-lg)]",
+  xl: "text-title-md [--nav-pad:--spacing(1.5)] [--nav-radius:--theme(--radius-control-xl)] [--nav-item-height:var(--control-height-xl)] [--nav-item-px:var(--control-padding-xl)] [--nav-gap:var(--control-gap-xl)] [--nav-icon:var(--control-icon-xl)]",
 };
 
 export const navigationMenuVariants = cva(

@@ -12,7 +12,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     :class="
       cn(
         `
-          mb-2 inline-flex size-12 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground
+          mb-2 inline-flex size-12 shrink-0 items-center justify-center rounded-control-xl bg-muted text-foreground
           [&_svg]:pointer-events-none
           icon-size-6
         `,

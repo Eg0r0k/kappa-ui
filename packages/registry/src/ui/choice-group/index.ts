@@ -38,7 +38,7 @@ export const choiceGroupVariants = cva("flex", {
       // Outside primary, a focused card rings like the control in it: in the group's --tone-text, red once invalid.
       card: `
         choice-row gap-3
-        [&>[data-slot=field]]:rounded-lg [&>[data-slot=field]]:border [&>[data-slot=field]]:border-border
+        [&>[data-slot=field]]:rounded-control-md [&>[data-slot=field]]:border [&>[data-slot=field]]:border-border
         [&>[data-slot=field]]:p-4
         [&>[data-slot=field]:has([data-state=checked])]:border-tone-text
         [&>[data-slot=field]:has(:focus-visible)]:focus-ring
@@ -47,11 +47,13 @@ export const choiceGroupVariants = cva("flex", {
         [&:not([data-color=primary])>[data-slot=field]:is([data-invalid],[aria-invalid=true]>*)]:[--color-ring:--theme(--color-destructive)]
       `,
       list: `
-        choice-row overflow-hidden rounded-lg border border-border
+        choice-row overflow-hidden rounded-control-md border border-border
         [&>[data-slot=field]]:px-4 [&>[data-slot=field]]:py-3
       `,
-      table:
-        "choice-row overflow-hidden rounded-lg border border-border [&_[data-slot=field-description]]:text-body-sm",
+      table: `
+        choice-row overflow-hidden rounded-control-md border border-border
+        [&_[data-slot=field-description]]:text-body-sm
+      `,
     },
     orientation: {
       vertical: "flex-col",

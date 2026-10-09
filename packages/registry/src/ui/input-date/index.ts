@@ -41,7 +41,8 @@ export const inputDateGroupedVariants = cva(
 );
 
 export const inputDateSegment = `
-  min-w-[calc(2ch+--spacing(1))] rounded-sm px-0.5 text-end whitespace-nowrap tabular-nums tone-control outline-none
+  min-w-[calc(2ch+--spacing(1))] rounded-control-2xs px-0.5 text-end whitespace-nowrap tabular-nums tone-control
+  outline-none
   focus:bg-tone focus:text-tone-foreground
   aria-invalid:tone-invalid
   data-placeholder:text-muted-foreground
