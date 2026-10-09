@@ -189,7 +189,7 @@ const onDblclick = (event: MouseEvent) => {
       :class="
         cn(
           `
-            group/tree-item relative flex cursor-default items-center gap-(--tree-item-gap) rounded-lg
+            group/tree-item relative flex cursor-default items-center gap-(--tree-item-gap) rounded-(--tree-item-radius)
             py-(--tree-item-py) ps-[calc(var(--tree-item-px)+(var(--tree-level)-1)*var(--tree-indent))]
             pe-(--tree-item-px) outline-none select-none
             before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-foreground

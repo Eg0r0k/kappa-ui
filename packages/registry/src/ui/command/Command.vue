@@ -65,7 +65,7 @@ provideCommandContext({ allItems, allGroups, filterState, filtering });
     :data-size="props.size"
     :class="
       cn(
-        'flex h-full w-full flex-col overflow-hidden rounded-xl bg-popover text-popover-foreground',
+        'flex h-full w-full flex-col overflow-hidden bg-popover text-popover-foreground',
         menuSizeVariants({ size: props.size }),
         'p-0',
         props.class,

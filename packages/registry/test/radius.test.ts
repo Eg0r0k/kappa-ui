@@ -393,3 +393,41 @@ it("keeps card radii per size at the default theme", () => {
 it("keeps the toast close button round at a small base radius", () => {
   expect(computedRadii(["rounded-inset-surface-md/2.5"], "--radius: 4px")).toEqual(["2.8px"]);
 });
+
+it("wraps menu-like content and list containers around their items", async () => {
+  const { menuSizeVariants, menuItem } = await import("@/ui/menu");
+  const { overlaySurface } = await import("@/ui/popover");
+  const { Listbox, ListboxItem } = await import("@/ui/listbox");
+  const menu = (size: "xs" | "md" | "xl", sharp = false) =>
+    h(
+      "div",
+      {
+        class: cn(overlaySurface, menuSizeVariants({ size })),
+        style: sharp ? "--radius: 0px" : undefined,
+        "data-case": `menu-${size}${sharp ? "-sharp" : ""}`,
+      },
+      [h("div", { class: menuItem, "data-case": `item-${size}${sharp ? "-sharp" : ""}` }, "Item")],
+    );
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", [
+          menu("xs"),
+          menu("md"),
+          menu("xl"),
+          menu("md", true),
+          h(Listbox, { "aria-label": "Letters", "data-case": "listbox" }, () =>
+            h(ListboxItem, { value: "a", "data-case": "option" }, () => "A"),
+          ),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect([radius("item-xs"), radius("menu-xs")]).toEqual(["6.4px", "8.4px"]);
+  expect([radius("item-md"), radius("menu-md")]).toEqual(["8px", "12px"]);
+  expect([radius("item-xl"), radius("menu-xl")]).toEqual(["11.2px", "15.2px"]);
+  expect([radius("item-md-sharp"), radius("menu-md-sharp")]).toEqual(["0px", "0px"]);
+  expect([radius("option"), radius("listbox")]).toEqual(["8px", "13px"]);
+  wrapper.unmount();
+});

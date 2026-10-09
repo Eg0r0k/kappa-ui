@@ -19,33 +19,33 @@ export type { MenuOrigin, MenuPosition } from "./position";
 
 export const menuTriggers = new WeakSet<Element>();
 
-export const menuSizeVariants = cva("group/menu p-(--menu-pad)", {
+export const menuSizeVariants = cva("group/menu rounded-outset-(--menu-item-radius)/(--menu-pad) p-(--menu-pad)", {
   variants: {
     size: {
       xs: `
-        rounded-lg text-body-sm [--menu-pad:--spacing(0.5)] [--menu-item-height:var(--control-height-xs)]
-        [--menu-item-px:var(--control-padding-xs)] [--menu-item-py:--spacing(1.5)]
-        [--menu-item-gap:var(--control-gap-xs)] [--menu-icon:var(--control-icon-xs)]
+        text-body-sm [--menu-pad:--spacing(0.5)] [--menu-item-height:var(--control-height-xs)]
+        [--menu-item-radius:--theme(--radius-item-xs)] [--menu-item-px:var(--control-padding-xs)]
+        [--menu-item-py:--spacing(1.5)] [--menu-item-gap:var(--control-gap-xs)] [--menu-icon:var(--control-icon-xs)]
       `,
       sm: `
         text-body-sm [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-sm)]
-        [--menu-item-px:var(--control-padding-sm)] [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-sm)]
-        [--menu-icon:var(--control-icon-sm)]
+        [--menu-item-radius:--theme(--radius-item-sm)] [--menu-item-px:var(--control-padding-sm)]
+        [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-sm)] [--menu-icon:var(--control-icon-sm)]
       `,
       md: `
         text-body-md [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-md)]
-        [--menu-item-px:var(--control-padding-md)] [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-md)]
-        [--menu-icon:var(--control-icon-md)]
+        [--menu-item-radius:--theme(--radius-item-md)] [--menu-item-px:var(--control-padding-md)]
+        [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-md)] [--menu-icon:var(--control-icon-md)]
       `,
       lg: `
         text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-lg)]
-        [--menu-item-px:var(--control-padding-lg)] [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-lg)]
-        [--menu-icon:var(--control-icon-lg)]
+        [--menu-item-radius:--theme(--radius-item-lg)] [--menu-item-px:var(--control-padding-lg)]
+        [--menu-item-py:--spacing(2)] [--menu-item-gap:var(--control-gap-lg)] [--menu-icon:var(--control-icon-lg)]
       `,
       xl: `
         text-body-lg [--menu-pad:--spacing(1)] [--menu-item-height:var(--control-height-xl)]
-        [--menu-item-px:var(--control-padding-xl)] [--menu-item-py:--spacing(3)] [--menu-item-gap:var(--control-gap-xl)]
-        [--menu-icon:var(--control-icon-xl)]
+        [--menu-item-radius:--theme(--radius-item-xl)] [--menu-item-px:var(--control-padding-xl)]
+        [--menu-item-py:--spacing(3)] [--menu-item-gap:var(--control-gap-xl)] [--menu-icon:var(--control-icon-xl)]
       `,
     },
   },
@@ -61,9 +61,8 @@ export const [injectMenuSize, provideMenuSize] = createContext<Ref<MenuSize>>("M
 const indicatorInset = "ps-[calc(var(--menu-item-px)+var(--menu-icon)+var(--menu-item-gap))]";
 
 export const menuItem = `
-  group/menu-item relative flex min-h-(--menu-item-height) cursor-default items-center gap-(--menu-item-gap) rounded-lg
-  group-data-[size=xs]/menu:rounded-md
-  px-(--menu-item-px) py-(--menu-item-py) outline-none select-none
+  group/menu-item relative flex min-h-(--menu-item-height) cursor-default items-center gap-(--menu-item-gap)
+  rounded-(--menu-item-radius) px-(--menu-item-px) py-(--menu-item-py) outline-none select-none
   focus-visible:focus-ring-inset
   before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-foreground
   before:opacity-0 before:transition-opacity before:duration-short-2 before:ease-standard

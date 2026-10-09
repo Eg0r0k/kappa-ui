@@ -43,7 +43,7 @@ export type StepperVariants = VariantProps<typeof stepperVariants>;
 export const stepperItem = "group flex items-center gap-(--stepper-gap) data-disabled:pointer-events-none";
 
 export const stepperTrigger =
-  "flex flex-col items-center gap-1 rounded-md p-1 text-center outline-none focus-visible:focus-ring";
+  "flex flex-col items-center gap-1 rounded-item-xs p-1 text-center outline-none focus-visible:focus-ring";
 
 export const stepperIndicator = `
   inline-flex size-(--stepper-indicator) shrink-0 items-center justify-center rounded-full text-label-lg
