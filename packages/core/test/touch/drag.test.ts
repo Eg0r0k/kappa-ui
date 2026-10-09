@@ -51,6 +51,28 @@ const touch = (type: "touchstart" | "touchmove" | "touchend", target: Element, x
   return event;
 };
 
+const finger = (identifier: number, target: Element, x: number, y: number) =>
+  new Touch({ identifier, target, clientX: x, clientY: y, pageX: x, pageY: y });
+
+const fingers = (
+  type: "touchstart" | "touchmove" | "touchend",
+  target: Element,
+  changedTouches: Touch[],
+  touches: Touch[],
+) =>
+  target.dispatchEvent(
+    stamp(
+      new TouchEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+        touches,
+        targetTouches: touches,
+        changedTouches,
+      }),
+    ),
+  );
+
 it("drags with a mouse on a touch-capable device", async () => {
   expect("ontouchstart" in window).toBe(true);
   const { element, starts, releases } = host({}, () => h("span", "grip"));
@@ -218,4 +240,115 @@ it("gives a nested finger gesture to the innermost drag and keeps the outer one 
   await wait(30);
   touch("touchend", inner, 130, 50);
   expect(log).toEqual(["inner"]);
+});
+
+it("keeps following the first finger when a second one lands on the element mid-drag", async () => {
+  const moves: number[] = [];
+  const { element, releases, cancels } = host({ onMove: (move) => moves.push(move.movement) });
+  fingers("touchstart", element, [finger(1, element, 100, 100)], [finger(1, element, 100, 100)]);
+  for (const y of [130, 160]) {
+    await wait(30);
+    fingers("touchmove", element, [finger(1, element, 100, y)], [finger(1, element, 100, y)]);
+  }
+  await wait(30);
+  const second = finger(2, element, 200, 100);
+  fingers("touchstart", element, [second], [finger(1, element, 100, 160), second]);
+  await wait(30);
+  fingers("touchmove", element, [finger(1, element, 100, 200)], [finger(1, element, 100, 200), second]);
+  expect(moves.at(-1)).toBe(90);
+  await wait(30);
+  fingers("touchend", element, [second], [finger(1, element, 100, 200)]);
+  expect(releases).toHaveLength(0);
+  await wait(30);
+  fingers("touchmove", element, [finger(1, element, 100, 230)], [finger(1, element, 100, 230)]);
+  expect(moves.at(-1)).toBe(120);
+  await wait(30);
+  fingers("touchend", element, [finger(1, element, 100, 230)], []);
+  expect(releases).toHaveLength(1);
+  expect(cancels()).toBe(0);
+});
+
+it("keeps following the first finger while a second one rests outside the element", async () => {
+  const moves: number[] = [];
+  const { element, releases } = host({ onMove: (move) => moves.push(move.movement) });
+  fingers("touchstart", element, [finger(1, element, 100, 100)], [finger(1, element, 100, 100)]);
+  for (const y of [130, 160]) {
+    await wait(30);
+    fingers("touchmove", element, [finger(1, element, 100, y)], [finger(1, element, 100, y)]);
+  }
+  await wait(30);
+  const outside = finger(2, document.body, 500, 500);
+  fingers("touchstart", document.body, [outside], [finger(1, element, 100, 160), outside]);
+  await wait(30);
+  fingers("touchmove", element, [finger(1, element, 100, 200)], [finger(1, element, 100, 200), outside]);
+  expect(moves.at(-1)).toBe(90);
+  await wait(30);
+  fingers("touchend", element, [finger(1, element, 100, 200)], [outside]);
+  expect(releases).toHaveLength(1);
+  fingers("touchend", document.body, [outside], []);
+});
+
+it("starts no drag when a second finger lands before the drag is decided", async () => {
+  const { element, starts } = host();
+  fingers("touchstart", element, [finger(1, element, 100, 100)], [finger(1, element, 100, 100)]);
+  await wait(30);
+  const second = finger(2, element, 200, 100);
+  fingers("touchstart", element, [second], [finger(1, element, 100, 100), second]);
+  for (const y of [130, 160]) {
+    await wait(30);
+    fingers(
+      "touchmove",
+      element,
+      [finger(1, element, 100, y)],
+      [finger(1, element, 100, y), finger(2, element, 200, y)],
+    );
+  }
+  await wait(30);
+  fingers("touchend", element, [finger(1, element, 100, 160)], [finger(2, element, 200, 160)]);
+  fingers("touchend", element, [finger(2, element, 200, 160)], []);
+  expect(starts).toHaveLength(0);
+});
+
+it("keeps a pen out of a running finger drag", async () => {
+  const { element, starts, releases, cancels } = host();
+  fingers("touchstart", element, [finger(1, element, 100, 100)], [finger(1, element, 100, 100)]);
+  for (const y of [130, 160]) {
+    await wait(30);
+    fingers("touchmove", element, [finger(1, element, 100, y)], [finger(1, element, 100, y)]);
+  }
+  await wait(30);
+  pointer("pointerdown", element, 200, 100, "pen");
+  for (const y of [130, 160, 190]) {
+    await wait(30);
+    pointer("pointermove", element, 200, y, "pen");
+  }
+  await wait(30);
+  pointer("pointerup", element, 200, 190, "pen");
+  fingers("touchend", element, [finger(1, element, 100, 160)], []);
+  await wait(30);
+  expect(starts).toHaveLength(1);
+  expect(releases).toHaveLength(1);
+  expect(cancels()).toBe(0);
+});
+
+it("keeps a finger out of a running mouse drag", async () => {
+  const { element, starts, releases, cancels } = host();
+  pointer("pointerdown", element, 200, 100, "mouse");
+  for (const y of [130, 160]) {
+    await wait(30);
+    pointer("pointermove", element, 200, y, "mouse");
+  }
+  expect(starts).toHaveLength(1);
+  fingers("touchstart", element, [finger(1, element, 100, 100)], [finger(1, element, 100, 100)]);
+  for (const y of [130, 160, 190]) {
+    await wait(30);
+    fingers("touchmove", element, [finger(1, element, 100, y)], [finger(1, element, 100, y)]);
+  }
+  expect(starts).toHaveLength(1);
+  await wait(30);
+  pointer("pointerup", element, 200, 160, "mouse");
+  fingers("touchend", element, [finger(1, element, 100, 190)], []);
+  await wait(30);
+  expect(releases).toHaveLength(1);
+  expect(cancels()).toBe(0);
 });

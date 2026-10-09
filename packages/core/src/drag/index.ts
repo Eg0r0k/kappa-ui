@@ -136,6 +136,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
   };
 
   const allowed = (move: DragMove) => {
+    if (decided === "drag" || touch?.decided === "drag") return false;
     if (claimed.has(move.event)) return false;
     if (move.target.closest("[data-no-drag]")) return false;
     if (preselected) return false;
@@ -223,6 +224,7 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
   });
 
   const onTouchStart = (event: TouchEvent) => {
+    if (touch?.decided === "drag" && event.touches.length > 1) return;
     const point = event.touches[0];
     if (pen || event.touches.length !== 1 || !point) {
       touch = undefined;
@@ -269,8 +271,8 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
   const onTouchMove = (event: TouchEvent) => {
     const track = touch;
     const point = [...event.touches].find((candidate) => candidate.identifier === track?.id);
-    if (!track || !point || event.touches.length > 1 || track.decided === "cancel") return;
-    if (!track.decided) decide(track, point, event);
+    if (!track || !point || track.decided === "cancel") return;
+    if (!track.decided && event.touches.length === 1) decide(track, point, event);
     if (track.decided !== "drag") return;
     claimed.add(event);
     if (event.cancelable) event.preventDefault();
