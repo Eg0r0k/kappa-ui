@@ -35,10 +35,13 @@ export const roleSteps: Record<RadiusRole, readonly { step: string; factor: numb
 
 const round = (value: number) => Math.round(value * 100) / 100
 
-export const roleRadius = (knobs: RadiusKnobs, role: RadiusRole, step: string) => {
+export const stepRadius = (value: number, role: RadiusRole, step: string) => {
   const factor = roleSteps[role].find((entry) => entry.step === step)?.factor ?? 1
-  return round((knobs[role] ?? knobs.base) * factor)
+  return round(value * factor)
 }
+
+export const roleRadius = (knobs: RadiusKnobs, role: RadiusRole, step: string) =>
+  stepRadius(knobs[role] ?? knobs.base, role, step)
 
 export const insetRadius = (outer: number, inset: number) => round(Math.max(outer - inset, outer / 2))
 
