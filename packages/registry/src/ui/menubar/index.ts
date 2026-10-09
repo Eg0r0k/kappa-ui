@@ -26,30 +26,35 @@ export type MenubarSize = MenuSize;
 export const menubarVariants = cva("group/menubar flex w-fit items-center gap-1", {
   variants: {
     variant: {
-      outline: "rounded-lg border border-border bg-background p-1",
-      soft: "rounded-lg bg-muted p-1",
+      outline: "rounded-outset-(--menubar-radius)/[calc(var(--spacing)+1px)] border border-border bg-background p-1",
+      soft: "rounded-outset-(--menubar-radius)/1 bg-muted p-1",
       ghost: "",
     },
     size: {
       xs: `
-        [--menubar-h:var(--control-height-xs)] [--menubar-px:var(--control-padding-xs)]
-        [--menubar-gap:var(--control-gap-xs)] [--menubar-icon:var(--control-icon-xs)]
+        [--menubar-radius:--theme(--radius-control-xs)] [--menubar-h:var(--control-height-xs)]
+        [--menubar-px:var(--control-padding-xs)] [--menubar-gap:var(--control-gap-xs)]
+        [--menubar-icon:var(--control-icon-xs)]
       `,
       sm: `
-        [--menubar-h:var(--control-height-sm)] [--menubar-px:var(--control-padding-sm)]
-        [--menubar-gap:var(--control-gap-sm)] [--menubar-icon:var(--control-icon-sm)]
+        [--menubar-radius:--theme(--radius-control-sm)] [--menubar-h:var(--control-height-sm)]
+        [--menubar-px:var(--control-padding-sm)] [--menubar-gap:var(--control-gap-sm)]
+        [--menubar-icon:var(--control-icon-sm)]
       `,
       md: `
-        [--menubar-h:var(--control-height-md)] [--menubar-px:var(--control-padding-md)]
-        [--menubar-gap:var(--control-gap-md)] [--menubar-icon:var(--control-icon-md)]
+        [--menubar-radius:--theme(--radius-control-md)] [--menubar-h:var(--control-height-md)]
+        [--menubar-px:var(--control-padding-md)] [--menubar-gap:var(--control-gap-md)]
+        [--menubar-icon:var(--control-icon-md)]
       `,
       lg: `
-        [--menubar-h:var(--control-height-lg)] [--menubar-px:var(--control-padding-lg)]
-        [--menubar-gap:var(--control-gap-lg)] [--menubar-icon:var(--control-icon-lg)]
+        [--menubar-radius:--theme(--radius-control-lg)] [--menubar-h:var(--control-height-lg)]
+        [--menubar-px:var(--control-padding-lg)] [--menubar-gap:var(--control-gap-lg)]
+        [--menubar-icon:var(--control-icon-lg)]
       `,
       xl: `
-        rounded-xl [--menubar-h:var(--control-height-xl)] [--menubar-px:var(--control-padding-xl)]
-        [--menubar-gap:var(--control-gap-xl)] [--menubar-icon:var(--control-icon-xl)]
+        [--menubar-radius:--theme(--radius-control-xl)] [--menubar-h:var(--control-height-xl)]
+        [--menubar-px:var(--control-padding-xl)] [--menubar-gap:var(--control-gap-xl)]
+        [--menubar-icon:var(--control-icon-xl)]
       `,
     },
   },
@@ -62,11 +67,11 @@ export const menubarVariants = cva("group/menubar flex w-fit items-center gap-1"
 export type MenubarVariants = VariantProps<typeof menubarVariants>;
 
 export const menubarTrigger = `
-  relative inline-flex h-(--menubar-h) shrink-0 cursor-default items-center gap-(--menubar-gap) rounded-lg
-  px-(--menubar-px) text-label-lg whitespace-nowrap text-foreground outline-none select-none
-  group-data-[size=xs]/menubar:rounded-md group-data-[size=xs]/menubar:text-label-sm
+  relative inline-flex h-(--menubar-h) shrink-0 cursor-default items-center gap-(--menubar-gap)
+  rounded-(--menubar-radius) px-(--menubar-px) text-label-lg whitespace-nowrap text-foreground outline-none select-none
+  group-data-[size=xs]/menubar:text-label-sm
   group-data-[size=sm]/menubar:text-label-md
-  group-data-[size=xl]/menubar:rounded-xl group-data-[size=xl]/menubar:text-title-md
+  group-data-[size=xl]/menubar:text-title-md
   state-layer
   focus-visible:focus-ring-inset
   data-[state=open]:before:opacity-(--state-hover)

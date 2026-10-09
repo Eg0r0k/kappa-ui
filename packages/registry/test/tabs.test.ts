@@ -222,3 +222,17 @@ describe("Tabs control tokens", () => {
     expect(px(getComputedStyle(trigger).columnGap)).toBe(sentinel.gap[size]);
   });
 });
+
+it("gives pill triggers a button's radius and wraps the track around them", async () => {
+  const expected = { xs: ["6.4px", "10.4px"], md: ["8px", "12px"], xl: ["11.2px", "15.2px"] } as const;
+  for (const size of ["xs", "md", "xl"] as const) {
+    renderTabs({}, { size });
+    await shown();
+    expect(
+      [getComputedStyle(triggers()[0]!).borderTopLeftRadius, getComputedStyle(list()).borderTopLeftRadius],
+      size,
+    ).toEqual(expected[size]);
+    unmount?.();
+    unmount = undefined;
+  }
+});

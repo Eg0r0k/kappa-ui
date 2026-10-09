@@ -431,3 +431,23 @@ it("wraps menu-like content and list containers around their items", async () =>
   expect([radius("option"), radius("listbox")]).toEqual(["8px", "13px"]);
   wrapper.unmount();
 });
+
+it("wraps the menubar and toolbar tracks around their buttons", async () => {
+  const { menubarVariants, menubarTrigger } = await import("@/ui/menubar");
+  const { toolbarVariants } = await import("@/ui/toolbar");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", [
+          h("div", { class: menubarVariants({ size: "md" }), "data-size": "md", "data-case": "menubar" }, [
+            h("div", { class: menubarTrigger, "data-case": "menubar-trigger" }, "File"),
+          ]),
+          h("div", { class: toolbarVariants(), "data-case": "toolbar" }),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect([radius("menubar-trigger"), radius("menubar"), radius("toolbar")]).toEqual(["8px", "13px", "13px"]);
+  wrapper.unmount();
+});
