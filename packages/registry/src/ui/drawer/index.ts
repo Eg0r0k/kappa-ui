@@ -27,15 +27,15 @@ export const drawerContentVariants = cva("", {
   variants: {
     side: {
       bottom: `
-        inset-x-0 bottom-0 max-h-[calc(100dvh-var(--drawer-keyboard-inset))] touch-pan-x rounded-t-2xl
+        inset-x-0 bottom-0 max-h-[calc(100dvh-var(--drawer-keyboard-inset))] touch-pan-x rounded-t-surface-lg
         pb-[calc(--spacing(4)+env(safe-area-inset-bottom))]
       `,
       top: `
-        inset-x-0 top-0 max-h-[calc(100dvh-var(--drawer-keyboard-inset))] touch-pan-x rounded-b-2xl
+        inset-x-0 top-0 max-h-[calc(100dvh-var(--drawer-keyboard-inset))] touch-pan-x rounded-b-surface-lg
         pt-[calc(--spacing(4)+env(safe-area-inset-top))]
       `,
-      left: "inset-y-0 left-0 w-3/4 max-w-sm touch-pan-y rounded-r-2xl",
-      right: "inset-y-0 right-0 w-3/4 max-w-sm touch-pan-y rounded-l-2xl",
+      left: "inset-y-0 left-0 w-3/4 max-w-sm touch-pan-y rounded-r-surface-lg",
+      right: "inset-y-0 right-0 w-3/4 max-w-sm touch-pan-y rounded-l-surface-lg",
     },
   },
   defaultVariants: { side: "bottom" },

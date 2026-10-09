@@ -57,7 +57,7 @@ export type DrawerMenuSize = NonNullable<VariantProps<typeof drawerMenuVariants>
 
 export const drawerMenuItem = `
   group/drawer-menu-item relative flex min-h-(--menu-item-height) cursor-default items-center gap-(--menu-item-gap)
-  rounded-lg px-(--menu-item-px) py-(--menu-item-py) outline-none select-none
+  rounded-item-md px-(--menu-item-px) py-(--menu-item-py) outline-none select-none
   focus-visible:focus-ring-inset
   before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-foreground
   before:opacity-0 before:transition-opacity before:duration-short-2 before:ease-standard

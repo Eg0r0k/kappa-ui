@@ -21,11 +21,11 @@ export const cardVariants = cva(
         subtle: "bg-muted ring-1 ring-surface-border [--scroll-fade-color:var(--muted)]",
       },
       size: {
-        xs: "rounded-lg [--card-spacing:--spacing(3)]",
-        sm: "rounded-lg [--card-spacing:--spacing(4)]",
-        md: "rounded-xl [--card-spacing:--spacing(6)]",
-        lg: "rounded-2xl [--card-spacing:--spacing(8)]",
-        xl: "rounded-3xl [--card-spacing:--spacing(10)]",
+        xs: "rounded-surface-sm [--card-spacing:--spacing(3)]",
+        sm: "rounded-surface-sm [--card-spacing:--spacing(4)]",
+        md: "rounded-surface-md [--card-spacing:--spacing(6)]",
+        lg: "rounded-surface-lg [--card-spacing:--spacing(8)]",
+        xl: "rounded-surface-xl [--card-spacing:--spacing(10)]",
       },
     },
     defaultVariants: {

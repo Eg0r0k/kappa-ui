@@ -8,14 +8,14 @@ export { default as TabsTrigger } from "./TabsTrigger.vue";
 export type TabsColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
 const sizes = {
-  xs: "text-label-sm [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-xs)] [--tabs-trigger-px:var(--control-padding-xs)] [--tabs-trigger-gap:var(--control-gap-xs)] [--tabs-icon:var(--control-icon-xs)]",
-  sm: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-sm)] [--tabs-trigger-px:var(--control-padding-sm)] [--tabs-trigger-gap:var(--control-gap-sm)] [--tabs-icon:var(--control-icon-sm)]",
-  md: "text-label-md [--tabs-radius:--theme(--radius-lg)] [--tabs-trigger-height:var(--control-height-md)] [--tabs-trigger-px:var(--control-padding-md)] [--tabs-trigger-gap:var(--control-gap-md)] [--tabs-icon:var(--control-icon-md)]",
-  lg: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:var(--control-height-lg)] [--tabs-trigger-px:var(--control-padding-lg)] [--tabs-trigger-gap:var(--control-gap-lg)] [--tabs-icon:var(--control-icon-lg)]",
-  xl: "text-label-lg [--tabs-radius:--theme(--radius-xl)] [--tabs-trigger-height:var(--control-height-xl)] [--tabs-trigger-px:var(--control-padding-xl)] [--tabs-trigger-gap:var(--control-gap-xl)] [--tabs-icon:var(--control-icon-xl)]",
+  xs: "text-label-sm [--tabs-trigger-radius:--theme(--radius-control-xs)] [--tabs-trigger-height:var(--control-height-xs)] [--tabs-trigger-px:var(--control-padding-xs)] [--tabs-trigger-gap:var(--control-gap-xs)] [--tabs-icon:var(--control-icon-xs)]",
+  sm: "text-label-md [--tabs-trigger-radius:--theme(--radius-control-sm)] [--tabs-trigger-height:var(--control-height-sm)] [--tabs-trigger-px:var(--control-padding-sm)] [--tabs-trigger-gap:var(--control-gap-sm)] [--tabs-icon:var(--control-icon-sm)]",
+  md: "text-label-md [--tabs-trigger-radius:--theme(--radius-control-md)] [--tabs-trigger-height:var(--control-height-md)] [--tabs-trigger-px:var(--control-padding-md)] [--tabs-trigger-gap:var(--control-gap-md)] [--tabs-icon:var(--control-icon-md)]",
+  lg: "text-label-lg [--tabs-trigger-radius:--theme(--radius-control-lg)] [--tabs-trigger-height:var(--control-height-lg)] [--tabs-trigger-px:var(--control-padding-lg)] [--tabs-trigger-gap:var(--control-gap-lg)] [--tabs-icon:var(--control-icon-lg)]",
+  xl: "text-label-lg [--tabs-trigger-radius:--theme(--radius-control-xl)] [--tabs-trigger-height:var(--control-height-xl)] [--tabs-trigger-px:var(--control-padding-xl)] [--tabs-trigger-gap:var(--control-gap-xl)] [--tabs-icon:var(--control-icon-xl)]",
 };
 
-const pillInnerRadius = "rounded-[max(0px,calc(var(--tabs-radius)-var(--spacing)))]";
+const pillInnerRadius = "rounded-(--tabs-trigger-radius)";
 
 export const tabsListVariants = cva(
   `
@@ -26,7 +26,7 @@ export const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        pill: "rounded-(--tabs-radius) bg-muted p-1",
+        pill: "rounded-outset-(--tabs-trigger-radius)/1 bg-muted p-1",
         line: "border-border aria-[orientation=horizontal]:border-b aria-[orientation=vertical]:border-e",
       },
       size: sizes,
@@ -72,19 +72,18 @@ export const tabsIndicatorVariants = cva(
 
 export const tabsTrigger = `
   relative z-1 inline-flex h-(--tabs-trigger-height) shrink-0 items-center justify-center gap-(--tabs-trigger-gap)
-  rounded-md px-(--tabs-trigger-px) whitespace-nowrap text-muted-foreground outline-none transition-colors
-  duration-short-4 ease-standard
+  rounded-(--tabs-trigger-radius) px-(--tabs-trigger-px) whitespace-nowrap text-muted-foreground outline-none
+  transition-colors duration-short-4 ease-standard
   hover:text-foreground
   focus-visible:focus-ring
   data-[state=active]:text-foreground
   data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)
   data-[orientation=vertical]:justify-start
   data-[orientation=horizontal]:group-data-[variant=pill]/tabs-list:flex-1
-  group-data-[variant=pill]/tabs-list:rounded-[max(0px,calc(var(--tabs-radius)-var(--spacing)))]
   [&_svg]:pointer-events-none [&_svg]:shrink-0
   icon-size-(--tabs-icon)
 `;
 
-export const tabsContent = "flex-1 rounded-md outline-none focus-visible:focus-ring";
+export const tabsContent = "flex-1 rounded-surface-xs outline-none focus-visible:focus-ring";
 
 export type TabsListVariants = VariantProps<typeof tabsListVariants>;

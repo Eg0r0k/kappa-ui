@@ -98,12 +98,12 @@ describe("menu sizes", () => {
     expect(minHeight(".sub-item")).toBe("48px");
   });
 
-  it("rounds items with the radius tokens: md for xs, lg for every other size", async () => {
+  it("rounds items by the item ladder: smaller at xs, larger at xl", async () => {
     for (const [size, radius] of [
       ["xs", "6.4px"],
       ["sm", "8px"],
       ["md", "8px"],
-      ["xl", "8px"],
+      ["xl", "11.2px"],
     ] as const) {
       await openMenu(size);
       expect(getComputedStyle(query("[data-slot=menu-item]")).borderRadius, size).toBe(radius);

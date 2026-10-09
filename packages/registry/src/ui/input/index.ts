@@ -22,12 +22,12 @@ const focusRing = `
 `;
 
 export const textControlVariant = {
-  outline: `rounded-(--control-radius) border border-input ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
-  soft: `rounded-(--control-radius) border border-transparent bg-muted ${focusRing}`,
+  outline: `rounded-(--frame-radius) border border-input ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
+  soft: `rounded-(--frame-radius) border border-transparent bg-muted ${focusRing}`,
   filled:
-    "rounded-t-(--control-radius) border-b border-input bg-muted focus-visible:border-primary focus-visible:shadow-[inset_0_-1px_0_var(--color-primary)] data-[state=open]:border-primary data-[state=open]:shadow-[inset_0_-1px_0_var(--color-primary)] disabled:border-foreground/(--disabled-container-opacity) aria-invalid:border-destructive aria-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)] user-invalid:border-destructive user-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)]",
-  ghost: `rounded-(--control-radius) border border-transparent hover:bg-muted focus-visible:bg-muted data-[state=open]:bg-muted ${focusRing} disabled:bg-transparent`,
-  subtle: `rounded-(--control-radius) border border-input bg-muted ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
+    "rounded-t-(--frame-radius) border-b border-input bg-muted focus-visible:border-primary focus-visible:shadow-[inset_0_-1px_0_var(--color-primary)] data-[state=open]:border-primary data-[state=open]:shadow-[inset_0_-1px_0_var(--color-primary)] disabled:border-foreground/(--disabled-container-opacity) aria-invalid:border-destructive aria-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)] user-invalid:border-destructive user-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)]",
+  ghost: `rounded-(--frame-radius) border border-transparent hover:bg-muted focus-visible:bg-muted data-[state=open]:bg-muted ${focusRing} disabled:bg-transparent`,
+  subtle: `rounded-(--frame-radius) border border-input bg-muted ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
 };
 
 const frameFocusRing = `
@@ -45,12 +45,12 @@ const frameDisabledBorder = `
 `;
 
 export const textControlFrameVariant = {
-  outline: `rounded-(--control-radius) border border-input ${frameFocusRing} ${frameDisabledBorder}`,
-  soft: `rounded-(--control-radius) border border-transparent bg-muted ${frameFocusRing}`,
+  outline: `rounded-(--frame-radius) border border-input ${frameFocusRing} ${frameDisabledBorder}`,
+  soft: `rounded-(--frame-radius) border border-transparent bg-muted ${frameFocusRing}`,
   filled:
-    "rounded-t-(--control-radius) border-b border-input bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:border-primary has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:shadow-[inset_0_-1px_0_var(--color-primary)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:border-foreground/(--disabled-container-opacity)",
-  ghost: `rounded-(--control-radius) border border-transparent hover:bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:bg-muted ${frameFocusRing} has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:bg-transparent`,
-  subtle: `rounded-(--control-radius) border border-input bg-muted ${frameFocusRing} ${frameDisabledBorder}`,
+    "rounded-t-(--frame-radius) border-b border-input bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:border-primary has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:shadow-[inset_0_-1px_0_var(--color-primary)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:border-foreground/(--disabled-container-opacity)",
+  ghost: `rounded-(--frame-radius) border border-transparent hover:bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:bg-muted ${frameFocusRing} has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:bg-transparent`,
+  subtle: `rounded-(--frame-radius) border border-input bg-muted ${frameFocusRing} ${frameDisabledBorder}`,
 };
 
 export const textControlSize = {
@@ -62,11 +62,11 @@ export const textControlSize = {
 };
 
 export const textControlRadius = {
-  xs: "[--control-radius:--theme(--radius-md)]",
-  sm: "[--control-radius:--theme(--radius-lg)]",
-  md: "[--control-radius:--theme(--radius-lg)]",
-  lg: "[--control-radius:--theme(--radius-lg)]",
-  xl: "[--control-radius:--theme(--radius-xl)]",
+  xs: "[--frame-radius:--theme(--radius-control-xs)]",
+  sm: "[--frame-radius:--theme(--radius-control-sm)]",
+  md: "[--frame-radius:--theme(--radius-control-md)]",
+  lg: "[--frame-radius:--theme(--radius-control-lg)]",
+  xl: "[--frame-radius:--theme(--radius-control-xl)]",
 };
 
 export type TextControlVariant = keyof typeof textControlVariant;

@@ -2,6 +2,7 @@ import { mount } from "@vue/test-utils";
 import { expect, it } from "vitest";
 import { h } from "vue";
 
+import { cn } from "@/lib/utils";
 import { Card } from "@/ui/card";
 import { Checkbox } from "@/ui/checkbox";
 
@@ -178,5 +179,275 @@ it("follows a --radius set on an ancestor, not only on the root", async () => {
     "input-group": "0px",
     tabs: "0px",
   });
+  wrapper.unmount();
+});
+
+const roleSteps = [
+  "rounded-control-3xs",
+  "rounded-control-2xs",
+  "rounded-control-xs",
+  "rounded-control-sm",
+  "rounded-control-md",
+  "rounded-control-lg",
+  "rounded-control-xl",
+  "rounded-surface-xs",
+  "rounded-surface-sm",
+  "rounded-surface-md",
+  "rounded-surface-lg",
+  "rounded-surface-xl",
+  "rounded-item-xs",
+  "rounded-item-sm",
+  "rounded-item-md",
+  "rounded-item-lg",
+  "rounded-item-xl",
+];
+
+const computedRadii = (classes: string[], style = "") => {
+  const host = document.createElement("div");
+  host.setAttribute("style", style);
+  host.innerHTML = classes.map((name) => `<div class="${name}"></div>`).join("");
+  document.body.append(host);
+  const radii = [...host.children].map((child) => getComputedStyle(child).borderRadius);
+  host.remove();
+  return radii;
+};
+
+it("derives every role step from the base when no knob is set", () => {
+  expect(computedRadii(roleSteps)).toEqual([
+    "1.6px",
+    "4.8px",
+    "6.4px",
+    "8px",
+    "8px",
+    "8px",
+    "11.2px",
+    "6.4px",
+    "8px",
+    "11.2px",
+    "14.4px",
+    "17.6px",
+    "6.4px",
+    "8px",
+    "8px",
+    "8px",
+    "11.2px",
+  ]);
+});
+
+it("scales a role from its own knob, set on any ancestor", () => {
+  const style = "--control-radius: 10px; --surface-radius: 0px; --item-radius: 20px";
+  expect(
+    computedRadii(
+      [
+        "rounded-control-xs",
+        "rounded-control-md",
+        "rounded-control-xl",
+        "rounded-surface-lg",
+        "rounded-item-md",
+        "rounded-item-xl",
+        "rounded-lg",
+      ],
+      style,
+    ),
+  ).toEqual(["8px", "10px", "14px", "0px", "20px", "28px", "8px"]);
+});
+
+it("follows a base set on an ancestor through every role", () => {
+  expect(computedRadii(["rounded-control-md", "rounded-surface-md", "rounded-item-xs"], "--radius: 10px")).toEqual([
+    "10px",
+    "14px",
+    "8px",
+  ]);
+});
+
+it("squares every role when the base is zero", () => {
+  expect(computedRadii(roleSteps, "--radius: 0px")).toEqual(roleSteps.map(() => "0px"));
+});
+
+it("lets a later radius class win over a role or nesting class in cn()", () => {
+  expect(cn("rounded-control-md", "rounded-none")).toBe("rounded-none");
+  expect(cn("rounded-none", "rounded-surface-lg")).toBe("rounded-surface-lg");
+  expect(cn("rounded-s-item-xs", "rounded-s-lg")).toBe("rounded-s-lg");
+  expect(cn("rounded-outset-(--menu-item-radius)/(--menu-pad)", "rounded-full")).toBe("rounded-full");
+  expect(cn("rounded-lg", "rounded-inset-control-md/1.5")).toBe("rounded-inset-control-md/1.5");
+  expect(cn("rounded-inset-control-md/1.5", "rounded-outset-item-md/1")).toBe("rounded-outset-item-md/1");
+  expect(cn("rounded-control-md", "rounded-t-none")).toBe("rounded-control-md rounded-t-none");
+});
+
+it("keeps an inset corner concentric and never below half the outer radius", () => {
+  expect(
+    computedRadii([
+      "rounded-inset-[16px]/1",
+      "rounded-inset-[4px]/1.5",
+      "rounded-inset-[8px]/[6px]",
+      "rounded-inset-[0px]/2",
+      "rounded-inset-control-md/1.5",
+    ]),
+  ).toEqual(["12px", "2px", "4px", "0px", "4px"]);
+});
+
+it("grows an outset corner by the inset and keeps a square inside square", () => {
+  expect(
+    computedRadii([
+      "rounded-outset-[8px]/1",
+      "rounded-outset-[1px]/1",
+      "rounded-outset-[0px]/1",
+      "rounded-outset-item-md/[5px]",
+    ]),
+  ).toEqual(["12px", "4px", "0px", "13px"]);
+});
+
+it("keeps the steppers and the tag chips round at a small base radius", async () => {
+  const { InputNumber, InputNumberDecrement, InputNumberIncrement, InputNumberInput } =
+    await import("@/ui/input-number");
+  const { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemText } = await import("@/ui/tags-input");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "--radius: 4px" }, [
+          h(InputNumber, { modelValue: 1 }, () => [
+            h(InputNumberDecrement, { "data-case": "stepper" }),
+            h(InputNumberInput, { "aria-label": "Quantity" }),
+            h(InputNumberIncrement),
+          ]),
+          h(TagsInput, { modelValue: ["a"] }, () => [
+            h(TagsInputItem, { value: "a", "data-case": "chip" }, () => h(TagsInputItemText)),
+            h(TagsInputInput, { "aria-label": "Tags" }),
+          ]),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  expect(radiusOf(document.querySelector("[data-case=stepper]")!)).toBe("2px");
+  expect(radiusOf(document.querySelector("[data-case=chip]")!)).not.toBe("0px");
+  wrapper.unmount();
+});
+
+it("rounds the date trigger from the frame, or from the md control step outside one", () => {
+  const trigger = "rounded-inset-[var(--frame-radius,--theme(--radius-control-md))]/1";
+  expect(computedRadii([trigger])).toEqual(["4px"]);
+  expect(computedRadii([trigger], "--radius: 4px")).toEqual(["2px"]);
+  expect(computedRadii([trigger], "--frame-radius: 12px")).toEqual(["8px"]);
+});
+
+it("squares every control, small ones included, when the control knob is zero, and nothing else", async () => {
+  const { Button } = await import("@/ui/button");
+  const { Badge } = await import("@/ui/badge");
+  const { Kbd } = await import("@/ui/kbd");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "--control-radius: 0px" }, [
+          h(Button, { "data-case": "button" }, () => "B"),
+          h(Badge, { "data-case": "badge" }, () => "1"),
+          h(Kbd, { "data-case": "kbd" }, () => "K"),
+          h(Checkbox, { "data-case": "checkbox" }),
+          h(Card, { "data-case": "card" }, () => "C"),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect(["button", "badge", "kbd", "checkbox"].map(radius)).toEqual(["0px", "0px", "0px", "0px"]);
+  expect(radius("card")).not.toBe("0px");
+  wrapper.unmount();
+});
+
+it("squares cards and dialogs with the surface knob and keeps controls round", async () => {
+  const { Button } = await import("@/ui/button");
+  const { dialogSurface } = await import("@/ui/dialog");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "--surface-radius: 0px" }, [
+          ...(["xs", "md", "xl"] as const).map((size) => h(Card, { size, "data-case": `card-${size}` }, () => "C")),
+          h("div", { class: dialogSurface, "data-case": "dialog" }),
+          h(Button, { "data-case": "button" }, () => "B"),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect(["card-xs", "card-md", "card-xl", "dialog"].map(radius)).toEqual(["0px", "0px", "0px", "0px"]);
+  expect(radius("button")).toBe("8px");
+  wrapper.unmount();
+});
+
+it("keeps card radii per size at the default theme", () => {
+  const wrapper = mount(
+    {
+      render: () =>
+        h(
+          "div",
+          (["xs", "sm", "md", "lg", "xl"] as const).map((size) => h(Card, { size, "data-case": size }, () => "C")),
+        ),
+    },
+    { attachTo: document.body },
+  );
+  expect(
+    ["xs", "sm", "md", "lg", "xl"].map((size) => radiusOf(document.querySelector(`[data-case=${size}]`)!)),
+  ).toEqual(["8px", "8px", "11.2px", "14.4px", "17.6px"]);
+  wrapper.unmount();
+});
+
+it("keeps the toast close button round at a small base radius", () => {
+  expect(computedRadii(["rounded-inset-surface-md/2.5"], "--radius: 4px")).toEqual(["2.8px"]);
+});
+
+it("wraps menu-like content and list containers around their items", async () => {
+  const { menuSizeVariants, menuItem } = await import("@/ui/menu");
+  const { overlaySurface } = await import("@/ui/popover");
+  const { Listbox, ListboxItem } = await import("@/ui/listbox");
+  const menu = (size: "xs" | "md" | "xl", sharp = false) =>
+    h(
+      "div",
+      {
+        class: cn(overlaySurface, menuSizeVariants({ size })),
+        style: sharp ? "--radius: 0px" : undefined,
+        "data-case": `menu-${size}${sharp ? "-sharp" : ""}`,
+      },
+      [h("div", { class: menuItem, "data-case": `item-${size}${sharp ? "-sharp" : ""}` }, "Item")],
+    );
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", [
+          menu("xs"),
+          menu("md"),
+          menu("xl"),
+          menu("md", true),
+          h(Listbox, { "aria-label": "Letters", "data-case": "listbox" }, () =>
+            h(ListboxItem, { value: "a", "data-case": "option" }, () => "A"),
+          ),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect([radius("item-xs"), radius("menu-xs")]).toEqual(["6.4px", "8.4px"]);
+  expect([radius("item-md"), radius("menu-md")]).toEqual(["8px", "12px"]);
+  expect([radius("item-xl"), radius("menu-xl")]).toEqual(["11.2px", "15.2px"]);
+  expect([radius("item-md-sharp"), radius("menu-md-sharp")]).toEqual(["0px", "0px"]);
+  expect([radius("option"), radius("listbox")]).toEqual(["8px", "13px"]);
+  wrapper.unmount();
+});
+
+it("wraps the menubar and toolbar tracks around their buttons", async () => {
+  const { menubarVariants, menubarTrigger } = await import("@/ui/menubar");
+  const { toolbarVariants } = await import("@/ui/toolbar");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", [
+          h("div", { class: menubarVariants({ size: "md" }), "data-size": "md", "data-case": "menubar" }, [
+            h("div", { class: menubarTrigger, "data-case": "menubar-trigger" }, "File"),
+          ]),
+          h("div", { class: toolbarVariants(), "data-case": "toolbar" }),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (name: string) => radiusOf(document.querySelector(`[data-case=${name}]`)!);
+  expect([radius("menubar-trigger"), radius("menubar"), radius("toolbar")]).toEqual(["8px", "13px", "13px"]);
   wrapper.unmount();
 });

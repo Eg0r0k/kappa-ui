@@ -154,6 +154,28 @@ test('computes radii in px and keeps var(--radius) an alias', () => {
   )
 })
 
+test('reads role radii as aliases of their knob or as px from the base', () => {
+  const theme = sources.theme.replace(
+    '@theme inline {',
+    `@theme inline {
+  --radius-control-md: var(--control-radius, var(--radius));
+  --radius-control-xs: calc(var(--control-radius, var(--radius)) * 0.8);`,
+  )
+  const { payload } = tokensOf({ ...sources, theme }, light)
+  const radii = payload.variables.filter((item) => item.collection === 'Radius')
+  assert.deepEqual(
+    radii.map((item) => [item.name, item.value]),
+    [
+      ['radius', 8],
+      ['control-radius', { alias: 'Radius/radius' }],
+      ['radius-control-md', { alias: 'Radius/control-radius' }],
+      ['radius-control-xs', 6.4],
+      ['radius-xs', 1.6],
+      ['radius-lg', { alias: 'Radius/radius' }],
+    ],
+  )
+})
+
 test('reads the typescale into text styles and the shadows into effect styles', () => {
   const { payload } = tokensOf(sources, light)
   assert.deepEqual(payload.textStyles, [
@@ -224,7 +246,7 @@ const real = { tokens: core('tokens.css'), theme: core('theme.css'), tailwind: c
 test('reads the real core sources', () => {
   const { payload, gamutMapped } = tokensOf(real, light)
   const count = (collection: string) => payload.variables.filter((item) => item.collection === collection).length
-  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [35, 47, 9, 20])
+  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [35, 47, 29, 20])
   assert.equal(payload.textStyles.length, 15)
   assert.equal(payload.effectStyles.length, 7)
   const tones = payload.variables.filter((item) => item.collection === 'Tone')

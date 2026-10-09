@@ -58,7 +58,7 @@ const canvas = computed(() =>
 
 <template>
   <div :data-example="slug" class="not-prose my-6 scroll-mt-20 max-md:scroll-mt-30">
-    <div data-slot="example" class="rounded-xl border bg-muted/40 p-1">
+    <div data-slot="example" class="rounded-surface-md border bg-muted/40 p-1">
       <div class="mb-1 flex h-9 items-center gap-2 ps-2.5 pe-0.5">
         <span class="min-w-0 flex-1 truncate text-body-sm text-muted-foreground">{{ label }}</span>
         <Button
@@ -98,10 +98,7 @@ const canvas = computed(() =>
           </Button>
         </div>
       </div>
-      <div
-        data-slot="example-canvas"
-        :class="cn('overflow-hidden rounded-[max(0px,calc(var(--radius-xl)-0.25rem))] bg-card', props.class)"
-      >
+      <div data-slot="example-canvas" :class="cn('overflow-hidden rounded-inset-surface-md/1 bg-card', props.class)">
         <ScrollArea v-if="props.height" orientation="both" :style="{ height: props.height }">
           <div :class="cn(canvas, 'min-h-full')">
             <Example />

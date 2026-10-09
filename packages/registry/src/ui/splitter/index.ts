@@ -42,7 +42,7 @@ export const splitterHandleVariants = cva(
 );
 
 export const splitterGripClass = `
-  z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-border bg-muted text-muted-foreground
+  z-10 flex h-4 w-3 items-center justify-center rounded-control-2xs border border-border bg-muted text-muted-foreground
   group-data-[orientation=vertical]/handle:rotate-90
   [&_svg]:size-2.5
 `;

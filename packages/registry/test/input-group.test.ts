@@ -182,7 +182,7 @@ describe("InputGroup", () => {
     expect(document.activeElement).toBe(control());
   });
 
-  it("gives a button a radius concentric with the frame", () => {
+  it("gives a button a radius concentric with the frame, never below half of it", () => {
     render({}, () => [
       h(InputGroupInput),
       h(InputGroupAddon, { align: "inline-end" }, () =>
@@ -193,7 +193,10 @@ describe("InputGroup", () => {
     const outer = Number.parseFloat(getComputedStyle(group()).borderTopRightRadius);
     const inset = (group().offsetHeight - button.offsetHeight) / 2;
     expect(button.offsetHeight).toBe(24);
-    expect(Number.parseFloat(getComputedStyle(button).borderTopRightRadius)).toBeCloseTo(outer - inset, 1);
+    expect(Number.parseFloat(getComputedStyle(button).borderTopRightRadius)).toBeCloseTo(
+      Math.max(outer - inset, outer / 2),
+      1,
+    );
     const gap = group().getBoundingClientRect().right - button.getBoundingClientRect().right;
     expect(gap).toBeCloseTo(inset, 0);
   });
@@ -272,4 +275,30 @@ describe("InputGroup control tokens", () => {
     expect(px(getComputedStyle(addon).paddingInlineStart)).toBe(sentinel.padding[size]);
     expect(addon.querySelector("svg")!.getBoundingClientRect().width).toBe(sentinel.icon[size]);
   });
+});
+
+it("keeps the button concentric and round at a small base radius", () => {
+  const wrapper = mount(
+    {
+      render: () =>
+        h(
+          "div",
+          ["4px", "8px", "12px", "0px"].map((radius) =>
+            h("div", { style: `--radius: ${radius}` }, [
+              h(InputGroup, () => [
+                h(InputGroupInput, { "aria-label": "Search" }),
+                h(InputGroupAddon, { align: "inline-end" }, () =>
+                  h(InputGroupButton, { "data-case": radius }, () => "Go"),
+                ),
+              ]),
+            ]),
+          ),
+        ),
+    },
+    { attachTo: document.body },
+  );
+  const radius = (value: string) =>
+    getComputedStyle(document.querySelector(`[data-case="${value}"]`)!).borderTopLeftRadius;
+  expect(["4px", "8px", "12px", "0px"].map(radius)).toEqual(["2px", "4px", "6px", "0px"]);
+  wrapper.unmount();
 });

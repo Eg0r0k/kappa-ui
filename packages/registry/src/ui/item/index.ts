@@ -35,11 +35,11 @@ export const itemVariants = cva(
         subtle: "border-border bg-muted",
       },
       size: {
-        xs: "gap-2 rounded-md px-3 py-2",
-        sm: "gap-2.5 rounded-md px-4 py-3",
-        md: "gap-4 rounded-lg p-4",
-        lg: "gap-4 rounded-lg p-5",
-        xl: "gap-5 rounded-xl p-6",
+        xs: "gap-2 rounded-item-xs px-3 py-2",
+        sm: "gap-2.5 rounded-item-sm px-4 py-3",
+        md: "gap-4 rounded-item-md p-4",
+        lg: "gap-4 rounded-item-lg p-5",
+        xl: "gap-5 rounded-item-xl p-6",
       },
     },
     compoundVariants: [{ variant: "filled", class: "rounded-b-none" }],
@@ -61,7 +61,7 @@ export const itemMediaVariants = cva(
       variant: {
         default: "",
         icon: `
-          size-8 rounded-md border border-border bg-muted
+          size-8 rounded-control-xs border border-border bg-muted
           group-data-[size=xs]/item:size-6
           group-data-[size=sm]/item:size-7
           group-data-[size=lg]/item:size-9
@@ -72,7 +72,7 @@ export const itemMediaVariants = cva(
           group-data-[size=xl]/item:icon-size-5
         `,
         image: `
-          size-10 overflow-hidden rounded-md
+          size-10 overflow-hidden rounded-control-xs
           group-data-[size=xs]/item:size-8
           group-data-[size=sm]/item:size-9
           group-data-[size=lg]/item:size-12

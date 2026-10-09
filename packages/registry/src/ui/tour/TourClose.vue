@@ -18,7 +18,7 @@ const { tour } = injectTourContext();
     color="neutral"
     size="icon-sm"
     aria-label="Close"
-    :class="cn('absolute end-2 top-2', props.class)"
+    :class="cn('absolute end-2 top-2 rounded-inset-surface-md/2', props.class)"
     @click="tour.finish()"
   >
     <slot>

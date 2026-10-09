@@ -276,6 +276,27 @@
   }
 }
 
+@utility rounded-inset-* {
+  border-radius: max(
+    calc(--value(--radius-*, [length], [*]) - var(--spacing) * --modifier(number)),
+    calc(--value(--radius-*, [length], [*]) / 2)
+  );
+  border-radius: max(
+    calc(--value(--radius-*, [length], [*]) - --modifier([length], [*])),
+    calc(--value(--radius-*, [length], [*]) / 2)
+  );
+}
+
+@utility rounded-outset-* {
+  border-radius: calc(
+    --value(--radius-*, [length], [*]) +
+      min(var(--spacing) * --modifier(number), --value(--radius-*, [length], [*]) * 3)
+  );
+  border-radius: calc(
+    --value(--radius-*, [length], [*]) + min(--modifier([length], [*]), --value(--radius-*, [length], [*]) * 3)
+  );
+}
+
 @utility choice-row {
   & > [data-slot="field"] {
     position: relative;
@@ -759,7 +780,7 @@
     scale: calc(1 - 0.05 * var(--drawer-indent-progress));
     clip-path: inset(
       var(--drawer-indent-top, 0px) 0 var(--drawer-indent-bottom, 0px) round
-        calc(var(--drawer-indent-progress) * var(--radius-xl, 0.75rem))
+        calc(var(--drawer-indent-progress) * --theme(--radius-surface-md, 0.75rem))
     );
     transition: --drawer-indent-progress var(--transition-duration-medium-2, 300ms)
       var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));

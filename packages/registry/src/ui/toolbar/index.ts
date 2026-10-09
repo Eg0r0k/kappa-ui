@@ -12,7 +12,7 @@ export const toolbarVariants = cva(
   {
     variants: {
       variant: {
-        outline: "rounded-lg border border-border bg-background p-1",
+        outline: "rounded-outset-control-sm/[calc(var(--spacing)+1px)] border border-border bg-background p-1",
         ghost: "",
       },
     },

@@ -409,6 +409,28 @@ it("scales the page in DrawerIndent behind an open drawer and gives it back afte
   expect(document.body.style.background).toBe("");
 });
 
+it("rounds the indented page with the surface radius set on an ancestor", async () => {
+  const open = ref(false);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h("div", { style: "--surface-radius: 4px" }, [
+          h(DrawerIndent, () =>
+            h(Drawer, { open: open.value, "onUpdate:open": (value: boolean) => (open.value = value) }, () =>
+              h(DrawerContent, () => [h(DrawerTitle, () => "Title"), h(DrawerDescription, () => "Description")]),
+            ),
+          ),
+        ]),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  const page = slot("drawer-indent-page")!;
+  open.value = true;
+  await expect.poll(() => getComputedStyle(page).scale).toBe("0.95");
+  expect(getComputedStyle(page).clipPath).toContain("round 5.6px");
+});
+
 it("steps a drawer back while a nested one is open", async () => {
   const inner = ref(false);
   const wrapper = mount(

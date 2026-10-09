@@ -64,31 +64,37 @@ export const treeVariants = cva(
       variant: {
         ghost: "",
         outline: `
-          rounded-xl border border-border bg-card p-1 text-card-foreground [--scroll-fade-color:var(--card)]
+          rounded-outset-(--tree-item-radius)/[calc(var(--spacing)+1px)] border border-border bg-card p-1
+          text-card-foreground [--scroll-fade-color:var(--card)]
           aria-invalid:border-destructive
           data-disabled:border-foreground/(--disabled-container-opacity)
         `,
       },
       size: {
         xs: `
-          text-body-sm [--tree-item-height:var(--control-height-xs)] [--tree-item-px:var(--control-padding-xs)]
-          [--tree-item-py:--spacing(1.5)] [--tree-item-gap:var(--control-gap-xs)] [--tree-icon:var(--control-icon-xs)]
+          text-body-sm [--tree-item-height:var(--control-height-xs)] [--tree-item-radius:--theme(--radius-item-xs)]
+          [--tree-item-px:var(--control-padding-xs)] [--tree-item-py:--spacing(1.5)]
+          [--tree-item-gap:var(--control-gap-xs)] [--tree-icon:var(--control-icon-xs)]
         `,
         sm: `
-          text-body-sm [--tree-item-height:var(--control-height-sm)] [--tree-item-px:var(--control-padding-sm)]
-          [--tree-item-py:--spacing(2)] [--tree-item-gap:var(--control-gap-sm)] [--tree-icon:var(--control-icon-sm)]
+          text-body-sm [--tree-item-height:var(--control-height-sm)] [--tree-item-radius:--theme(--radius-item-sm)]
+          [--tree-item-px:var(--control-padding-sm)] [--tree-item-py:--spacing(2)]
+          [--tree-item-gap:var(--control-gap-sm)] [--tree-icon:var(--control-icon-sm)]
         `,
         md: `
-          text-body-md [--tree-item-height:var(--control-height-md)] [--tree-item-px:var(--control-padding-md)]
-          [--tree-item-py:--spacing(2)] [--tree-item-gap:var(--control-gap-md)] [--tree-icon:var(--control-icon-md)]
+          text-body-md [--tree-item-height:var(--control-height-md)] [--tree-item-radius:--theme(--radius-item-md)]
+          [--tree-item-px:var(--control-padding-md)] [--tree-item-py:--spacing(2)]
+          [--tree-item-gap:var(--control-gap-md)] [--tree-icon:var(--control-icon-md)]
         `,
         lg: `
-          text-body-lg [--tree-item-height:var(--control-height-lg)] [--tree-item-px:var(--control-padding-lg)]
-          [--tree-item-py:--spacing(2)] [--tree-item-gap:var(--control-gap-lg)] [--tree-icon:var(--control-icon-lg)]
+          text-body-lg [--tree-item-height:var(--control-height-lg)] [--tree-item-radius:--theme(--radius-item-lg)]
+          [--tree-item-px:var(--control-padding-lg)] [--tree-item-py:--spacing(2)]
+          [--tree-item-gap:var(--control-gap-lg)] [--tree-icon:var(--control-icon-lg)]
         `,
         xl: `
-          text-body-lg [--tree-item-height:var(--control-height-xl)] [--tree-item-px:var(--control-padding-xl)]
-          [--tree-item-py:--spacing(3)] [--tree-item-gap:var(--control-gap-xl)] [--tree-icon:var(--control-icon-xl)]
+          text-body-lg [--tree-item-height:var(--control-height-xl)] [--tree-item-radius:--theme(--radius-item-xl)]
+          [--tree-item-px:var(--control-padding-xl)] [--tree-item-py:--spacing(3)]
+          [--tree-item-gap:var(--control-gap-xl)] [--tree-icon:var(--control-icon-xl)]
         `,
       },
     },

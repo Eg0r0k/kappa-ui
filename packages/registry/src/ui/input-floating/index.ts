@@ -19,11 +19,11 @@ export const inputFloatingVariants = cva("group/floating relative", {
     { variant: "outline", size: "md", class: `h-(--control-height-md) ${textControlRadius.md}` },
     { variant: "outline", size: "lg", class: `h-(--control-height-lg) ${textControlRadius.lg}` },
     { variant: "outline", size: "xl", class: `h-(--control-height-xl) ${textControlRadius.xl}` },
-    { variant: insideLabel, size: "xs", class: "h-10 [--control-radius:--theme(--radius-lg)]" },
-    { variant: insideLabel, size: "sm", class: "h-11 [--control-radius:--theme(--radius-lg)]" },
-    { variant: insideLabel, size: "md", class: "h-12 [--control-radius:--theme(--radius-xl)]" },
-    { variant: insideLabel, size: "lg", class: "h-13 [--control-radius:--theme(--radius-xl)]" },
-    { variant: insideLabel, size: "xl", class: "h-14 [--control-radius:--theme(--radius-xl)]" },
+    { variant: insideLabel, size: "xs", class: "h-10 [--frame-radius:--theme(--radius-control-lg)]" },
+    { variant: insideLabel, size: "sm", class: "h-11 [--frame-radius:--theme(--radius-control-lg)]" },
+    { variant: insideLabel, size: "md", class: "h-12 [--frame-radius:--theme(--radius-control-xl)]" },
+    { variant: insideLabel, size: "lg", class: "h-13 [--frame-radius:--theme(--radius-control-xl)]" },
+    { variant: insideLabel, size: "xl", class: "h-14 [--frame-radius:--theme(--radius-control-xl)]" },
   ],
   defaultVariants: {
     variant: "outline",
@@ -35,7 +35,7 @@ export const inputFloatingInputVariants = cva(
   `${textControlBase} peer h-full placeholder:text-transparent focus:placeholder:text-muted-foreground`,
   {
     variants: {
-      variant: { ...textControlVariant, outline: "rounded-(--control-radius)" },
+      variant: { ...textControlVariant, outline: "rounded-(--frame-radius)" },
       size: textControlSize,
     },
     compoundVariants: [
@@ -135,8 +135,8 @@ export const inputFloatingLabelVariants = cva(
 
 export const inputFloatingOutlineVariants = cva(
   `
-    pointer-events-none absolute inset-x-0 -top-[5px] bottom-0 m-0 min-w-0 rounded-(--control-radius) border
-    border-input transition-[border-color] duration-short-3 ease-standard
+    pointer-events-none absolute inset-x-0 -top-[5px] bottom-0 m-0 min-w-0 rounded-(--frame-radius) border border-input
+    transition-[border-color] duration-short-3 ease-standard
     peer-focus-visible:border-2 peer-focus-visible:border-primary
     peer-user-invalid:border-destructive
     peer-user-invalid:peer-focus-visible:border-destructive

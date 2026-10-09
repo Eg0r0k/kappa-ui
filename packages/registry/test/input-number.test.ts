@@ -116,7 +116,10 @@ it.each([
   expect(box.left - frameBox.left).toBeCloseTo(inset, 1);
   expect(frameBox.right - increment().getBoundingClientRect().right).toBeCloseTo(inset, 1);
   const outer = Number.parseFloat(getComputedStyle(root()).borderTopLeftRadius);
-  expect(Number.parseFloat(getComputedStyle(decrement()).borderTopLeftRadius)).toBeCloseTo(outer - inset, 1);
+  expect(Number.parseFloat(getComputedStyle(decrement()).borderTopLeftRadius)).toBeCloseTo(
+    Math.max(outer - inset, outer / 2),
+    1,
+  );
 });
 
 it("places decrement before the input and increment after it whatever the markup order", () => {

@@ -31,7 +31,8 @@ const forwarded = useForwardPropsEmits(delegated, emits);
       cn(
         `
           group/listbox-item relative flex min-h-(--listbox-item-height) cursor-default items-center
-          gap-(--listbox-item-gap) rounded-lg px-(--listbox-item-px) py-(--listbox-item-py) outline-none select-none
+          gap-(--listbox-item-gap) rounded-(--listbox-item-radius) px-(--listbox-item-px) py-(--listbox-item-py)
+          outline-none select-none
           before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-foreground
           before:opacity-0 before:transition-opacity before:duration-short-4 before:ease-standard
           hover:before:opacity-(--state-hover)

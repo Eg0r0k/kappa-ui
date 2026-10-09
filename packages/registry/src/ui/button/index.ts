@@ -6,7 +6,7 @@ export type ButtonColor = "primary" | "neutral" | "destructive" | "success" | "w
 
 export const buttonVariants = cva(
   `
-    relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg
+    relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control-md
     text-label-lg transition-colors duration-short-3 ease-standard outline-none
     forced-colors:border
     disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity)
@@ -43,7 +43,7 @@ export const buttonVariants = cva(
       },
       size: {
         xs: `
-          h-(--control-height-xs) gap-(--control-gap-xs) rounded-md px-2.5 text-label-sm
+          h-(--control-height-xs) gap-(--control-gap-xs) rounded-control-xs px-2.5 text-label-sm
           [--touch-h:var(--control-height-xs)]
           has-data-[icon=inline-start]:ps-2
           has-data-[icon=inline-end]:pe-2
@@ -68,14 +68,14 @@ export const buttonVariants = cva(
           icon-size-(--control-icon-lg)
         `,
         xl: `
-          h-(--control-height-xl) gap-(--control-gap-xl) rounded-xl px-8 text-title-md
+          h-(--control-height-xl) gap-(--control-gap-xl) rounded-control-xl px-8 text-title-md
           [--touch-h:var(--control-height-xl)]
           has-data-[icon=inline-start]:ps-6
           has-data-[icon=inline-end]:pe-6
           icon-size-(--control-icon-xl)
         `,
         "icon-xs": `
-          size-(--control-height-xs) rounded-md [--touch-w:var(--control-height-xs)]
+          size-(--control-height-xs) rounded-control-xs [--touch-w:var(--control-height-xs)]
           [--touch-h:var(--control-height-xs)] icon-size-(--control-icon-xs)
         `,
         "icon-sm": `
@@ -91,7 +91,7 @@ export const buttonVariants = cva(
           icon-size-(--control-icon-lg)
         `,
         "icon-xl": `
-          size-(--control-height-xl) rounded-xl [--touch-w:var(--control-height-xl)]
+          size-(--control-height-xl) rounded-control-xl [--touch-w:var(--control-height-xl)]
           [--touch-h:var(--control-height-xl)] icon-size-(--control-icon-xl)
         `,
       },

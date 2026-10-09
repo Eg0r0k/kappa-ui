@@ -16,7 +16,8 @@ export const listboxVariants = cva(
     variants: {
       variant: {
         outline: `
-          rounded-xl border border-border bg-card p-1 text-card-foreground [--scroll-fade-color:var(--card)]
+          rounded-outset-(--listbox-item-radius)/[calc(var(--spacing)+1px)] border border-border bg-card p-1
+          text-card-foreground [--scroll-fade-color:var(--card)]
           aria-invalid:border-destructive
           data-disabled:border-foreground/(--disabled-container-opacity)
         `,
@@ -24,27 +25,32 @@ export const listboxVariants = cva(
       },
       size: {
         xs: `
-          text-body-sm [--listbox-item-height:var(--control-height-xs)] [--listbox-item-px:var(--control-padding-xs)]
+          text-body-sm [--listbox-item-height:var(--control-height-xs)]
+          [--listbox-item-radius:--theme(--radius-item-xs)] [--listbox-item-px:var(--control-padding-xs)]
           [--listbox-item-py:--spacing(1.5)] [--listbox-item-gap:var(--control-gap-xs)]
           [--listbox-icon:var(--control-icon-xs)]
         `,
         sm: `
-          text-body-sm [--listbox-item-height:var(--control-height-sm)] [--listbox-item-px:var(--control-padding-sm)]
+          text-body-sm [--listbox-item-height:var(--control-height-sm)]
+          [--listbox-item-radius:--theme(--radius-item-sm)] [--listbox-item-px:var(--control-padding-sm)]
           [--listbox-item-py:--spacing(2)] [--listbox-item-gap:var(--control-gap-sm)]
           [--listbox-icon:var(--control-icon-sm)]
         `,
         md: `
-          text-body-md [--listbox-item-height:var(--control-height-md)] [--listbox-item-px:var(--control-padding-md)]
+          text-body-md [--listbox-item-height:var(--control-height-md)]
+          [--listbox-item-radius:--theme(--radius-item-md)] [--listbox-item-px:var(--control-padding-md)]
           [--listbox-item-py:--spacing(2)] [--listbox-item-gap:var(--control-gap-md)]
           [--listbox-icon:var(--control-icon-md)]
         `,
         lg: `
-          text-body-lg [--listbox-item-height:var(--control-height-lg)] [--listbox-item-px:var(--control-padding-lg)]
+          text-body-lg [--listbox-item-height:var(--control-height-lg)]
+          [--listbox-item-radius:--theme(--radius-item-lg)] [--listbox-item-px:var(--control-padding-lg)]
           [--listbox-item-py:--spacing(2)] [--listbox-item-gap:var(--control-gap-lg)]
           [--listbox-icon:var(--control-icon-lg)]
         `,
         xl: `
-          text-body-lg [--listbox-item-height:var(--control-height-xl)] [--listbox-item-px:var(--control-padding-xl)]
+          text-body-lg [--listbox-item-height:var(--control-height-xl)]
+          [--listbox-item-radius:--theme(--radius-item-xl)] [--listbox-item-px:var(--control-padding-xl)]
           [--listbox-item-py:--spacing(3)] [--listbox-item-gap:var(--control-gap-xl)]
           [--listbox-icon:var(--control-icon-xl)]
         `,

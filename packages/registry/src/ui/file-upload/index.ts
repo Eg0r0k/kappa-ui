@@ -155,11 +155,11 @@ export const [injectFileUploadItemContext, provideFileUploadItemContext] = creat
 export const fileUploadVariants = cva("relative flex w-full min-w-0 flex-col", {
   variants: {
     size: {
-      xs: "gap-(--control-gap-xs) [--file-upload-radius:--theme(--radius-lg)]",
-      sm: "gap-(--control-gap-sm) [--file-upload-radius:--theme(--radius-lg)]",
-      md: "gap-(--control-gap-md) [--file-upload-radius:--theme(--radius-xl)]",
-      lg: "gap-(--control-gap-lg) [--file-upload-radius:--theme(--radius-xl)]",
-      xl: "gap-(--control-gap-xl) [--file-upload-radius:--theme(--radius-xl)]",
+      xs: "gap-(--control-gap-xs) [--file-upload-radius:--theme(--radius-surface-sm)]",
+      sm: "gap-(--control-gap-sm) [--file-upload-radius:--theme(--radius-surface-sm)]",
+      md: "gap-(--control-gap-md) [--file-upload-radius:--theme(--radius-surface-md)]",
+      lg: "gap-(--control-gap-lg) [--file-upload-radius:--theme(--radius-surface-md)]",
+      xl: "gap-(--control-gap-xl) [--file-upload-radius:--theme(--radius-surface-md)]",
     },
   },
   defaultVariants: { size: "md" },
@@ -272,7 +272,10 @@ export const fileUploadListVariants = cva("w-full min-w-0 text-start", {
 });
 
 export const fileUploadItemVariants = cva(
-  "relative min-w-0 cursor-auto rounded-lg border border-border in-data-disabled:text-foreground/(--disabled-opacity)",
+  `
+    relative min-w-0 cursor-auto rounded-item-md border border-border
+    in-data-disabled:text-foreground/(--disabled-opacity)
+  `,
   {
     variants: {
       layout: {
@@ -296,8 +299,8 @@ export const fileUploadItemPreviewVariants = cva(
   {
     variants: {
       layout: {
-        list: "rounded-md bg-muted",
-        grid: "data-image:absolute data-image:inset-0 data-image:rounded-[calc(--theme(--radius-lg)-1px)]",
+        list: "rounded-item-xs bg-muted",
+        grid: "data-image:absolute data-image:inset-0 data-image:rounded-inset-item-md/[1px]",
       },
       size: {
         xs: "icon-size-(--control-icon-xs)",

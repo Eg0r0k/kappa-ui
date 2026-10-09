@@ -16,7 +16,7 @@ export const [injectCheckboxGroupContext, provideCheckboxGroupContext] = createC
 
 export const checkboxVariants = cva(
   `${choiceControl}
-    group/checkbox rounded-xs text-tone-foreground transition-[background-color,border-color] duration-short-3
+    group/checkbox rounded-control-3xs text-tone-foreground transition-[background-color,border-color] duration-short-3
     ease-standard
     data-[state=checked]:bg-tone
     data-[state=indeterminate]:border-tone-text data-[state=indeterminate]:bg-tone

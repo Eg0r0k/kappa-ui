@@ -203,17 +203,34 @@ const radiusVariable = (name: string, value: number | Alias): TokenVariable => (
   scopes: ['CORNER_RADIUS'],
 })
 
+const BASE_SCALED = /^calc\(var\(--radius\) \* ([\d.]+)\)$/
+const ROLE = /^var\(--(\w+)-radius, var\(--radius\)\)$/
+const ROLE_SCALED = /^calc\(var\(--(\w+)-radius, var\(--radius\)\) \* ([\d.]+)\)$/
+
 const radiiOf = (vars: Record<string, string>, themeVars: Record<string, string>) => {
   const radius = pxOf(vars.radius)
+  const px = (factor: string) => Math.round(radius * Number(factor) * 100) / 100
+  const roles = new Set<string>()
   const derived = Object.entries(themeVars)
     .filter(([name]) => name.startsWith('radius-'))
     .map(([name, value]) => {
       if (value === 'var(--radius)') return radiusVariable(name, { alias: 'Radius/radius' })
-      const factor = /^calc\(var\(--radius\) \* ([\d.]+)\)$/.exec(value)?.[1]
-      if (!factor) throw new Error(`Unsupported radius: --${name}: ${value}`)
-      return radiusVariable(name, Math.round(radius * Number(factor) * 100) / 100)
+      const base = BASE_SCALED.exec(value)
+      if (base) return radiusVariable(name, px(base[1]!))
+      const role = ROLE.exec(value)
+      if (role) {
+        roles.add(role[1]!)
+        return radiusVariable(name, { alias: `Radius/${role[1]}-radius` })
+      }
+      const scaled = ROLE_SCALED.exec(value)
+      if (scaled) {
+        roles.add(scaled[1]!)
+        return radiusVariable(name, px(scaled[2]!))
+      }
+      throw new Error(`Unsupported radius: --${name}: ${value}`)
     })
-  return [radiusVariable('radius', radius), ...derived]
+  const knobs = [...roles].map((role) => radiusVariable(`${role}-radius`, { alias: 'Radius/radius' }))
+  return [radiusVariable('radius', radius), ...knobs, ...derived]
 }
 
 const sizesOf = (vars: Record<string, string>): TokenVariable[] => {

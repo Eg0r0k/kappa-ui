@@ -133,7 +133,10 @@ it.each([
     expect(box.left - frameBox.left).toBeCloseTo(inset, 1);
     expect(box.top - frameBox.top).toBeCloseTo(inset, 1);
     const outer = Number.parseFloat(getComputedStyle(root()).borderTopLeftRadius);
-    expect(Number.parseFloat(getComputedStyle(chips()[0]!).borderTopLeftRadius)).toBeCloseTo(outer - inset, 1);
+    expect(Number.parseFloat(getComputedStyle(chips()[0]!).borderTopLeftRadius)).toBeCloseTo(
+      Math.max(outer - inset, outer / 2),
+      1,
+    );
     document.body.innerHTML = "";
 
     render(tags({ size }, []));
