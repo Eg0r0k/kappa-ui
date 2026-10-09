@@ -1,5 +1,18 @@
 # @kappa-ui/registry
 
+## 0.17.0
+
+### Minor Changes
+
+- [`7951a0f`](https://github.com/Eg0r0k/kappa-ui/commit/7951a0fc256ef40ba789e317d865746ff0cb9994) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `Marker`: an inline status, a bordered row or a labelled separator, from shadcn-vue, with a `color`. New `Banner`: a full-width notice with a title, a subtitle, actions and a close button, `v-model:open` and `color`. New `Tour`: parts over Popover for a guided tour driven by `useTour`. `Skeleton` takes a `color`.
+
+- [`6c50288`](https://github.com/Eg0r0k/kappa-ui/commit/6c50288335a6cb85df8599769c2ecd9d3f6e43a4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `SwipeViews`: pages that follow the finger, the way native apps page between tabs. It holds the page in the frame in `v-model`, pairs with Tabs on the same model, and lays its `SwipeView`s out in a row that a swipe or a flick moves along. `layout="stack"` lays the pages on top of each other, each sliding in over the one before it, as in a navigation stack. The frame and every page carry CSS variables for layouts and effects of your own. `SwipeViewsSwipeArea` adds a strip at an edge, and `swipe-area-only` makes it the only way to swipe. The mechanism underneath comes as its own item, `swipe-snap`, with `useSwipeSnap` for sheets, galleries and pagers of your own.
+
+### Patch Changes
+
+- Updated dependencies [[`6fb58da`](https://github.com/Eg0r0k/kappa-ui/commit/6fb58dabbc2584b9e3c72d7c72fd912cc2d726da), [`7951a0f`](https://github.com/Eg0r0k/kappa-ui/commit/7951a0fc256ef40ba789e317d865746ff0cb9994), [`7200c46`](https://github.com/Eg0r0k/kappa-ui/commit/7200c4616b871c57ba1ff3deedba9d16f75f57da), [`908bb3b`](https://github.com/Eg0r0k/kappa-ui/commit/908bb3bb589c650741c6e9289b1e875b0b3ca749)]:
+  - @kappa-ui/core@0.13.0
+
 ## 0.16.0
 
 ### Minor Changes

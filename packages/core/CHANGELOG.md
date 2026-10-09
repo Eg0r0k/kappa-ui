@@ -1,5 +1,17 @@
 # @kappa-ui/core
 
+## 0.13.0
+
+### Minor Changes
+
+- [`6fb58da`](https://github.com/Eg0r0k/kappa-ui/commit/6fb58dabbc2584b9e3c72d7c72fd912cc2d726da) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Nested drags no longer start together: the innermost `useDrag` that starts takes the gesture, and an outer one gets it only when the inner one refuses it. A closed SwipeActions row no longer moves towards a side without actions, so that swipe reaches what is around the row. `scrollBlocksDrag` reads a right-to-left scroller from its start on the right.
+
+- [`7951a0f`](https://github.com/Eg0r0k/kappa-ui/commit/7951a0fc256ef40ba789e317d865746ff0cb9994) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `shimmer` utilities in `@kappa-ui/core/tailwind.css`, ported from shadcn-vue: a highlight that sweeps across text drawn with `background-clip: text`, with `shimmer-once`, `shimmer-reverse`, `shimmer-none` and `shimmer-color-*`, `shimmer-duration-*`, `shimmer-spread-*`, `shimmer-angle-*`. New `@kappa-ui/core/tour` with `useTour`, ported from Nuxt UI: the state of a guided tour whose `reference` a popover anchor follows; a step without a target, or whose target matches nothing, sits in the centre of the viewport and sets `centered`. `animate-skeleton-wave` draws its band in the element's tone when the element has a `data-color`.
+
+- [`7200c46`](https://github.com/Eg0r0k/kappa-ui/commit/7200c4616b871c57ba1ff3deedba9d16f75f57da) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `@kappa-ui/core/swipe-snap`: `useSwipeSnap` pages between snap points measured in px. A drag follows the finger, the release settles on the nearest point or the next one after a flick, and a finger can catch a settle mid-way. `rubberband: false` stops a drag hard at the edge instead of letting it stretch. It writes `--swipe-snap-offset` and `--swipe-snap-position` on its element for CSS to move things with; the new `swipe-snap` utility transitions them and `swipe-view` passes them one level down.
+
+- [`908bb3b`](https://github.com/Eg0r0k/kappa-ui/commit/908bb3bb589c650741c6e9289b1e875b0b3ca749) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `@kappa-ui/core/swipe-views`: `SwipeViewsRoot`, `SwipeView` and `SwipeViewsSwipeArea`, headless pages that follow the finger. The root measures its pages, binds the page in the frame with `v-model` and writes `--swipe-snap-offset` and `--swipe-snap-position`; every page gets `--swipe-view-index`, `--swipe-view-start`, `data-state`, and `inert` while out of the frame, and the `swipe-view` utility derives `--swipe-view-offset` and `--swipe-view-stack` from them. `layout` (`row` or `stack`) is carried as `data-layout`, and the root sets `dir`. A swipe area is a strip that starts a swipe towards the page on its side; `swipeAreaOnly` makes it the only way to swipe.
+
 ## 0.12.0
 
 ### Minor Changes
