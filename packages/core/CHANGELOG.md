@@ -1,5 +1,15 @@
 # @kappa-ui/core
 
+## 0.14.0
+
+### Minor Changes
+
+- [`779955e`](https://github.com/Eg0r0k/kappa-ui/commit/779955e6b5e698179c9900e5feef1658cef56df4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `rounded-inset-*` and `rounded-outset-*` utilities for nested corners. `rounded-inset-<radius>/<inset>` keeps a part inside a frame concentric and never below half the outer radius, so it no longer turns square at small radii. `rounded-outset-<radius>/<inset>` grows a container from the items inside it, and stays square around square items.
+
+### Patch Changes
+
+- [`6887534`](https://github.com/Eg0r0k/kappa-ui/commit/6887534c8c7d8b707da54f663e312a95b75d1284) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A finger drag no longer freezes when a second finger touches the screen: `useDrag` keeps following the first finger and releases when it lifts, so SwipeViews, `useSwipeSnap`, Drawer and SwipeActions settle instead of staying stuck mid-drag. A second finger that lands before the drag starts still keeps it from starting. A pen or mouse pressed during a finger drag, or a finger during a pen or mouse drag, no longer starts a second drag on top of the first.
+
 ## 0.13.0
 
 ### Minor Changes
