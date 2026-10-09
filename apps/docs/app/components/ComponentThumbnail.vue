@@ -11,7 +11,7 @@ const svg = computed(() => thumbnailOf(props.path))
     v-if="svg"
     data-slot="component-thumbnail"
     aria-hidden="true"
-    class="mx-1 -mt-3 overflow-hidden rounded-[max(0px,calc(var(--radius-lg)-var(--spacing)))] bg-[color-mix(in_oklab,var(--muted)_50%,var(--card))] [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+    class="mx-1 -mt-3 overflow-hidden rounded-inset-surface-sm/1 bg-[color-mix(in_oklab,var(--muted)_50%,var(--card))] [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
     v-html="svg"
   />
 </template>

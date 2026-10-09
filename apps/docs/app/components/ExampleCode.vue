@@ -13,11 +13,7 @@ const basename = (filename: string) => filename.slice(filename.lastIndexOf('/') 
 
 <template>
   <div data-slot="example-code" class="flex flex-col gap-1">
-    <div
-      v-for="file in files"
-      :key="file.filename"
-      class="mt-1 overflow-hidden rounded-[max(0px,calc(var(--radius-xl)-0.25rem))] bg-card"
-    >
+    <div v-for="file in files" :key="file.filename" class="mt-1 overflow-hidden rounded-inset-surface-md/1 bg-card">
       <div class="flex h-9 items-center justify-between gap-2 border-b ps-3 pe-1">
         <span :title="file.filename" class="min-w-0 truncate font-mono text-xs text-muted-foreground">
           {{ basename(file.filename) }}
