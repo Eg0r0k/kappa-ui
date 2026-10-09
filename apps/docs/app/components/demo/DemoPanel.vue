@@ -5,20 +5,17 @@ import DemoCode from '~/components/demo/DemoCode.vue'
 import DemoToolbar from '~/components/demo/DemoToolbar.vue'
 import DemoTools from '~/components/demo/DemoTools.vue'
 import DemoWidthHandle from '~/components/demo/DemoWidthHandle.vue'
-import api from '~/generated/api.json'
-import { hasColorProp } from '~/lib/demo'
 import { findItem } from '~/lib/registry'
 import { themeToQuery } from '~/lib/theme'
 
 const demo = injectDemo()
-const { selected, component, expanded, resizing, width, colorScheme, dir, color, inspect, restart } = demo
+const { selected, expanded, resizing, width, colorScheme, dir, inspect, restart } = demo
 const { theme } = useSiteTheme()
 const { show } = useSearchDialog()
 
 const siteTheme = computed(() => JSON.stringify(themeToQuery(theme.value)))
 const item = computed(() => (selected.value ? findItem(selected.value.name) : undefined))
 const share = computed(() => (item.value?.meta?.demo?.height ?? 0.6) * 100)
-const colors = computed(() => hasColorProp(findItem(component.value ?? '')?.files ?? [], api))
 
 const setResizing = (value: boolean) => {
   resizing.value = value
@@ -52,13 +49,12 @@ const setResizing = (value: boolean) => {
           :dir="dir"
           :site-theme="siteTheme"
           :restart="restart"
-          :color="colors ? color : 'primary'"
           :inspect="inspect"
           height="100%"
           :class="['h-full', resizing && 'pointer-events-none']"
           @shortcut="show()"
         />
-        <DemoTools :colors="colors" class="absolute inset-x-0 bottom-3 z-10 mx-auto" />
+        <DemoTools class="absolute inset-x-0 bottom-3 z-10 mx-auto" />
       </SplitterPanel>
       <SplitterHandle
         grip

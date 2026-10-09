@@ -1,30 +1,17 @@
 <script setup lang="ts">
-import { Moon, Palette, PilcrowLeft, RotateCcw, ScanSearch, Sun, SunMoon } from '@lucide/vue'
+import { Moon, PilcrowLeft, RotateCcw, ScanSearch, Sun, SunMoon } from '@lucide/vue'
 
-import { Menu, MenuRadioGroup, MenuRadioItem, MenuTrigger } from '@/ui/menu'
 import { Toolbar, ToolbarButton, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem } from '@/ui/toolbar'
-import { vTooltip } from '@/ui/tooltip'
-import { type Tone, tones } from '~/lib/preview-protocol'
-
-const props = defineProps<{ colors: boolean }>()
+import { Tooltip, TooltipContent, TooltipTrigger, vTooltip } from '@/ui/tooltip'
 
 const demo = injectDemo()
-const { scheme, color, restart } = demo
+const { scheme, restart } = demo
 
 const schemes = {
   site: { next: 'dark', label: 'Example theme: site' },
   dark: { next: 'light', label: 'Example theme: dark' },
   light: { next: 'site', label: 'Example theme: light' },
 } as const
-
-const swatches: Record<Tone, string> = {
-  primary: 'bg-primary',
-  neutral: 'bg-foreground',
-  destructive: 'bg-destructive',
-  success: 'bg-success',
-  warning: 'bg-warning',
-  info: 'bg-info',
-}
 
 const toggles = computed({
   get: () => [demo.inspect.value ? 'inspect' : '', demo.dir.value === 'rtl' ? 'rtl' : ''].filter(Boolean),
@@ -48,12 +35,22 @@ const cycleScheme = () => {
       active-color="primary"
       aria-label="Example view"
     >
-      <ToolbarToggleItem v-tooltip="'Inspect'" value="inspect" size="icon-sm" aria-label="Inspect">
-        <ScanSearch />
-      </ToolbarToggleItem>
-      <ToolbarToggleItem v-tooltip="'Right to left'" value="rtl" size="icon-sm" aria-label="Right to left">
-        <PilcrowLeft />
-      </ToolbarToggleItem>
+      <Tooltip>
+        <TooltipTrigger as-child>
+          <ToolbarToggleItem value="inspect" size="icon-sm" aria-label="Inspect">
+            <ScanSearch />
+          </ToolbarToggleItem>
+        </TooltipTrigger>
+        <TooltipContent>Inspect</TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger as-child>
+          <ToolbarToggleItem value="rtl" size="icon-sm" aria-label="Right to left">
+            <PilcrowLeft />
+          </ToolbarToggleItem>
+        </TooltipTrigger>
+        <TooltipContent>Right to left</TooltipContent>
+      </Tooltip>
     </ToolbarToggleGroup>
     <ToolbarSeparator />
     <ToolbarButton
@@ -68,21 +65,6 @@ const cycleScheme = () => {
       <Moon v-else-if="scheme === 'dark'" />
       <Sun v-else />
     </ToolbarButton>
-    <span v-if="props.colors" class="flex">
-      <MenuTrigger as-child>
-        <ToolbarButton v-tooltip="'Colour'" variant="soft" size="icon-sm" aria-label="Example colour">
-          <Palette />
-        </ToolbarButton>
-      </MenuTrigger>
-      <Menu size="sm" anchor="top middle" self="bottom middle">
-        <MenuRadioGroup v-model="color">
-          <MenuRadioItem v-for="tone in tones" :key="tone" :value="tone" class="capitalize">
-            <span :class="['size-3 rounded-full', swatches[tone]]" aria-hidden="true" />
-            {{ tone }}
-          </MenuRadioItem>
-        </MenuRadioGroup>
-      </Menu>
-    </span>
     <ToolbarButton
       v-tooltip="'Restart'"
       variant="soft"
