@@ -296,3 +296,36 @@ it("grows an outset corner by the inset and keeps a square inside square", () =>
     ]),
   ).toEqual(["12px", "4px", "0px", "13px"]);
 });
+
+it("keeps the steppers and the tag chips round at a small base radius", async () => {
+  const { InputNumber, InputNumberDecrement, InputNumberIncrement, InputNumberInput } =
+    await import("@/ui/input-number");
+  const { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemText } = await import("@/ui/tags-input");
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "--radius: 4px" }, [
+          h(InputNumber, { modelValue: 1 }, () => [
+            h(InputNumberDecrement, { "data-case": "stepper" }),
+            h(InputNumberInput, { "aria-label": "Quantity" }),
+            h(InputNumberIncrement),
+          ]),
+          h(TagsInput, { modelValue: ["a"] }, () => [
+            h(TagsInputItem, { value: "a", "data-case": "chip" }, () => h(TagsInputItemText)),
+            h(TagsInputInput, { "aria-label": "Tags" }),
+          ]),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  expect(radiusOf(document.querySelector("[data-case=stepper]")!)).toBe("2px");
+  expect(radiusOf(document.querySelector("[data-case=chip]")!)).not.toBe("0px");
+  wrapper.unmount();
+});
+
+it("rounds the date trigger from the frame, or from the md control step outside one", () => {
+  const trigger = "rounded-inset-[var(--frame-radius,--theme(--radius-control-md))]/1";
+  expect(computedRadii([trigger])).toEqual(["4px"]);
+  expect(computedRadii([trigger], "--radius: 4px")).toEqual(["2px"]);
+  expect(computedRadii([trigger], "--frame-radius: 12px")).toEqual(["8px"]);
+});

@@ -57,7 +57,7 @@ export const tagsInputBadgeSize: Record<TextControlSize, NonNullable<BadgeVarian
 };
 
 export const tagsInputItemClass = `
-  max-w-full cursor-default rounded-[max(0px,calc(var(--frame-radius)-var(--tags-inset)))]
+  max-w-full cursor-default rounded-inset-(--frame-radius)/(--tags-inset)
   data-[state=active]:focus-ring
   data-disabled:opacity-(--disabled-opacity)
 `;

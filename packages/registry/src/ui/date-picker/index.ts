@@ -37,13 +37,9 @@ export const datePickerInputVariants = cva("", {
 
 export type DatePickerInputVariants = VariantProps<typeof datePickerInputVariants>;
 
-/**
- * The icon button at the end of the field: a square one spacing step inside the frame, with a radius
- * that stays concentric with the frame's. It reads the frame's size from InputGroup's variables.
- */
 export const datePickerTrigger = `
   me-[calc(var(--spacing)-1px)] size-[calc(var(--input-group-height,var(--control-height-md))-var(--spacing)*2)]
-  rounded-[max(0px,calc(var(--frame-radius,var(--radius-lg))-var(--spacing)))] p-0 text-muted-foreground
+  rounded-inset-[var(--frame-radius,--theme(--radius-control-md))]/1 p-0 text-muted-foreground
   icon-size-[var(--input-group-icon,var(--control-icon-md))]
   data-[state=open]:text-foreground
 `;

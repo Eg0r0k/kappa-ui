@@ -88,10 +88,7 @@ export const inputNumberInputVariants = cva(
 export const inputNumberButtonVariants = cva("p-0", {
   variants: {
     orientation: {
-      horizontal: `
-        size-(--stepper-size) rounded-[max(0px,calc(var(--frame-radius)-var(--stepper-inset)))]
-        icon-size-(--stepper-icon)
-      `,
+      horizontal: `size-(--stepper-size) rounded-inset-(--frame-radius)/(--stepper-inset) icon-size-(--stepper-icon)`,
       vertical: "h-full w-(--stepper-size) rounded-none icon-size-(--stepper-chevron)",
     },
     part: {
@@ -102,11 +99,11 @@ export const inputNumberButtonVariants = cva("p-0", {
   compoundVariants: [
     { orientation: "horizontal", part: "increment", class: "me-[calc(var(--stepper-inset)-1px)]" },
     { orientation: "horizontal", part: "decrement", class: "ms-[calc(var(--stepper-inset)-1px)]" },
-    { orientation: "vertical", part: "increment", class: "rounded-se-[max(0px,calc(var(--frame-radius)-1px))]" },
+    { orientation: "vertical", part: "increment", class: "rounded-se-[calc(var(--frame-radius)-1px)]" },
     {
       orientation: "vertical",
       part: "decrement",
-      class: "rounded-ee-[max(0px,calc(var(--frame-radius)-1px))] in-data-[variant=filled]:rounded-ee-none",
+      class: "rounded-ee-[calc(var(--frame-radius)-1px)] in-data-[variant=filled]:rounded-ee-none",
     },
   ],
   defaultVariants: { orientation: "horizontal" },
