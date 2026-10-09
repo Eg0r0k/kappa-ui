@@ -2,6 +2,7 @@ import { mount } from "@vue/test-utils";
 import { expect, it } from "vitest";
 import { h } from "vue";
 
+import { cn } from "@/lib/utils";
 import { Card } from "@/ui/card";
 import { Checkbox } from "@/ui/checkbox";
 
@@ -261,4 +262,14 @@ it("follows a base set on an ancestor through every role", () => {
 
 it("squares every role when the base is zero", () => {
   expect(computedRadii(roleSteps, "--radius: 0px")).toEqual(roleSteps.map(() => "0px"));
+});
+
+it("lets a later radius class win over a role or nesting class in cn()", () => {
+  expect(cn("rounded-control-md", "rounded-none")).toBe("rounded-none");
+  expect(cn("rounded-none", "rounded-surface-lg")).toBe("rounded-surface-lg");
+  expect(cn("rounded-s-item-xs", "rounded-s-lg")).toBe("rounded-s-lg");
+  expect(cn("rounded-outset-(--menu-item-radius)/(--menu-pad)", "rounded-full")).toBe("rounded-full");
+  expect(cn("rounded-lg", "rounded-inset-control-md/1.5")).toBe("rounded-inset-control-md/1.5");
+  expect(cn("rounded-inset-control-md/1.5", "rounded-outset-item-md/1")).toBe("rounded-outset-item-md/1");
+  expect(cn("rounded-control-md", "rounded-t-none")).toBe("rounded-control-md rounded-t-none");
 });
