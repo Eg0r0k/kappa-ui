@@ -74,3 +74,28 @@ it("leaves a vertical finger drag to the page", async () => {
   expect(index.value).toBe(0);
   expect(element.hasAttribute("data-dragging")).toBe(false);
 });
+
+it("settles a finger drag that a second finger joined", async () => {
+  const { element, index } = await host();
+  const first = (x: number) => new Touch({ identifier: 1, target: element, clientX: x, clientY: 100 });
+  const second = new Touch({ identifier: 2, target: element, clientX: 200, clientY: 150 });
+  const send = (type: "touchstart" | "touchmove" | "touchend", changedTouches: Touch[], touches: Touch[]) =>
+    element.dispatchEvent(
+      stamp(new TouchEvent(type, { bubbles: true, cancelable: true, touches, targetTouches: touches, changedTouches })),
+    );
+  send("touchstart", [first(250)], [first(250)]);
+  for (const x of [220, 150]) {
+    await wait(40);
+    send("touchmove", [first(x)], [first(x)]);
+  }
+  await wait(40);
+  send("touchstart", [second], [first(150), second]);
+  await wait(40);
+  send("touchmove", [first(60)], [first(60), second]);
+  await wait(80);
+  send("touchend", [first(60)], [second]);
+  await wait(40);
+  send("touchend", [second], []);
+  expect(element.hasAttribute("data-dragging")).toBe(false);
+  expect(index.value).toBe(1);
+});
