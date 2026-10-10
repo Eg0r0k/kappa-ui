@@ -46,9 +46,9 @@ const initials = (name: string) =>
         :key="testimonial.name"
         variant="subtle"
         size="sm"
-        class="w-64 shrink-0"
+        class="w-64 shrink-0 self-stretch"
       >
-        <CardContent class="text-body-sm">“{{ testimonial.quote }}”</CardContent>
+        <CardContent class="line-clamp-3 text-body-sm">“{{ testimonial.quote }}”</CardContent>
         <CardFooter class="flex items-center gap-3">
           <Avatar size="sm">
             <AvatarFallback>{{ initials(testimonial.name) }}</AvatarFallback>
@@ -66,9 +66,9 @@ const initials = (name: string) =>
         :key="testimonial.name"
         variant="subtle"
         size="sm"
-        class="w-64 shrink-0"
+        class="w-64 shrink-0 self-stretch"
       >
-        <CardContent class="text-body-sm">“{{ testimonial.quote }}”</CardContent>
+        <CardContent class="line-clamp-3 text-body-sm">“{{ testimonial.quote }}”</CardContent>
         <CardFooter class="flex items-center gap-3">
           <Avatar size="sm">
             <AvatarFallback>{{ initials(testimonial.name) }}</AvatarFallback>
