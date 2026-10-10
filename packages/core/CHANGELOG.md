@@ -1,5 +1,11 @@
 # @kappa-ui/core
 
+## 0.15.0
+
+### Minor Changes
+
+- [`da01a2a`](https://github.com/Eg0r0k/kappa-ui/commit/da01a2a0226864a15731a4b16584e0226aaca060) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `tailwind.css`: `animate-marquee` and `animate-marquee-vertical` slide an element by its own size plus `--marquee-gap` over `--marquee-duration` (20s), the other way under `dir="rtl"` and not at all under reduced motion; `marquee-fade` dissolves `--marquee-fade` (25%) of each edge through a mask, along the axis named by the element's `data-orientation`.
+
 ## 0.14.0
 
 ### Minor Changes
