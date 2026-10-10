@@ -106,3 +106,15 @@ it("renders the element it is asked for and merges class", () => {
   expect(root().classList.contains("marquee-x")).toBe(true);
   expect(copies()[0]!.parentElement).toBe(root());
 });
+
+it("takes its size from a flex parent instead of its copies", () => {
+  render({ class: "flex-1" }, (node) => h("div", { style: "display:flex;width:400px" }, [node]));
+  expect(root().getBoundingClientRect().width).toBe(400);
+  expect(copies()[0]!.getBoundingClientRect().width).toBe(400);
+  reset();
+
+  render({ orientation: "vertical", class: "flex-1" }, (node) =>
+    h("div", { style: "display:flex;flex-direction:column;height:160px" }, [node]),
+  );
+  expect(root().getBoundingClientRect().height).toBe(160);
+});
