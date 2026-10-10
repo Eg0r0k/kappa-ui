@@ -1,5 +1,23 @@
 # @kappa-ui/registry
 
+## 0.19.0
+
+### Minor Changes
+
+- [`264c758`](https://github.com/Eg0r0k/kappa-ui/commit/264c758d5cd7fa515e9f4da2cd16fb8bd9907008) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Item: `size` is the row's density, as in shadcn. It sets padding, gap and the media size (through `--item-media` on the root), and no longer scales the text of `ItemTitle` and `ItemDescription`, which stay at `text-label-lg` and `text-body-md`. The parts carry no `group-data-[size=…]` variants any more, so a `class` of your own, like `text-body-sm`, `line-clamp-none` or `size-12` on an `ItemMedia`, wins.
+
+- [`adf96cd`](https://github.com/Eg0r0k/kappa-ui/commit/adf96cdafafe2e646fc90abed419f34dc4397942) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Parts no longer style themselves from their root's `size` through `group-data-[size=…]` variants, which beat any plain class of yours. `size` is the density of the root, and a `class` on a part wins:
+  
+  - Card, Empty, Alert and Stepper: `CardTitle`, `CardDescription`, `EmptyTitle`, `EmptyDescription`, `AlertTitle`, `AlertDescription`, `StepperTitle` and `StepperDescription` keep one text size at every root size (title-md/body-md, title-sm/body-md for Alert, title-sm/body-sm for Stepper). Empty's icon and gaps and Stepper's indicator number still follow the size, through `--empty-icon`, `--empty-header-gap`, `--empty-content-gap` and `--stepper-text` on the root.
+  - Menu and DrawerMenu labels, Menubar triggers and the Calendar heading, weekday cells and week numbers keep scaling with the size, through `--menu-label`, `--menubar-text`, `--calendar-heading` and `--calendar-label` (each with a `-leading` twin) set by the root.
+  - AlertDialog `size="sm"` centres its text through the content, so `text-start` on `AlertDialogHeader` wins; the footer keeps its two-column grid.
+
+### Patch Changes
+
+- [`4ff76a9`](https://github.com/Eg0r0k/kappa-ui/commit/4ff76a9166fad90e99e4037fa2baecb19fdf88fa) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ScrollArea: a vertical area gives its content the area's width, so `truncate`, `line-clamp-*` and percentage widths work inside it. Before, the content box grew to the longest line, as in QScrollArea. `horizontal` and `both` keep letting the content grow.
+  
+  `setScrollPercentage` and `setScrollPosition` measure the viewport when called instead of reading the last observed size, so `setScrollPercentage('vertical', 1)` right after a content change reaches the new end.
+
 ## 0.18.0
 
 ### Minor Changes
