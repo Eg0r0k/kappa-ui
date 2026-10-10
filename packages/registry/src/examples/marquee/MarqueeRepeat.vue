@@ -7,7 +7,7 @@ const logos = [Camera, Cloud, Cpu];
 </script>
 
 <template>
-  <Marquee :repeat="2" class="w-full">
+  <Marquee :repeat="1" class="w-full">
     <component :is="logo" v-for="(logo, index) in logos" :key="index" class="size-10 shrink-0 text-muted-foreground" />
   </Marquee>
 </template>

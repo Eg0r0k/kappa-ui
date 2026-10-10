@@ -26,7 +26,7 @@ const internalInCore = {
 const fromRoot = (path) => fileURLToPath(new URL(path, import.meta.url))
 
 // a selector list, a selection source and CSS lengths: the only ui strings in variables that are not classes
-const notClasses = ['interactive', 'pendingSource', 'rest', 'track']
+const notClasses = ['FOCUSABLE', 'interactive', 'pendingSource', 'rest', 'track']
 const uiSelectors = [...getDefaultSelectors(), { kind: 'variable', name: `^(?!(?:${notClasses.join('|')})$).+$` }]
 
 // Prettier prints a static class attribute on one line, so wrapping leaves attributes to it

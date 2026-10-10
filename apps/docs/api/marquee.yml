@@ -2,13 +2,15 @@ component: Marquee
 file: ui/marquee/Marquee.vue
 props:
   pauseOnHover:
-    description: "Stops the animation while the pointer is over the marquee and while anything inside it has focus. Off by default."
+    description: "Holds the animation in place while the pointer is over the marquee. Off by default. Keyboard focus inside always stops it."
+  paused:
+    description: "Stops the animation in place, for a pause control of your own. Off by default."
   reverse:
     description: "Runs the animation the other way."
   orientation:
     description: "`horizontal` scrolls along the row, `vertical` up a column; a vertical marquee needs a height. `horizontal` by default."
   repeat:
-    description: "How many copies of the content are laid out. 4 by default; fewer than three with short content leaves a gap at the seam."
+    description: "How many copies of the content are laid out, 2 by default; each is at least as wide as the marquee, so two always loop without a seam."
   fade:
     description: "Dissolves the edges through a mask, `--marquee-fade` on each side. On by default; see Performance on the page before leaving it on for a wide marquee."
   as:

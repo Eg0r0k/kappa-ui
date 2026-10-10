@@ -6,8 +6,8 @@ export type MarqueeOrientation = "horizontal" | "vertical";
 
 export const marqueeVariants = cva(
   `
-    group/marquee relative flex items-center gap-(--marquee-gap)
-    [--marquee-duration:20s] [--marquee-fade:25%] [--marquee-gap:--spacing(16)]
+    group/marquee relative flex items-center gap-(--marquee-gap) [--marquee-duration:20s] [--marquee-fade:25%]
+    [--marquee-gap:--spacing(16)]
   `,
   {
     variants: {

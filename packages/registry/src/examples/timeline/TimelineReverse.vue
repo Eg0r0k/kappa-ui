@@ -14,10 +14,10 @@ import {
 } from "@/ui/timeline";
 
 const releases = [
-  { value: "2.0", date: "Oct 2026", title: "2.0", description: "New theme and radius roles." },
-  { value: "1.5", date: "Jul 2026", title: "1.5", description: "Swipe views and drawers." },
-  { value: "1.0", date: "Mar 2026", title: "1.0", description: "First stable release." },
-  { value: "0.1", date: "Jan 2026", title: "0.1", description: "Buttons, inputs and a theme." },
+  { value: "2.0", date: "Oct 2026", datetime: "2026-10", title: "2.0", description: "New theme and radius roles." },
+  { value: "1.5", date: "Jul 2026", datetime: "2026-07", title: "1.5", description: "Swipe views and drawers." },
+  { value: "1.0", date: "Mar 2026", datetime: "2026-03", title: "1.0", description: "First stable release." },
+  { value: "0.1", date: "Jan 2026", datetime: "2026-01", title: "0.1", description: "Buttons, inputs and a theme." },
 ];
 
 const current = ref("1.5");
@@ -37,7 +37,7 @@ const earlier = () => (current.value = releases[Math.min(releases.length - 1, in
         <TimelineIndicator>{{ release.value }}</TimelineIndicator>
         <TimelineSeparator />
         <TimelineContent>
-          <TimelineDate>{{ release.date }}</TimelineDate>
+          <TimelineDate :datetime="release.datetime">{{ release.date }}</TimelineDate>
           <TimelineTitle>Version {{ release.title }}</TimelineTitle>
           <TimelineDescription>{{ release.description }}</TimelineDescription>
         </TimelineContent>

@@ -13400,7 +13400,7 @@
       "name": "marquee-repeat",
       "type": "registry:block",
       "title": "Marquee repeat",
-      "description": "Two copies of three logos: too few to hide the seam.",
+      "description": "One copy of three logos: the marquee runs empty while it travels back.",
       "categories": [
         "example"
       ],

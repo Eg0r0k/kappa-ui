@@ -3,9 +3,9 @@ file: ui/timeline/Timeline.vue
 description: "`class` is also accepted on every part and merged over its classes with tailwind-merge."
 props:
   modelValue:
-    description: "The `value` of the current record, bound with `v-model`. The records before it are completed, the ones after it inactive. A value that matches no record counts as past the last one, so every record is completed (inactive with `reverse`). Without a model no record has a state."
+    description: "The `value` of the current record, bound with `v-model`; `null` counts as no model. The records before it are completed, the ones after it inactive. A value that matches no record counts as past the last one, so every record is completed (inactive with `reverse`). Without a model no record has a state."
   defaultValue:
-    description: "The current record at first when `v-model` is not used."
+    description: "The current record at first when `v-model` is not used; `null` counts as no model."
   reverse:
     description: "Counts the records after the current one as completed instead of the ones before, for a list that runs newest first."
   orientation:
@@ -19,6 +19,6 @@ props:
   asChild:
     description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
 emits:
-  update:modelValue: "Fires when the model changes from inside; the parts never change it, so this only mirrors `v-model`."
+  update:modelValue: "Declared so `v-model` binds; the parts never change the model themselves."
 slots:
   default: "The `TimelineItem`s."

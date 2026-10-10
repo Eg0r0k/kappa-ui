@@ -263,7 +263,12 @@ it("follows the DOM order after a keyed reorder", async () => {
     defineComponent({
       setup: () => () =>
         h(Timeline, { defaultValue: "design" }, () =>
-          order.value.map((value) => item(events.find((event) => event.value === value)!, { key: value })),
+          order.value.map((value) =>
+            item(
+              events.find((event) => event.value === value)!,
+              { key: value },
+            ),
+          ),
         ),
     }),
     { attachTo: document.body },
