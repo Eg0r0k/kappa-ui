@@ -13293,6 +13293,7 @@
         "data-display"
       ],
       "dependencies": [
+        "@vueuse/core",
         "class-variance-authority",
         "reka-ui"
       ],

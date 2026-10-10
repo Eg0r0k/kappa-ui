@@ -1018,7 +1018,10 @@
     animation-name: kappa-marquee-rtl;
   }
   @media (prefers-reduced-motion: reduce) {
-    animation: none;
+    &,
+    &:dir(rtl) {
+      animation: none;
+    }
   }
 }
 

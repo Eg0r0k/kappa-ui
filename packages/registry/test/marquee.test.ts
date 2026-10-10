@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type Component, type VNode, h } from "vue";
+import { type Component, type VNode, h, nextTick } from "vue";
 
 import { Marquee } from "@/ui/marquee";
 import { ScrollArea } from "@/ui/scroll-area";
@@ -36,17 +36,23 @@ const root = () => document.querySelector<HTMLElement>("[data-slot=marquee]")!;
 const copies = () => [...document.querySelectorAll<HTMLElement>("[data-slot=marquee-content]")];
 const first = () => getComputedStyle(copies()[0]!);
 
-it("repeats the content and keeps every copy but the first out of the way", () => {
+it("repeats the content, hides the copies from assistive technology and the Tab order, and keeps them clickable", async () => {
   render();
-  expect(copies()).toHaveLength(4);
-  expect(copies().map((copy) => copy.inert)).toEqual([false, true, true, true]);
-  expect(copies().map((copy) => copy.getAttribute("aria-hidden"))).toEqual([null, "true", "true", "true"]);
+  expect(copies()).toHaveLength(2);
+  expect(copies().some((copy) => copy.inert)).toBe(false);
+  expect(copies().map((copy) => copy.getAttribute("aria-hidden"))).toEqual([null, "true"]);
+  await nextTick();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  expect(copies()[0]!.querySelector("a")!.tabIndex).toBe(0);
+  expect(copies()[1]!.querySelector("a")!.tabIndex).toBe(-1);
+  expect(getComputedStyle(copies()[1]!).pointerEvents).not.toBe("none");
   expect(root().dataset.orientation).toBe("horizontal");
-  expect(getComputedStyle(root()).overflow).toBe("clip");
+  expect(getComputedStyle(root()).overflowX).toBe("clip");
+  expect(getComputedStyle(root()).overflowY).toBe("visible");
   reset();
 
-  render({ repeat: 2 });
-  expect(copies()).toHaveLength(2);
+  render({ repeat: 3 });
+  expect(copies()).toHaveLength(3);
 });
 
 it("slides the copies with the marquee animation, the other way in RTL and when reversed", () => {
@@ -74,17 +80,41 @@ it("runs vertically in a column", () => {
   expect(root().dataset.orientation).toBe("vertical");
   expect(getComputedStyle(root()).flexDirection).toBe("column");
   expect(first().animationName).toBe("kappa-marquee-vertical");
+  expect(getComputedStyle(root()).overflowY).toBe("clip");
 });
 
-it("pauses on hover and on focus within when asked", async () => {
+it("keeps its content width as a vertical column in a flex row", () => {
+  render({ orientation: "vertical", class: "h-40" }, (node) => h("div", { style: "display:flex;width:600px" }, [node]));
+  expect(root().getBoundingClientRect().width).toBe(160);
+});
+
+it("pauses when told to", () => {
+  render({ paused: true });
+  expect(first().animationPlayState).toBe("paused");
+});
+
+it("stops under keyboard focus and keeps running under mouse focus", async () => {
+  render({ pauseOnHover: false });
+  await nextTick();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  const link = copies()[0]!.querySelector("a")!;
+  for (let attempt = 0; attempt < 3 && document.activeElement !== link; attempt++) await userEvent.tab();
+  expect(document.activeElement).toBe(link);
+  expect(first().animationName).toBe("none");
+  (document.activeElement as HTMLElement).blur();
+  expect(first().animationName).toBe("kappa-marquee");
+  await userEvent.click(link, { force: true });
+  expect(document.activeElement).toBe(link);
+  expect(first().animationName).toBe("kappa-marquee");
+});
+
+it("pauses on hover when asked", async () => {
   render({ pauseOnHover: true });
   expect(first().animationPlayState).toBe("running");
   await userEvent.hover(root());
   expect(first().animationPlayState).toBe("paused");
   await userEvent.unhover(root());
   expect(first().animationPlayState).toBe("running");
-  document.querySelector<HTMLElement>("[data-slot=marquee-content] a")!.focus();
-  expect(first().animationPlayState).toBe("paused");
   reset();
 
   render();
