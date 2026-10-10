@@ -985,6 +985,84 @@
   }
 }
 
+@keyframes kappa-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100% - var(--marquee-gap, 0px)), 0, 0);
+  }
+}
+
+@keyframes kappa-marquee-rtl {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(100% + var(--marquee-gap, 0px)), 0, 0);
+  }
+}
+
+@keyframes kappa-marquee-vertical {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, calc(-100% - var(--marquee-gap, 0px)), 0);
+  }
+}
+
+@utility animate-marquee {
+  animation: kappa-marquee var(--marquee-duration, 20s) linear infinite;
+  &:dir(rtl) {
+    animation-name: kappa-marquee-rtl;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility animate-marquee-vertical {
+  animation: kappa-marquee-vertical var(--marquee-duration, 20s) linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* A mask, not an overlay, so the fade works on any background; see the Marquee page for what it costs. */
+@utility marquee-fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--marquee-fade, 25%),
+    #000 calc(100% - var(--marquee-fade, 25%)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--marquee-fade, 25%),
+    #000 calc(100% - var(--marquee-fade, 25%)),
+    transparent
+  );
+  &:where([data-orientation="vertical"]) {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 var(--marquee-fade, 25%),
+      #000 calc(100% - var(--marquee-fade, 25%)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 var(--marquee-fade, 25%),
+      #000 calc(100% - var(--marquee-fade, 25%)),
+      transparent
+    );
+  }
+}
+
 @property --scroll-fade-t {
   syntax: "<length-percentage>";
   inherits: false;
