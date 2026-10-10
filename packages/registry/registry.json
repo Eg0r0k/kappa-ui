@@ -13285,6 +13285,179 @@
       ]
     },
     {
+      "name": "marquee",
+      "type": "registry:ui",
+      "title": "Marquee",
+      "description": "Content that scrolls forever: the slot repeated and slid by a CSS animation, horizontal or vertical, either way, paused on hover, with a fade at the edges.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/marquee/Marquee.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/marquee/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "marquee-demo",
+      "type": "registry:block",
+      "title": "Marquee demo",
+      "description": "A strip of logos scrolling to the start.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marquee"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marquee/MarqueeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marquee-pause-on-hover",
+      "type": "registry:block",
+      "title": "Marquee pause on hover",
+      "description": "The strip stops under the pointer and while something inside has focus.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marquee"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marquee/MarqueePauseOnHover.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marquee-reverse",
+      "type": "registry:block",
+      "title": "Marquee reverse",
+      "description": "The strip scrolling the other way.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marquee"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marquee/MarqueeReverse.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marquee-vertical",
+      "type": "registry:block",
+      "title": "Marquee vertical",
+      "description": "A column of logos scrolling up inside a fixed height.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marquee"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marquee/MarqueeVertical.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marquee-repeat",
+      "type": "registry:block",
+      "title": "Marquee repeat",
+      "description": "Two copies of three logos: too few to hide the seam.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marquee"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marquee/MarqueeRepeat.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marquee-fade",
+      "type": "registry:block",
+      "title": "Marquee fade",
+      "description": "The same strip with and without the fade at the edges.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "marquee"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marquee/MarqueeFade.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marquee-testimonials",
+      "type": "registry:block",
+      "title": "Marquee testimonials",
+      "description": "Two rows of cards running opposite ways, paused on hover.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "marquee",
+        "card",
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "src/examples/marquee/MarqueeTestimonials.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "color-picker",
       "type": "registry:ui",
       "title": "Color Picker",

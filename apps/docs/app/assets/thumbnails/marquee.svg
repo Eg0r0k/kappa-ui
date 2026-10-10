@@ -1,0 +1,11 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect opacity="0.15" x="-20" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.6" x="56" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
+<rect x="132" y="72" width="56" height="56" rx="12" style="fill:var(--primary)"/>
+<rect opacity="0.6" x="208" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.15" x="284" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
+<path d="M154 92L166 100L154 108V92Z" style="fill:var(--primary-foreground)"/>
+<path d="M136 152L148 160L136 168" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<path d="M160 152L172 160L160 168" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<path d="M184 152L196 160L184 168" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+</svg>
