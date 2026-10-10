@@ -41,7 +41,7 @@ it("repeats the content and keeps every copy but the first out of the way", () =
   expect(copies().map((copy) => copy.inert)).toEqual([false, true, true, true]);
   expect(copies().map((copy) => copy.getAttribute("aria-hidden"))).toEqual([null, "true", "true", "true"]);
   expect(root().dataset.orientation).toBe("horizontal");
-  expect(getComputedStyle(root()).overflow).toBe("hidden");
+  expect(getComputedStyle(root()).overflow).toBe("clip");
   reset();
 
   render({ repeat: 2 });
@@ -104,4 +104,5 @@ it("renders the element it is asked for and merges class", () => {
   render({ as: "section", class: "marquee-x" });
   expect(root().tagName).toBe("SECTION");
   expect(root().classList.contains("marquee-x")).toBe(true);
+  expect(copies()[0]!.parentElement).toBe(root());
 });

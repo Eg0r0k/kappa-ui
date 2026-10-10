@@ -6,16 +6,15 @@ import { cn } from "@/lib/utils";
 import { type MarqueeOrientation, marqueeContentVariants, marqueeVariants } from ".";
 
 const props = withDefaults(
-  defineProps<
-    PrimitiveProps & {
-      pauseOnHover?: boolean;
-      reverse?: boolean;
-      orientation?: MarqueeOrientation;
-      repeat?: number;
-      fade?: boolean;
-      class?: HTMLAttributes["class"];
-    }
-  >(),
+  defineProps<{
+    as?: PrimitiveProps["as"];
+    pauseOnHover?: boolean;
+    reverse?: boolean;
+    orientation?: MarqueeOrientation;
+    repeat?: number;
+    fade?: boolean;
+    class?: HTMLAttributes["class"];
+  }>(),
   { as: "div", pauseOnHover: false, reverse: false, orientation: "horizontal", repeat: 4, fade: true },
 );
 </script>
@@ -23,7 +22,6 @@ const props = withDefaults(
 <template>
   <Primitive
     :as="props.as"
-    :as-child="props.asChild"
     data-slot="marquee"
     :data-orientation="props.orientation"
     :class="cn(marqueeVariants({ orientation: props.orientation, fade: props.fade }), props.class)"
