@@ -49,7 +49,7 @@ const initials = (name: string) =>
         class="w-64 shrink-0 self-stretch"
       >
         <CardContent class="line-clamp-3 text-body-sm">“{{ testimonial.quote }}”</CardContent>
-        <CardFooter class="flex items-center gap-3">
+        <CardFooter class="mt-auto flex items-center gap-3">
           <Avatar size="sm">
             <AvatarFallback>{{ initials(testimonial.name) }}</AvatarFallback>
           </Avatar>
@@ -69,7 +69,7 @@ const initials = (name: string) =>
         class="w-64 shrink-0 self-stretch"
       >
         <CardContent class="line-clamp-3 text-body-sm">“{{ testimonial.quote }}”</CardContent>
-        <CardFooter class="flex items-center gap-3">
+        <CardFooter class="mt-auto flex items-center gap-3">
           <Avatar size="sm">
             <AvatarFallback>{{ initials(testimonial.name) }}</AvatarFallback>
           </Avatar>
