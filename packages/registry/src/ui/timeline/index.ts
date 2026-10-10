@@ -24,7 +24,7 @@ export interface TimelineEntry {
 export interface TimelineContext {
   orientation: ComputedRef<TimelineOrientation>;
   reverse: ComputedRef<boolean>;
-  model: Ref<TimelineValue | undefined>;
+  model: Ref<TimelineValue | null | undefined>;
   entries: Ref<TimelineEntry[]>;
   activeIndex: ComputedRef<number>;
   register: (entry: TimelineEntry) => () => void;
@@ -97,7 +97,10 @@ export const timelineSeparatorVariants = cva(
   {
     variants: {
       orientation: {
-        vertical: "col-start-1 row-start-2 min-h-(--timeline-spacing) w-(--timeline-separator) justify-self-center",
+        vertical: `
+          col-start-1 row-start-2 mb-(--timeline-gap) min-h-(--timeline-spacing) w-(--timeline-separator)
+          justify-self-center
+        `,
         horizontal: "col-start-2 row-start-1 h-(--timeline-separator) self-center me-(--timeline-gap)",
       },
     },

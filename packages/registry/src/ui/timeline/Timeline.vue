@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMutationObserver, useVModel } from "@vueuse/core";
-import { Primitive, type PrimitiveProps } from "reka-ui";
-import { type ComponentPublicInstance, type HTMLAttributes, computed, ref, shallowRef } from "vue";
+import { Primitive, type PrimitiveProps, useForwardExpose } from "reka-ui";
+import { type HTMLAttributes, computed, shallowRef } from "vue";
 
 import { cn } from "@/lib/utils";
 import {
@@ -17,8 +17,8 @@ import {
 const props = withDefaults(
   defineProps<
     PrimitiveProps & {
-      modelValue?: TimelineValue;
-      defaultValue?: TimelineValue;
+      modelValue?: TimelineValue | null;
+      defaultValue?: TimelineValue | null;
       reverse?: boolean;
       orientation?: TimelineOrientation;
       size?: NonNullable<TimelineVariants["size"]>;
@@ -44,11 +44,7 @@ const model = useVModel(props, "modelValue", emits, {
   passive: (props.modelValue === undefined) as false,
 });
 
-const root = ref<HTMLElement>();
-const setInstance = (instance: ComponentPublicInstance | Element | null) => {
-  const node = instance instanceof Element ? instance : instance?.$el;
-  root.value = node instanceof HTMLElement ? node : undefined;
-};
+const { forwardRef, currentElement } = useForwardExpose();
 
 const entries = shallowRef<TimelineEntry[]>([]);
 
@@ -67,11 +63,11 @@ const register = (entry: TimelineEntry) => {
   };
 };
 
-useMutationObserver(root, resort, { childList: true });
+useMutationObserver(currentElement, resort, { childList: true });
 
 const activeIndex = computed(() => {
   const value = model.value;
-  if (value === undefined) return -1;
+  if (value === undefined || value === null) return -1;
   return entries.value.findIndex((entry, index) => (entry.value() ?? index) === value);
 });
 
@@ -88,7 +84,7 @@ provideTimelineContext({
 
 <template>
   <Primitive
-    :ref="setInstance"
+    :ref="forwardRef"
     :as="props.as"
     :as-child="props.asChild"
     data-slot="timeline"

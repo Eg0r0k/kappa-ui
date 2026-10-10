@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, expect, it } from "vitest";
-import { type VNode, defineComponent, h, nextTick, ref } from "vue";
+import { afterEach, expect, it, vi } from "vitest";
+import { renderToString } from "vue/server-renderer";
+import { type VNode, createSSRApp, defineComponent, h, nextTick, ref } from "vue";
 
 import {
   Timeline,
@@ -193,6 +194,9 @@ it("sizes the indicator and the line from the size prop and leaves the text alon
   expect(indicators()[0]!.getBoundingClientRect().width).toBe(32);
   expect(separators()[0]!.getBoundingClientRect().width).toBe(2);
   expect(separators()[0]!.getBoundingClientRect().height).toBeGreaterThanOrEqual(24);
+  expect(separators()[0]!.getBoundingClientRect().bottom).toBeLessThanOrEqual(
+    indicators()[1]!.getBoundingClientRect().top - 8,
+  );
   expect(getComputedStyle(q("[data-slot=timeline-title]")).fontSize).toBe("14px");
   reset();
 
@@ -246,4 +250,72 @@ it("merges class onto every part", () => {
     expect(q(`[data-slot=timeline-${part}]`).classList.contains(`${part}-x`)).toBe(true);
   }
   expect(root().classList.contains("timeline-x")).toBe(true);
+});
+
+it("treats a null model like none", () => {
+  render({ modelValue: null });
+  expect(states()).toEqual([undefined, undefined, undefined]);
+});
+
+it("follows the DOM order after a keyed reorder", async () => {
+  const order = ref(["kickoff", "design", "build"]);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(Timeline, { defaultValue: "design" }, () =>
+          order.value.map((value) => item(events.find((event) => event.value === value)!, { key: value })),
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  expect(states()).toEqual(["completed", "active", "inactive"]);
+  order.value = ["build", "design", "kickoff"];
+  await nextTick();
+  await nextTick();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  expect(items().map((element) => element.textContent?.includes("Build"))).toEqual([true, false, false]);
+  expect(states()).toEqual(["completed", "active", "inactive"]);
+});
+
+it("renders the state on the server and hydrates without a mismatch", async () => {
+  const app = (props: Record<string, unknown>) =>
+    createSSRApp({ render: () => h(Timeline, props, () => events.map((event) => item(event))) });
+  const stateOf = (html: string) =>
+    [...html.matchAll(/data-state="(completed|active|inactive)"/g)].map((match) => match[1]);
+
+  const html = await renderToString(app({ defaultValue: "design" }));
+  expect(stateOf(html)).toEqual(["completed", "active", "inactive"]);
+  expect(html.match(/aria-current="step"/g)).toHaveLength(1);
+
+  expect(stateOf(await renderToString(app({ defaultValue: "design", reverse: true })))).toEqual([
+    "inactive",
+    "active",
+    "completed",
+  ]);
+  expect(stateOf(await renderToString(app({ defaultValue: "nowhere" })))).toEqual([
+    "completed",
+    "completed",
+    "completed",
+  ]);
+
+  const warn = vi.spyOn(console, "warn");
+  const error = vi.spyOn(console, "error");
+  try {
+    const container = document.createElement("div");
+    container.innerHTML = html;
+    document.body.append(container);
+    const hydrated = app({ defaultValue: "design" });
+    hydrated.mount(container);
+    unmount = () => hydrated.unmount();
+    await nextTick();
+    const complaints = [...warn.mock.calls, ...error.mock.calls].filter((call) =>
+      /hydration|mismatch/i.test(String(call[0])),
+    );
+    expect(complaints).toEqual([]);
+    expect(states()).toEqual(["completed", "active", "inactive"]);
+  } finally {
+    warn.mockRestore();
+    error.mockRestore();
+  }
 });
