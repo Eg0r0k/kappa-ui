@@ -3,13 +3,15 @@ import { Tag } from '@lucide/vue'
 
 import { Badge } from '@/ui/badge'
 import {
-  Stepper,
-  StepperDescription,
-  StepperIndicator,
-  StepperItem,
-  StepperSeparator,
-  StepperTitle,
-} from '@/ui/stepper'
+  Timeline,
+  TimelineContent,
+  TimelineDate,
+  TimelineDescription,
+  TimelineIndicator,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineTitle,
+} from '@/ui/timeline'
 import InlineText from '~/components/content/InlineText.vue'
 
 type Release = {
@@ -26,28 +28,22 @@ const paragraphs = (text: string) => text.split(/\n{2,}/)
 </script>
 
 <template>
-  <Stepper as="ol" orientation="vertical" size="sm" :model-value="1" class="flex flex-col gap-8">
-    <StepperItem
-      v-for="(release, index) in props.releases"
-      :key="`${release.package}@${release.version}`"
-      as="li"
-      :step="index + 1"
-      class="relative flex items-start gap-4"
-    >
-      <StepperSeparator v-if="index < props.releases.length - 1" class="absolute start-3.5 top-8 -bottom-8 w-px" />
-      <StepperIndicator>
+  <Timeline size="sm" aria-label="Releases">
+    <TimelineItem v-for="release in props.releases" :key="`${release.package}@${release.version}`">
+      <TimelineIndicator>
         <Tag />
-      </StepperIndicator>
-      <div class="flex min-w-0 flex-1 flex-col gap-2">
-        <StepperTitle class="flex items-center justify-between gap-2">
-          <Badge variant="soft" :color="release.package === 'registry' ? 'primary' : 'neutral'">
-            {{ release.package }} {{ release.version }}
-          </Badge>
-          <time :datetime="release.date" class="text-body-sm font-normal text-muted-foreground">
-            {{ format.format(new Date(release.date)) }}
-          </time>
-        </StepperTitle>
-        <StepperDescription as="div" class="flex flex-col gap-3 text-body-md text-foreground">
+      </TimelineIndicator>
+      <TimelineSeparator />
+      <TimelineContent class="gap-2">
+        <div class="flex items-center justify-between gap-2">
+          <TimelineTitle>
+            <Badge variant="soft" :color="release.package === 'registry' ? 'primary' : 'neutral'">
+              {{ release.package }} {{ release.version }}
+            </Badge>
+          </TimelineTitle>
+          <TimelineDate :datetime="release.date">{{ format.format(new Date(release.date)) }}</TimelineDate>
+        </div>
+        <TimelineDescription as="div" class="flex flex-col gap-3 text-body-md text-foreground">
           <div v-for="(entry, index) in release.entries" :key="entry.hash ?? index" class="flex flex-col gap-1.5">
             <p v-for="(paragraph, at) in paragraphs(entry.text)" :key="at">
               <template v-if="at === 0 && entry.hash">
@@ -64,8 +60,8 @@ const paragraphs = (text: string) => text.split(/\n{2,}/)
               <InlineText :text="paragraph" />
             </p>
           </div>
-        </StepperDescription>
-      </div>
-    </StepperItem>
-  </Stepper>
+        </TimelineDescription>
+      </TimelineContent>
+    </TimelineItem>
+  </Timeline>
 </template>

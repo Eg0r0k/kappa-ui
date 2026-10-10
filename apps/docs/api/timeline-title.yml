@@ -1,0 +1,9 @@
+component: TimelineTitle
+file: ui/timeline/TimelineTitle.vue
+props:
+  as:
+    description: A `<div>` by default; set a heading level that fits the page.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The title."

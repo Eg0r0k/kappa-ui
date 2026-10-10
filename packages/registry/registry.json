@@ -13083,6 +13083,208 @@
       ]
     },
     {
+      "name": "timeline",
+      "type": "registry:ui",
+      "title": "Timeline",
+      "description": "A record of events in order, with an optional current one: indicators, lines, dates, titles and descriptions, vertical or horizontal, newest first or last, in one size from xs to xl and any colour role.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "@vueuse/core",
+        "class-variance-authority",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/timeline/Timeline.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/TimelineItem.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/TimelineIndicator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/TimelineSeparator.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/TimelineContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/TimelineDate.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/TimelineTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/TimelineDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/timeline/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "timeline-demo",
+      "type": "registry:block",
+      "title": "Timeline demo",
+      "description": "Four project milestones with icons, the second one current.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "timeline"
+      ],
+      "files": [
+        {
+          "path": "src/examples/timeline/TimelineDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "timeline-sizes",
+      "type": "registry:block",
+      "title": "Timeline sizes",
+      "description": "The same shipment in every size.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "timeline"
+      ],
+      "files": [
+        {
+          "path": "src/examples/timeline/TimelineSizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "timeline-colors",
+      "type": "registry:block",
+      "title": "Timeline colours",
+      "description": "Timelines in every colour role, and one record retoned from its indicator.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "timeline"
+      ],
+      "files": [
+        {
+          "path": "src/examples/timeline/TimelineColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "timeline-horizontal",
+      "type": "registry:block",
+      "title": "Timeline horizontal",
+      "description": "Milestones in a row, the line running between the indicators.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "timeline"
+      ],
+      "files": [
+        {
+          "path": "src/examples/timeline/TimelineHorizontal.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "timeline-reverse",
+      "type": "registry:block",
+      "title": "Timeline reverse",
+      "description": "Releases newest first, the current one moved by two buttons.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "timeline",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/timeline/TimelineReverse.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "timeline-alternating",
+      "type": "registry:block",
+      "title": "Timeline alternating",
+      "description": "A centred line with the records on alternating sides, from classes on the parts.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "timeline"
+      ],
+      "files": [
+        {
+          "path": "src/examples/timeline/TimelineAlternating.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "timeline-changelog",
+      "type": "registry:block",
+      "title": "Timeline changelog",
+      "description": "An event log without a current record: badges, paragraphs and one destructive entry.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "timeline",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "src/examples/timeline/TimelineChangelog.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "color-picker",
       "type": "registry:ui",
       "title": "Color Picker",

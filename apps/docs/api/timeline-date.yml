@@ -1,0 +1,9 @@
+component: TimelineDate
+file: ui/timeline/TimelineDate.vue
+props:
+  as:
+    description: The element or component to render. A `<time>` by default, so a `datetime` attribute lands on it.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The date as text."

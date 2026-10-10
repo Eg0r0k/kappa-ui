@@ -1,0 +1,9 @@
+component: TimelineContent
+file: ui/timeline/TimelineContent.vue
+props:
+  as:
+    description: The element or component to render. A `<div>` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The date, the title and the description, or anything else the record holds."

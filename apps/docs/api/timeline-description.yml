@@ -1,0 +1,9 @@
+component: TimelineDescription
+file: ui/timeline/TimelineDescription.vue
+props:
+  as:
+    description: A `<div>` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The description, or a block of paragraphs with `as=\"div\"`."

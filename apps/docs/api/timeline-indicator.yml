@@ -1,0 +1,11 @@
+component: TimelineIndicator
+file: ui/timeline/TimelineIndicator.vue
+props:
+  color:
+    description: "Colour role of this record only, over the timeline's. Any name declared on `[data-slot][data-color]` works too."
+  as:
+    description: The element or component to render. A `<div>` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "An icon, a number, an Avatar, or nothing for a plain dot."

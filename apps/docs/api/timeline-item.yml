@@ -1,0 +1,11 @@
+component: TimelineItem
+file: ui/timeline/TimelineItem.vue
+props:
+  value:
+    description: "What the model matches, a string or a number. Without it the record's index in document order, so a numeric model without values picks by index."
+  as:
+    description: The element or component to render. An `<li>` by default.
+  asChild:
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+slots:
+  default: "The indicator, the separator and the content. Receives `state`: `active`, `completed`, `inactive` or `undefined` without a model."
