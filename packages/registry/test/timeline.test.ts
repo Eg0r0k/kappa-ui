@@ -40,13 +40,12 @@ const item = (event: (typeof events)[number], props: Record<string, unknown> = {
     ]),
   ]);
 
-const render = async (
+const render = (
   root: Record<string, unknown> = {},
   items: () => VNode[] = () => events.map((event) => item(event)),
 ) => {
   const wrapper = mount({ render: () => h(Timeline, root, items) }, { attachTo: document.body });
   unmount = () => wrapper.unmount();
-  await nextTick();
   return wrapper;
 };
 
@@ -58,8 +57,8 @@ const indicators = () => all("[data-slot=timeline-indicator]");
 const separators = () => all("[data-slot=timeline-separator]");
 const states = () => items().map((element) => element.dataset.state);
 
-it("renders an ordered list of records with no state until there is a model", async () => {
-  await render();
+it("renders an ordered list of records with no state until there is a model", () => {
+  render();
   expect(root().tagName).toBe("OL");
   expect(root().dataset.orientation).toBe("vertical");
   expect(root().dataset.size).toBe("md");
@@ -74,8 +73,8 @@ it("renders an ordered list of records with no state until there is a model", as
   expect(separators()[0]!.getAttribute("data-orientation")).toBe("vertical");
 });
 
-it("marks the active record from default-value and the ones before it completed", async () => {
-  await render({ defaultValue: "design" });
+it("marks the active record from default-value and the ones before it completed", () => {
+  render({ defaultValue: "design" });
   expect(states()).toEqual(["completed", "active", "inactive"]);
   expect(items()[1]!.getAttribute("aria-current")).toBe("step");
   expect(items()[0]!.hasAttribute("aria-current")).toBe(false);
@@ -101,7 +100,6 @@ it("follows v-model and does not report on its own", async () => {
     { attachTo: document.body },
   );
   unmount = () => wrapper.unmount();
-  await nextTick();
   expect(states()).toEqual(["active", "inactive", "inactive"]);
   q("#next").click();
   await nextTick();
@@ -109,20 +107,24 @@ it("follows v-model and does not report on its own", async () => {
   expect(updates).toEqual([]);
 });
 
-it("counts the records after the active one as completed when reversed", async () => {
-  await render({ defaultValue: "design", reverse: true });
+it("counts the records after the active one as completed when reversed", () => {
+  render({ defaultValue: "design", reverse: true });
   expect(root().dataset.reverse).toBe("true");
   expect(states()).toEqual(["inactive", "active", "completed"]);
 });
 
-it("picks by index when the items have no value and the model is a number", async () => {
-  await render({ defaultValue: 2 }, () => events.map((event) => item(event, { value: undefined })));
+it("picks by index when the items have no value and the model is a number", () => {
+  render({ defaultValue: 2 }, () => events.map((event) => item(event, { value: undefined })));
   expect(states()).toEqual(["completed", "completed", "active"]);
 });
 
-it("has no state when the model matches nothing", async () => {
-  await render({ defaultValue: "nowhere" });
-  expect(states()).toEqual([undefined, undefined, undefined]);
+it("counts a model that matches nothing as past the last record", () => {
+  render({ defaultValue: "nowhere" });
+  expect(states()).toEqual(["completed", "completed", "completed"]);
+  reset();
+
+  render({ defaultValue: "nowhere", reverse: true });
+  expect(states()).toEqual(["inactive", "inactive", "inactive"]);
 });
 
 it("keeps document order when a record appears later", async () => {
@@ -139,7 +141,6 @@ it("keeps document order when a record appears later", async () => {
     { attachTo: document.body },
   );
   unmount = () => wrapper.unmount();
-  await nextTick();
   expect(states()).toEqual(["completed", "active"]);
   shown.value = true;
   await nextTick();
@@ -147,14 +148,14 @@ it("keeps document order when a record appears later", async () => {
   expect(states()).toEqual(["completed", "completed", "active"]);
 });
 
-it("hides the last separator", async () => {
-  await render();
+it("hides the last separator", () => {
+  render();
   expect(getComputedStyle(separators()[0]!).display).not.toBe("none");
   expect(getComputedStyle(separators()[2]!).display).toBe("none");
 });
 
-it("draws the indicators and the reached lines in the colour, inactive ones muted", async () => {
-  await render({
+it("draws the indicators and the reached lines in the colour, inactive ones muted", () => {
+  render({
     defaultValue: "design",
     style: "--primary: rgb(0, 0, 255); --primary-foreground: rgb(255, 255, 255)",
   });
@@ -167,18 +168,18 @@ it("draws the indicators and the reached lines in the colour, inactive ones mute
   expect(getComputedStyle(separators()[1]!).backgroundColor).not.toBe("rgb(0, 0, 255)");
   reset();
 
-  await render({ defaultValue: "design", reverse: true, style: "--primary: rgb(0, 0, 255)" });
+  render({ defaultValue: "design", reverse: true, style: "--primary: rgb(0, 0, 255)" });
   expect(getComputedStyle(separators()[0]!).backgroundColor).not.toBe("rgb(0, 0, 255)");
   expect(getComputedStyle(separators()[1]!).backgroundColor).toBe("rgb(0, 0, 255)");
   reset();
 
-  await render({ color: "success", style: "--success: rgb(0, 128, 0)" });
+  render({ color: "success", style: "--success: rgb(0, 128, 0)" });
   expect(root().dataset.color).toBe("success");
   expect(getComputedStyle(indicators()[0]!).backgroundColor).toBe("rgb(0, 128, 0)");
 });
 
-it("retones one record from its indicator's colour", async () => {
-  await render({ style: "--primary: rgb(0, 0, 255); --destructive: rgb(200, 0, 0)" }, () => [
+it("retones one record from its indicator's colour", () => {
+  render({ style: "--primary: rgb(0, 0, 255); --destructive: rgb(200, 0, 0)" }, () => [
     item(events[0]!),
     item(events[1]!, {}, () => h(TimelineIndicator, { color: "destructive" }, () => "!")),
   ]);
@@ -187,28 +188,28 @@ it("retones one record from its indicator's colour", async () => {
   expect(getComputedStyle(indicators()[1]!).backgroundColor).toBe("rgb(200, 0, 0)");
 });
 
-it("sizes the indicator and the line from the size prop and leaves the text alone", async () => {
-  await render();
+it("sizes the indicator and the line from the size prop and leaves the text alone", () => {
+  render();
   expect(indicators()[0]!.getBoundingClientRect().width).toBe(32);
   expect(separators()[0]!.getBoundingClientRect().width).toBe(2);
   expect(separators()[0]!.getBoundingClientRect().height).toBeGreaterThanOrEqual(24);
   expect(getComputedStyle(q("[data-slot=timeline-title]")).fontSize).toBe("14px");
   reset();
 
-  await render({ size: "xl" });
+  render({ size: "xl" });
   expect(root().dataset.size).toBe("xl");
   expect(indicators()[0]!.getBoundingClientRect().width).toBe(48);
   expect(separators()[0]!.getBoundingClientRect().width).toBe(4);
   expect(getComputedStyle(q("[data-slot=timeline-title]")).fontSize).toBe("14px");
   reset();
 
-  await render({ size: "xs" });
+  render({ size: "xs" });
   expect(indicators()[0]!.getBoundingClientRect().width).toBe(24);
   expect(separators()[0]!.getBoundingClientRect().width).toBe(1);
 });
 
-it("lays a horizontal timeline out in a row with horizontal lines", async () => {
-  await render({ orientation: "horizontal", class: "w-[600px]" });
+it("lays a horizontal timeline out in a row with horizontal lines", () => {
+  render({ orientation: "horizontal", class: "w-[600px]" });
   expect(root().dataset.orientation).toBe("horizontal");
   expect(getComputedStyle(root()).flexDirection).toBe("row");
   expect(separators()[0]!.getAttribute("data-orientation")).toBe("horizontal");
@@ -221,16 +222,16 @@ it("lays a horizontal timeline out in a row with horizontal lines", async () => 
   expect(content.top).toBeGreaterThanOrEqual(indicator.bottom);
 });
 
-it("hands the state to the item slot", async () => {
-  await render({ defaultValue: "kickoff" }, () => [
+it("hands the state to the item slot", () => {
+  render({ defaultValue: "kickoff" }, () => [
     h(TimelineItem, { value: "kickoff" }, { default: (slot: { state?: string }) => h("span", `one ${slot.state}`) }),
     h(TimelineItem, { value: "design" }, { default: (slot: { state?: string }) => h("span", `two ${slot.state}`) }),
   ]);
   expect(items().map((element) => element.textContent)).toEqual(["one active", "two inactive"]);
 });
 
-it("merges class onto every part", async () => {
-  await render({ class: "timeline-x" }, () => [
+it("merges class onto every part", () => {
+  render({ class: "timeline-x" }, () => [
     h(TimelineItem, { value: "a", class: "item-x" }, () => [
       h(TimelineIndicator, { class: "indicator-x" }),
       h(TimelineSeparator, { class: "separator-x" }),

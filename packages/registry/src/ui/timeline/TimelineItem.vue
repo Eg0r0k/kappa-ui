@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { Primitive, type PrimitiveProps } from "reka-ui";
-import {
-  type ComponentPublicInstance,
-  type HTMLAttributes,
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  shallowRef,
-} from "vue";
+import { type ComponentPublicInstance, type HTMLAttributes, computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 import { cn } from "@/lib/utils";
 import {
@@ -31,27 +23,25 @@ const setInstance = (instance: ComponentPublicInstance | Element | null) => {
   element.value = node instanceof HTMLElement ? node : undefined;
 };
 
-const registered = shallowRef<TimelineEntry>();
-let unregister: (() => void) | undefined;
+const entry: TimelineEntry = { element: undefined, value: () => props.value };
+const unregister = context.register(entry);
 
 onMounted(() => {
-  const node = element.value;
-  if (!node) return;
-  const entry = { element: node, value: () => props.value };
-  registered.value = entry;
-  unregister = context.register(entry);
+  entry.element = element.value;
+  context.resort();
 });
 
-onBeforeUnmount(() => unregister?.());
+onBeforeUnmount(unregister);
 
-const index = computed(() => (registered.value ? context.entries.value.indexOf(registered.value) : -1));
+const index = computed(() => context.entries.value.indexOf(entry));
 
 const state = computed<TimelineState | undefined>(() => {
+  if (context.model.value === undefined) return undefined;
   const active = context.activeIndex.value;
-  if (active === -1 || index.value === -1) return undefined;
-  if (index.value === active) return "active";
-  const reached = context.reverse.value ? index.value > active : index.value < active;
-  return reached ? "completed" : "inactive";
+  if (active === index.value) return "active";
+  const before = active === -1 || index.value < active;
+  if (context.reverse.value) return before ? "inactive" : "completed";
+  return before ? "completed" : "inactive";
 });
 </script>
 

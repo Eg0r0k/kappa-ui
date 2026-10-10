@@ -53,16 +53,21 @@ const setInstance = (instance: ComponentPublicInstance | Element | null) => {
 const entries = shallowRef<TimelineEntry[]>([]);
 
 const ordered = (list: TimelineEntry[]) =>
-  [...list].sort((a, b) => (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+  [...list].sort((a, b) => {
+    if (!a.element || !b.element) return 0;
+    return a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+  });
+
+const resort = () => (entries.value = ordered(entries.value));
 
 const register = (entry: TimelineEntry) => {
-  entries.value = ordered([...entries.value, entry]);
+  entries.value = [...entries.value, entry];
   return () => {
     entries.value = entries.value.filter((item) => item !== entry);
   };
 };
 
-useMutationObserver(root, () => (entries.value = ordered(entries.value)), { childList: true });
+useMutationObserver(root, resort, { childList: true });
 
 const activeIndex = computed(() => {
   const value = model.value;
@@ -73,9 +78,11 @@ const activeIndex = computed(() => {
 provideTimelineContext({
   orientation: computed(() => props.orientation),
   reverse: computed(() => props.reverse),
+  model,
   entries,
   activeIndex,
   register,
+  resort,
 });
 </script>
 

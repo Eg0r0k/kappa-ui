@@ -17,16 +17,18 @@ export type TimelineOrientation = "vertical" | "horizontal";
 export type TimelineState = "active" | "completed" | "inactive";
 
 export interface TimelineEntry {
-  element: HTMLElement;
+  element: HTMLElement | undefined;
   value: () => TimelineValue | undefined;
 }
 
 export interface TimelineContext {
   orientation: ComputedRef<TimelineOrientation>;
   reverse: ComputedRef<boolean>;
+  model: Ref<TimelineValue | undefined>;
   entries: Ref<TimelineEntry[]>;
   activeIndex: ComputedRef<number>;
   register: (entry: TimelineEntry) => () => void;
+  resort: () => void;
 }
 
 export const [injectTimelineContext, provideTimelineContext] = createContext<TimelineContext>("Timeline");
