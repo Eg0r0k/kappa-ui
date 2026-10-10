@@ -1,9 +1,10 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type VNode, h } from "vue";
+import { type Component, type VNode, h } from "vue";
 
 import { Marquee } from "@/ui/marquee";
+import { ScrollArea } from "@/ui/scroll-area";
 
 let unmount: (() => void) | undefined;
 
@@ -117,4 +118,17 @@ it("takes its size from a flex parent instead of its copies", () => {
     h("div", { style: "display:flex;flex-direction:column;height:160px" }, [node]),
   );
   expect(root().getBoundingClientRect().height).toBe(160);
+});
+
+it("takes no width of its own inside a box sized by its content", async () => {
+  render({ class: "w-full" }, (node) =>
+    h("div", { style: "width:640px" }, [
+      h(ScrollArea as Component, { orientation: "horizontal", style: "height:200px" }, () =>
+        h("div", { class: "min-w-full" }, [h("div", { style: "display:flex;padding:40px" }, [node])]),
+      ),
+    ]),
+  );
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  expect(root().getBoundingClientRect().width).toBe(560);
+  expect(copies()[0]!.getBoundingClientRect().width).toBe(560);
 });
