@@ -141,3 +141,16 @@ it("sizes the box to its text and grows it while typing", async () => {
   await settle();
   expect(box()).toBeGreaterThan(before + 100);
 });
+
+it("drops the draft when editing is cancelled, so the box fits the old text again", async () => {
+  render({ submitMode: "enter" });
+  await settle();
+  const before = slot("editable-area").getBoundingClientRect().width;
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  await userEvent.type(input(), " that nobody saved after all");
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(slot("editable-preview").textContent).toBe("Roadmap");
+  expect(slot("editable-area").getBoundingClientRect().width).toBe(before);
+});
