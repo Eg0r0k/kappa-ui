@@ -198,6 +198,46 @@ it("shows the empty, no-results and loading states", () => {
   expect(document.querySelector("thead [data-slot=progress]")).not.toBeNull();
 });
 
+it("shows an error in place of the rows, the skeleton and the empty message", () => {
+  const errorCell = () => document.querySelector<HTMLElement>("[data-slot=table-error]");
+
+  const failing = render({ error: new Error("boom") });
+  expect(errorCell()?.textContent?.trim()).toBe("Something went wrong");
+  expect(errorCell()?.querySelector("[role=alert]")).not.toBeNull();
+  expect(failing.rows()).toHaveLength(0);
+  expect(failing.table().getAttribute("aria-rowcount")).toBe("1");
+  failing.wrapper.unmount();
+  document.body.innerHTML = "";
+
+  const message = render({ data: [], error: "Couldn't load people" });
+  expect(errorCell()?.textContent?.trim()).toBe("Couldn't load people");
+  expect(document.querySelector("[data-slot=table-empty]")).toBeNull();
+  message.wrapper.unmount();
+  document.body.innerHTML = "";
+
+  const retrying = render({ data: [], loading: true, error: "" });
+  expect(errorCell()?.textContent?.trim()).toBe("Something went wrong");
+  expect(document.querySelector("[data-slot=table-skeleton]")).toBeNull();
+  expect(document.querySelector("thead [data-slot=progress]")).not.toBeNull();
+  expect(retrying.table().getAttribute("aria-busy")).toBe("true");
+  retrying.wrapper.unmount();
+  document.body.innerHTML = "";
+
+  for (const error of [undefined, null, false]) {
+    const off = render({ error });
+    expect(errorCell()).toBeNull();
+    expect(off.rows()).toHaveLength(25);
+    off.wrapper.unmount();
+    document.body.innerHTML = "";
+  }
+});
+
+it("hands the error to the error slot", () => {
+  render({ error: new Error("boom") }, { error: ({ error }: { error: Error }) => h("b", error.message) });
+  expect(document.querySelector("[data-slot=table-error] b")?.textContent).toBe("boom");
+  expect(document.querySelector("[data-slot=table-error] [role=alert]")).toBeNull();
+});
+
 it("sets the size, stripes by absolute parity and switches hover off", async () => {
   const { table, rows } = render({ size: "sm", striped: true, hoverable: false });
   expect(table().dataset.size).toBe("sm");

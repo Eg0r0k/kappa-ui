@@ -58,6 +58,8 @@ props:
     description: The message when there are no rows and no filter is active.
   noResults:
     description: The message when a filter leaves no rows.
+  error:
+    description: "Shows the error state in place of the rows, the skeleton and the empty message, and pauses infinite scroll. Any value but `undefined`, `null` and `false` counts, so pass the error itself; a string is the default message."
   onLoadMore:
     description: Loads more rows when the scroller nears an edge (bind it as `@load-more` too). Receives `{ direction, index }`, `index` counting loads in that direction from 1; resolve once the rows are in `data`, resolve `'stop'` when there are no more, and a rejection rolls the index back and reports the error.
   hasMore:
@@ -73,7 +75,7 @@ props:
   tableOptions:
     description: Passed to TanStack's `useTable` under the table's own options, for `initialState`, `defaultColumn`, `meta` and the like.
   ui:
-    description: Classes per part, merged over the base classes; the keys are `root`, `scroll`, `table`, `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `spacer`, `filler`, `empty`, `loading`, `skeleton`, `pagination`, `banner`, `expanded`, `pinned`, `loadingMore` and `endOfData`.
+    description: Classes per part, merged over the base classes; the keys are `root`, `scroll`, `table`, `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `spacer`, `filler`, `empty`, `error`, `loading`, `skeleton`, `pagination`, `banner`, `expanded`, `pinned`, `loadingMore` and `endOfData`.
   sorting:
     description: "`v-model:sorting`, the sorting state. Every state model is local until it is bound."
   columnVisibility:
@@ -115,6 +117,7 @@ slots:
   caption: The caption's content, in place of the `caption` prop.
   empty: The message when there are no rows.
   noResults: The message when a filter leaves no rows.
+  error: "The error state, with `{ error }`. An alert with the `error` string or `Something went wrong` by default; put an `ErrorState` here."
   expanded: The detail row of an expanded row, with `{ row }`; rendered inside the row's group, spanning every column.
   loadingMore: What shows at the loading edge while more rows load, with `{ direction }`; a spinner row by default.
   endOfData: What shows at an edge once it has no more rows, with `{ direction }`.
