@@ -3,11 +3,13 @@ import { Button } from "@/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/ui/field";
 import { Input } from "@/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
   <Tabs default-value="account" class="w-full max-w-sm">
-    <TabsList>
+    <TabsList v-bind="$attrs">
       <TabsTrigger value="account">Account</TabsTrigger>
       <TabsTrigger value="password">Password</TabsTrigger>
     </TabsList>

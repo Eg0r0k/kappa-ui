@@ -4277,46 +4277,25 @@
           "path": "src/examples/button/ButtonDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "button-variants",
-      "type": "registry:block",
-      "title": "Button variants",
-      "description": "Every button variant.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/button/ButtonVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "color",
+            {
+              "prop": "size",
+              "values": [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl"
+              ]
+            }
+          ]
         }
-      ]
-    },
-    {
-      "name": "button-sizes",
-      "type": "registry:block",
-      "title": "Button sizes",
-      "description": "Text and icon sizes side by side.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/button/ButtonSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "button-icon",
@@ -7081,7 +7060,17 @@
           "path": "src/examples/slider/SliderDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "color",
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "slider-min-max",
@@ -7159,24 +7148,6 @@
       ]
     },
     {
-      "name": "slider-sizes",
-      "type": "registry:block",
-      "title": "Slider sizes",
-      "description": "The five sizes.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "slider"
-      ],
-      "files": [
-        {
-          "path": "src/examples/slider/SliderSizes.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "slider-inverted",
       "type": "registry:block",
       "title": "Slider inverted",
@@ -7191,24 +7162,6 @@
       "files": [
         {
           "path": "src/examples/slider/SliderInverted.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "slider-colors",
-      "type": "registry:block",
-      "title": "Slider colours",
-      "description": "Sliders in every colour.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "slider"
-      ],
-      "files": [
-        {
-          "path": "src/examples/slider/SliderColors.vue",
           "type": "registry:component"
         }
       ]
@@ -10548,44 +10501,16 @@
           "path": "src/examples/switch/SwitchDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "switch-colors",
-      "type": "registry:block",
-      "title": "Switch colours",
-      "description": "Switches turned on in every colour.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "switch"
-      ],
-      "files": [
-        {
-          "path": "src/examples/switch/SwitchColors.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "switch-sizes",
-      "type": "registry:block",
-      "title": "Switch sizes",
-      "description": "Every switch size, off and on.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "switch",
-        "field"
-      ],
-      "files": [
-        {
-          "path": "src/examples/switch/SwitchSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "switch-icons",
@@ -10967,7 +10892,16 @@
           "path": "src/examples/tabs/TabsDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "color",
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "tabs-line",
@@ -10983,42 +10917,6 @@
       "files": [
         {
           "path": "src/examples/tabs/TabsLine.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "tabs-colors",
-      "type": "registry:block",
-      "title": "Tabs colours",
-      "description": "Line tabs with the indicator in every colour.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "tabs"
-      ],
-      "files": [
-        {
-          "path": "src/examples/tabs/TabsColors.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "tabs-sizes",
-      "type": "registry:block",
-      "title": "Tabs sizes",
-      "description": "Tabs in the five sizes.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "tabs"
-      ],
-      "files": [
-        {
-          "path": "src/examples/tabs/TabsSizes.vue",
           "type": "registry:component"
         }
       ]

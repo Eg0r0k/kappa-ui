@@ -15,5 +15,8 @@ import { Button } from "@/ui/button";
       Trailing icon
       <Plus data-icon="inline-end" />
     </Button>
+    <Button size="icon-md" variant="outline" color="neutral" aria-label="Add">
+      <Plus />
+    </Button>
   </div>
 </template>

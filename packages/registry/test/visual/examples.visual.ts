@@ -20,6 +20,7 @@ const controls = inject("exampleControls");
 
 const shots: Shot[] = (registry.items as ManifestItem[]).flatMap((item) => {
   const list = controls[item.name]?.controls ?? [];
+  if (list.length === 0) return [];
   const path = item.files[0]!.path;
   const single = list.map((control) => ({
     name: item.name,
