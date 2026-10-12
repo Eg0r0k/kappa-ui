@@ -83,7 +83,7 @@ it("toggles items in the toggle group with the toggle look", async () => {
   render();
   const [bold, italic] = all("[data-slot=toolbar-toggle-item]");
   expect(bold!.dataset.state).toBe("off");
-  expect(bold!.className).toContain("data-[state=on]:bg-tone-soft");
+  expect(bold!.className).toContain("aria-pressed:bg-tone-soft");
   await userEvent.click(bold!);
   await userEvent.click(italic!);
   expect(bold!.dataset.state).toBe("on");

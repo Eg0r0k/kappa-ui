@@ -31,7 +31,8 @@ const cycleScheme = () => {
     <ToolbarToggleGroup
       v-model="toggles"
       type="multiple"
-      variant="soft"
+      variant="ghost"
+      active-variant="solid"
       active-color="primary"
       aria-label="Example view"
     >
@@ -55,7 +56,7 @@ const cycleScheme = () => {
     <ToolbarSeparator />
     <ToolbarButton
       v-tooltip="schemes[scheme].label"
-      variant="soft"
+      variant="ghost"
       size="icon-sm"
       :aria-label="schemes[scheme].label"
       :data-scheme="scheme"
@@ -67,7 +68,7 @@ const cycleScheme = () => {
     </ToolbarButton>
     <ToolbarButton
       v-tooltip="'Restart'"
-      variant="soft"
+      variant="ghost"
       size="icon-sm"
       aria-label="Restart the example"
       @click="restart += 1"
