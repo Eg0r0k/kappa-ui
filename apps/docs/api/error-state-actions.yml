@@ -1,0 +1,4 @@
+component: ErrorStateActions
+file: ui/error-state/ErrorStateActions.vue
+slots:
+  default: The actions, such as a Retry button.
