@@ -698,3 +698,35 @@ test('the committed registry.css is what the build generates', async () => {
     'registry.css is stale: run pnpm registry:build and commit it',
   )
 })
+
+test('accepts a controls list on an example', async () => {
+  const { status, stderr } = await run([
+    component,
+    { ...example, meta: { demo: { controls: ['variant', { prop: 'size', values: ['sm', 'md'] }] } } },
+  ])
+  assert.equal(status, 0, stderr)
+})
+
+test('rejects a malformed controls list', async () => {
+  for (const controls of ['variant', [1], [{ prop: 'size' }], [{ prop: 'size', values: [] }], ['size', 'size']]) {
+    const { status, stderr } = await run([component, { ...example, meta: { demo: { controls } } }])
+    assert.equal(status, 1, JSON.stringify(controls))
+    assert.match(stderr, /meta\.demo\.controls/)
+  }
+})
+
+test('publishes a controlled example without its marker', async () => {
+  const marked = `<script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+</script>
+
+<template>
+  <div v-bind="$attrs" />
+</template>
+`
+  const { status, stderr, out } = await run([component, example], {}, { 'src/examples/demo/DemoExample.vue': marked })
+  assert.equal(status, 0, stderr)
+  const content = (await published(out, 'demo-example')).files[0]?.content ?? ''
+  assert.doesNotMatch(content, /\$attrs|inheritAttrs/)
+  assert.match(content, /<div \/>/)
+})

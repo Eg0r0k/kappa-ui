@@ -11,6 +11,7 @@ import {
   publishedDependency,
   rangeSource,
 } from './lib/dependency-ranges.ts'
+import { applyProps } from './lib/example-props.ts'
 import { type CssRules, type CssVars, conflictsOf, itemCssFromSource, stylesheetOf } from './lib/registry-css.ts'
 
 const HOMEPAGE = (process.env.KAPPA_UI_URL ?? 'https://kappa-ui.pages.dev').replace(/\/+$/, '')
@@ -134,12 +135,14 @@ const rewriteSpecifiers = (code: string) =>
     specifier.startsWith('@/') ? `${lead}${quote}${PUBLISHED_ALIAS}${specifier.slice(2)}${quote}` : match,
   )
 
-const publishedContent = (path: string, content: string) =>
-  path.endsWith('.vue')
-    ? content.replace(SCRIPT_BLOCK, rewriteSpecifiers)
+const publishedContent = (path: string, content: string) => {
+  const unmarked = path.startsWith('src/examples/') && path.endsWith('.vue') ? applyProps(content) : content
+  return path.endsWith('.vue')
+    ? unmarked.replace(SCRIPT_BLOCK, rewriteSpecifiers)
     : SCRIPT_FILE.test(path)
-      ? rewriteSpecifiers(content)
-      : content
+      ? rewriteSpecifiers(unmarked)
+      : unmarked
+}
 
 if (!existsSync(manifestPath)) {
   abort([`manifest not found: ${values.manifest}`])
@@ -199,6 +202,27 @@ const publishedConfig = (item: RegistryItem) =>
 
 const DEMO_FLAGS = new Set(['padding', 'swipe'])
 
+const controlsErrors = (controls: unknown) => {
+  if (!Array.isArray(controls) || controls.length === 0) return ['meta.demo.controls must be a non-empty array']
+  const props = controls.map((entry: unknown) =>
+    typeof entry === 'string'
+      ? entry
+      : typeof entry === 'object' && entry !== null && typeof (entry as { prop?: unknown }).prop === 'string'
+        ? (entry as { prop: string }).prop
+        : undefined,
+  )
+  const errors = controls.flatMap((entry: unknown, index) => {
+    if (props[index] === undefined) return [`meta.demo.controls[${index}] must be a prop name or { prop, values }`]
+    if (typeof entry === 'string') return []
+    const values = (entry as { values?: unknown }).values
+    return Array.isArray(values) && values.length > 0 && values.every((value) => typeof value === 'string')
+      ? []
+      : [`meta.demo.controls[${index}].values must be a non-empty array of strings`]
+  })
+  const repeated = props.filter((prop, index) => prop !== undefined && props.indexOf(prop) !== index)
+  return [...errors, ...repeated.map((prop) => `meta.demo.controls lists "${prop}" twice`)]
+}
+
 const demoErrors = (demo: unknown) => {
   if (typeof demo !== 'object' || demo === null) return ['meta.demo must be an object']
   return Object.entries(demo).flatMap(([key, value]) => {
@@ -207,6 +231,7 @@ const demoErrors = (demo: unknown) => {
         ? []
         : ['meta.demo.height must be a number from 0.2 to 0.9']
     }
+    if (key === 'controls') return controlsErrors(value)
     if (DEMO_FLAGS.has(key)) return typeof value === 'boolean' ? [] : [`meta.demo.${key} must be a boolean`]
     return [`meta.demo has an unknown key "${key}"`]
   })
