@@ -12,13 +12,15 @@ import {
   ComboboxViewport,
 } from "@/ui/combobox";
 
+defineOptions({ inheritAttrs: false });
+
 const frameworks = ["Astro", "Next.js", "Nuxt", "Remix", "SolidStart", "SvelteKit"];
 const framework = ref<string>();
 </script>
 
 <template>
   <Combobox v-model="framework">
-    <ComboboxAnchor class="w-56">
+    <ComboboxAnchor class="w-56" v-bind="$attrs">
       <ComboboxInput placeholder="Select a framework" aria-label="Framework" />
       <ComboboxTrigger />
     </ComboboxAnchor>

@@ -99,7 +99,7 @@ describe("AlertDialog", () => {
   it.each([
     ["sm", "centre"],
     ["md", "start"],
-  ])("puts the media of a %s dialog at the %s", async (size, place) => {
+  ] as const)("puts the media of a %s dialog at the %s", async (size, place) => {
     mount(
       defineComponent({
         setup: () => () =>

@@ -11,11 +11,13 @@ import {
   PaginationPrevious,
 } from "@/ui/pagination";
 
+defineOptions({ inheritAttrs: false });
+
 const page = ref(1);
 </script>
 
 <template>
-  <Pagination v-model:page="page" :total="100" :items-per-page="10" show-edges :sibling-count="1">
+  <Pagination v-model:page="page" :total="100" :items-per-page="10" show-edges :sibling-count="1" v-bind="$attrs">
     <PaginationContent v-slot="{ items }">
       <PaginationItem>
         <PaginationPrevious />

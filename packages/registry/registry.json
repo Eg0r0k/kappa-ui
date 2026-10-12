@@ -293,25 +293,14 @@
           "path": "src/examples/avatar/AvatarDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "avatar-sizes",
-      "type": "registry:block",
-      "title": "Avatar sizes",
-      "description": "The five sizes.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "avatar"
-      ],
-      "files": [
-        {
-          "path": "src/examples/avatar/AvatarSizes.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "avatar-fallback",
@@ -538,7 +527,14 @@
           "path": "src/examples/alert/AlertDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "alert-variants",
@@ -554,27 +550,6 @@
       "files": [
         {
           "path": "src/examples/alert/AlertVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "alert-sizes",
-      "type": "registry:block",
-      "title": "Alert sizes",
-      "description": "Five sizes with an icon, title and description.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "alert"
-      ],
-      "files": [
-        {
-          "path": "src/examples/alert/AlertSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -642,25 +617,14 @@
           "path": "src/examples/banner/BannerDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "banner-colors",
-      "type": "registry:block",
-      "title": "Banner colours",
-      "description": "A banner in every colour role.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "banner"
-      ],
-      "files": [
-        {
-          "path": "src/examples/banner/BannerColors.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "color"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "banner-persistent",
@@ -3565,25 +3529,17 @@
           "path": "src/examples/badge/BadgeDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "badge-variants",
-      "type": "registry:block",
-      "title": "Badge variants",
-      "description": "Every variant in every colour.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "badge"
-      ],
-      "files": [
-        {
-          "path": "src/examples/badge/BadgeVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "color",
+            "size",
+            "square"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "badge-sizes",
@@ -3704,7 +3660,14 @@
           "path": "src/examples/button-group/ButtonGroupDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "orientation"
+          ]
+        }
+      }
     },
     {
       "name": "button-group-orientation",
@@ -3872,43 +3835,19 @@
           "path": "src/examples/pagination/PaginationDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "pagination-variants",
-      "type": "registry:block",
-      "title": "Pagination variants",
-      "description": "Variant and active variant pairs.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "pagination"
-      ],
-      "files": [
-        {
-          "path": "src/examples/pagination/PaginationVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "activeVariant",
+            "color",
+            "activeColor",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "pagination-sizes",
-      "type": "registry:block",
-      "title": "Pagination sizes",
-      "description": "Five sizes.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "pagination"
-      ],
-      "files": [
-        {
-          "path": "src/examples/pagination/PaginationSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "pagination-edges",
@@ -3966,7 +3905,14 @@
           "path": "src/examples/item/ItemDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "item-variants",
@@ -4468,7 +4414,14 @@
           "path": "src/examples/accordion/AccordionDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "accordion-multiple",
@@ -5037,7 +4990,15 @@
           "path": "src/examples/card/CardDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "card-divided",
@@ -5054,44 +5015,6 @@
       "files": [
         {
           "path": "src/examples/card/CardDivided.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "card-size",
-      "type": "registry:block",
-      "title": "Card size",
-      "description": "The five sizes, each with a button of the matching size.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "card",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/card/CardSize.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "card-variants",
-      "type": "registry:block",
-      "title": "Card variants",
-      "description": "The four surfaces: outline, solid, soft and subtle.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "card",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/card/CardVariants.vue",
           "type": "registry:component"
         }
       ]
@@ -5195,25 +5118,14 @@
           "path": "src/examples/marker/MarkerDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "marker-variants",
-      "type": "registry:block",
-      "title": "Marker variants",
-      "description": "The default, separator and border variants.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "marker"
-      ],
-      "files": [
-        {
-          "path": "src/examples/marker/MarkerVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "marker-colors",
@@ -5273,26 +5185,16 @@
           "path": "src/examples/input/InputDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "input-variants",
-      "type": "registry:block",
-      "title": "Input variants",
-      "description": "Outline and filled inputs.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "input",
-        "field"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input/InputVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "input-sizes",
@@ -5372,7 +5274,15 @@
           "path": "src/examples/input-group/InputGroupDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "input-group-addons",
@@ -5459,27 +5369,6 @@
       ]
     },
     {
-      "name": "input-group-variants",
-      "type": "registry:block",
-      "title": "Input group variants",
-      "description": "The input's five variants on the frame.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "input-group"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-group/InputGroupVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "input-group-sizes",
       "type": "registry:block",
       "title": "Input group sizes",
@@ -5539,61 +5428,18 @@
           "path": "src/examples/input-number/InputNumberDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "input-number-vertical",
-      "type": "registry:block",
-      "title": "Input number vertical",
-      "description": "Both buttons stacked at the end of the field.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "input-number"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-number/InputNumberVertical.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "orientation",
+            "disabled",
+            "readonly"
+          ]
         }
-      ]
-    },
-    {
-      "name": "input-number-variants",
-      "type": "registry:block",
-      "title": "Input number variants",
-      "description": "The five text control variants.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "input-number"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-number/InputNumberVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "input-number-sizes",
-      "type": "registry:block",
-      "title": "Input number sizes",
-      "description": "Five sizes in both orientations.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "input-number"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-number/InputNumberSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "input-number-format",
@@ -5673,7 +5519,17 @@
           "path": "src/examples/input-time/InputTimeDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled",
+            "loading"
+          ]
+        }
+      }
     },
     {
       "name": "input-time-range",
@@ -5788,48 +5644,6 @@
       ]
     },
     {
-      "name": "input-time-variants",
-      "type": "registry:block",
-      "title": "Input time variants",
-      "description": "The five text control variants.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@internationalized/date"
-      ],
-      "registryDependencies": [
-        "input-time"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-time/InputTimeVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "input-time-sizes",
-      "type": "registry:block",
-      "title": "Input time sizes",
-      "description": "The field from xs to xl.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@internationalized/date"
-      ],
-      "registryDependencies": [
-        "input-time"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-time/InputTimeSizes.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "input-time-loading",
       "type": "registry:block",
       "title": "Input time loading",
@@ -5919,7 +5733,17 @@
           "path": "src/examples/input-date/InputDateDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled",
+            "loading"
+          ]
+        }
+      }
     },
     {
       "name": "input-date-range",
@@ -6030,48 +5854,6 @@
       "files": [
         {
           "path": "src/examples/input-date/InputDateLocale.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "input-date-variants",
-      "type": "registry:block",
-      "title": "Input date variants",
-      "description": "The five text control variants.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@internationalized/date"
-      ],
-      "registryDependencies": [
-        "input-date"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-date/InputDateVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "input-date-sizes",
-      "type": "registry:block",
-      "title": "Input date sizes",
-      "description": "The field from xs to xl.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@internationalized/date"
-      ],
-      "registryDependencies": [
-        "input-date"
-      ],
-      "files": [
-        {
-          "path": "src/examples/input-date/InputDateSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -6192,7 +5974,16 @@
           "path": "src/examples/date-picker/DatePickerDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "date-picker-button",
@@ -6363,48 +6154,6 @@
       ]
     },
     {
-      "name": "date-picker-sizes",
-      "type": "registry:block",
-      "title": "Date picker sizes",
-      "description": "The field and its calendar from xs to xl.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@internationalized/date"
-      ],
-      "registryDependencies": [
-        "date-picker"
-      ],
-      "files": [
-        {
-          "path": "src/examples/date-picker/DatePickerSizes.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "date-picker-variants",
-      "type": "registry:block",
-      "title": "Date picker variants",
-      "description": "The five text control variants.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@internationalized/date"
-      ],
-      "registryDependencies": [
-        "date-picker"
-      ],
-      "files": [
-        {
-          "path": "src/examples/date-picker/DatePickerVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "date-picker-states",
       "type": "registry:block",
       "title": "Date picker states",
@@ -6498,7 +6247,16 @@
           "path": "src/examples/date-picker/DateRangePickerDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "date-picker-range-button",
@@ -6564,43 +6322,16 @@
           "path": "src/examples/tags-input/TagsInputDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "tags-input-variants",
-      "type": "registry:block",
-      "title": "Tags input variants",
-      "description": "The five text control variants.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "tags-input"
-      ],
-      "files": [
-        {
-          "path": "src/examples/tags-input/TagsInputVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "tags-input-sizes",
-      "type": "registry:block",
-      "title": "Tags input sizes",
-      "description": "Frames from 28px to 48px with tags to match.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "tags-input"
-      ],
-      "files": [
-        {
-          "path": "src/examples/tags-input/TagsInputSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "tags-input-behaviour",
@@ -6674,44 +6405,16 @@
           "path": "src/examples/textarea/TextareaDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "textarea-variants",
-      "type": "registry:block",
-      "title": "Textarea variants",
-      "description": "The five variants side by side.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "textarea",
-        "field"
-      ],
-      "files": [
-        {
-          "path": "src/examples/textarea/TextareaVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "textarea-sizes",
-      "type": "registry:block",
-      "title": "Textarea sizes",
-      "description": "The five sizes, two rows each.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "textarea"
-      ],
-      "files": [
-        {
-          "path": "src/examples/textarea/TextareaSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "textarea-rows",
@@ -6806,7 +6509,15 @@
           "path": "src/examples/file-upload/FileUploadDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "file-upload-multiple",
@@ -6843,24 +6554,6 @@
       "files": [
         {
           "path": "src/examples/file-upload/FileUploadButton.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "file-upload-sizes",
-      "type": "registry:block",
-      "title": "File upload sizes",
-      "description": "The five sizes, each holding one file.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "file-upload"
-      ],
-      "files": [
-        {
-          "path": "src/examples/file-upload/FileUploadSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -7260,7 +6953,17 @@
           "path": "src/examples/rating/RatingDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size",
+            "orientation",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "rating-sizes",
@@ -7315,24 +7018,6 @@
       "files": [
         {
           "path": "src/examples/rating/RatingReadonly.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "rating-colors",
-      "type": "registry:block",
-      "title": "Rating colours",
-      "description": "One rating in each colour, gold stars with warning.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "rating"
-      ],
-      "files": [
-        {
-          "path": "src/examples/rating/RatingColors.vue",
           "type": "registry:component"
         }
       ]
@@ -7531,7 +7216,16 @@
           "path": "src/examples/listbox/ListboxDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "listbox-icons",
@@ -7730,25 +7424,16 @@
           "path": "src/examples/tree/TreeDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "tree-sizes",
-      "type": "registry:block",
-      "title": "Tree sizes",
-      "description": "The same tree in every size, from xs to xl.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "tree"
-      ],
-      "files": [
-        {
-          "path": "src/examples/tree/TreeSizes.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "tree-variants",
@@ -8065,7 +7750,15 @@
           "path": "src/examples/data-tree/DataTreeDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "data-tree-states",
@@ -8148,7 +7841,15 @@
           "path": "src/examples/data-table/DataTableDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size",
+            "loading"
+          ]
+        }
+      }
     },
     {
       "name": "data-table-virtualized",
@@ -9653,7 +9354,15 @@
           "path": "src/examples/menubar/MenubarDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "menubar-sizes",
@@ -9855,44 +9564,16 @@
           "path": "src/examples/select/SelectDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "select-variants",
-      "type": "registry:block",
-      "title": "Select variants",
-      "description": "The five trigger variants side by side.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "select",
-        "field"
-      ],
-      "files": [
-        {
-          "path": "src/examples/select/SelectVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "select-sizes",
-      "type": "registry:block",
-      "title": "Select sizes",
-      "description": "The five trigger sizes.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "select"
-      ],
-      "files": [
-        {
-          "path": "src/examples/select/SelectSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "select-groups",
@@ -9987,7 +9668,14 @@
           "path": "src/examples/separator/SeparatorDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "separator-label",
@@ -10004,24 +9692,6 @@
       "files": [
         {
           "path": "src/examples/separator/SeparatorLabel.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "separator-sizes",
-      "type": "registry:block",
-      "title": "Separator sizes",
-      "description": "Separators from 1px for xs to 5px for xl.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "separator"
-      ],
-      "files": [
-        {
-          "path": "src/examples/separator/SeparatorSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -10210,7 +9880,15 @@
           "path": "src/examples/progress/ProgressDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "progress-animations",
@@ -10262,24 +9940,6 @@
       "files": [
         {
           "path": "src/examples/progress/ProgressSteps.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "progress-sizes",
-      "type": "registry:block",
-      "title": "Progress sizes",
-      "description": "Seven thicknesses from 1 to 20px.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "progress"
-      ],
-      "files": [
-        {
-          "path": "src/examples/progress/ProgressSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -10433,7 +10093,16 @@
           "path": "src/examples/checkbox/CheckboxDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "checkbox-states",
@@ -10469,25 +10138,6 @@
       "files": [
         {
           "path": "src/examples/checkbox/CheckboxColors.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "checkbox-sizes",
-      "type": "registry:block",
-      "title": "Checkbox sizes",
-      "description": "Every checkbox size.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "checkbox",
-        "field"
-      ],
-      "files": [
-        {
-          "path": "src/examples/checkbox/CheckboxSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -10748,7 +10398,14 @@
           "path": "src/examples/table/TableDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "table-actions",
@@ -11116,25 +10773,15 @@
           "path": "src/examples/navigation-menu/NavigationMenuDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "navigation-menu-sizes",
-      "type": "registry:block",
-      "title": "Navigation menu sizes",
-      "description": "The same menu in the five sizes.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "navigation-menu"
-      ],
-      "files": [
-        {
-          "path": "src/examples/navigation-menu/NavigationMenuSizes.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "navigation-menu-link-variant",
@@ -11356,43 +11003,16 @@
           "path": "src/examples/radio/RadioDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "radio-colors",
-      "type": "registry:block",
-      "title": "Radio colours",
-      "description": "A radio group in every colour, passed to its radios.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "radio-group"
-      ],
-      "files": [
-        {
-          "path": "src/examples/radio/RadioColors.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "radio-sizes",
-      "type": "registry:block",
-      "title": "Radio sizes",
-      "description": "Every radio size.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "radio-group"
-      ],
-      "files": [
-        {
-          "path": "src/examples/radio/RadioSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "radio-touch-target",
@@ -11705,7 +11325,17 @@
           "path": "src/examples/toggle/ToggleDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "activeVariant",
+            "color",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "toggle-variants",
@@ -11843,7 +11473,17 @@
           "path": "src/examples/toggle-group/ToggleGroupDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "activeVariant",
+            "color",
+            "orientation",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "toggle-group-single",
@@ -11880,27 +11520,6 @@
       "files": [
         {
           "path": "src/examples/toggle-group/ToggleGroupOutline.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "toggle-group-vertical",
-      "type": "registry:block",
-      "title": "Toggle Group vertical",
-      "description": "The formatting group stacked vertically.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "toggle-group"
-      ],
-      "files": [
-        {
-          "path": "src/examples/toggle-group/ToggleGroupVertical.vue",
           "type": "registry:component"
         }
       ]
@@ -12309,7 +11928,14 @@
       ],
       "dependencies": [
         "@lucide/vue"
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "collapsible-icon",
@@ -12367,25 +11993,6 @@
       "files": [
         {
           "path": "src/examples/collapsible/CollapsibleUnmount.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "collapsible-disabled",
-      "type": "registry:block",
-      "title": "Collapsible disabled",
-      "description": "A disabled collapsible never opens.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "collapsible",
-        "button"
-      ],
-      "files": [
-        {
-          "path": "src/examples/collapsible/CollapsibleDisabled.vue",
           "type": "registry:component"
         }
       ]
@@ -12479,7 +12086,14 @@
           "path": "src/examples/empty/EmptyDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "empty-card",
@@ -12574,28 +12188,6 @@
       ]
     },
     {
-      "name": "empty-sizes",
-      "type": "registry:block",
-      "title": "Empty sizes",
-      "description": "sm, md and lg side by side in cards.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "empty",
-        "card"
-      ],
-      "files": [
-        {
-          "path": "src/examples/empty/EmptySizes.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "error-state",
       "type": "registry:ui",
       "title": "Error state",
@@ -12664,7 +12256,14 @@
           "path": "src/examples/error-state/ErrorStateDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "pin-input",
@@ -12724,43 +12323,16 @@
           "path": "src/examples/pin-input/PinInputDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "pin-input-variants",
-      "type": "registry:block",
-      "title": "Pin Input variants",
-      "description": "The five text control variants.",
-      "categories": [
-        "example"
       ],
-      "registryDependencies": [
-        "pin-input"
-      ],
-      "files": [
-        {
-          "path": "src/examples/pin-input/PinInputVariants.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "pin-input-sizes",
-      "type": "registry:block",
-      "title": "Pin Input sizes",
-      "description": "Slots from 28px to 48px.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "pin-input"
-      ],
-      "files": [
-        {
-          "path": "src/examples/pin-input/PinInputSizes.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "pin-input-mask",
@@ -12867,7 +12439,14 @@
           "path": "src/examples/toolbar/ToolbarDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant"
+          ]
+        }
+      }
     },
     {
       "name": "toolbar-vertical",
@@ -13059,7 +12638,14 @@
           "path": "src/examples/stepper/StepperDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "color"
+          ]
+        }
+      }
     },
     {
       "name": "stepper-horizontal",
@@ -13101,24 +12687,6 @@
       "files": [
         {
           "path": "src/examples/stepper/StepperVertical.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "stepper-colors",
-      "type": "registry:block",
-      "title": "Stepper colours",
-      "description": "Steppers with the active step in every colour.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "stepper"
-      ],
-      "files": [
-        {
-          "path": "src/examples/stepper/StepperColors.vue",
           "type": "registry:component"
         }
       ]
@@ -13247,28 +12815,15 @@
           "path": "src/examples/timeline/TimelineDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "timeline-sizes",
-      "type": "registry:block",
-      "title": "Timeline sizes",
-      "description": "The same shipment in every size.",
-      "categories": [
-        "example"
       ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "timeline"
-      ],
-      "files": [
-        {
-          "path": "src/examples/timeline/TimelineSizes.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size"
+          ]
         }
-      ]
+      }
     },
     {
       "name": "timeline-colors",
@@ -13770,7 +13325,15 @@
           "path": "src/examples/color-picker/ColorPickerDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "color-picker-chooser",
@@ -13806,24 +13369,6 @@
       "files": [
         {
           "path": "src/examples/color-picker/ColorPickerChannels.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "color-picker-sizes",
-      "type": "registry:block",
-      "title": "Color picker sizes",
-      "description": "The five sizes, from xs to xl.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "color-picker"
-      ],
-      "files": [
-        {
-          "path": "src/examples/color-picker/ColorPickerSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -13886,51 +13431,16 @@
           "path": "src/examples/calendar/CalendarDemo.vue",
           "type": "registry:component"
         }
-      ]
-    },
-    {
-      "name": "calendar-sizes",
-      "type": "registry:block",
-      "title": "Calendar sizes",
-      "description": "The five sizes, from xs to xl.",
-      "categories": [
-        "example"
       ],
-      "dependencies": [
-        "@internationalized/date",
-        "reka-ui"
-      ],
-      "registryDependencies": [
-        "calendar"
-      ],
-      "files": [
-        {
-          "path": "src/examples/calendar/CalendarSizes.vue",
-          "type": "registry:component"
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size",
+            "disabled"
+          ]
         }
-      ]
-    },
-    {
-      "name": "calendar-color",
-      "type": "registry:block",
-      "title": "Calendar color",
-      "description": "Selected days and today's outline in primary, neutral and success.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@internationalized/date",
-        "reka-ui"
-      ],
-      "registryDependencies": [
-        "calendar"
-      ],
-      "files": [
-        {
-          "path": "src/examples/calendar/CalendarColor.vue",
-          "type": "registry:component"
-        }
-      ]
+      }
     },
     {
       "name": "calendar-multiple",
@@ -14202,7 +13712,16 @@
           "path": "src/examples/range-calendar/RangeCalendarDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "range-calendar-maximum-days",
@@ -14349,7 +13868,15 @@
           "path": "src/examples/page-indicator/PageIndicatorDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "color",
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "page-indicator-variants",
@@ -14365,24 +13892,6 @@
       "files": [
         {
           "path": "src/examples/page-indicator/PageIndicatorVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "page-indicator-sizes",
-      "type": "registry:block",
-      "title": "Page Indicator sizes",
-      "description": "Five sizes.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "page-indicator"
-      ],
-      "files": [
-        {
-          "path": "src/examples/page-indicator/PageIndicatorSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -14623,7 +14132,15 @@
           "path": "src/examples/combobox/ComboboxDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "variant",
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "combobox-popup",
@@ -14706,25 +14223,6 @@
       ]
     },
     {
-      "name": "combobox-variants",
-      "type": "registry:block",
-      "title": "Combobox variants",
-      "description": "The five text control variants.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "combobox",
-        "field"
-      ],
-      "files": [
-        {
-          "path": "src/examples/combobox/ComboboxVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "combobox-sizes",
       "type": "registry:block",
       "title": "Combobox sizes",
@@ -14781,7 +14279,15 @@
           "path": "src/examples/command/CommandDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size",
+            "disabled"
+          ]
+        }
+      }
     },
     {
       "name": "command-dialog",
@@ -14802,27 +14308,6 @@
       "files": [
         {
           "path": "src/examples/command/CommandDialogDemo.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "command-sizes",
-      "type": "registry:block",
-      "title": "Command sizes",
-      "description": "The list at xs, md and xl.",
-      "categories": [
-        "example"
-      ],
-      "dependencies": [
-        "@lucide/vue"
-      ],
-      "registryDependencies": [
-        "command"
-      ],
-      "files": [
-        {
-          "path": "src/examples/command/CommandSizes.vue",
           "type": "registry:component"
         }
       ]

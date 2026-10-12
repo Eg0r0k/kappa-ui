@@ -17,6 +17,8 @@ import {
   fileKey,
 } from "@/ui/file-upload";
 
+defineOptions({ inheritAttrs: false });
+
 const photo = ref<File | null>(null);
 </script>
 
@@ -27,6 +29,7 @@ const photo = ref<File | null>(null);
     accept="image/png,image/jpeg,image/webp"
     :max-size="2 * 1024 * 1024"
     class="max-w-md"
+    v-bind="$attrs"
   >
     <FileUploadDropzone as-child>
       <FileUploadTrigger>

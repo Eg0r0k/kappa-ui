@@ -4,6 +4,8 @@ import { ref } from "vue";
 import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 import { Rating, RatingItem } from "@/ui/rating";
 
+defineOptions({ inheritAttrs: false });
+
 const stars = ref(3);
 </script>
 
@@ -11,7 +13,7 @@ const stars = ref(3);
   <Field class="w-fit">
     <FieldLabel>Rate your stay</FieldLabel>
     <div class="flex items-center gap-3">
-      <Rating v-model="stars" v-slot="{ items }">
+      <Rating v-model="stars" v-slot="{ items }" v-bind="$attrs">
         <RatingItem v-for="item in items" :key="item" :item="item" />
       </Rating>
       <span class="text-body-md text-muted-foreground tabular-nums">{{ stars }} / 5</span>

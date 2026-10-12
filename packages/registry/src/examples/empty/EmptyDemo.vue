@@ -3,10 +3,12 @@ import { ArrowUpRight, FolderOpen } from "@lucide/vue";
 
 import { Button } from "@/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/ui/empty";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
-  <Empty class="w-full max-w-xl">
+  <Empty class="w-full max-w-xl" v-bind="$attrs">
     <EmptyHeader>
       <EmptyMedia>
         <FolderOpen />

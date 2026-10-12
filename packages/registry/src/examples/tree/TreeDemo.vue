@@ -4,6 +4,8 @@ import { shallowRef } from "vue";
 
 import { Tree, TreeItem, TreeItemIcon, TreeItemLabel, TreeItemToggle } from "@/ui/tree";
 
+defineOptions({ inheritAttrs: false });
+
 type File = { path: string; label: string; children?: File[]; defaultExpanded?: boolean };
 
 const files: File[] = [
@@ -42,7 +44,14 @@ const opened = shallowRef<File>();
 
 <template>
   <div class="flex w-full max-w-xs flex-col gap-3">
-    <Tree v-slot="{ items }" v-model="opened" :items="files" :get-key="(file) => file.path" aria-label="Project files">
+    <Tree
+      v-slot="{ items }"
+      v-model="opened"
+      :items="files"
+      :get-key="(file) => file.path"
+      aria-label="Project files"
+      v-bind="$attrs"
+    >
       <TreeItem v-for="row in items" :key="row._id" v-slot="{ item, expanded, hasChildren }" :item="row">
         <TreeItemToggle />
         <TreeItemIcon>

@@ -3,6 +3,8 @@ import { ref, useTemplateRef } from "vue";
 
 import { PageIndicator, PageIndicatorItem } from "@/ui/page-indicator";
 
+defineOptions({ inheritAttrs: false });
+
 const slides = ["Mountains", "Forest", "Lake", "Desert", "Coast"];
 
 const page = ref(1);
@@ -52,6 +54,7 @@ const release = () => {
       variant="pill"
       aria-label="Slides"
       @update:page="go"
+      v-bind="$attrs"
     >
       <PageIndicatorItem v-for="value in pages" :key="value" :value="value" :aria-label="slides[value - 1]" />
     </PageIndicator>

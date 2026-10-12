@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/card";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
-  <Card class="w-full max-w-sm">
+  <Card class="w-full max-w-sm" v-bind="$attrs">
     <CardHeader>
       <CardTitle>Upgrade to Pro</CardTitle>
       <CardDescription>Unlimited projects and priority support for your whole team.</CardDescription>

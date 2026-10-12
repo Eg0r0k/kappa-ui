@@ -2,11 +2,13 @@
 import { CircleAlert, Info } from "@lucide/vue";
 
 import { Alert, AlertDescription, AlertTitle } from "@/ui/alert";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
   <div class="grid w-full max-w-xl gap-4">
-    <Alert variant="subtle" color="info">
+    <Alert variant="subtle" color="info" v-bind="$attrs">
       <Info />
       <AlertTitle>Heads up!</AlertTitle>
       <AlertDescription>You can add components to your app with the CLI.</AlertDescription>

@@ -11,6 +11,8 @@ import {
   StepperTrigger,
 } from "@/ui/stepper";
 
+defineOptions({ inheritAttrs: false });
+
 const steps = [
   { step: 1, title: "Address", description: "Add your address", icon: BookUser },
   { step: 2, title: "Shipping", description: "Set your preferred", icon: Truck },
@@ -20,7 +22,7 @@ const steps = [
 </script>
 
 <template>
-  <Stepper class="w-full items-start">
+  <Stepper class="w-full items-start" v-bind="$attrs">
     <StepperItem
       v-for="item in steps"
       :key="item.step"

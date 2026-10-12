@@ -3,10 +3,12 @@ import { ChevronsUpDown } from "@lucide/vue";
 
 import { Button } from "@/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/ui/collapsible";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
-  <Collapsible class="flex w-full max-w-sm flex-col gap-2">
+  <Collapsible class="flex w-full max-w-sm flex-col gap-2" v-bind="$attrs">
     <div class="flex items-center justify-between gap-4 px-4">
       <h4 class="text-title-sm">@kappa starred 3 repositories</h4>
       <CollapsibleTrigger as-child>

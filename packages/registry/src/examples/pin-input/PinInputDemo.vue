@@ -3,12 +3,14 @@ import { ref } from "vue";
 
 import { PinInput, PinInputGroup, PinInputSeparator, PinInputSlot } from "@/ui/pin-input";
 
+defineOptions({ inheritAttrs: false });
+
 const code = ref<string[]>([]);
 </script>
 
 <template>
   <div class="flex flex-col items-center gap-3">
-    <PinInput v-model="code" aria-label="One-time code">
+    <PinInput v-model="code" aria-label="One-time code" v-bind="$attrs">
       <PinInputGroup>
         <PinInputSlot v-for="index in [0, 1, 2]" :key="index" :index="index" />
       </PinInputGroup>
