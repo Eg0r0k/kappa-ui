@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Atom, ChevronDown, Copy, FileText, Layers, Package } from '@lucide/vue'
+import { Atom, ChevronDown, ChevronLeft, ChevronRight, Copy, FileText, Layers, Package } from '@lucide/vue'
 import type { Component } from 'vue'
 
 import { Badge } from '@/ui/badge'
@@ -7,10 +7,12 @@ import { Button } from '@/ui/button'
 import { ButtonGroup, ButtonGroupSeparator } from '@/ui/button-group'
 import { Menu, MenuItem, MenuTrigger } from '@/ui/menu'
 import { useToast } from '@/ui/toast'
+import { vTooltip } from '@/ui/tooltip'
 import GithubIcon from '~/components/GithubIcon.vue'
 import { badgeOf } from '~/lib/badges'
 import { type DependencyLabel, dependencyLinks } from '~/lib/dependencies'
 import { rawPath } from '~/lib/raw'
+import { neighbours, sidebarGroups } from '~/lib/sidebar'
 import { findItem } from '~/lib/registry'
 import { loadSource } from '~/lib/sources'
 
@@ -22,6 +24,9 @@ onMounted(() => {
   now.value = Date.now()
 })
 const badge = computed(() => badgeOf(props.component, now.value))
+
+const nav = useDocsNavigation()
+const links = computed(() => neighbours(sidebarGroups(nav.value), props.path))
 
 const source = computed(() => {
   const file = props.component ? findItem(props.component)?.files[0]?.path : undefined
@@ -57,6 +62,36 @@ const copyPage = async () => {
     <div class="flex flex-wrap items-center gap-3">
       <h1 class="text-3xl font-semibold tracking-tight">{{ props.title }}</h1>
       <Badge v-if="badge" variant="soft" :color="badge === 'new' ? 'success' : 'info'">{{ badge }}</Badge>
+      <nav aria-label="Previous and next page" class="ms-auto flex items-center gap-0.5">
+        <Button
+          v-if="links.previous"
+          v-tooltip="`Previous: ${links.previous.title}`"
+          variant="ghost"
+          color="neutral"
+          size="icon-sm"
+          :aria-label="`Previous: ${links.previous.title}`"
+          as-child
+        >
+          <NuxtLink :to="links.previous.path"><ChevronLeft class="rtl:rotate-180" /></NuxtLink>
+        </Button>
+        <Button v-else variant="ghost" color="neutral" size="icon-sm" aria-label="No previous page" disabled>
+          <ChevronLeft class="rtl:rotate-180" />
+        </Button>
+        <Button
+          v-if="links.next"
+          v-tooltip="`Next: ${links.next.title}`"
+          variant="ghost"
+          color="neutral"
+          size="icon-sm"
+          :aria-label="`Next: ${links.next.title}`"
+          as-child
+        >
+          <NuxtLink :to="links.next.path"><ChevronRight class="rtl:rotate-180" /></NuxtLink>
+        </Button>
+        <Button v-else variant="ghost" color="neutral" size="icon-sm" aria-label="No next page" disabled>
+          <ChevronRight class="rtl:rotate-180" />
+        </Button>
+      </nav>
     </div>
     <p v-if="props.description" class="text-lg text-muted-foreground">{{ props.description }}</p>
     <div class="flex flex-wrap items-center gap-2">
