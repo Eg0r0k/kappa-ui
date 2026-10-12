@@ -251,6 +251,9 @@ importers:
       '@vue/tsconfig':
         specifier: ^0.9.1
         version: 0.9.1(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3))
+      nuxt-component-meta:
+        specifier: ^0.18.0
+        version: 0.18.0(@oxc-project/types@0.150.0)(magicast@0.5.5)
       playwright:
         specifier: ^1.63.0
         version: 1.63.0
@@ -7623,6 +7626,36 @@ snapshots:
       - rolldown
       - unplugin
 
+  '@nuxt/kit@4.5.2(magic-string@0.30.21)(magicast@0.5.5)(oxc-parser@0.139.0)(unplugin@2.3.11)':
+    dependencies:
+      c12: 3.3.4(magicast@0.5.5)
+      consola: 3.4.2
+      defu: 6.1.7
+      destr: 2.0.5
+      errx: 0.1.2
+      exsolve: 1.1.1
+      ignore: 7.0.10
+      jiti: 2.7.0
+      klona: 2.0.6
+      mlly: 1.8.2
+      nostics: 1.3.0
+      ohash: 2.0.12
+      pathe: 2.0.3
+      pkg-types: 2.3.3
+      rc9: 3.1.0
+      scule: 1.3.0
+      tinyglobby: 0.2.17
+      ufo: 1.6.4
+      unctx: 3.0.1(magic-string@0.30.21)(oxc-parser@0.139.0)(unplugin@2.3.11)
+      untyped: 2.0.0
+      verkit: 0.3.2
+    transitivePeerDependencies:
+      - magic-string
+      - magicast
+      - oxc-parser
+      - rolldown
+      - unplugin
+
   '@nuxt/kit@4.5.2(magic-string@1.4.1)(magicast@0.5.5)(oxc-parser@0.149.0)(rolldown@1.2.9)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.9)(rollup@4.63.4)(vite@8.3.0(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))':
     dependencies:
       c12: 3.3.4(magicast@0.5.5)
@@ -11202,6 +11235,28 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
+  nuxt-component-meta@0.18.0(@oxc-project/types@0.150.0)(magicast@0.5.5):
+    dependencies:
+      '@nuxt/kit': 4.5.2(magic-string@0.30.21)(magicast@0.5.5)(oxc-parser@0.139.0)(unplugin@2.3.11)
+      citty: 0.2.2
+      defu: 6.1.7
+      jiti: 2.7.0
+      magic-string: 0.30.21
+      mlly: 1.8.2
+      ohash: 2.0.12
+      oxc-parser: 0.139.0
+      oxc-walker: 1.1.1(@oxc-project/types@0.150.0)(oxc-parser@0.139.0)
+      pathe: 2.0.3
+      scule: 1.3.0
+      typescript: 5.9.3
+      ufo: 1.6.4
+      unplugin: 2.3.11
+      vue-component-meta: 3.3.11(typescript@5.9.3)
+    transitivePeerDependencies:
+      - '@oxc-project/types'
+      - magicast
+      - rolldown
+
   nuxt-component-meta@0.18.0(@oxc-project/types@0.150.0)(magicast@0.5.5)(rolldown@1.2.9):
     dependencies:
       '@nuxt/kit': 4.5.2(magic-string@0.30.21)(magicast@0.5.5)(oxc-parser@0.139.0)(rolldown@1.2.9)(unplugin@2.3.11)
@@ -11603,6 +11658,11 @@ snapshots:
       '@oxc-parser/binding-win32-arm64-msvc': 0.149.0
       '@oxc-parser/binding-win32-ia32-msvc': 0.149.0
       '@oxc-parser/binding-win32-x64-msvc': 0.149.0
+
+  oxc-walker@1.1.1(@oxc-project/types@0.150.0)(oxc-parser@0.139.0):
+    optionalDependencies:
+      '@oxc-project/types': 0.150.0
+      oxc-parser: 0.139.0
 
   oxc-walker@1.1.1(@oxc-project/types@0.150.0)(oxc-parser@0.139.0)(rolldown@1.2.9):
     optionalDependencies:
@@ -12738,6 +12798,12 @@ snapshots:
       magic-string: 0.30.21
       oxc-parser: 0.139.0
       rolldown: 1.2.9
+      unplugin: 2.3.11
+
+  unctx@3.0.1(magic-string@0.30.21)(oxc-parser@0.139.0)(unplugin@2.3.11):
+    optionalDependencies:
+      magic-string: 0.30.21
+      oxc-parser: 0.139.0
       unplugin: 2.3.11
 
   unctx@3.0.1(magic-string@1.4.1)(oxc-parser@0.149.0)(rolldown@1.2.9)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.9)(rollup@4.63.4)(vite@8.3.0(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))):

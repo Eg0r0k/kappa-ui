@@ -31,6 +31,7 @@
     "@vitest/browser-playwright": "^5.0.1",
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
+    "nuxt-component-meta": "^0.18.0",
     "playwright": "^1.63.0",
     "reka-ui": "2.11.0",
     "tailwindcss": "^4.3.3",

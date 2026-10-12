@@ -18,6 +18,7 @@ export default defineConfig({
   },
   test: {
     include: ["test/visual/**/*.visual.ts"],
+    globalSetup: ["./test/controls.setup.ts"],
     setupFiles: ["./test/setup.ts"],
     testTimeout: 30_000,
     browser: {

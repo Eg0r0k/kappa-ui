@@ -25,6 +25,7 @@ export default defineConfig({
     },
   },
   test: {
+    globalSetup: ["./test/controls.setup.ts"],
     setupFiles: ["./test/setup.ts"],
     restoreMocks: true,
     unstubGlobals: true,

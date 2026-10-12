@@ -1,5 +1,5 @@
 import { flushPromises, mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { describe, expect, inject, it } from "vitest";
 import type { Component } from "vue";
 
 import { createDialogs } from "@/ui/dialog";
@@ -22,6 +22,14 @@ const modules = import.meta.glob<{ default: Component }>("../src/examples/**/*.v
 
 const entryFiles = exampleItems.map((item) => item.files[0]!.path);
 
+const controls = inject("exampleControls");
+
+const controlled = exampleItems.flatMap((item) =>
+  (controls[item.name]?.controls ?? []).flatMap((control) =>
+    control.values.map((value) => [item.name, control.prop, value, item.files[0]!.path] as const),
+  ),
+);
+
 const toManifestPath = (key: string) => key.replace(/^\.\.\//, "");
 
 describe("examples", () => {
@@ -41,6 +49,22 @@ describe("examples", () => {
     const warnings: string[] = [];
     mount(modules[`../${path}`]!.default, {
       attachTo: document.body,
+      global: {
+        plugins: [createToaster(), createDialogs()],
+        config: { warnHandler: (message) => warnings.push(message) },
+      },
+    });
+
+    await flushPromises();
+
+    expect(warnings).toEqual([]);
+  });
+
+  it.each(controlled)("mounts %s with %s=%s without warnings", async (_name, prop, value, path) => {
+    const warnings: string[] = [];
+    mount(modules[`../${path}`]!.default, {
+      attachTo: document.body,
+      attrs: { [prop]: value },
       global: {
         plugins: [createToaster(), createDialogs()],
         config: { warnHandler: (message) => warnings.push(message) },
