@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/ui/accordion";
 
+defineOptions({ inheritAttrs: false });
+
 const questions = [
   {
     value: "shipping",
@@ -21,7 +23,7 @@ const questions = [
 </script>
 
 <template>
-  <Accordion type="single" default-value="shipping" class="max-w-lg">
+  <Accordion type="single" default-value="shipping" class="max-w-lg" v-bind="$attrs">
     <AccordionItem v-for="item in questions" :key="item.value" :value="item.value">
       <AccordionTrigger>{{ item.question }}</AccordionTrigger>
       <AccordionContent>{{ item.answer }}</AccordionContent>

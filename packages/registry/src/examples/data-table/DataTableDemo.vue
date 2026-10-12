@@ -2,6 +2,8 @@
 import { Badge } from "@/ui/badge";
 import { createDataTableColumnHelper, DataTable } from "@/ui/data-table";
 
+defineOptions({ inheritAttrs: false });
+
 type Payment = { id: string; status: "success" | "processing" | "failed"; email: string; amount: number };
 
 const payments: Payment[] = [
@@ -31,7 +33,14 @@ const color = (status: Payment["status"]) =>
 </script>
 
 <template>
-  <DataTable :data="payments" :columns="columns" :get-row-id="(row) => row.id" sortable class="w-full max-w-lg">
+  <DataTable
+    :data="payments"
+    :columns="columns"
+    :get-row-id="(row) => row.id"
+    sortable
+    class="w-full max-w-lg"
+    v-bind="$attrs"
+  >
     <template #cell-status="{ getValue }">
       <Badge variant="soft" :color="color(getValue() as Payment['status'])">{{ getValue() }}</Badge>
     </template>

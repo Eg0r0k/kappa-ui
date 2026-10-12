@@ -7,6 +7,8 @@ import { computed, shallowRef } from "vue";
 import { DateRangePicker } from "@/ui/date-range-picker";
 import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 
+defineOptions({ inheritAttrs: false });
+
 const trip = shallowRef<DateRange | null>({
   start: new CalendarDate(2026, 10, 23),
   end: new CalendarDate(2026, 11, 2),
@@ -20,7 +22,7 @@ const months = computed(() => (wide.value ? 2 : 1));
 <template>
   <Field class="w-full max-w-80">
     <FieldLabel>Trip</FieldLabel>
-    <DateRangePicker v-model="trip" :number-of-months="months" locale="en-US" />
+    <DateRangePicker v-model="trip" :number-of-months="months" locale="en-US" v-bind="$attrs" />
     <FieldDescription>Pick the first day, then the last.</FieldDescription>
   </Field>
 </template>

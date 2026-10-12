@@ -8,6 +8,8 @@ import {
   NavigationMenuTrigger,
 } from "@/ui/navigation-menu";
 
+defineOptions({ inheritAttrs: false });
+
 const guides = [
   { title: "Introduction", href: "#", description: "What kappa-ui is, and what it isn't." },
   { title: "Installation", href: "#", description: "Add the tokens and your first component." },
@@ -25,7 +27,7 @@ const components = [
 </script>
 
 <template>
-  <NavigationMenu aria-label="Main">
+  <NavigationMenu aria-label="Main" v-bind="$attrs">
     <NavigationMenuList>
       <NavigationMenuItem value="getting-started">
         <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>

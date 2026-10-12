@@ -9,10 +9,12 @@ import {
   ToolbarToggleGroup,
   ToolbarToggleItem,
 } from "@/ui/toolbar";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
-  <Toolbar aria-label="Formatting">
+  <Toolbar aria-label="Formatting" v-bind="$attrs">
     <ToolbarToggleGroup type="multiple" aria-label="Text style" size="icon-sm">
       <ToolbarToggleItem value="bold" aria-label="Bold"><Bold /></ToolbarToggleItem>
       <ToolbarToggleItem value="italic" aria-label="Italic"><Italic /></ToolbarToggleItem>

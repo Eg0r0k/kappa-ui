@@ -12,10 +12,12 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/ui/command";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
-  <Command class="max-w-md border border-border shadow-shadow-md">
+  <Command class="max-w-md border border-border shadow-shadow-md" v-bind="$attrs">
     <CommandInput placeholder="Type a command or search..." />
     <CommandList>
       <CommandEmpty>No results found.</CommandEmpty>

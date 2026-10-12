@@ -3,11 +3,13 @@ import { BadgeCheck, ChevronRight } from "@lucide/vue";
 
 import { Button } from "@/ui/button";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/ui/item";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
   <div class="grid w-full max-w-md gap-4">
-    <Item variant="outline">
+    <Item variant="outline" v-bind="$attrs">
       <ItemContent>
         <ItemTitle>Basic item</ItemTitle>
         <ItemDescription>A title, a description and an action on one row.</ItemDescription>

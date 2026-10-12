@@ -3,11 +3,13 @@ import { GitBranch, Search } from "@lucide/vue";
 
 import { Marker, MarkerContent, MarkerIcon } from "@/ui/marker";
 import { Spinner } from "@/ui/spinner";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
   <div class="flex w-full max-w-sm flex-col gap-8">
-    <Marker>
+    <Marker v-bind="$attrs">
       <MarkerIcon><GitBranch /></MarkerIcon>
       <MarkerContent>Switched to a new branch</MarkerContent>
     </Marker>

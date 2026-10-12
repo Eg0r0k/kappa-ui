@@ -17,13 +17,15 @@ import {
   MenubarTrigger,
 } from "@/ui/menubar";
 
+defineOptions({ inheritAttrs: false });
+
 const bookmarks = ref(true);
 const fullUrls = ref(false);
 const profile = ref("benoit");
 </script>
 
 <template>
-  <Menubar aria-label="Browser">
+  <Menubar aria-label="Browser" v-bind="$attrs">
     <MenubarMenu>
       <MenubarTrigger>File</MenubarTrigger>
       <MenubarContent class="w-60">

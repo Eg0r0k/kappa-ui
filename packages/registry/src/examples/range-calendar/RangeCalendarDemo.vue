@@ -5,6 +5,8 @@ import { shallowRef } from "vue";
 
 import { RangeCalendar } from "@/ui/range-calendar";
 
+defineOptions({ inheritAttrs: false });
+
 const stay = shallowRef<DateRange | null>({
   start: new CalendarDate(2026, 10, 6),
   end: new CalendarDate(2026, 10, 12),
@@ -18,5 +20,6 @@ const stay = shallowRef<DateRange | null>({
     paged-navigation
     calendar-label="Stay"
     class="rounded-xl border border-border p-3"
+    v-bind="$attrs"
   />
 </template>

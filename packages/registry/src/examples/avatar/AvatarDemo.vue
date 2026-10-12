@@ -3,6 +3,8 @@ import { User } from "@lucide/vue";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 
+defineOptions({ inheritAttrs: false });
+
 const ada =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/120px-Ada_Lovelace_portrait.jpg";
 </script>
@@ -13,7 +15,7 @@ const ada =
       <AvatarImage :src="ada" alt="Ada Lovelace" />
       <AvatarFallback>AL</AvatarFallback>
     </Avatar>
-    <Avatar>
+    <Avatar v-bind="$attrs">
       <AvatarFallback>KP</AvatarFallback>
     </Avatar>
     <Avatar>

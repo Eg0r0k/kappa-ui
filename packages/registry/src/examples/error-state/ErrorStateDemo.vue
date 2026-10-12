@@ -13,6 +13,8 @@ import {
 } from "@/ui/error-state";
 import { Spinner } from "@/ui/spinner";
 
+defineOptions({ inheritAttrs: false });
+
 const retrying = ref(false);
 const retry = () => {
   retrying.value = true;
@@ -21,7 +23,7 @@ const retry = () => {
 </script>
 
 <template>
-  <ErrorState class="w-full max-w-xl">
+  <ErrorState class="w-full max-w-xl" v-bind="$attrs">
     <ErrorStateHeader>
       <ErrorStateMedia />
       <ErrorStateTitle>Couldn't load projects</ErrorStateTitle>

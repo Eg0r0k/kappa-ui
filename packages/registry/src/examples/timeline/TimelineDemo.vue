@@ -12,6 +12,8 @@ import {
   TimelineTitle,
 } from "@/ui/timeline";
 
+defineOptions({ inheritAttrs: false });
+
 const milestones = [
   {
     value: "kickoff",
@@ -49,7 +51,7 @@ const milestones = [
 </script>
 
 <template>
-  <Timeline default-value="design" class="w-full max-w-sm">
+  <Timeline default-value="design" class="w-full max-w-sm" v-bind="$attrs">
     <TimelineItem v-for="milestone in milestones" :key="milestone.value" :value="milestone.value">
       <TimelineIndicator><component :is="milestone.icon" /></TimelineIndicator>
       <TimelineSeparator />

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/ui/table";
 
+defineOptions({ inheritAttrs: false });
+
 const invoices = [
   { id: "INV001", status: "Paid", method: "Credit card", amount: "$250.00" },
   { id: "INV002", status: "Pending", method: "PayPal", amount: "$150.00" },
@@ -11,7 +13,7 @@ const invoices = [
 </script>
 
 <template>
-  <Table>
+  <Table v-bind="$attrs">
     <TableCaption visible>A list of your recent invoices.</TableCaption>
     <TableHeader>
       <TableRow>

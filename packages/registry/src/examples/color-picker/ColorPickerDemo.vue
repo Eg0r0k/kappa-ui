@@ -11,12 +11,14 @@ import {
   ColorPickerSwatches,
 } from "@/ui/color-picker";
 
+defineOptions({ inheritAttrs: false });
+
 const color = ref("#3b82f6");
 const presets = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6", "#8b5cf6", "#ec4899"];
 </script>
 
 <template>
-  <ColorPicker v-model="color" class="w-64">
+  <ColorPicker v-model="color" class="w-64" v-bind="$attrs">
     <ColorPickerArea />
     <ColorPickerSlider channel="hue" />
     <ColorPickerSlider channel="alpha" />
