@@ -91,6 +91,7 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
       <ToggleGroup
         type="single"
         size="sm"
+        active-color="primary"
         aria-label="Package manager"
         class="mt-1 self-start"
         :model-value="pm"
