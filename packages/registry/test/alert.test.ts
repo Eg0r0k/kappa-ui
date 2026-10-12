@@ -1,10 +1,11 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
-import { Alert, AlertActions, AlertDescription, AlertTitle } from "@/ui/alert";
+import { Alert, AlertActions, AlertClose, AlertDescription, AlertTitle } from "@/ui/alert";
 
-const all = { icon: true, title: true, description: true, actions: false };
+const all = { icon: true, title: true, description: true, actions: false, close: false };
 
 const render = (props: Record<string, unknown> = {}, parts = all) => {
   mount(
@@ -21,6 +22,7 @@ const render = (props: Record<string, unknown> = {}, parts = all) => {
               parts.title ? h(AlertTitle, () => "Heads up") : null,
               parts.description ? h(AlertDescription, () => "You can add components with the CLI.") : null,
               parts.actions ? h(AlertActions, () => h("button", { style: "height: 28px" }, "Undo")) : null,
+              parts.close ? h(AlertClose) : null,
             ]),
           ],
         ),
@@ -33,6 +35,7 @@ const render = (props: Record<string, unknown> = {}, parts = all) => {
     title: find("alert-title"),
     description: find("alert-description"),
     actions: find("alert-actions"),
+    close: find("alert-close"),
     icon: document.querySelector<SVGElement>("[data-testid=icon]")!,
   };
 };
@@ -104,5 +107,32 @@ describe("Alert", () => {
     const text = (title.getBoundingClientRect().top + description.getBoundingClientRect().bottom) / 2;
     expect(text).toBeCloseTo(middle(alert), 0);
     expect(middle(actions)).toBeCloseTo(middle(alert), 0);
+  });
+
+  it("closes from AlertClose and reports it", async () => {
+    const updates: unknown[] = [];
+    const { close } = render({ "onUpdate:open": (value: unknown) => updates.push(value) }, { ...all, close: true });
+    expect(close.tagName).toBe("BUTTON");
+    expect(close.getAttribute("aria-label")).toBe("Close");
+    await userEvent.click(close);
+    expect(updates).toEqual([false]);
+    expect(document.querySelector("[data-slot=alert]")).toBeNull();
+  });
+
+  it("puts the close button on the title's line at the end, clear of the text", () => {
+    const { alert, title, description, close } = render({}, { ...all, close: true });
+    expect(middle(close)).toBeCloseTo(middle(title), 0);
+    expect(close.getBoundingClientRect().right).toBe(alert.getBoundingClientRect().right - 8);
+    expect(description.getBoundingClientRect().right).toBeLessThanOrEqual(close.getBoundingClientRect().left);
+    expect(getComputedStyle(close).color).toBe(getComputedStyle(alert).color);
+  });
+
+  it.each([
+    ["xs", 28],
+    ["md", 32],
+    ["xl", 36],
+  ])("sizes the close button of a %s alert to %ipx", (size, width) => {
+    const { close } = render({ size }, { ...all, close: true });
+    expect(close.getBoundingClientRect().width).toBe(width);
   });
 });

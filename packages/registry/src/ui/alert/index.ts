@@ -1,7 +1,12 @@
 import { type VariantProps, cva } from "class-variance-authority";
+import { createContext } from "reka-ui";
+import type { ComputedRef } from "vue";
+
+import type { ButtonSize } from "@/ui/button";
 
 export { default as Alert } from "./Alert.vue";
 export { default as AlertActions } from "./AlertActions.vue";
+export { default as AlertClose } from "./AlertClose.vue";
 export { default as AlertDescription } from "./AlertDescription.vue";
 export { default as AlertTitle } from "./AlertTitle.vue";
 
@@ -16,6 +21,7 @@ export const alertVariants = cva(
     data-[orientation=horizontal]:[&>svg]:row-span-full data-[orientation=horizontal]:[&>svg]:h-(--alert-icon)
     data-[orientation=horizontal]:[&>svg]:self-center
     [--alert-line:var(--typescale-title-sm-line-height)]
+    has-data-[slot=alert-close]:pe-[calc(var(--alert-pad)+var(--alert-close))]
   `,
   {
     variants: {
@@ -28,11 +34,26 @@ export const alertVariants = cva(
         link: "text-tone-text underline-offset-4 hover:underline",
       },
       size: {
-        xs: `rounded-surface-xs p-2.5 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(3.5)]`,
-        sm: `rounded-surface-xs p-3 [--alert-gap:--spacing(2)] [--alert-icon:--spacing(4)]`,
-        md: `rounded-surface-sm p-4 [--alert-gap:--spacing(2.5)] [--alert-icon:--spacing(5)]`,
-        lg: `rounded-surface-sm p-5 [--alert-gap:--spacing(3)] [--alert-icon:--spacing(5)]`,
-        xl: `rounded-surface-md p-6 [--alert-gap:--spacing(3.5)] [--alert-icon:--spacing(6)]`,
+        xs: `
+          rounded-surface-xs p-(--alert-pad) [--alert-pad:--spacing(2.5)] [--alert-gap:--spacing(2)]
+          [--alert-icon:--spacing(3.5)] [--alert-close:var(--control-height-xs)]
+        `,
+        sm: `
+          rounded-surface-xs p-(--alert-pad) [--alert-pad:--spacing(3)] [--alert-gap:--spacing(2)]
+          [--alert-icon:--spacing(4)] [--alert-close:var(--control-height-xs)]
+        `,
+        md: `
+          rounded-surface-sm p-(--alert-pad) [--alert-pad:--spacing(4)] [--alert-gap:--spacing(2.5)]
+          [--alert-icon:--spacing(5)] [--alert-close:var(--control-height-sm)]
+        `,
+        lg: `
+          rounded-surface-sm p-(--alert-pad) [--alert-pad:--spacing(5)] [--alert-gap:--spacing(3)]
+          [--alert-icon:--spacing(5)] [--alert-close:var(--control-height-sm)]
+        `,
+        xl: `
+          rounded-surface-md p-(--alert-pad) [--alert-pad:--spacing(6)] [--alert-gap:--spacing(3.5)]
+          [--alert-icon:--spacing(6)] [--alert-close:var(--control-height-md)]
+        `,
       },
     },
     defaultVariants: {
@@ -44,3 +65,16 @@ export const alertVariants = cva(
 
 export type AlertVariants = VariantProps<typeof alertVariants>;
 export type AlertSize = NonNullable<AlertVariants["size"]>;
+
+export const alertCloseSize: Record<AlertSize, ButtonSize> = {
+  xs: "icon-xs",
+  sm: "icon-xs",
+  md: "icon-sm",
+  lg: "icon-sm",
+  xl: "icon-md",
+};
+
+export const [injectAlertContext, provideAlertContext] = createContext<{
+  close: () => void;
+  size: ComputedRef<AlertSize>;
+}>("Alert");

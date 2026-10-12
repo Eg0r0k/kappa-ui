@@ -435,11 +435,13 @@
       ],
       "dependencies": [
         "class-variance-authority",
-        "reka-ui"
+        "reka-ui",
+        "@lucide/vue"
       ],
       "registryDependencies": [
         "utils",
-        "tokens"
+        "tokens",
+        "button"
       ],
       "files": [
         {
@@ -448,6 +450,10 @@
         },
         {
           "path": "src/ui/alert/AlertActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/alert/AlertClose.vue",
           "type": "registry:ui"
         },
         {
@@ -572,6 +578,28 @@
       "files": [
         {
           "path": "src/examples/alert/AlertOrientation.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert-close",
+      "type": "registry:block",
+      "title": "Alert with a close button",
+      "description": "A dismissible alert that a button brings back.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "alert",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/alert/AlertCloseExample.vue",
           "type": "registry:component"
         }
       ]
