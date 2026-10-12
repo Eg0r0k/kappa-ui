@@ -29,16 +29,18 @@ it('labels every control with its prop and picks the control by its values', () 
   const { wrapper } = render()
   expect(wrapper.attributes('data-slot')).toBe('example-controls')
   expect(wrapper.text()).toContain('variant')
-  expect(wrapper.find('[data-slot=toggle-group]').exists()).toBe(true)
-  expect(wrapper.find('[data-slot=select-trigger]').exists()).toBe(true)
+  expect(wrapper.findAll('[data-slot=select-trigger]')).toHaveLength(2)
   expect(wrapper.find('[data-slot=switch]').exists()).toBe(true)
   wrapper.unmount()
 })
 
 it('emits the whole value object with one prop changed', async () => {
   const { wrapper, updates } = render()
-  const soft = wrapper.findAll('[data-slot=toggle-group-item]').find((item) => item.text() === 'soft')!
-  await userEvent.click(soft.element)
+  await userEvent.click(wrapper.get('[data-slot=select-trigger]').element)
+  const soft = [...document.querySelectorAll<HTMLElement>('[data-slot=select-item]')].find(
+    (item) => item.textContent?.trim() === 'soft',
+  )!
+  await userEvent.click(soft)
   await userEvent.click(wrapper.get('[data-slot=switch]').element)
   await nextTick()
   expect(updates).toEqual([

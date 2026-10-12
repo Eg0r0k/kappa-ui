@@ -4292,6 +4292,9 @@
                 "lg",
                 "xl"
               ]
+            },
+            {
+              "attribute": "disabled"
             }
           ]
         }

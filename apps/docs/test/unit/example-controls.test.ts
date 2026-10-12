@@ -21,7 +21,7 @@ describe('example controls', () => {
     expect(Object.keys(changedProps(controls, { disabled: true, variant: 'soft' }))).toEqual(['variant', 'disabled'])
   })
 
-  it('picks a switch, segments up to five values, a select above', () => {
-    expect(controls.map(controlKind)).toEqual(['segmented', 'select', 'switch'])
+  it('picks a switch for a boolean and a select for everything else', () => {
+    expect(controls.map(controlKind)).toEqual(['select', 'select', 'switch'])
   })
 })

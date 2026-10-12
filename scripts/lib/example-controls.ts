@@ -3,7 +3,7 @@ import { INHERIT_LINE, MARKER_ATTRIBUTE } from './example-props.ts'
 export type ControlValue = string | boolean
 export type ExampleControl = { prop: string; values: ControlValue[]; default: ControlValue }
 export type ExampleControls = Record<string, { component: string; controls: ExampleControl[] }>
-export type ControlEntry = string | { prop: string; values: string[] }
+export type ControlEntry = string | { prop: string; values: string[] } | { attribute: string }
 export type MetaProp = { name: string; default?: string; schema?: unknown }
 export type ResolveInput = {
   items: readonly {
@@ -58,6 +58,9 @@ const controlOf = (
   props: readonly MetaProp[],
   entry: ControlEntry,
 ): { control?: ExampleControl; errors: string[] } => {
+  if (typeof entry === 'object' && 'attribute' in entry) {
+    return { control: { prop: entry.attribute, values: [false, true], default: false }, errors: [] }
+  }
   const name = typeof entry === 'string' ? entry : entry.prop
   const prop = props.find((candidate) => candidate.name === name)
   if (!prop) return { errors: [`${example}: ${component} has no prop "${name}"`] }

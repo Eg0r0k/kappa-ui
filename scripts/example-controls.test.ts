@@ -110,6 +110,12 @@ test('needs the inheritAttrs line next to the marker', async () => {
   assert.match(errors.join('\n'), /button-demo: a marked example needs defineOptions\(\{ inheritAttrs: false \}\)/)
 })
 
+test('offers a native attribute as a boolean without reading the meta', async () => {
+  const { controls, errors } = await resolve([{ attribute: 'disabled' }, 'variant'])
+  assert.deepEqual(errors, [])
+  assert.deepEqual(controls['button-demo']?.controls[0], { prop: 'disabled', values: [false, true], default: false })
+})
+
 test('skips items without controls', async () => {
   const { controls, errors } = await resolveExampleControls({
     items: [{ name: 'plain', files: [{ path: 'src/examples/x/X.vue' }] }],

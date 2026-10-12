@@ -209,11 +209,16 @@ const controlsErrors = (controls: unknown) => {
       ? entry
       : typeof entry === 'object' && entry !== null && typeof (entry as { prop?: unknown }).prop === 'string'
         ? (entry as { prop: string }).prop
-        : undefined,
+        : typeof entry === 'object' &&
+            entry !== null &&
+            typeof (entry as { attribute?: unknown }).attribute === 'string'
+          ? (entry as { attribute: string }).attribute
+          : undefined,
   )
   const errors = controls.flatMap((entry: unknown, index) => {
-    if (props[index] === undefined) return [`meta.demo.controls[${index}] must be a prop name or { prop, values }`]
-    if (typeof entry === 'string') return []
+    if (props[index] === undefined)
+      return [`meta.demo.controls[${index}] must be a prop name, { prop, values } or { attribute }`]
+    if (typeof entry === 'string' || 'attribute' in (entry as object)) return []
     const values = (entry as { values?: unknown }).values
     return Array.isArray(values) && values.length > 0 && values.every((value) => typeof value === 'string')
       ? []

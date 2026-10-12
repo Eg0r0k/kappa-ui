@@ -5,7 +5,6 @@ import { useId } from 'vue'
 import { Button } from '@/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select'
 import { Switch } from '@/ui/switch'
-import { ToggleGroup, ToggleGroupItem } from '@/ui/toggle-group'
 import { type ControlValue, type ExampleControl, controlKind } from '~/lib/example-controls'
 
 const props = defineProps<{ controls: readonly ExampleControl[]; changed: boolean }>()
@@ -35,19 +34,6 @@ const pick = (prop: string, value: unknown) => {
         :aria-labelledby="labelId(control.prop)"
         @update:model-value="(value: boolean) => set(control.prop, value)"
       />
-      <ToggleGroup
-        v-else-if="controlKind(control) === 'segmented'"
-        type="single"
-        size="xs"
-        active-color="primary"
-        :model-value="String(model[control.prop])"
-        :aria-labelledby="labelId(control.prop)"
-        @update:model-value="(value: unknown) => pick(control.prop, value)"
-      >
-        <ToggleGroupItem v-for="value in control.values" :key="String(value)" :value="String(value)">
-          {{ value }}
-        </ToggleGroupItem>
-      </ToggleGroup>
       <Select
         v-else
         :model-value="String(model[control.prop])"

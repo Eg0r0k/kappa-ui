@@ -18,7 +18,5 @@ export const changedProps = (controls: readonly ExampleControl[], values: Readon
       .map((control) => [control.prop, values[control.prop]!]),
   ) as Record<string, ControlValue>
 
-export const controlKind = (control: ExampleControl) => {
-  if (control.values.every((value) => typeof value === 'boolean')) return 'switch'
-  return control.values.length <= 5 ? 'segmented' : 'select'
-}
+export const controlKind = (control: ExampleControl) =>
+  control.values.every((value) => typeof value === 'boolean') ? 'switch' : 'select'

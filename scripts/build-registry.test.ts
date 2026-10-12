@@ -702,7 +702,10 @@ test('the committed registry.css is what the build generates', async () => {
 test('accepts a controls list on an example', async () => {
   const { status, stderr } = await run([
     component,
-    { ...example, meta: { demo: { controls: ['variant', { prop: 'size', values: ['sm', 'md'] }] } } },
+    {
+      ...example,
+      meta: { demo: { controls: ['variant', { prop: 'size', values: ['sm', 'md'] }, { attribute: 'disabled' }] } },
+    },
   ])
   assert.equal(status, 0, stderr)
 })
