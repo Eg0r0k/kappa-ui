@@ -8018,6 +8018,120 @@
       ]
     },
     {
+      "name": "data-tree",
+      "type": "registry:ui",
+      "title": "Data Tree",
+      "description": "A tree drawn from data: rows from each node's label and icon, loading, empty and error states in its frame, and virtualization by one prop, over the Tree parts.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "tree",
+        "skeleton"
+      ],
+      "files": [
+        {
+          "path": "src/ui/data-tree/DataTree.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-tree/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-tree-demo",
+      "type": "registry:block",
+      "title": "Data tree demo",
+      "description": "Files drawn from data: icons from the nodes, a frame, v-model.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "data-tree",
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-tree-states",
+      "type": "registry:block",
+      "title": "Data tree states",
+      "description": "Skeleton rows, the empty message and an ErrorState with Retry, in the tree's frame.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "data-tree",
+        "error-state",
+        "button",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-tree-virtual",
+      "type": "registry:block",
+      "title": "Virtualized data tree",
+      "description": "10,100 nodes with virtualize, scrolling inside the frame.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeVirtual.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-tree-custom-rows",
+      "type": "registry:block",
+      "title": "Data tree with custom rows",
+      "description": "Mailboxes with an unread count through the item slot.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "data-tree",
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeCustomRows.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "data-table-demo",
       "type": "registry:block",
       "title": "Data table",
@@ -8111,14 +8225,19 @@
     {
       "name": "data-table-states",
       "type": "registry:block",
-      "title": "Loading and empty states",
-      "description": "The progress bar, the skeleton rows, the empty and the no-results messages.",
+      "title": "Loading, empty and error states",
+      "description": "The progress bar, the skeleton rows, the empty and no-results messages, and an ErrorState with Retry.",
       "categories": [
         "example"
       ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
       "registryDependencies": [
         "data-table",
-        "toggle-group"
+        "toggle-group",
+        "error-state",
+        "button"
       ],
       "files": [
         {
@@ -12472,6 +12591,77 @@
       "files": [
         {
           "path": "src/examples/empty/EmptySizes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "error-state",
+      "type": "registry:ui",
+      "title": "Error state",
+      "description": "An error state on Empty's parts: an alert with an error icon, a title, a description and a place for Retry.",
+      "categories": [
+        "feedback"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "empty"
+      ],
+      "files": [
+        {
+          "path": "src/ui/error-state/ErrorState.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateMedia.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "error-state-demo",
+      "type": "registry:block",
+      "title": "Error state demo",
+      "description": "An error icon, a title, a description and a Retry button that spins while it retries.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "error-state",
+        "button",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/error-state/ErrorStateDemo.vue",
           "type": "registry:component"
         }
       ]

@@ -1,0 +1,4 @@
+component: ErrorStateDescription
+file: ui/error-state/ErrorStateDescription.vue
+slots:
+  default: What went wrong and what to do about it.
