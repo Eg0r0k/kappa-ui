@@ -5,6 +5,7 @@ export const usePreviewClient = () => {
   const dir = ref<Direction>('ltr')
   const color = ref<Tone>('primary')
   const inspect = ref(false)
+  const props = ref<Record<string, string | boolean>>({})
   const key = ref(0)
   let siteTheme: string | undefined
 
@@ -19,6 +20,7 @@ export const usePreviewClient = () => {
     dir.value = state.dir
     color.value = state.color
     inspect.value = state.inspect
+    props.value = state.props
     key.value = state.restart
     colorMode.forced = true
     // color-mode's page-level forcing writes the same reactive field
@@ -43,5 +45,5 @@ export const usePreviewClient = () => {
     window.removeEventListener('keydown', onKeydown)
   })
 
-  return { dir, color, inspect, key, post }
+  return { dir, color, inspect, key, post, props }
 }

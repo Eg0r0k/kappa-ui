@@ -19,12 +19,22 @@ const props = withDefaults(
     restart?: number
     color?: Tone
     inspect?: boolean
+    props?: Record<string, string | boolean>
     minHeight?: number
     height?: string
     src?: string
     title?: string
   }>(),
-  { restart: 0, color: 'primary', inspect: false, minHeight: 288, height: undefined, src: undefined, title: undefined },
+  {
+    restart: 0,
+    color: 'primary',
+    inspect: false,
+    props: () => ({}),
+    minHeight: 288,
+    height: undefined,
+    src: undefined,
+    title: undefined,
+  },
 )
 const emit = defineEmits<{ ready: []; error: [message: string]; shortcut: [] }>()
 
@@ -40,6 +50,7 @@ const state = computed<PreviewState>(() => ({
   siteTheme: props.siteTheme,
   color: props.color,
   inspect: props.inspect,
+  props: { ...props.props },
 }))
 
 const send = () => {

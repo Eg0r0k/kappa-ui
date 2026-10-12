@@ -12,6 +12,7 @@ export type PreviewState = {
   siteTheme: string
   color: Tone
   inspect: boolean
+  props: Record<string, string | boolean>
 }
 
 export type PreviewEvent =
@@ -22,6 +23,9 @@ export type PreviewEvent =
 
 const record = (data: unknown): data is Record<string, unknown> => typeof data === 'object' && data !== null
 
+const isProps = (value: unknown): value is Record<string, string | boolean> =>
+  record(value) && Object.values(value).every((entry) => typeof entry === 'string' || typeof entry === 'boolean')
+
 export const isPreviewState = (data: unknown): data is PreviewState =>
   record(data) &&
   data.type === 'kappa:state' &&
@@ -30,7 +34,8 @@ export const isPreviewState = (data: unknown): data is PreviewState =>
   typeof data.restart === 'number' &&
   typeof data.siteTheme === 'string' &&
   tones.includes(data.color as Tone) &&
-  typeof data.inspect === 'boolean'
+  typeof data.inspect === 'boolean' &&
+  isProps(data.props)
 
 export const isPreviewEvent = (data: unknown): data is PreviewEvent => {
   if (!record(data)) return false

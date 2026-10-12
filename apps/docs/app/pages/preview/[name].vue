@@ -30,7 +30,7 @@ const padded = resolved.item.meta?.demo?.padding !== false
 
 useSeoMeta({ title: resolved.item.title, robots: 'noindex' })
 
-const { dir, color, inspect, key, post } = usePreviewClient()
+const { dir, color, inspect, key, post, props: exampleProps } = usePreviewClient()
 useHead({ htmlAttrs: { dir, style: computed(() => toneStyle(color.value)) } })
 
 const content = ref<HTMLElement>()
@@ -56,7 +56,7 @@ useResizeObserver(content, () => {
       >
         <div ref="content" data-slot="preview-content" class="flex w-full justify-center-safe">
           <ExampleBoundary :key="key" @error="(message) => post({ type: 'kappa:error', message })">
-            <Example />
+            <Example v-bind="exampleProps" />
           </ExampleBoundary>
         </div>
       </div>

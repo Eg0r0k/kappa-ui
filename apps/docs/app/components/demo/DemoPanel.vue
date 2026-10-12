@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Splitter, SplitterHandle, SplitterPanel } from '@/ui/splitter'
+import ExampleControls from '~/components/ExampleControls.vue'
 import PreviewIframe from '~/components/PreviewIframe.vue'
 import DemoCode from '~/components/demo/DemoCode.vue'
 import DemoToolbar from '~/components/demo/DemoToolbar.vue'
@@ -15,6 +16,11 @@ const { show } = useSearchDialog()
 
 const siteTheme = computed(() => JSON.stringify(themeToQuery(theme.value)))
 const item = computed(() => (selected.value ? findItem(selected.value.name) : undefined))
+const exampleName = computed(() => selected.value?.name ?? '')
+const { controls, values, changed, reset } = useExampleProps(exampleName)
+const controlsOpen = useControlsOpen()
+const hasChanges = computed(() => Object.keys(changed.value).length > 0)
+
 const share = computed(() => (item.value?.meta?.demo?.height ?? 0.6) * 100)
 
 const setResizing = (value: boolean) => {
@@ -50,6 +56,7 @@ const setResizing = (value: boolean) => {
           :site-theme="siteTheme"
           :restart="restart"
           :inspect="inspect"
+          :props="values"
           height="100%"
           :class="['h-full', resizing && 'pointer-events-none']"
           @shortcut="show()"
@@ -61,8 +68,16 @@ const setResizing = (value: boolean) => {
         class="[&>[data-slot=splitter-grip]]:h-10 [&>[data-slot=splitter-grip]]:w-4 [&>[data-slot=splitter-grip]]:rounded-full [&>[data-slot=splitter-grip]_svg]:size-3.5"
         @dragging="setResizing"
       />
-      <SplitterPanel :min-size="10">
-        <DemoCode :name="selected.name" />
+      <SplitterPanel :min-size="10" class="flex flex-col">
+        <ExampleControls
+          v-if="controls.length > 0 && controlsOpen"
+          v-model="values"
+          :controls="controls"
+          :changed="hasChanges"
+          class="shrink-0 border-b bg-muted/40"
+          @reset="reset"
+        />
+        <DemoCode :name="selected.name" :props="changed" class="min-h-0 flex-1" />
       </SplitterPanel>
     </Splitter>
   </aside>

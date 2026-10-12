@@ -12,6 +12,7 @@ describe('isPreviewState', () => {
       siteTheme: '{"hue":"150"}',
       color: 'success',
       inspect: true,
+      props: { variant: 'soft', disabled: true },
     }
     expect(isPreviewState(state)).toBe(true)
     expect(isPreviewState({ ...state, color: 'teal' })).toBe(false)
@@ -23,6 +24,9 @@ describe('isPreviewState', () => {
     expect(isPreviewState({ ...state, type: 'kappa:ready' })).toBe(false)
     expect(isPreviewState(null)).toBe(false)
     expect(isPreviewState('kappa:state')).toBe(false)
+    expect(isPreviewState({ ...state, props: {} })).toBe(true)
+    expect(isPreviewState({ ...state, props: { size: 2 } })).toBe(false)
+    expect(isPreviewState({ ...state, props: undefined })).toBe(false)
   })
 })
 
