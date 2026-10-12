@@ -132,3 +132,13 @@ it("warns when manual pagination and onLoadMore are both set", async () => {
   await nextTick();
   expect(warn).toHaveBeenCalledWith(expect.stringContaining("onLoadMore"));
 });
+
+it("loads nothing while failing and resumes once the error clears", async () => {
+  const t = render({ error: new Error("offline") });
+  await t.settle();
+  expect(t.calls).toEqual([]);
+  expect(document.querySelector("[data-slot=table-error]")).not.toBeNull();
+  expect(t.loading()).toBeNull();
+  t.extra.value = { error: null };
+  await vi.waitFor(() => expect(t.calls).toEqual([1]));
+});

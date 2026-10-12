@@ -1,0 +1,68 @@
+component: DataTree
+file: ui/data-tree/DataTree.vue
+exposedType:
+  file: ui/data-tree/index.ts
+  name: DataTreeExpose
+props:
+  items:
+    description: The top-level nodes, as on Tree. A row shows a node's `icon` and `label`; use the `item` slot for anything else. No items shows the empty state.
+  modelValue:
+    description: The selected node, or an array of them with `multiple`, bound with `v-model`. Kept while a state replaces the tree.
+  defaultValue:
+    description: The starting selection when `v-model` is not used.
+  multiple:
+    description: Lets more than one node be selected; `v-model` is then an array.
+  expanded:
+    description: The keys of the expanded nodes, bound with `v-model:expanded`. Kept while a state replaces the tree.
+  defaultExpanded:
+    description: "The starting expanded keys when `v-model:expanded` is not used. Left out, nodes with `defaultExpanded: true` start expanded, read from the first items the tree shows."
+  selectionBehavior:
+    description: "`toggle` or `replace`, as on [Tree](/docs/components/tree#api-reference)."
+  checkbox:
+    description: Checkbox mode, with a checkbox in every default row. Turns on `multiple` and `cascade`.
+  cascade:
+    description: Checking a parent checks its subtree, as on Tree. On by default with `checkbox`.
+  getKey:
+    description: Returns a node's unique key, a string. By default `id`, then `value`, then `label`.
+  getChildren:
+    description: Returns a node's children, `undefined` for a leaf. By default `children`.
+  toggleOnClick:
+    description: "`false` makes a click on a row select it only; the chevron or a double click expands it."
+  name:
+    description: Submits the selected keys with their form under this name. While a state shows there is no tree, so nothing is submitted.
+  id:
+    description: Overrides the `id` taken from a surrounding field.
+  disabled:
+    description: Disables every row. Also set by a disabled field.
+  required:
+    description: Marks the tree required, as on Tree. Also set by a required field.
+  dir:
+    description: Reading direction for Left and Right.
+  variant:
+    description: "`ghost` draws no frame; `outline` draws a card-like frame around the tree and its states."
+  size:
+    description: Sets the rows' height, padding, gap, icons, indent and text, and the states' padding, from `xs` to `xl`. `md` is the default.
+  virtualize:
+    description: "Renders only the rows near the view. `true`, or `{ overscan, estimateSize, textContent }` for the TreeVirtualizer. Give DataTree a height, such as `class=\"h-80\"`; the tree scrolls inside the frame."
+  loading:
+    description: With no items, shows the loading state, skeleton rows by default. With items, the tree stays and the root is `aria-busy`.
+  loadingRows:
+    description: How many skeleton rows the loading state shows. 3 by default.
+  empty:
+    description: The message when there are no items. `No items` by default.
+  error:
+    description: "Shows the error state in place of the tree, ahead of loading and empty. Any value but `undefined`, `null` and `false` counts, so pass the error itself; a string is the default message."
+emits:
+  update:modelValue: Fires when the selection changes.
+  update:expanded: Fires when a node expands or collapses, with the expanded keys.
+  select: Fires when a row is clicked or chosen with Enter or Space, with the event and the node. Call `event.preventDefault()` to keep the selection as it is.
+  toggle: Fires before a row expands or collapses, with the event and the node. Call `event.preventDefault()` to stop it.
+slots:
+  item: "A row's content, with the row's state (`item`, `level`, `expanded`, `selected`, `checked`, `disabled`, `loading`, `hasChildren`, `select`, `toggle`). Build it from the TreeItem parts."
+  empty: The empty state. The `empty` message by default.
+  loading: The loading state. Skeleton rows by default.
+  error: "The error state, with `{ error }`. An alert with the `error` string or `Something went wrong` by default; put an `ErrorState` here."
+exposed:
+  expandAll: Expands every node that has children.
+  collapseAll: Collapses every node.
+  scrollToKey: Scrolls a visible node into view, rendering it first when virtualized, and returns whether it is visible; `false` while a state shows.

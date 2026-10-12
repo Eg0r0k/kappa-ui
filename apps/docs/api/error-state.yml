@@ -1,0 +1,7 @@
+component: ErrorState
+file: ui/error-state/ErrorState.vue
+props:
+  size:
+    description: Sets the padding and the gaps, and through them the icon, title and description sizes of the parts inside, from `xs` to `xl`, as on Empty. `md` by default.
+slots:
+  default: "The header, the actions and anything else, stacked and centred."

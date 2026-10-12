@@ -249,6 +249,7 @@ export type DataTableSlot =
   | "spacer"
   | "filler"
   | "empty"
+  | "error"
   | "loading"
   | "skeleton"
   | "pagination"
