@@ -18,7 +18,10 @@ export type ResolveInput = {
 
 const SIZE_ORDER = ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', 'icon-xs', 'icon-sm', 'icon-md', 'icon-lg', 'icon-xl']
 
-const MARKED_TAG = new RegExp(`<([A-Z][A-Za-z0-9]*)\\b[^>]*?\\s${MARKER_ATTRIBUTE.replace('$', '\\$')}`, 'g')
+const MARKED_TAG = new RegExp(
+  `<([A-Z][A-Za-z0-9]*)\\b(?:[^>"']|"[^"]*"|'[^']*')*?\\s${MARKER_ATTRIBUTE.replace('$', '\\$')}`,
+  'g',
+)
 
 export const markedTags = (source: string) => [...source.matchAll(MARKED_TAG)].map((match) => match[1]!)
 
@@ -72,7 +75,7 @@ const controlOf = (
     return { errors: unknown.map((value) => `${example}: ${component}.${name} has no value "${String(value)}"`) }
   }
   const declared = parsedDefault(prop.default)
-  const fallback = values.includes(false) ? false : values[0]!
+  const fallback = values.includes(false) ? false : values.includes('md') ? 'md' : values[0]!
   const value = values.includes(declared as ControlValue) ? (declared as ControlValue) : fallback
   if (!narrowed.includes(value)) {
     return { errors: [`${example}: ${component}.${name} leaves out its default "${String(value)}"`] }

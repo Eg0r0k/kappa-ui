@@ -35,7 +35,7 @@ const steps = [
       </StepperTrigger>
       <StepperSeparator
         v-if="item.step < steps.length"
-        class="absolute top-[19px] right-[calc(-50%+10px)] left-[calc(50%+20px)] group-data-[state=completed]:bg-primary"
+        class="absolute top-[19px] right-[calc(-50%+10px)] left-[calc(50%+20px)]"
       />
       <div class="flex flex-col items-center">
         <StepperTitle>{{ item.title }}</StepperTitle>
