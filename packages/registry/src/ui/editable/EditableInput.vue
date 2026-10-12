@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EditableInput, type EditableInputProps, injectEditableRootContext } from "reka-ui";
-import { type HTMLAttributes, computed } from "vue";
+import { type HTMLAttributes, computed, watch } from "vue";
 
 import { cn } from "@/lib/utils";
 import { editableInput } from ".";
@@ -12,6 +12,11 @@ const context = injectEditableRootContext();
 const delegated = computed(() => {
   const { class: _, ...rest } = props;
   return rest;
+});
+
+// Reka keeps a cancelled draft until the next edit, and the hidden field would keep the box that wide
+watch(context.isEditing, (editing) => {
+  if (!editing) context.inputValue.value = context.modelValue.value;
 });
 
 const length = computed(() =>

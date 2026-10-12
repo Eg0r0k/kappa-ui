@@ -20,13 +20,13 @@ import { Editable, EditableArea, EditableInput, EditablePreview } from "@/ui/edi
     <Button v-if="!isEditing" variant="ghost" color="neutral" size="icon-xs" aria-label="Rename" @click="edit">
       <Pencil />
     </Button>
-    <template v-else>
+    <div v-else class="flex items-center gap-0.5">
       <Button variant="ghost" color="neutral" size="icon-xs" aria-label="Save" @click="submit">
         <Check />
       </Button>
       <Button variant="ghost" color="neutral" size="icon-xs" aria-label="Cancel" @click="cancel">
         <X />
       </Button>
-    </template>
+    </div>
   </Editable>
 </template>

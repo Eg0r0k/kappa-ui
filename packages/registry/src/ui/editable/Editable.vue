@@ -23,7 +23,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     v-slot="slotProps"
     v-bind="forwarded"
     data-slot="editable"
-    :class="cn('flex min-w-0 items-center gap-1', props.class)"
+    :class="cn('flex min-w-0 items-center gap-3', props.class)"
   >
     <slot v-bind="slotProps" />
   </EditableRoot>
