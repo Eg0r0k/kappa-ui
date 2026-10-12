@@ -1,0 +1,4 @@
+component: ErrorStateHeader
+file: ui/error-state/ErrorStateHeader.vue
+slots:
+  default: The media, title and description.
