@@ -36,11 +36,11 @@ export const comboboxAnchorVariants = cva(
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `h-(--control-height-xs) ${textControlRadius.xs} [--control-padding:var(--control-padding-xs)]`,
-        sm: `h-(--control-height-sm) ${textControlRadius.sm} [--control-padding:var(--control-padding-sm)]`,
-        md: `h-(--control-height-md) ${textControlRadius.md} [--control-padding:var(--control-padding-md)]`,
-        lg: `h-(--control-height-lg) ${textControlRadius.lg} [--control-padding:var(--control-padding-lg)]`,
-        xl: `h-(--control-height-xl) ${textControlRadius.xl} [--control-padding:var(--control-padding-xl)]`,
+        xs: `h-(--control-height-xs) ${textControlRadius.xs} [--control-padding:var(--control-padding-xs)] [--control-icon:var(--control-icon-xs)]`,
+        sm: `h-(--control-height-sm) ${textControlRadius.sm} [--control-padding:var(--control-padding-sm)] [--control-icon:var(--control-icon-sm)]`,
+        md: `h-(--control-height-md) ${textControlRadius.md} [--control-padding:var(--control-padding-md)] [--control-icon:var(--control-icon-md)]`,
+        lg: `h-(--control-height-lg) ${textControlRadius.lg} [--control-padding:var(--control-padding-lg)] [--control-icon:var(--control-icon-lg)]`,
+        xl: `h-(--control-height-xl) ${textControlRadius.xl} [--control-padding:var(--control-padding-xl)] [--control-icon:var(--control-icon-xl)]`,
       },
     },
     defaultVariants: { variant: "outline", size: "md" },
@@ -69,7 +69,7 @@ export const comboboxTrigger = `
   text-muted-foreground outline-none
   disabled:text-foreground/(--disabled-opacity)
   [&_svg]:pointer-events-none
-  icon-size-4
+  icon-size-(--control-icon)
 `;
 
 export const comboboxCancel = `
@@ -79,7 +79,7 @@ export const comboboxCancel = `
   group-has-[>input:disabled]/combobox-anchor:hidden
   last:me-[calc(var(--control-padding)-var(--spacing)*0.5)]
   [&_svg]:pointer-events-none
-  icon-size-3.5
+  icon-size-[calc(var(--control-icon)-var(--spacing)*0.5)]
 `;
 
 export type ComboboxAnchorVariants = VariantProps<typeof comboboxAnchorVariants>;

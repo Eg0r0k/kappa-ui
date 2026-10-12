@@ -18,21 +18,20 @@ export { default as SelectValue } from "./SelectValue.vue";
 
 export const selectTriggerVariants = cva(
   `${textControlBase}
-    group/select-trigger flex cursor-default items-center justify-between gap-2 text-start whitespace-nowrap
+    group/select-trigger flex cursor-default items-center justify-between text-start whitespace-nowrap
     data-placeholder:text-muted-foreground
     *:data-[slot=select-value]:truncate
     [&_svg]:pointer-events-none [&_svg]:shrink-0
-    icon-size-4
   `,
   {
     variants: {
       variant: textControlVariant,
       size: {
-        xs: `h-(--control-height-xs) ${textControlSize.xs} ${textControlRadius.xs}`,
-        sm: `h-(--control-height-sm) ${textControlSize.sm} ${textControlRadius.sm}`,
-        md: `h-(--control-height-md) ${textControlSize.md} ${textControlRadius.md}`,
-        lg: `h-(--control-height-lg) ${textControlSize.lg} ${textControlRadius.lg}`,
-        xl: `h-(--control-height-xl) ${textControlSize.xl} ${textControlRadius.xl}`,
+        xs: `h-(--control-height-xs) gap-(--control-gap-xs) icon-size-(--control-icon-xs) ${textControlSize.xs} ${textControlRadius.xs}`,
+        sm: `h-(--control-height-sm) gap-(--control-gap-sm) icon-size-(--control-icon-sm) ${textControlSize.sm} ${textControlRadius.sm}`,
+        md: `h-(--control-height-md) gap-(--control-gap-md) icon-size-(--control-icon-md) ${textControlSize.md} ${textControlRadius.md}`,
+        lg: `h-(--control-height-lg) gap-(--control-gap-lg) icon-size-(--control-icon-lg) ${textControlSize.lg} ${textControlRadius.lg}`,
+        xl: `h-(--control-height-xl) gap-(--control-gap-xl) icon-size-(--control-icon-xl) ${textControlSize.xl} ${textControlRadius.xl}`,
       },
     },
     defaultVariants: {
