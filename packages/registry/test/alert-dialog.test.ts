@@ -11,6 +11,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogMedia,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/ui/alert-dialog";
@@ -93,6 +94,33 @@ describe("AlertDialog", () => {
     expect(content()!.offsetWidth).toBe(320);
     expect(getComputedStyle(document.querySelector("[data-slot=alert-dialog-header]")!).textAlign).toBe("center");
     expect(cancel()!.offsetWidth).toBe(action()!.offsetWidth);
+  });
+
+  it.each([
+    ["sm", "centre"],
+    ["md", "start"],
+  ])("puts the media of a %s dialog at the %s", async (size, place) => {
+    mount(
+      defineComponent({
+        setup: () => () =>
+          h(AlertDialog, { defaultOpen: true }, () =>
+            h(AlertDialogContent, { size }, () =>
+              h(AlertDialogHeader, () => [
+                h(AlertDialogMedia, () => h("svg", { viewBox: "0 0 24 24" })),
+                h(AlertDialogTitle, () => "Delete chat?"),
+              ]),
+            ),
+          ),
+      }),
+      { attachTo: document.body },
+    );
+    await expect.poll(content).not.toBeNull();
+
+    const box = content()!.querySelector("[data-slot=alert-dialog-header]")!.getBoundingClientRect();
+    const media = content()!.querySelector("[data-slot=alert-dialog-media]")!.getBoundingClientRect();
+    const offset =
+      place === "centre" ? media.left + media.width / 2 - (box.left + box.width / 2) : media.left - box.left;
+    expect(Math.abs(offset - (place === "centre" ? 0 : 24))).toBeLessThan(1);
   });
 
   it("is md, as wide as a dialog, by default", async () => {

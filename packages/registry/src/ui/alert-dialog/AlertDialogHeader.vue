@@ -7,7 +7,10 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 </script>
 
 <template>
-  <div data-slot="alert-dialog-header" :class="cn('flex shrink-0 flex-col gap-1.5 px-6', props.class)">
+  <div
+    data-slot="alert-dialog-header"
+    :class="cn('flex shrink-0 flex-col gap-1.5 px-6 group-data-[size=sm]/alert-dialog:items-center', props.class)"
+  >
     <slot />
   </div>
 </template>
