@@ -1,0 +1,127 @@
+import { mount } from "@vue/test-utils";
+import { afterEach, expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
+import { h, nextTick } from "vue";
+
+import { Editable, EditableArea, EditableInput, EditablePreview } from "@/ui/editable";
+
+const wrappers: { unmount: () => void }[] = [];
+
+afterEach(() => {
+  wrappers.splice(0).forEach((wrapper) => wrapper.unmount());
+});
+
+const render = (props: Record<string, unknown> = {}) => {
+  const wrapper = mount(
+    {
+      render: () =>
+        h("div", { style: "font-size: 32px" }, [
+          h(Editable, { defaultValue: "Roadmap", ...props }, () =>
+            h(EditableArea, () => [h(EditablePreview), h(EditableInput)]),
+          ),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  wrappers.push(wrapper);
+  return wrapper;
+};
+
+const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot=${name}]`)!;
+const input = () => slot("editable-input") as HTMLInputElement;
+const editing = () => slot("editable-area").hasAttribute("data-focus");
+const settle = async () => {
+  await nextTick();
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+};
+
+it("shows the value, and the placeholder while it is empty, on slotted parts", async () => {
+  render();
+  for (const name of ["editable", "editable-area", "editable-preview", "editable-input"]) {
+    expect(document.querySelector(`[data-slot=${name}]`), name).not.toBeNull();
+  }
+  expect(slot("editable-preview").textContent).toBe("Roadmap");
+  wrappers.splice(0).forEach((wrapper) => wrapper.unmount());
+  render({ defaultValue: "", placeholder: "Untitled" });
+  await settle();
+  expect(slot("editable-preview").textContent).toBe("Untitled");
+  expect(slot("editable-area").hasAttribute("data-empty")).toBe(true);
+});
+
+it("inherits the surrounding type", () => {
+  render();
+  expect(getComputedStyle(slot("editable-preview")).fontSize).toBe("32px");
+  expect(getComputedStyle(input()).fontSize).toBe("32px");
+});
+
+it("enters editing on focus, submits with Enter and reports the value", async () => {
+  const updates: unknown[] = [];
+  const submits: unknown[] = [];
+  render({
+    submitMode: "both",
+    "onUpdate:modelValue": (value: unknown) => updates.push(value),
+    onSubmit: (value: unknown) => submits.push(value),
+  });
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  expect(editing()).toBe(true);
+  await userEvent.clear(input());
+  await userEvent.type(input(), "Plan");
+  await userEvent.keyboard("{Enter}");
+  await settle();
+  expect(editing()).toBe(false);
+  expect(submits.at(-1)).toBe("Plan");
+  expect(updates.at(-1)).toBe("Plan");
+  expect(slot("editable-preview").textContent).toBe("Plan");
+});
+
+it("cancels with Escape and keeps the old value", async () => {
+  render({ submitMode: "both" });
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  await userEvent.type(input(), " draft");
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(editing()).toBe(false);
+  expect(slot("editable-preview").textContent).toBe("Roadmap");
+});
+
+it("waits for a double click with activation-mode dblclick", async () => {
+  render({ activationMode: "dblclick" });
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  expect(editing()).toBe(false);
+  await userEvent.dblClick(slot("editable-preview"));
+  await settle();
+  expect(editing()).toBe(true);
+});
+
+it("lets a readonly value be focused and selected but not changed, and a disabled one not edited", async () => {
+  render({ readonly: true, submitMode: "both" });
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  expect(slot("editable-area").hasAttribute("data-readonly")).toBe(true);
+  expect(input().readOnly).toBe(true);
+  await userEvent.type(input(), "X");
+  await userEvent.keyboard("{Enter}");
+  await settle();
+  expect(slot("editable-preview").textContent).toBe("Roadmap");
+  wrappers.splice(0).forEach((wrapper) => wrapper.unmount());
+  render({ disabled: true });
+  await settle();
+  expect(slot("editable-preview").tabIndex).toBe(-1);
+  expect(getComputedStyle(slot("editable-preview")).pointerEvents).toBe("none");
+  expect(editing()).toBe(false);
+  expect(slot("editable-area").hasAttribute("data-disabled")).toBe(true);
+  expect(input().disabled).toBe(true);
+});
+
+it("keeps the box the same width when it switches to the input", async () => {
+  render();
+  await settle();
+  const before = slot("editable-area").getBoundingClientRect().width;
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  expect(editing()).toBe(true);
+  expect(slot("editable-area").getBoundingClientRect().width).toBe(before);
+});
