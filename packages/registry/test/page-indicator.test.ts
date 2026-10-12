@@ -301,3 +301,24 @@ it("grows the pressable area with touchTarget", () => {
   expect(pill!.marginLeft).toBe("12px");
   expect(rect(wrapper!).height).toBe(48);
 });
+
+it("keeps the dots after a moving pill in place while it eases", async () => {
+  document.head.querySelectorAll("style").forEach((element) => {
+    if (element.textContent?.includes("[data-slot=page-indicator-item] { transition: none")) element.remove();
+  });
+  const page = controlled(1, { variant: "pill", count: 5 });
+  await nextTick();
+  const [, growing, , , last] = all();
+  const start = rect(last!).left;
+  page.value = 2;
+  const lefts: number[] = [];
+  const widths: number[] = [];
+  const until = performance.now() + 400;
+  while (performance.now() < until) {
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    lefts.push(rect(last!).left);
+    widths.push(rect(growing!).width);
+  }
+  expect(widths.some((width) => width > 8 && width < 24)).toBe(true);
+  expect([...new Set(lefts)]).toEqual([start]);
+});
