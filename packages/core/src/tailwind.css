@@ -11,7 +11,8 @@
   }
 
   [data-slot][data-color],
-  [data-slot][data-state="on"][data-active-color] {
+  [data-slot][data-state="on"][data-active-color],
+  [data-slot][aria-pressed="true"][data-active-color] {
     --tone-soft: color-mix(in oklab, var(--tone) 12%, transparent);
     --tone-soft-foreground: var(--tone-text);
     --tone-border: var(--tone-text);
@@ -19,14 +20,16 @@
   }
 
   [data-slot][data-color="primary"],
-  [data-slot][data-state="on"][data-active-color="primary"] {
+  [data-slot][data-state="on"][data-active-color="primary"],
+  [data-slot][aria-pressed="true"][data-active-color="primary"] {
     --tone: --theme(--color-primary);
     --tone-foreground: --theme(--color-primary-foreground);
     --tone-text: --theme(--color-primary);
   }
 
   [data-slot][data-color="neutral"],
-  [data-slot][data-state="on"][data-active-color="neutral"] {
+  [data-slot][data-state="on"][data-active-color="neutral"],
+  [data-slot][aria-pressed="true"][data-active-color="neutral"] {
     --tone: --theme(--color-foreground);
     --tone-foreground: --theme(--color-background);
     --tone-text: --theme(--color-foreground);
@@ -37,28 +40,32 @@
   }
 
   [data-slot][data-color="destructive"],
-  [data-slot][data-state="on"][data-active-color="destructive"] {
+  [data-slot][data-state="on"][data-active-color="destructive"],
+  [data-slot][aria-pressed="true"][data-active-color="destructive"] {
     --tone: --theme(--color-destructive);
     --tone-foreground: --theme(--color-destructive-foreground, oklch(1 0 0));
     --tone-text: --theme(--color-destructive);
   }
 
   [data-slot][data-color="success"],
-  [data-slot][data-state="on"][data-active-color="success"] {
+  [data-slot][data-state="on"][data-active-color="success"],
+  [data-slot][aria-pressed="true"][data-active-color="success"] {
     --tone: --theme(--color-success, oklch(0.72 0.17 150));
     --tone-foreground: --theme(--color-success-foreground, oklch(0.25 0.07 150));
     --tone-text: --theme(--color-success-text, oklch(0.5 0.13 152));
   }
 
   [data-slot][data-color="warning"],
-  [data-slot][data-state="on"][data-active-color="warning"] {
+  [data-slot][data-state="on"][data-active-color="warning"],
+  [data-slot][aria-pressed="true"][data-active-color="warning"] {
     --tone: --theme(--color-warning, oklch(0.8 0.16 78));
     --tone-foreground: --theme(--color-warning-foreground, oklch(0.3 0.07 60));
     --tone-text: --theme(--color-warning-text, oklch(0.54 0.14 58));
   }
 
   [data-slot][data-color="info"],
-  [data-slot][data-state="on"][data-active-color="info"] {
+  [data-slot][data-state="on"][data-active-color="info"],
+  [data-slot][aria-pressed="true"][data-active-color="info"] {
     --tone: --theme(--color-info, oklch(0.79 0.17 256));
     --tone-foreground: --theme(--color-info-foreground, oklch(0.26 0.065 261));
     --tone-text: --theme(--color-info-text, oklch(0.52 0.144 266));
