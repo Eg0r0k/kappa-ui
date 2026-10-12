@@ -5,6 +5,8 @@ import { type HTMLAttributes, computed } from "vue";
 import { cn } from "@/lib/utils";
 
 const props = withDefaults(defineProps<EditableRootProps & { class?: HTMLAttributes["class"] }>(), {
+  activationMode: "focus",
+  submitMode: "blur",
   autoResize: true,
 });
 const emits = defineEmits<EditableRootEmits>();

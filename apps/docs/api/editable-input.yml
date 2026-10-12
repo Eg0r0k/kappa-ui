@@ -1,0 +1,7 @@
+component: EditableInput
+file: ui/editable/EditableInput.vue
+props:
+  as:
+    description: "The element or component to render, an `input` by default."
+  asChild:
+    description: "Render the single child instead of the input, merging its attributes and classes onto it."

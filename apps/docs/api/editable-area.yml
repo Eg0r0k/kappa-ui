@@ -1,0 +1,9 @@
+component: EditableArea
+file: ui/editable/EditableArea.vue
+props:
+  as:
+    description: "The element or component to render, a `div` by default."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the area's attributes and classes onto it."
+slots:
+  default: "The preview and the input."

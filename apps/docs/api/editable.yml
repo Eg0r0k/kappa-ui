@@ -1,0 +1,43 @@
+component: Editable
+file: ui/editable/Editable.vue
+props:
+  modelValue:
+    description: "The value, for `v-model`. `null` when cleared."
+  defaultValue:
+    description: The starting value when the value is not controlled.
+  placeholder:
+    description: "Text shown while the value is empty. A string for both states, or `{ edit, preview }` for a different one while editing."
+  activationMode:
+    description: "What starts editing: `focus` (the default) on click or Tab, `dblclick` on a double click, `none` only through the slot's `edit`."
+  submitMode:
+    description: "What saves the value: `blur` (the default) when focus leaves, `enter` on Enter, `both`, or `none` only through the slot's `submit`. Escape always cancels."
+  selectOnFocus:
+    description: Select the whole text when editing starts.
+  startWithEditMode:
+    description: Start in edit mode.
+  maxLength:
+    description: The most characters the value takes.
+  autoResize:
+    description: "Size the field to its text, so preview and field share one box and entering edit mode moves nothing. On by default; turn it off to size the field yourself."
+  readonly:
+    description: "The value can be focused and selected but not changed, like a read-only input."
+  disabled:
+    description: "Editing is off: the preview leaves the tab order and the box fades."
+  required:
+    description: The value is required in a form.
+  name:
+    description: The name the value is submitted under in a form.
+  id:
+    description: The id of the input.
+  dir:
+    description: Reading direction. Inherited from the page or a ConfigProvider when left out.
+  as:
+    description: "The element or component to render, a `div` by default."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the root's attributes and classes onto it."
+emits:
+  update:modelValue: Fires with the new value when it is submitted.
+  submit: Fires with the value when it is submitted.
+  update:state: "Fires with `edit`, `submit` or `cancel` when the state changes."
+slots:
+  default: "The area and anything beside it. Exposes `isEditing`, `isEmpty`, `modelValue` and `edit`, `submit` and `cancel` for buttons of your own."
