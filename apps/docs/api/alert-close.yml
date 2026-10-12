@@ -1,0 +1,4 @@
+component: AlertClose
+file: ui/alert/AlertClose.vue
+slots:
+  default: "The icon, an X by default."

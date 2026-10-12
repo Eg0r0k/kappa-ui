@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Primitive, type PrimitiveProps } from "reka-ui";
-import type { HTMLAttributes } from "vue";
+import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type AlertColor, type AlertSize, type AlertVariants, alertVariants } from ".";
+import { type AlertColor, type AlertSize, type AlertVariants, alertVariants, provideAlertContext } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: NonNullable<AlertVariants["variant"]>;
@@ -20,10 +20,20 @@ const props = withDefaults(defineProps<Props>(), {
   size: "md",
   orientation: "vertical",
 });
+
+const open = defineModel<boolean>("open", { default: true });
+
+provideAlertContext({
+  close: () => {
+    open.value = false;
+  },
+  size: computed(() => props.size),
+});
 </script>
 
 <template>
   <Primitive
+    v-if="open"
     data-slot="alert"
     role="alert"
     :data-variant="props.variant"
