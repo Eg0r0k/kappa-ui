@@ -5,6 +5,7 @@ import HomeLede from '~/components/home/HomeLede.vue'
 import HomeShowcase from '~/components/home/HomeShowcase.vue'
 import StyleSwitcher from '~/components/home/StyleSwitcher.vue'
 import { type ShowcaseStyleKey, showcaseCss, showcaseFontUrl } from '~/lib/showcase-styles'
+import { COMPONENTS_PATH } from '~/lib/sidebar'
 import { Button } from '@/ui/button'
 
 const title = 'Kappa UI has opinions too. About code, not about your UI.'
@@ -41,7 +42,7 @@ defineOgImage('KappaDocs', { title, description })
             <NuxtLink to="/docs/getting-started/quick-start">Get started</NuxtLink>
           </Button>
           <Button as-child size="lg" variant="soft" color="neutral">
-            <NuxtLink to="/docs/components/button">Components</NuxtLink>
+            <NuxtLink :to="COMPONENTS_PATH">Components</NuxtLink>
           </Button>
         </div>
         <CommandLine :command="command" class="max-w-xl" />
