@@ -10900,7 +10900,6 @@
         "demo": {
           "controls": [
             "variant",
-            "color",
             "size"
           ]
         }

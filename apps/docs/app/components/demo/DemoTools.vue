@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { Moon, PilcrowLeft, RotateCcw, ScanSearch, Settings2, Sun, SunMoon } from '@lucide/vue'
+import { Moon, PilcrowLeft, RotateCcw, ScanSearch, Sun, SunMoon } from '@lucide/vue'
 
 import { Toolbar, ToolbarButton, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem } from '@/ui/toolbar'
 import { Tooltip, TooltipContent, TooltipTrigger, vTooltip } from '@/ui/tooltip'
 
 const demo = injectDemo()
 const { scheme, restart } = demo
-const { controls } = useExampleProps(() => demo.selected.value?.name ?? '')
-const controlsOpen = useControlsOpen()
 
 const schemes = {
   site: { next: 'dark', label: 'Example theme: site' },
@@ -16,16 +14,10 @@ const schemes = {
 } as const
 
 const toggles = computed({
-  get: () =>
-    [
-      demo.inspect.value ? 'inspect' : '',
-      demo.dir.value === 'rtl' ? 'rtl' : '',
-      controlsOpen.value ? 'props' : '',
-    ].filter(Boolean),
+  get: () => [demo.inspect.value ? 'inspect' : '', demo.dir.value === 'rtl' ? 'rtl' : ''].filter(Boolean),
   set: (values: string[]) => {
     demo.inspect.value = values.includes('inspect')
     demo.dir.value = values.includes('rtl') ? 'rtl' : 'ltr'
-    controlsOpen.value = values.includes('props')
   },
 })
 
@@ -58,14 +50,6 @@ const cycleScheme = () => {
           </ToolbarToggleItem>
         </TooltipTrigger>
         <TooltipContent>Right to left</TooltipContent>
-      </Tooltip>
-      <Tooltip v-if="controls.length > 0">
-        <TooltipTrigger as-child>
-          <ToolbarToggleItem value="props" size="icon-sm" aria-label="Props">
-            <Settings2 />
-          </ToolbarToggleItem>
-        </TooltipTrigger>
-        <TooltipContent>Props</TooltipContent>
       </Tooltip>
     </ToolbarToggleGroup>
     <ToolbarSeparator />

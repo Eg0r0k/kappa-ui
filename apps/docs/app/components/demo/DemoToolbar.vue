@@ -54,10 +54,10 @@ const copyLink = async () => {
           variant="soft"
           color="neutral"
           size="sm"
-          class="min-w-0"
+          class="w-56 min-w-0 shrink"
           aria-label="Choose an example"
         >
-          <span data-slot="demo-title" class="truncate">{{ selected?.title }}</span>
+          <span data-slot="demo-title" class="min-w-0 flex-1 truncate text-start">{{ selected?.title }}</span>
           <span class="text-muted-foreground tabular-nums">{{ index + 1 }}/{{ examples.length }}</span>
           <ChevronDown data-icon="inline-end" />
         </Button>

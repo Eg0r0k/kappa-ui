@@ -24,12 +24,13 @@ const pick = (prop: string, value: unknown) => {
 </script>
 
 <template>
-  <div data-slot="example-controls" class="flex flex-wrap items-center gap-x-5 gap-y-2 px-2.5 py-2">
-    <div v-for="control in props.controls" :key="control.prop" class="flex items-center gap-2">
+  <div data-slot="example-controls" class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4 gap-y-2">
+    <template v-for="control in props.controls" :key="control.prop">
       <span :id="labelId(control.prop)" class="font-mono text-label-sm text-muted-foreground">{{ control.prop }}</span>
       <Switch
         v-if="controlKind(control) === 'switch'"
         size="sm"
+        class="justify-self-start"
         :model-value="model[control.prop] === true"
         :aria-labelledby="labelId(control.prop)"
         @update:model-value="(value: boolean) => set(control.prop, value)"
@@ -39,7 +40,7 @@ const pick = (prop: string, value: unknown) => {
         :model-value="String(model[control.prop])"
         @update:model-value="(value: unknown) => pick(control.prop, value)"
       >
-        <SelectTrigger size="xs" variant="ghost" class="w-auto" :aria-labelledby="labelId(control.prop)">
+        <SelectTrigger size="xs" class="w-full" :aria-labelledby="labelId(control.prop)">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -48,8 +49,15 @@ const pick = (prop: string, value: unknown) => {
           </SelectItem>
         </SelectContent>
       </Select>
-    </div>
-    <Button v-if="props.changed" variant="ghost" color="neutral" size="xs" class="ms-auto" @click="emit('reset')">
+    </template>
+    <Button
+      v-if="props.changed"
+      variant="soft"
+      color="destructive"
+      size="xs"
+      class="col-span-2 w-full"
+      @click="emit('reset')"
+    >
       <RotateCcw data-icon="inline-start" />
       Reset
     </Button>
