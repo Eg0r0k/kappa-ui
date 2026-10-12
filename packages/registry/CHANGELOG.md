@@ -1,5 +1,18 @@
 # @kappa-ui/registry
 
+## 0.20.0
+
+### Minor Changes
+
+- [`250226f`](https://github.com/Eg0r0k/kappa-ui/commit/250226ff98bca45595d2ef17808a75393d13e9ed) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `Marquee`: content that scrolls forever. The slot is repeated `repeat` times (two by default) and slid by core's `animate-marquee`; copies after the first are `aria-hidden` with their focusable elements out of the Tab order, while the pointer works on every copy. `paused` stops it for a control of your own, `pause-on-hover` holds it under the pointer, keyboard focus inside stops it, `reverse` runs it the other way, `orientation="vertical"` scrolls a column, and `fade` dissolves the edges through a mask that works on any background. `--marquee-gap`, `--marquee-duration` and `--marquee-fade` tune it from a class.
+
+- [`b7a84d5`](https://github.com/Eg0r0k/kappa-ui/commit/b7a84d5cd8cf0030436d10cb80b9ea0357e0dd37) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `Timeline`: a record of events with an optional current one. Eight parts (`Timeline`, `TimelineItem`, `TimelineIndicator`, `TimelineSeparator`, `TimelineContent`, `TimelineDate`, `TimelineTitle`, `TimelineDescription`), `v-model`/`default-value` for the current record, `reverse` for lists that run newest first, `orientation`, `size` from `xs` to `xl` as the record's density through `--timeline-*` variables on the root, and `color` on the root or on one indicator.
+
+### Patch Changes
+
+- Updated dependencies [[`da01a2a`](https://github.com/Eg0r0k/kappa-ui/commit/da01a2a0226864a15731a4b16584e0226aaca060)]:
+  - @kappa-ui/core@0.15.0
+
 ## 0.19.0
 
 ### Minor Changes
