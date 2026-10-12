@@ -1,5 +1,15 @@
 # @kappa-ui/core
 
+## 0.15.1
+
+### Patch Changes
+
+- [`2fac232`](https://github.com/Eg0r0k/kappa-ui/commit/2fac23241f04edeaf9e5ddbf5c91b0885a7e328a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - PageIndicator: the dots after a moving pill no longer jump a pixel while it eases. `tailwind.css` registers `--page-indicator-length` with `@property`, the items transition it instead of `width`, and each item takes it rounded to whole pixels, up for the current page and down for the rest, so the two lengths that trade places always add up to the same width.
+
+- [`5ada64b`](https://github.com/Eg0r0k/kappa-ui/commit/5ada64b448678d7d086bc1c8f303ee722beb8427) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A pressed Toggle or ToggleGroup item keeps its on look inside `TooltipTrigger as-child` (or any wrapper that writes its own `data-state`). The on styles read `aria-pressed`, which Reka sets on every toggle, instead of `data-state="on"`, which the tooltip overwrote with `closed`; core's active-colour rules match both, so a custom `[data-state="on"][data-active-color]` rule keeps working.
+
+- [`32546e6`](https://github.com/Eg0r0k/kappa-ui/commit/32546e686df232e355400040c9ea997b64beb5aa) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `useTour`: `reference` keeps the current step's target after the tour closes instead of turning `undefined`, so the popover's exit animation plays where it was rather than jumping to the top-left corner.
+
 ## 0.15.0
 
 ### Minor Changes
