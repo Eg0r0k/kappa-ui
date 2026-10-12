@@ -15,8 +15,6 @@ import { cn } from "@/lib/utils";
 import { menuSizeVariants } from "@/ui/menu";
 import { overlaySurface } from "@/ui/popover";
 import { type SelectSize, injectSelectSize } from ".";
-import SelectScrollDownButton from "./SelectScrollDownButton.vue";
-import SelectScrollUpButton from "./SelectScrollUpButton.vue";
 
 defineOptions({ inheritAttrs: false });
 
@@ -66,7 +64,6 @@ const size = computed(() => props.size ?? triggerSize?.value ?? "md");
       "
     >
       <ModalScrimHold />
-      <SelectScrollUpButton />
       <SelectViewport
         data-slot="select-viewport"
         :class="
@@ -79,7 +76,6 @@ const size = computed(() => props.size ?? triggerSize?.value ?? "md");
       >
         <slot />
       </SelectViewport>
-      <SelectScrollDownButton />
     </SelectContent>
   </SelectPortal>
 </template>
