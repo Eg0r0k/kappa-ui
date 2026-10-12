@@ -58,6 +58,7 @@ test('sorts size steps along the scale', () => {
 test('finds the marked tag', () => {
   assert.deepEqual(markedTags('<Tabs>\n  <TabsList v-bind="$attrs" class="w-full">'), ['TabsList'])
   assert.deepEqual(markedTags('<Button>Button</Button>'), [])
+  assert.deepEqual(markedTags('<DataTable :get-row-id="(row) => row.id" v-bind="$attrs" />'), ['DataTable'])
 })
 
 test('resolves values and defaults in the listed order, narrowed where asked', async () => {
@@ -71,6 +72,13 @@ test('resolves values and defaults in the listed order, narrowed where asked', a
       { prop: 'variant', values: ['solid', 'soft'], default: 'solid' },
     ],
   })
+})
+
+test('falls back to md for a size without a default', async () => {
+  const { controls } = await resolve(['size'], '<Button v-bind="$attrs">Button</Button>', {
+    getMeta: () => ({ props: [{ name: 'size', schema: enumOf('"xs"', '"md"', '"lg"') }] }),
+  })
+  assert.equal(controls['button-demo']?.controls[0]?.default, 'md')
 })
 
 test('falls back to the first value when a prop has no default', async () => {

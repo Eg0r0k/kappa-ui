@@ -15,7 +15,7 @@ const props = withDefaults(
     variant?: NonNullable<MenubarVariants["variant"]>;
     class?: HTMLAttributes["class"];
   }>(),
-  { loop: true },
+  { loop: true, size: "md", variant: "outline" },
 );
 const emits = defineEmits<{ "update:modelValue": [value: string] }>();
 
@@ -27,9 +27,7 @@ const forwarded = useForwardProps(delegated);
 // Reka's MenubarRootEmits types this as boolean; the value is the open menu's value, "" when none is open
 const onUpdate = (value: unknown) => emits("update:modelValue", value as string);
 
-const size = toRef(() => props.size ?? "md");
-const variant = toRef(() => props.variant ?? "outline");
-provideMenubarSize(size);
+provideMenubarSize(toRef(() => props.size));
 </script>
 
 <template>
@@ -38,9 +36,9 @@ provideMenubarSize(size);
     v-bind="forwarded"
     :model-value="props.modelValue"
     data-slot="menubar"
-    :data-size="size"
-    :data-variant="variant"
-    :class="cn(menubarVariants({ variant, size }), props.class)"
+    :data-size="props.size"
+    :data-variant="props.variant"
+    :class="cn(menubarVariants({ variant: props.variant, size: props.size }), props.class)"
     @update:model-value="onUpdate"
   >
     <slot v-bind="slotProps" />
