@@ -4,11 +4,9 @@ import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
 
-import { fileUploadIconVariants, injectFileUploadContext } from ".";
+import { fileUploadIcon } from ".";
 
 const props = withDefaults(defineProps<PrimitiveProps & { class?: HTMLAttributes["class"] }>(), { as: "span" });
-
-const upload = injectFileUploadContext();
 </script>
 
 <template>
@@ -17,7 +15,7 @@ const upload = injectFileUploadContext();
     :as-child="props.asChild"
     data-slot="file-upload-icon"
     aria-hidden="true"
-    :class="cn(fileUploadIconVariants({ size: upload.size.value }), props.class)"
+    :class="cn(fileUploadIcon, props.class)"
   >
     <slot />
   </Primitive>

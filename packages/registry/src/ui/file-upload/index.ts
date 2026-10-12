@@ -152,14 +152,64 @@ export const [injectFileUploadItemContext, provideFileUploadItemContext] = creat
 }>("FileUploadItem");
 
 /** The root: a column holding the drop zone, the triggers and the file list. */
-export const fileUploadVariants = cva("relative flex w-full min-w-0 flex-col", {
+export const fileUploadVariants = cva("relative flex w-full min-w-0 flex-col gap-(--file-upload-gap)", {
   variants: {
     size: {
-      xs: "gap-(--control-gap-xs) [--file-upload-radius:--theme(--radius-surface-sm)]",
-      sm: "gap-(--control-gap-sm) [--file-upload-radius:--theme(--radius-surface-sm)]",
-      md: "gap-(--control-gap-md) [--file-upload-radius:--theme(--radius-surface-md)]",
-      lg: "gap-(--control-gap-lg) [--file-upload-radius:--theme(--radius-surface-md)]",
-      xl: "gap-(--control-gap-xl) [--file-upload-radius:--theme(--radius-surface-md)]",
+      xs: `
+        [--file-upload-radius:--theme(--radius-surface-sm)] [--file-upload-gap:var(--control-gap-xs)]
+        [--file-upload-padding:var(--control-padding-xs)] [--file-upload-control:var(--control-height-xs)]
+        [--file-upload-icon:var(--control-icon-xs)] [--file-upload-remove-icon:var(--control-icon-xs)]
+        [--file-upload-title:var(--typescale-label-md-size)]
+        [--file-upload-title-leading:var(--typescale-label-md-line-height)]
+        [--file-upload-description:var(--typescale-body-sm-size)]
+        [--file-upload-description-leading:var(--typescale-body-sm-line-height)]
+        [--file-upload-name:var(--typescale-body-sm-size)]
+        [--file-upload-name-leading:var(--typescale-body-sm-line-height)]
+      `,
+      sm: `
+        [--file-upload-radius:--theme(--radius-surface-sm)] [--file-upload-gap:var(--control-gap-sm)]
+        [--file-upload-padding:var(--control-padding-sm)] [--file-upload-control:var(--control-height-sm)]
+        [--file-upload-icon:var(--control-icon-sm)] [--file-upload-remove-icon:var(--control-icon-xs)]
+        [--file-upload-title:var(--typescale-label-lg-size)]
+        [--file-upload-title-leading:var(--typescale-label-lg-line-height)]
+        [--file-upload-description:var(--typescale-body-sm-size)]
+        [--file-upload-description-leading:var(--typescale-body-sm-line-height)]
+        [--file-upload-name:var(--typescale-body-md-size)]
+        [--file-upload-name-leading:var(--typescale-body-md-line-height)]
+      `,
+      md: `
+        [--file-upload-radius:--theme(--radius-surface-md)] [--file-upload-gap:var(--control-gap-md)]
+        [--file-upload-padding:var(--control-padding-md)] [--file-upload-control:var(--control-height-md)]
+        [--file-upload-icon:var(--control-icon-md)] [--file-upload-remove-icon:var(--control-icon-xs)]
+        [--file-upload-title:var(--typescale-label-lg-size)]
+        [--file-upload-title-leading:var(--typescale-label-lg-line-height)]
+        [--file-upload-description:var(--typescale-body-sm-size)]
+        [--file-upload-description-leading:var(--typescale-body-sm-line-height)]
+        [--file-upload-name:var(--typescale-body-md-size)]
+        [--file-upload-name-leading:var(--typescale-body-md-line-height)]
+      `,
+      lg: `
+        [--file-upload-radius:--theme(--radius-surface-md)] [--file-upload-gap:var(--control-gap-lg)]
+        [--file-upload-padding:var(--control-padding-lg)] [--file-upload-control:var(--control-height-lg)]
+        [--file-upload-icon:var(--control-icon-lg)] [--file-upload-remove-icon:var(--control-icon-sm)]
+        [--file-upload-title:var(--typescale-label-lg-size)]
+        [--file-upload-title-leading:var(--typescale-label-lg-line-height)]
+        [--file-upload-description:var(--typescale-body-sm-size)]
+        [--file-upload-description-leading:var(--typescale-body-sm-line-height)]
+        [--file-upload-name:var(--typescale-body-md-size)]
+        [--file-upload-name-leading:var(--typescale-body-md-line-height)]
+      `,
+      xl: `
+        [--file-upload-radius:--theme(--radius-surface-md)] [--file-upload-gap:var(--control-gap-xl)]
+        [--file-upload-padding:var(--control-padding-xl)] [--file-upload-control:var(--control-height-xl)]
+        [--file-upload-icon:var(--control-icon-xl)] [--file-upload-remove-icon:var(--control-icon-sm)]
+        [--file-upload-title:var(--typescale-title-md-size)]
+        [--file-upload-title-leading:var(--typescale-title-md-line-height)]
+        [--file-upload-description:var(--typescale-body-md-size)]
+        [--file-upload-description-leading:var(--typescale-body-md-line-height)]
+        [--file-upload-name:var(--typescale-body-md-size)]
+        [--file-upload-name-leading:var(--typescale-body-md-line-height)]
+      `,
     },
   },
   defaultVariants: { size: "md" },
@@ -168,7 +218,8 @@ export const fileUploadVariants = cva("relative flex w-full min-w-0 flex-col", {
 /** The surface that takes drops: a dashed or filled frame, its content centred in a column. */
 export const fileUploadDropzoneVariants = cva(
   `
-    relative flex w-full flex-1 flex-col items-center justify-center rounded-(--file-upload-radius) border text-center
+    relative flex w-full flex-1 flex-col items-center justify-center gap-(--file-upload-gap)
+    rounded-(--file-upload-radius) border px-(--file-upload-padding) py-[calc(var(--file-upload-padding)*2)] text-center
     text-foreground outline-none state-layer cursor-pointer transition-[border-color,background-color] duration-short-3
     ease-standard
     focus-visible:focus-ring
@@ -188,15 +239,8 @@ export const fileUploadDropzoneVariants = cva(
         soft: "border-transparent bg-muted",
         subtle: `border-dashed border-input bg-muted data-disabled:border-foreground/(--disabled-container-opacity)`,
       },
-      size: {
-        xs: "gap-(--control-gap-xs) px-(--control-padding-xs) py-[calc(var(--control-padding-xs)*2)]",
-        sm: "gap-(--control-gap-sm) px-(--control-padding-sm) py-[calc(var(--control-padding-sm)*2)]",
-        md: "gap-(--control-gap-md) px-(--control-padding-md) py-[calc(var(--control-padding-md)*2)]",
-        lg: "gap-(--control-gap-lg) px-(--control-padding-lg) py-[calc(var(--control-padding-lg)*2)]",
-        xl: "gap-(--control-gap-xl) px-(--control-padding-xl) py-[calc(var(--control-padding-xl)*2)]",
-      },
     },
-    defaultVariants: { variant: "outline", size: "md" },
+    defaultVariants: { variant: "outline" },
   },
 );
 
@@ -204,76 +248,37 @@ export const fileUploadDropzoneVariants = cva(
 export const fileUploadTrigger = "outline-none focus-visible:focus-ring disabled:cursor-not-allowed";
 
 /** The circle behind the zone's icon, lifted off a filled frame. */
-export const fileUploadIconVariants = cva(
-  `
-    flex shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground
-    group-data-[variant=soft]/file-upload-dropzone:bg-background
-    group-data-[variant=subtle]/file-upload-dropzone:bg-background
-    in-data-disabled:text-foreground/(--disabled-opacity)
-  `,
+export const fileUploadIcon = `
+  flex size-(--file-upload-control) shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground
+  icon-size-(--file-upload-icon)
+  group-data-[variant=soft]/file-upload-dropzone:bg-background
+  group-data-[variant=subtle]/file-upload-dropzone:bg-background
+  in-data-disabled:text-foreground/(--disabled-opacity)
+`;
+
+export const fileUploadTitle = "block text-(length:--file-upload-title)/(--file-upload-title-leading) font-medium";
+
+export const fileUploadDescription = `
+  block text-(length:--file-upload-description)/(--file-upload-description-leading) font-normal text-muted-foreground
+  in-data-disabled:text-foreground/(--disabled-opacity)
+`;
+
+export const fileUploadListVariants = cva(
+  "w-full min-w-0 gap-(--file-upload-gap) text-start [--file-upload-tile:calc(var(--file-upload-control)*2.5)]",
   {
     variants: {
-      size: {
-        xs: "size-(--control-height-xs) icon-size-(--control-icon-xs)",
-        sm: "size-(--control-height-sm) icon-size-(--control-icon-sm)",
-        md: "size-(--control-height-md) icon-size-(--control-icon-md)",
-        lg: "size-(--control-height-lg) icon-size-(--control-icon-lg)",
-        xl: "size-(--control-height-xl) icon-size-(--control-icon-xl)",
+      layout: {
+        list: "flex flex-col",
+        grid: "grid grid-cols-[repeat(auto-fill,minmax(var(--file-upload-tile),1fr))]",
       },
     },
-    defaultVariants: { size: "md" },
+    defaultVariants: { layout: "list" },
   },
 );
-
-export const fileUploadTitleVariants = cva("block", {
-  variants: {
-    size: {
-      xs: "text-label-md",
-      sm: "text-label-lg",
-      md: "text-label-lg",
-      lg: "text-label-lg",
-      xl: "text-title-md",
-    },
-  },
-  defaultVariants: { size: "md" },
-});
-
-export const fileUploadDescriptionVariants = cva(
-  "block text-muted-foreground in-data-disabled:text-foreground/(--disabled-opacity)",
-  {
-    variants: {
-      size: {
-        xs: "text-body-sm",
-        sm: "text-body-sm",
-        md: "text-body-sm",
-        lg: "text-body-sm",
-        xl: "text-body-md",
-      },
-    },
-    defaultVariants: { size: "md" },
-  },
-);
-
-export const fileUploadListVariants = cva("w-full min-w-0 text-start", {
-  variants: {
-    layout: {
-      list: "flex flex-col",
-      grid: "grid grid-cols-[repeat(auto-fill,minmax(var(--file-upload-tile),1fr))]",
-    },
-    size: {
-      xs: "gap-(--control-gap-xs) [--file-upload-tile:calc(var(--control-height-xs)*2.5)]",
-      sm: "gap-(--control-gap-sm) [--file-upload-tile:calc(var(--control-height-sm)*2.5)]",
-      md: "gap-(--control-gap-md) [--file-upload-tile:calc(var(--control-height-md)*2.5)]",
-      lg: "gap-(--control-gap-lg) [--file-upload-tile:calc(var(--control-height-lg)*2.5)]",
-      xl: "gap-(--control-gap-xl) [--file-upload-tile:calc(var(--control-height-xl)*2.5)]",
-    },
-  },
-  defaultVariants: { layout: "list", size: "md" },
-});
 
 export const fileUploadItemVariants = cva(
   `
-    relative min-w-0 cursor-auto rounded-item-md border border-border
+    relative min-w-0 cursor-auto gap-(--file-upload-gap) rounded-item-md border border-border p-(--file-upload-gap)
     in-data-disabled:text-foreground/(--disabled-opacity)
   `,
   {
@@ -282,57 +287,26 @@ export const fileUploadItemVariants = cva(
         list: "flex items-center",
         grid: "flex aspect-square flex-col items-center justify-center bg-muted text-muted-foreground",
       },
-      size: {
-        xs: "gap-(--control-gap-xs) p-(--control-gap-xs)",
-        sm: "gap-(--control-gap-sm) p-(--control-gap-sm)",
-        md: "gap-(--control-gap-md) p-(--control-gap-md)",
-        lg: "gap-(--control-gap-lg) p-(--control-gap-lg)",
-        xl: "gap-(--control-gap-xl) p-(--control-gap-xl)",
-      },
     },
-    defaultVariants: { layout: "list", size: "md" },
+    defaultVariants: { layout: "list" },
   },
 );
 
 export const fileUploadItemPreviewVariants = cva(
-  "flex shrink-0 items-center justify-center overflow-hidden text-muted-foreground",
+  "flex shrink-0 items-center justify-center overflow-hidden text-muted-foreground icon-size-(--file-upload-icon)",
   {
     variants: {
       layout: {
-        list: "rounded-item-xs bg-muted",
+        list: "size-(--file-upload-control) rounded-item-xs bg-muted",
         grid: "data-image:absolute data-image:inset-0 data-image:rounded-inset-item-md/[1px]",
       },
-      size: {
-        xs: "icon-size-(--control-icon-xs)",
-        sm: "icon-size-(--control-icon-sm)",
-        md: "icon-size-(--control-icon-md)",
-        lg: "icon-size-(--control-icon-lg)",
-        xl: "icon-size-(--control-icon-xl)",
-      },
     },
-    compoundVariants: [
-      { layout: "list", size: "xs", class: "size-(--control-height-xs)" },
-      { layout: "list", size: "sm", class: "size-(--control-height-sm)" },
-      { layout: "list", size: "md", class: "size-(--control-height-md)" },
-      { layout: "list", size: "lg", class: "size-(--control-height-lg)" },
-      { layout: "list", size: "xl", class: "size-(--control-height-xl)" },
-    ],
-    defaultVariants: { layout: "list", size: "md" },
+    defaultVariants: { layout: "list" },
   },
 );
 
-export const fileUploadItemNameVariants = cva("block truncate", {
-  variants: {
-    size: {
-      xs: "text-body-sm",
-      sm: "text-body-md",
-      md: "text-body-md",
-      lg: "text-body-md",
-      xl: "text-body-md",
-    },
-  },
-  defaultVariants: { size: "md" },
-});
+export const fileUploadItemName =
+  "block truncate text-(length:--file-upload-name)/(--file-upload-name-leading) font-normal";
 
 /** The Remove button of a list row, one step below the control's size. */
 export const fileUploadRemoveSize: Record<FileUploadSize, ButtonSize> = {
@@ -344,20 +318,9 @@ export const fileUploadRemoveSize: Record<FileUploadSize, ButtonSize> = {
 };
 
 /** The round Remove button over the top-end corner of a tile. */
-export const fileUploadRemoveOverlayVariants = cva(
-  "absolute -end-1.5 -top-1.5 z-10 rounded-full ring-2 ring-background",
-  {
-    variants: {
-      size: {
-        xs: "size-[calc(var(--control-icon-xs)+--spacing(2))] icon-size-(--control-icon-xs)",
-        sm: "size-[calc(var(--control-icon-sm)+--spacing(2))] icon-size-(--control-icon-xs)",
-        md: "size-[calc(var(--control-icon-md)+--spacing(2))] icon-size-(--control-icon-xs)",
-        lg: "size-[calc(var(--control-icon-lg)+--spacing(2))] icon-size-(--control-icon-sm)",
-        xl: "size-[calc(var(--control-icon-xl)+--spacing(2))] icon-size-(--control-icon-sm)",
-      },
-    },
-    defaultVariants: { size: "md" },
-  },
-);
+export const fileUploadRemoveOverlay = `
+  absolute -end-1.5 -top-1.5 z-10 size-[calc(var(--file-upload-icon)+--spacing(2))] rounded-full ring-2 ring-background
+  icon-size-(--file-upload-remove-icon)
+`;
 
 export type FileUploadVariants = VariantProps<typeof fileUploadVariants>;

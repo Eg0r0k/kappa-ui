@@ -4,11 +4,9 @@ import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
 
-import { fileUploadTitleVariants, injectFileUploadContext } from ".";
+import { fileUploadTitle } from ".";
 
 const props = withDefaults(defineProps<PrimitiveProps & { class?: HTMLAttributes["class"] }>(), { as: "span" });
-
-const upload = injectFileUploadContext();
 </script>
 
 <template>
@@ -16,7 +14,7 @@ const upload = injectFileUploadContext();
     :as="props.as"
     :as-child="props.asChild"
     data-slot="file-upload-title"
-    :class="cn(fileUploadTitleVariants({ size: upload.size.value }), props.class)"
+    :class="cn(fileUploadTitle, props.class)"
   >
     <slot />
   </Primitive>

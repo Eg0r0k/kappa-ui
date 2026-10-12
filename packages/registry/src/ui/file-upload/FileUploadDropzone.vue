@@ -96,13 +96,7 @@ onBeforeUnmount(() => {
     :data-dragging="dragging ? '' : undefined"
     :data-disabled="upload.disabled.value ? '' : undefined"
     :data-invalid="upload.invalid.value ? '' : undefined"
-    :class="
-      cn(
-        'group/file-upload-dropzone',
-        fileUploadDropzoneVariants({ variant: props.variant, size: upload.size.value }),
-        props.class,
-      )
-    "
+    :class="cn('group/file-upload-dropzone', fileUploadDropzoneVariants({ variant: props.variant }), props.class)"
     @click="onClick"
     @dragenter="onDragEnter"
     @dragover="onDragOver"

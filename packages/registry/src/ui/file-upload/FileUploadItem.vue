@@ -30,7 +30,7 @@ provideFileUploadItemContext({ file: computed(() => props.file), url });
     data-slot="file-upload-item"
     :data-image="url ? '' : undefined"
     :title="layout === 'grid' ? props.file.name : undefined"
-    :class="cn('group/file-upload-item', fileUploadItemVariants({ layout, size: upload.size.value }), props.class)"
+    :class="cn('group/file-upload-item', fileUploadItemVariants({ layout }), props.class)"
   >
     <slot :file="props.file" :url="url" />
   </Primitive>

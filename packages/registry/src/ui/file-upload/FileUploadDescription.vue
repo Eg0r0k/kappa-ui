@@ -4,7 +4,7 @@ import { type HTMLAttributes, onBeforeUnmount } from "vue";
 
 import { cn } from "@/lib/utils";
 
-import { fileUploadDescriptionVariants, injectFileUploadContext } from ".";
+import { fileUploadDescription, injectFileUploadContext } from ".";
 
 const props = withDefaults(defineProps<PrimitiveProps & { class?: HTMLAttributes["class"] }>(), { as: "span" });
 
@@ -21,7 +21,7 @@ onBeforeUnmount(upload.registerDescription(id));
     :as-child="props.asChild"
     data-slot="file-upload-description"
     aria-hidden="true"
-    :class="cn(fileUploadDescriptionVariants({ size: upload.size.value }), props.class)"
+    :class="cn(fileUploadDescription, props.class)"
   >
     <slot />
   </Primitive>

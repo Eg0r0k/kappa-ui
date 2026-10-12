@@ -28,7 +28,7 @@ provideFileUploadListContext({ layout: computed(() => props.layout) });
     role="list"
     data-slot="file-upload-list"
     :data-layout="props.layout"
-    :class="cn(fileUploadListVariants({ layout: props.layout, size: upload.size.value }), props.class)"
+    :class="cn(fileUploadListVariants({ layout: props.layout }), props.class)"
   >
     <slot />
   </Primitive>
