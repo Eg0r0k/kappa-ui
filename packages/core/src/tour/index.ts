@@ -60,6 +60,7 @@ export const useTour = <T extends TourStep>(
   const stepList = computed<T[]>(() => toValue(steps) ?? []);
   const total = computed(() => stepList.value.length);
   const open = ref(false);
+  const started = ref(false);
   const rawIndex = ref(options.initialStep ?? 0);
 
   const clamp = (value: number) => Math.min(Math.max(value, 0), Math.max(total.value - 1, 0));
@@ -76,7 +77,7 @@ export const useTour = <T extends TourStep>(
   const target = computed(() => toValue(current.value?.target));
 
   const reference = computed<ReferenceElement | undefined>(() => {
-    if (!open.value || typeof window === "undefined") return undefined;
+    if (!started.value || typeof window === "undefined") return undefined;
     const value = target.value;
     return (value == null ? null : resolve(value)) ?? centerAnchor;
   });
@@ -105,7 +106,9 @@ export const useTour = <T extends TourStep>(
 
   const goTo = (value: number) => {
     index.value = value;
-    if (total.value > 0) open.value = true;
+    if (total.value === 0) return;
+    started.value = true;
+    open.value = true;
   };
 
   const start = (value = options.initialStep ?? 0) => goTo(value);

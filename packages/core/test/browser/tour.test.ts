@@ -93,6 +93,17 @@ describe("useTour", () => {
     expect(tour.centered.value).toBe(false);
   });
 
+  it("keeps the last step's reference while the tour closes, so its exit stays in place", () => {
+    const a = element("tour-close-a");
+    const b = element("tour-close-b");
+    const tour = create([{ target: a }, { target: b }], { scrollIntoView: false });
+    tour.start();
+    tour.next();
+    tour.next();
+    expect(tour.open.value).toBe(false);
+    expect(tour.reference.value).toBe(b);
+  });
+
   it("reads a plain word as an id, never as a tag", () => {
     element("tour-header-tag-test", "header");
     const tour = create([{ target: "header" }], { scrollIntoView: false });
