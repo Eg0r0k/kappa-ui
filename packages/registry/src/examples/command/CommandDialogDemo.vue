@@ -19,7 +19,7 @@ import { Kbd } from "@/ui/kbd";
 const open = ref(false);
 
 const toggle = (event: KeyboardEvent) => {
-  if (event.key.toLowerCase() !== "k" || !(event.metaKey || event.ctrlKey)) return;
+  if (event.key.toLowerCase() !== "j" || !(event.metaKey || event.ctrlKey)) return;
   event.preventDefault();
   open.value = !open.value;
 };
@@ -35,7 +35,7 @@ const close = () => {
 <template>
   <div class="flex flex-wrap items-center gap-3">
     <Button variant="outline" color="neutral" @click="open = true">Open command palette</Button>
-    <span class="text-body-sm text-muted-foreground">or press <Kbd>⌘K</Kbd></span>
+    <span class="text-body-sm text-muted-foreground">or press <Kbd>⌘J</Kbd></span>
   </div>
   <CommandDialog v-model:open="open">
     <CommandInput placeholder="Type a command or search..." />
