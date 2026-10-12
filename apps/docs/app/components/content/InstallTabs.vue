@@ -93,7 +93,7 @@ const { data: code } = useAsyncData(`install-code:${item.name}`, async () => {
         size="sm"
         active-color="primary"
         aria-label="Package manager"
-        class="mt-1 self-start"
+        class="mt-1 gap-1 self-start rounded-outset-(--radius-control-md)/1 bg-muted p-1 [--button-group-radius:var(--radius-control-md)]"
         :model-value="pm"
         @update:model-value="choose"
       >
