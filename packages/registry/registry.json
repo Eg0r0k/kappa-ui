@@ -8090,6 +8090,92 @@
       ]
     },
     {
+      "name": "data-tree-demo",
+      "type": "registry:block",
+      "title": "Data tree demo",
+      "description": "Files drawn from data: icons from the nodes, a frame, v-model.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "data-tree",
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-tree-states",
+      "type": "registry:block",
+      "title": "Data tree states",
+      "description": "Skeleton rows, the empty message and an ErrorState with Retry, in the tree's frame.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "data-tree",
+        "error-state",
+        "button",
+        "toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeStates.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-tree-virtual",
+      "type": "registry:block",
+      "title": "Virtualized data tree",
+      "description": "10,100 nodes with virtualize, scrolling inside the frame.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "data-tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeVirtual.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "data-tree-custom-rows",
+      "type": "registry:block",
+      "title": "Data tree with custom rows",
+      "description": "Mailboxes with an unread count through the item slot.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "data-tree",
+        "tree"
+      ],
+      "files": [
+        {
+          "path": "src/examples/data-tree/DataTreeCustomRows.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "data-table-demo",
       "type": "registry:block",
       "title": "Data table",
