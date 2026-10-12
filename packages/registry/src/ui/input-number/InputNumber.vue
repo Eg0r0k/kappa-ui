@@ -48,7 +48,6 @@ const rootAttrs = computed(() =>
 provideInputNumberContext(
   computed(() => ({
     variant: props.variant,
-    size: props.size,
     orientation: props.orientation,
     invalid: control.invalid.value,
     required: control.required.value,

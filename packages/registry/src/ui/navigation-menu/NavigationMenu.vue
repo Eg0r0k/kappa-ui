@@ -43,7 +43,6 @@ const emits = defineEmits<{ "update:modelValue": [value: string] }>();
 const dir = useDirection(toRef(props, "dir"));
 
 provideNavigationMenuContext({
-  size: toRef(props, "size"),
   variant: toRef(props, "variant"),
   viewport: toRef(props, "viewport"),
   dir,

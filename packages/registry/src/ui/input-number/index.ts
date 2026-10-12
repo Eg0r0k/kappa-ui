@@ -3,11 +3,12 @@ import { createContext } from "reka-ui";
 import type { ComputedRef } from "vue";
 
 import {
-  type TextControlSize,
   type TextControlVariant,
   textControlBase,
   textControlFrameVariant,
+  textControlInnerText,
   textControlRadius,
+  textControlText,
 } from "@/ui/input";
 
 export { default as InputNumber } from "./InputNumber.vue";
@@ -19,7 +20,6 @@ export type InputNumberOrientation = "horizontal" | "vertical";
 
 export type InputNumberContext = {
   variant: TextControlVariant;
-  size: TextControlSize;
   orientation: InputNumberOrientation;
   invalid: boolean | "true" | "false" | undefined;
   required: boolean | undefined;
@@ -38,23 +38,23 @@ export const inputNumberVariants = cva(
     variants: {
       variant: textControlFrameVariant,
       size: {
-        xs: `h-(--control-height-xs) ${textControlRadius.xs}
+        xs: `h-(--control-height-xs) ${textControlRadius.xs} ${textControlText.xs}
           [--control-padding:var(--control-padding-xs)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(0.5)]
           [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]
         `,
-        sm: `h-(--control-height-sm) ${textControlRadius.sm}
+        sm: `h-(--control-height-sm) ${textControlRadius.sm} ${textControlText.sm}
           [--control-padding:var(--control-padding-sm)] [--stepper-size:--spacing(6)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(3.5)] [--stepper-chevron:--spacing(3)]
         `,
-        md: `h-(--control-height-md) ${textControlRadius.md}
+        md: `h-(--control-height-md) ${textControlRadius.md} ${textControlText.md}
           [--control-padding:var(--control-padding-md)] [--stepper-size:--spacing(7)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]
         `,
-        lg: `h-(--control-height-lg) ${textControlRadius.lg}
+        lg: `h-(--control-height-lg) ${textControlRadius.lg} ${textControlText.lg}
           [--control-padding:var(--control-padding-lg)] [--stepper-size:--spacing(8)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(4)] [--stepper-chevron:--spacing(3.5)]
         `,
-        xl: `h-(--control-height-xl) ${textControlRadius.xl}
+        xl: `h-(--control-height-xl) ${textControlRadius.xl} ${textControlText.xl}
           [--control-padding:var(--control-padding-xl)] [--stepper-size:--spacing(10)] [--stepper-inset:--spacing(1)]
           [--stepper-icon:--spacing(5)] [--stepper-chevron:--spacing(4)]
         `,
@@ -75,15 +75,7 @@ export const inputNumberVariants = cva(
   },
 );
 
-export const inputNumberInputVariants = cva(
-  `${textControlBase} h-full rounded-none px-(--control-padding) [grid-area:input] in-data-[orientation=horizontal]:text-center`,
-  {
-    variants: {
-      size: { xs: "md:text-body-sm", sm: "", md: "", lg: "", xl: "md:text-body-lg" },
-    },
-    defaultVariants: { size: "md" },
-  },
-);
+export const inputNumberInput = `${textControlBase} ${textControlInnerText} h-full rounded-none px-(--control-padding) [grid-area:input] in-data-[orientation=horizontal]:text-center`;
 
 export const inputNumberButtonVariants = cva("p-0", {
   variants: {

@@ -29,7 +29,7 @@ const cellBase = `
 `;
 
 export const tableSize: Record<TableSize, string> = {
-  xs: "[--table-row-h:1.75rem] [--table-cell-py:--spacing(0.75)]",
+  xs: "[--table-row-h:1.75rem] [--table-cell-py:--spacing(0.75)] [--table-sort-h:--spacing(6)] [--table-toggle:--spacing(5)]",
   sm: "[--table-row-h:2.25rem]",
   md: "[--table-row-h:2.75rem]",
   lg: "[--table-row-h:3.25rem]",

@@ -28,7 +28,7 @@ const delegated = computed(() => {
       :as="props.as"
       :as-child="props.asChild"
       data-slot="navigation-menu-trigger"
-      :class="cn(navigationMenuTriggerStyle({ size: context.size.value, variant: context.variant.value }), props.class)"
+      :class="cn(navigationMenuTriggerStyle({ size: null, variant: context.variant.value }), props.class)"
       v-bind="$attrs"
     >
       <slot />

@@ -5,11 +5,9 @@ import { type HTMLAttributes, computed } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { injectTagsInputContext, tagsInputItemDeleteVariants } from ".";
+import { tagsInputItemDelete } from ".";
 
 const props = defineProps<TagsInputItemDeleteProps & { class?: HTMLAttributes["class"] }>();
-
-const context = injectTagsInputContext();
 
 const delegated = computed(() => {
   const { class: _, ...rest } = props;
@@ -23,7 +21,7 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="tags-input-item-delete"
     data-icon="inline-end"
-    :class="cn(tagsInputItemDeleteVariants({ size: context.size }), props.class)"
+    :class="cn(tagsInputItemDelete, props.class)"
   >
     <slot>
       <X />

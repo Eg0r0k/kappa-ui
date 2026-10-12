@@ -69,6 +69,16 @@ export const textControlRadius = {
   xl: "[--frame-radius:--theme(--radius-control-xl)]",
 };
 
+export const textControlText = {
+  xs: "[--control-text:var(--typescale-body-sm-size)] [--control-text-leading:var(--typescale-body-sm-line-height)]",
+  sm: "[--control-text:var(--typescale-body-md-size)] [--control-text-leading:var(--typescale-body-md-line-height)]",
+  md: "[--control-text:var(--typescale-body-md-size)] [--control-text-leading:var(--typescale-body-md-line-height)]",
+  lg: "[--control-text:var(--typescale-body-md-size)] [--control-text-leading:var(--typescale-body-md-line-height)]",
+  xl: "[--control-text:var(--typescale-body-lg-size)] [--control-text-leading:var(--typescale-body-lg-line-height)]",
+};
+
+export const textControlInnerText = "md:text-(length:--control-text)/(--control-text-leading)";
+
 export type TextControlVariant = keyof typeof textControlVariant;
 export type TextControlSize = keyof typeof textControlSize;
 

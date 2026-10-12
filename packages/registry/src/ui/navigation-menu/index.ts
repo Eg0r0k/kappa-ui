@@ -165,7 +165,6 @@ export const navigationMenuArrow = `
 `;
 
 export interface NavigationMenuContext {
-  size: Ref<NavigationMenuSize>;
   variant: Ref<NavigationMenuVariant>;
   viewport: Ref<boolean>;
   dir: Ref<"ltr" | "rtl">;

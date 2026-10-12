@@ -35,9 +35,7 @@ const delegated = computed(() => {
 const forwarded = useForwardPropsEmits(delegated, emits);
 
 const linkClass = computed(() =>
-  inContent
-    ? navigationMenuPanelLink
-    : navigationMenuTriggerStyle({ size: context.size.value, variant: context.variant.value }),
+  inContent ? navigationMenuPanelLink : navigationMenuTriggerStyle({ size: null, variant: context.variant.value }),
 );
 
 // Runs before Reka's click handler, so a disabled link neither navigates nor closes the menu.

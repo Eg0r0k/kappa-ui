@@ -3,10 +3,11 @@ import { createContext } from "reka-ui";
 import type { ComputedRef } from "vue";
 
 import {
-  type TextControlSize,
   type TextControlVariant,
   textControlBase,
+  textControlInnerText,
   textControlRadius,
+  textControlText,
   textControlVariant,
 } from "@/ui/input";
 
@@ -17,7 +18,6 @@ export { default as PinInputSlot } from "./PinInputSlot.vue";
 
 export type PinInputStyle = {
   variant: TextControlVariant;
-  size: TextControlSize;
   invalid: boolean | "true" | "false" | undefined;
 };
 
@@ -26,28 +26,24 @@ export const [injectPinInputStyle, providePinInputStyle] = createContext<Compute
 export const pinInputVariants = cva("group/pin-input flex items-center data-disabled:cursor-not-allowed", {
   variants: {
     size: {
-      xs: "gap-1.5",
-      sm: "gap-1.5",
-      md: "gap-2",
-      lg: "gap-2",
-      xl: "gap-2.5",
+      xs: `gap-(--control-gap-xs) [--pin-input-slot:var(--control-height-xs)] ${textControlRadius.xs} ${textControlText.xs}`,
+      sm: `gap-(--control-gap-sm) [--pin-input-slot:var(--control-height-sm)] ${textControlRadius.sm} ${textControlText.sm}`,
+      md: `gap-(--control-gap-md) [--pin-input-slot:var(--control-height-md)] ${textControlRadius.md} ${textControlText.md}`,
+      lg: `gap-(--control-gap-lg) [--pin-input-slot:var(--control-height-lg)] ${textControlRadius.lg} ${textControlText.lg}`,
+      xl: `gap-(--control-gap-xl) [--pin-input-slot:var(--control-height-xl)] ${textControlRadius.xl} ${textControlText.xl}`,
     },
   },
   defaultVariants: { size: "md" },
 });
 
-export const pinInputSlotVariants = cva(`${textControlBase} shrink-0 p-0 text-center`, {
-  variants: {
-    variant: textControlVariant,
-    size: {
-      xs: `size-(--control-height-xs) ${textControlRadius.xs} md:text-body-sm`,
-      sm: `size-(--control-height-sm) ${textControlRadius.sm}`,
-      md: `size-(--control-height-md) ${textControlRadius.md}`,
-      lg: `size-(--control-height-lg) ${textControlRadius.lg}`,
-      xl: `size-(--control-height-xl) ${textControlRadius.xl} md:text-body-lg`,
+export const pinInputSlotVariants = cva(
+  `${textControlBase} ${textControlInnerText} size-(--pin-input-slot) shrink-0 p-0 text-center`,
+  {
+    variants: {
+      variant: textControlVariant,
     },
+    defaultVariants: { variant: "outline" },
   },
-  defaultVariants: { variant: "outline", size: "md" },
-});
+);
 
 export type PinInputVariants = VariantProps<typeof pinInputVariants>;

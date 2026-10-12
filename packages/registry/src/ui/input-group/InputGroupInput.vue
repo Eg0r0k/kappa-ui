@@ -2,9 +2,8 @@
 import { type HTMLAttributes, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
-import { textControlBase } from "@/ui/input";
+import { textControlBase, textControlInnerText } from "@/ui/input";
 import { cn } from "@/lib/utils";
-import { injectInputGroupContext, inputGroupControlText } from ".";
 
 defineOptions({ inheritAttrs: false });
 
@@ -21,7 +20,6 @@ if (model.value === undefined && props.defaultValue !== undefined) model.value =
 
 const attrs = useAttrs();
 const control = useFieldControl(props, attrs);
-const group = injectInputGroupContext();
 </script>
 
 <template>
@@ -37,8 +35,8 @@ const group = injectInputGroupContext();
     :class="
       cn(
         textControlBase,
+        textControlInnerText,
         'h-full min-h-[calc(var(--input-group-height)-2px)] flex-1 rounded-none px-(--input-group-padding)',
-        inputGroupControlText[group.size.value],
         props.class,
       )
     "

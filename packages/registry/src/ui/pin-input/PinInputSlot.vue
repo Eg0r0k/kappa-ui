@@ -20,6 +20,6 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="pin-input-slot"
     :aria-invalid="style.invalid"
-    :class="cn(pinInputSlotVariants({ variant: style.variant, size: style.size }), props.class)"
+    :class="cn(pinInputSlotVariants({ variant: style.variant }), props.class)"
   />
 </template>

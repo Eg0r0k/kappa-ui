@@ -1,16 +1,13 @@
 <script setup lang="ts" generic="T extends RowData">
 import { ChevronRight } from "@lucide/vue";
 import type { RowData } from "@tanstack/vue-table";
-import { computed } from "vue";
 
 import { Button } from "@/ui/button";
-import { type DataTableRow, injectDataTableContext } from ".";
+import { type DataTableRow } from ".";
 
 const props = defineProps<{ row: DataTableRow<T> }>();
 
 // A 28px xs row leaves 21px inside its cell padding: the 28px toggle would grow the row, a 20px one fits.
-const dataTable = injectDataTableContext(null);
-const compact = computed(() => dataTable?.size.value === "xs");
 </script>
 
 <template>
@@ -25,8 +22,7 @@ const compact = computed(() => dataTable?.size.value === "xs");
       size="icon-xs"
       :aria-expanded="props.row.getIsExpanded()"
       aria-label="Toggle group"
-      class="[&_svg]:transition-transform [&_svg]:duration-short-4 [&_svg]:ease-standard aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none"
-      :class="compact && 'size-5'"
+      class="size-[var(--table-toggle,var(--control-height-xs))] [&_svg]:transition-transform [&_svg]:duration-short-4 [&_svg]:ease-standard aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none"
       @click.stop="props.row.toggleExpanded()"
     >
       <ChevronRight />

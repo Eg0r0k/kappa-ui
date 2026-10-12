@@ -30,7 +30,7 @@ const delegated = computed(() => {
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
 
-providePinInputStyle(computed(() => ({ variant: props.variant, size: props.size, invalid: control.invalid.value })));
+providePinInputStyle(computed(() => ({ variant: props.variant, invalid: control.invalid.value })));
 </script>
 
 <template>

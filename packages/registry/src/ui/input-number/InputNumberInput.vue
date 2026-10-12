@@ -3,7 +3,7 @@ import { NumberFieldInput, useForwardExpose } from "reka-ui";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { injectInputNumberContext, inputNumberInputVariants } from ".";
+import { injectInputNumberContext, inputNumberInput } from ".";
 
 const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 
@@ -18,6 +18,6 @@ const { forwardRef } = useForwardExpose();
     :required="context.required || undefined"
     :aria-invalid="context.invalid"
     :aria-describedby="context.describedBy"
-    :class="cn(inputNumberInputVariants({ size: context.size }), props.class)"
+    :class="cn(inputNumberInput, props.class)"
   />
 </template>

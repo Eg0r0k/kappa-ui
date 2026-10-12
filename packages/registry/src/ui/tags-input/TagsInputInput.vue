@@ -3,7 +3,7 @@ import { TagsInputInput, type TagsInputInputProps, useForwardExpose } from "reka
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { injectTagsInputContext, tagsInputInputVariants } from ".";
+import { injectTagsInputContext, tagsInputInput } from ".";
 
 const props = defineProps<TagsInputInputProps & { class?: HTMLAttributes["class"] }>();
 
@@ -41,7 +41,7 @@ const holdImplicitSubmit = (event: KeyboardEvent) => {
     :aria-invalid="context.invalid"
     :aria-describedby="context.describedBy"
     :aria-required="context.required || undefined"
-    :class="cn(tagsInputInputVariants({ size: context.size }), props.class)"
+    :class="cn(tagsInputInput, props.class)"
     @keydown.enter="holdImplicitSubmit"
   />
 </template>

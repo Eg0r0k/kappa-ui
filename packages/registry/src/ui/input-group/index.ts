@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { createContext } from "reka-ui";
 import type { ComputedRef } from "vue";
 
-import { textControlFrameVariant, textControlRadius } from "@/ui/input";
+import { textControlFrameVariant, textControlRadius, textControlText } from "@/ui/input";
 
 export { default as InputGroup } from "./InputGroup.vue";
 export { default as InputGroupAddon } from "./InputGroupAddon.vue";
@@ -28,22 +28,27 @@ export const inputGroupVariants = cva(
         xs: `h-(--control-height-xs) ${textControlRadius.xs}
           [--input-group-height:var(--control-height-xs)] [--input-group-padding:var(--control-padding-xs)]
           [--input-group-icon:var(--control-icon-xs)]
+          ${textControlText.xs}
         `,
         sm: `h-(--control-height-sm) ${textControlRadius.sm}
           [--input-group-height:var(--control-height-sm)] [--input-group-padding:var(--control-padding-sm)]
           [--input-group-icon:var(--control-icon-sm)]
+          ${textControlText.sm}
         `,
         md: `h-(--control-height-md) ${textControlRadius.md}
           [--input-group-height:var(--control-height-md)] [--input-group-padding:var(--control-padding-md)]
           [--input-group-icon:var(--control-icon-md)]
+          ${textControlText.md}
         `,
         lg: `h-(--control-height-lg) ${textControlRadius.lg}
           [--input-group-height:var(--control-height-lg)] [--input-group-padding:var(--control-padding-lg)]
           [--input-group-icon:var(--control-icon-lg)]
+          ${textControlText.lg}
         `,
         xl: `h-(--control-height-xl) ${textControlRadius.xl}
           [--input-group-height:var(--control-height-xl)] [--input-group-padding:var(--control-padding-xl)]
           [--input-group-icon:var(--control-icon-xl)]
+          ${textControlText.xl}
         `,
       },
     },
@@ -105,14 +110,6 @@ export const inputGroupButtonVariants = cva(
     },
   },
 );
-
-export const inputGroupControlText = {
-  xs: "md:text-body-sm",
-  sm: "",
-  md: "",
-  lg: "",
-  xl: "md:text-body-lg",
-} as const;
 
 export type InputGroupVariants = VariantProps<typeof inputGroupVariants>;
 export type InputGroupAddonVariants = VariantProps<typeof inputGroupAddonVariants>;
