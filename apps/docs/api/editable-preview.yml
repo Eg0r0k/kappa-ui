@@ -1,0 +1,9 @@
+component: EditablePreview
+file: ui/editable/EditablePreview.vue
+props:
+  as:
+    description: "The element or component to render, a `span` by default."
+  asChild:
+    description: "Render the single child instead of a wrapper, merging the preview's attributes and classes onto it."
+slots:
+  default: "The text. The value, or the placeholder while it is empty, by default."

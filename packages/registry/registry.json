@@ -2405,6 +2405,96 @@
       ]
     },
     {
+      "name": "editable-demo",
+      "type": "registry:block",
+      "title": "Editable",
+      "description": "A heading you edit where it stands.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "editable"
+      ],
+      "files": [
+        {
+          "path": "src/examples/editable/EditableDemo.vue",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "activationMode",
+            "submitMode",
+            "readonly",
+            "disabled"
+          ]
+        }
+      }
+    },
+    {
+      "name": "editable-buttons",
+      "type": "registry:block",
+      "title": "Editable with buttons",
+      "description": "Rename, save and cancel buttons wired through the root slot.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "editable",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/editable/EditableButtons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "editable-table",
+      "type": "registry:block",
+      "title": "Editable table cells",
+      "description": "Cells of a table you edit in place, saved on Enter or when focus leaves.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "editable",
+        "table"
+      ],
+      "files": [
+        {
+          "path": "src/examples/editable/EditableTable.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "editable-double-click",
+      "type": "registry:block",
+      "title": "Editable on double click",
+      "description": "Folder names that turn into fields on a double click.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "editable"
+      ],
+      "files": [
+        {
+          "path": "src/examples/editable/EditableDoubleClick.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",

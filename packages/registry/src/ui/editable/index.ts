@@ -19,7 +19,7 @@ export const editableArea = `
 export const editablePreview = "in-data-empty:text-muted-foreground";
 
 export const editableInput = `
-  w-full min-w-0 bg-transparent [font:inherit] tracking-[inherit] text-inherit outline-none
+  [field-sizing:content]! min-w-0! w-full bg-transparent [font:inherit] tracking-[inherit] text-inherit outline-none
   placeholder:text-muted-foreground
   selection:bg-primary selection:text-primary-foreground
 `;

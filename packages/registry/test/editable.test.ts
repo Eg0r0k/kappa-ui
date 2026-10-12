@@ -125,3 +125,19 @@ it("keeps the box the same width when it switches to the input", async () => {
   expect(editing()).toBe(true);
   expect(slot("editable-area").getBoundingClientRect().width).toBe(before);
 });
+
+it("sizes the box to its text and grows it while typing", async () => {
+  render();
+  await settle();
+  const range = document.createRange();
+  range.selectNodeContents(slot("editable-preview"));
+  const text = range.getBoundingClientRect().width;
+  const box = () => slot("editable-area").getBoundingClientRect().width;
+  expect(box()).toBeLessThan(text + 16);
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  const before = box();
+  await userEvent.type(input(), " for the whole team");
+  await settle();
+  expect(box()).toBeGreaterThan(before + 100);
+});
