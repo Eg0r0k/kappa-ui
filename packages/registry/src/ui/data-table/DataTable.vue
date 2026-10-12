@@ -63,6 +63,7 @@ export type DataTableProps<T extends RowData> = {
   loadingRows?: number;
   empty?: string;
   noResults?: string;
+  error?: unknown;
   onLoadMore?: DataTableLoadMoreFn;
   hasMore?: DataTableHasMore;
   loadMore?: DataTableLoadMore;
@@ -156,6 +157,7 @@ const slots = defineSlots<
     caption?: () => unknown;
     empty?: () => unknown;
     noResults?: () => unknown;
+    error?: (scope: { error: unknown }) => unknown;
     expanded?: (scope: { row: DataTableRow<T> }) => unknown;
     loadingMore?: (scope: { direction: DataTableLoadDirection }) => unknown;
     endOfData?: (scope: { direction: DataTableLoadDirection }) => unknown;
@@ -336,6 +338,11 @@ watch(
   { immediate: true },
 );
 
+const failed = computed(() => props.error !== undefined && props.error !== null && props.error !== false);
+const errorText = computed(() =>
+  typeof props.error === "string" && props.error !== "" ? props.error : "Something went wrong",
+);
+
 const loadMore = computed(() => ({
   direction: props.loadMore?.direction ?? "bottom",
   threshold: props.loadMore?.threshold,
@@ -363,7 +370,7 @@ const infinite = useInfiniteScroll({
   directions: loadDirections,
   offset: () => loadMore.value.threshold ?? 200,
   initialFill: () => loadMore.value.initialFill,
-  disabled: () => props.onLoadMore === undefined,
+  disabled: () => props.onLoadMore === undefined || failed.value,
   shouldLoad: (direction) => {
     if (!virtualEnabled.value) return undefined;
     const virtualizer = virtual.virtualizer.value;
@@ -440,9 +447,14 @@ const footerGroups = computed(() =>
     .filter((group) => group.headers.some((header) => header.column.columnDef.footer !== undefined)),
 );
 const headerRowCount = computed(() => headerGroups.value.length + (props.loading ? 1 : 0));
-const centerOffset = computed(() => headerRowCount.value + topRows.value.length);
-const bottomOffset = computed(() => centerOffset.value + rows.value.length);
-const footerOffset = computed(() => bottomOffset.value + bottomRows.value.length);
+const shownRows = computed(() =>
+  failed.value
+    ? { top: 0, center: 0, bottom: 0 }
+    : { top: topRows.value.length, center: rows.value.length, bottom: bottomRows.value.length },
+);
+const centerOffset = computed(() => headerRowCount.value + shownRows.value.top);
+const bottomOffset = computed(() => centerOffset.value + shownRows.value.center);
+const footerOffset = computed(() => bottomOffset.value + shownRows.value.bottom);
 const ariaRowCount = computed(() => footerOffset.value + footerGroups.value.length);
 
 const segments = computed(() =>
@@ -452,11 +464,11 @@ const segments = computed(() =>
 );
 
 const skeletonRows = computed(() => {
-  if (!props.loading || props.data.length > 0) return 0;
+  if (failed.value || !props.loading || props.data.length > 0) return 0;
   if (props.loadingRows !== undefined) return props.loadingRows;
   return heightPx.value === undefined ? 5 : Math.max(1, Math.floor(heightPx.value / rowHeight.value));
 });
-const showEmpty = computed(() => rows.value.length === 0 && skeletonRows.value === 0);
+const showEmpty = computed(() => !failed.value && rows.value.length === 0 && skeletonRows.value === 0);
 
 const infoOf = (id: string) => byId.value.get(id);
 
@@ -698,68 +710,16 @@ const scrollerAttrs = computed(() =>
             </th>
           </tr>
         </thead>
-        <tbody
-          v-if="topRows.length > 0"
-          ref="pinnedTopRef"
-          data-slot="table-pinned-top"
-          :class="cn(tableStyles.pinnedRows, stickyHeader ? 'top-(--table-thead-h)' : 'top-0', props.ui?.pinned)"
-        >
-          <tr v-for="(row, index) in topRows" :key="row.id" v-bind="rowAttrs(row, headerRowCount + index + 1, true)">
-            <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
-              <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
-                <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                  <DataTableRender :cell="cell" />
-                </slot>
-              </DataTableGroupCell>
-              <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                <DataTableRender :cell="cell" />
-              </slot>
-            </td>
-            <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
-          </tr>
-        </tbody>
-        <tbody v-if="showEnd('top')" data-slot="table-end-of-data" data-direction="top" :class="props.ui?.endOfData">
-          <tr>
-            <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal')">
-              <slot name="endOfData" direction="top" />
-            </td>
-          </tr>
-        </tbody>
-        <tbody
-          v-if="loadState('top').loading"
-          ref="loadingTopRef"
-          data-slot="table-loading-more"
-          data-direction="top"
-          aria-hidden="true"
-          :class="props.ui?.loadingMore"
-        >
-          <tr>
-            <td :colspan="columnCount" :class="tableStyles.cell">
-              <slot name="loadingMore" direction="top">
-                <span class="flex justify-center p-2 text-muted-foreground"><Spinner class="size-5" /></span>
-              </slot>
-            </td>
-          </tr>
-        </tbody>
-        <template v-for="segment in segments" :key="segment.key">
-          <tbody v-if="segment.type === 'gap'" data-slot="table-spacer" aria-hidden="true" :class="props.ui?.spacer">
-            <tr :style="{ height: `${segment.size}px` }">
-              <td :colspan="columnCount" class="p-0" />
-            </tr>
-          </tbody>
+        <template v-if="!failed">
           <tbody
-            v-else
-            :ref="virtual.measureRow"
-            data-slot="table-row-group"
-            :data-index="segment.index"
-            :data-parity="props.striped ? (segment.index % 2 === 0 ? 'odd' : 'even') : undefined"
-            :data-state="selectAll.isSelected(segment.row) ? 'selected' : undefined"
-            :data-expanded="segment.row.getIsExpanded() ? '' : undefined"
-            :class="cn(tableStyles.rowGroup, props.ui?.tbody)"
+            v-if="topRows.length > 0"
+            ref="pinnedTopRef"
+            data-slot="table-pinned-top"
+            :class="cn(tableStyles.pinnedRows, stickyHeader ? 'top-(--table-thead-h)' : 'top-0', props.ui?.pinned)"
           >
-            <tr v-bind="rowAttrs(segment.row, centerOffset + segment.index + 1)">
-              <td v-for="cell in segment.row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
-                <DataTableGroupCell v-if="cell.getIsGrouped()" :row="segment.row">
+            <tr v-for="(row, index) in topRows" :key="row.id" v-bind="rowAttrs(row, headerRowCount + index + 1, true)">
+              <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
+                <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
                   <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
                     <DataTableRender :cell="cell" />
                   </slot>
@@ -770,70 +730,124 @@ const scrollerAttrs = computed(() =>
               </td>
               <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
             </tr>
-            <tr
-              v-if="detailRows && segment.row.getIsExpanded() && !segment.row.getIsGrouped()"
-              data-slot="table-expanded"
-            >
-              <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal', props.ui?.expanded)">
-                <slot name="expanded" :row="segment.row" />
+          </tbody>
+          <tbody v-if="showEnd('top')" data-slot="table-end-of-data" data-direction="top" :class="props.ui?.endOfData">
+            <tr>
+              <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal')">
+                <slot name="endOfData" direction="top" />
               </td>
             </tr>
           </tbody>
-        </template>
-        <tbody
-          v-if="loadState('bottom').loading"
-          data-slot="table-loading-more"
-          data-direction="bottom"
-          aria-hidden="true"
-          :class="props.ui?.loadingMore"
-        >
-          <tr>
-            <td :colspan="columnCount" :class="tableStyles.cell">
-              <slot name="loadingMore" direction="bottom">
-                <span class="flex justify-center p-2 text-muted-foreground"><Spinner class="size-5" /></span>
-              </slot>
-            </td>
-          </tr>
-        </tbody>
-        <tbody
-          v-if="showEnd('bottom')"
-          data-slot="table-end-of-data"
-          data-direction="bottom"
-          :class="props.ui?.endOfData"
-        >
-          <tr>
-            <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal')">
-              <slot name="endOfData" direction="bottom" />
-            </td>
-          </tr>
-        </tbody>
-        <tbody
-          v-if="bottomRows.length > 0"
-          ref="pinnedBottomRef"
-          data-slot="table-pinned-bottom"
-          :class="
-            cn(
-              tableStyles.pinnedRows,
-              '[&_td]:border-t',
-              stickyFooter ? 'bottom-(--table-tfoot-h)' : 'bottom-0',
-              props.ui?.pinned,
-            )
-          "
-        >
-          <tr v-for="(row, index) in bottomRows" :key="row.id" v-bind="rowAttrs(row, bottomOffset + index + 1, true)">
-            <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
-              <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
-                <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+          <tbody
+            v-if="loadState('top').loading"
+            ref="loadingTopRef"
+            data-slot="table-loading-more"
+            data-direction="top"
+            aria-hidden="true"
+            :class="props.ui?.loadingMore"
+          >
+            <tr>
+              <td :colspan="columnCount" :class="tableStyles.cell">
+                <slot name="loadingMore" direction="top">
+                  <span class="flex justify-center p-2 text-muted-foreground"><Spinner class="size-5" /></span>
+                </slot>
+              </td>
+            </tr>
+          </tbody>
+          <template v-for="segment in segments" :key="segment.key">
+            <tbody v-if="segment.type === 'gap'" data-slot="table-spacer" aria-hidden="true" :class="props.ui?.spacer">
+              <tr :style="{ height: `${segment.size}px` }">
+                <td :colspan="columnCount" class="p-0" />
+              </tr>
+            </tbody>
+            <tbody
+              v-else
+              :ref="virtual.measureRow"
+              data-slot="table-row-group"
+              :data-index="segment.index"
+              :data-parity="props.striped ? (segment.index % 2 === 0 ? 'odd' : 'even') : undefined"
+              :data-state="selectAll.isSelected(segment.row) ? 'selected' : undefined"
+              :data-expanded="segment.row.getIsExpanded() ? '' : undefined"
+              :class="cn(tableStyles.rowGroup, props.ui?.tbody)"
+            >
+              <tr v-bind="rowAttrs(segment.row, centerOffset + segment.index + 1)">
+                <td v-for="cell in segment.row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
+                  <DataTableGroupCell v-if="cell.getIsGrouped()" :row="segment.row">
+                    <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                      <DataTableRender :cell="cell" />
+                    </slot>
+                  </DataTableGroupCell>
+                  <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                    <DataTableRender :cell="cell" />
+                  </slot>
+                </td>
+                <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
+              </tr>
+              <tr
+                v-if="detailRows && segment.row.getIsExpanded() && !segment.row.getIsGrouped()"
+                data-slot="table-expanded"
+              >
+                <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal', props.ui?.expanded)">
+                  <slot name="expanded" :row="segment.row" />
+                </td>
+              </tr>
+            </tbody>
+          </template>
+          <tbody
+            v-if="loadState('bottom').loading"
+            data-slot="table-loading-more"
+            data-direction="bottom"
+            aria-hidden="true"
+            :class="props.ui?.loadingMore"
+          >
+            <tr>
+              <td :colspan="columnCount" :class="tableStyles.cell">
+                <slot name="loadingMore" direction="bottom">
+                  <span class="flex justify-center p-2 text-muted-foreground"><Spinner class="size-5" /></span>
+                </slot>
+              </td>
+            </tr>
+          </tbody>
+          <tbody
+            v-if="showEnd('bottom')"
+            data-slot="table-end-of-data"
+            data-direction="bottom"
+            :class="props.ui?.endOfData"
+          >
+            <tr>
+              <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal')">
+                <slot name="endOfData" direction="bottom" />
+              </td>
+            </tr>
+          </tbody>
+          <tbody
+            v-if="bottomRows.length > 0"
+            ref="pinnedBottomRef"
+            data-slot="table-pinned-bottom"
+            :class="
+              cn(
+                tableStyles.pinnedRows,
+                '[&_td]:border-t',
+                stickyFooter ? 'bottom-(--table-tfoot-h)' : 'bottom-0',
+                props.ui?.pinned,
+              )
+            "
+          >
+            <tr v-for="(row, index) in bottomRows" :key="row.id" v-bind="rowAttrs(row, bottomOffset + index + 1, true)">
+              <td v-for="cell in row.getVisibleCells()" :key="cell.id" v-bind="cellAttrs(cell)">
+                <DataTableGroupCell v-if="cell.getIsGrouped()" :row="row">
+                  <slot :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
+                    <DataTableRender :cell="cell" />
+                  </slot>
+                </DataTableGroupCell>
+                <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
                   <DataTableRender :cell="cell" />
                 </slot>
-              </DataTableGroupCell>
-              <slot v-else :name="`cell-${cell.column.id}`" v-bind="cell.getContext()">
-                <DataTableRender :cell="cell" />
-              </slot>
-            </td>
-            <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
-          </tr>
-        </tbody>
+              </td>
+              <td v-if="filler" data-slot="table-filler" :class="cn(tableStyles.cell, 'p-0', props.ui?.filler)" />
+            </tr>
+          </tbody>
+        </template>
         <tbody v-if="skeletonRows > 0" data-slot="table-skeleton" aria-hidden="true" :class="props.ui?.skeleton">
           <tr v-for="index in skeletonRows" :key="index" data-slot="table-row" :class="tableStyles.row">
             <td v-for="info in infos" :key="info.id" :class="info.tdClass">
@@ -848,6 +862,17 @@ const scrollerAttrs = computed(() =>
               <div :class="cn(tableStyles.empty, props.ui?.empty)">
                 <slot v-if="filtered" name="noResults">{{ props.noResults }}</slot>
                 <slot v-else name="empty">{{ props.empty }}</slot>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-if="failed" data-slot="table-body">
+          <tr data-slot="table-error" :class="tableStyles.row">
+            <td :colspan="columnCount" :class="cn(tableStyles.cell, 'whitespace-normal')">
+              <div :class="cn(tableStyles.empty, props.ui?.error)">
+                <slot name="error" :error="props.error">
+                  <span role="alert">{{ errorText }}</span>
+                </slot>
               </div>
             </td>
           </tr>

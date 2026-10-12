@@ -1,0 +1,16 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="64.5" y="20.5" width="191" height="159" rx="11.5" style="fill:var(--background);stroke:var(--border)"/>
+<rect x="85" y="52" width="1" height="72" style="fill:var(--border)"/>
+<path d="M77 39.5L80 42.5L83 39.5" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<path d="M89.5 37.5H93.5L95 39H101C101.552 39 102 39.448 102 40V46C102 46.552 101.552 47 101 47H89.5C88.948 47 88.5 46.552 88.5 46V38.5C88.5 37.948 88.948 37.5 89.5 37.5Z" stroke-width="1.25" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<rect opacity="0.8" x="108" y="39" width="44" height="6" rx="3" style="fill:var(--foreground)"/>
+<rect opacity="0.08" x="92" y="55" width="156" height="22" rx="6" style="fill:var(--primary)"/>
+<path d="M102.5 60.5H107.5L110.5 63.5V71C110.5 71.552 110.052 72 109.5 72H102.5C101.948 72 101.5 71.552 101.5 71V61.5C101.5 60.948 101.948 60.5 102.5 60.5Z" stroke-width="1.25" stroke-linejoin="round" style="stroke:var(--primary)"/>
+<rect opacity="0.8" x="118" y="63" width="56" height="6" rx="3" style="fill:var(--foreground)"/>
+<path d="M102.5 84.5H107.5L110.5 87.5V95C110.5 95.552 110.052 96 109.5 96H102.5C101.948 96 101.5 95.552 101.5 95V85.5C101.5 84.948 101.948 84.5 102.5 84.5Z" stroke-width="1.25" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<rect opacity="0.45" x="118" y="87" width="40" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<path d="M102.5 108.5H107.5L110.5 111.5V119C110.5 119.552 110.052 120 109.5 120H102.5C101.948 120 101.5 119.552 101.5 119V109.5C101.5 108.948 101.948 108.5 102.5 108.5Z" stroke-width="1.25" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<rect opacity="0.45" x="118" y="111" width="64" height="6" rx="3" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.16" x="77" y="134" width="112" height="10" rx="5" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.16" x="77" y="156" width="84" height="10" rx="5" style="fill:var(--muted-foreground)"/>
+</svg>
