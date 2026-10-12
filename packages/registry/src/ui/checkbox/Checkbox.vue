@@ -10,19 +10,28 @@ import { type HTMLAttributes, computed, ref, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type CheckboxColor, type CheckboxVariants, checkboxVariants, injectCheckboxGroupContext } from ".";
+import {
+  type CheckboxColor,
+  type CheckboxSize,
+  type CheckboxVariants,
+  checkboxVariants,
+  injectCheckboxGroupContext,
+} from ".";
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<
-  CheckboxRootProps & {
-    /** Defaults to the group's `color`, or `primary` outside a group. */
-    color?: CheckboxColor | (string & {});
-    size?: CheckboxVariants["size"];
-    touchTarget?: CheckboxVariants["touchTarget"];
-    class?: HTMLAttributes["class"];
-  }
->();
+const props = withDefaults(
+  defineProps<
+    CheckboxRootProps & {
+      /** Defaults to the group's `color`, or `primary` outside a group. */
+      color?: CheckboxColor | (string & {});
+      size?: CheckboxSize;
+      touchTarget?: CheckboxVariants["touchTarget"];
+      class?: HTMLAttributes["class"];
+    }
+  >(),
+  { size: "md" },
+);
 const emits = defineEmits<CheckboxRootEmits>();
 
 const delegated = computed(() => {
@@ -51,7 +60,7 @@ const onPointerLeave = () => {
     v-bind="{ ...attrs, ...forwarded }"
     data-slot="checkbox"
     :data-color="color"
-    :data-size="props.size ?? 'md'"
+    :data-size="props.size"
     :data-touch-target="props.touchTarget"
     :data-hovered="hovered || undefined"
     :id="control.id.value"

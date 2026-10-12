@@ -5,16 +5,19 @@ import { type HTMLAttributes, computed, useAttrs, watchEffect } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type SelectTriggerVariants, injectSelectSize, selectTriggerVariants } from ".";
+import { type SelectSize, type SelectTriggerVariants, injectSelectSize, selectTriggerVariants } from ".";
 
-const props = defineProps<
-  SelectTriggerProps & {
-    id?: string;
-    variant?: SelectTriggerVariants["variant"];
-    size?: SelectTriggerVariants["size"];
-    class?: HTMLAttributes["class"];
-  }
->();
+const props = withDefaults(
+  defineProps<
+    SelectTriggerProps & {
+      id?: string;
+      variant?: SelectTriggerVariants["variant"];
+      size?: SelectSize;
+      class?: HTMLAttributes["class"];
+    }
+  >(),
+  { size: "md" },
+);
 
 const delegated = computed(() => {
   const { class: _, variant: __, size: ___, id: ____, ...rest } = props;
@@ -24,10 +27,9 @@ const forwarded = useForwardProps(delegated);
 
 const control = useFieldControl(props, useAttrs());
 
-const size = computed(() => props.size ?? "md");
 const sharedSize = injectSelectSize(null);
 watchEffect(() => {
-  if (sharedSize) sharedSize.value = size.value;
+  if (sharedSize) sharedSize.value = props.size;
 });
 </script>
 
@@ -36,12 +38,12 @@ watchEffect(() => {
     v-bind="forwarded"
     data-slot="select-trigger"
     :data-variant="props.variant ?? 'outline'"
-    :data-size="size"
+    :data-size="props.size"
     :id="control.id.value"
     :disabled="control.disabled.value"
     :aria-invalid="control.invalid.value"
     :aria-describedby="control.describedBy.value"
-    :class="cn(selectTriggerVariants({ variant: props.variant, size }), props.class)"
+    :class="cn(selectTriggerVariants({ variant: props.variant, size: props.size }), props.class)"
   >
     <slot />
     <SelectIcon as-child>

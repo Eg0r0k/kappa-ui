@@ -10,18 +10,21 @@ import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type ListboxVariants, listboxVariants } from ".";
+import { type ListboxSize, type ListboxVariants, listboxVariants } from ".";
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<
-  ListboxRootProps & {
-    id?: string;
-    variant?: ListboxVariants["variant"];
-    size?: ListboxVariants["size"];
-    class?: HTMLAttributes["class"];
-  }
->();
+const props = withDefaults(
+  defineProps<
+    ListboxRootProps & {
+      id?: string;
+      variant?: ListboxVariants["variant"];
+      size?: ListboxSize;
+      class?: HTMLAttributes["class"];
+    }
+  >(),
+  { size: "md" },
+);
 const emits = defineEmits<ListboxRootEmits>();
 
 const delegated = computed(() => {
@@ -46,7 +49,7 @@ const control = useFieldControl(props, attrs);
       v-bind="attrs"
       data-slot="listbox"
       :data-variant="props.variant ?? 'outline'"
-      :data-size="props.size ?? 'md'"
+      :data-size="props.size"
       :data-disabled="control.disabled.value || undefined"
       :id="control.id.value"
       :aria-labelledby="control.labelledBy.value"

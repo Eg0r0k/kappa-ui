@@ -2,12 +2,12 @@
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type CardVariants, cardVariants } from ".";
+import { type CardSize, type CardVariants, cardVariants } from ".";
 
 const props = withDefaults(
   defineProps<{
     variant?: CardVariants["variant"];
-    size?: CardVariants["size"];
+    size?: CardSize;
     class?: HTMLAttributes["class"];
   }>(),
   { variant: "outline", size: "md" },

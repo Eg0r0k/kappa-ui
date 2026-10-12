@@ -22,3 +22,4 @@ export const textareaVariants = cva(`${textControlBase} block resize-y`, {
 });
 
 export type TextareaVariants = VariantProps<typeof textareaVariants>;
+export type TextareaSize = NonNullable<TextareaVariants["size"]>;

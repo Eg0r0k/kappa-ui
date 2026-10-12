@@ -46,6 +46,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     v-slot="slotProps"
     v-bind="forwarded"
     data-slot="toolbar-toggle-group"
+    :data-size="props.size"
     :class="
       cn(
         'flex items-center gap-1 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch',

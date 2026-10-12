@@ -30,3 +30,4 @@ export const radioVariants = cva(
 );
 
 export type RadioVariants = VariantProps<typeof radioVariants>;
+export type RadioSize = NonNullable<RadioVariants["size"]>;

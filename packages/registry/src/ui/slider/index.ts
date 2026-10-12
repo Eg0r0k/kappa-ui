@@ -136,6 +136,7 @@ export const sliderHandleVariants = cva(
 );
 
 export type SliderVariants = VariantProps<typeof sliderVariants>;
+export type SliderSize = NonNullable<SliderVariants["size"]>;
 
 export const [injectSliderContext, provideSliderContext] = createContext<{
   variant: ComputedRef<SliderVariants["variant"]>;

@@ -18,3 +18,4 @@ export const separatorVariants = cva("group/separator shrink-0", {
 });
 
 export type SeparatorVariants = VariantProps<typeof separatorVariants>;
+export type SeparatorSize = NonNullable<SeparatorVariants["size"]>;

@@ -63,10 +63,9 @@ export const tabsIndicatorVariants = cva(
           group-aria-[orientation=vertical]/tabs-list:-end-px group-aria-[orientation=vertical]/tabs-list:w-0.5
         `,
       },
-      size: { xs: "", sm: "", md: "", lg: "", xl: "" },
     },
     compoundVariants: [{ variant: "pill", class: pillInnerRadius }],
-    defaultVariants: { variant: "pill", size: "md" },
+    defaultVariants: { variant: "pill" },
   },
 );
 
@@ -87,3 +86,4 @@ export const tabsTrigger = `
 export const tabsContent = "flex-1 rounded-surface-xs outline-none focus-visible:focus-ring";
 
 export type TabsListVariants = VariantProps<typeof tabsListVariants>;
+export type TabsSize = NonNullable<TabsListVariants["size"]>;

@@ -8,8 +8,8 @@ import {
   type TimelineColor,
   type TimelineEntry,
   type TimelineOrientation,
+  type TimelineSize,
   type TimelineValue,
-  type TimelineVariants,
   provideTimelineContext,
   timelineVariants,
 } from ".";
@@ -21,7 +21,7 @@ const props = withDefaults(
       defaultValue?: TimelineValue | null;
       reverse?: boolean;
       orientation?: TimelineOrientation;
-      size?: NonNullable<TimelineVariants["size"]>;
+      size?: TimelineSize;
       /** The tone of the reached indicators and lines. */
       color?: TimelineColor | (string & {});
       class?: HTMLAttributes["class"];

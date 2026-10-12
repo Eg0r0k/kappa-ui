@@ -72,3 +72,4 @@ export const badgeVariants = cva(
 );
 
 export type BadgeVariants = VariantProps<typeof badgeVariants>;
+export type BadgeSize = NonNullable<BadgeVariants["size"]>;

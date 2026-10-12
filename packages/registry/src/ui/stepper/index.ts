@@ -39,6 +39,7 @@ export const stepperVariants = cva("group/stepper flex gap-(--stepper-gap) data-
 });
 
 export type StepperVariants = VariantProps<typeof stepperVariants>;
+export type StepperSize = NonNullable<StepperVariants["size"]>;
 
 export const stepperItem = "group flex items-center gap-(--stepper-gap) data-disabled:pointer-events-none";
 

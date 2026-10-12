@@ -8,6 +8,7 @@ import {
   type TreeExpose,
   type TreeNode,
   type TreeRowVirtualizer,
+  type TreeSize,
   type TreeVariants,
   fields,
   provideTreeContext,
@@ -56,7 +57,7 @@ const props = withDefaults(
     required?: boolean;
     dir?: "ltr" | "rtl";
     variant?: TreeVariants["variant"];
-    size?: TreeVariants["size"];
+    size?: TreeSize;
     class?: HTMLAttributes["class"];
   }>(),
   {
@@ -66,6 +67,7 @@ const props = withDefaults(
     selectionBehavior: "toggle",
     toggleOnClick: true,
     as: "ul",
+    size: "md",
   },
 );
 
@@ -316,7 +318,7 @@ watch(
 );
 
 provideTreeContext({
-  size: computed(() => props.size ?? "md"),
+  size: computed(() => props.size),
   multiple,
   checkbox: computed(() => props.checkbox),
   virtual,
@@ -379,7 +381,7 @@ defineExpose<TreeExpose>({
     :expanded="localExpanded"
     :disabled="control.disabled.value"
     :dir="props.dir"
-    :data-size="props.size ?? 'md'"
+    :data-size="props.size"
     :data-variant="props.variant ?? 'ghost'"
     :data-disabled="control.disabled.value || undefined"
     :data-virtual="virtual || undefined"

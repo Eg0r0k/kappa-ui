@@ -3,14 +3,14 @@ import { StepperRoot, type StepperRootEmits, type StepperRootProps, useForwardPr
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type StepperColor, type StepperVariants, stepperVariants } from ".";
+import { type StepperColor, type StepperSize, stepperVariants } from ".";
 
 const props = withDefaults(
   defineProps<
     StepperRootProps & {
       /** The tone of the active step's indicator. */
       color?: StepperColor | (string & {});
-      size?: StepperVariants["size"];
+      size?: StepperSize;
       class?: HTMLAttributes["class"];
     }
   >(),

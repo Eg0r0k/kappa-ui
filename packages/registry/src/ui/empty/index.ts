@@ -26,3 +26,4 @@ export const emptyVariants = cva(
 );
 
 export type EmptyVariants = VariantProps<typeof emptyVariants>;
+export type EmptySize = NonNullable<EmptyVariants["size"]>;

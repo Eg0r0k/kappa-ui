@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type TableLayout, type TableOverflow, type TableSize, tableStyles } from ".";
+import { type TableLayout, type TableOverflow, type TableSize, tableSize, tableStyles } from ".";
 
 const props = withDefaults(
   defineProps<{
@@ -23,7 +23,7 @@ const props = withDefaults(
       :data-layout="props.layout"
       :data-size="props.size"
       :data-striped="props.striped ? '' : undefined"
-      :class="tableStyles.table"
+      :class="cn(tableStyles.table, tableSize[props.size])"
     >
       <slot />
     </table>

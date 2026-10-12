@@ -4,12 +4,12 @@ import type { HTMLAttributes } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { type ButtonColor, type ButtonVariants, buttonVariants } from ".";
+import { type ButtonColor, type ButtonSize, type ButtonVariants, buttonVariants } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: ButtonVariants["variant"];
   color?: ButtonColor | (string & {});
-  size?: ButtonVariants["size"];
+  size?: ButtonSize;
   touchTarget?: ButtonVariants["touchTarget"];
   /** `inward` draws the focus ring inside, for hosts that clip overflow. */
   focusRing?: ButtonVariants["focusRing"];

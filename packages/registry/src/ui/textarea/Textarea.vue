@@ -3,7 +3,7 @@ import { type HTMLAttributes, nextTick, onMounted, useAttrs, useTemplateRef, wat
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type TextareaVariants, textareaVariants } from ".";
+import { type TextareaSize, type TextareaVariants, textareaVariants } from ".";
 
 defineOptions({ inheritAttrs: false });
 
@@ -12,7 +12,7 @@ const props = withDefaults(
     id?: string;
     defaultValue?: string;
     variant?: TextareaVariants["variant"];
-    size?: TextareaVariants["size"];
+    size?: TextareaSize;
     rows?: number;
     maxrows?: number;
     autoresize?: boolean;
@@ -20,7 +20,7 @@ const props = withDefaults(
     required?: boolean;
     class?: HTMLAttributes["class"];
   }>(),
-  { rows: 3 },
+  { rows: 3, size: "md" },
 );
 
 const model = defineModel<string>();
@@ -87,7 +87,7 @@ defineExpose({ resize });
     ref="textarea"
     v-model="model"
     :data-variant="props.variant ?? 'outline'"
-    :data-size="props.size ?? 'md'"
+    :data-size="props.size"
     :rows="props.rows"
     :id="control.id.value"
     :disabled="control.disabled.value"

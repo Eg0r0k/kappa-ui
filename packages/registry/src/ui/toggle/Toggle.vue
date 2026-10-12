@@ -4,7 +4,7 @@ import { type HTMLAttributes, computed } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { type ButtonColor, type ButtonVariants, buttonVariants } from "@/ui/button";
+import { type ButtonColor, type ButtonSize, type ButtonVariants, buttonVariants } from "@/ui/button";
 import { type ToggleVariants, toggleVariants } from ".";
 
 defineOptions({ inheritAttrs: false });
@@ -16,7 +16,7 @@ const props = withDefaults(
       activeVariant?: ToggleVariants["activeVariant"];
       color?: ButtonColor | (string & {});
       activeColor?: ButtonColor | (string & {});
-      size?: ButtonVariants["size"];
+      size?: ButtonSize;
       class?: HTMLAttributes["class"];
     }
   >(),

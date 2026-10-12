@@ -5,6 +5,7 @@ import { type HTMLAttributes, computed, useAttrs } from "vue";
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 import {
+  type InputFloatingSize,
   type InputFloatingVariants,
   inputFloatingInputVariants,
   inputFloatingLabelVariants,
@@ -15,16 +16,19 @@ import {
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<{
-  label: string;
-  id?: string;
-  defaultValue?: string | number;
-  variant?: InputFloatingVariants["variant"];
-  size?: InputFloatingVariants["size"];
-  disabled?: boolean;
-  required?: boolean;
-  class?: HTMLAttributes["class"];
-}>();
+const props = withDefaults(
+  defineProps<{
+    label: string;
+    id?: string;
+    defaultValue?: string | number;
+    variant?: InputFloatingVariants["variant"];
+    size?: InputFloatingSize;
+    disabled?: boolean;
+    required?: boolean;
+    class?: HTMLAttributes["class"];
+  }>(),
+  { size: "md" },
+);
 
 const model = defineModel<string | number>();
 if (model.value === undefined && props.defaultValue !== undefined) model.value = props.defaultValue;
@@ -52,7 +56,7 @@ const inputBindings = computed(() => ({
   <div
     data-slot="input-floating"
     :data-variant="props.variant ?? 'outline'"
-    :data-size="props.size ?? 'md'"
+    :data-size="props.size"
     :data-float="alwaysFloating.has(String(attrs.type)) || undefined"
     :class="cn(inputFloatingVariants({ variant: props.variant, size: props.size }), props.class)"
   >

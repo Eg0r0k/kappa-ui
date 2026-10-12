@@ -84,7 +84,7 @@ import { Progress } from "@/ui/progress";
 import { type InfiniteScrollTarget, ScrollArea, type ScrollAreaApi, useInfiniteScroll } from "@/ui/scroll-area";
 import { Skeleton } from "@/ui/skeleton";
 import { Spinner } from "@/ui/spinner";
-import { tableStyles } from "@/ui/table";
+import { tableSize, tableStyles } from "@/ui/table";
 import {
   type DataTableExpose,
   type DataTableInstance,
@@ -633,7 +633,14 @@ const scrollerAttrs = computed(() =>
         :data-striped="props.striped ? '' : undefined"
         :aria-rowcount="ariaRowCount"
         :aria-busy="props.loading ? 'true' : undefined"
-        :class="cn(tableStyles.table, !props.hoverable && '[--table-hover-bg:transparent]', props.ui?.table)"
+        :class="
+          cn(
+            tableStyles.table,
+            tableSize[props.size],
+            !props.hoverable && '[--table-hover-bg:transparent]',
+            props.ui?.table,
+          )
+        "
         @focusin="onFocusin"
         @focusout="onFocusout"
       >

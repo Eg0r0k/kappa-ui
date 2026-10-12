@@ -64,3 +64,4 @@ export const listboxVariants = cva(
 );
 
 export type ListboxVariants = VariantProps<typeof listboxVariants>;
+export type ListboxSize = NonNullable<ListboxVariants["size"]>;

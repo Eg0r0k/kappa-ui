@@ -36,3 +36,4 @@ export const cardVariants = cva(
 );
 
 export type CardVariants = VariantProps<typeof cardVariants>;
+export type CardSize = NonNullable<CardVariants["size"]>;

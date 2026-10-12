@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue";
 
-import { Button, type ButtonColor, type ButtonVariants } from "@/ui/button";
+import { Button, type ButtonColor, type ButtonSize, type ButtonVariants } from "@/ui/button";
 import { injectTourContext } from ".";
 
 const props = withDefaults(
   defineProps<{
     variant?: ButtonVariants["variant"];
     color?: ButtonColor | (string & {});
-    size?: ButtonVariants["size"];
+    size?: ButtonSize;
     class?: HTMLAttributes["class"];
   }>(),
   { variant: "outline", color: "neutral", size: "sm" },

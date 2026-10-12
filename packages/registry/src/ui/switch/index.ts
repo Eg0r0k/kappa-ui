@@ -72,3 +72,4 @@ export const switchIconClass = `
 `;
 
 export type SwitchVariants = VariantProps<typeof switchVariants>;
+export type SwitchSize = NonNullable<SwitchVariants["size"]>;

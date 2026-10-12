@@ -4,7 +4,7 @@ import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
-import { type SliderColor, type SliderVariants, provideSliderContext, sliderVariants } from ".";
+import { type SliderColor, type SliderSize, type SliderVariants, provideSliderContext, sliderVariants } from ".";
 import SliderRange from "./SliderRange.vue";
 import SliderThumb from "./SliderThumb.vue";
 import SliderTrack from "./SliderTrack.vue";
@@ -18,12 +18,12 @@ const props = withDefaults(
       defaultValue?: number | number[];
       variant?: SliderVariants["variant"];
       color?: SliderColor | (string & {});
-      size?: SliderVariants["size"];
+      size?: SliderSize;
       touchTarget?: SliderVariants["touchTarget"];
       class?: HTMLAttributes["class"];
     }
   >(),
-  { color: "primary" },
+  { color: "primary", size: "md" },
 );
 const emits = defineEmits<{ valueCommit: [value: number | number[]] }>();
 defineSlots<{ default?: (props: { thumbs: number; values: number[] }) => unknown }>();
@@ -94,7 +94,7 @@ const onPointerDown = (event: PointerEvent) => {
     data-slot="slider"
     :data-variant="props.variant ?? 'default'"
     :data-color="props.color"
-    :data-size="props.size ?? 'md'"
+    :data-size="props.size"
     :data-touch-target="props.touchTarget"
     :model-value="values"
     :id="control.id.value"

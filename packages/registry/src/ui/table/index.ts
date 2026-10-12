@@ -28,10 +28,18 @@ const cellBase = `
   [&>[role=checkbox]]:translate-y-[2px]
 `;
 
+export const tableSize: Record<TableSize, string> = {
+  xs: "[--table-row-h:1.75rem] [--table-cell-py:--spacing(0.75)]",
+  sm: "[--table-row-h:2.25rem]",
+  md: "[--table-row-h:2.75rem]",
+  lg: "[--table-row-h:3.25rem]",
+  xl: "[--table-row-h:3.75rem]",
+};
+
 export const tableStyles = {
   container: "relative w-full data-[overflow=x]:overflow-x-auto data-[overflow=visible]:overflow-visible",
   table:
-    "w-full caption-bottom border-separate border-spacing-0 text-body-md data-[layout=fixed]:table-fixed [--table-row-bg:transparent] [--table-row-h:2.75rem] [--table-cell-py:--spacing(2)] [--table-hover-bg:color-mix(in_oklab,var(--color-foreground)_var(--state-hover),transparent)] [--table-selected-bg:color-mix(in_oklab,var(--color-primary)_var(--state-selected),transparent)] [--table-stripe-bg:color-mix(in_oklab,var(--color-muted)_50%,transparent)] data-[size=xs]:[--table-row-h:1.75rem] data-[size=xs]:[--table-cell-py:--spacing(0.75)] data-[size=sm]:[--table-row-h:2.25rem] data-[size=lg]:[--table-row-h:3.25rem] data-[size=xl]:[--table-row-h:3.75rem] data-striped:[&_tbody:not([data-parity])>tr:nth-child(even):not([data-parity]):not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tr[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tbody[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)]",
+    "w-full caption-bottom border-separate border-spacing-0 text-body-md data-[layout=fixed]:table-fixed [--table-row-bg:transparent] [--table-cell-py:--spacing(2)] [--table-hover-bg:color-mix(in_oklab,var(--color-foreground)_var(--state-hover),transparent)] [--table-selected-bg:color-mix(in_oklab,var(--color-primary)_var(--state-selected),transparent)] [--table-stripe-bg:color-mix(in_oklab,var(--color-muted)_50%,transparent)] data-striped:[&_tbody:not([data-parity])>tr:nth-child(even):not([data-parity]):not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tr[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tbody[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)]",
   header: "data-sticky:sticky data-sticky:top-(--table-sticky-top,0px) data-sticky:z-2 data-sticky:bg-background",
   body: "",
   pinnedRows: "sticky isolate z-2 bg-background",

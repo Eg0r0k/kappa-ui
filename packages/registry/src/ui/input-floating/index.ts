@@ -166,3 +166,4 @@ export const inputFloatingLegendVariants = cva(
 );
 
 export type InputFloatingVariants = VariantProps<typeof inputFloatingVariants>;
+export type InputFloatingSize = NonNullable<InputFloatingVariants["size"]>;

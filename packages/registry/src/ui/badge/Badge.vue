@@ -3,12 +3,12 @@ import { Primitive, type PrimitiveProps } from "reka-ui";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type BadgeColor, type BadgeVariants, badgeVariants } from ".";
+import { type BadgeColor, type BadgeSize, type BadgeVariants, badgeVariants } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: NonNullable<BadgeVariants["variant"]>;
   color?: BadgeColor | (string & {});
-  size?: NonNullable<BadgeVariants["size"]>;
+  size?: BadgeSize;
   /** Render the badge with equal padding on all sides. */
   square?: boolean;
   touchTarget?: NonNullable<BadgeVariants["touchTarget"]>;

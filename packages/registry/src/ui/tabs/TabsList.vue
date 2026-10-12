@@ -3,7 +3,7 @@ import { TabsIndicator, TabsList, type TabsListProps } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type TabsColor, type TabsListVariants, tabsIndicatorVariants, tabsListVariants } from ".";
+import { type TabsColor, type TabsListVariants, type TabsSize, tabsIndicatorVariants, tabsListVariants } from ".";
 
 const props = withDefaults(
   defineProps<
@@ -11,7 +11,7 @@ const props = withDefaults(
       variant?: NonNullable<TabsListVariants["variant"]>;
       /** The tone of the `line` indicator. The `pill` indicator is a surface and ignores it. */
       color?: TabsColor | (string & {});
-      size?: NonNullable<TabsListVariants["size"]>;
+      size?: TabsSize;
       class?: HTMLAttributes["class"];
     }
   >(),
@@ -34,9 +34,6 @@ const delegated = computed(() => {
     :class="cn(tabsListVariants({ variant: props.variant, size: props.size }), props.class)"
   >
     <slot />
-    <TabsIndicator
-      data-slot="tabs-indicator"
-      :class="tabsIndicatorVariants({ variant: props.variant, size: props.size })"
-    />
+    <TabsIndicator data-slot="tabs-indicator" :class="tabsIndicatorVariants({ variant: props.variant })" />
   </TabsList>
 </template>

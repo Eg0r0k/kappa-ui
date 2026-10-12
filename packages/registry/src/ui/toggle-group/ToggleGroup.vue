@@ -42,6 +42,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     v-slot="slotProps"
     v-bind="forwarded"
     data-slot="toggle-group"
+    :data-size="props.size"
     :data-orientation="props.orientation"
     :class="cn(buttonGroupVariants({ orientation: props.orientation }), props.class)"
   >

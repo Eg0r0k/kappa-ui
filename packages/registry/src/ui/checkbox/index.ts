@@ -36,3 +36,4 @@ export const checkboxVariants = cva(
 );
 
 export type CheckboxVariants = VariantProps<typeof checkboxVariants>;
+export type CheckboxSize = NonNullable<CheckboxVariants["size"]>;

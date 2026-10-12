@@ -66,6 +66,7 @@ export const timelineVariants = cva("group/timeline flex flex-col data-[orientat
 });
 
 export type TimelineVariants = VariantProps<typeof timelineVariants>;
+export type TimelineSize = NonNullable<TimelineVariants["size"]>;
 
 export const timelineItemVariants = cva(
   "group/timeline-item relative grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] gap-(--timeline-gap)",

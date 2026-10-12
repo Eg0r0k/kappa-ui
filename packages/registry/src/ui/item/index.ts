@@ -74,4 +74,5 @@ export const itemMediaVariants = cva(
 );
 
 export type ItemVariants = VariantProps<typeof itemVariants>;
+export type ItemSize = NonNullable<ItemVariants["size"]>;
 export type ItemMediaVariants = VariantProps<typeof itemMediaVariants>;

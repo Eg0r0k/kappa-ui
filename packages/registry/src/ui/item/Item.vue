@@ -4,13 +4,13 @@ import { type HTMLAttributes, computed } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { type ItemVariants, injectItemGroupContext, itemVariants } from ".";
+import { type ItemSize, type ItemVariants, injectItemGroupContext, itemVariants } from ".";
 
 const props = withDefaults(
   defineProps<
     PrimitiveProps & {
       variant?: NonNullable<ItemVariants["variant"]>;
-      size?: NonNullable<ItemVariants["size"]>;
+      size?: ItemSize;
       class?: HTMLAttributes["class"];
     }
   >(),

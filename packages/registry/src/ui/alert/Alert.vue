@@ -3,12 +3,12 @@ import { Primitive, type PrimitiveProps } from "reka-ui";
 import type { HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type AlertColor, type AlertVariants, alertVariants } from ".";
+import { type AlertColor, type AlertSize, type AlertVariants, alertVariants } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: NonNullable<AlertVariants["variant"]>;
   color?: AlertColor | (string & {});
-  size?: NonNullable<AlertVariants["size"]>;
+  size?: AlertSize;
   orientation?: "vertical" | "horizontal";
   class?: HTMLAttributes["class"];
 }

@@ -3,17 +3,17 @@ import { Separator, type SeparatorProps } from "reka-ui";
 import { type HTMLAttributes, computed, useSlots } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type SeparatorVariants, separatorVariants } from ".";
+import { type SeparatorSize, separatorVariants } from ".";
 
 const props = withDefaults(
   defineProps<
     SeparatorProps & {
       label?: string;
-      size?: SeparatorVariants["size"];
+      size?: SeparatorSize;
       class?: HTMLAttributes["class"];
     }
   >(),
-  { orientation: "horizontal", decorative: true },
+  { orientation: "horizontal", decorative: true, size: "xs" },
 );
 
 const slots = useSlots();
@@ -36,7 +36,7 @@ const line = `
   <Separator
     v-bind="delegated"
     data-slot="separator"
-    :data-size="props.size ?? 'xs'"
+    :data-size="props.size"
     :class="
       cn(
         separatorVariants({ size: props.size }),

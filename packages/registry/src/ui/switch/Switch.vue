@@ -6,6 +6,7 @@ import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 import {
   type SwitchColor,
+  type SwitchSize,
   type SwitchVariants,
   switchHandleClass,
   switchIconClass,
@@ -19,12 +20,12 @@ const props = withDefaults(
   defineProps<
     SwitchRootProps & {
       color?: SwitchColor | (string & {});
-      size?: SwitchVariants["size"];
+      size?: SwitchSize;
       touchTarget?: SwitchVariants["touchTarget"];
       class?: HTMLAttributes["class"];
     }
   >(),
-  { color: "primary" },
+  { color: "primary", size: "md" },
 );
 const emits = defineEmits<SwitchRootEmits>();
 const slots = useSlots();
@@ -52,7 +53,7 @@ const onPointerLeave = () => {
     v-bind="{ ...attrs, ...forwarded }"
     data-slot="switch"
     :data-color="props.color"
-    :data-size="props.size ?? 'md'"
+    :data-size="props.size"
     :data-touch-target="props.touchTarget"
     :data-unchecked-icon="slots['unchecked-icon'] ? '' : undefined"
     :id="control.id.value"
