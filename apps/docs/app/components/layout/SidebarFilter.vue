@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Search } from '@lucide/vue'
+import { Search, X } from '@lucide/vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/ui/input-group'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/ui/input-group'
 import { Kbd } from '@/ui/kbd'
 
 const props = defineProps<{ activeDescendant?: string; controls?: string }>()
@@ -37,6 +37,11 @@ const onInputKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Escape' && model.value) model.value = ''
 }
 
+const clear = () => {
+  model.value = ''
+  root.value?.querySelector('input')?.focus()
+}
+
 onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 </script>
@@ -60,7 +65,10 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
         @blur="emit('blur')"
       />
       <InputGroupAddon align="inline-end">
-        <Kbd aria-hidden="true">/</Kbd>
+        <InputGroupButton v-if="model" size="icon-xs" aria-label="Clear the filter" @click="clear">
+          <X />
+        </InputGroupButton>
+        <Kbd v-else aria-hidden="true">/</Kbd>
       </InputGroupAddon>
     </InputGroup>
   </div>
