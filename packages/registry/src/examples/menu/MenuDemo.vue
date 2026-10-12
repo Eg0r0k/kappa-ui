@@ -39,7 +39,7 @@ import {
         </MenuSubContent>
       </MenuSub>
       <MenuSeparator />
-      <MenuItem variant="destructive">Delete</MenuItem>
+      <MenuItem color="destructive">Delete</MenuItem>
     </Menu>
   </Button>
 </template>

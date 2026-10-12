@@ -26,7 +26,7 @@ const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
           Archive
         </MenuItem>
         <MenuSeparator />
-        <MenuItem variant="destructive">
+        <MenuItem color="destructive">
           <Trash2 />
           Delete
         </MenuItem>

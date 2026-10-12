@@ -40,7 +40,7 @@ const files = [
             Duplicate
           </MenuItem>
           <MenuSeparator />
-          <MenuItem variant="destructive">
+          <MenuItem color="destructive">
             <Trash2 />
             Delete
           </MenuItem>

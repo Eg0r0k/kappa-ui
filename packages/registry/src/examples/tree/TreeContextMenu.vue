@@ -99,7 +99,7 @@ const cancel = (event: Event) => {
         <Copy />
         Duplicate
       </MenuItem>
-      <MenuItem :disabled="!targetNote" variant="destructive" @select="remove">
+      <MenuItem :disabled="!targetNote" color="destructive" @select="remove">
         <Trash2 />
         Delete
       </MenuItem>

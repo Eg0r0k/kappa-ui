@@ -11,6 +11,6 @@ import { Menu, MenuItem, MenuSeparator, MenuTrigger } from "@/ui/menu";
     <MenuItem>Rename</MenuItem>
     <MenuItem>Duplicate</MenuItem>
     <MenuSeparator />
-    <MenuItem variant="destructive">Delete</MenuItem>
+    <MenuItem color="destructive">Delete</MenuItem>
   </Menu>
 </template>

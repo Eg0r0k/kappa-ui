@@ -62,7 +62,7 @@ const backToBar = (event: Event) => {
               <MenubarShortcut>F2</MenubarShortcut>
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem variant="destructive" @select="deleting = true">Delete…</MenubarItem>
+            <MenubarItem color="destructive" @select="deleting = true">Delete…</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>

@@ -19,7 +19,7 @@ describe("Menu items", () => {
             "Open",
             h(Menu, () => [
               h(MenuItem, { onSelect: () => chosen.push("rename") }, () => ["Rename", h(MenuShortcut, () => "⌘R")]),
-              h(MenuItem, { variant: "destructive" }, () => "Delete"),
+              h(MenuItem, { color: "destructive" }, () => "Delete"),
             ]),
           ]),
       }),
@@ -28,7 +28,7 @@ describe("Menu items", () => {
 
     await userEvent.click(wrapper.get("button").element);
     await opened();
-    expect(query("[data-slot=menu-item][data-variant=destructive]")).not.toBeNull();
+    expect(query("[data-slot=menu-item][data-color=destructive]")).not.toBeNull();
     expect(query("[data-slot=menu-shortcut]")?.getAttribute("dir")).toBe("ltr");
 
     await userEvent.click(query("[data-slot=menu-item]")!);

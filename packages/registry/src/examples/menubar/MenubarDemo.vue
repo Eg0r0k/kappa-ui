@@ -108,7 +108,7 @@ const profile = ref("benoit");
         </MenubarRadioGroup>
         <MenubarSeparator />
         <MenubarItem inset>Edit…</MenubarItem>
-        <MenubarItem inset variant="destructive">Sign out</MenubarItem>
+        <MenubarItem inset color="destructive">Sign out</MenubarItem>
       </MenubarContent>
     </MenubarMenu>
   </Menubar>

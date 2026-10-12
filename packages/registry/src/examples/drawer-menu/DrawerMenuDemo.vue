@@ -21,7 +21,7 @@ import { DrawerMenu, DrawerMenuItem, DrawerMenuSeparator } from "@/ui/drawer-men
         <DrawerMenuItem><Pencil /> Rename</DrawerMenuItem>
         <DrawerMenuItem><Copy /> Duplicate</DrawerMenuItem>
         <DrawerMenuSeparator />
-        <DrawerMenuItem variant="destructive"><Trash2 /> Delete</DrawerMenuItem>
+        <DrawerMenuItem color="destructive"><Trash2 /> Delete</DrawerMenuItem>
       </DrawerMenu>
     </DrawerContent>
   </Drawer>

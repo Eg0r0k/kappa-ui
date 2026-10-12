@@ -28,5 +28,5 @@ const sort = defineModel<string>("sort", { default: "name" });
     <component :is="props.parts.RadioItem" value="date">Date modified</component>
   </component>
   <component :is="props.parts.Separator" />
-  <component :is="props.parts.Item" variant="destructive"><Trash2 /> Delete</component>
+  <component :is="props.parts.Item" color="destructive"><Trash2 /> Delete</component>
 </template>

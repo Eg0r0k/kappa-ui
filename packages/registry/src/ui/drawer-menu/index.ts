@@ -12,6 +12,8 @@ export { default as DrawerMenuSub } from "./DrawerMenuSub.vue";
 export { default as DrawerMenuSubContent } from "./DrawerMenuSubContent.vue";
 export { default as DrawerMenuSubTrigger } from "./DrawerMenuSubTrigger.vue";
 
+export type DrawerMenuItemColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
+
 export const drawerMenuVariants = cva(
   `
     group/drawer-menu drawer-menu min-h-0 px-(--menu-pad) [--drawer-menu-gap:--spacing(0.5)] [--menu-pad:--spacing(2)]
@@ -70,14 +72,14 @@ export const drawerMenuItem = `
   active:not-has-[>[data-slot=ripple]>*]:before:opacity-(--state-pressed)
   data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)
   data-inset:ps-[calc(var(--menu-item-px)*2+var(--menu-icon))]
-  data-[variant=destructive]:text-destructive
-  data-[variant=destructive]:before:bg-destructive
+  data-color:text-tone-text
+  data-color:before:bg-tone-text
   forced-colors:before:hidden
   forced-colors:data-highlighted:outline-2
   [&_svg]:pointer-events-none [&_svg]:shrink-0
   icon-size-(--menu-icon)
   [&>svg:not([class*=text-])]:text-muted-foreground
-  data-[variant=destructive]:[&>svg:not([class*=text-])]:text-destructive
+  data-color:[&>svg:not([class*=text-])]:text-tone-text
   data-disabled:[&>svg:not([class*=text-])]:text-foreground/(--disabled-opacity)
 `;
 

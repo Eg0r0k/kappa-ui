@@ -417,7 +417,7 @@ describe("Menubar items", () => {
     await expect.poll(() => state.profile).toBe("benoit");
   });
 
-  it("marks the destructive variant and inset items", async () => {
+  it("marks the destructive colour and inset items", async () => {
     mount(
       {
         render: () =>
@@ -426,7 +426,7 @@ describe("Menubar items", () => {
               h(MenubarTrigger, () => "File"),
               h(MenubarContent, () => [
                 h(MenubarItem, { inset: true }, () => "Inset"),
-                h(MenubarItem, { variant: "destructive" }, () => "Delete"),
+                h(MenubarItem, { color: "destructive" }, () => "Delete"),
               ]),
             ]),
           ),
@@ -436,9 +436,9 @@ describe("Menubar items", () => {
     await userEvent.click(trigger("File"));
     await opened("File");
     const [inset, destructive] = all("[data-slot=menubar-item]");
-    expect(inset!.dataset.variant).toBe("default");
+    expect(inset!.hasAttribute("data-color")).toBe(false);
     expect(inset!.hasAttribute("data-inset")).toBe(true);
-    expect(destructive!.dataset.variant).toBe("destructive");
+    expect(destructive!.dataset.color).toBe("destructive");
     expect(getComputedStyle(destructive!).color).toBe(probe("text-destructive"));
     expect(getComputedStyle(inset!).color).not.toBe(probe("text-destructive"));
   });

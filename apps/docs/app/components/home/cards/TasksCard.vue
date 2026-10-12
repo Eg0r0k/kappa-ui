@@ -144,7 +144,7 @@ const onDialogClosed = (event: Event) => {
                   Duplicate
                 </MenuItem>
                 <MenuSeparator />
-                <MenuItem variant="destructive" @select="askDelete(task)">
+                <MenuItem color="destructive" @select="askDelete(task)">
                   <Trash2 />
                   Delete
                 </MenuItem>

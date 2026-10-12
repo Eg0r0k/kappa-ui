@@ -30,7 +30,7 @@ const pick = (event: MouseEvent) => {
         <MenuSeparator />
         <MenuItem @select="last = `Opened ${pickedName}`">Open</MenuItem>
         <MenuItem @select="last = `Shared ${pickedName}`">Share</MenuItem>
-        <MenuItem variant="destructive" @select="last = `Deleted ${pickedName}`">Delete</MenuItem>
+        <MenuItem color="destructive" @select="last = `Deleted ${pickedName}`">Delete</MenuItem>
       </Menu>
     </div>
     <p class="text-body-sm text-muted-foreground" aria-live="polite">Last action: {{ last }}</p>

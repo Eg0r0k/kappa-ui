@@ -42,7 +42,7 @@ const spellcheck = ref(true);
           </MenubarItem>
         </MenubarGroup>
         <MenubarSeparator />
-        <MenubarItem variant="destructive">
+        <MenubarItem color="destructive">
           <Trash2 />
           Delete
         </MenubarItem>

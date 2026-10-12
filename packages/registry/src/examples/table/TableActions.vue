@@ -51,7 +51,7 @@ const act = (action: string, invoice: Invoice) => {
               <MenuItem @select="act('Download', invoice)">Download PDF</MenuItem>
               <MenuItem @select="act('Remind', invoice)">Send reminder</MenuItem>
               <MenuSeparator />
-              <MenuItem variant="destructive" @select="act('Void', invoice)">Void</MenuItem>
+              <MenuItem color="destructive" @select="act('Void', invoice)">Void</MenuItem>
             </Menu>
           </TableCell>
         </TableRow>

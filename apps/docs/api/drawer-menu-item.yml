@@ -11,8 +11,8 @@ props:
     description: "The element or component to render."
   inset:
     description: "Indents the text to line up with items that have an indicator."
-  variant:
-    description: "`destructive` colours the item and its icon `--destructive`, for actions that delete or cannot be undone."
+  color:
+    description: "Colour role the item, its icon and its hover layer are drawn in, such as `destructive` for actions that delete or cannot be undone. Any other name picks up a colour you declare on `[data-slot][data-color=\"<name>\"]`."
 emits:
   select: "Fires when the item is chosen by tap, click or keyboard. Call `event.preventDefault()` to keep the drawer open."
 slots:

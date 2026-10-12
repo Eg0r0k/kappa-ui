@@ -44,11 +44,7 @@ const columns = helper.columns([
           <MenuItem @select="act('Edit', row.original)">Edit</MenuItem>
           <MenuItem @select="act('Change role', row.original)">Change role</MenuItem>
           <MenuSeparator />
-          <MenuItem
-            variant="destructive"
-            :disabled="row.original.role === 'owner'"
-            @select="act('Remove', row.original)"
-          >
+          <MenuItem color="destructive" :disabled="row.original.role === 'owner'" @select="act('Remove', row.original)">
             Remove
           </MenuItem>
         </Menu>

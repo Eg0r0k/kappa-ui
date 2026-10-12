@@ -59,7 +59,7 @@ const everything = () => [
   h(DrawerMenuLabel, () => "File"),
   h(DrawerMenuGroup, () => [
     h(DrawerMenuItem, () => "Open"),
-    h(DrawerMenuItem, { variant: "destructive" }, () => "Delete"),
+    h(DrawerMenuItem, { color: "destructive" }, () => "Delete"),
   ]),
   h(DrawerMenuSeparator),
   h(DrawerMenuCheckboxItem, { modelValue: true }, () => "Starred"),
@@ -141,10 +141,15 @@ describe("drawer menu control tokens", () => {
   });
 });
 
-it("colours a destructive item", async () => {
-  render(() => h(DrawerMenuItem, { variant: "destructive" }, () => "Delete"));
+it("colours an item by its color, unless it is disabled", async () => {
+  render(() => [
+    h(DrawerMenuItem, { color: "destructive" }, () => "Delete"),
+    h(DrawerMenuItem, { color: "success", disabled: true }, () => "Restore"),
+  ]);
   await settle();
-  expect(getComputedStyle(slot("drawer-menu-item")!).color).toBe(probe("text-destructive"));
+  const [item, disabled] = document.querySelectorAll<HTMLElement>("[data-slot=drawer-menu-item]");
+  expect(getComputedStyle(item!).color).toBe(probe("text-destructive"));
+  expect(getComputedStyle(disabled!).color).toBe(probe("text-foreground/(--disabled-opacity)"));
 });
 
 it("slides between panels and follows the visible one's height", async () => {

@@ -4,19 +4,19 @@ import { type HTMLAttributes, computed } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { menuItem } from "@/ui/menu";
+import { type MenuItemColor, menuItem } from "@/ui/menu";
 
 const props = defineProps<
   MenubarItemProps & {
     inset?: boolean;
-    variant?: "default" | "destructive";
+    color?: MenuItemColor | (string & {});
     class?: HTMLAttributes["class"];
   }
 >();
 const emits = defineEmits<MenubarItemEmits>();
 
 const delegated = computed(() => {
-  const { class: _, inset: __, variant: ___, ...rest } = props;
+  const { class: _, inset: __, color: ___, ...rest } = props;
   return rest;
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
@@ -28,7 +28,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
     v-bind="forwarded"
     data-slot="menubar-item"
     :data-inset="props.inset || undefined"
-    :data-variant="props.variant ?? 'default'"
+    :data-color="props.color"
     :class="cn(menuItem, props.class)"
   >
     <slot />
