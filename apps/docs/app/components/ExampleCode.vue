@@ -3,10 +3,13 @@ import { useToast } from '@/ui/toast'
 import CopyButton from '~/components/CopyButton.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 
-const props = defineProps<{ name: string }>()
+const props = defineProps<{ name: string; props?: Readonly<Record<string, string | boolean>> }>()
 
 const toast = useToast()
-const { data: files } = useExampleCode(() => props.name)
+const { data: files } = useExampleCode(
+  () => props.name,
+  () => props.props ?? {},
+)
 
 const basename = (filename: string) => filename.slice(filename.lastIndexOf('/') + 1)
 </script>

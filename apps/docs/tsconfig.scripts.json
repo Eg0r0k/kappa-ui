@@ -9,7 +9,8 @@
       "~/*": ["./app/*"],
       "~~/*": ["./*"],
       "@/*": ["../../packages/registry/src/*"],
-      "#registry/*": ["../../packages/registry/*"]
+      "#registry/*": ["../../packages/registry/*"],
+      "#scripts/*": ["../../scripts/*"]
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,

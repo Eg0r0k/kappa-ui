@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CodeXml, Maximize2, PanelRight } from '@lucide/vue'
+import { CodeXml, Maximize2, PanelRight, Settings2 } from '@lucide/vue'
 import type { HTMLAttributes } from 'vue'
 
 import { cn } from '@/lib/utils'
@@ -7,6 +7,7 @@ import { Button } from '@/ui/button'
 import { ScrollArea } from '@/ui/scroll-area'
 import { vTooltip } from '@/ui/tooltip'
 import ExampleCode from '~/components/ExampleCode.vue'
+import ExampleControls from '~/components/ExampleControls.vue'
 import ScrollBox from '~/components/ScrollBox.vue'
 import { exampleSlug, pageSlugOf } from '~/lib/examples'
 import { registryItems, resolveExample } from '~/lib/registry'
@@ -43,6 +44,9 @@ const label = computed(() => demo?.examples.value.find((example) => example.name
 const current = computed(() => (demo?.open.value ?? false) && demo?.selected.value?.name === props.name)
 const codeOpen = ref(false)
 const codeId = useId()
+const { controls, values, changed, reset } = useExampleProps(() => props.name)
+const controlsOpen = useControlsOpen()
+const hasChanges = computed(() => Object.keys(changed.value).length > 0)
 
 const canvas = computed(() =>
   cn(
@@ -61,6 +65,18 @@ const canvas = computed(() =>
     <div data-slot="example" class="rounded-surface-md border bg-muted/40 p-1">
       <div class="mb-1 flex h-9 items-center gap-2 ps-2.5 pe-0.5">
         <span class="min-w-0 flex-1 truncate text-body-sm text-muted-foreground">{{ label }}</span>
+        <Button
+          v-if="controls.length > 0"
+          v-tooltip="controlsOpen ? 'Hide props' : 'Show props'"
+          :variant="controlsOpen ? 'soft' : 'ghost'"
+          :color="controlsOpen ? 'primary' : 'neutral'"
+          size="icon-sm"
+          aria-label="Show props"
+          :aria-expanded="controlsOpen"
+          @click="controlsOpen = !controlsOpen"
+        >
+          <Settings2 />
+        </Button>
         <Button
           v-tooltip="codeOpen ? 'Hide code' : 'Show code'"
           :variant="codeOpen ? 'soft' : 'ghost'"
@@ -101,16 +117,23 @@ const canvas = computed(() =>
       <div data-slot="example-canvas" :class="cn('overflow-hidden rounded-inset-surface-md/1 bg-card', props.class)">
         <ScrollArea v-if="props.height" orientation="both" :style="{ height: props.height }">
           <div :class="cn(canvas, 'min-h-full')">
-            <Example />
+            <Example v-bind="values" />
           </div>
         </ScrollArea>
         <ScrollBox v-else>
           <div :class="canvas">
-            <Example />
+            <Example v-bind="values" />
           </div>
         </ScrollBox>
       </div>
-      <ExampleCode v-if="codeOpen" :id="codeId" :name="props.name" />
+      <ExampleControls
+        v-if="controls.length > 0 && controlsOpen"
+        v-model="values"
+        :controls="controls"
+        :changed="hasChanges"
+        @reset="reset"
+      />
+      <ExampleCode v-if="codeOpen" :id="codeId" :name="props.name" :props="changed" />
     </div>
   </div>
 </template>

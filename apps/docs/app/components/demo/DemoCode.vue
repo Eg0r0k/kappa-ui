@@ -4,10 +4,13 @@ import { ScrollArea } from '@/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
 import CopyButton from '~/components/CopyButton.vue'
 
-const props = defineProps<{ name: string }>()
+const props = defineProps<{ name: string; props?: Readonly<Record<string, string | boolean>> }>()
 
 const toast = useToast()
-const { data: files } = useExampleCode(() => props.name)
+const { data: files } = useExampleCode(
+  () => props.name,
+  () => props.props ?? {},
+)
 const chosen = ref<string>()
 const current = computed(() => files.value?.find((file) => file.filename === chosen.value) ?? files.value?.[0])
 
