@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { Kbd, KbdGroup } from "@/ui/kbd";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
   <div class="flex flex-col items-center gap-4">
     <KbdGroup>
-      <Kbd>⌘</Kbd>
-      <Kbd>⇧</Kbd>
-      <Kbd>⌥</Kbd>
-      <Kbd>⌃</Kbd>
+      <Kbd v-for="key in ['⌘', '⇧', '⌥', '⌃']" :key="key" v-bind="$attrs">{{ key }}</Kbd>
     </KbdGroup>
     <KbdGroup>
       <Kbd>Ctrl</Kbd>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleAlert, Info } from "@lucide/vue";
+import { Info } from "@lucide/vue";
 
 import { Alert, AlertDescription, AlertTitle } from "@/ui/alert";
 
@@ -7,16 +7,9 @@ defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
-  <div class="grid w-full max-w-xl gap-4">
-    <Alert variant="subtle" color="info" v-bind="$attrs">
-      <Info />
-      <AlertTitle>Heads up!</AlertTitle>
-      <AlertDescription>You can add components to your app with the CLI.</AlertDescription>
-    </Alert>
-    <Alert variant="subtle" color="destructive">
-      <CircleAlert />
-      <AlertTitle>Unable to process your payment</AlertTitle>
-      <AlertDescription>Check your card details and try again.</AlertDescription>
-    </Alert>
-  </div>
+  <Alert class="max-w-xl" v-bind="$attrs">
+    <Info />
+    <AlertTitle>Heads up!</AlertTitle>
+    <AlertDescription>You can add components to your app with the CLI.</AlertDescription>
+  </Alert>
 </template>
