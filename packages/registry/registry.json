@@ -8062,6 +8062,34 @@
       ]
     },
     {
+      "name": "data-tree",
+      "type": "registry:ui",
+      "title": "Data Tree",
+      "description": "A tree drawn from data: rows from each node's label and icon, loading, empty and error states in its frame, and virtualization by one prop, over the Tree parts.",
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "tree",
+        "skeleton"
+      ],
+      "files": [
+        {
+          "path": "src/ui/data-tree/DataTree.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/data-tree/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "data-table-demo",
       "type": "registry:block",
       "title": "Data table",
