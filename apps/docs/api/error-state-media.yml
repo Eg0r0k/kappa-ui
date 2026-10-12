@@ -1,0 +1,4 @@
+component: ErrorStateMedia
+file: ui/error-state/ErrorStateMedia.vue
+slots:
+  default: "An icon or an image, a circled exclamation mark by default. A bare `svg` takes its size from the root's `size`, from 24px at `xs` to 56px at `xl`."

@@ -12577,6 +12577,77 @@
       ]
     },
     {
+      "name": "error-state",
+      "type": "registry:ui",
+      "title": "Error state",
+      "description": "An error state on Empty's parts: an alert with an error icon, a title, a description and a place for Retry.",
+      "categories": [
+        "feedback"
+      ],
+      "dependencies": [
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens",
+        "empty"
+      ],
+      "files": [
+        {
+          "path": "src/ui/error-state/ErrorState.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateActions.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateDescription.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateHeader.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateMedia.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/ErrorStateTitle.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/error-state/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "error-state-demo",
+      "type": "registry:block",
+      "title": "Error state demo",
+      "description": "An error icon, a title, a description and a Retry button that spins while it retries.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "error-state",
+        "button",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "src/examples/error-state/ErrorStateDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "pin-input",
       "type": "registry:ui",
       "title": "Pin Input",
