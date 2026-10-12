@@ -100,6 +100,7 @@ export default defineNuxtConfig({
   alias: {
     '@': fileURLToPath(new URL('../../packages/registry/src', import.meta.url)),
     '#registry': fileURLToPath(new URL('../../packages/registry', import.meta.url)),
+    '#scripts': fileURLToPath(new URL('../../scripts', import.meta.url)),
   },
   css: ['~/assets/css/globals.css'],
   runtimeConfig: {

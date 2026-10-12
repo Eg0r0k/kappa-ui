@@ -11,6 +11,7 @@ const alias = {
   '~': fileURLToPath(new URL('./app', import.meta.url)),
   '@': fileURLToPath(new URL('../../packages/registry/src', import.meta.url)),
   '#registry': fileURLToPath(new URL('../../packages/registry', import.meta.url)),
+  '#scripts': fileURLToPath(new URL('../../scripts', import.meta.url)),
 }
 
 export default defineConfig({

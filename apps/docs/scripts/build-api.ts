@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { getComponentMeta } from 'nuxt-component-meta/parser'
 import { parse } from 'yaml'
 
+import { resolveExampleControls } from '../../../scripts/lib/example-controls.ts'
 import { mergeApi, type ApiDescriptions, type ComponentApi } from './lib/api-meta.ts'
 import { typeMembers } from './lib/type-members.ts'
 
@@ -13,6 +14,7 @@ const registryRoot = resolve(docsRoot, '../../packages/registry')
 const registrySrc = join(registryRoot, 'src')
 const apiDir = join(docsRoot, 'api')
 const outFile = join(docsRoot, 'app/generated/api.json')
+const controlsFile = join(docsRoot, 'app/generated/controls.json')
 
 const abort = (messages: string[]): never => {
   console.error(`build-api: ${messages.length} error(s)`)
@@ -57,6 +59,18 @@ for (const entry of descriptions) {
 }
 if (errors.length > 0) abort(errors)
 
+const manifest = JSON.parse(await readFile(join(registryRoot, 'registry.json'), 'utf8')) as {
+  items: Parameters<typeof resolveExampleControls>[0]['items']
+}
+const controls = await resolveExampleControls({
+  items: manifest.items,
+  uiFiles: componentFiles,
+  getMeta: (file) => getComponentMeta(join(registrySrc, file), { rootDir: registryRoot }),
+  readSource: (path) => readFile(join(registryRoot, path), 'utf8'),
+})
+if (controls.errors.length > 0) abort(controls.errors)
+
 await mkdir(dirname(outFile), { recursive: true })
 await writeFile(outFile, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
-console.log(`build-api: wrote ${descriptions.length} component(s) → apps/docs/app/generated/api.json`)
+await writeFile(controlsFile, `${JSON.stringify(controls.controls, null, 2)}\n`, 'utf8')
+console.log(`build-api: wrote ${descriptions.length} component(s) → apps/docs/app/generated/api.json and controls.json`)
