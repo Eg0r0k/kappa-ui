@@ -2367,6 +2367,44 @@
       ]
     },
     {
+      "name": "editable",
+      "type": "registry:ui",
+      "title": "Editable",
+      "description": "Text that turns into a field where it stands, in the surrounding type: preview, input and the box they share, over Reka UI.",
+      "categories": [
+        "text-input"
+      ],
+      "dependencies": [
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/editable/Editable.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/editable/EditableArea.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/editable/EditableInput.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/editable/EditablePreview.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/editable/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",
