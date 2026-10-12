@@ -537,28 +537,12 @@
       "meta": {
         "demo": {
           "controls": [
+            "variant",
+            "color",
             "size"
           ]
         }
       }
-    },
-    {
-      "name": "alert-variants",
-      "type": "registry:block",
-      "title": "Alert variants",
-      "description": "Every variant in every colour.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "alert"
-      ],
-      "files": [
-        {
-          "path": "src/examples/alert/AlertVariants.vue",
-          "type": "registry:component"
-        }
-      ]
     },
     {
       "name": "alert-orientation",
@@ -5215,7 +5199,14 @@
           "path": "src/examples/kbd/KbdDemo.vue",
           "type": "registry:component"
         }
-      ]
+      ],
+      "meta": {
+        "demo": {
+          "controls": [
+            "size"
+          ]
+        }
+      }
     },
     {
       "name": "kbd-button",
@@ -5232,24 +5223,6 @@
       "files": [
         {
           "path": "src/examples/kbd/KbdButton.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "kbd-sizes",
-      "type": "registry:block",
-      "title": "Kbd sizes",
-      "description": "Keys from xs to xl.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "kbd"
-      ],
-      "files": [
-        {
-          "path": "src/examples/kbd/KbdSizes.vue",
           "type": "registry:component"
         }
       ]
@@ -14048,24 +14021,6 @@
       "files": [
         {
           "path": "src/examples/page-indicator/PageIndicatorVariants.vue",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "page-indicator-colors",
-      "type": "registry:block",
-      "title": "Page Indicator colors",
-      "description": "The theme tones, and white over a picture through the tone variable.",
-      "categories": [
-        "example"
-      ],
-      "registryDependencies": [
-        "page-indicator"
-      ],
-      "files": [
-        {
-          "path": "src/examples/page-indicator/PageIndicatorColors.vue",
           "type": "registry:component"
         }
       ]
