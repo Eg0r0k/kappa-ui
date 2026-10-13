@@ -16,7 +16,8 @@ let opener: HTMLElement | null = null;
 watch(
   () => props.tour.open.value,
   (open) => {
-    if (open) opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    if (!open || typeof document === "undefined") return;
+    opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   },
   { immediate: true },
 );
