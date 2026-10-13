@@ -55,6 +55,17 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const container = () => element("host").querySelector<HTMLElement>(":scope > [data-slot=ripple]");
 const waves = () => [...(container()?.children ?? [])] as HTMLElement[];
 
+const scaledHost = () =>
+  mount(
+    defineComponent({
+      setup: () => () =>
+        h("div", { style: "transform:scale(0.5);transform-origin:0 0" }, [
+          withDirectives(h("div", { "data-test": "host", style: "width:200px;height:100px" }), [[vRipple, true]]),
+        ]),
+    }),
+    { attachTo: document.body },
+  );
+
 const mediaMatching = (feature: string) =>
   vi
     .spyOn(window, "matchMedia")
@@ -120,6 +131,23 @@ it("grows from the press point towards the centre", () => {
   const keyframes = (grow!.effect as KeyframeEffect).getKeyframes();
   expect(keyframes[0]!.transform).toBe("translate(30px, 30px) scale(1)");
   expect(String(keyframes[1]!.transform)).toMatch(/^translate\(80px, 30px\) scale\(7\.7\d*\)$/);
+});
+
+it("maps the press point into the element's own pixels under a scaled ancestor", () => {
+  scaledHost();
+  press(element("host"), 40, 10);
+
+  const keyframes = (waves()[0]!.getAnimations()[0]!.effect as KeyframeEffect).getKeyframes();
+  expect(keyframes[0]!.transform).toBe("translate(60px, 0px) scale(1)");
+  expect(String(keyframes[1]!.transform)).toMatch(/^translate\(80px, 30px\) scale\(7\.7\d*\)$/);
+});
+
+it("centres a keyboard wave in the element's own pixels under a scaled ancestor", () => {
+  scaledHost();
+  element("host").dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 0 }));
+
+  const keyframes = (waves()[0]!.getAnimations()[0]!.effect as KeyframeEffect).getKeyframes();
+  expect(keyframes[0]!.transform).toBe("translate(80px, 30px) scale(1)");
 });
 
 it("reads its timing from custom properties at press time", () => {

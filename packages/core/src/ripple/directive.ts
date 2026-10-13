@@ -48,19 +48,29 @@ const parseBinding = (binding: DirectiveBinding): RippleOptions => {
   return {};
 };
 
-const computeGeometry = (rect: DOMRect, x: number, y: number) => {
-  const maxDim = Math.max(rect.height, rect.width);
+const localSize = (el: HTMLElement) => ({ width: el.offsetWidth, height: el.offsetHeight });
+
+// screen pixels differ from the element's own once an ancestor is scaled
+const localPoint = (el: HTMLElement, clientX: number, clientY: number) => {
+  const rect = el.getBoundingClientRect();
+  const sx = rect.width ? el.offsetWidth / rect.width : 1;
+  const sy = rect.height ? el.offsetHeight / rect.height : 1;
+  return { x: (clientX - rect.left) * sx, y: (clientY - rect.top) * sy };
+};
+
+const computeGeometry = (size: { width: number; height: number }, x: number, y: number) => {
+  const maxDim = Math.max(size.height, size.width);
   const softEdgeSize = Math.max(SOFT_EDGE_CONTAINER_RATIO * maxDim, SOFT_EDGE_MINIMUM_SIZE);
   const initialSize = Math.max(Math.floor(maxDim * INITIAL_ORIGIN_SCALE), 1);
-  const maxRadius = Math.hypot(rect.width, rect.height) + PADDING;
+  const maxRadius = Math.hypot(size.width, size.height) + PADDING;
 
   return {
     initialSize,
     scale: (maxRadius + softEdgeSize) / initialSize,
     from: { x: x - initialSize / 2, y: y - initialSize / 2 },
     to: {
-      x: (rect.width - initialSize) / 2,
-      y: (rect.height - initialSize) / 2,
+      x: (size.width - initialSize) / 2,
+      y: (size.height - initialSize) / 2,
     },
   };
 };
@@ -141,7 +151,7 @@ const releaseWave = (state: RippleState, wave: Wave) => {
 };
 
 const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number): Wave => {
-  const geometry = computeGeometry(el.getBoundingClientRect(), x, y);
+  const geometry = computeGeometry(localSize(el), x, y);
   const container = ensureContainer(el);
   const style = getComputedStyle(container);
   const from = `translate(${geometry.from.x}px, ${geometry.from.y}px) scale(1)`;
@@ -233,8 +243,8 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
 
     releaseCurrent();
 
-    const rect = el.getBoundingClientRect();
-    const wave = spawnWave(el, state, rect.width / 2, rect.height / 2);
+    const { width, height } = localSize(el);
+    const wave = spawnWave(el, state, width / 2, height / 2);
     state.current = wave;
     releaseWave(state, wave);
   };
@@ -252,9 +262,7 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
 
     if (belongsToNestedControl(el, event.target)) return;
 
-    const rect = el.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const { x, y } = localPoint(el, event.clientX, event.clientY);
     if (event.pointerType !== "touch") {
       state.current = spawnWave(el, state, x, y);
       return;
