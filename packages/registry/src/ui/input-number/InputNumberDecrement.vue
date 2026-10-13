@@ -18,7 +18,13 @@ const context = injectInputNumberContext();
       data-slot="input-number-decrement"
       variant="ghost"
       color="neutral"
-      :class="cn(inputNumberButtonVariants({ orientation: context.orientation, part: 'decrement' }), props.class)"
+      :class="
+        cn(
+          inputNumberButtonVariants({ orientation: context.orientation, part: 'decrement' }),
+          context.orientation === 'vertical' && context.variant === 'filled' && 'rounded-ee-none',
+          props.class,
+        )
+      "
     >
       <slot>
         <ChevronDown v-if="context.orientation === 'vertical'" />

@@ -5,6 +5,7 @@ import { type VNode, defineComponent, h, nextTick, ref } from "vue";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { InputNumber, InputNumberDecrement, InputNumberIncrement, InputNumberInput } from "@/ui/input-number";
+import { Item } from "@/ui/item";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
@@ -150,6 +151,34 @@ it("stacks the buttons at the end in the vertical orientation", () => {
   const outer = Number.parseFloat(getComputedStyle(root()).borderTopRightRadius);
   expect(Number.parseFloat(getComputedStyle(increment()).borderTopRightRadius)).toBeCloseTo(outer - 1, 1);
   expect(getComputedStyle(increment()).borderTopLeftRadius).toBe("0px");
+  expect(getComputedStyle(input()).textAlign).toBe("start");
+});
+
+it("keeps its own text alignment and corner inside a horizontal Field or a filled Item", () => {
+  const vertical = () =>
+    h(InputNumber, { orientation: "vertical", defaultValue: 12, style: "--radius-control-md: 12px" }, () => [
+      h(InputNumberInput),
+      h(InputNumberIncrement),
+      h(InputNumberDecrement),
+    ]);
+  const inField = render(h(Field, { orientation: "horizontal" }, () => [h(FieldLabel, () => "Size"), vertical()]));
+  expect(getComputedStyle(input()).textAlign).toBe("start");
+  inField.unmount();
+
+  const alone = render(vertical());
+  const corner = getComputedStyle(decrement()).borderEndEndRadius;
+  alone.unmount();
+  const inItem = render(h(Item, { variant: "filled" }, () => vertical()));
+  expect(getComputedStyle(decrement()).borderEndEndRadius).toBe(corner);
+  inItem.unmount();
+
+  render(
+    h(InputNumber, { defaultValue: 12 }, () => [
+      h(InputNumberDecrement),
+      h(InputNumberInput, { class: "text-start" }),
+      h(InputNumberIncrement),
+    ]),
+  );
   expect(getComputedStyle(input()).textAlign).toBe("start");
 });
 

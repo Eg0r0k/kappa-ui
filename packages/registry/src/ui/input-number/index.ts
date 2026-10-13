@@ -62,11 +62,13 @@ export const inputNumberVariants = cva(
       orientation: {
         horizontal: `
           grid-cols-[auto_minmax(0,1fr)_auto] [grid-template-areas:'decrement_input_increment']
+          [--input-number-align:center]
           has-[>[data-slot=input-number-decrement]]:*:data-[slot=input-number-input]:ps-1.5
           has-[>[data-slot=input-number-increment]]:*:data-[slot=input-number-input]:pe-1.5
         `,
         vertical: `
           grid-cols-[minmax(0,1fr)_auto] grid-rows-2 [grid-template-areas:'input_increment'_'input_decrement']
+          [--input-number-align:start]
           has-[>:is([data-slot=input-number-increment],[data-slot=input-number-decrement])]:*:data-[slot=input-number-input]:pe-1.5
         `,
       },
@@ -75,7 +77,7 @@ export const inputNumberVariants = cva(
   },
 );
 
-export const inputNumberInput = `${textControlBase} ${textControlInnerText} h-full rounded-none px-(--control-padding) [grid-area:input] in-data-[orientation=horizontal]:text-center`;
+export const inputNumberInput = `${textControlBase} ${textControlInnerText} h-full rounded-none px-(--control-padding) [grid-area:input] [text-align:var(--input-number-align,start)]`;
 
 export const inputNumberButtonVariants = cva("p-0", {
   variants: {
@@ -92,11 +94,7 @@ export const inputNumberButtonVariants = cva("p-0", {
     { orientation: "horizontal", part: "increment", class: "me-[calc(var(--stepper-inset)-1px)]" },
     { orientation: "horizontal", part: "decrement", class: "ms-[calc(var(--stepper-inset)-1px)]" },
     { orientation: "vertical", part: "increment", class: "rounded-se-[calc(var(--frame-radius)-1px)]" },
-    {
-      orientation: "vertical",
-      part: "decrement",
-      class: "rounded-ee-[calc(var(--frame-radius)-1px)] in-data-[variant=filled]:rounded-ee-none",
-    },
+    { orientation: "vertical", part: "decrement", class: "rounded-ee-[calc(var(--frame-radius)-1px)]" },
   ],
   defaultVariants: { orientation: "horizontal" },
 });
