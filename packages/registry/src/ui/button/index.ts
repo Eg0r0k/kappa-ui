@@ -13,7 +13,7 @@ export const swallowWhenDisabled = (event: MouseEvent) => {
 export const buttonVariants = cva(
   `
     relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control-md
-    text-label-lg transition-colors duration-short-3 ease-standard outline-none
+    text-label-lg transition duration-short-3 ease-standard outline-none
     forced-colors:border
     disabled:pointer-events-none disabled:text-foreground/(--disabled-opacity)
     [&_svg]:pointer-events-none [&_svg]:shrink-0

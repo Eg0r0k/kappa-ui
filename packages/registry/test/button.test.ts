@@ -72,6 +72,12 @@ describe("Button", () => {
     );
     expect(getComputedStyle(wrapper.get("button").element).marginLeft).toBe("0px");
   });
+
+  it("transitions its transform, so press-scale dips it", () => {
+    const properties = getComputedStyle(render({ class: "press-scale" })).transitionProperty.split(", ");
+    expect(properties).toContain("transform");
+    expect(properties).toContain("background-color");
+  });
 });
 
 describe("Badge subtle", () => {
