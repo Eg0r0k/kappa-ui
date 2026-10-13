@@ -7,6 +7,7 @@ const PRESS_GROW_MS = 450;
 const FADE_OUT_MS = 375;
 const EASING = "cubic-bezier(0.2, 0, 0, 1)";
 const MINIMUM_PRESS_MS = 225;
+const TOUCH_DELAY_MS = 150;
 const INITIAL_ORIGIN_SCALE = 0.2;
 const PADDING = 10;
 const SOFT_EDGE_MINIMUM_SIZE = 75;
@@ -36,6 +37,7 @@ type RippleState = {
   current: Wave | null;
   options: RippleOptions;
   handlers: Record<string, EventListener>;
+  pending?: { timer: ReturnType<typeof setTimeout>; x: number; y: number };
 };
 
 export type RippleElement = HTMLElement & { _ripple?: RippleState };
@@ -200,8 +202,19 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
     if (state?.current) releaseWave(state, state.current);
   };
 
+  const settlePending = (spawn: boolean) => {
+    const state = el._ripple;
+    if (!state?.pending) return;
+    clearTimeout(state.pending.timer);
+    const { x, y } = state.pending;
+    state.pending = undefined;
+    if (spawn) state.current = spawnWave(el, state, x, y);
+  };
+
   const releasePrimary = (event: PointerEvent) => {
-    if (event.isPrimary) releaseCurrent();
+    if (!event.isPrimary) return;
+    settlePending(event.type === "pointerup");
+    releaseCurrent();
   };
 
   const activeState = () => {
@@ -227,19 +240,31 @@ const setupRipple = (el: RippleElement, binding: DirectiveBinding) => {
   };
 
   const onPointerdown = (event: PointerEvent) => {
-    if (event.button === 1) return;
+    if (event.button !== 0) return;
     if (!event.isPrimary) return;
 
     const state = activeState();
     if (!state) return;
 
     // a wave whose release was lost must not outlive the next press
+    settlePending(false);
     releaseCurrent();
 
     if (belongsToNestedControl(el, event.target)) return;
 
     const rect = el.getBoundingClientRect();
-    state.current = spawnWave(el, state, event.clientX - rect.left, event.clientY - rect.top);
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (event.pointerType !== "touch") {
+      state.current = spawnWave(el, state, x, y);
+      return;
+    }
+    // a touch may turn into a scroll, which cancels the press within the delay
+    const timer = setTimeout(() => {
+      state.pending = undefined;
+      state.current = spawnWave(el, state, x, y);
+    }, TOUCH_DELAY_MS);
+    state.pending = { timer, x, y };
   };
 
   const handlers = {
@@ -267,6 +292,7 @@ const cleanupRipple = (el: RippleElement) => {
   const state = el._ripple;
   if (!state) return;
 
+  if (state.pending) clearTimeout(state.pending.timer);
   for (const wave of state.waves) {
     stopWave(wave);
   }

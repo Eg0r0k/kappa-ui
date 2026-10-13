@@ -36,6 +36,22 @@ const press = (target: HTMLElement, x: number, y: number) => {
 const release = (target: HTMLElement) =>
   target.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, isPrimary: true }));
 
+const touch = (type: string) => {
+  const rect = element("host").getBoundingClientRect();
+  element("host").dispatchEvent(
+    new PointerEvent(type, {
+      bubbles: true,
+      isPrimary: true,
+      pointerType: "touch",
+      button: 0,
+      clientX: rect.left + 50,
+      clientY: rect.top + 50,
+    }),
+  );
+};
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const container = () => element("host").querySelector<HTMLElement>(":scope > [data-slot=ripple]");
 const waves = () => [...(container()?.children ?? [])] as HTMLElement[];
 
@@ -63,6 +79,37 @@ it("adds a clipped container and a growing wave on press", () => {
   expect(element("host").style.position).toBe("relative");
   expect(waves()).toHaveLength(1);
   expect(waves()[0]!.getAnimations()).toHaveLength(1);
+});
+
+it("waits under a touch, and leaves no wave when the touch turns into a scroll", async () => {
+  host();
+  touch("pointerdown");
+  expect(waves()).toHaveLength(0);
+  await wait(50);
+  touch("pointercancel");
+  await wait(200);
+  expect(waves()).toHaveLength(0);
+});
+
+it("ripples a quick tap on release and a held touch after the delay", async () => {
+  host();
+  touch("pointerdown");
+  touch("pointerup");
+  expect(waves()).toHaveLength(1);
+  await wait(700);
+  expect(waves()).toHaveLength(0);
+
+  touch("pointerdown");
+  await wait(200);
+  expect(waves()).toHaveLength(1);
+});
+
+it("leaves a secondary mouse button alone", () => {
+  host();
+  element("host").dispatchEvent(
+    new PointerEvent("pointerdown", { bubbles: true, isPrimary: true, pointerType: "mouse", button: 2 }),
+  );
+  expect(container()).toBeNull();
 });
 
 it("grows from the press point towards the centre", () => {
