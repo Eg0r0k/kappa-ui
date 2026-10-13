@@ -329,8 +329,13 @@
     &:active::before {
       opacity: var(--state-pressed, 12%);
     }
-    &[data-disabled]::before {
-      display: none;
+    &:is([data-disabled], :has(:is([data-slot="checkbox"], [data-slot="radio"]):disabled)) {
+      &::before {
+        display: none;
+      }
+      & [data-slot="field-label"] {
+        cursor: not-allowed;
+      }
     }
     &:has([data-state="checked"]) {
       background-color: color-mix(in oklab, --theme(--color-primary) var(--state-selected, 8%), transparent);

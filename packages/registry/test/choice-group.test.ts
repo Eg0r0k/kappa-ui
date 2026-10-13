@@ -4,7 +4,7 @@ import { type VNodeChild, h } from "vue";
 
 import { Checkbox, CheckboxGroup } from "@/ui/checkbox";
 import { ChoiceGroup } from "@/ui/choice-group";
-import { Field, FieldLabel } from "@/ui/field";
+import { Field, FieldLabel, FieldSet } from "@/ui/field";
 import { Radio, RadioGroup } from "@/ui/radio-group";
 
 const option = (control: VNodeChild) =>
@@ -144,4 +144,35 @@ it("keeps the primary tint for a choice-row whose data-color has no data-slot to
   );
 
   expect(getComputedStyle(fields()[0]!).backgroundColor).toBe(tint("rgb(0, 0, 255)"));
+});
+
+it("drops the tint and the pointer and dims the label of a row that a disabled group or fieldset disables", () => {
+  mount(
+    {
+      render: () => [
+        h("div", { id: "reference" }, [h(Field, { disabled: true }, () => h(FieldLabel, () => "Reference"))]),
+        h("div", { id: "radio" }, [
+          h(RadioGroup, { variant: "list", disabled: true }, () => [option(h(Radio, { value: "a" }))]),
+        ]),
+        h("div", { id: "checkbox" }, [
+          h(CheckboxGroup, { variant: "card", disabled: true }, () => [option(h(Checkbox, { value: "a" }))]),
+        ]),
+        h("div", { id: "fieldset" }, [
+          h(FieldSet, { disabled: true }, () =>
+            h(RadioGroup, { variant: "card" }, () => [option(h(Radio, { value: "a" }))]),
+          ),
+        ]),
+      ],
+    },
+    { attachTo: document.body },
+  );
+  const dimmed = getComputedStyle(document.querySelector("#reference [data-slot=field-label]")!).color;
+
+  for (const id of ["radio", "checkbox", "fieldset"]) {
+    const field = document.querySelector<HTMLElement>(`#${id} [data-slot=field]`)!;
+    const label = field.querySelector<HTMLElement>("[data-slot=field-label]")!;
+    expect(getComputedStyle(field, "::before").display).toBe("none");
+    expect(getComputedStyle(label).cursor).toBe("not-allowed");
+    expect(getComputedStyle(label).color).toBe(dimmed);
+  }
 });

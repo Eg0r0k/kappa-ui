@@ -27,6 +27,7 @@ onBeforeUnmount(() => {
         `
           group-data-disabled/field:text-foreground/(--disabled-opacity)
           group-data-disabled/fieldset:text-foreground/(--disabled-opacity)
+          group-has-[[data-slot=checkbox]:disabled,[data-slot=radio]:disabled]/field:text-foreground/(--disabled-opacity)
           group-data-invalid/field:text-destructive
         `,
         props.class,
