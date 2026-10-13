@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
+import { page, server } from "vitest/browser";
 import { h } from "vue";
 
 import {
@@ -78,6 +79,27 @@ describe("Breadcrumb", () => {
     expect(ellipsis.attributes()).toMatchObject({ role: "presentation", "aria-hidden": "true" });
     expect(ellipsis.text()).toBe("More");
     expect(ellipsis.element.getBoundingClientRect().width).toBe(36);
+  });
+
+  it("lets a gap class on the list win from the sm breakpoint up too", async () => {
+    await page.viewport(1024, 768);
+    try {
+      const list = (props: Record<string, unknown>) =>
+        h(BreadcrumbList, props, () => [
+          h(BreadcrumbItem, () => "Home"),
+          h(BreadcrumbSeparator),
+          h(BreadcrumbItem, () => "Docs"),
+        ]);
+      mount(
+        { render: () => [list({ id: "default" }), list({ id: "classed", class: "gap-4" })] },
+        { attachTo: document.body },
+      );
+      expect(matchMedia("(min-width: 40rem)").matches).toBe(true);
+      expect(getComputedStyle(document.getElementById("default")!).columnGap).toBe("10px");
+      expect(getComputedStyle(document.getElementById("classed")!).columnGap).toBe("16px");
+    } finally {
+      await page.viewport(server.config.browser.viewport.width, server.config.browser.viewport.height);
+    }
   });
 
   it("points the separator's chevron the other way in right-to-left text", () => {

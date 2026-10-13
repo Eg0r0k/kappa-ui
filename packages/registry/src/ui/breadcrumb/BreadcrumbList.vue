@@ -10,7 +10,14 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
   <ol
     data-slot="breadcrumb-list"
     :class="
-      cn('flex flex-wrap items-center gap-1.5 text-body-md break-words text-muted-foreground sm:gap-2.5', props.class)
+      cn(
+        `
+          flex flex-wrap items-center gap-(--breadcrumb-gap) text-body-md break-words text-muted-foreground
+          [--breadcrumb-gap:--spacing(1.5)]
+          sm:[--breadcrumb-gap:--spacing(2.5)]
+        `,
+        props.class,
+      )
     "
   >
     <slot />
