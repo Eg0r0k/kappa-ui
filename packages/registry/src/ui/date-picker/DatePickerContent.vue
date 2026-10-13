@@ -69,8 +69,8 @@ const onOpenAutoFocus = (event: Event) => {
       @focusin="picker.focus.onFocusin"
       @focusout="picker.focus.onFocusout"
     >
-      <ModalScrimHold />
       <slot />
+      <ModalScrimHold />
     </PopoverContent>
   </PopoverPortal>
 </template>

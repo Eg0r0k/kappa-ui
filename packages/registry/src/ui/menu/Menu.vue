@@ -373,8 +373,8 @@ defineExpose({ show, hide, toggle });
         @close-auto-focus="onCloseAutoFocus"
         @click="onContentClick"
       >
-        <ModalScrimHold />
         <slot />
+        <ModalScrimHold />
       </MenuContent>
     </MenuPortal>
   </MenuRoot>

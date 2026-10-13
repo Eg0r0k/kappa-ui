@@ -173,4 +173,28 @@ describe("modal scrim", () => {
     await nextTick();
     await expect.poll(() => document.querySelector("[data-slot=popover-scrim]")).toBeNull();
   });
+
+  it("adds no element to the panel, so its first child is the consumer's and as-child renders the child", async () => {
+    host(() =>
+      h(Popover, { modal: true, defaultOpen: true }, () => [
+        h(PopoverTrigger, () => "Open"),
+        h(PopoverContent, () => [h("p", { "data-test": "first" }, "One"), h("p", "Two")]),
+      ]),
+    );
+    await shown("popover-scrim");
+    expect(document.querySelector("[data-slot=popover-content]")!.firstElementChild).toBe(byTest("first"));
+  });
+
+  it("renders the as-child panel as the consumer's element", async () => {
+    host(() =>
+      h(Popover, { defaultOpen: true }, () => [
+        h(PopoverTrigger, () => "Open"),
+        h(PopoverContent, { asChild: true }, () => h("div", { "data-test": "panel" }, h("button", "Inside"))),
+      ]),
+    );
+    await shown("popover-content");
+    const panel = document.querySelector<HTMLElement>("[data-slot=popover-content]")!;
+    expect(panel).toBe(byTest("panel"));
+    expect(panel.hidden).toBe(false);
+  });
 });

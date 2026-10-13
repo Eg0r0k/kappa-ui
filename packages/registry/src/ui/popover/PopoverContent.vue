@@ -51,8 +51,8 @@ const portalTarget = injectOverlayPortalTarget(null);
         )
       "
     >
-      <ModalScrimHold />
       <slot />
+      <ModalScrimHold />
     </PopoverContent>
   </PopoverPortal>
 </template>

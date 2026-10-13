@@ -1,12 +1,12 @@
 import {
   type MaybeRefOrGetter,
   computed,
+  createCommentVNode,
   defineComponent,
-  h,
+  getCurrentInstance,
   onBeforeUnmount,
   onMounted,
   ref,
-  shallowRef,
   toValue,
 } from "vue";
 
@@ -21,16 +21,16 @@ export const useModalScrim = (options: {
   const ModalScrimHold = defineComponent({
     name: "ModalScrimHold",
     setup: () => {
-      const element = shallowRef<HTMLElement>();
+      const instance = getCurrentInstance();
       let counted = false;
       onMounted(() => {
-        counted = element.value?.isConnected ?? false;
+        counted = (instance?.subTree.el as Node | null)?.isConnected ?? false;
         if (counted) layers.value += 1;
       });
       onBeforeUnmount(() => {
         if (counted) layers.value -= 1;
       });
-      return () => h("span", { ref: element, hidden: true, "data-slot": "modal-scrim-hold" });
+      return () => createCommentVNode("modal-scrim-hold");
     },
   });
 
