@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DateValue } from "@internationalized/date";
+import { type DateValue, GregorianCalendar, toCalendar } from "@internationalized/date";
 import { CalendarRoot, type CalendarRootEmits, type CalendarRootProps, useForwardProps } from "reka-ui";
 import { type Grid, type WeekStartsOn, getWeekNumber } from "reka-ui/date";
 import { type HTMLAttributes, computed, nextTick, onMounted, ref, useAttrs } from "vue";
@@ -113,6 +113,8 @@ const delegated = computed(() => {
 });
 const forwarded = useForwardProps(delegated);
 
+const gregorian = new GregorianCalendar();
+
 const root = ref<{ $el: HTMLElement }>();
 onMounted(() => {
   if (props.initialFocus) nextTick(() => focusInitialDay(root.value?.$el));
@@ -180,7 +182,13 @@ onMounted(() => {
                 aria-hidden="true"
                 :class="calendarWeekNumber"
               >
-                {{ getWeekNumber(row[0]!, slotProps.locale, firstDayOfWeek(slotProps.weekStartsOn)) }}
+                {{
+                  getWeekNumber(
+                    toCalendar(row[0]!, gregorian),
+                    slotProps.locale,
+                    firstDayOfWeek(slotProps.weekStartsOn),
+                  )
+                }}
               </th>
               <CalendarCell v-for="day in row" :key="day.toString()" :date="day">
                 <CalendarCellTrigger v-slot="state" :day="day" :month="month.value">

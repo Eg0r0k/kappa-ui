@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DateValue } from "@internationalized/date";
+import { type DateValue, GregorianCalendar, toCalendar } from "@internationalized/date";
 import {
   type DateRange,
   RangeCalendarRoot,
@@ -110,6 +110,8 @@ const delegated = computed(() => {
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
 
+const gregorian = new GregorianCalendar();
+
 const root = ref<{ $el: HTMLElement }>();
 onMounted(() => {
   if (props.initialFocus) nextTick(() => focusInitialDay(root.value?.$el));
@@ -175,7 +177,13 @@ onMounted(() => {
                 aria-hidden="true"
                 :class="calendarWeekNumber"
               >
-                {{ getWeekNumber(row[0]!, slotProps.locale, firstDayOfWeek(slotProps.weekStartsOn)) }}
+                {{
+                  getWeekNumber(
+                    toCalendar(row[0]!, gregorian),
+                    slotProps.locale,
+                    firstDayOfWeek(slotProps.weekStartsOn),
+                  )
+                }}
               </th>
               <RangeCalendarCell v-for="day in row" :key="day.toString()" :date="day">
                 <RangeCalendarCellTrigger v-slot="state" :day="day" :month="month.value">

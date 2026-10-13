@@ -1,4 +1,4 @@
-import { CalendarDate, type DateValue } from "@internationalized/date";
+import { CalendarDate, type DateValue, PersianCalendar, toCalendar } from "@internationalized/date";
 import { mount } from "@vue/test-utils";
 import type { DateRange } from "reka-ui";
 import { afterEach, describe, expect, it } from "vitest";
@@ -85,6 +85,24 @@ describe("markup", () => {
       expect(day("2026-10-06").getBoundingClientRect().width).toBe(sentinel.height.xl);
       expect(q("[data-slot=range-calendar-prev-button]").getBoundingClientRect().height).toBe(sentinel.height.xl);
     });
+  });
+});
+
+describe("week numbers", () => {
+  it("numbers the weeks of a non-Gregorian calendar within 1 to 53", () => {
+    render(() =>
+      h(RangeCalendar, {
+        defaultPlaceholder: toCalendar(oct, new PersianCalendar()),
+        locale: "fa-IR",
+        weekNumbers: true,
+      }),
+    );
+    const numbers = all("[data-slot=range-calendar-grid-body] [data-slot=range-calendar-week-number]").map((cell) =>
+      Number(cell.textContent!.trim()),
+    );
+    expect(numbers.length).toBeGreaterThan(0);
+    expect(Math.min(...numbers)).toBeGreaterThanOrEqual(1);
+    expect(Math.max(...numbers)).toBeLessThanOrEqual(53);
   });
 });
 

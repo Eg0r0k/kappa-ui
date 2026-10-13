@@ -1,4 +1,4 @@
-import { CalendarDate, type DateValue, isWeekend } from "@internationalized/date";
+import { CalendarDate, type DateValue, PersianCalendar, isWeekend, toCalendar } from "@internationalized/date";
 import { mount } from "@vue/test-utils";
 import { CalendarRoot, ConfigProvider } from "reka-ui";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -644,6 +644,18 @@ describe("locale and week start", () => {
     // The first row runs Saturday Dec 26 to Friday Jan 1: week 1, not the 52 a Sunday-based count gives.
     expect(firstDay()).toBe("2026-12-26");
     expect(numbers()).toEqual(["1", "2", "3", "4", "5", "6"]);
+  });
+
+  it("numbers the weeks of a non-Gregorian calendar within 1 to 53", () => {
+    render(() =>
+      h(Calendar, { defaultPlaceholder: toCalendar(oct6, new PersianCalendar()), locale: "fa-IR", weekNumbers: true }),
+    );
+    const numbers = all("[data-slot=calendar-grid-body] [data-slot=calendar-week-number]").map((cell) =>
+      Number(cell.textContent!.trim()),
+    );
+    expect(numbers).toHaveLength(6);
+    expect(Math.min(...numbers)).toBeGreaterThanOrEqual(1);
+    expect(Math.max(...numbers)).toBeLessThanOrEqual(53);
   });
 
   it("swaps locale and week start at runtime without warnings", async () => {
