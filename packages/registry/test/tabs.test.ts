@@ -95,6 +95,19 @@ it("moves the indicator along the vertical axis when vertical", async () => {
   await expect.poll(() => alongY(triggers()[1]!)).toEqual([0, 0]);
 });
 
+it("keeps the pill thumb on the triggers when a class changes the list's padding", async () => {
+  const offset = (side: "top" | "left") =>
+    gap(indicator().getBoundingClientRect()[side], triggers()[0]!.getBoundingClientRect()[side]);
+  renderTabs({}, { class: "p-2" });
+  await shown();
+  await expect.poll(() => offset("top")).toBe(0);
+
+  unmount?.();
+  renderTabs({ orientation: "vertical" }, { class: "p-2" });
+  await shown();
+  await expect.poll(() => offset("left")).toBe(0);
+});
+
 it("sizes triggers from the list and defaults to a medium pill", () => {
   renderTabs();
   expect(list().dataset.variant).toBe("pill");

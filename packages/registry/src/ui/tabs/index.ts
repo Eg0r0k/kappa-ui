@@ -52,9 +52,11 @@ export const tabsIndicatorVariants = cva(
         pill: `
           bg-background shadow-shadow-sm
           dark:bg-input/30
-          group-aria-[orientation=horizontal]/tabs-list:top-1
+          group-aria-[orientation=horizontal]/tabs-list:top-1/2
+          group-aria-[orientation=horizontal]/tabs-list:-translate-y-1/2
           group-aria-[orientation=horizontal]/tabs-list:h-(--reka-tabs-indicator-thickness)
-          group-aria-[orientation=vertical]/tabs-list:left-1
+          group-aria-[orientation=vertical]/tabs-list:left-1/2
+          group-aria-[orientation=vertical]/tabs-list:-translate-x-1/2
           group-aria-[orientation=vertical]/tabs-list:w-(--reka-tabs-indicator-thickness)
         `,
         line: `
