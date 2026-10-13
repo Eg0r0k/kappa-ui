@@ -104,6 +104,30 @@ it("jumps backwards when the bar is pressed above the thumb", async () => {
   wrapper.unmount();
 });
 
+it("starts a bar jump or a thumb drag only with the primary button", async () => {
+  const wrapper = mountArea();
+  const { viewport, verticalBar, verticalThumb } = partsOf(wrapper.element);
+  await vi.waitFor(() => expect(verticalThumb.style.height).toBe("75px"));
+
+  const bar = verticalBar.getBoundingClientRect();
+  verticalBar.dispatchEvent(
+    pointer("pointerdown", { button: 2, buttons: 2, clientX: bar.x + 5, clientY: bar.y + 250 }),
+  );
+  verticalBar.dispatchEvent(pointer("pointerup", { button: 2, buttons: 0, clientX: bar.x + 5, clientY: bar.y + 250 }));
+  expect(viewport.scrollTop).toBe(0);
+
+  const thumb = verticalThumb.getBoundingClientRect();
+  verticalThumb.dispatchEvent(
+    pointer("pointerdown", { button: 1, buttons: 4, clientX: thumb.x + 3, clientY: thumb.y + 5 }),
+  );
+  verticalThumb.dispatchEvent(
+    pointer("pointermove", { button: -1, buttons: 4, clientX: thumb.x + 3, clientY: thumb.y + 55 }),
+  );
+  expect(viewport.scrollTop).toBe(0);
+
+  wrapper.unmount();
+});
+
 it("does not jump when the press lands on the thumb", async () => {
   const wrapper = mountArea();
   const { viewport, verticalBar, verticalThumb } = partsOf(wrapper.element);

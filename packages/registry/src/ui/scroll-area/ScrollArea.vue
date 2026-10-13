@@ -202,13 +202,13 @@ const beginDrag = (event: PointerEvent, axis: ScrollAreaAxis, from: number) => {
 };
 
 const onThumbPointerdown = (event: PointerEvent, axis: ScrollAreaAxis) => {
-  if (axisState(axis).hidden) return;
+  if (event.button !== 0 || axisState(axis).hidden) return;
   beginDrag(event, axis, axisState(axis).position);
 };
 
 const onBarPointerdown = (event: PointerEvent, axis: ScrollAreaAxis) => {
   const state = axisState(axis);
-  if (state.hidden) return;
+  if (event.button !== 0 || state.hidden) return;
 
   const mirrored = axis === "horizontal" && isRtl.value;
   const startOffset = axis === "vertical" ? props.verticalOffset[0] : props.horizontalOffset[mirrored ? 1 : 0];
