@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { EditableRoot, type EditableRootEmits, type EditableRootProps, useForwardPropsEmits } from "reka-ui";
-import { type HTMLAttributes, computed } from "vue";
+import { type HTMLAttributes, computed, toRef } from "vue";
 
 import { cn } from "@/lib/utils";
+import { provideEditableContext } from ".";
 
 const props = withDefaults(defineProps<EditableRootProps & { class?: HTMLAttributes["class"] }>(), {
   activationMode: "focus",
@@ -11,9 +12,11 @@ const props = withDefaults(defineProps<EditableRootProps & { class?: HTMLAttribu
 });
 const emits = defineEmits<EditableRootEmits>();
 
+provideEditableContext({ autoResize: toRef(props, "autoResize") });
+
 const delegated = computed(() => {
-  const { class: _, ...rest } = props;
-  return rest;
+  const { class: _, autoResize: __, ...rest } = props;
+  return { ...rest, autoResize: false };
 });
 const forwarded = useForwardPropsEmits(delegated, emits);
 </script>

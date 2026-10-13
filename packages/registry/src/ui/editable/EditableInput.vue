@@ -3,11 +3,12 @@ import { EditableInput, type EditableInputProps, injectEditableRootContext } fro
 import { type HTMLAttributes, computed, watch } from "vue";
 
 import { cn } from "@/lib/utils";
-import { editableInput } from ".";
+import { editableInputVariants, injectEditableContext } from ".";
 
 const props = defineProps<EditableInputProps & { class?: HTMLAttributes["class"] }>();
 
 const context = injectEditableRootContext();
+const editable = injectEditableContext();
 
 const delegated = computed(() => {
   const { class: _, ...rest } = props;
@@ -37,7 +38,8 @@ const length = computed(() =>
     v-bind="delegated"
     data-slot="editable-input"
     :size="length"
-    :class="cn(editableInput, props.class)"
+    :hidden="!editable.autoResize.value && !context.isEditing.value"
+    :class="cn(editableInputVariants({ autoResize: editable.autoResize.value }), props.class)"
     @keydown.enter="keepFormUnsubmitted"
   />
 </template>

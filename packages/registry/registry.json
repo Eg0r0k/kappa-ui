@@ -2386,6 +2386,7 @@
         "text-input"
       ],
       "dependencies": [
+        "class-variance-authority",
         "reka-ui"
       ],
       "registryDependencies": [

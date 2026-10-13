@@ -202,3 +202,46 @@ it("drops the draft when editing is cancelled, so the box fits the old text agai
   expect(slot("editable-preview").textContent).toBe("Roadmap");
   expect(slot("editable-area").getBoundingClientRect().width).toBe(before);
 });
+
+it("applies width, background and font classes on the input, sized by the kit or not", async () => {
+  const probe = mount(() => h("div", { class: "w-40 bg-red-500 font-mono" }), { attachTo: document.body });
+  const reference = getComputedStyle(probe.element as HTMLElement);
+  const expected = { width: reference.width, background: reference.backgroundColor, font: reference.fontFamily };
+  probe.unmount();
+
+  const read = async (autoResize: boolean) => {
+    const wrapper = mount(
+      () =>
+        h(Editable, { defaultValue: "Roadmap", autoResize }, () =>
+          h(EditableArea, () => [
+            h(EditablePreview),
+            h(EditableInput, { "aria-label": "Title", class: "w-40 bg-red-500 font-mono" }),
+          ]),
+        ),
+      { attachTo: document.body },
+    );
+    await userEvent.click(slot("editable-preview"));
+    await settle();
+    expect(editing()).toBe(true);
+    expect(input().getAttribute("style")).toBeNull();
+    const style = getComputedStyle(input());
+    const result = { width: style.width, background: style.backgroundColor, font: style.fontFamily };
+    wrapper.unmount();
+    return result;
+  };
+  expect(await read(true)).toEqual(expected);
+  expect(await read(false)).toEqual(expected);
+});
+
+it("swaps the text for the field without a shared box when auto-resize is off", async () => {
+  render({ autoResize: false });
+  await settle();
+  expect(getComputedStyle(slot("editable-area")).display).toBe("block");
+  expect(input().hidden).toBe(true);
+  expect(slot("editable-preview").hidden).toBe(false);
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  expect(editing()).toBe(true);
+  expect(input().hidden).toBe(false);
+  expect(slot("editable-preview").hidden).toBe(true);
+});

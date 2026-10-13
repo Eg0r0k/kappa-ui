@@ -3,11 +3,12 @@ import { EditablePreview, type EditablePreviewProps, injectEditableRootContext, 
 import { type HTMLAttributes, computed, nextTick, watch } from "vue";
 
 import { cn } from "@/lib/utils";
-import { editablePreview } from ".";
+import { editablePreviewVariants, injectEditableContext } from ".";
 
 const props = defineProps<EditablePreviewProps & { class?: HTMLAttributes["class"] }>();
 
 const context = injectEditableRootContext();
+const editable = injectEditableContext();
 const { forwardRef, currentElement } = useForwardExpose();
 
 const delegated = computed(() => {
@@ -37,7 +38,14 @@ const skipActivation = (event: FocusEvent) => {
     :ref="forwardRef"
     data-slot="editable-preview"
     :tabindex="context.disabled.value ? -1 : 0"
-    :class="cn(editablePreview, context.disabled.value && 'pointer-events-none', props.class)"
+    :hidden="!editable.autoResize.value && context.isEditing.value"
+    :class="
+      cn(
+        editablePreviewVariants({ autoResize: editable.autoResize.value }),
+        context.disabled.value && 'pointer-events-none',
+        props.class,
+      )
+    "
     @focusin.capture="skipActivation"
   >
     <slot />
