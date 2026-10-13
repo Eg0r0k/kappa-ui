@@ -1,5 +1,5 @@
 import type { CellContext, Column, HeaderContext, RowData } from "@tanstack/vue-table";
-import { computed, type ComputedRef, type HTMLAttributes, type Ref, type StyleValue, watchEffect } from "vue";
+import { computed, type ComputedRef, type HTMLAttributes, type StyleValue, watchEffect } from "vue";
 
 import { cn } from "@/lib/utils";
 import { type TableAlign, tableStyles } from "@/ui/table";
@@ -28,7 +28,6 @@ export type ColumnInfo<T extends RowData> = {
 
 export type UseColumnLayoutOptions<T extends RowData> = {
   table: DataTableInstance<T>;
-  tableEl: Ref<HTMLTableElement | null>;
   virtual: ComputedRef<boolean>;
   resizing: ComputedRef<boolean>;
   ui: () => DataTableUi | undefined;
@@ -38,6 +37,7 @@ export type UseColumnLayoutReturn<T extends RowData> = {
   layout: ComputedRef<"fixed" | "auto">;
   filler: ComputedRef<boolean>;
   infos: ComputedRef<ColumnInfo<T>[]>;
+  style: ComputedRef<Record<string, string>>;
   byId: ComputedRef<Map<string, ColumnInfo<T>>>;
 };
 
@@ -116,19 +116,21 @@ export const useColumnLayout = <T extends RowData>(options: UseColumnLayoutOptio
     });
   });
 
-  watchEffect(() => {
-    const el = options.tableEl.value;
-    if (el === null) return;
+  const style = computed(() => {
+    const out: Record<string, string> = {};
     for (const column of columns.value) {
       const id = cssId(column.id);
-      if (explicit(column)) el.style.setProperty(`--col-${id}`, `${column.getSize()}px`);
-      else el.style.removeProperty(`--col-${id}`);
+      if (explicit(column)) out[`--col-${id}`] = `${column.getSize()}px`;
       const pinned = column.getIsPinned();
-      if (pinned === "start") el.style.setProperty(`--pin-${id}-start`, `${column.getStart("start")}px`);
-      else el.style.removeProperty(`--pin-${id}-start`);
-      if (pinned === "end") el.style.setProperty(`--pin-${id}-end`, `${column.getAfter("end")}px`);
-      else el.style.removeProperty(`--pin-${id}-end`);
-      if (pinned && !explicit(column)) {
+      if (pinned === "start") out[`--pin-${id}-start`] = `${column.getStart("start")}px`;
+      if (pinned === "end") out[`--pin-${id}-end`] = `${column.getAfter("end")}px`;
+    }
+    return out;
+  });
+
+  watchEffect(() => {
+    for (const column of columns.value) {
+      if (column.getIsPinned() && !explicit(column)) {
         warnOnce(
           `pinned-size:${column.id}`,
           `pinned column "${column.id}" has no size; TanStack's default of 150px is used.`,
@@ -137,5 +139,11 @@ export const useColumnLayout = <T extends RowData>(options: UseColumnLayoutOptio
     }
   });
 
-  return { layout, filler, infos, byId: computed(() => new Map(infos.value.map((info) => [info.id, info]))) };
+  return {
+    layout,
+    filler,
+    infos,
+    style,
+    byId: computed(() => new Map(infos.value.map((info) => [info.id, info]))),
+  };
 };

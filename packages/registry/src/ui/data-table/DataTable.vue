@@ -433,10 +433,10 @@ const {
   layout: layoutMode,
   filler,
   infos,
+  style: columnStyle,
   byId,
 } = useColumnLayout<T>({
   table,
-  tableEl: tableRef,
   virtual: virtualEnabled,
   resizing: computed(() => props.columnResizing ?? false),
   ui: () => props.ui,
@@ -648,6 +648,7 @@ const scrollerAttrs = computed(() =>
         :data-striped="props.striped ? '' : undefined"
         :aria-rowcount="ariaRowCount"
         :aria-busy="props.loading ? 'true' : undefined"
+        :style="columnStyle"
         :class="
           cn(
             tableStyles.root,

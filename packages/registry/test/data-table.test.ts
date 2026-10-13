@@ -207,6 +207,28 @@ it.each([
   expect(range()).toBe("11–20 of 95");
 });
 
+it("renders the column widths and pin offsets on the server", async () => {
+  const html = await renderToString(
+    createSSRApp({
+      render: () =>
+        h(AnyTable, {
+          data: people.slice(0, 5),
+          columns,
+          getRowId: (row: Person) => row.id,
+          columnPinning: { start: ["name", "age"], end: [] },
+          height: 400,
+        }),
+    }),
+  );
+  expect(html).toMatch(/--col-name:\s*160px/);
+  expect(html).toMatch(/--pin-age-start:\s*160px/);
+  const box = document.createElement("div");
+  box.style.width = "800px";
+  box.innerHTML = html;
+  document.body.append(box);
+  expect(Math.round(box.querySelectorAll<HTMLElement>("thead th")[1]!.getBoundingClientRect().width)).toBe(80);
+});
+
 it("shows the empty, no-results and loading states", () => {
   const empty = render({ data: [] });
   expect(document.querySelector("[data-slot=table-empty]")?.textContent?.trim()).toBe("No data");
