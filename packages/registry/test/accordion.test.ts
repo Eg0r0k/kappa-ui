@@ -77,6 +77,24 @@ it("clips a panel only while it animates, so an open answer's focus ring shows",
   expect(getComputedStyle(panel("two")!).overflow).toBe("hidden");
 });
 
+it("turns only the chevron of an open item, not an icon in its question", async () => {
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(Accordion, { type: "single", defaultValue: "one" }, () =>
+          h(AccordionItem, { value: "one" }, () => [
+            h(AccordionTrigger, () => [h("svg", { "data-test": "lead", width: 16, height: 16 }), "Billing"]),
+            h(AccordionContent, () => "Answer"),
+          ]),
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  const icons = [...document.querySelectorAll<SVGElement>("[data-slot=accordion-trigger] > svg")];
+  expect(icons.map((icon) => getComputedStyle(icon).rotate)).toEqual(["none", "180deg"]);
+});
+
 it("keeps several items open in multiple mode", async () => {
   renderAccordion({ type: "multiple" });
   await userEvent.click(trigger("one"));

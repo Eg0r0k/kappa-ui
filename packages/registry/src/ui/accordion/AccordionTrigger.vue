@@ -27,7 +27,7 @@ const delegated = computed(() => {
             hover:underline
             focus-visible:focus-ring
             data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)
-            [&[data-state=open]>svg]:rotate-180
+            [&[data-state=open]>svg:last-of-type]:rotate-180
           `,
           props.class,
         )
@@ -36,7 +36,7 @@ const delegated = computed(() => {
       <slot />
       <slot name="icon">
         <ChevronDown
-          class="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-short-4 ease-standard"
+          class="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-short-4 ease-standard motion-reduce:transition-none"
         />
       </slot>
     </AccordionTrigger>
