@@ -86,6 +86,28 @@ describe("Textarea", () => {
     wrapper.unmount();
   });
 
+  it("measures itself under autoresize once it shows after mounting hidden", async () => {
+    const shown = ref(false);
+    mount(
+      defineComponent(
+        () => () =>
+          h("div", { style: "width: 320px" }, [
+            h(Textarea, { autoresize: true, defaultValue: "hi", "aria-label": "Shown", "data-testid": "shown" }),
+            h("div", { style: shown.value ? "" : "display: none" }, [
+              h(Textarea, { autoresize: true, defaultValue: "hi", "aria-label": "Hidden", "data-testid": "hidden" }),
+            ]),
+          ]),
+      ),
+      { attachTo: document.body },
+    );
+    await nextTick();
+    shown.value = true;
+    const reference = document.querySelector<HTMLElement>("[data-testid=shown]")!;
+    const revealed = document.querySelector<HTMLElement>("[data-testid=hidden]")!;
+    await expect.poll(() => revealed.style.height).toBe(reference.style.height);
+    expect(revealed.offsetHeight).toBe(reference.offsetHeight);
+  });
+
   it("keeps the height the rows give it without autoresize", async () => {
     const wrapper = mount(Textarea, { props: { rows: 2, modelValue: lines(10) }, attachTo: document.body });
     await nextTick();

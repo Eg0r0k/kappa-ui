@@ -24,4 +24,4 @@ props:
 emits:
   update:modelValue: Fires as the value changes.
 exposed:
-  resize: Fits the height to the text again, for when the width changes without the text changing. Does nothing without `autoresize`.
+  resize: Fits the height to the text again, for a change it cannot see (width changes are followed on their own). Does nothing without `autoresize`.

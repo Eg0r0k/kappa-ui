@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type HTMLAttributes, nextTick, onMounted, useAttrs, useTemplateRef, watch } from "vue";
+import { type HTMLAttributes, nextTick, onBeforeUnmount, onMounted, useAttrs, useTemplateRef, watch } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
@@ -63,6 +63,7 @@ const resize = () => {
     element.style.overflowY = "";
     return;
   }
+  if (!element.getClientRects().length) return;
 
   const style = getComputedStyle(element);
   const frame = Number.parseFloat(style.borderTopWidth) + Number.parseFloat(style.borderBottomWidth);
@@ -74,7 +75,18 @@ const resize = () => {
   element.style.overflowY = height <= limit ? "hidden" : "";
 };
 
-onMounted(resize);
+let observer: ResizeObserver | undefined;
+let width = 0;
+onMounted(() => {
+  resize();
+  observer = new ResizeObserver(([entry]) => {
+    if (!entry || entry.contentRect.width === width) return;
+    width = entry.contentRect.width;
+    requestAnimationFrame(resize);
+  });
+  if (textarea.value) observer.observe(textarea.value);
+});
+onBeforeUnmount(() => observer?.disconnect());
 watch([model, () => props.autoresize, () => props.rows, () => props.maxrows], () => nextTick(resize));
 
 defineExpose({ resize });
