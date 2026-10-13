@@ -508,3 +508,22 @@ it("moves focus back into the menu when the open submenu is removed", async () =
   expect(visible()).toEqual([panels()[0]]);
   expect(document.activeElement).toBe(item("Open"));
 });
+
+it("puts its root on the as-child element, with the panels and the submenus inside it", async () => {
+  render(() => h("nav", { "data-test": "nav", "aria-label": "File" }, share()()), { asChild: true, dir: "rtl" });
+  await settle();
+  const nav = document.querySelector<HTMLElement>("[data-test=nav]")!;
+  expect(nav.getAttribute("aria-label")).toBe("File");
+  expect(nav.getAttribute("dir")).toBe("rtl");
+  expect(panels()[0]!.parentElement).toBe(nav);
+  expect(nav.contains(item("Open"))).toBe(true);
+  item("Share").click();
+  await settle();
+  expect(panels()).toHaveLength(2);
+  expect(panels().every((panel) => nav.contains(panel))).toBe(true);
+  expect(document.activeElement).toBe(item("Mail"));
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  expect(visible()).toEqual([panels()[0]]);
+  expect(document.activeElement).toBe(item("Share"));
+});

@@ -1,12 +1,27 @@
 <script setup lang="ts">
 import { Primitive, injectDialogRootContext, useDirection } from "reka-ui";
-import { type ComponentPublicInstance, computed, nextTick, ref, shallowRef, toRef } from "vue";
+import {
+  Comment,
+  type ComponentPublicInstance,
+  Fragment,
+  type Slots,
+  type VNode,
+  computed,
+  createVNode,
+  h,
+  nextTick,
+  ref,
+  shallowRef,
+  toRef,
+  useSlots,
+} from "vue";
 
 import { injectDrawerRootContext } from "../drawer";
 import { type DrawerMenuProps, type DrawerMenuSubEntry, provideDrawerMenuContext } from "./context";
 import DrawerMenuPanel from "./DrawerMenuPanel.vue";
 
 const props = withDefaults(defineProps<DrawerMenuProps>(), { loop: false });
+const slots = useSlots();
 
 const dialog = injectDialogRootContext(null);
 const drawer = injectDrawerRootContext(null);
@@ -95,6 +110,26 @@ const onKeydown = (event: KeyboardEvent) => {
   event.stopPropagation();
   top.close();
 };
+
+const flatten = (nodes: VNode[]): VNode[] =>
+  nodes.flatMap((node) =>
+    node.type === Fragment && Array.isArray(node.children) ? flatten(node.children as VNode[]) : [node],
+  );
+
+const adopt = () => {
+  const child = flatten(slots.default?.() ?? []).find((node) => node.type !== Comment);
+  if (!child) return null;
+  const own = child.children;
+  const slotted = own !== null && typeof own === "object" && !Array.isArray(own);
+  const content = slotted ? (own as Slots).default?.() : own;
+  const inner = [
+    h(DrawerMenuPanel, { active: stack.value.length === 0, "aria-labelledby": dialog?.titleId || undefined }, () => [
+      content,
+    ]),
+    h("div", { ref: outlet, style: "display: contents" }),
+  ];
+  return createVNode(child, null, slotted ? { ...(own as Slots), default: () => inner } : inner);
+};
 </script>
 
 <template>
@@ -106,9 +141,12 @@ const onKeydown = (event: KeyboardEvent) => {
     :style="height === undefined ? undefined : { '--drawer-menu-height': `${height}px` }"
     @keydown="onKeydown"
   >
-    <DrawerMenuPanel :active="stack.length === 0" :aria-labelledby="dialog?.titleId || undefined">
-      <slot />
-    </DrawerMenuPanel>
-    <div ref="outlet" style="display: contents" />
+    <component :is="adopt()" v-if="props.asChild" />
+    <template v-else>
+      <DrawerMenuPanel :active="stack.length === 0" :aria-labelledby="dialog?.titleId || undefined">
+        <slot />
+      </DrawerMenuPanel>
+      <div ref="outlet" style="display: contents" />
+    </template>
   </Primitive>
 </template>

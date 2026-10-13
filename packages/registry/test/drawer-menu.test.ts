@@ -110,6 +110,18 @@ it.each([
   expect(slot("drawer-menu")!.dataset.size).toBe(size);
 });
 
+it("puts its data-slot and classes on an as-child element around the panels", async () => {
+  render(() => h("nav", { class: "my-nav" }, [h(DrawerMenuItem, () => "One"), h(DrawerMenuItem, () => "Two")]), {
+    asChild: true,
+  });
+  await settle();
+  const nav = document.querySelector<HTMLElement>(".my-nav")!;
+  expect(nav.dataset.slot).toBe("drawer-menu");
+  expect(nav.dataset.size).toBe("md");
+  expect(getComputedStyle(nav).display).toBe("grid");
+  expect(nav.querySelectorAll(":scope > [data-drawer-menu-panel] > [role=menuitem]")).toHaveLength(2);
+});
+
 it("defaults to md", async () => {
   render(() => h(DrawerMenuItem, () => "Open"));
   await settle();

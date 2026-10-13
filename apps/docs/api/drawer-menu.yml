@@ -8,7 +8,7 @@ props:
   dir:
     description: "Reading direction, `ltr` or `rtl`; it swaps the keys that open and close a submenu. Defaults to the `ConfigProvider` direction."
   asChild:
-    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it. The child's own content becomes the root panel, and the submenu panels go inside the child after it, such as `<nav>` around the items."
   as:
     description: "The element or component to render."
 slots:
