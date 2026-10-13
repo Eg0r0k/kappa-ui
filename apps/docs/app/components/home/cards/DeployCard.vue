@@ -102,7 +102,7 @@ onBeforeUnmount(stop)
           :key="item.step"
           v-slot="{ state }"
           :step="item.step"
-          class="items-stretch gap-3"
+          class="flex-row items-stretch gap-3"
         >
           <div class="flex flex-col items-center gap-1">
             <StepperIndicator

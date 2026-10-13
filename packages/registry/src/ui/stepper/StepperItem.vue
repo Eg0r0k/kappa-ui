@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { StepperItem, type StepperItemProps } from "reka-ui";
+import { StepperItem, type StepperItemProps, injectStepperRootContext } from "reka-ui";
 import { type HTMLAttributes, computed } from "vue";
 
 import { cn } from "@/lib/utils";
-import { stepperItem } from ".";
+import { stepperItemVariants } from ".";
 
 const props = defineProps<StepperItemProps & { class?: HTMLAttributes["class"] }>();
+
+const root = injectStepperRootContext();
 
 const delegated = computed(() => {
   const { class: _, ...rest } = props;
@@ -14,7 +16,12 @@ const delegated = computed(() => {
 </script>
 
 <template>
-  <StepperItem v-slot="slotProps" v-bind="delegated" data-slot="stepper-item" :class="cn(stepperItem, props.class)">
+  <StepperItem
+    v-slot="slotProps"
+    v-bind="delegated"
+    data-slot="stepper-item"
+    :class="cn(stepperItemVariants({ orientation: root.orientation.value }), props.class)"
+  >
     <slot v-bind="slotProps" />
   </StepperItem>
 </template>

@@ -177,6 +177,60 @@ it("lays a vertical stepper out as a column with up and down arrows", async () =
   expect(document.activeElement).toBe(triggers()[1]);
 });
 
+it("keeps a horizontal item a row around a column trigger", () => {
+  render();
+  expect(getComputedStyle(items()[0]!).flexDirection).toBe("row");
+  expect(getComputedStyle(items()[0]!).alignItems).toBe("center");
+  expect(getComputedStyle(triggers()[0]!).flexDirection).toBe("column");
+  expect(getComputedStyle(separators()[0]!).marginInlineStart).toBe("0px");
+  expect(getComputedStyle(separators()[0]!).minHeight).toBe("auto");
+});
+
+it("stacks a vertical item and draws an in-flow separator down from under the indicator", () => {
+  render({ orientation: "vertical" });
+  const [item] = items();
+  expect(getComputedStyle(item!).flexDirection).toBe("column");
+  expect(getComputedStyle(triggers()[0]!).flexDirection).toBe("row");
+  expect(getComputedStyle(triggers()[0]!).textAlign).toBe("start");
+  const indicator = indicators()[0]!.getBoundingClientRect();
+  const separator = separators()[0]!.getBoundingClientRect();
+  expect(separator.width).toBe(2);
+  expect(separator.height).toBe(24);
+  expect(separator.top).toBeGreaterThan(triggers()[0]!.getBoundingClientRect().bottom);
+  expect(separator.left + separator.width / 2).toBeCloseTo(indicator.left + indicator.width / 2, 1);
+  reset();
+
+  render({ orientation: "vertical", size: "xl" }, () =>
+    steps.map((step) =>
+      h(StepperItem, { step: step.step }, () => [
+        h(StepperTrigger, { class: "flex-col" }, () => h(StepperIndicator, () => String(step.step))),
+        h(StepperSeparator, { class: "ms-0 min-h-10" }),
+      ]),
+    ),
+  );
+  expect(getComputedStyle(triggers()[0]!).flexDirection).toBe("column");
+  const custom = separators()[0]!.getBoundingClientRect();
+  expect(custom.width).toBe(4);
+  expect(custom.height).toBe(40);
+  expect(custom.left).toBe(items()[0]!.getBoundingClientRect().left);
+  reset();
+
+  render({ orientation: "vertical" }, () =>
+    steps.map((step) =>
+      h(StepperItem, { step: step.step, class: "flex-row" }, () => [
+        h("div", { class: "flex flex-col items-center" }, [
+          h(StepperIndicator, () => String(step.step)),
+          h(StepperSeparator),
+        ]),
+        h(StepperTitle, () => step.title),
+      ]),
+    ),
+  );
+  expect(getComputedStyle(items()[0]!).flexDirection).toBe("row");
+  const nested = getComputedStyle(separators()[0]!);
+  expect([nested.marginInlineStart, nested.minHeight]).toEqual(["0px", "auto"]);
+});
+
 it("draws the indicator and the separator from the item state", async () => {
   render();
   const [active, inactive] = indicators();

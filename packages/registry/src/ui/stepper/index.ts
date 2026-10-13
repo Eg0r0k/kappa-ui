@@ -41,10 +41,22 @@ export const stepperVariants = cva("group/stepper flex gap-(--stepper-gap) data-
 export type StepperVariants = VariantProps<typeof stepperVariants>;
 export type StepperSize = NonNullable<StepperVariants["size"]>;
 
-export const stepperItem = "group flex items-center gap-(--stepper-gap) data-disabled:pointer-events-none";
+export const stepperItemVariants = cva("group flex gap-(--stepper-gap) data-disabled:pointer-events-none", {
+  variants: {
+    orientation: { horizontal: "items-center", vertical: "flex-col items-start" },
+  },
+  defaultVariants: { orientation: "horizontal" },
+});
 
-export const stepperTrigger =
-  "flex flex-col items-center gap-1 rounded-item-xs p-1 text-center outline-none focus-visible:focus-ring";
+export const stepperTriggerVariants = cva(
+  "flex items-center gap-1 rounded-item-xs p-1 outline-none focus-visible:focus-ring",
+  {
+    variants: {
+      orientation: { horizontal: "flex-col text-center", vertical: "flex-row text-start" },
+    },
+    defaultVariants: { orientation: "horizontal" },
+  },
+);
 
 export const stepperIndicator = `
   inline-flex size-(--stepper-indicator) shrink-0 items-center justify-center rounded-full text-(length:--stepper-text)
@@ -68,4 +80,6 @@ export const stepperSeparator = `
   data-[orientation=horizontal]:[--stepper-separator-w:auto]
   data-[orientation=vertical]:[--stepper-separator-h:auto]
   data-[orientation=vertical]:[--stepper-separator-w:var(--stepper-separator)]
+  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:min-h-6
+  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:ms-[calc(--spacing(1)+(var(--stepper-indicator)-var(--stepper-separator))/2)]
 `;

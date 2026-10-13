@@ -25,44 +25,40 @@ const steps = [
 </script>
 
 <template>
-  <Stepper orientation="vertical" class="mx-auto w-full max-w-md gap-10">
-    <StepperItem
-      v-for="item in steps"
-      :key="item.step"
-      v-slot="{ state }"
-      :step="item.step"
-      class="relative flex w-full items-start gap-6"
-    >
+  <Stepper orientation="vertical" class="mx-auto w-full max-w-md">
+    <StepperItem v-for="item in steps" :key="item.step" v-slot="{ state }" :step="item.step" class="w-full">
+      <div class="flex items-start gap-6">
+        <StepperTrigger as-child>
+          <Button
+            :variant="state === 'inactive' ? 'outline' : 'solid'"
+            size="icon-md"
+            class="rounded-full"
+            :class="state === 'active' && 'ring-2 ring-ring ring-offset-2 ring-offset-background'"
+          >
+            <Check v-if="state === 'completed'" class="size-5" />
+            <Circle v-else-if="state === 'active'" />
+            <Dot v-else />
+          </Button>
+        </StepperTrigger>
+        <div class="flex flex-col gap-1">
+          <StepperTitle
+            :class="state === 'active' && 'text-primary'"
+            class="transition-colors duration-short-3 ease-standard lg:text-title-md"
+          >
+            {{ item.title }}
+          </StepperTitle>
+          <StepperDescription
+            :class="state === 'active' && 'text-primary'"
+            class="sr-only transition-colors duration-short-3 ease-standard md:not-sr-only lg:text-body-md"
+          >
+            {{ item.description }}
+          </StepperDescription>
+        </div>
+      </div>
       <StepperSeparator
         v-if="item.step < steps.length"
-        class="absolute top-[38px] -bottom-10 left-[17px] group-data-[state=completed]:bg-primary"
+        class="ms-[calc((var(--control-height-md)-var(--stepper-separator))/2)] group-data-[state=completed]:bg-primary"
       />
-      <StepperTrigger as-child>
-        <Button
-          :variant="state === 'inactive' ? 'outline' : 'solid'"
-          size="icon-md"
-          class="z-10 rounded-full"
-          :class="state === 'active' && 'ring-2 ring-ring ring-offset-2 ring-offset-background'"
-        >
-          <Check v-if="state === 'completed'" class="size-5" />
-          <Circle v-else-if="state === 'active'" />
-          <Dot v-else />
-        </Button>
-      </StepperTrigger>
-      <div class="flex flex-col gap-1">
-        <StepperTitle
-          :class="state === 'active' && 'text-primary'"
-          class="transition-colors duration-short-3 ease-standard lg:text-title-md"
-        >
-          {{ item.title }}
-        </StepperTitle>
-        <StepperDescription
-          :class="state === 'active' && 'text-primary'"
-          class="sr-only transition-colors duration-short-3 ease-standard md:not-sr-only lg:text-body-md"
-        >
-          {{ item.description }}
-        </StepperDescription>
-      </div>
     </StepperItem>
   </Stepper>
 </template>
