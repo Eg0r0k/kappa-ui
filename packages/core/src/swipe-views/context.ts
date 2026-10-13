@@ -36,7 +36,7 @@ export interface SwipeViewsSwipeAreaProps extends PrimitiveProps {
 }
 
 export interface SwipeViewEntry {
-  element: HTMLElement;
+  element?: HTMLElement;
   value: () => SwipeViewsValue;
   size: Ref<number>;
 }
@@ -49,9 +49,12 @@ export interface SwipeViewsRootContext {
   views: Ref<SwipeViewEntry[]>;
   starts: ComputedRef<number[]>;
   active: Ref<number>;
+  resolved: Ref<boolean>;
+  measured: Ref<boolean>;
   moving: ComputedRef<boolean>;
   disabled: ComputedRef<boolean>;
   register: (entry: SwipeViewEntry) => () => void;
+  resort: () => void;
   attach: (element: Ref<HTMLElement | null | undefined>, options?: SwipeSnapSourceOptions) => void;
 }
 

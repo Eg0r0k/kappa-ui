@@ -150,7 +150,7 @@
 }
 
 @property --swipe-snap-offset {
-  syntax: "<length>";
+  syntax: "<length-percentage>";
   inherits: false;
   initial-value: 0px;
 }
@@ -168,13 +168,13 @@
 }
 
 @property --swipe-view-offset {
-  syntax: "<length>";
+  syntax: "<length-percentage>";
   inherits: false;
   initial-value: 0px;
 }
 
 @property --swipe-view-stack {
-  syntax: "<length>";
+  syntax: "<length-percentage>";
   inherits: false;
   initial-value: 0px;
 }

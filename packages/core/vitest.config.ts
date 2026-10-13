@@ -7,7 +7,7 @@ process.env.TZ = "UTC";
 export default defineConfig({
   plugins: [vue()],
   optimizeDeps: {
-    include: ["reka-ui", "reka-ui/internal", "@use-gesture/vanilla", "@vueuse/core"],
+    include: ["reka-ui", "reka-ui/internal", "@use-gesture/vanilla", "@vueuse/core", "vue/server-renderer"],
   },
   resolve: {
     dedupe: ["vue"],

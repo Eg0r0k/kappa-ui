@@ -1,8 +1,9 @@
 import { mount } from "@vue/test-utils";
 import { TabsContent } from "reka-ui";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type VNode, defineComponent, h, nextTick, ref } from "vue";
+import { type VNode, createSSRApp, defineComponent, h, nextTick, ref } from "vue";
+import { renderToString } from "vue/server-renderer";
 
 import { SwipeView, SwipeViews, SwipeViewsSwipeArea } from "@/ui/swipe-views";
 import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs";
@@ -154,3 +155,38 @@ it("mirrors the stack in right-to-left", async () => {
   await nextFrame();
   expect(lefts()).toEqual([0, 0, -300]);
 });
+
+it.each([
+  ["row", [-300, 0, 300]],
+  ["stack", [0, 0, 300]],
+] as const)(
+  "shows the model's page in the %s layout's server HTML and keeps it through hydration",
+  async (layout, places) => {
+    const app = () =>
+      createSSRApp({
+        render: () =>
+          h(SwipeViews, { modelValue: "b", layout, style: "width: 300px; height: 200px" }, () =>
+            ["a", "b", "c"].map((value) => h(SwipeView, { key: value, value }, () => value)),
+          ),
+      });
+    const container = document.createElement("div");
+    container.innerHTML = await renderToString(app());
+    document.body.append(container);
+    const frame = slot("swipe-views").getBoundingClientRect();
+    const shown = () => document.elementFromPoint(frame.left + 150, frame.top + 100);
+    expect(lefts()).toEqual(places);
+    expect(shown()).toBe(views()[1]);
+
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+    const client = app();
+    client.mount(container);
+    await nextFrame();
+    await nextFrame();
+    const hydration = [...warn.mock.calls, ...error.mock.calls].filter((call) => /hydration/i.test(String(call[0])));
+    expect(hydration).toEqual([]);
+    expect(lefts()).toEqual(places);
+    expect(shown()).toBe(views()[1]);
+    client.unmount();
+  },
+);

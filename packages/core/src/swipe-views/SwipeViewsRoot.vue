@@ -80,16 +80,28 @@ const moving = computed(() => snap.dragging.value || snap.settling.value);
 const indexOf = (value: SwipeViewsValue | undefined) => views.value.findIndex((view) => view.value() === value);
 
 const ordered = (list: SwipeViewEntry[]) =>
-  [...list].sort((a, b) => (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+  [...list].sort((a, b) => {
+    if (!a.element || !b.element) return 0;
+    return a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+  });
+
+const resolved = ref(model.value === undefined);
+const measured = ref(false);
 
 const register = (entry: SwipeViewEntry) => {
   views.value = ordered([...views.value, entry]);
+  if (!resolved.value && entry.value() === model.value) {
+    active.value = views.value.indexOf(entry);
+    resolved.value = true;
+  }
   return () => {
     views.value = views.value.filter((view) => view !== entry);
   };
 };
 
-useMutationObserver(root, () => (views.value = ordered(views.value)), { childList: true });
+const resort = () => (views.value = ordered(views.value));
+
+useMutationObserver(root, resort, { childList: true });
 
 onMounted(() => {
   measure();
@@ -97,7 +109,9 @@ onMounted(() => {
   if (index === -1 && model.value !== undefined && isDev) {
     console.warn(`[kappa-ui] SwipeViews has no SwipeView with the value ${String(model.value)}.`);
   }
+  resolved.value = true;
   snap.snapTo(Math.max(0, index), { animate: false });
+  measured.value = true;
 });
 
 watch(model, (value) => {
@@ -130,9 +144,12 @@ provideSwipeViewsRootContext({
   views,
   starts,
   active,
+  resolved,
+  measured,
   moving,
   disabled: computed(() => props.disabled),
   register,
+  resort,
   attach: snap.attach,
 });
 

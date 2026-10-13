@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
-import { type Ref, defineComponent, h, nextTick, ref } from "vue";
+import { type Ref, createSSRApp, defineComponent, h, nextTick, ref } from "vue";
+import { renderToString } from "vue/server-renderer";
 
 import {
   SwipeView,
@@ -96,38 +97,42 @@ it("moves to a value set from outside and keeps the others inert once settled", 
   expect(view("c").inert).toBe(false);
 });
 
-it("moves focus to the new view, not into it, when the view holding focus turns inert", async () => {
-  const tab = ref<SwipeViewsValue>("a");
-  mount(
-    defineComponent({
-      setup: () => () =>
-        h(
-          SwipeViewsRoot,
-          {
-            class: "root",
-            modelValue: tab.value,
-            "onUpdate:modelValue": (value: SwipeViewsValue) => (tab.value = value),
-          },
-          () => [
-            h(SwipeView, { value: "a", class: "view", "data-view": "a" }, () =>
-              h("button", { type: "button", onClick: () => (tab.value = "b") }, "next"),
-            ),
-            h(SwipeView, { value: "b", class: "view", "data-view": "b" }, () => h("input", { "aria-label": "Name" })),
-          ],
-        ),
-    }),
-    { attachTo: document.body },
-  );
-  await wait(50);
-  const next = document.querySelector<HTMLButtonElement>("[data-view=a] button")!;
-  next.focus();
-  next.click();
-  await wait(450);
-  const page = document.querySelector<HTMLElement>("[data-view=b]")!;
-  expect(document.querySelector<HTMLElement>("[data-view=a]")!.inert).toBe(true);
-  expect(document.activeElement).toBe(page);
-  expect(page.tabIndex).toBe(-1);
-});
+it.each(["300ms", "0s"])(
+  "moves focus to the new view, not into it, when the view holding focus turns inert after a %s transition",
+  async (duration) => {
+    const tab = ref<SwipeViewsValue>("a");
+    mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            SwipeViewsRoot,
+            {
+              class: "root",
+              style: `--swipe-snap-duration: ${duration}`,
+              modelValue: tab.value,
+              "onUpdate:modelValue": (value: SwipeViewsValue) => (tab.value = value),
+            },
+            () => [
+              h(SwipeView, { value: "a", class: "view", "data-view": "a" }, () =>
+                h("button", { type: "button", onClick: () => (tab.value = "b") }, "next"),
+              ),
+              h(SwipeView, { value: "b", class: "view", "data-view": "b" }, () => h("input", { "aria-label": "Name" })),
+            ],
+          ),
+      }),
+      { attachTo: document.body },
+    );
+    await wait(50);
+    const next = document.querySelector<HTMLButtonElement>("[data-view=a] button")!;
+    next.focus();
+    next.click();
+    await wait(450);
+    const page = document.querySelector<HTMLElement>("[data-view=b]")!;
+    expect(document.querySelector<HTMLElement>("[data-view=a]")!.inert).toBe(true);
+    expect(document.activeElement).toBe(page);
+    expect(page.tabIndex).toBe(-1);
+  },
+);
 
 it("warns about an unknown value, shows the first view and emits nothing", async () => {
   const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -218,4 +223,33 @@ it("warns when a view is not a direct child of the root", async () => {
   const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
   await host({ wrap: true });
   expect(warn).toHaveBeenCalledWith(expect.stringContaining("direct child"));
+});
+
+it("hydrates the server HTML without a mismatch and keeps the model's page in the frame", async () => {
+  const app = () =>
+    createSSRApp({
+      render: () =>
+        h(SwipeViewsRoot, { class: "root", modelValue: "c" }, () =>
+          ["a", "b", "c"].map((value) => h(SwipeView, { key: value, value, class: "view" }, () => value)),
+        ),
+    });
+  const container = document.createElement("div");
+  container.innerHTML = await renderToString(app());
+  document.body.append(container);
+  expect(view("c").dataset.state).toBe("active");
+  expect(view("a").inert).toBe(true);
+
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  const error = vi.spyOn(console, "error").mockImplementation(() => {});
+  const client = app();
+  client.mount(container);
+  await wait(50);
+  const hydration = [...warn.mock.calls, ...error.mock.calls].filter((call) => /hydration/i.test(String(call[0])));
+  expect(hydration).toEqual([]);
+  expect(offset()).toBe("-600px");
+  expect(view("c").dataset.state).toBe("active");
+  expect(view("a").inert).toBe(true);
+  expect(view("a").style.getPropertyValue("--swipe-snap-offset")).toBe("");
+  expect(view("b").style.getPropertyValue("--swipe-view-start")).toBe("300px");
+  client.unmount();
 });
