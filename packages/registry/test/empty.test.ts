@@ -74,6 +74,19 @@ it("leaves an icon with its own size alone", () => {
   expect(q("[data-slot=empty-media] > svg").getBoundingClientRect().width).toBe(16);
 });
 
+it("lets icon-size-* on the media size its bare icon", () => {
+  mount(
+    {
+      render: () =>
+        h(Empty, () =>
+          h(EmptyHeader, () => [h(EmptyMedia, { class: "icon-size-6" }, () => icon()), h(EmptyTitle, () => "Nothing")]),
+        ),
+    },
+    { attachTo: document.body },
+  );
+  expect(q("[data-slot=empty-media] > svg").getBoundingClientRect().width).toBe(24);
+});
+
 it("keeps the header and the content within a readable width", () => {
   render();
   expect(q("[data-slot=empty]").getBoundingClientRect().width).toBe(600);

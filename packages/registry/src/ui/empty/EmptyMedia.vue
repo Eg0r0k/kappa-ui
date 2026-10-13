@@ -14,7 +14,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
         `
           flex shrink-0 items-center justify-center text-muted-foreground
           [&_svg]:pointer-events-none [&_svg]:shrink-0
-          [&>svg:not([class*=size-])]:size-(--empty-icon)
+          [:where(&>svg:not([class*=size-]))]:size-(--empty-icon)
         `,
         props.class,
       )
