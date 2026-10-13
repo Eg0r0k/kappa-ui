@@ -21,7 +21,7 @@ const page = ref(12);
         <PaginationItem>
           <PaginationPrevious />
         </PaginationItem>
-        <PaginationItem v-for="(item, index) in items" :key="index">
+        <PaginationItem v-for="(item, index) in items" :key="item.type === 'page' ? item.value : `ellipsis-${index}`">
           <PaginationLink v-if="item.type === 'page'" :value="item.value" />
           <PaginationEllipsis v-else />
         </PaginationItem>

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
+import PaginationDemo from "@/examples/pagination/PaginationDemo.vue";
 import {
   Pagination,
   PaginationContent,
@@ -41,7 +42,9 @@ const render = (
               default: ({ items }: { items: Item[] }) => [
                 h(PaginationItem, () => h(PaginationPrevious)),
                 ...items.map((item, index) =>
-                  h(PaginationItem, { key: index }, () => (item.type === "page" ? link(item) : h(PaginationEllipsis))),
+                  h(PaginationItem, { key: item.type === "page" ? item.value : `ellipsis-${index}` }, () =>
+                    item.type === "page" ? link(item) : h(PaginationEllipsis),
+                  ),
                 ),
                 h(PaginationItem, () => h(PaginationNext)),
               ],
@@ -88,6 +91,16 @@ describe("Pagination", () => {
     expect(page.value).toBe(3);
     expect(link(3).getAttribute("aria-current")).toBe("page");
     expect(link(3).dataset.variant).toBe("solid");
+  });
+
+  it("keeps focus on the page picked with Enter in the docs demo", async () => {
+    mount(PaginationDemo, { attachTo: document.body });
+    link(5).focus();
+    await userEvent.keyboard("{Enter}");
+    await nextTick();
+
+    expect(link(5).getAttribute("aria-current")).toBe("page");
+    expect(document.activeElement).toBe(link(5));
   });
 
   it("hands the root's look to every part, and a part's own prop wins", () => {
