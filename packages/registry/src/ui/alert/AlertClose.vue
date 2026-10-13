@@ -14,6 +14,7 @@ const { close, size } = injectAlertContext();
 <template>
   <Button
     data-slot="alert-close"
+    type="button"
     variant="ghost"
     color="neutral"
     :size="alertCloseSize[size]"

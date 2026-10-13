@@ -55,6 +55,26 @@ describe("Banner", () => {
     expect(onUpdate).toHaveBeenCalledWith(false);
   });
 
+  it("leaves Enter in a form to the form's own submit button", async () => {
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    mount(
+      {
+        render: () =>
+          h("form", { onSubmit }, [
+            h(Banner, null, () => [h(BannerTitle, () => "Maintenance"), h(BannerClose)]),
+            h("input", { "data-testid": "field" }),
+            h("button", { type: "submit" }, "Save"),
+          ]),
+      },
+      { attachTo: document.body },
+    );
+    expect(document.querySelector("[data-slot=banner-close]")!.getAttribute("type")).toBe("button");
+    document.querySelector<HTMLInputElement>("[data-testid=field]")!.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(banner()).not.toBeNull();
+    expect(onSubmit).toHaveBeenCalledOnce();
+  });
+
   it("draws the close button in the banner's foreground", () => {
     render();
     const close = document.querySelector<HTMLElement>("[data-slot=banner-close]")!;

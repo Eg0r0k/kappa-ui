@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
@@ -125,6 +125,26 @@ describe("Alert", () => {
     expect(close.getBoundingClientRect().right).toBe(alert.getBoundingClientRect().right - 8);
     expect(description.getBoundingClientRect().right).toBeLessThanOrEqual(close.getBoundingClientRect().left);
     expect(getComputedStyle(close).color).toBe(getComputedStyle(alert).color);
+  });
+
+  it("leaves Enter in a form to the form's own submit button", async () => {
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    mount(
+      {
+        render: () =>
+          h("form", { onSubmit }, [
+            h(Alert, null, () => [h(AlertTitle, () => "Fix 2 fields"), h(AlertClose)]),
+            h("input", { "data-testid": "field" }),
+            h("button", { type: "submit" }, "Save"),
+          ]),
+      },
+      { attachTo: document.body },
+    );
+    expect(document.querySelector("[data-slot=alert-close]")!.getAttribute("type")).toBe("button");
+    document.querySelector<HTMLInputElement>("[data-testid=field]")!.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(document.querySelector("[data-slot=alert]")).not.toBeNull();
+    expect(onSubmit).toHaveBeenCalledOnce();
   });
 
   it.each([

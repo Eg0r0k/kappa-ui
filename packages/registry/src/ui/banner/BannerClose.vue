@@ -14,6 +14,7 @@ const { close } = injectBannerContext();
 <template>
   <Button
     data-slot="banner-close"
+    type="button"
     variant="ghost"
     color="neutral"
     size="icon-sm"
