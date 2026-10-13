@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ToastRoot, injectToastProviderContext } from "reka-ui";
-import { computed, onUnmounted, useTemplateRef } from "vue";
+import { computed, onMounted, onUnmounted, useTemplateRef } from "vue";
 
 import { type ToastRecord, useToast } from "./manager";
 
@@ -17,6 +17,10 @@ const duration = computed(() => {
   if (loading) return MAX_DELAY;
   if (duration === undefined) return undefined;
   return duration > 0 ? Math.min(duration, MAX_DELAY) : MAX_DELAY;
+});
+
+onMounted(() => {
+  if (!props.toast.open) manager.drop(props.toast.id);
 });
 
 onUnmounted(() => {

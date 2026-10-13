@@ -104,6 +104,16 @@ describe("ToastRecordRoot", () => {
     expect(toaster.toasts.value).toEqual([]);
   });
 
+  it("drops a toast closed before it ever rendered and reports it", async () => {
+    const toaster = mount();
+    await nextTick();
+    const onClose = vi.fn();
+    const id = toaster.add({ title: "Gone", onClose });
+    toaster.remove(id);
+    await expect.poll(() => toaster.toasts.value).toEqual([]);
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
   it("keeps a toast added again during its exit", async () => {
     const toaster = mount();
     const id = toaster.add({ id: "copy", title: "Copied" });
@@ -202,18 +212,19 @@ describe("ToastRecordRoot", () => {
 describe("useToastGroup", () => {
   it("shows its own group only and closes the oldest beyond max", async () => {
     const toaster = mount({ group: "uploads", max: 2 });
+    const onClose = vi.fn();
     toaster.add({ id: "elsewhere", title: "Elsewhere" });
-    toaster.add({ id: "a", group: "uploads" });
+    toaster.add({ id: "a", group: "uploads", onClose });
     toaster.add({ id: "b", group: "uploads" });
     toaster.add({ id: "c", group: "uploads" });
     await nextTick();
     expect(item("elsewhere")).toBeNull();
     expect(toaster.toasts.value.map((toast) => [toast.id, toast.open])).toEqual([
       ["elsewhere", true],
-      ["a", false],
       ["b", true],
       ["c", true],
     ]);
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
 
