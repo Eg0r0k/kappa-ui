@@ -10,7 +10,7 @@ import type {
   DataTableSelectionSource,
 } from ".";
 
-type SelectableRow = Pick<DataTableRow<RowData>, "id" | "getIsSelected" | "getToggleSelectedHandler">;
+type SelectableRow = Pick<DataTableRow<RowData>, "id" | "getCanSelect" | "getIsSelected" | "getToggleSelectedHandler">;
 
 export type UseSelectAllOptions<T extends RowData> = {
   table: DataTableInstance<T>;
@@ -98,7 +98,7 @@ export const useSelectAll = <T extends RowData>(options: UseSelectAllOptions<T>)
   };
 
   const isSelected = (row: SelectableRow) =>
-    all.value ? options.selection.get()[row.id] !== false : row.getIsSelected();
+    all.value ? row.getCanSelect() && options.selection.get()[row.id] !== false : row.getIsSelected();
 
   const toggleRow = (row: SelectableRow, event?: Event) => {
     const range = event instanceof MouseEvent && event.shiftKey;

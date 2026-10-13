@@ -221,7 +221,10 @@ const selectAll = useSelectAll<T>({
   enabled: () => selection.value.selectAll ?? paginated.value,
   single: () => selection.value.mode === "single",
   manual: () => manualFlags.value.pagination || manualFlags.value.sorting || manualFlags.value.filtering,
-  total: () => (manualFlags.value.pagination ? (props.rowCount ?? 0) : table.getPrePaginatedRowModel().rows.length),
+  total: () =>
+    manualFlags.value.pagination
+      ? (props.rowCount ?? 0)
+      : table.getPrePaginatedRowModel().rows.filter((row) => row.getCanSelect()).length,
 });
 provideDataTableContext({ selectAll });
 

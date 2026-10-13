@@ -212,6 +212,21 @@ it("disables locked rows and counts only selectable ones in the header", async (
   expect(t.header().getAttribute("aria-checked")).toBe("true");
 });
 
+it("leaves locked rows unchecked and uncounted when all rows are selected", async () => {
+  const t = render({
+    paginate: { pageSize: 10 },
+    selection: { enableRowSelection: (row: { original: Person }) => !row.original.locked },
+  });
+  await userEvent.click(t.header());
+  await nextTick();
+  await userEvent.click(t.banner()!.querySelector("button")!);
+  await nextTick();
+  expect(t.mode.value).toBe("all");
+  expect(t.boxes()[9]!.getAttribute("aria-checked")).toBe("false");
+  expect(t.api.value!.getSelection().count).toBe(45);
+  expect(t.banner()!.textContent).toContain("45");
+});
+
 it("selects a range with shift and does not fire the row click from the checkbox", async () => {
   const clicks: string[] = [];
   const t = render({ onRowClick: (_event: Event, row: { id: string }) => clicks.push(row.id) });
