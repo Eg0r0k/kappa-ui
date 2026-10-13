@@ -49,6 +49,7 @@ const forwarded = useForwardProps(delegated);
       :data-variant="style.variant"
       :data-color="style.color"
       :data-active-color="style.activeColor"
+      :data-active-variant="style.activeVariant"
       :data-size="style.size"
       :class="
         cn(

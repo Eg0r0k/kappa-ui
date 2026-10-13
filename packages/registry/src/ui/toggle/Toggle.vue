@@ -49,6 +49,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
       :data-variant="props.variant"
       :data-color="props.color"
       :data-active-color="props.activeColor"
+      :data-active-variant="props.activeVariant"
       :data-size="props.size"
       :class="
         cn(

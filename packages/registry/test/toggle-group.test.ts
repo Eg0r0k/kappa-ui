@@ -61,6 +61,18 @@ it("joins the items like a button group", () => {
   expect(middle!.marginLeft).toBe("-1px");
 });
 
+it("overlaps pressed neighbours by the edge an outline or subtle active look draws", async () => {
+  const { items } = render({
+    type: "multiple",
+    variant: "ghost",
+    activeVariant: "outline",
+    defaultValue: ["v0", "v1"],
+  });
+  await nextTick();
+  expect(items.map((item) => item.getAttribute("aria-pressed"))).toEqual(["true", "true", "false"]);
+  expect(items[1]!.getBoundingClientRect().left).toBe(items[0]!.getBoundingClientRect().right - 1);
+});
+
 it("stacks vertically", () => {
   const { root, items } = render({ type: "single", orientation: "vertical", variant: "outline" });
   expect(getComputedStyle(root).flexDirection).toBe("column");
