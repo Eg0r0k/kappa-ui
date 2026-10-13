@@ -24,7 +24,7 @@ export const datePickerInputVariants = cva("", {
     variant: {
       outline: "data-[state=open]:border-primary data-[state=open]:inset-ring data-[state=open]:inset-ring-primary",
       soft: "data-[state=open]:border-primary data-[state=open]:inset-ring data-[state=open]:inset-ring-primary",
-      filled: "data-[state=open]:border-primary data-[state=open]:shadow-[inset_0_-1px_0_var(--color-primary)]",
+      filled: "data-[state=open]:border-primary data-[state=open]:shadow-[inset_0_-1px_0_--theme(--color-primary)]",
       ghost: `
         data-[state=open]:border-primary data-[state=open]:bg-muted data-[state=open]:inset-ring
         data-[state=open]:inset-ring-primary

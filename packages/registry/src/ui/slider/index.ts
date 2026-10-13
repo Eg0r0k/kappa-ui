@@ -67,7 +67,7 @@ export const sliderRangeVariants = cva("absolute h-(--range-h) w-(--range-w)", {
       default: "rounded-full bg-tone-text data-disabled:bg-foreground/(--disabled-opacity)",
       inset: `
         slider-range-inset bg-tone
-        data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
+        data-disabled:bg-[color-mix(in_oklab,--theme(--color-foreground)_var(--disabled-opacity),--theme(--color-background))]
       `,
     },
   },
@@ -85,7 +85,7 @@ export const sliderThumbVariants = cva(
         default: "state-halo [--halo-size:calc(var(--slider-thumb)+1.5rem)]",
         inset: `
           bg-tone
-          data-disabled:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
+          data-disabled:bg-[color-mix(in_oklab,--theme(--color-foreground)_var(--disabled-opacity),--theme(--color-background))]
         `,
       },
       touchTarget: {
@@ -113,7 +113,7 @@ export const sliderHandleVariants = cva(
       variant: {
         default: `
           group-active/slider:group-focus/thumb:scale-125 group-active/slider:group-focus/thumb:duration-short-2
-          group-data-disabled/thumb:bg-[color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
+          group-data-disabled/thumb:bg-[color-mix(in_oklab,--theme(--color-foreground)_var(--disabled-opacity),--theme(--color-background))]
         `,
         inset: `
           bg-tone-foreground

@@ -34,9 +34,9 @@ export const ratingVariants = cva(
     [--rating-empty:var(--tone-border)] [--halo-color:--theme(--color-foreground)]
     aria-invalid:tone-invalid
     data-disabled:cursor-not-allowed
-    data-disabled:[--rating-fill:color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
-    data-disabled:[--rating-edge:color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
-    data-disabled:[--rating-empty:color-mix(in_oklab,var(--color-foreground)_var(--disabled-opacity),var(--color-background))]
+    data-disabled:[--rating-fill:color-mix(in_oklab,--theme(--color-foreground)_var(--disabled-opacity),--theme(--color-background))]
+    data-disabled:[--rating-edge:color-mix(in_oklab,--theme(--color-foreground)_var(--disabled-opacity),--theme(--color-background))]
+    data-disabled:[--rating-empty:color-mix(in_oklab,--theme(--color-foreground)_var(--disabled-opacity),--theme(--color-background))]
   `,
   {
     variants: {

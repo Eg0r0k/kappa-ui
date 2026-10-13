@@ -155,7 +155,7 @@ const spawnWave = (el: RippleElement, state: RippleState, x: number, y: number):
     width: `${geometry.initialSize}px`,
     height: `${geometry.initialSize}px`,
     borderRadius: "50%",
-    opacity: "var(--kappa-ripple-opacity, 0.12)",
+    opacity: "var(--kappa-ripple-opacity, var(--state-pressed, 0.12))",
     background:
       "radial-gradient(closest-side, var(--kappa-ripple-color, currentColor) max(calc(100% - 70px), 65%), transparent 100%)",
     transform: from,

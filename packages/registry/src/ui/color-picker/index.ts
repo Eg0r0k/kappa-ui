@@ -62,7 +62,7 @@ export const colorPickerVariants = cva("group/color-picker flex flex-col gap-(--
 export type ColorPickerVariants = VariantProps<typeof colorPickerVariants>;
 
 export const colorPickerChecker =
-  "bg-[repeating-conic-gradient(var(--color-border)_0_25%,transparent_0_50%)] bg-size-[0.75rem_0.75rem]";
+  "bg-[repeating-conic-gradient(--theme(--color-border)_0_25%,transparent_0_50%)] bg-size-[0.75rem_0.75rem]";
 
 export const colorPickerArea = `
   group/slider relative h-(--color-picker-area) w-full [--slider-size:var(--slider-thumb)]

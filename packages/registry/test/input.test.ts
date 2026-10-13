@@ -70,3 +70,27 @@ describe("text control invalid look", () => {
     wrapper.unmount();
   });
 });
+
+it("draws a focused filled Input's underline in the primary of a .dark island", async () => {
+  const wrapper = mount(
+    defineComponent(
+      () => () =>
+        h("div", [
+          h("span", { id: "light", style: "color: var(--primary)" }),
+          h("div", { class: "dark" }, [
+            h(Input, { variant: "filled", "aria-label": "Name" }),
+            h("span", { id: "dark", style: "color: var(--primary)" }),
+          ]),
+        ]),
+    ),
+    { attachTo: document.body },
+  );
+  const control = document.querySelector<HTMLInputElement>("input")!;
+  control.focus();
+  await nextTick();
+  for (const animation of control.getAnimations()) animation.finish();
+  const primary = (id: string) => getComputedStyle(document.getElementById(id)!).color;
+  expect(primary("dark")).not.toBe(primary("light"));
+  expect(getComputedStyle(control).boxShadow).toContain(primary("dark"));
+  wrapper.unmount();
+});
