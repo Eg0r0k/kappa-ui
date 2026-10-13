@@ -199,7 +199,7 @@ watch(
 watch(
   state,
   (next, _, onCleanup) => {
-    if (next === "closed") return;
+    if (next === "closed" || typeof document === "undefined") return;
     const outside = (event: PointerEvent) => {
       if (!element.value?.contains(event.target as Node)) close();
     };
