@@ -13,6 +13,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/ui/input-group";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/ui/tooltip";
 
 import { controlSizes, overrideControlTokens, px, sentinel } from "./control-tokens";
 
@@ -210,6 +211,26 @@ describe("InputGroup", () => {
     expect(group().offsetHeight).toBeGreaterThan(80);
     expect(control().tagName).toBe("TEXTAREA");
     expect(getComputedStyle(control()).borderTopWidth).toBe("0px");
+  });
+
+  it("insets a button in a block addon the same with a tooltip trigger around it", () => {
+    render({}, () => [
+      h(InputGroupTextarea, { rows: 3 }),
+      h(InputGroupAddon, { align: "block-end" }, () =>
+        h(TooltipProvider, () => [
+          h(InputGroupButton, { id: "bare" }, () => "A"),
+          h(Tooltip, () => [
+            h(TooltipTrigger, { asChild: true }, () => h(InputGroupButton, { id: "wrapped" }, () => "B")),
+            h(TooltipContent, () => "B"),
+          ]),
+        ]),
+      ),
+      h(InputGroupAddon, { align: "inline-end" }, () => h(InputGroupButton, { id: "inline" }, () => "C")),
+    ]);
+    const inset = (id: string) =>
+      getComputedStyle(document.getElementById(id)!).getPropertyValue("--input-group-button-inset");
+    expect(inset("bare")).not.toBe(inset("inline"));
+    expect(inset("wrapped")).toBe(inset("bare"));
   });
 
   it("fades the addons when the control is disabled", () => {

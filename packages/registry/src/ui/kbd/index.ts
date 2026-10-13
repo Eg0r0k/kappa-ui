@@ -7,7 +7,7 @@ export const kbdVariants = cva(
   `
     pointer-events-none inline-flex w-fit items-center justify-center bg-muted font-sans text-muted-foreground
     select-none
-    in-data-[slot=button]:bg-current/15 in-data-[slot=button]:text-current
+    in-[button]:bg-current/15 in-[button]:text-current
     in-data-[slot=tooltip-content]:bg-current/20 in-data-[slot=tooltip-content]:text-current
   `,
   {

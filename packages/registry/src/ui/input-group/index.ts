@@ -73,12 +73,12 @@ export const inputGroupAddonVariants = cva(
         "inline-end": "order-last pe-(--input-group-padding)",
         "block-start": `
           order-first w-full justify-start p-2
-          *:data-[slot=input-group-button]:[--input-group-button-inset:calc(var(--spacing)*2+1px)]
+          *:[--input-group-button-inset:calc(var(--spacing)*2+1px)]
           *:data-[slot=input-group-text]:px-1
         `,
         "block-end": `
           order-last w-full justify-start p-2
-          *:data-[slot=input-group-button]:[--input-group-button-inset:calc(var(--spacing)*2+1px)]
+          *:[--input-group-button-inset:calc(var(--spacing)*2+1px)]
           *:data-[slot=input-group-text]:px-1
         `,
       },
