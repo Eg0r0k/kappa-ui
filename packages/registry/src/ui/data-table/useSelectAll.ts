@@ -73,7 +73,7 @@ export const useSelectAll = <T extends RowData>(options: UseSelectAllOptions<T>)
   };
 
   const toggleHeader = () => {
-    if (all.value || options.mode.value === "page" || header.value === "checked") {
+    if (all.value || header.value === "checked") {
       options.selection.set({}, "header");
       setMode("none");
       return;

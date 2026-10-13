@@ -149,6 +149,20 @@ it("keeps a page selection by id across pages and shows the banner again on retu
   expect(Object.keys(t.selection.value)).toHaveLength(10);
 });
 
+it("selects a later page from the header in page mode instead of clearing", async () => {
+  const t = render({ paginate: { pageSize: 10 } });
+  await userEvent.click(t.header());
+  await nextTick();
+  expect(t.mode.value).toBe("page");
+  t.api.value!.table.setPageIndex(1);
+  await nextTick();
+  expect(t.header().getAttribute("aria-checked")).toBe("false");
+  await userEvent.click(t.header());
+  await nextTick();
+  expect(t.header().getAttribute("aria-checked")).toBe("true");
+  expect(t.boxes().filter((box) => box.getAttribute("aria-checked") === "true")).toHaveLength(10);
+});
+
 it("drops all to none when a manual filter changes, and keeps it in client mode", async () => {
   const manual = render({ paginate: { pageSize: 10 }, manual: true, rowCount: 100 });
   await userEvent.click(manual.header());
