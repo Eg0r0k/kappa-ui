@@ -154,6 +154,7 @@ const place = (toast: Toast) => {
 
 .kappa-toast {
   --toast-y: calc(var(--toast-sign) * min(var(--toast-index), 2) * var(--toast-peek));
+  pointer-events: auto;
   position: absolute;
   inset-inline: 0;
   bottom: 0;

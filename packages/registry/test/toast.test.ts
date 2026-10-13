@@ -2,9 +2,12 @@ import { mount } from "@vue/test-utils";
 import { Star } from "@lucide/vue";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { defineComponent, h, nextTick } from "vue";
+import { defineComponent, h, nextTick, ref } from "vue";
 
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/ui/dialog";
 import { ToastDescription, ToastTitle, Toaster, createToaster } from "@/ui/toast";
+
+import { wait } from "./pointer";
 
 const animations = () =>
   Promise.all(
@@ -196,5 +199,34 @@ describe("Toaster", () => {
     viewport().dispatchEvent(new PointerEvent("pointermove", { bubbles: true }));
     await nextTick();
     expect(getComputedStyle(bar).animationPlayState).toBe("paused");
+  });
+
+  it("keeps a toast's action clickable under a modal dialog", async () => {
+    const toaster = createToaster();
+    const undo = vi.fn();
+    const open = ref(true);
+    const wrapper = mount(
+      defineComponent(() => () => [
+        h(Dialog, { open: open.value, "onUpdate:open": (value: boolean) => (open.value = value) }, () =>
+          h(DialogContent, () => h(DialogHeader, () => h(DialogTitle, () => "Settings"))),
+        ),
+        h(Toaster),
+      ]),
+      { attachTo: document.body, global: { plugins: [toaster] } },
+    );
+    wrappers.push(wrapper);
+    await expect.poll(() => document.querySelector("[data-slot=dialog-content]")).not.toBeNull();
+    toaster.add({ title: "Saved", duration: 60000, actions: [{ label: "Undo", onClick: undo }] });
+    await expect.poll(() => document.querySelector("[data-slot=toast-action]")).not.toBeNull();
+    await animations();
+
+    const action = document.querySelector<HTMLElement>("[data-slot=toast-action]")!;
+    const box = action.getBoundingClientRect();
+    expect(getComputedStyle(toasts()[0]!).pointerEvents).toBe("auto");
+    expect(action.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2))).toBe(true);
+    await userEvent.click(action, { force: true });
+    await wait(300);
+    expect(undo).toHaveBeenCalledTimes(1);
+    expect(open.value).toBe(true);
   });
 });
