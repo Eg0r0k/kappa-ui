@@ -151,6 +151,28 @@ describe("Pagination", () => {
     expect(link(1).tagName).toBe("A");
     expect(link(1).getAttribute("aria-current")).toBe("page");
   });
+
+  it("disables link pages too when disabled", () => {
+    const { page } = render({ disabled: true }, (item) =>
+      h(PaginationLink, { value: item.value, asChild: true }, () => h("a", { href: `#p${item.value}` }, item.value)),
+    );
+    let prevented: boolean | undefined;
+    const record = (event: MouseEvent) => {
+      prevented = event.defaultPrevented;
+      event.preventDefault();
+    };
+    document.addEventListener("click", record);
+    try {
+      link(2).click();
+    } finally {
+      document.removeEventListener("click", record);
+    }
+
+    expect(link(2).getAttribute("aria-disabled")).toBe("true");
+    expect(getComputedStyle(link(2)).cursor).toBe("default");
+    expect(prevented).toBe(true);
+    expect(page.value).toBe(1);
+  });
 });
 
 describe("Pagination control tokens", () => {

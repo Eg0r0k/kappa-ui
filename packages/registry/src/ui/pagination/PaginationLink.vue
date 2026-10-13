@@ -35,6 +35,10 @@ const color = computed(() =>
 );
 const size = computed(() => props.size ?? look.value.size);
 
+const swallowWhenDisabled = (event: MouseEvent) => {
+  if (root.disabled.value) event.preventDefault();
+};
+
 const delegated = computed(() => {
   const { class: _, variant: __, activeVariant: ___, color: ____, activeColor: _____, size: ______, ...rest } = props;
   return rest;
@@ -48,7 +52,9 @@ const delegated = computed(() => {
     :data-variant="variant"
     :data-color="color"
     :data-size="size"
+    :aria-disabled="root.disabled.value || undefined"
     :class="cn(buttonVariants({ variant, size }), paginationPageSize[size], props.class)"
+    @click="swallowWhenDisabled"
   >
     <slot>{{ props.value }}</slot>
   </PaginationListItem>
