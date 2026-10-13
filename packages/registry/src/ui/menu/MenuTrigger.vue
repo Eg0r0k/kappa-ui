@@ -27,6 +27,7 @@ onBeforeUnmount(() => {
     :ref="forwardRef"
     :as="props.as"
     :as-child="props.asChild"
+    :type="props.as === 'button' && !props.asChild ? 'button' : undefined"
     data-slot="menu-trigger"
     :class="cn(props.class)"
   >

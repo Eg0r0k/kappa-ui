@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
@@ -338,6 +338,21 @@ describe("MenuTrigger", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("true");
     expect(trigger.dataset.state).toBe("open");
     expect(Math.abs(menu()!.getBoundingClientRect().left - trigger.getBoundingClientRect().left)).toBeLessThan(2);
+  });
+
+  it("opens without submitting the form it sits in", async () => {
+    const submit = vi.fn((event: Event) => event.preventDefault());
+    mount(
+      defineComponent({
+        setup: () => () => h("form", { onSubmit: submit }, [h(MenuTrigger, () => "Open"), h(Menu, () => items())]),
+      }),
+      { attachTo: document.body },
+    );
+    const trigger = document.querySelector<HTMLElement>("[data-slot=menu-trigger]")!;
+    expect(trigger.getAttribute("type")).toBe("button");
+    await userEvent.click(trigger);
+    await shown();
+    expect(submit).not.toHaveBeenCalled();
   });
 
   it("merges into its child with as-child", async () => {
