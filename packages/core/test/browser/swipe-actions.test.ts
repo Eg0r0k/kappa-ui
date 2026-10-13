@@ -323,6 +323,29 @@ it("mirrors the gesture and the arrow keys in right-to-left", async () => {
   expect(item().dataset.state).toBe("start");
 });
 
+const lies = (name: string) => {
+  const action = button(name).firstElementChild!.getBoundingClientRect();
+  const frame = item().getBoundingClientRect();
+  return action.left >= frame.left - 1 && action.right <= frame.right + 1;
+};
+
+it("takes right-to-left from its dir prop and keeps the open strip inside the row", async () => {
+  await setup({ dir: "rtl" });
+  expect(item().getAttribute("dir")).toBe("rtl");
+  await drag(content(), [50, 24], [150, 24], 4, 80);
+  expect(item().dataset.state).toBe("end");
+  expect(lies("flag")).toBe(true);
+});
+
+it("reads no direction from the surrounding text without a ConfigProvider", async () => {
+  const clicks: string[] = [];
+  await host(() => h("div", { dir: "rtl" }, row({}, { start: ["archive"], end: ["flag", "delete"] }, clicks)));
+  expect(item().getAttribute("dir")).toBe("ltr");
+  await drag(content(), [250, 24], [150, 24], 4, 80);
+  expect(item().dataset.state).toBe("end");
+  expect(lies("flag")).toBe(true);
+});
+
 it("ignores the gesture and the keys when disabled", async () => {
   await setup({ disabled: true });
   await drag(content(), [250, 24], [150, 24]);

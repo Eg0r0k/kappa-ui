@@ -1,4 +1,4 @@
-import { type PrimitiveProps, createContext } from "reka-ui";
+import { type Direction, type PrimitiveProps, createContext } from "reka-ui";
 import type { ComputedRef, Ref } from "vue";
 
 export type SwipeSide = "start" | "end";
@@ -11,6 +11,7 @@ export interface SwipeItemProps extends PrimitiveProps {
   fullSwipeThreshold?: number;
   closeOnScroll?: boolean;
   disabled?: boolean;
+  dir?: Direction;
 }
 
 export type SwipeItemEmits = {

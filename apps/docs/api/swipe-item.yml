@@ -13,6 +13,8 @@ props:
     description: "Close the row on any scroll on the page."
   disabled:
     description: "Turn off the gesture and the arrow keys."
+  dir:
+    description: "The reading direction, `ltr` or `rtl`, taken from `ConfigProvider` when unset and rendered as the row's `dir`. In `rtl` the strips swap sides and the drag and the arrow keys mirror."
   as:
     description: "The element or component to render, such as `li` in a list."
   asChild:

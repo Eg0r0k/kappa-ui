@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { Primitive, useDirection } from "reka-ui";
-import { type ComponentPublicInstance, computed, onBeforeUnmount, reactive, ref, watch } from "vue";
+import { type ComponentPublicInstance, computed, onBeforeUnmount, reactive, ref, toRef, watch } from "vue";
 
 import { useDrag } from "../drag";
 import {
@@ -30,7 +30,7 @@ const state = defineModel<SwipeState>("state", { default: "closed" });
 const TABBABLE = "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
 
 const root = injectSwipeRootContext(null);
-const dir = useDirection();
+const dir = useDirection(toRef(() => props.dir));
 const sign = computed<1 | -1>(() => (dir.value === "rtl" ? -1 : 1));
 
 const element = ref<HTMLElement>();
@@ -260,6 +260,7 @@ defineExpose({ open, close });
     :data-state="state"
     :data-disabled="props.disabled ? '' : undefined"
     :data-dragging="dragging ? '' : undefined"
+    :dir="dir"
     :style="style"
     @keydown="onKeydown"
     @focusin="onFocusin"
