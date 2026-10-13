@@ -77,7 +77,7 @@ describe("menubar sizes", () => {
     expect(getComputedStyle(q("[data-slot=menubar-item]")!).minHeight).toBe(`${height}px`);
   });
 
-  it("follows Button's type scale and corners on triggers", () => {
+  it("follows Button's type scale, line height and corners on triggers", () => {
     for (const [size, font, radius] of [
       ["xs", "label-sm", "md"],
       ["sm", "label-md", "lg"],
@@ -90,6 +90,7 @@ describe("menubar sizes", () => {
       probe.className = `text-${font} rounded-${radius}`;
       document.body.append(probe);
       expect(style.fontSize, size).toBe(getComputedStyle(probe).fontSize);
+      expect(style.lineHeight, size).toBe(getComputedStyle(probe).lineHeight);
       expect(style.borderRadius, size).toBe(getComputedStyle(probe).borderRadius);
       probe.remove();
       wrapper.unmount();

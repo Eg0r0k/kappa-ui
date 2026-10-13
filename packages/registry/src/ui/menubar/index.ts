@@ -73,7 +73,7 @@ export type MenubarVariants = VariantProps<typeof menubarVariants>;
 
 export const menubarTrigger = `
   relative inline-flex h-(--menubar-h) shrink-0 cursor-default items-center gap-(--menubar-gap)
-  rounded-(--menubar-radius) px-(--menubar-px) text-(length:--menubar-text)/(--menubar-leading) font-medium
+  rounded-(--menubar-radius) px-(--menubar-px) text-(length:--menubar-text)/(--menubar-text-leading) font-medium
   whitespace-nowrap text-foreground outline-none select-none state-layer
   focus-visible:focus-ring-inset
   data-[state=open]:before:opacity-(--state-hover)
