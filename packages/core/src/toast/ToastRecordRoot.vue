@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ToastRoot } from "reka-ui";
-import { computed, useTemplateRef } from "vue";
+import { ToastRoot, injectToastProviderContext } from "reka-ui";
+import { computed, onUnmounted, useTemplateRef } from "vue";
 
 import { type ToastRecord, useToast } from "./manager";
 
@@ -9,6 +9,7 @@ const MAX_DELAY = 2_147_483_647;
 const props = defineProps<{ toast: ToastRecord }>();
 
 const manager = useToast();
+const provider = injectToastProviderContext();
 const root = useTemplateRef<{ $el?: unknown }>("root");
 
 const duration = computed(() => {
@@ -16,6 +17,10 @@ const duration = computed(() => {
   if (loading) return MAX_DELAY;
   if (duration === undefined) return undefined;
   return duration > 0 ? Math.min(duration, MAX_DELAY) : MAX_DELAY;
+});
+
+onUnmounted(() => {
+  if (provider.toastCount.value === 0) provider.isClosePausedRef.value = false;
 });
 
 let outsideEscape = false;

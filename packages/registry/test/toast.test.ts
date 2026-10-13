@@ -201,6 +201,27 @@ describe("Toaster", () => {
     expect(getComputedStyle(bar).animationPlayState).toBe("paused");
   });
 
+  it("runs the next toast's timer after the last one is closed with the mouse", async () => {
+    const toaster = render({ duration: 400, progress: true });
+    toaster.add({ title: "First", duration: 60000 });
+    await shown(1);
+    await wait(500);
+    await userEvent.click(document.querySelector<HTMLElement>("[data-slot=toast-close]")!);
+    await shown(0);
+    const corner = document.createElement("div");
+    corner.style.cssText = "position: fixed; top: 0; left: 0; width: 4px; height: 4px";
+    document.body.append(corner);
+    await userEvent.hover(corner);
+    corner.remove();
+
+    toaster.add({ title: "Second" });
+    await shown(1);
+    await wait(100);
+    expect(viewport().hasAttribute("data-paused")).toBe(false);
+    expect(getComputedStyle(document.querySelector("[data-slot=toast-progress]")!).animationPlayState).toBe("running");
+    await shown(0);
+  });
+
   it("takes its width, inset and spacing from a class", async () => {
     const toaster = render({ class: "w-96 bottom-24 [--toast-gap:1rem]" });
     toaster.add({ title: "Saved" });

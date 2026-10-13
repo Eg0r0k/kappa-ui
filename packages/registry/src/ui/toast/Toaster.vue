@@ -9,7 +9,7 @@ import {
   useToastStack,
 } from "@kappa-ui/core/toast";
 import { useDirection } from "reka-ui";
-import { type HTMLAttributes, computed, ref } from "vue";
+import { type HTMLAttributes, computed, ref, watch } from "vue";
 
 import { cn } from "@/lib/utils";
 import type { Toast, ToastContent, ToastPosition } from ".";
@@ -46,6 +46,12 @@ const stack = useToastStack(toasts);
 const dir = useDirection();
 const portalTarget = injectOverlayPortalTarget(null);
 const paused = ref(false);
+watch(
+  () => toasts.value.length === 0,
+  (empty) => {
+    if (empty) paused.value = false;
+  },
+);
 
 const side = computed(() => (props.position.startsWith("top") ? "top" : "bottom"));
 const align = computed(() => props.position.split("-")[1] as "start" | "center" | "end");
