@@ -71,6 +71,19 @@ it("keeps closed content in the page as hidden until found by default", () => {
   expect(content()!.textContent).toBe("Details");
 });
 
+it("puts class on the block inside, so closed content with padding and a border takes no space", async () => {
+  render({}, { class: "flex flex-col gap-2 border p-4" });
+  const panel = content()!;
+  expect(panel.getAttribute("hidden")).toBe("until-found");
+  expect(panel.classList.contains("p-4")).toBe(false);
+  expect(panel.firstElementChild!.classList.contains("p-4")).toBe(true);
+  expect(panel.getBoundingClientRect().height).toBe(0);
+  await userEvent.click(trigger());
+  await expect.poll(() => getComputedStyle(panel).overflow).toBe("visible");
+  expect(getComputedStyle(panel.firstElementChild!).paddingTop).toBe("16px");
+  expect(panel.getBoundingClientRect().height).toBeGreaterThan(32);
+});
+
 it("unmounts closed content with unmount-on-hide, leaving an empty hidden panel", async () => {
   render({ unmountOnHide: true });
   expect(content()!.getAttribute("hidden")).toBe("");

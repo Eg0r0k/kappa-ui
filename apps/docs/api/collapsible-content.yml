@@ -6,7 +6,7 @@ props:
   as:
     description: The element or component to render.
   asChild:
-    description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
+    description: "Render the block inside as the panel itself, without the wrapper. `class` then lands on the hidden panel again."
 emits:
   contentFound: Fires when find in page matches text inside closed content and the browser opens it.
 slots:

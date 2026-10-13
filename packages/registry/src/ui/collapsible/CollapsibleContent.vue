@@ -23,13 +23,10 @@ const forwarded = useForwardPropsEmits(delegated, emits);
   <CollapsibleContent
     v-bind="forwarded"
     data-slot="collapsible-content"
-    :class="
-      cn(
-        'text-body-md data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
-        props.class,
-      )
-    "
+    class="text-body-md data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down"
   >
-    <slot />
+    <div :class="cn(props.class)">
+      <slot />
+    </div>
   </CollapsibleContent>
 </template>
