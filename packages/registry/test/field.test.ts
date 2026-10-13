@@ -2,9 +2,12 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
+import { ColorPicker, ColorPickerArea } from "@/ui/color-picker";
+import { Field, FieldDescription, FieldError, FieldLabel, FieldSet } from "@/ui/field";
 import { Input } from "@/ui/input";
 import { InputFloating } from "@/ui/input-floating";
+import { Rating, RatingItem } from "@/ui/rating";
+import { Slider } from "@/ui/slider";
 
 const mountField = (options: {
   field?: Record<string, unknown>;
@@ -82,6 +85,33 @@ describe("Field", () => {
     expect(input.attributes("aria-invalid")).toBe("false");
     expect(input.attributes("aria-describedby")).toMatch(/^hint /);
     wrapper.unmount();
+  });
+
+  it("is disabled by a disabled FieldSet around it, and so is its control", async () => {
+    mount(
+      () =>
+        h(FieldSet, { disabled: true }, () => [
+          h(Field, () => [h(FieldLabel, () => "Volume"), h(Slider, { defaultValue: 50 })]),
+          h(Field, () => [
+            h(FieldLabel, () => "Stay"),
+            h(
+              Rating,
+              { defaultValue: 2 },
+              { default: ({ items }: { items: number[] }) => items.map((item) => h(RatingItem, { key: item, item })) },
+            ),
+          ]),
+          h(Field, () => [
+            h(FieldLabel, () => "Accent"),
+            h(ColorPicker, { defaultValue: "#3b82f6" }, () => h(ColorPickerArea)),
+          ]),
+        ]),
+      { attachTo: document.body },
+    );
+    await nextTick();
+
+    expect(document.querySelector("[data-slot=slider] [role=slider]")!.hasAttribute("tabindex")).toBe(false);
+    expect(document.querySelector("[data-slot=rating]")!.hasAttribute("data-disabled")).toBe(true);
+    expect(document.querySelector("[data-slot=color-picker]")!.hasAttribute("data-disabled")).toBe(true);
   });
 
   it("uses the id given to the field", () => {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useId } from "reka-ui";
-import { type HTMLAttributes, ref, toRef } from "vue";
+import { type HTMLAttributes, computed, ref, toRef } from "vue";
 
-import { provideFieldContext } from "@/lib/field-context";
+import { injectFieldContext, provideFieldContext } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 
 const props = defineProps<{
@@ -14,6 +14,7 @@ const props = defineProps<{
 }>();
 
 const id = useId(props.id, "fieldset");
+const parent = injectFieldContext(null);
 
 provideFieldContext({
   id,
@@ -21,7 +22,7 @@ provideFieldContext({
   descriptionId: `${id}-description`,
   errorId: `${id}-error`,
   invalid: toRef(() => props.invalid),
-  disabled: toRef(() => props.disabled),
+  disabled: computed(() => Boolean(props.disabled || parent?.disabled.value)),
   required: toRef(() => props.required),
   hasLabel: ref(false),
   hasDescription: ref(false),
