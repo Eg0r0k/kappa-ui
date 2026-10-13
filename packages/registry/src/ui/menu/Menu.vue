@@ -128,8 +128,9 @@ const reference = {
         }
       : box;
     const rtl = dir.value === "rtl";
-    const anchor = parsePosition(props.anchor ?? (props.cover ? "center middle" : "bottom start"), rtl);
-    const self = props.cover ? anchor : parsePosition(props.self ?? "top start", rtl);
+    const centred = !target && !point.value;
+    const anchor = parsePosition(props.anchor ?? (props.cover || centred ? "center middle" : "bottom start"), rtl);
+    const self = props.cover ? anchor : parsePosition(props.self ?? (centred ? "center middle" : "top start"), rtl);
     const size = measure(element, box);
     const placement = placeMenu({
       rect,

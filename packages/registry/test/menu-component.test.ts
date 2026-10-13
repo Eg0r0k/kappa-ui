@@ -189,6 +189,8 @@ describe("Menu", () => {
     expect(box.top).toBeGreaterThanOrEqual(0);
     expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
     expect(box.bottom).toBeLessThanOrEqual(document.documentElement.clientHeight);
+    expect(Math.abs(box.left + box.width / 2 - document.documentElement.clientWidth / 2)).toBeLessThanOrEqual(1);
+    expect(Math.abs(box.top + box.height / 2 - document.documentElement.clientHeight / 2)).toBeLessThanOrEqual(1);
 
     plain.value!.hide();
     await hidden();
