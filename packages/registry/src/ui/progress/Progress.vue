@@ -60,17 +60,9 @@ const slots = defineSlots<{
   [step: `step-${number}`]: (props: { step: unknown }) => unknown;
 }>();
 
-const forwarded = useForwardPropsEmits(
-  computed(() => ({
-    modelValue: props.modelValue,
-    getValueLabel: props.getValueLabel,
-    getValueText: props.getValueText,
-  })),
-  emits,
-);
 const dir = useDirection();
 
-const isIndeterminate = computed(() => typeof props.modelValue !== "number");
+const isIndeterminate = computed(() => typeof props.modelValue !== "number" || Number.isNaN(props.modelValue));
 const steps = computed(() => (Array.isArray(props.max) ? props.max : undefined));
 
 const realMax = computed(() => {
@@ -78,12 +70,22 @@ const realMax = computed(() => {
   return Array.isArray(props.max) ? props.max.length - 1 : Number(props.max);
 });
 
+const value = computed(() =>
+  isIndeterminate.value ? null : Math.min(Math.max(Number(props.modelValue), 0), realMax.value ?? 100),
+);
+
+const forwarded = useForwardPropsEmits(
+  computed(() => ({
+    modelValue: value.value,
+    getValueLabel: props.getValueLabel,
+    getValueText: props.getValueText,
+  })),
+  emits,
+);
+
 const percent = computed(() => {
-  if (typeof props.modelValue !== "number") return undefined;
-  const max = realMax.value ?? 100;
-  if (props.modelValue < 0) return 0;
-  if (props.modelValue > max) return 100;
-  return Math.round((props.modelValue / max) * 100);
+  if (value.value === null) return undefined;
+  return Math.round((value.value / (realMax.value ?? 100)) * 100);
 });
 
 const indicatorStyle = computed(() => {

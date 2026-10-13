@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { ConfigProvider } from "reka-ui";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { cdp } from "vitest/browser";
 import { h, nextTick } from "vue";
 
@@ -118,6 +118,29 @@ describe("Progress", () => {
     expect(render({ modelValue: 40, orientation: "vertical", inverted: true }).indicator.style.transform).toBe(
       "translateY(60%)",
     );
+  });
+
+  it("clamps a value past max for the bar and leaves the model alone", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const updates: unknown[] = [];
+    const { track } = render({ modelValue: 100.4, "onUpdate:modelValue": (next: unknown) => updates.push(next) });
+    await nextTick();
+    await nextTick();
+    expect(updates).toEqual([]);
+    expect(track.dataset.state).toBe("complete");
+    expect(track.getAttribute("aria-valuenow")).toBe("100");
+
+    const { track: over } = render({ modelValue: 150 });
+    await nextTick();
+    expect(over.getAttribute("aria-valuenow")).toBe("100");
+    const { track: under } = render({ modelValue: -5 });
+    await nextTick();
+    expect(under.getAttribute("aria-valuenow")).toBe("0");
+    const { track: nan } = render({ modelValue: Number.NaN, status: true });
+    await nextTick();
+    expect(nan.dataset.state).toBe("indeterminate");
+    expect(document.querySelector("[data-slot=progress-status]")).toBeNull();
+    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("scales to max", () => {

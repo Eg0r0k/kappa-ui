@@ -25,7 +25,7 @@ props:
   as:
     description: The element or component to render.
 emits:
-  update:modelValue: Fires when Reka corrects a value outside `0` to `max` to `null`.
+  update:modelValue: Not fired for an out-of-range value, which the bar clamps to `0` to `max` while your model keeps it; `NaN` shows an indeterminate bar.
   update:max: Fires when Reka corrects an invalid `max` to 100.
 slots:
   default: A header row above the bar for `ProgressLabel` and `ProgressValue`.
