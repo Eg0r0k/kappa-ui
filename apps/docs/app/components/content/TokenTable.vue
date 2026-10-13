@@ -72,7 +72,7 @@ const pairs = [
   {
     bg: 'accent',
     fg: 'accent-foreground',
-    role: 'Highlighted surfaces; not read by any component',
+    role: 'Skeleton fill and completed Stepper steps',
     checks: [on('accent-foreground', 'accent')],
   },
   { bg: 'card', fg: 'card-foreground', role: 'Card surface and text', checks: [on('card-foreground', 'card')] },
