@@ -28,6 +28,6 @@ const { tour } = injectTourContext();
     :class="props.class"
     @click="tour.next()"
   >
-    <slot :has-next="tour.hasNext.value">{{ tour.hasNext.value ? "Next" : "Finish" }}</slot>
+    <slot :has-next="tour.hasNext.value">{{ tour.hasNext.value || tour.loop ? "Next" : "Finish" }}</slot>
   </Button>
 </template>

@@ -49,6 +49,32 @@ const Harness = defineComponent(() => {
   ];
 });
 
+const plain = (options: { loop?: boolean; content?: Record<string, unknown> } = {}) =>
+  defineComponent(() => {
+    const tour = useTour<TourStep & { title: string }>(
+      [
+        { target: null, title: "First" },
+        { target: null, title: "Second" },
+        { target: null, title: "Last" },
+      ],
+      { scrollIntoView: false, loop: options.loop },
+    );
+    return () => [
+      h("button", { id: "tour-start", onClick: () => tour.start() }, "Start"),
+      h(
+        Tour,
+        { tour },
+        {
+          default: ({ step }: { step: TourStep & { title: string } }) =>
+            h(TourContent, options.content ?? {}, () => [
+              h(TourTitle, () => step.title),
+              h(TourFooter, () => h(TourNext)),
+            ]),
+        },
+      ),
+    ];
+  });
+
 const content = () => document.querySelector<HTMLElement>("[data-slot=tour-content]");
 const part = (slot: string) => content()!.querySelector<HTMLElement>(`[data-slot=${slot}]`)!;
 
@@ -119,5 +145,17 @@ describe("Tour", () => {
     expect(content()!.getAttribute("aria-labelledby")).toBe(part("tour-title").id);
     expect(content()!.getAttribute("aria-describedby")).toBe(part("tour-description").id);
     expect(part("tour-title").id).not.toBe("");
+  });
+
+  it("reads Next on the last step of a looping tour and goes back to the first", async () => {
+    mount(plain({ loop: true }), { attachTo: document.body });
+    await userEvent.click(document.getElementById("tour-start")!);
+    await expect.poll(() => content()).not.toBeNull();
+    await userEvent.click(part("tour-next"));
+    await userEvent.click(part("tour-next"));
+    await expect.poll(() => part("tour-title").textContent).toBe("Last");
+    expect(part("tour-next").textContent).toBe("Next");
+    await userEvent.click(part("tour-next"));
+    await expect.poll(() => part("tour-title").textContent).toBe("First");
   });
 });

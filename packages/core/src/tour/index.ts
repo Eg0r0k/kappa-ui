@@ -38,6 +38,7 @@ export interface UseTourReturn<T extends TourStep = TourStep> {
   total: ComputedRef<number>;
   hasNext: ComputedRef<boolean>;
   hasPrev: ComputedRef<boolean>;
+  loop: boolean;
   start: (index?: number) => void;
   next: () => void;
   prev: () => void;
@@ -160,5 +161,5 @@ export const useTour = <T extends TourStep>(
     });
   });
 
-  return { open, index, current, reference, centered, total, hasNext, hasPrev, start, next, prev, goTo, finish };
+  return { open, index, current, reference, centered, total, hasNext, hasPrev, loop, start, next, prev, goTo, finish };
 };

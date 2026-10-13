@@ -8,4 +8,4 @@ props:
   size:
     description: "The button's size, `sm` by default."
 slots:
-  default: "The label, \"Next\" or \"Finish\" on the last step. Receives `hasNext`. Pressing it goes on, or finishes the tour."
+  default: "The label, \"Next\", or \"Finish\" on the last step of a tour that does not loop. Receives `hasNext`. Pressing it goes on, back to the first step when the tour loops, or finishes the tour."
