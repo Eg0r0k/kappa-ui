@@ -1,7 +1,18 @@
 // Adapted from Nuxt UI (https://github.com/nuxt/ui), modified for kappa-ui.
 // Copyright (c) 2023 Nuxt. MIT License: https://github.com/nuxt/ui/blob/v4/LICENSE.md
 import type { ReferenceElement } from "reka-ui";
-import { type ComputedRef, type MaybeRefOrGetter, type Ref, computed, nextTick, ref, toValue, watch } from "vue";
+import {
+  type ComputedRef,
+  type MaybeRefOrGetter,
+  type Ref,
+  computed,
+  getCurrentScope,
+  nextTick,
+  onScopeDispose,
+  ref,
+  toValue,
+  watch,
+} from "vue";
 
 import { isDev } from "../internal/dev";
 
@@ -76,10 +87,24 @@ export const useTour = <T extends TourStep>(
   const hasPrev = computed(() => index.value > 0);
   const target = computed(() => toValue(current.value?.target));
 
+  const mutations = ref(0);
+  let observer: MutationObserver | undefined;
+  watch(open, (value) => {
+    observer?.disconnect();
+    observer = undefined;
+    if (!value || typeof MutationObserver === "undefined") return;
+    observer = new MutationObserver(() => (mutations.value += 1));
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+  if (getCurrentScope()) onScopeDispose(() => observer?.disconnect());
+
   const reference = computed<ReferenceElement | undefined>(() => {
     if (!started.value || typeof window === "undefined") return undefined;
+    void mutations.value;
     const value = target.value;
-    return (value == null ? null : resolve(value)) ?? centerAnchor;
+    const element = value == null ? null : resolve(value);
+    if (element instanceof Element && !element.isConnected) return centerAnchor;
+    return element ?? centerAnchor;
   });
   const centered = computed(() => reference.value === centerAnchor);
 

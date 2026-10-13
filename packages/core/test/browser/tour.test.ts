@@ -93,6 +93,25 @@ describe("useTour", () => {
     expect(tour.centered.value).toBe(false);
   });
 
+  it("follows a target that mounts after its step opened, and centres once it is gone", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const held = element("tour-held");
+    const tour = create([{ target: "tour-late" }, { target: held }], { scrollIntoView: false });
+    tour.start();
+    await nextTick();
+    expect(tour.centered.value).toBe(true);
+
+    const late = element("tour-late");
+    await expect.poll(() => tour.reference.value).toBe(late);
+    late.remove();
+    await expect.poll(() => tour.centered.value).toBe(true);
+
+    tour.next();
+    expect(tour.reference.value).toBe(held);
+    held.remove();
+    await expect.poll(() => tour.centered.value).toBe(true);
+  });
+
   it("keeps the last step's reference while the tour closes, so its exit stays in place", () => {
     const a = element("tour-close-a");
     const b = element("tour-close-b");
