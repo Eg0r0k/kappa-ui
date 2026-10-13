@@ -45,7 +45,7 @@ it("covers and blocks the content while loading", async () => {
   state.value = true;
   await nextTick();
 
-  expect(root.getAttribute("aria-busy")).toBe("true");
+  expect(root.hasAttribute("aria-busy")).toBe(false);
   expect(content().hasAttribute("inert")).toBe(true);
   expect(overlay()!.getAttribute("role")).toBe("status");
   expect(overlay()!.querySelector("[data-slot=spinner]")).not.toBeNull();

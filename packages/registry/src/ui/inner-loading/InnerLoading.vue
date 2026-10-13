@@ -38,11 +38,7 @@ provideInnerLoadingContext({ loading: computed(() => props.loading), content });
 </script>
 
 <template>
-  <div
-    data-slot="inner-loading"
-    :aria-busy="props.loading ? 'true' : undefined"
-    :class="cn('relative isolate', props.class)"
-  >
+  <div data-slot="inner-loading" :class="cn('relative isolate', props.class)">
     <slot />
   </div>
 </template>
