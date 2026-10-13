@@ -263,6 +263,15 @@ describe("InputGroup", () => {
     expect(value.value).toBe("sent");
   });
 
+  it("exposes the textarea's resize()", () => {
+    const area = ref<InstanceType<typeof InputGroupTextarea> | null>(null);
+    mount(
+      defineComponent(() => () => h(InputGroup, () => h(InputGroupTextarea, { ref: area, autoresize: true }))),
+      { attachTo: document.body },
+    );
+    expect(typeof area.value?.resize).toBe("function");
+  });
+
   it("disables a button in a disabled Field, not only fades it", async () => {
     let clicks = 0;
     mount(

@@ -5,3 +5,5 @@ props:
     description: The value, bound with `v-model`. The textarea's other props, `rows`, `maxrows` and `autoresize` among them, pass through.
 emits:
   update:modelValue: Fires as the value changes.
+exposed:
+  resize: Fits the height to the text again, like `Textarea`'s. Does nothing without `autoresize`.

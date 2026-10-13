@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue";
+import { type HTMLAttributes, useTemplateRef } from "vue";
 
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/ui/textarea";
@@ -11,10 +11,14 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 
 const model = defineModel<string>();
 const group = injectInputGroupContext();
+const textarea = useTemplateRef<InstanceType<typeof Textarea>>("textarea");
+
+defineExpose({ resize: () => textarea.value?.resize() });
 </script>
 
 <template>
   <Textarea
+    ref="textarea"
     v-bind="$attrs"
     v-model="model"
     data-slot="input-group-control"
