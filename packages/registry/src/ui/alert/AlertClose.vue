@@ -23,7 +23,7 @@ const { close, size } = injectAlertContext();
       cn(
         `
           absolute end-[calc(var(--alert-pad)/2)] top-[calc(var(--alert-pad)+var(--alert-line)/2)] -translate-y-1/2
-          text-current [--color-ring:currentColor]
+          text-current [--focus-ring-color:currentColor]
           group-data-[orientation=horizontal]/alert:top-1/2
         `,
         props.class,

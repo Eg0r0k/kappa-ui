@@ -19,7 +19,7 @@ const { close } = injectBannerContext();
     color="neutral"
     size="icon-sm"
     aria-label="Close"
-    :class="cn('absolute end-2 top-1/2 -translate-y-1/2 text-current [--color-ring:currentColor]', props.class)"
+    :class="cn('absolute end-2 top-1/2 -translate-y-1/2 text-current [--focus-ring-color:currentColor]', props.class)"
     @click="close"
   >
     <slot>

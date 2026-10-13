@@ -43,8 +43,8 @@ export const choiceGroupVariants = cva("flex", {
         [&>[data-slot=field]:has([data-state=checked])]:border-tone-text
         [&>[data-slot=field]:has(:focus-visible)]:focus-ring
         [&>[data-slot=field][data-invalid]]:border-destructive
-        [&:not([data-color=primary])>[data-slot=field]]:[--color-ring:var(--tone-text)]
-        [&:not([data-color=primary])>[data-slot=field]:is([data-invalid],[aria-invalid=true]>*)]:[--color-ring:--theme(--color-destructive)]
+        [&:not([data-color=primary])>[data-slot=field]]:[--focus-ring-color:var(--tone-text)]
+        [&:not([data-color=primary])>[data-slot=field]:is([data-invalid],[aria-invalid=true]>*)]:[--focus-ring-color:--theme(--color-destructive)]
       `,
       list: `
         choice-row overflow-hidden rounded-control-md border border-border

@@ -33,3 +33,30 @@ it("rings other controls the same way", async () => {
   await userEvent.tab();
   expect(ring(document.querySelector("[data-slot=switch]")!)).toEqual(["solid", "3px", "0px"]);
 });
+
+it("takes the ring colour of a .dark island, not the page's", async () => {
+  mount(
+    {
+      render: () =>
+        h("div", [
+          h(Button, { id: "light" }, () => "Light"),
+          h("div", { class: "dark" }, [
+            h(Button, { id: "dark" }, () => "Dark"),
+            h("span", { id: "reference", style: "color: color-mix(in oklab, var(--ring) 50%, transparent)" }),
+          ]),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  const settled = (element: HTMLElement) => {
+    for (const animation of element.getAnimations()) animation.finish();
+    return getComputedStyle(element).outlineColor;
+  };
+  await userEvent.tab();
+  const lightRing = settled(document.getElementById("light")!);
+  await userEvent.tab();
+  const darkRing = settled(document.getElementById("dark")!);
+  const reference = getComputedStyle(document.getElementById("reference")!).color;
+  expect(reference).not.toBe(lightRing);
+  expect(darkRing).toBe(reference);
+});

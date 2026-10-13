@@ -51,11 +51,11 @@ const tint = (color: string) => {
   probe.remove();
   return value;
 };
-// What focus-ring draws for a given --color-ring, or for the page's own without one.
+// What focus-ring draws for a given --focus-ring-color, or for the page's own without one.
 const ring = (color?: string) => {
   const probe = document.createElement("div");
   probe.className = "focus-ring";
-  if (color) probe.style.setProperty("--color-ring", color);
+  if (color) probe.style.setProperty("--focus-ring-color", color);
   document.body.append(probe);
   const value = outline(probe);
   probe.remove();
