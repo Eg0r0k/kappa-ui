@@ -207,6 +207,20 @@ it("submits each end of a range under name[start] and name[end], empty while uns
   expect(form.checkValidity()).toBe(true);
 });
 
+it("focuses the end of a required range when the end fails validation", async () => {
+  render(
+    h("form", { onSubmit: (event: Event) => event.preventDefault() }, [
+      h(InputTimeRange, { name: "hours", required: true, hourCycle: 24 }),
+    ]),
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard("0900");
+  await nextTick();
+  document.querySelector("form")!.requestSubmit();
+  await nextTick();
+  expect(editable().indexOf(document.activeElement as HTMLElement)).toBe(2);
+});
+
 it("points a Field's label at the range's start input", async () => {
   render(h(Field, () => [h(FieldLabel, () => "Opening hours"), h(InputTimeRange, { hourCycle: 24 })]));
   await nextTick();

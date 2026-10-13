@@ -70,8 +70,9 @@ const rootAttrs = computed(() => {
 });
 
 const sides = ["start", "end"] as const;
-const focusFirstSegment = (event: FocusEvent) => {
-  (event.target as HTMLElement).parentElement?.querySelector<HTMLElement>("[role=spinbutton]")?.focus();
+const focusFirstSegment = (side: (typeof sides)[number], event: FocusEvent) => {
+  const selector = side === "end" ? "[data-slot=input-time-range-separator] ~ [role=spinbutton]" : "[role=spinbutton]";
+  (event.target as HTMLElement).parentElement?.querySelector<HTMLElement>(selector)?.focus();
 };
 const native = (value: TimeValue | undefined) => value?.toString() ?? "";
 
@@ -150,7 +151,7 @@ const onUpdate = (value: TimeRangeFieldRootEmits["update:modelValue"][0]) => {
       :value="native(modelValue?.[side])"
       :required="control.required.value"
       :disabled="control.disabled.value"
-      @focus="focusFirstSegment"
+      @focus="focusFirstSegment(side, $event)"
     />
   </TimeRangeFieldRoot>
 </template>
