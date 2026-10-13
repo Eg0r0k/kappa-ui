@@ -199,6 +199,20 @@ describe("Menubar pointer", () => {
     await settle();
     expect(document.activeElement).toBe(q("#far"));
   });
+
+  it.each(["Edit", "File"])("opens %s from a click while File is still closing", async (name) => {
+    document.body.style.setProperty("--transition-duration-short-2", "1000ms");
+    renderMenubar();
+    await userEvent.click(trigger("File"));
+    await opened("File");
+    await settle();
+    await userEvent.keyboard("{Escape}");
+    await opened();
+    expect(q(".file-menu")).not.toBeNull();
+    await userEvent.click(trigger(name));
+    await settle();
+    expect(openMenus()).toEqual([trigger(name).id]);
+  });
 });
 
 describe("Menubar keyboard", () => {

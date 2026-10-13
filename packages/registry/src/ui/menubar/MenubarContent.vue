@@ -9,7 +9,7 @@ import {
   injectMenubarRootContext,
   useForwardPropsEmits,
 } from "reka-ui";
-import { type HTMLAttributes, computed, shallowRef, toRef } from "vue";
+import { type HTMLAttributes, computed, onBeforeUnmount, onMounted, shallowRef, toRef } from "vue";
 
 import { cn } from "@/lib/utils";
 import { menuSizeVariants, provideMenuSize } from "@/ui/menu";
@@ -62,13 +62,26 @@ const onCloseAutoFocus = (event: Event) => {
   });
 };
 
+// A closing menu's layer still sees the press that opens the next one; only a menu open at the press dismisses on it.
+let pressedWhileOpen = false;
+const onPress = () => {
+  pressedWhileOpen = rootContext.modelValue.value === menuContext.value;
+};
+onMounted(() => document.addEventListener("pointerdown", onPress, true));
+onBeforeUnmount(() => document.removeEventListener("pointerdown", onPress, true));
+
+const onPointerDownOutside = (event: MenubarContentEmits["pointerDownOutside"][0]) => {
+  emits("pointerDownOutside", event);
+  if (!pressedWhileOpen) event.preventDefault();
+};
+
 const onKeydown = (event: KeyboardEvent) => tabFromTrigger(event, menuContext.triggerElement.value);
 </script>
 
 <template>
   <MenubarPortal :to="portalTarget ?? undefined">
     <MenubarContent
-      v-bind="{ ...$attrs, ...forwarded, onFocusOutside, onCloseAutoFocus }"
+      v-bind="{ ...$attrs, ...forwarded, onFocusOutside, onCloseAutoFocus, onPointerDownOutside }"
       data-slot="menubar-content"
       :data-size="size"
       :data-instant="switching ? '' : undefined"
