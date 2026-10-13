@@ -49,7 +49,10 @@ import {
   type ScrollAreaEdge,
   type ScrollAreaScrollInfo,
   type ScrollAreaStore,
+  type ScrollAreaVirtualColumn,
   type ScrollAreaVirtualInfo,
+  type ScrollAreaVirtualizeColumns,
+  warnOnce,
 } from ".";
 
 const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
@@ -76,7 +79,7 @@ const emit = defineEmits<{
 }>();
 
 defineSlots<{
-  default: (scope: { item: T; index: number }) => unknown;
+  default: (scope: { item: T; index: number; column?: ScrollAreaVirtualColumn }) => unknown;
 }>();
 
 const rootRef = shallowRef<HTMLElement | null>(null);
@@ -319,10 +322,14 @@ const api: ScrollAreaApi = {
     setScrollPosition(axis, percentage * travel, duration);
   },
   scrollTo: (index, edge) => virtual.scrollTo(index, edge),
+  scrollToColumn: (index, edge) => virtual.scrollToColumn(index, edge),
   reset: () => virtual.reset(),
   refresh: (index) => virtual.refresh(index),
   get virtualizer() {
     return virtual.virtualizer.value;
+  },
+  get columnVirtualizer() {
+    return virtual.grid.value ? virtual.columnVirtualizer.value : undefined;
   },
 };
 
@@ -372,10 +379,18 @@ const virtualCount = computed(() =>
 );
 
 const virtualizeKeys = ["estimateSize", "overscan", "lanes", "gap", "scrollMargin", "getScrollElement"] as const;
+const columnKeys = ["count", "estimateSize", "overscan", "gap"] as const;
 let resolvedFrom: ScrollAreaProps<T>["virtualize"];
 
+const sameColumns = (a: ScrollAreaVirtualizeColumns | undefined, b: ScrollAreaVirtualizeColumns | undefined) =>
+  a === b || (a !== undefined && b !== undefined && columnKeys.every((key) => a[key] === b[key]));
+
 const sameVirtualize = (a: ScrollAreaProps<T>["virtualize"], b: ScrollAreaProps<T>["virtualize"]) =>
-  a === b || (typeof a === "object" && typeof b === "object" && virtualizeKeys.every((key) => a[key] === b[key]));
+  a === b ||
+  (typeof a === "object" &&
+    typeof b === "object" &&
+    virtualizeKeys.every((key) => a[key] === b[key]) &&
+    sameColumns(a.columns, b.columns));
 
 const virtualOptions = computed<ResolvedVirtualizeOptions>((previous) => {
   const from = resolvedFrom;
@@ -385,6 +400,21 @@ const virtualOptions = computed<ResolvedVirtualizeOptions>((previous) => {
 });
 
 const isExternalScroll = computed(() => virtualOptions.value.getScrollElement !== undefined);
+
+const virtualColumns = computed(() => (props.orientation === "both" ? virtualOptions.value.columns : undefined));
+
+watch(
+  () => [virtualOptions.value.columns !== undefined, props.orientation, virtualOptions.value.lanes] as const,
+  ([hasColumns, orientation, lanes]) => {
+    if (!hasColumns) return;
+    if (orientation !== "both") {
+      warnOnce("columns-orientation", 'virtualize.columns needs orientation="both"; ignoring it.');
+      return;
+    }
+    if (lanes > 1) warnOnce("columns-lanes", "virtualize.columns makes a grid, which has no lanes; ignoring lanes.");
+  },
+  { immediate: true },
+);
 
 const horizontalEdges = computed(() =>
   getOverflowEdges(positionHorizontal.value, sizeHorizontal.value, containerHorizontal.value),
@@ -408,6 +438,7 @@ const virtual = useVirtualScroll({
   scrollEl: viewportRef,
   count: virtualCount,
   options: virtualOptions,
+  columns: virtualColumns,
   horizontal: isHorizontal,
   crossSize: computed(() => (isExternalScroll.value ? (externalEl.value?.clientHeight ?? 0) : containerVertical.value)),
   isRtl,
@@ -624,7 +655,23 @@ onBeforeUnmount(() => {
             :data-index="slice.index"
             :style="virtual.itemStyle(slice)"
           >
-            <slot :item="virtualData[slice.index - virtual.window.value.from] as T" :index="slice.index" />
+            <template v-if="virtual.grid.value">
+              <div
+                v-for="column in virtual.columnSlices.value"
+                :key="`${slice.index}:${column.index}`"
+                :ref="virtual.measureCellRef"
+                data-slot="scroll-area-cell"
+                :data-index="column.index"
+                :style="virtual.cellStyle(column)"
+              >
+                <slot
+                  :item="virtualData[slice.index - virtual.window.value.from] as T"
+                  :index="slice.index"
+                  :column="column"
+                />
+              </div>
+            </template>
+            <slot v-else :item="virtualData[slice.index - virtual.window.value.from] as T" :index="slice.index" />
           </div>
         </div>
         <slot v-else :item="{} as T" :index="0" />

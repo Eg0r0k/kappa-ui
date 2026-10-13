@@ -22,6 +22,13 @@ export type ScrollAreaAxis = "vertical" | "horizontal";
 
 export type ScrollAreaOrientation = "vertical" | "horizontal" | "both";
 
+export type ScrollAreaVirtualizeColumns = {
+  count: number;
+  estimateSize?: number | ((index: number) => number);
+  overscan?: number;
+  gap?: number;
+};
+
 export type ScrollAreaVirtualizeOptions = {
   estimateSize?: number | ((index: number) => number);
   overscan?: number;
@@ -29,6 +36,14 @@ export type ScrollAreaVirtualizeOptions = {
   gap?: number;
   scrollMargin?: number;
   getScrollElement?: () => HTMLElement | null;
+  columns?: ScrollAreaVirtualizeColumns;
+};
+
+export type ResolvedVirtualizeColumns = {
+  count: number;
+  estimateSize: (index: number) => number;
+  overscan: number;
+  gap: number;
 };
 
 export type ResolvedVirtualizeOptions = {
@@ -38,22 +53,45 @@ export type ResolvedVirtualizeOptions = {
   gap: number;
   scrollMargin: number;
   getScrollElement?: () => HTMLElement | null;
+  columns?: ResolvedVirtualizeColumns;
 };
+
+const toSizeFn = (size: number | ((index: number) => number)) => (typeof size === "function" ? size : () => size);
+
+const resolveColumns = (columns: ScrollAreaVirtualizeColumns | undefined): ResolvedVirtualizeColumns | undefined =>
+  columns === undefined
+    ? undefined
+    : {
+        count: columns.count,
+        estimateSize: toSizeFn(columns.estimateSize ?? 120),
+        overscan: columns.overscan ?? 2,
+        gap: columns.gap ?? 0,
+      };
 
 export const resolveVirtualizeOptions = (
   virtualize: boolean | ScrollAreaVirtualizeOptions | undefined,
 ): ResolvedVirtualizeOptions => {
   const given = virtualize === true || virtualize === false || virtualize === undefined ? {} : virtualize;
-  const estimate = given.estimateSize ?? 24;
 
   return {
-    estimateSize: typeof estimate === "function" ? estimate : () => estimate,
+    estimateSize: toSizeFn(given.estimateSize ?? 24),
     overscan: given.overscan ?? 4,
     lanes: given.lanes ?? 1,
     gap: given.gap ?? 0,
     scrollMargin: given.scrollMargin ?? 0,
     getScrollElement: given.getScrollElement,
+    columns: resolveColumns(given.columns),
   };
+};
+
+const warned = new Set<string>();
+
+const isDev = () => (import.meta as { env?: { DEV?: boolean } }).env?.DEV === true;
+
+export const warnOnce = (key: string, message: string) => {
+  if (!isDev() || warned.has(key)) return;
+  warned.add(key);
+  console.warn(`[ScrollArea] ${message}`);
 };
 
 export type ScrollAreaScrollInfo = {
@@ -77,9 +115,11 @@ export type ScrollAreaApi = {
   setScrollPosition: (axis: ScrollAreaAxis, offset: number, duration?: number) => void;
   setScrollPercentage: (axis: ScrollAreaAxis, percentage: number, duration?: number) => void;
   scrollTo: (index: number, edge?: ScrollAreaVirtualEdge) => void;
+  scrollToColumn: (index: number, edge?: ScrollAreaVirtualEdge) => void;
   reset: () => void;
   refresh: (index?: number) => void;
   virtualizer: Virtualizer<HTMLElement, Element>;
+  columnVirtualizer: Virtualizer<HTMLElement, Element> | undefined;
 };
 
 export type ScrollAreaAxisState = {
@@ -146,6 +186,12 @@ export type VirtualSlice = {
   lane?: number;
 };
 
+export type ScrollAreaVirtualColumn = {
+  index: number;
+  start: number;
+  size: number;
+};
+
 export type ScrollAreaVirtualEdge = "start" | "center" | "end";
 
 export type ScrollAreaVirtualDirection = "increase" | "decrease";
@@ -177,10 +223,22 @@ export const getVisibleIndex = (slices: readonly VirtualSlice[], offset: number)
 export const toVirtualDirection = (direction: string | null): ScrollAreaVirtualDirection =>
   direction === "backward" ? "decrease" : "increase";
 
-export const getVirtualContainerStyle = (totalSize: number, horizontal: boolean, crossSize: number): CSSProperties =>
-  horizontal
-    ? { position: "relative", width: `${totalSize}px`, height: `${crossSize}px` }
-    : { position: "relative", width: "100%", height: `${totalSize}px` };
+export const getVirtualContainerStyle = (
+  totalSize: number,
+  horizontal: boolean,
+  crossSize: number,
+  columnTotal?: number,
+): CSSProperties => {
+  if (horizontal) return { position: "relative", width: `${totalSize}px`, height: `${crossSize}px` };
+  if (columnTotal !== undefined) return { position: "relative", width: `${columnTotal}px`, height: `${totalSize}px` };
+  return { position: "relative", width: "100%", height: `${totalSize}px` };
+};
+
+export type VirtualRowColumns = {
+  total: number;
+  start: number;
+  gap: number;
+};
 
 export type VirtualItemGeometry = {
   start: number;
@@ -189,10 +247,32 @@ export type VirtualItemGeometry = {
   lanes: number;
   gap: number;
   scrollMargin: number;
+  columns?: VirtualRowColumns;
 };
+
+export const getVirtualCellStyle = (column: ScrollAreaVirtualColumn): CSSProperties => ({
+  flex: "none",
+  width: "max-content",
+  minWidth: `${column.size}px`,
+});
 
 export const getVirtualItemStyle = (geometry: VirtualItemGeometry): CSSProperties => {
   const offset = geometry.start - geometry.scrollMargin;
+
+  if (geometry.columns !== undefined) {
+    return {
+      position: "absolute",
+      top: "0px",
+      insetInlineStart: "0px",
+      display: "flex",
+      boxSizing: "border-box",
+      width: `${geometry.columns.total}px`,
+      paddingInlineStart: `${geometry.columns.start}px`,
+      columnGap: `${geometry.columns.gap}px`,
+      transform: `translateY(${offset}px)`,
+    };
+  }
+
   const hasLanes = geometry.lanes > 1;
   const track = `(100% - ${(geometry.lanes - 1) * geometry.gap}px)`;
   const laneSize = hasLanes ? `calc(${track} / ${geometry.lanes})` : "100%";

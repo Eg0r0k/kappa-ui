@@ -14,7 +14,7 @@ props:
   tabindex:
     description: Lands on the viewport, the element that scrolls and receives focus.
   orientation:
-    description: The axis the area scrolls on, `vertical`, `horizontal` or `both`. Sets the viewport's overflow, the virtualized axis (`both` virtualizes the vertical one) and which bars render.
+    description: The axis the area scrolls on, `vertical`, `horizontal` or `both`. Sets the viewport's overflow, the virtualized axis (`both` virtualizes the vertical one, and the columns too with `virtualize.columns`) and which bars render.
   verticalOffset:
     description: Space in pixels kept free at the start and end of the vertical bar's track.
   horizontalOffset:
@@ -22,14 +22,15 @@ props:
   edgeOffset:
     description: Distance in pixels from an edge at which `reachEdge` counts the edge as reached. 0 by default.
   virtualize:
-    description: Render only the items in and near the view. `true` uses the defaults; an object sets them.
+    description: Render only the items in and near the view. `true` uses the defaults; an object sets them. With `columns` and `orientation="both"` it virtualizes a grid.
     fields:
       estimateSize: Estimated size of an item in pixels, or a function of its index. Real sizes are measured after render. 24 by default.
       overscan: Extra items rendered on each side of the view. 4 by default.
-      lanes: Number of lanes, for a masonry layout. 1 by default.
+      lanes: Number of lanes, for a masonry layout. 1 by default. Ignored with `columns`.
       gap: Space between items and between lanes, in pixels. 0 by default.
       scrollMargin: The list's offset from the start of an external scroll element.
       getScrollElement: Returns an ancestor to scroll instead of the component's own viewport. Must return the element at mount.
+      columns: "Virtualizes columns as well as rows, with `orientation=\"both\"` only: `{ count, estimateSize?, overscan?, gap? }`. `estimateSize` is a column's width in pixels or a function of its index, 120 by default, and widens to the widest rendered cell; `overscan` is 2 and `gap` 0 by default."
   items:
     description: The list to virtualize. The default slot renders once per item in the rendered window.
   itemsSize:
@@ -41,7 +42,7 @@ emits:
   virtualScroll: Fires when the item at the scroll position changes, with `{ index, from, to, direction, ref }`.
   reachEdge: Fires once when the position enters an edge zone, with `{ edge, ref }`. `edge` is `top`, `bottom`, `start` or `end`; `start` and `end` are logical. It fires again only after the position leaves the zone, and never at mount.
 slots:
-  default: The content. When virtualized, rendered once per item with `{ item, index }`.
+  default: The content. When virtualized, rendered once per item with `{ item, index }`; in a grid, once per visible cell with `{ item, index, column }`, where `column` is `{ index, start, size }`.
 exposed:
   getScrollTarget: Returns the element that scrolls.
   getScroll: Returns the same information as the `scroll` event.
@@ -50,6 +51,8 @@ exposed:
   setScrollPosition: Scrolls an axis to an offset in pixels, animated over `duration` milliseconds when given.
   setScrollPercentage: Scrolls an axis to a fraction from 0 to 1, animated over `duration` milliseconds when given.
   scrollTo: Scrolls a virtualized list to an item. `edge` is `start`, `center` or `end`; omit it to leave a visible item where it is.
-  reset: Drops every measured item size and measures again.
-  refresh: Re-measures from an index onward, or everything; the scroll position is kept.
+  scrollToColumn: Scrolls a virtual grid to a column, with the same `edge` as `scrollTo`. Does nothing without `virtualize.columns`.
+  reset: Drops every measured item size, and every column width in a grid, and measures again.
+  refresh: Re-measures from an index onward, or everything, column widths included; the scroll position is kept.
   virtualizer: The raw TanStack Virtual instance. An escape hatch outside this component's API stability.
+  columnVirtualizer: The raw TanStack Virtual instance of a grid's columns, `undefined` without `virtualize.columns`. Outside this component's API stability, like `virtualizer`.

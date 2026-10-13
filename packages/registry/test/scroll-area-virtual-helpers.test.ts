@@ -1,6 +1,7 @@
 import { expect, it } from "vitest";
 
 import {
+  getVirtualCellStyle,
   getVirtualContainerStyle,
   getVirtualItemStyle,
   getVirtualWindow,
@@ -60,6 +61,46 @@ it("sizes the container on the virtualized axis only", () => {
     position: "relative",
     width: "4800px",
     height: "300px",
+  });
+});
+
+it("sizes a grid's container to the columns as well as the rows", () => {
+  expect(getVirtualContainerStyle(4800, false, 300, 12_000)).toEqual({
+    position: "relative",
+    width: "12000px",
+    height: "4800px",
+  });
+});
+
+it("lays a grid row out as a flex line that starts at the first rendered column", () => {
+  const style = getVirtualItemStyle({
+    start: 240,
+    lane: 0,
+    horizontal: false,
+    lanes: 1,
+    gap: 0,
+    scrollMargin: 0,
+    columns: { total: 12_000, start: 4800, gap: 8 },
+  });
+
+  expect(style).toEqual({
+    position: "absolute",
+    top: "0px",
+    insetInlineStart: "0px",
+    display: "flex",
+    boxSizing: "border-box",
+    width: "12000px",
+    paddingInlineStart: "4800px",
+    columnGap: "8px",
+    transform: "translateY(240px)",
+  });
+});
+
+it("keeps a cell at least as wide as its column and lets wider content show", () => {
+  expect(getVirtualCellStyle({ index: 3, start: 300, size: 120 })).toEqual({
+    flex: "none",
+    width: "max-content",
+    minWidth: "120px",
   });
 });
 
@@ -157,4 +198,20 @@ it("resolves virtualize options with Quasar-flavoured defaults", () => {
 
   expect(resolveVirtualizeOptions(false).estimateSize(0)).toBe(24);
   expect(resolveVirtualizeOptions(undefined).overscan).toBe(4);
+  expect(resolveVirtualizeOptions(true).columns).toBeUndefined();
+});
+
+it("resolves the column axis with its own defaults", () => {
+  const columns = resolveVirtualizeOptions({ columns: { count: 50 } }).columns!;
+  expect(columns.count).toBe(50);
+  expect(columns.estimateSize(7)).toBe(120);
+  expect(columns.overscan).toBe(2);
+  expect(columns.gap).toBe(0);
+
+  const given = resolveVirtualizeOptions({
+    columns: { count: 50, estimateSize: (index) => 80 + index, overscan: 5, gap: 4 },
+  }).columns!;
+  expect(given.estimateSize(10)).toBe(90);
+  expect(given.overscan).toBe(5);
+  expect(given.gap).toBe(4);
 });
