@@ -40,17 +40,23 @@ const frameFocusRing = `
   has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid:focus-visible]:inset-ring-destructive
 `;
 
+const frameOpenRing = `
+  has-[>[data-slot=input-group-control][data-state=open]]:border-primary
+  has-[>[data-slot=input-group-control][data-state=open]]:inset-ring
+  has-[>[data-slot=input-group-control][data-state=open]]:inset-ring-primary
+`;
+
 const frameDisabledBorder = `
   has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:border-foreground/(--disabled-container-opacity)
 `;
 
 export const textControlFrameVariant = {
-  outline: `rounded-(--frame-radius) border border-input ${frameFocusRing} ${frameDisabledBorder}`,
-  soft: `rounded-(--frame-radius) border border-transparent bg-muted ${frameFocusRing}`,
+  outline: `rounded-(--frame-radius) border border-input ${frameFocusRing} ${frameOpenRing} ${frameDisabledBorder}`,
+  soft: `rounded-(--frame-radius) border border-transparent bg-muted ${frameFocusRing} ${frameOpenRing}`,
   filled:
-    "rounded-t-(--frame-radius) border-b border-input bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:border-primary has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:shadow-[inset_0_-1px_0_var(--color-primary)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:border-foreground/(--disabled-container-opacity)",
-  ghost: `rounded-(--frame-radius) border border-transparent hover:bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:bg-muted ${frameFocusRing} has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:bg-transparent`,
-  subtle: `rounded-(--frame-radius) border border-input bg-muted ${frameFocusRing} ${frameDisabledBorder}`,
+    "rounded-t-(--frame-radius) border-b border-input bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:border-primary has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:shadow-[inset_0_-1px_0_var(--color-primary)] has-[>[data-slot=input-group-control][data-state=open]]:border-primary has-[>[data-slot=input-group-control][data-state=open]]:shadow-[inset_0_-1px_0_var(--color-primary)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*)[aria-invalid=true]:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid]:border-destructive has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):user-invalid:focus-visible]:shadow-[inset_0_-1px_0_var(--color-destructive)] has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:border-foreground/(--disabled-container-opacity)",
+  ghost: `rounded-(--frame-radius) border border-transparent hover:bg-muted has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):focus-visible]:bg-muted has-[>[data-slot=input-group-control][data-state=open]]:bg-muted ${frameFocusRing} ${frameOpenRing} has-[:where(input,textarea,[role=spinbutton]):not([data-slot=input-group-addon]_*):disabled]:bg-transparent`,
+  subtle: `rounded-(--frame-radius) border border-input bg-muted ${frameFocusRing} ${frameOpenRing} ${frameDisabledBorder}`,
 };
 
 export const textControlSize = {

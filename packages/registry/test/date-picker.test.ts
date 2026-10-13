@@ -175,6 +175,18 @@ describe("field", () => {
     await open();
     expect(q("[data-slot=calendar]").dataset.size).toBe("sm");
   });
+
+  it("keeps the input group's frame in the focus colour while the calendar is open", async () => {
+    render(() =>
+      h(InputGroup, () => [
+        h(InputGroupAddon, () => h(InputGroupText, () => "Due")),
+        h(DatePicker, { defaultValue: oct6, locale: "en-US" }),
+      ]),
+    );
+    await open();
+    expect(q("[data-slot=input-group-control]").dataset.state).toBe("open");
+    await expect.poll(() => style(q("[data-slot=input-group]")).borderTopColor).toBe("rgb(0, 128, 0)");
+  });
 });
 
 describe("sizes", () => {
