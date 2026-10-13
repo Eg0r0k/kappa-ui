@@ -4,7 +4,7 @@ import { userEvent } from "vitest/browser";
 import { type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
 
 import { Button } from "@/ui/button";
-import { DialogHost, createDialogs } from "@/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogHost, DialogTitle, createDialogs } from "@/ui/dialog";
 import {
   Drawer,
   DrawerBody,
@@ -120,6 +120,47 @@ it("renders the handle's as-child element with its behaviour", async () => {
   const handle = document.querySelector<HTMLElement>(".my-handle");
   expect(handle?.dataset.slot).toBe("drawer-handle");
   expect(handle?.hasAttribute("data-drawer-handle")).toBe(true);
+});
+
+const dims = (element: HTMLElement) => {
+  const style = getComputedStyle(element);
+  return style.backgroundColor !== "rgba(0, 0, 0, 0)" && Number(style.opacity) > 0.01;
+};
+
+it("dims the page once with a dialog opened over it", async () => {
+  render({}, {}, () =>
+    h(Dialog, { defaultOpen: true }, () =>
+      h(DialogContent, () => h(DialogHeader, () => h(DialogTitle, () => "Confirm"))),
+    ),
+  );
+  await expect.poll(() => slot("dialog-content")).not.toBeNull();
+  await finished(slot("dialog-overlay")!);
+  await wait(400);
+  expect(dims(slot("dialog-overlay")!)).toBe(true);
+  expect(dims(slot("drawer-overlay")!)).toBe(false);
+});
+
+it("dims the page once when opened over a dialog", async () => {
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(Dialog, { defaultOpen: true }, () =>
+          h(DialogContent, () => [
+            h(DialogHeader, () => h(DialogTitle, () => "Dialog")),
+            h(Drawer, { defaultOpen: true }, () =>
+              h(DrawerContent, () => h(DrawerHeader, () => h(DrawerTitle, () => "Drawer"))),
+            ),
+          ]),
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  await expect.poll(() => slot("drawer-content")).not.toBeNull();
+  await finished(slot("drawer-overlay")!);
+  await wait(400);
+  expect(dims(slot("drawer-overlay")!)).toBe(true);
+  expect(dims(slot("dialog-overlay")!)).toBe(false);
 });
 
 it("keeps the swipe area rendered on both sides of a close", async () => {

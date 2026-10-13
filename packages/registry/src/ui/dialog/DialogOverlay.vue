@@ -23,6 +23,7 @@ const delegated = computed(() => {
           ease-standard
           motion-reduce:transition-none
           has-[~[data-slot=dialog-overlay][data-state=open]]:bg-transparent
+          has-[~[data-slot=drawer-overlay][data-state=open]]:bg-transparent
           z-50
         `,
         props.class,

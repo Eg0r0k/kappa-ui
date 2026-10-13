@@ -22,6 +22,7 @@ const delegated = computed(() => {
         `
           fixed inset-0 z-50 bg-scrim animate-overlay drawer-overlay-fade [--overlay-scale:1]
           motion-reduce:transition-none
+          has-[~[data-slot=dialog-overlay][data-state=open]]:bg-transparent
         `,
         props.class,
       )
