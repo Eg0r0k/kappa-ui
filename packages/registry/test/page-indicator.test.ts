@@ -272,6 +272,21 @@ it("shares the length between lines", () => {
   ]);
 });
 
+it("fills its parent with lines unless a width class says otherwise", () => {
+  mount(
+    {
+      render: () =>
+        h("div", { style: "width: 600px" }, [
+          h(PageIndicator, { count: 3, variant: "line", id: "full" }, { default: () => null }),
+          h(PageIndicator, { count: 3, variant: "line", class: "w-40", id: "classed" }, { default: () => null }),
+        ]),
+    },
+    { attachTo: document.body },
+  );
+  expect(rect(document.getElementById("full")!).width).toBe(600);
+  expect(rect(document.getElementById("classed")!).width).toBe(160);
+});
+
 it("sizes the dots and gaps from xs to xl", () => {
   const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
   for (const size of sizes) render(() => ({ size }));

@@ -63,7 +63,10 @@ const root = computed(() => ({
   "data-color": props.color,
   dir: dir.value,
   style: { "--page-indicator-progress": props.progress },
-  class: cn(pageIndicatorVariants({ variant: props.variant, size: props.size }), props.class),
+  class: cn(
+    pageIndicatorVariants({ variant: props.variant, orientation: props.orientation, size: props.size }),
+    props.class,
+  ),
 }));
 </script>
 

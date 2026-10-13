@@ -32,7 +32,11 @@ export const pageIndicatorVariants = cva(
       variant: {
         dot: "",
         pill: "",
-        line: "data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full",
+        line: "",
+      },
+      orientation: {
+        horizontal: "",
+        vertical: "",
       },
       size: {
         xs: "[--page-indicator-dot:--spacing(1)] [--page-indicator-gap:--spacing(1)] [--page-indicator-pill:--spacing(3)]",
@@ -48,6 +52,10 @@ export const pageIndicatorVariants = cva(
         xl: "[--page-indicator-dot:--spacing(3)] [--page-indicator-gap:--spacing(3)] [--page-indicator-pill:--spacing(8)]",
       },
     },
+    compoundVariants: [
+      { variant: "line", orientation: "horizontal", class: "w-full" },
+      { variant: "line", orientation: "vertical", class: "h-full" },
+    ],
   },
 );
 
