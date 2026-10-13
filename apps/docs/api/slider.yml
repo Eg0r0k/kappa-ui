@@ -30,7 +30,7 @@ props:
   id:
     description: Overrides the `id` taken from a surrounding field.
   name:
-    description: Submits the value with its form under this name, one field per thumb.
+    description: "Submits the value with its form, one field per thumb named `name[0]`, `name[1]` and so on, a single thumb included."
   disabled:
     description: Disables the slider. Also set by a disabled field.
   required:
