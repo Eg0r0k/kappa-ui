@@ -13,7 +13,7 @@ const props = defineProps<{ row: DataTableRow<T> }>();
 <template>
   <span
     data-slot="data-table-expand-cell"
-    class="flex items-center"
+    class="-my-(--table-cell-py) flex items-center"
     :style="{ paddingInlineStart: `${props.row.depth * 1.25}rem` }"
   >
     <Button

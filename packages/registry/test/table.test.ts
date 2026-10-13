@@ -104,7 +104,7 @@ it("sets the row height from size", () => {
   const heights = (selector: string) => qa(selector).map((row) => row.getBoundingClientRect().height);
   expect(heights("thead [data-slot=table-row]")).toEqual([28, 36, 44, 52, 60]);
   expect(heights("tbody [data-slot=table-row]:last-child")).toEqual([28, 36, 44, 52, 60]);
-  expect(heights("tbody [data-slot=table-row]:first-child")).toEqual([28, 37, 44, 52, 60]);
+  expect(heights("tbody [data-slot=table-row]:first-child")).toEqual([28, 36, 44, 52, 60]);
   expect(qa("[data-slot=table]").map((table) => table.dataset.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 });
 

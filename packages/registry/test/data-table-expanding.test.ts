@@ -167,6 +167,22 @@ it("renders a tree with getSubRows, indents by depth and expands all", async () 
   expect(t.table().getAttribute("aria-rowcount")).toBe("19");
 });
 
+it.each([
+  ["sm", 36],
+  ["md", 44],
+] as const)("keeps rows with an expand or a group toggle at the %s row height, %ipx", async (size, height) => {
+  const t = render({ data: tree, getSubRows: (row: Person) => row.children, expandable: true, size });
+  t.api.value!.table.toggleAllRowsExpanded(true);
+  await nextTick();
+  expect(t.rows().map((row) => row.getBoundingClientRect().height)).toEqual(t.rows().map(() => height));
+  t.wrapper.unmount();
+
+  render({ groupable: true, grouping: ["city"], size });
+  await nextTick();
+  const groupRows = [...document.querySelectorAll<HTMLElement>("tr[data-slot=table-group]")];
+  expect(groupRows.map((row) => row.getBoundingClientRect().height)).toEqual(groupRows.map(() => height));
+});
+
 it("keeps children on the parent's page with paginateExpandedRows false", async () => {
   const t = render({
     data: tree,
