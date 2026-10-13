@@ -158,4 +158,14 @@ describe("Tour", () => {
     await userEvent.click(part("tour-next"));
     await expect.poll(() => part("tour-title").textContent).toBe("First");
   });
+
+  it("leaves focus where it is when an open-auto-focus listener prevents it", async () => {
+    mount(plain({ content: { onOpenAutoFocus: (event: Event) => event.preventDefault() } }), {
+      attachTo: document.body,
+    });
+    await userEvent.click(document.getElementById("tour-start")!);
+    await expect.poll(() => content()).not.toBeNull();
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    expect(document.activeElement).toBe(document.getElementById("tour-start"));
+  });
 });

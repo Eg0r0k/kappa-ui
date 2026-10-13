@@ -37,6 +37,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
 const portalTarget = injectOverlayPortalTarget(null);
 
 const onOpenAutoFocus = (event: Event) => {
+  if (event.defaultPrevented) return;
   const content = event.target instanceof HTMLElement ? event.target : null;
   const next = content?.querySelector<HTMLElement>("[data-slot=tour-next]");
   if (!next) return;
