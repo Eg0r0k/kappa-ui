@@ -2,7 +2,7 @@ component: ComboboxViewport
 file: ui/combobox/ComboboxViewport.vue
 props:
   nonce:
-    description: "The `nonce` for the style tag that hides the scrollbar, for a Content Security Policy. Inherited from `ConfigProvider` when omitted."
+    description: "The `nonce` for the style tag Reka injects to hide the scrollbar (the kit shows it again), for a Content Security Policy. Inherited from `ConfigProvider` when omitted."
   asChild:
     description: "Render the single child instead of a wrapper, merging this part's attributes and classes onto it."
   as:

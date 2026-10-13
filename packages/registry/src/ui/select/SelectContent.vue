@@ -68,7 +68,7 @@ const size = computed(() => props.size ?? triggerSize?.value ?? "md");
         data-slot="select-viewport"
         :class="
           cn(
-            'flex flex-col gap-0.5 p-(--menu-pad)',
+            'flex flex-col gap-0.5 p-(--menu-pad) [scrollbar-width:thin]!',
             props.position === 'popper' &&
               'h-(--reka-select-trigger-height) w-full min-w-(--reka-select-trigger-width) scroll-my-1',
           )

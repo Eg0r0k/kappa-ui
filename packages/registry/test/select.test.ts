@@ -180,6 +180,30 @@ describe("Select", () => {
     expect(getComputedStyle(document.querySelector("[data-slot=select-item]")!).minHeight).toBe("50px");
     wrapper.unmount();
   });
+
+  it.each([
+    ["max-h-40", "thin"],
+    ["max-h-40 [&_[data-slot=select-viewport]]:[scrollbar-width:none]!", "none"],
+  ])("shows a thin scrollbar on a long list, which an important class hides (%s)", async (classes, width) => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Select, { open: true }, () => [
+            h(SelectTrigger, { "aria-label": "Number" }, () => h(SelectValue)),
+            h(SelectContent, { class: classes }, () =>
+              Array.from({ length: 30 }, (_, index) => h(SelectItem, { value: `${index}` }, () => `Item ${index}`)),
+            ),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    const viewport = () => document.querySelector<HTMLElement>("[data-slot=select-viewport]");
+
+    await expect.poll(() => viewport()).not.toBeNull();
+    await expect.poll(() => viewport()!.scrollHeight > viewport()!.clientHeight).toBe(true);
+    expect(getComputedStyle(viewport()!).scrollbarWidth).toBe(width);
+    wrapper.unmount();
+  });
 });
 
 describe("Select control tokens", () => {

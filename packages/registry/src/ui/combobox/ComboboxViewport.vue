@@ -16,7 +16,12 @@ const delegated = computed(() => {
   <ComboboxViewport
     v-bind="delegated"
     data-slot="combobox-viewport"
-    :class="cn('flex max-h-72 min-h-0 scroll-py-(--menu-pad) flex-col gap-0.5 p-(--menu-pad)', props.class)"
+    :class="
+      cn(
+        'flex max-h-72 min-h-0 scroll-py-(--menu-pad) flex-col gap-0.5 p-(--menu-pad) [scrollbar-width:thin]!',
+        props.class,
+      )
+    "
   >
     <slot />
   </ComboboxViewport>

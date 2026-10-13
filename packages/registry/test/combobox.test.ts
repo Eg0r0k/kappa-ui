@@ -268,6 +268,25 @@ describe("Combobox", () => {
     await expect.poll(() => document.querySelector<HTMLElement>("[data-slot=combobox-list]")?.dataset.size).toBe("lg");
     expect(getComputedStyle(items()[0]!).minHeight).toBe("40px");
   });
+
+  it.each([
+    ["", "thin"],
+    ["[scrollbar-width:none]!", "none"],
+  ])("shows a thin scrollbar on a long list, which an important class hides (%s)", async (classes, width) => {
+    controlled(undefined, { open: true }, () => [
+      h(ComboboxAnchor, () => h(ComboboxInput, { "aria-label": "Number" })),
+      h(ComboboxList, () =>
+        h(ComboboxViewport, { class: classes }, () =>
+          Array.from({ length: 30 }, (_, index) => h(ComboboxItem, { value: `${index}` }, () => `Item ${index}`)),
+        ),
+      ),
+    ]);
+    const viewport = () => document.querySelector<HTMLElement>("[data-slot=combobox-viewport]");
+
+    await expect.poll(() => viewport()).not.toBeNull();
+    await expect.poll(() => viewport()!.scrollHeight > viewport()!.clientHeight).toBe(true);
+    expect(getComputedStyle(viewport()!).scrollbarWidth).toBe(width);
+  });
 });
 
 describe("Combobox control tokens", () => {
