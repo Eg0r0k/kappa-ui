@@ -68,6 +68,15 @@ it("animates a panel's height open and closed", async () => {
   expect(getComputedStyle(panel("one")!).animationName).toBe("kappa-accordion-up");
 });
 
+it("clips a panel only while it animates, so an open answer's focus ring shows", async () => {
+  renderAccordion({ type: "single", defaultValue: "one" });
+  await expect.poll(() => panel("one")!.dataset.state).toBe("open");
+  expect(getComputedStyle(panel("one")!).overflow).toBe("visible");
+
+  await userEvent.click(trigger("two"));
+  expect(getComputedStyle(panel("two")!).overflow).toBe("hidden");
+});
+
 it("keeps several items open in multiple mode", async () => {
   renderAccordion({ type: "multiple" });
   await userEvent.click(trigger("one"));

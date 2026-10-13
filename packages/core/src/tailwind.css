@@ -547,18 +547,22 @@
 @keyframes kappa-accordion-down {
   from {
     height: 0;
+    overflow: hidden;
   }
   to {
     height: var(--reka-accordion-content-height);
+    overflow: hidden;
   }
 }
 
 @keyframes kappa-accordion-up {
   from {
     height: var(--reka-accordion-content-height);
+    overflow: hidden;
   }
   to {
     height: 0;
+    overflow: hidden;
   }
 }
 
