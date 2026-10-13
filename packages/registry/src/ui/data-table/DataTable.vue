@@ -497,6 +497,10 @@ const headStyle = (header: Header<DataTableFeatures, T, unknown>) => {
   const own = typeof info?.thStyle === "function" ? info.thStyle(header.getContext()) : info?.thStyle;
   return [info?.pinStyle, own];
 };
+const footStyle = (header: Header<DataTableFeatures, T, unknown>) => {
+  const info = infoOf(header.column.id);
+  return [info?.pinStyle, typeof info?.tdStyle === "function" ? undefined : info?.tdStyle];
+};
 const cellAttrs = (cell: Cell<DataTableFeatures, T, unknown>) => {
   const info = infoOf(cell.column.id);
   const own = typeof info?.tdStyle === "function" ? info.tdStyle(cell.getContext()) : info?.tdStyle;
@@ -909,7 +913,7 @@ const scrollerAttrs = computed(() =>
                 :colspan="header.colSpan > 1 ? header.colSpan : undefined"
                 :data-pinned="infoOf(header.column.id)?.pinned || undefined"
                 :data-align="infoOf(header.column.id)?.align"
-                :style="headStyle(header)"
+                :style="footStyle(header)"
                 :class="infoOf(header.column.id)?.tdClass ?? cn(tableStyles.cell, props.ui?.td)"
               >
                 <slot v-if="!header.isPlaceholder" :name="`footer-${header.column.id}`" v-bind="header.getContext()">

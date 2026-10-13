@@ -207,6 +207,19 @@ it.each([
   expect(range()).toBe("11–20 of 95");
 });
 
+it("gives footer cells the column's td style, as it gives them its td class", () => {
+  const styled = [
+    helper.accessor("name", {
+      header: "Name",
+      footer: "Sum",
+      meta: { style: { th: { color: "rgb(255, 0, 0)" }, td: { color: "rgb(0, 0, 255)" } } },
+    }),
+  ];
+  render({ columns: styled });
+  expect(getComputedStyle(document.querySelector("thead th")!).color).toBe("rgb(255, 0, 0)");
+  expect(getComputedStyle(document.querySelector("tfoot td")!).color).toBe("rgb(0, 0, 255)");
+});
+
 it("renders the column widths and pin offsets on the server", async () => {
   const html = await renderToString(
     createSSRApp({
