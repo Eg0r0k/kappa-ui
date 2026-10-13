@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { h } from "vue";
 
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, type ItemVariants, ItemTitle } from "@/ui/item";
@@ -116,6 +117,19 @@ describe("Item", () => {
 
     expect(item.tagName).toBe("A");
     expect(getComputedStyle(item, "::before").content).toBe('""');
+  });
+});
+
+describe("Item state layer", () => {
+  it.each([
+    ["a disabled button", { as: "button", disabled: true }],
+    ["a data-disabled link", { as: "a", href: "#", "data-disabled": "" }],
+  ])("stays flat under the mouse on %s", async (_, props) => {
+    const item = render(props);
+    await userEvent.hover(item, { force: true });
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(getComputedStyle(item, "::before").opacity).toBe("0");
+    await userEvent.unhover(document.body);
   });
 });
 
