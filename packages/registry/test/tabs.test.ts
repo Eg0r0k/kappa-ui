@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
-import { defineComponent, h } from "vue";
+import { defineComponent, h, nextTick, ref } from "vue";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 
@@ -125,6 +125,30 @@ it("stretches horizontal pill triggers unless a class says flex-none", () => {
   );
   unmount = () => wrapper.unmount();
   expect(triggers().map((trigger) => getComputedStyle(trigger).flexGrow)).toEqual(["0", "1"]);
+});
+
+it("moves the line indicator with the active trigger when a tab is inserted before it", async () => {
+  const values = ref(["b", "c"]);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(Tabs, { defaultValue: "c" }, () =>
+          h(TabsList, { variant: "line", class: "w-[600px]" }, () =>
+            values.value.map((value) => h(TabsTrigger, { key: value, value }, () => value.repeat(6))),
+          ),
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  const active = () => triggers().find((trigger) => trigger.textContent === "cccccc")!;
+  const position = () => parseFloat(indicator().style.getPropertyValue("--reka-tabs-indicator-position"));
+  await shown();
+  await expect.poll(position).toBe(active().offsetLeft);
+  values.value = ["a", "b", "c"];
+  await nextTick();
+  await expect.poll(position).toBe(active().offsetLeft);
+  expect(active().offsetLeft).toBeGreaterThan(0);
 });
 
 it("sizes triggers from the list and defaults to a medium pill", () => {
