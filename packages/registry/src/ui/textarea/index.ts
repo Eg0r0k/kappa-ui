@@ -4,17 +4,18 @@ import { textControlBase, textControlRadius, textControlSize, textControlVariant
 
 export { default as Textarea } from "./Textarea.vue";
 
-export const textareaVariants = cva(`${textControlBase} block resize-y`, {
+export const textareaVariants = cva(`${textControlBase} block resize-y py-[calc((var(--control-height)-1lh)/2-1px)]`, {
   variants: {
     variant: textControlVariant,
     size: {
-      xs: `py-1.5 ${textControlSize.xs} ${textControlRadius.xs}`,
-      sm: `py-1.5 ${textControlSize.sm} ${textControlRadius.sm}`,
-      md: `py-2 ${textControlSize.md} ${textControlRadius.md}`,
-      lg: `py-2.5 ${textControlSize.lg} ${textControlRadius.lg}`,
-      xl: `py-3 ${textControlSize.xl} ${textControlRadius.xl}`,
+      xs: `[--control-height:var(--control-height-xs)] ${textControlSize.xs} ${textControlRadius.xs}`,
+      sm: `[--control-height:var(--control-height-sm)] ${textControlSize.sm} ${textControlRadius.sm}`,
+      md: `[--control-height:var(--control-height-md)] ${textControlSize.md} ${textControlRadius.md}`,
+      lg: `[--control-height:var(--control-height-lg)] ${textControlSize.lg} ${textControlRadius.lg}`,
+      xl: `[--control-height:var(--control-height-xl)] ${textControlSize.xl} ${textControlRadius.xl}`,
     },
   },
+  compoundVariants: [{ variant: "filled", class: "pt-[calc((var(--control-height)-1lh)/2)]" }],
   defaultVariants: {
     variant: "outline",
     size: "md",

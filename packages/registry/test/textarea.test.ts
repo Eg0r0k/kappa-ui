@@ -1,8 +1,10 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
+import { page, server } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
+import { Input } from "@/ui/input";
 import { Textarea } from "@/ui/textarea";
 
 const lines = (count: number) => Array.from({ length: count }, (_, index) => `Line ${index + 1}`).join("\n");
@@ -106,6 +108,42 @@ describe("Textarea", () => {
     const revealed = document.querySelector<HTMLElement>("[data-testid=hidden]")!;
     await expect.poll(() => revealed.style.height).toBe(reference.style.height);
     expect(revealed.offsetHeight).toBe(reference.offsetHeight);
+  });
+
+  it("is as tall at one row as the Input of its size and variant, on narrow and wide screens", async () => {
+    const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
+    const variants = ["outline", "soft", "filled", "ghost", "subtle"] as const;
+    const mismatches = () => {
+      const wrapper = mount(
+        () =>
+          sizes.flatMap((size) =>
+            variants.map((variant) =>
+              h("div", { class: "w-72", "data-case": `${size} ${variant}` }, [
+                h(Input, { size, variant, "aria-label": "Input" }),
+                h(Textarea, { size, variant, rows: 1, "aria-label": "Textarea" }),
+              ]),
+            ),
+          ),
+        { attachTo: document.body },
+      );
+      const result = [...document.querySelectorAll<HTMLElement>("[data-case]")]
+        .map((box) => [
+          box.dataset.case,
+          box.querySelector("input")!.offsetHeight,
+          box.querySelector("textarea")!.offsetHeight,
+        ])
+        .filter(([, input, textarea]) => input !== textarea);
+      wrapper.unmount();
+      return result;
+    };
+    expect(window.innerWidth).toBeLessThan(768);
+    expect(mismatches()).toEqual([]);
+    await page.viewport(1024, 768);
+    try {
+      expect(mismatches()).toEqual([]);
+    } finally {
+      await page.viewport(server.config.browser.viewport.width, server.config.browser.viewport.height);
+    }
   });
 
   it("keeps the height the rows give it without autoresize", async () => {
