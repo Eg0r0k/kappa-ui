@@ -236,12 +236,35 @@ it("draws the indicator and the separator from the item state", async () => {
   const [active, inactive] = indicators();
   expect(getComputedStyle(active!).backgroundColor).not.toBe(getComputedStyle(inactive!).backgroundColor);
   expect(getComputedStyle(active!).borderRadius).toContain("px");
-  expect(inactive!.className).toContain("group-data-[state=active]:bg-tone");
-  expect(inactive!.className).toContain("group-data-[state=completed]:bg-accent");
-  expect(separators()[0]!.className).toContain("group-data-[state=completed]:bg-accent");
+  expect(inactive!.className).toContain("group-data-[state=active]/stepper-item:bg-tone");
+  expect(inactive!.className).toContain("group-data-[state=completed]/stepper-item:bg-accent");
+  expect(separators()[0]!.className).toContain("group-data-[state=completed]/stepper-item:bg-accent");
   expect(separators()[0]!.dataset.state).toBe("active");
   await userEvent.click(triggers()[1]!);
   expect(separators()[0]!.dataset.state).toBe("completed");
+});
+
+it("reads the state from its own item, not from an outer group", () => {
+  const wrapper = mount(
+    () =>
+      h("div", { class: "group", "data-state": "active" }, [
+        h(Stepper, null, () => [
+          ...steps.slice(0, 2).map((step) => item(step)),
+          h(StepperItem, { step: 3 }, () => [
+            h(StepperTrigger, () => h(StepperIndicator, () => "3")),
+            h(Stepper, { defaultValue: 2 }, () => steps.map((step) => item(step))),
+          ]),
+        ]),
+      ]),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  const outer = indicators()[2]!;
+  expect(outer.closest<HTMLElement>("[data-slot=stepper-item]")!.dataset.state).toBe("inactive");
+  expect(getComputedStyle(outer).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  const [, innerActive, innerInactive] = indicators().slice(3);
+  expect(getComputedStyle(innerActive!).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+  expect(getComputedStyle(innerInactive!).backgroundColor).toBe("rgba(0, 0, 0, 0)");
 });
 
 it("fills the active indicator in the stepper's color, primary by default", () => {

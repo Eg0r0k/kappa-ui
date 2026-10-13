@@ -41,12 +41,15 @@ export const stepperVariants = cva("group/stepper flex gap-(--stepper-gap) data-
 export type StepperVariants = VariantProps<typeof stepperVariants>;
 export type StepperSize = NonNullable<StepperVariants["size"]>;
 
-export const stepperItemVariants = cva("group flex gap-(--stepper-gap) data-disabled:pointer-events-none", {
-  variants: {
-    orientation: { horizontal: "items-center", vertical: "flex-col items-start" },
+export const stepperItemVariants = cva(
+  "group/stepper-item flex gap-(--stepper-gap) data-disabled:pointer-events-none",
+  {
+    variants: {
+      orientation: { horizontal: "items-center", vertical: "flex-col items-start" },
+    },
+    defaultVariants: { orientation: "horizontal" },
   },
-  defaultVariants: { orientation: "horizontal" },
-});
+);
 
 export const stepperTriggerVariants = cva(
   "flex items-center gap-1 rounded-item-xs p-1 outline-none focus-visible:focus-ring",
@@ -61,9 +64,9 @@ export const stepperTriggerVariants = cva(
 export const stepperIndicator = `
   inline-flex size-(--stepper-indicator) shrink-0 items-center justify-center rounded-full text-(length:--stepper-text)
   leading-none font-medium text-muted-foreground/50
-  group-data-disabled:text-muted-foreground group-data-disabled:opacity-(--disabled-opacity)
-  group-data-[state=active]:bg-tone group-data-[state=active]:text-tone-foreground
-  group-data-[state=completed]:bg-accent group-data-[state=completed]:text-accent-foreground
+  group-data-disabled/stepper-item:text-muted-foreground group-data-disabled/stepper-item:opacity-(--disabled-opacity)
+  group-data-[state=active]/stepper-item:bg-tone group-data-[state=active]/stepper-item:text-tone-foreground
+  group-data-[state=completed]/stepper-item:bg-accent group-data-[state=completed]/stepper-item:text-accent-foreground
   [&_svg]:pointer-events-none [&_svg]:shrink-0
   icon-size-(--stepper-icon)
 `;
@@ -74,8 +77,8 @@ export const stepperDescription = `text-body-sm text-muted-foreground`;
 
 export const stepperSeparator = `
   h-(--stepper-separator-h) w-(--stepper-separator-w) flex-1 rounded-full bg-muted
-  group-data-disabled:opacity-(--disabled-opacity)
-  group-data-[state=completed]:bg-accent
+  group-data-disabled/stepper-item:opacity-(--disabled-opacity)
+  group-data-[state=completed]/stepper-item:bg-accent
   data-[orientation=horizontal]:[--stepper-separator-h:var(--stepper-separator)]
   data-[orientation=horizontal]:[--stepper-separator-w:auto]
   data-[orientation=vertical]:[--stepper-separator-h:auto]

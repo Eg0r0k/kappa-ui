@@ -85,7 +85,7 @@ const finish: SubmitHandler<typeof Drink> = (output) => {
       >
         <StepperSeparator
           v-if="item.step < steps.length"
-          class="absolute top-[17px] right-[calc(-50%+10px)] left-[calc(50%+20px)] group-data-[state=completed]:bg-primary"
+          class="absolute top-[17px] right-[calc(-50%+10px)] left-[calc(50%+20px)] group-data-[state=completed]/stepper-item:bg-primary"
         />
         <StepperTrigger as-child>
           <Button

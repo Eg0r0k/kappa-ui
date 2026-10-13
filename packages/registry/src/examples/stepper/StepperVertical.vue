@@ -57,7 +57,7 @@ const steps = [
       </div>
       <StepperSeparator
         v-if="item.step < steps.length"
-        class="ms-[calc((var(--control-height-md)-var(--stepper-separator))/2)] group-data-[state=completed]:bg-primary"
+        class="ms-[calc((var(--control-height-md)-var(--stepper-separator))/2)] group-data-[state=completed]/stepper-item:bg-primary"
       />
     </StepperItem>
   </Stepper>

@@ -106,13 +106,16 @@ onBeforeUnmount(stop)
         >
           <div class="flex flex-col items-center gap-1">
             <StepperIndicator
-              class="bg-muted text-muted-foreground group-data-[state=completed]:bg-success group-data-[state=completed]:text-success-foreground"
+              class="bg-muted text-muted-foreground group-data-[state=completed]/stepper-item:bg-success group-data-[state=completed]/stepper-item:text-success-foreground"
             >
               <Check v-if="state === 'completed'" />
               <Spinner v-else-if="state === 'active'" />
               <template v-else>{{ item.step }}</template>
             </StepperIndicator>
-            <StepperSeparator v-if="item.step < steps.length" class="mb-1 group-data-[state=completed]:bg-success" />
+            <StepperSeparator
+              v-if="item.step < steps.length"
+              class="mb-1 group-data-[state=completed]/stepper-item:bg-success"
+            />
           </div>
           <div class="flex min-w-0 flex-1 flex-col gap-0.5 pt-1" :class="{ 'pb-4': item.step < steps.length }">
             <StepperTitle>{{ item.title }}</StepperTitle>
