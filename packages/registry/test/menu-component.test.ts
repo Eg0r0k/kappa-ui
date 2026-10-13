@@ -168,6 +168,37 @@ describe("Menu", () => {
     expect(menu()!.textContent).toContain("Code one");
   });
 
+  it("opens a menu without a target on screen, and at the event's position as a context menu", async () => {
+    const plain = ref<InstanceType<typeof Menu>>();
+    const context = ref<InstanceType<typeof Menu>>();
+    mount(
+      defineComponent({
+        setup: () => () =>
+          h("div", [
+            h(Menu, { target: false, ref: plain }, () => items("Plain")),
+            h(Menu, { target: false, contextMenu: true, ref: context }, () => items("Context")),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    plain.value!.show();
+    await shown();
+    await settle();
+    const box = menu()!.getBoundingClientRect();
+    expect(box.left).toBeGreaterThanOrEqual(0);
+    expect(box.top).toBeGreaterThanOrEqual(0);
+    expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
+    expect(box.bottom).toBeLessThanOrEqual(document.documentElement.clientHeight);
+
+    plain.value!.hide();
+    await hidden();
+    context.value!.show(new MouseEvent("contextmenu", { clientX: 200, clientY: 200 }));
+    await shown();
+    await settle();
+    expect(Math.round(menu()!.getBoundingClientRect().top)).toBe(200);
+    expect(Math.round(menu()!.getBoundingClientRect().left)).toBe(200);
+  });
+
   it("stays open when persistent and closes on any click with auto-close", async () => {
     mount(
       defineComponent({

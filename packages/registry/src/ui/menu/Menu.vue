@@ -75,8 +75,8 @@ const pointerPosition = (event?: Event) =>
 
 const show = (event?: Event) => {
   const pointer = props.touchPosition || props.contextMenu ? pointerPosition(event) : null;
-  const box = anchorEl.value?.getBoundingClientRect();
-  point.value = pointer && box ? { x: pointer.clientX - box.left, y: pointer.clientY - box.top } : null;
+  const box = anchorEl.value?.getBoundingClientRect() ?? new DOMRect();
+  point.value = pointer ? { x: pointer.clientX - box.left, y: pointer.clientY - box.top } : null;
   open.value = true;
 };
 
@@ -105,6 +105,9 @@ const defaultOffset = (anchor: MenuOrigin, self: MenuOrigin): [number, number] =
   gap(anchor.vertical, self.vertical),
 ];
 
+const untargetedBox = (viewport: { width: number; height: number }) =>
+  point.value ? new DOMRect() : new DOMRect(viewport.width / 2, viewport.height / 2);
+
 const reference = {
   get contextElement() {
     return anchorEl.value ?? undefined;
@@ -112,9 +115,10 @@ const reference = {
   getBoundingClientRect: () => {
     const target = anchorEl.value;
     const element = contentElement();
-    if (!target || !element) return new DOMRect();
+    if (!element) return new DOMRect();
 
-    const box = target.getBoundingClientRect();
+    const viewport = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
+    const box = target?.getBoundingClientRect() ?? untargetedBox(viewport);
     const rect = point.value
       ? {
           top: box.top + point.value.y,
@@ -133,7 +137,7 @@ const reference = {
       anchor,
       self,
       offset: props.cover ? [0, 0] : (props.offset ?? (point.value ? [0, 0] : defaultOffset(anchor, self))),
-      viewport: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight },
+      viewport,
     });
 
     element.style.maxHeight = cap(placement.maxHeight, props.maxHeight);
