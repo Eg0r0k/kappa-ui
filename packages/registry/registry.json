@@ -365,7 +365,7 @@
       "categories": [
         "layout"
       ],
-      "docs": "The root is contain: size, so it takes no height from its content by default. Give it an explicit height (h-72, or any other value) or it collapses to nothing.\n\nPut padding on a wrapper inside the slot, not on the root's class. The bars are positioned against the root while the geometry that drives them is measured from the scrolling viewport inside it, so padding on the root shifts the bars out of alignment with the content they represent. A border on the root is fine — only padding shifts them.\n\nSet virtualize and pass items to render long lists. The default slot then receives { item, index } and is rendered once per row in the rendered window, which is the visible rows plus a small overscan buffer. Without virtualize the slot renders once and its scope carries no item.\n\norientation sets the axis: vertical (default), horizontal, or both. It sets the viewport's overflow, the virtualized axis (both virtualizes the vertical one) and which bars render, so content that must scroll sideways needs orientation=\"horizontal\" or \"both\". virtualize also accepts an options object: estimateSize, overscan, lanes, gap, scrollMargin and getScrollElement.\n\nInfiniteScroll and useInfiniteScroll load more content as the scroll nears an edge; see the Infinite Scroll page.",
+      "docs": "The root is contain: size, so it takes no height from its content by default. Give it an explicit height (h-72, or any other value) or it collapses to nothing.\n\nPut padding on a wrapper inside the slot, not on the root's class. The bars are positioned against the root while the geometry that drives them is measured from the scrolling viewport inside it, so padding on the root shifts the bars out of alignment with the content they represent. A border on the root is fine — only padding shifts them.\n\nSet virtualize and pass items to render long lists. The default slot then receives { item, index } and is rendered once per row in the rendered window, which is the visible rows plus a small overscan buffer. Without virtualize the slot renders once and its scope carries no item.\n\norientation sets the axis: vertical (default), horizontal, or both. It sets the viewport's overflow, the virtualized axis (both virtualizes the vertical one) and which bars render, so content that must scroll sideways needs orientation=\"horizontal\" or \"both\". virtualize also accepts an options object: estimateSize, overscan, lanes, gap, scrollMargin, getScrollElement and columns. With orientation=\"both\", columns ({ count, estimateSize, overscan, gap }) virtualizes the columns as well, and the slot is rendered once per visible cell with { item, index, column }; rows without columns are not measured sideways.\n\nInfiniteScroll and useInfiniteScroll load more content as the scroll nears an edge; see the Infinite Scroll page.",
       "dependencies": [
         "@tanstack/vue-virtual"
       ],
@@ -4926,6 +4926,24 @@
       "files": [
         {
           "path": "src/examples/scroll-area/ScrollAreaMasonry.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area-grid",
+      "type": "registry:block",
+      "title": "Grid scroll area",
+      "description": "A thousand rows by a hundred columns, virtualized on both axes.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area"
+      ],
+      "files": [
+        {
+          "path": "src/examples/scroll-area/ScrollAreaGrid.vue",
           "type": "registry:component"
         }
       ]
