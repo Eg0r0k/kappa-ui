@@ -28,6 +28,13 @@ const active = computed(() => index.value !== -1 && index.value === context.acti
 
 let unregister: (() => void) | undefined;
 
+const focusActivePage = () => {
+  const page = context.views.value[context.active.value]?.element;
+  if (!page) return;
+  if (!page.hasAttribute("tabindex")) page.tabIndex = -1;
+  page.focus({ preventScroll: true });
+};
+
 onMounted(() => {
   const node = element.value;
   if (!node) return;
@@ -46,7 +53,9 @@ watchEffect(() => {
   if (!node || index.value === -1) return;
   node.dataset.state = active.value ? "active" : "inactive";
   node.dataset.orientation = context.orientation.value;
-  node.inert = !active.value && !context.moving.value;
+  const inert = !active.value && !context.moving.value;
+  if (inert && !node.inert && node.contains(document.activeElement)) focusActivePage();
+  node.inert = inert;
   node.style.setProperty("--swipe-view-index", String(index.value));
   node.style.setProperty("--swipe-view-start", `${(context.starts.value[index.value] ?? 0) * context.sign.value}px`);
 });

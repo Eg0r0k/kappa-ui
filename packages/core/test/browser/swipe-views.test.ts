@@ -96,6 +96,39 @@ it("moves to a value set from outside and keeps the others inert once settled", 
   expect(view("c").inert).toBe(false);
 });
 
+it("moves focus to the new view, not into it, when the view holding focus turns inert", async () => {
+  const tab = ref<SwipeViewsValue>("a");
+  mount(
+    defineComponent({
+      setup: () => () =>
+        h(
+          SwipeViewsRoot,
+          {
+            class: "root",
+            modelValue: tab.value,
+            "onUpdate:modelValue": (value: SwipeViewsValue) => (tab.value = value),
+          },
+          () => [
+            h(SwipeView, { value: "a", class: "view", "data-view": "a" }, () =>
+              h("button", { type: "button", onClick: () => (tab.value = "b") }, "next"),
+            ),
+            h(SwipeView, { value: "b", class: "view", "data-view": "b" }, () => h("input", { "aria-label": "Name" })),
+          ],
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  await wait(50);
+  const next = document.querySelector<HTMLButtonElement>("[data-view=a] button")!;
+  next.focus();
+  next.click();
+  await wait(450);
+  const page = document.querySelector<HTMLElement>("[data-view=b]")!;
+  expect(document.querySelector<HTMLElement>("[data-view=a]")!.inert).toBe(true);
+  expect(document.activeElement).toBe(page);
+  expect(page.tabIndex).toBe(-1);
+});
+
 it("warns about an unknown value, shows the first view and emits nothing", async () => {
   const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
   const { tab } = await host({ tab: ref("zzz") });
