@@ -227,6 +227,32 @@ it("leaves locked rows unchecked and uncounted when all rows are selected", asyn
   expect(t.banner()!.textContent).toContain("45");
 });
 
+it("clears the rows when a bound row selection goes back to undefined", async () => {
+  const selection = ref<DataTableRowSelectionState | undefined>();
+  mount(
+    defineComponent({
+      render: () =>
+        h(AnyTable, {
+          data: people.slice(0, 5),
+          columns,
+          getRowId: (row: Person) => row.id,
+          selection: true,
+          rowSelection: selection.value,
+          "onUpdate:rowSelection": (value: DataTableRowSelectionState) => (selection.value = value),
+        }),
+    }),
+    { attachTo: document.body },
+  );
+  const first = () => document.querySelector<HTMLElement>("tbody [data-slot=data-table-select-cell] [role=checkbox]")!;
+  await userEvent.click(first());
+  await nextTick();
+  expect(first().getAttribute("aria-checked")).toBe("true");
+  selection.value = undefined;
+  await nextTick();
+  await nextTick();
+  expect(first().getAttribute("aria-checked")).toBe("false");
+});
+
 it("selects a range with shift and does not fire the row click from the checkbox", async () => {
   const clicks: string[] = [];
   const t = render({ onRowClick: (_event: Event, row: { id: string }) => clicks.push(row.id) });

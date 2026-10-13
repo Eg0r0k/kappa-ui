@@ -147,6 +147,12 @@ const rowSelection = computed<DataTableRowSelectionState | undefined>({
     pendingSource = "imperative";
   },
 });
+watch(
+  () => props.rowSelection,
+  (value) => {
+    if (value === undefined) localSelection.value = {};
+  },
+);
 const expanded = defineModel<ExpandedState>("expanded");
 const grouping = defineModel<GroupingState>("grouping");
 const rowPinning = defineModel<RowPinningState>("rowPinning");
