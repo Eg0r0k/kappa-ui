@@ -10,7 +10,7 @@ const props = defineProps<AvatarFallbackProps & { class?: HTMLAttributes["class"
 <template>
   <AvatarFallback
     data-slot="avatar-fallback"
-    :delay-ms="props.delayMs"
+    :delay-ms="props.delayMs || undefined"
     :as="props.as"
     :as-child="props.asChild"
     :class="cn('flex size-full items-center justify-center bg-muted text-muted-foreground', props.class)"

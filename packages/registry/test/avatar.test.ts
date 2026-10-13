@@ -37,6 +37,14 @@ describe("Avatar", () => {
     expect(fallback(root)?.textContent).toBe("KP");
   });
 
+  it("shows the fallback at once with a delayMs of 0", async () => {
+    const root = render(() =>
+      h(Avatar, () => [h(AvatarImage, { src: broken }), h(AvatarFallback, { delayMs: 0 }, () => "KP")]),
+    );
+    await expect.poll(() => root.querySelector("img")?.style.display).toBe("none");
+    expect(fallback(root)?.textContent).toBe("KP");
+  });
+
   it("delays the fallback by delayMs", async () => {
     vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
     const root = render(() =>
