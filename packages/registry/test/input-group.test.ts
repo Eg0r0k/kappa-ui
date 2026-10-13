@@ -262,6 +262,30 @@ describe("InputGroup", () => {
     await nextTick();
     expect(value.value).toBe("sent");
   });
+
+  it("disables a button in a disabled Field, not only fades it", async () => {
+    let clicks = 0;
+    mount(
+      defineComponent(
+        () => () =>
+          h(Field, { disabled: true }, () => [
+            h(FieldLabel, () => "Query"),
+            h(InputGroup, () => [
+              h(InputGroupInput),
+              h(InputGroupAddon, { align: "inline-end" }, () =>
+                h(InputGroupButton, { onClick: () => clicks++ }, () => "Go"),
+              ),
+            ]),
+          ]),
+      ),
+      { attachTo: document.body },
+    );
+    await nextTick();
+    const button = document.querySelector<HTMLButtonElement>("[data-slot=input-group-button]")!;
+    button.click();
+    expect(button.disabled).toBe(true);
+    expect(clicks).toBe(0);
+  });
 });
 
 describe("InputGroup control tokens", () => {

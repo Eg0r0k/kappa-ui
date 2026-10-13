@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue";
 
+import { injectFieldContext } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 import { Button, type ButtonColor, type ButtonVariants } from "@/ui/button";
 import { type InputGroupButtonVariants, inputGroupButtonVariants } from ".";
@@ -15,6 +16,8 @@ const props = withDefaults(
   }>(),
   { variant: "ghost", color: "neutral", size: "xs", type: "button" },
 );
+
+const field = injectFieldContext(null);
 </script>
 
 <template>
@@ -25,6 +28,7 @@ const props = withDefaults(
     :variant="props.variant"
     :color="props.color"
     :size="props.size"
+    :disabled="field?.disabled.value || undefined"
     :class="cn(inputGroupButtonVariants({ size: props.size }), props.class)"
   >
     <slot />
