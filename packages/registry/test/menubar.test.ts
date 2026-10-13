@@ -277,6 +277,24 @@ describe("Menubar keyboard", () => {
     await opened("View");
   });
 
+  it("keeps focus in a menu it switches back to while that menu was still closing", async () => {
+    document.body.style.setProperty("--transition-duration-short-2", "1000ms");
+    renderMenubar();
+    trigger("File").focus();
+    await userEvent.keyboard("{Enter}");
+    await focused(() => item("New tab"));
+    await userEvent.keyboard("{ArrowRight}");
+    await opened("Edit");
+    await focused(() => q(".edit-menu"));
+    await userEvent.keyboard("{ArrowLeft}");
+    await opened("File");
+    await gone(".edit-menu");
+    await settle();
+    expect(document.activeElement?.closest(".file-menu")).not.toBeNull();
+    await userEvent.keyboard("{ArrowDown}");
+    expect(document.activeElement?.closest(".file-menu")).not.toBeNull();
+  });
+
   it("opens a submenu with ArrowRight on its trigger instead of switching menus", async () => {
     renderMenubar();
     trigger("File").focus();

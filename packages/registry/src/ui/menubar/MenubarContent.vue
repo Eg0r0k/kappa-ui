@@ -38,6 +38,10 @@ provideMenuSize(size);
 const rootContext = injectMenubarRootContext();
 const menuContext = injectMenubarMenuContext();
 
+const switching = computed(
+  () => Boolean(rootContext.modelValue.value) && rootContext.modelValue.value !== menuContext.value,
+);
+
 // When another menu opens, this one closes but its layer still sees the new menu take focus. If the new menu
 // sits earlier in the page, Reka counts that as focus outside and closes the whole menubar.
 const onFocusOutside = (event: MenubarContentEmits["focusOutside"][0]) => {
@@ -67,6 +71,7 @@ const onKeydown = (event: KeyboardEvent) => tabFromTrigger(event, menuContext.tr
       v-bind="{ ...$attrs, ...forwarded, onFocusOutside, onCloseAutoFocus }"
       data-slot="menubar-content"
       :data-size="size"
+      :data-instant="switching ? '' : undefined"
       :class="cn(overlaySurface, menubarContent, menuSizeVariants({ size }), props.class)"
       @keydown="onKeydown"
     >
