@@ -15,7 +15,7 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     :class="cn('[&>svg]:size-3.5', props.class)"
   >
     <slot>
-      <ChevronRight />
+      <ChevronRight class="rtl:rotate-180" />
     </slot>
   </li>
 </template>

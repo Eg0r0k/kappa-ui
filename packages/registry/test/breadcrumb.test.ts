@@ -79,4 +79,23 @@ describe("Breadcrumb", () => {
     expect(ellipsis.text()).toBe("More");
     expect(ellipsis.element.getBoundingClientRect().width).toBe(36);
   });
+
+  it("points the separator's chevron the other way in right-to-left text", () => {
+    mount(
+      {
+        render: () =>
+          h("div", { dir: "rtl" }, [
+            h(Breadcrumb, () =>
+              h(BreadcrumbList, () => [
+                h(BreadcrumbItem, () => "Home"),
+                h(BreadcrumbSeparator),
+                h(BreadcrumbItem, () => "Docs"),
+              ]),
+            ),
+          ]),
+      },
+      { attachTo: document.body },
+    );
+    expect(getComputedStyle(document.querySelector("[data-slot=breadcrumb-separator] svg")!).rotate).toBe("180deg");
+  });
 });
