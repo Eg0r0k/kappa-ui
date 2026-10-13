@@ -44,6 +44,29 @@ describe("Separator", () => {
     expect(render({ size }).getBoundingClientRect().height).toBe(thickness);
   });
 
+  it("takes its length from a class in either orientation", () => {
+    mount(
+      {
+        render: () => [
+          h(
+            "div",
+            { style: "display:flex;height:80px;align-items:flex-start" },
+            h(Separator, { orientation: "vertical", class: "h-4", id: "vertical" }),
+          ),
+          h(
+            "div",
+            { style: "display:flex;flex-direction:column;width:200px" },
+            h(Separator, { class: "w-12", id: "horizontal" }),
+          ),
+        ],
+      },
+      { attachTo: document.body },
+    );
+
+    expect(document.getElementById("vertical")!.getBoundingClientRect().height).toBe(16);
+    expect(document.getElementById("horizontal")!.getBoundingClientRect().width).toBe(48);
+  });
+
   it("puts a label between two lines, from the prop or the slot", () => {
     const separator = render({ label: "or", size: "md" });
     const lines = separator.querySelectorAll<HTMLElement>("[data-slot=separator-line]");

@@ -25,6 +25,11 @@ const delegated = computed(() => {
 
 const labelled = () => Boolean(props.label || slots.default);
 
+const shape = {
+  horizontal: { line: "h-(--separator-size) w-full", labelled: "w-full" },
+  vertical: { line: "h-full w-(--separator-size)", labelled: "h-full flex-col" },
+};
+
 const line = `
   bg-border
   group-data-[orientation=horizontal]/separator:h-(--separator-size)
@@ -41,16 +46,8 @@ const line = `
       cn(
         separatorVariants({ size: props.size }),
         labelled()
-          ? `
-            flex items-center gap-3
-            data-[orientation=horizontal]:w-full
-            data-[orientation=vertical]:h-full data-[orientation=vertical]:flex-col
-          `
-          : `
-            bg-border
-            data-[orientation=horizontal]:h-(--separator-size) data-[orientation=horizontal]:w-full
-            data-[orientation=vertical]:h-full data-[orientation=vertical]:w-(--separator-size)
-          `,
+          ? ['flex items-center gap-3', shape[props.orientation].labelled]
+          : ['bg-border', shape[props.orientation].line],
         props.class,
       )
     "
