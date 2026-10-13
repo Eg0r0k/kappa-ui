@@ -176,6 +176,18 @@ export interface NavigationMenuContext {
 export const [injectNavigationMenuContext, provideNavigationMenuContext] =
   createContext<NavigationMenuContext>("NavigationMenu");
 
+const isDev = () => (import.meta as { env?: { DEV?: boolean } }).env?.DEV === true;
+
+let warnedIndicator = false;
+
+export const warnIndicatorWithoutViewport = () => {
+  if (!isDev() || warnedIndicator) return;
+  warnedIndicator = true;
+  console.warn(
+    '[NavigationMenu] NavigationMenuIndicator needs the viewport: it renders nothing in a NavigationMenu with :viewport="false".',
+  );
+};
+
 /** Set by NavigationMenuContent, so a link inside a panel takes the panel-link look. */
 export const [injectNavigationMenuInContent, provideNavigationMenuInContent] =
   createContext<boolean>("NavigationMenuContent");

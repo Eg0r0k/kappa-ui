@@ -534,6 +534,19 @@ describe("without a viewport", () => {
     await frames();
     expect(triggers()[0]!.getAttribute("aria-expanded")).toBe("false");
   });
+
+  it("renders no indicator, and warns about it once in development", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    renderMenu({ viewport: false }, defaultEntries, { indicator: true });
+    await clickOpen(triggers()[1]!);
+    expect(document.querySelector("[data-slot=navigation-menu-indicator]")).toBeNull();
+    unmount?.();
+    renderMenu({ viewport: false }, defaultEntries, { indicator: true });
+    const messages = warn.mock.calls.map((call) => String(call[0]));
+    expect(messages.filter((message) => message.includes("NavigationMenuIndicator"))).toEqual([
+      expect.stringContaining("needs the viewport"),
+    ]);
+  });
 });
 
 describe("geometry", () => {
