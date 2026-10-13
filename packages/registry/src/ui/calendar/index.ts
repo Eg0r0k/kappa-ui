@@ -26,7 +26,7 @@ export const calendarVariants = cva(
   `
     group/calendar flex w-fit flex-col gap-(--calendar-gap) text-foreground tone-control
     aria-invalid:tone-invalid
-    data-invalid:tone-invalid
+    data-invalid:not-data-disabled:tone-invalid
   `,
   {
     variants: {

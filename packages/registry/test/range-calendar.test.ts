@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, shallowRef } from "vue";
 
+import { Calendar } from "@/ui/calendar";
 import { Field, FieldLabel } from "@/ui/field";
 import { RangeCalendar } from "@/ui/range-calendar";
 
@@ -85,6 +86,26 @@ describe("markup", () => {
       expect(day("2026-10-06").getBoundingClientRect().width).toBe(sentinel.height.xl);
       expect(q("[data-slot=range-calendar-prev-button]").getBoundingClientRect().height).toBe(sentinel.height.xl);
     });
+  });
+});
+
+describe("disabled", () => {
+  it("draws the ends of a range like a disabled calendar's selected day, not in the invalid tone", () => {
+    render(() =>
+      h("div", [
+        h(Calendar, { defaultValue: d(13), disabled: true, locale: "en-US" }),
+        h(RangeCalendar, {
+          defaultPlaceholder: oct,
+          modelValue: { start: d(13), end: d(15) },
+          disabled: true,
+          locale: "en-US",
+        }),
+      ]),
+    );
+    const single = q('[data-slot=calendar-cell-trigger][data-value="2026-10-13"]:not([data-outside-view])');
+    expect(style(day("2026-10-13")).backgroundColor).toBe(style(single).backgroundColor);
+    expect(style(day("2026-10-15")).backgroundColor).toBe(style(single).backgroundColor);
+    expect(style(root()).getPropertyValue("--tone").trim()).not.toBe("rgb(255, 0, 0)");
   });
 });
 

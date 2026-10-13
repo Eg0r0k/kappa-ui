@@ -36,6 +36,8 @@ export const rangeCalendarCellTrigger = `${calendarDay}
   data-selection-end:bg-tone data-selection-end:text-tone-foreground
   data-selection-start:bg-tone data-selection-start:text-tone-foreground
   data-disabled:data-selected:text-foreground/(--disabled-opacity)
+  data-disabled:data-selection-end:bg-foreground/(--disabled-container-opacity)
+  data-disabled:data-selection-start:bg-foreground/(--disabled-container-opacity)
   forced-colors:data-selection-end:outline-2
   forced-colors:data-selection-start:outline-2
 `;
