@@ -345,7 +345,18 @@ const virtualCount = computed(() =>
   props.virtualize ? resolveVirtualCount(props.items.length, props.itemsSize, props.itemsFn !== undefined) : 0,
 );
 
-const virtualOptions = computed<ResolvedVirtualizeOptions>(() => resolveVirtualizeOptions(props.virtualize));
+const virtualizeKeys = ["estimateSize", "overscan", "lanes", "gap", "scrollMargin", "getScrollElement"] as const;
+let resolvedFrom: ScrollAreaProps<T>["virtualize"];
+
+const sameVirtualize = (a: ScrollAreaProps<T>["virtualize"], b: ScrollAreaProps<T>["virtualize"]) =>
+  a === b || (typeof a === "object" && typeof b === "object" && virtualizeKeys.every((key) => a[key] === b[key]));
+
+const virtualOptions = computed<ResolvedVirtualizeOptions>((previous) => {
+  const from = resolvedFrom;
+  resolvedFrom = typeof props.virtualize === "object" ? { ...props.virtualize } : props.virtualize;
+  if (previous !== undefined && sameVirtualize(props.virtualize, from)) return previous;
+  return resolveVirtualizeOptions(props.virtualize);
+});
 
 const isExternalScroll = computed(() => virtualOptions.value.getScrollElement !== undefined);
 

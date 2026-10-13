@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
-import { h } from "vue";
+import { defineComponent, h, nextTick, ref, shallowRef } from "vue";
 
 import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
 
@@ -328,5 +328,36 @@ it("keeps the thumb proportional for a short virtual list", async () => {
   // track 300, scrollSize 600 -> 300*300/600 = 150
   await vi.waitFor(() => expect(thumb.style.height).toBe("150px"));
 
+  wrapper.unmount();
+});
+
+it("keeps its measurements through a parent render that passes an equal inline virtualize object", async () => {
+  const tick = ref(0);
+  const area = shallowRef<ScrollAreaApi | null>(null);
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h("div", [
+          h("span", tick.value),
+          h(
+            ScrollArea,
+            { ref: area, virtualize: { estimateSize: 24 }, items: rows.slice(0, 1000), style: "height: 300px" },
+            { default: (scope: { index: number }) => h("div", { style: "height: 50px" }, String(scope.index)) },
+          ),
+        ]),
+    }),
+    { attachTo: document.body },
+  );
+  await vi.waitFor(() => expect(area.value!.virtualizer.getTotalSize()).toBeGreaterThan(24_000));
+  const viewport = (wrapper.element as HTMLElement).querySelector<HTMLElement>("[data-slot=scroll-area-viewport]")!;
+  for (let top = 250; top <= 3000; top += 250) {
+    viewport.scrollTop = top;
+    await nextFrame();
+  }
+  const measure = vi.spyOn(area.value!.virtualizer, "measure");
+  tick.value++;
+  await nextTick();
+  await nextFrame();
+  expect(measure).not.toHaveBeenCalled();
   wrapper.unmount();
 });
