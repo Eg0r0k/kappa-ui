@@ -50,6 +50,7 @@ export interface SwipeViewsRootContext {
   starts: ComputedRef<number[]>;
   active: Ref<number>;
   moving: ComputedRef<boolean>;
+  disabled: ComputedRef<boolean>;
   register: (entry: SwipeViewEntry) => () => void;
   attach: (element: Ref<HTMLElement | null | undefined>, options?: SwipeSnapSourceOptions) => void;
 }

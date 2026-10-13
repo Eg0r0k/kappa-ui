@@ -131,6 +131,7 @@ provideSwipeViewsRootContext({
   starts,
   active,
   moving,
+  disabled: computed(() => props.disabled),
   register,
   attach: snap.attach,
 });

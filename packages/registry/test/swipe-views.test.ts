@@ -83,6 +83,13 @@ it("turns a strip's pointer events off where there is no page to go to", async (
   expect(end!.getBoundingClientRect().width).toBe(20);
 });
 
+it("turns the strips' pointer events off while disabled", async () => {
+  await setup({}, () => [h(SwipeViewsSwipeArea, { side: "end" })], { disabled: true });
+  const strip = slot("swipe-views-swipe-area");
+  expect(strip.hasAttribute("data-disabled")).toBe(true);
+  expect(getComputedStyle(strip).pointerEvents).toBe("none");
+});
+
 it("pairs with Tabs on one model through TabsContent as-child", async () => {
   const tab = ref<string | number>("a");
   const update = (value: string | number) => (tab.value = value);

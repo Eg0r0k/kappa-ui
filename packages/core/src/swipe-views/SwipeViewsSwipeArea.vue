@@ -31,7 +31,7 @@ context.attach(element, {
     aria-hidden="true"
     :data-side="props.side"
     :data-orientation="context.orientation.value"
-    :data-disabled="reachable ? undefined : ''"
+    :data-disabled="reachable && !context.disabled.value ? undefined : ''"
   >
     <slot />
   </Primitive>
