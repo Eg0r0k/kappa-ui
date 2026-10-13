@@ -22,7 +22,7 @@ defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<
-    CheckboxRootProps & {
+    Omit<CheckboxRootProps, "as" | "asChild"> & {
       /** Defaults to the group's `color`, or `primary` outside a group. */
       color?: CheckboxColor | (string & {});
       size?: CheckboxSize;

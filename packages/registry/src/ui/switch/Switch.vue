@@ -18,7 +18,7 @@ defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<
-    SwitchRootProps & {
+    Omit<SwitchRootProps, "as" | "asChild"> & {
       color?: SwitchColor | (string & {});
       size?: SwitchSize;
       touchTarget?: SwitchVariants["touchTarget"];

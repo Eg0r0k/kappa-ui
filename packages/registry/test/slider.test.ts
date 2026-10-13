@@ -11,6 +11,12 @@ import { Slider, SliderHandle, SliderRange, SliderThumb, SliderTrack } from "@/u
 const thumbs = (wrapper: ReturnType<typeof mount>) => wrapper.findAll("[role=slider]");
 
 describe("Slider", () => {
+  it("takes no as or as-child, which would hand the control's role to its track", () => {
+    const props = (Slider as { props?: object }).props ?? {};
+    expect(Object.keys(props)).not.toContain("as");
+    expect(Object.keys(props)).not.toContain("asChild");
+  });
+
   it("binds a number to one thumb and moves it with the keyboard", async () => {
     const value = ref(50);
     const wrapper = mount(

@@ -16,7 +16,7 @@ defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<
-    RadioGroupItemProps & {
+    Omit<RadioGroupItemProps, "as" | "asChild"> & {
       /** Defaults to the group's `color`, or `primary` outside a group. */
       color?: RadioColor | (string & {});
       size?: RadioSize;

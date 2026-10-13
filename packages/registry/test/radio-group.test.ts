@@ -108,6 +108,12 @@ describe("RadioGroup", () => {
 });
 
 describe("Radio", () => {
+  it("takes no as or as-child, which would hand the control's role to its dot", () => {
+    const props = (Radio as { props?: object }).props ?? {};
+    expect(Object.keys(props)).not.toContain("as");
+    expect(Object.keys(props)).not.toContain("asChild");
+  });
+
   it("shows the hover layer only for a mouse over the circle", async () => {
     const wrapper = mount(RadioGroup, { slots: { default: () => h(Radio, { value: "a", "aria-label": "a" }) } });
     const radio = wrapper.get("button");

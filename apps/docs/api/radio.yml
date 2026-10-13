@@ -17,9 +17,5 @@ props:
     description: Set on the group instead; the group submits the selected value.
   required:
     description: Set on the group, or on a surrounding fieldset, instead.
-  as:
-    description: The element or component to render.
-  asChild:
-    description: Render the single child instead of a wrapper, merging the radio's attributes and classes onto it.
 emits:
   select: Fires when this radio is selected, with an event whose default can be prevented to keep the selection unchanged.

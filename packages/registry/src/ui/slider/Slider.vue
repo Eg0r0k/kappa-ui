@@ -13,7 +13,7 @@ defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<
-    Omit<SliderRootProps, "modelValue" | "defaultValue"> & {
+    Omit<SliderRootProps, "modelValue" | "defaultValue" | "as" | "asChild"> & {
       id?: string;
       defaultValue?: number | number[];
       variant?: SliderVariants["variant"];

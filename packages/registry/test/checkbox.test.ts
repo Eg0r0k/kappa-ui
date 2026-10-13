@@ -6,6 +6,12 @@ import { Checkbox, CheckboxGroup } from "@/ui/checkbox";
 import { Field, FieldContent, FieldDescription, FieldLabel } from "@/ui/field";
 
 describe("Checkbox", () => {
+  it("takes no as or as-child, which would hand the control's role to its box", () => {
+    const props = (Checkbox as { props?: object }).props ?? {};
+    expect(Object.keys(props)).not.toContain("as");
+    expect(Object.keys(props)).not.toContain("asChild");
+  });
+
   it("toggles and reports its state", async () => {
     const wrapper = mount(Checkbox, { attachTo: document.body });
     const button = wrapper.get("button");

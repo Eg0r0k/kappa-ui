@@ -6,6 +6,12 @@ import { Field, FieldContent, FieldDescription, FieldLabel } from "@/ui/field";
 import { Switch } from "@/ui/switch";
 
 describe("Switch", () => {
+  it("takes no as or as-child, which would hand the control's role to its thumb", () => {
+    const props = (Switch as { props?: object }).props ?? {};
+    expect(Object.keys(props)).not.toContain("as");
+    expect(Object.keys(props)).not.toContain("asChild");
+  });
+
   it("toggles and reports its state", async () => {
     const wrapper = mount(Switch, { attachTo: document.body });
     const button = wrapper.get("button");

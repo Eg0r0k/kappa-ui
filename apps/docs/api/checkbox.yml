@@ -25,9 +25,5 @@ props:
     description: Disables the checkbox. Also set by a disabled field or group.
   required:
     description: Marks the checkbox required. Also set by a required field.
-  as:
-    description: The element or component to render.
-  asChild:
-    description: Render the single child instead of a wrapper, merging the checkbox's attributes and classes onto it.
 emits:
   update:modelValue: Fires when the state changes.

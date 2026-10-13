@@ -25,10 +25,6 @@ props:
     description: Disables the switch. Also set by a disabled field.
   required:
     description: Marks the switch required. Also set by a required field.
-  as:
-    description: The element or component to render.
-  asChild:
-    description: Render the single child instead of a wrapper, merging the switch's attributes and classes onto it.
 emits:
   update:modelValue: Fires when the switch turns on or off.
 slots:
