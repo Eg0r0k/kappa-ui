@@ -61,9 +61,11 @@ export const stepperTitle = `text-title-sm whitespace-nowrap`;
 export const stepperDescription = `text-body-sm text-muted-foreground`;
 
 export const stepperSeparator = `
-  shrink-0 rounded-full bg-muted
+  h-(--stepper-separator-h) w-(--stepper-separator-w) flex-1 rounded-full bg-muted
   group-data-disabled:opacity-(--disabled-opacity)
   group-data-[state=completed]:bg-accent
-  data-[orientation=horizontal]:h-(--stepper-separator) data-[orientation=horizontal]:flex-1
-  data-[orientation=vertical]:w-(--stepper-separator) data-[orientation=vertical]:flex-1
+  data-[orientation=horizontal]:[--stepper-separator-h:var(--stepper-separator)]
+  data-[orientation=horizontal]:[--stepper-separator-w:auto]
+  data-[orientation=vertical]:[--stepper-separator-h:auto]
+  data-[orientation=vertical]:[--stepper-separator-w:var(--stepper-separator)]
 `;

@@ -235,6 +235,19 @@ it("sizes the indicator, the separator and the type from the size prop", () => {
   expect(separators()[0]!.getBoundingClientRect().height).toBe(1);
 });
 
+it("lets a height class set a horizontal separator's thickness", () => {
+  render({}, () =>
+    steps.map((step) =>
+      h(StepperItem, { step: step.step, class: "flex-1" }, () => [
+        h(StepperTrigger, () => h(StepperIndicator, () => String(step.step))),
+        h(StepperSeparator, { class: "h-1" }),
+      ]),
+    ),
+  );
+  expect(separators()[0]!.getBoundingClientRect().height).toBe(4);
+  expect(separators()[0]!.getBoundingClientRect().width).toBeGreaterThan(0);
+});
+
 it("falls back to the step number in the indicator and hands it to the slot", () => {
   render({}, () => [
     item(steps[0]!, {}, () => h(StepperIndicator)),
