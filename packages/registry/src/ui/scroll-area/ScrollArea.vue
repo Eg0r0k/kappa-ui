@@ -446,18 +446,20 @@ const updateContainer = () => {
   if (changed) startTimer();
 };
 
-const updateScrollSize = () => {
+const updateScrollSize = (entries?: ResizeObserverEntry[]) => {
   const el = contentRef.value;
   if (el === null) return;
 
-  const rect = el.getBoundingClientRect();
+  const box = entries?.[0]?.borderBoxSize?.[0];
+  const height = box?.blockSize ?? el.offsetHeight;
+  const width = box?.inlineSize ?? el.offsetWidth;
 
-  if (sizeVertical.value !== rect.height) {
-    sizeVertical.value = rect.height;
+  if (sizeVertical.value !== height) {
+    sizeVertical.value = height;
     startTimer();
   }
-  if (sizeHorizontal.value !== rect.width) {
-    sizeHorizontal.value = rect.width;
+  if (sizeHorizontal.value !== width) {
+    sizeHorizontal.value = width;
     startTimer();
   }
 };

@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
 import { h, nextTick } from "vue";
 
-import { ScrollArea } from "@/ui/scroll-area";
+import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
 
 type MountOptions = {
   props?: Record<string, unknown>;
@@ -77,6 +77,24 @@ it("sizes the vertical thumb from the visible fraction", async () => {
 
   await vi.waitFor(() => expect(verticalThumb.style.height).toBe("75px"));
   expect(verticalThumb.style.transform).toBe("translateY(0px)");
+
+  wrapper.unmount();
+});
+
+it("measures its content in layout pixels under a scaled ancestor", async () => {
+  const host = document.body.appendChild(document.createElement("div"));
+  host.style.cssText = "transform: scale(0.5); transform-origin: 0 0";
+  const wrapper = mount(ScrollArea, {
+    attachTo: host,
+    attrs: { style: "height: 300px; width: 400px" },
+    slots: { default: () => h("div", { style: "height: 1200px; width: 400px" }) },
+  });
+  const api = wrapper.vm as unknown as ScrollAreaApi;
+  const { verticalThumb } = partsOf(wrapper.element);
+
+  await vi.waitFor(() => expect(api.getScroll().verticalContainerSize).toBe(300));
+  await vi.waitFor(() => expect(api.getScroll().verticalSize).toBe(1200));
+  expect(verticalThumb.style.height).toBe("75px");
 
   wrapper.unmount();
 });
