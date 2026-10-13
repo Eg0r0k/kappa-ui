@@ -44,11 +44,21 @@ const render = async (
   children: () => VNode[] = parts,
   wrap?: (node: VNode) => VNode,
 ) => {
-  const node = h(ColorPicker, { modelValue: "#3b82f6", class: "w-64", ...props }, children);
-  const wrapper = mount({ render: () => (wrap ? wrap(node) : node) }, { attachTo: document.body });
+  const { "onUpdate:modelValue": onUpdate, ...rest } = props as {
+    modelValue?: string;
+    "onUpdate:modelValue"?: (value: string) => void;
+  };
+  const model = ref("modelValue" in props ? rest.modelValue : "#3b82f6");
+  const update = (value: string) => {
+    model.value = value;
+    onUpdate?.(value);
+  };
+  const node = () =>
+    h(ColorPicker, { class: "w-64", ...rest, modelValue: model.value, "onUpdate:modelValue": update }, children);
+  const wrapper = mount({ render: () => (wrap ? wrap(node()) : node()) }, { attachTo: document.body });
   unmount = () => wrapper.unmount();
   await nextTick();
-  return wrapper;
+  return model;
 };
 
 const q = (selector: string) => document.querySelector<HTMLElement>(selector)!;
@@ -242,6 +252,27 @@ it("follows an outside model back to the colour it last wrote", async () => {
   await nextTick();
   await nextTick();
   expect(input().value).toBe(written);
+});
+
+it("snaps back to the model when the parent turns an update down", async () => {
+  const updates: string[] = [];
+  const wrapper = mount(
+    () =>
+      h(
+        ColorPicker,
+        { modelValue: "#3b82f6", "onUpdate:modelValue": (value: string) => updates.push(value), class: "w-64" },
+        parts,
+      ),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  await nextTick();
+  await userEvent.click(swatches()[0]!);
+  await nextTick();
+  expect(updates.at(-1)).toBe("#ef4444");
+  expect(input().value).toBe("#3b82f6");
+  expect(valueNow(sliderThumb("hue"))).toBe(217);
+  expect(swatches()[0]!.getAttribute("aria-selected")).toBe("false");
 });
 
 it("disables every part", async () => {

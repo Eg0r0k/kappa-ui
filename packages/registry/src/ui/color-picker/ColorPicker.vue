@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Color, colorToString, convertToHsb, isValidColor, parseColor } from "reka-ui";
-import { type HTMLAttributes, computed, ref, toRef, useAttrs, watch } from "vue";
+import { type HTMLAttributes, computed, nextTick, ref, toRef, useAttrs, watch } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
@@ -40,6 +40,7 @@ const sync = (next: string | undefined) => {
 const setColor = (next: Color) => {
   color.value = convertToHsb(next);
   model.value = colorToString(next, props.format);
+  nextTick(() => sync(model.value));
 };
 if (model.value === undefined) setColor(color.value);
 
