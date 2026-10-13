@@ -89,6 +89,8 @@
   --control-gap-md: calc(var(--spacing) * 2);
   --control-gap-lg: calc(var(--spacing) * 2.5);
   --control-gap-xl: calc(var(--spacing) * 3);
+  --tabs-pill: var(--background);
+  --shimmer-color: oklch(from currentColor l c h / calc(alpha * 0.2));
 }
 
 .dark {
@@ -103,6 +105,8 @@
   --info-foreground: oklch(0.25 0.065 261);
   --info-text: oklch(0.8 0.144 256);
   --scrim: oklch(0 0 0 / 60%);
+  --tabs-pill: color-mix(in oklab, var(--input) 30%, transparent);
+  --shimmer-color: oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4));
 }
 
 @theme inline {

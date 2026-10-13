@@ -257,6 +257,35 @@ it("lifts the pill indicator with a shadow and no border, and the line indicator
   expect(getComputedStyle(indicator()).boxShadow).toBe("none");
 });
 
+it("fills the pill from --tabs-pill: the page background, and a lighter wash under .dark", async () => {
+  const fill = async (dark: boolean) => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h("div", { class: dark ? "dark" : undefined }, [
+            h("span", { id: "page", style: "color: var(--background)" }),
+            h(Tabs, { defaultValue: "one" }, () => [
+              h(TabsList, () => [h(TabsTrigger, { value: "one" }, () => "One")]),
+            ]),
+          ]),
+      }),
+      { attachTo: document.body },
+    );
+    await shown();
+    const colours = [
+      getComputedStyle(indicator()).backgroundColor,
+      getComputedStyle(document.getElementById("page")!).color,
+    ];
+    wrapper.unmount();
+    return colours;
+  };
+  const [light, page] = await fill(false);
+  const [dark, darkPage] = await fill(true);
+  expect(light).toBe(page);
+  expect(dark).not.toBe(darkPage);
+  expect(dark).not.toBe(light);
+});
+
 it("slides the indicator under the active trigger in right-to-left", async () => {
   renderTabs({ dir: "rtl" });
   await expect.poll(() => alongX(triggers()[0]!)).toEqual([0, 0]);

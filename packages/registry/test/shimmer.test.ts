@@ -45,4 +45,20 @@ describe("shimmer", () => {
       "#ff0000",
     );
   });
+
+  it("brightens the highlight under .dark, and a colour class still wins there", () => {
+    const highlight = (className: string, dark: boolean) =>
+      getComputedStyle(
+        mount(
+          { render: () => h("div", { class: dark ? "dark" : undefined }, h("p", { class: className }, "Generating")) },
+          { attachTo: document.body },
+        ).get("p").element,
+      ).backgroundImage;
+    expect(highlight("shimmer text-muted-foreground", true)).not.toBe(
+      highlight("shimmer text-muted-foreground", false),
+    );
+    expect(highlight("shimmer shimmer-color-[#ff0000]", true)).toBe(
+      highlight("shimmer shimmer-color-[#ff0000]", false),
+    );
+  });
 });

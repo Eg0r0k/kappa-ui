@@ -91,6 +91,8 @@
   --control-gap-md: calc(var(--spacing) * 2);
   --control-gap-lg: calc(var(--spacing) * 2.5);
   --control-gap-xl: calc(var(--spacing) * 3);
+  --tabs-pill: var(--background);
+  --shimmer-color: oklch(from currentColor l c h / calc(alpha * 0.2));
   --radius: 0.5rem;
   --brand: oklch(0.48 0.2 262);
   --background: oklch(0.98 0 0);
@@ -130,6 +132,8 @@
   --info-foreground: oklch(0.25 0.065 261);
   --info-text: oklch(0.8 0.144 256);
   --scrim: oklch(0 0 0 / 60%);
+  --tabs-pill: color-mix(in oklab, var(--input) 30%, transparent);
+  --shimmer-color: oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4));
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

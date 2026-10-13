@@ -1968,9 +1968,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: var(--shimmer-text-fill, transparent);
   animation: kappa-shimmer var(--shimmer-duration, 2s) linear infinite;
-  @variant dark {
-    --_highlight: var(--shimmer-color, oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4)));
-  }
   &:dir(rtl) {
     animation-direction: reverse;
   }

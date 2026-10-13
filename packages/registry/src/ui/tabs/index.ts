@@ -50,8 +50,7 @@ export const tabsIndicatorVariants = cva(
     variants: {
       variant: {
         pill: `
-          bg-background shadow-shadow-sm
-          dark:bg-input/30
+          bg-(--tabs-pill) shadow-shadow-sm
           group-aria-[orientation=horizontal]/tabs-list:top-1/2
           group-aria-[orientation=horizontal]/tabs-list:-translate-y-1/2
           group-aria-[orientation=horizontal]/tabs-list:h-(--reka-tabs-indicator-thickness)
