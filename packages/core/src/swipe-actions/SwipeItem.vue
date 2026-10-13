@@ -227,7 +227,7 @@ const typing = (target: EventTarget | null) =>
     target instanceof HTMLSelectElement);
 
 const onKeydown = (event: KeyboardEvent) => {
-  if (props.disabled || typing(event.target)) return;
+  if (props.disabled || event.defaultPrevented || typing(event.target)) return;
   if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
   const revealsStart = (event.key === "ArrowRight") === sign.value > 0;
   const [closes, opens]: [SwipeSide, SwipeSide] = revealsStart ? ["end", "start"] : ["start", "end"];

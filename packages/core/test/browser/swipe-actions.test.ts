@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { ConfigProvider } from "reka-ui";
+import { ConfigProvider, ToggleGroupItem, ToggleGroupRoot } from "reka-ui";
 import { expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { type VNode, defineComponent, h, nextTick, ref } from "vue";
@@ -286,6 +286,24 @@ it("gives focus back to the row after an action runs or Escape closes it from th
   await nextTick();
   expect(item().dataset.state).toBe("closed");
   expect(document.activeElement).toBe(button("body"));
+});
+
+it("leaves an arrow key to a widget in the row that handles it", async () => {
+  await host(() =>
+    h(SwipeItem, { style: "width: 300px" }, () => [
+      h(SwipeActions, { side: "end" }, () => action("flag", [])),
+      h(SwipeContent, { "data-test": "content", style: "height: 48px" }, () =>
+        h(ToggleGroupRoot, { type: "single" }, () => [
+          h(ToggleGroupItem, { value: "x", "data-test": "x" }, () => "X"),
+          h(ToggleGroupItem, { value: "y", "data-test": "y" }, () => "Y"),
+        ]),
+      ),
+    ]),
+  );
+  button("y").focus();
+  await userEvent.keyboard("{ArrowLeft}");
+  expect(document.activeElement).toBe(button("x"));
+  expect(item().dataset.state).toBe("closed");
 });
 
 it("mirrors the gesture and the arrow keys in right-to-left", async () => {
