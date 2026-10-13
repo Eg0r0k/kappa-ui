@@ -306,6 +306,33 @@ describe("calendar", () => {
     expect(all("[data-slot=calendar-cell-trigger]")).toHaveLength(42);
   });
 
+  it("keeps the bound value when the parent refuses a picked day", async () => {
+    const value = shallowRef<DateValue>(oct6);
+    const emitted: string[] = [];
+    render(() =>
+      h(DatePicker, {
+        locale: "en-US",
+        modelValue: value.value,
+        "onUpdate:modelValue": (next?: DateValue) => {
+          emitted.push(String(next));
+          value.value = oct6;
+        },
+      }),
+    );
+    await open();
+    await userEvent.click(day("2026-10-14"));
+    await expect.poll(() => emitted).toEqual(["2026-10-14"]);
+    await settle();
+    expect(texts()).toEqual(["10", "6", "2026"]);
+  });
+
+  it("stays shut while open is bound to false", async () => {
+    render(() => h(DatePicker, { locale: "en-US", defaultValue: oct6, open: false }));
+    await userEvent.click(trigger());
+    await settle();
+    expect(content()).toBeNull();
+  });
+
   it("keeps the page when the parent passes an equal date as a new object (reka-ui#2960)", async () => {
     const value = bound(oct6);
     await open();

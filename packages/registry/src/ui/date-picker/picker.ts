@@ -55,14 +55,14 @@ export interface DatePickerState {
 
 export const [injectDatePickerState, provideDatePickerState] = createContext<DatePickerState>("DatePickerState");
 
-/** A controlled value with an uncontrolled fallback, like Reka's `useVModel` in passive mode. */
+/** A value the parent controls while it binds one, and the picker keeps itself while it does not. */
 export const useModel = <T>(read: () => T | undefined, initial: T | undefined, emit: (value: T) => void) => {
   const state = shallowRef<T | undefined>(read() ?? initial);
   watch(read, (value) => {
     state.value = value;
   });
   const set = (value: T) => {
-    state.value = value;
+    if (read() === undefined) state.value = value;
     emit(value);
   };
   return [state, set] as const;
