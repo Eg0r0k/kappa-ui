@@ -8,7 +8,7 @@ import {
   VisuallyHidden,
   useForwardProps,
 } from "reka-ui";
-import { type HTMLAttributes, computed, shallowRef, useAttrs } from "vue";
+import { type HTMLAttributes, computed, shallowRef, useAttrs, watch } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
@@ -81,6 +81,12 @@ const listeners = useSegmentedField(emits, control.disabled);
 const remountKey = computed(() => `${props.granularity}-${props.hourCycle}`);
 // The last value, so a remount without v-model keeps what was typed.
 const latest = shallowRef(props.defaultValue);
+watch(
+  () => props.modelValue,
+  (value) => {
+    latest.value = value ?? undefined;
+  },
+);
 const onUpdate = (value: TimeRangeFieldRootEmits["update:modelValue"][0]) => {
   latest.value = value;
   emits("update:modelValue", value);

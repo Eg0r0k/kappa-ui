@@ -306,6 +306,33 @@ it.each([
   expect(shown).toEqual(count === 2 ? ["09", "45", "00"] : ["09", "45", "00", "17", "30", "00"]);
 });
 
+it("stays empty through a remount after the parent clears its v-model", async () => {
+  const time = shallowRef<TimeValue | undefined>();
+  const granularity = shallowRef<"minute" | "second">("minute");
+  mount(
+    defineComponent(
+      () => () =>
+        h(InputTime, {
+          hourCycle: 24,
+          granularity: granularity.value,
+          modelValue: time.value,
+          "onUpdate:modelValue": (value?: TimeValue) => (time.value = value),
+        }),
+    ),
+    { attachTo: document.body },
+  );
+  await userEvent.click(editable()[0]!);
+  await userEvent.keyboard("1030");
+  expect(String(time.value)).toBe("10:30:00");
+  time.value = undefined;
+  await nextTick();
+  const empty = editable()[0]!.textContent;
+  granularity.value = "second";
+  await nextTick();
+  await nextTick();
+  expect(editable().map((segment) => segment.textContent)).toEqual([empty, empty, empty]);
+});
+
 it("focuses the first segment when the frame's padding is clicked", async () => {
   render(h(InputTime, { class: "w-60", hourCycle: 24 }));
   const box = root().getBoundingClientRect();
