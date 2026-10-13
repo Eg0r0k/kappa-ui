@@ -18,14 +18,14 @@ const focusRing = `
   aria-invalid:border-destructive
   aria-invalid:focus-visible:inset-ring-destructive
   user-invalid:border-destructive
-  user-invalid:focus-visible:inset-ring-destructive
+  user-invalid:focus-visible:border-destructive user-invalid:focus-visible:inset-ring-destructive
 `;
 
 export const textControlVariant = {
   outline: `rounded-(--frame-radius) border border-input ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
   soft: `rounded-(--frame-radius) border border-transparent bg-muted ${focusRing}`,
   filled:
-    "rounded-t-(--frame-radius) border-b border-input bg-muted focus-visible:border-primary focus-visible:shadow-[inset_0_-1px_0_var(--color-primary)] data-[state=open]:border-primary data-[state=open]:shadow-[inset_0_-1px_0_var(--color-primary)] disabled:border-foreground/(--disabled-container-opacity) aria-invalid:border-destructive aria-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)] user-invalid:border-destructive user-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)]",
+    "rounded-t-(--frame-radius) border-b border-input bg-muted focus-visible:border-primary focus-visible:shadow-[inset_0_-1px_0_var(--color-primary)] data-[state=open]:border-primary data-[state=open]:shadow-[inset_0_-1px_0_var(--color-primary)] disabled:border-foreground/(--disabled-container-opacity) aria-invalid:border-destructive aria-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)] user-invalid:border-destructive user-invalid:focus-visible:border-destructive user-invalid:focus-visible:shadow-[inset_0_-1px_0_var(--color-destructive)]",
   ghost: `rounded-(--frame-radius) border border-transparent hover:bg-muted focus-visible:bg-muted data-[state=open]:bg-muted ${focusRing} disabled:bg-transparent`,
   subtle: `rounded-(--frame-radius) border border-input bg-muted ${focusRing} disabled:border-foreground/(--disabled-container-opacity)`,
 };
