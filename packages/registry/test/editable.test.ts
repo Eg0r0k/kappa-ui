@@ -86,6 +86,18 @@ it("cancels with Escape and keeps the old value", async () => {
   expect(slot("editable-preview").textContent).toBe("Roadmap");
 });
 
+it.each(["{Enter}", "{Escape}"])("gives focus back to the preview after %s", async (key) => {
+  render({ submitMode: "both" });
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  await userEvent.type(input(), "x");
+  await userEvent.keyboard(key);
+  await settle();
+  await settle();
+  expect(document.activeElement).toBe(slot("editable-preview"));
+  expect(editing()).toBe(false);
+});
+
 it("waits for a double click with activation-mode dblclick", async () => {
   render({ activationMode: "dblclick" });
   await userEvent.click(slot("editable-preview"));
