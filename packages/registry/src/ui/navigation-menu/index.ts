@@ -23,8 +23,10 @@ const sizes = {
 
 export const navigationMenuVariants = cva(
   `
-    group/navigation-menu relative flex max-w-max flex-1 items-center
+    group/navigation-menu relative flex max-w-max flex-1 items-center [--nav-offset:--spacing(1)]
+    data-[orientation=horizontal]:[--nav-offset-x:0px] data-[orientation=horizontal]:[--nav-offset-y:var(--nav-offset)]
     data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch
+    data-[orientation=vertical]:[--nav-offset-x:var(--nav-offset)] data-[orientation=vertical]:[--nav-offset-y:0px]
   `,
   {
     variants: {
@@ -100,11 +102,11 @@ const panelWidth = "w-max max-w-[calc(100vw-20px)]";
 export const navigationMenuContent = {
   viewport: `absolute top-0 start-0 ${panelWidth} p-(--nav-pad) navigation-menu-motion`,
   inline: `
-    ${overlaySurface} absolute ${panelWidth} p-(--nav-pad) origin-top [--overlay-y:-0.25rem]
+    ${overlaySurface} absolute ${panelWidth} mt-(--nav-offset-y) ms-(--nav-offset-x) p-(--nav-pad) origin-top
+    [--overlay-y:-0.25rem]
     group-data-[orientation=horizontal]/navigation-menu:start-0 group-data-[orientation=horizontal]/navigation-menu:top-full
-    group-data-[orientation=horizontal]/navigation-menu:mt-1
     group-data-[orientation=vertical]/navigation-menu:start-full group-data-[orientation=vertical]/navigation-menu:top-0
-    group-data-[orientation=vertical]/navigation-menu:ms-1 group-data-[orientation=vertical]/navigation-menu:[--overlay-y:0]
+    group-data-[orientation=vertical]/navigation-menu:[--overlay-y:0]
     group-data-[orientation=vertical]/navigation-menu:[--overlay-x:-0.25rem]
     rtl:group-data-[orientation=vertical]/navigation-menu:[--overlay-x:0.25rem]
   `,
@@ -121,33 +123,33 @@ export const navigationMenuViewportWrapper = `
    the viewport from the panel's own size, so the edge is an inset outline, which adds no width, not a border. */
 export const navigationMenuViewport = `
   ${overlaySurface}
-  absolute border-0 outline-1 -outline-offset-1 outline-surface-border outline-solid
-  h-(--reka-navigation-menu-viewport-height) w-(--reka-navigation-menu-viewport-width) overflow-hidden
+  absolute mt-(--nav-offset-y) ms-(--nav-offset-x) border-0 outline-1 -outline-offset-1 outline-surface-border
+  outline-solid h-(--reka-navigation-menu-viewport-height) w-(--reka-navigation-menu-viewport-width) overflow-hidden
   transition-[width,height,left,top] duration-short-4 ease-standard
   motion-reduce:transition-none
   group-data-[orientation=horizontal]/navigation-menu:top-0
   group-data-[orientation=horizontal]/navigation-menu:left-(--reka-navigation-menu-viewport-left)
-  group-data-[orientation=horizontal]/navigation-menu:mt-1
   group-data-[orientation=horizontal]/navigation-menu:origin-top
   group-data-[orientation=horizontal]/navigation-menu:[--overlay-y:-0.25rem]
   group-data-[orientation=vertical]/navigation-menu:start-0
   group-data-[orientation=vertical]/navigation-menu:top-(--reka-navigation-menu-viewport-top)
-  group-data-[orientation=vertical]/navigation-menu:ms-1
   group-data-[orientation=vertical]/navigation-menu:[--overlay-x:-0.25rem]
   rtl:group-data-[orientation=vertical]/navigation-menu:[--overlay-x:0.25rem]
 `;
 
-/* The indicator sits in the 4px gap between the list and the panel and reaches 2px into the panel, so its
-   arrow touches the panel's edge. */
+/* The indicator fills the --nav-offset gap between the list and the panel and reaches 2px into the panel, so its
+   arrow touches the panel's edge whatever the offset. */
 export const navigationMenuIndicator = `
   pointer-events-none absolute z-51 flex transition-[translate,width,height,opacity] duration-short-4 ease-standard
   motion-reduce:transition-none
   data-[state=hidden]:opacity-0
-  data-[orientation=horizontal]:top-full data-[orientation=horizontal]:left-0 data-[orientation=horizontal]:h-1.5
+  data-[orientation=horizontal]:top-full data-[orientation=horizontal]:left-0
+  data-[orientation=horizontal]:h-[calc(var(--nav-offset)+--spacing(0.5))]
   data-[orientation=horizontal]:w-(--reka-navigation-menu-indicator-size)
   data-[orientation=horizontal]:translate-x-(--reka-navigation-menu-indicator-position)
   data-[orientation=horizontal]:items-end data-[orientation=horizontal]:justify-center
-  data-[orientation=vertical]:start-full data-[orientation=vertical]:top-0 data-[orientation=vertical]:w-1.5
+  data-[orientation=vertical]:start-full data-[orientation=vertical]:top-0
+  data-[orientation=vertical]:w-[calc(var(--nav-offset)+--spacing(0.5))]
   data-[orientation=vertical]:h-(--reka-navigation-menu-indicator-size)
   data-[orientation=vertical]:translate-y-(--reka-navigation-menu-indicator-position)
   data-[orientation=vertical]:items-center data-[orientation=vertical]:justify-end

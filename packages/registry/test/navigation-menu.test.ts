@@ -625,6 +625,55 @@ describe("geometry", () => {
     else expect(panel.left).toBeGreaterThanOrEqual(list.right);
   });
 
+  it.each([
+    ["the default offset", undefined, 4],
+    ["--nav-offset on the root", "[--nav-offset:--spacing(3)]", 12],
+  ] as const)("keeps the viewport and the indicator's arrow together with %s", async (_, className, gap) => {
+    renderMenu({ class: className }, wideEntries, { indicator: true });
+    await clickOpen(triggers()[0]!);
+    const root = q("[data-slot=navigation-menu]").getBoundingClientRect();
+    await vi.waitFor(() => {
+      const viewport = q("[data-slot=navigation-menu-viewport]").getBoundingClientRect();
+      const indicator = q("[data-slot=navigation-menu-indicator]").getBoundingClientRect();
+      expect(near(viewport.top, root.bottom + gap), `${viewport.top} vs ${root.bottom + gap}`).toBe(true);
+      expect(near(indicator.bottom, viewport.top + 2), `${indicator.bottom} vs ${viewport.top + 2}`).toBe(true);
+    });
+  });
+
+  it("lets a margin class on an inline panel and a prefixed class on a vertical trigger win", async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () => [
+          h(NavigationMenu, { "aria-label": "Inline", viewport: false }, () =>
+            h(NavigationMenuList, () =>
+              h(NavigationMenuItem, { value: "one" }, () => [
+                h(NavigationMenuTrigger, () => "One"),
+                h(NavigationMenuContent, { class: "mt-3" }, () => h("p", "Panel")),
+              ]),
+            ),
+          ),
+          h(NavigationMenu, { "aria-label": "Side", orientation: "vertical" }, () =>
+            h(NavigationMenuList, () =>
+              h(NavigationMenuItem, { value: "two" }, () => [
+                h(
+                  NavigationMenuTrigger,
+                  { class: "group-data-[orientation=vertical]/navigation-menu:justify-center" },
+                  () => "Two",
+                ),
+                h(NavigationMenuContent, () => h("p", "Panel")),
+              ]),
+            ),
+          ),
+        ],
+      }),
+      { attachTo: document.body },
+    );
+    unmount = () => wrapper.unmount();
+    await clickOpen(triggers()[0]!);
+    expect(getComputedStyle(openContent()).marginTop).toBe("12px");
+    expect(getComputedStyle(triggers()[1]!).justifyContent).toBe("center");
+  });
+
   it("moves the indicator under the open trigger (nuxt/ui#3907)", async () => {
     renderMenu({}, wideEntries, { indicator: true });
     await clickOpen(triggers()[1]!);
