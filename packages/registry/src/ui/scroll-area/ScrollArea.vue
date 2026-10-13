@@ -253,6 +253,29 @@ const onPointerup = (event: PointerEvent) => {
   panning.value = false;
 };
 
+const wheelUnit = (mode: number, el: HTMLElement) => {
+  if (mode === WheelEvent.DOM_DELTA_PAGE) return el.clientHeight;
+  if (mode === WheelEvent.DOM_DELTA_LINE) return 16;
+  return 1;
+};
+
+const onWheel = (event: WheelEvent) => {
+  const el = viewportRef.value;
+  if (el === null || event.ctrlKey) return;
+
+  const { deltaX, deltaY } = event;
+  const unit = wheelUnit(event.deltaMode, el);
+  const top = el.scrollTop;
+  const left = el.scrollLeft;
+
+  el.scrollBy({
+    top: scrollsY.value ? deltaY * unit : 0,
+    left: scrollsX.value ? deltaX * unit : 0,
+    behavior: "instant",
+  });
+  if (el.scrollTop !== top || el.scrollLeft !== left) event.preventDefault();
+};
+
 const getScroll = (): ScrollAreaScrollInfo => ({
   verticalPosition: positionVertical.value,
   verticalPercentage: percentageVertical.value,
@@ -337,6 +360,7 @@ const store: ScrollAreaStore = {
   onThumbPointerdown,
   onPointermove,
   onPointerup,
+  onWheel,
 };
 
 provide(scrollAreaInjectionKey, store);

@@ -95,6 +95,7 @@ export type ScrollAreaStore = {
   onThumbPointerdown: (event: PointerEvent, axis: ScrollAreaAxis) => void;
   onPointermove: (event: PointerEvent) => void;
   onPointerup: (event: PointerEvent) => void;
+  onWheel: (event: WheelEvent) => void;
 };
 
 export const scrollAreaInjectionKey: InjectionKey<ScrollAreaStore> = Symbol("scroll-area");

@@ -159,3 +159,36 @@ it("lets touches on a touch screen through the bar and the thumb to the content"
     await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false });
   }
 });
+
+const wheelAt = async (x: number, y: number) => {
+  const frame = window.frameElement as HTMLElement | null;
+  const box = frame?.getBoundingClientRect();
+  const scale = box && frame ? box.width / frame.offsetWidth : 1;
+  const left = box && frame ? box.left + frame.clientLeft * scale : 0;
+  const top = box && frame ? box.top + frame.clientTop * scale : 0;
+  const at = { x: left + x * scale, y: top + y * scale };
+  await cdp().send("Input.dispatchMouseEvent", { type: "mouseMoved", ...at });
+  await cdp().send("Input.dispatchMouseEvent", { type: "mouseWheel", ...at, deltaX: 0, deltaY: 120 });
+};
+
+it("scrolls the area, not the page, on a wheel over the bar or the thumb", async () => {
+  const wrapper = mountArea();
+  const spacer = document.body.appendChild(document.createElement("div"));
+  spacer.style.height = "3000px";
+  const page = document.scrollingElement!;
+  const { viewport, verticalBar, verticalThumb } = partsOf(wrapper.element);
+  await vi.waitFor(() => expect(verticalThumb.style.height).toBe("75px"));
+
+  for (const part of [verticalBar, verticalThumb]) {
+    viewport.scrollTop = 0;
+    page.scrollTop = 0;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const box = part.getBoundingClientRect();
+    await wheelAt(box.x + box.width / 2, part === verticalBar ? box.y + 200 : box.y + box.height / 2);
+    await vi.waitFor(() => expect(viewport.scrollTop + page.scrollTop).toBeGreaterThan(0));
+    expect(viewport.scrollTop).toBeGreaterThan(0);
+    expect(page.scrollTop).toBe(0);
+  }
+  spacer.remove();
+  wrapper.unmount();
+});

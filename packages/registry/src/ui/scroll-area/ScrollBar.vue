@@ -66,6 +66,7 @@ const hiddenBase = "pointer-events-none opacity-0";
     @pointermove="store.onPointermove"
     @pointerup="store.onPointerup"
     @pointercancel="store.onPointerup"
+    @wheel="store.onWheel"
   />
   <div
     data-slot="scroll-area-thumb"
@@ -78,5 +79,6 @@ const hiddenBase = "pointer-events-none opacity-0";
     @pointermove="store.onPointermove"
     @pointerup="store.onPointerup"
     @pointercancel="store.onPointerup"
+    @wheel="store.onWheel"
   />
 </template>
