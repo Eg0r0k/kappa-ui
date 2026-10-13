@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { cn } from "@/lib/utils";
+
 const classes = {
   xs: "shadow-shadow-xs",
   sm: "shadow-shadow-sm",
@@ -20,6 +22,12 @@ describe("shadow tokens", () => {
     const element = render(className);
     element.style.setProperty(`--shadow-${size}`, "0 0 0 5px rgb(255, 0, 0)");
     expect(getComputedStyle(element).boxShadow).toContain("rgb(255, 0, 0) 0px 0px 0px 5px");
+  });
+
+  it("merges with shadow-none and keeps a shadow colour beside it in cn", () => {
+    expect(cn("shadow-shadow-popover", "shadow-none")).toBe("shadow-none");
+    expect(cn("shadow-shadow-popover", "shadow-black/40")).toBe("shadow-shadow-popover shadow-black/40");
+    expect(cn("shadow-shadow-sm", "shadow-shadow-dialog")).toBe("shadow-shadow-dialog");
   });
 
   it("defaults to Tailwind's shadow scale", () => {

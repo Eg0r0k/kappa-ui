@@ -10,6 +10,8 @@ const radiusRoles = [
   ...["xs", "sm", "md", "lg", "xl"].flatMap((step) => [`surface-${step}`, `item-${step}`]),
 ];
 
+const shadowRoles = ["xs", "sm", "md", "lg", "xl", "popover", "dialog"].map((role) => `shadow-${role}`);
+
 const radiusCorners = [
   "rounded",
   "rounded-s",
@@ -30,7 +32,7 @@ const radiusCorners = [
 
 const twMerge = extendTailwindMerge<"icon-size" | "rounded-inset" | "rounded-outset">({
   extend: {
-    theme: { text: typescale, radius: radiusRoles },
+    theme: { text: typescale, radius: radiusRoles, shadow: shadowRoles },
     classGroups: {
       "icon-size": [{ "icon-size": [validators.isAny] }],
       "rounded-inset": [{ "rounded-inset": [validators.isAny] }],
