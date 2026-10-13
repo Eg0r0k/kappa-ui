@@ -14,7 +14,8 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
         `
           flex shrink-0 flex-col-reverse gap-2 px-6
           sm:flex-row sm:justify-end
-          group-data-[size=sm]/alert-dialog:grid group-data-[size=sm]/alert-dialog:grid-cols-2
+          group-data-[size=sm]/alert-dialog:grid group-data-[size=sm]/alert-dialog:grid-flow-col
+          group-data-[size=sm]/alert-dialog:auto-cols-fr
         `,
         props.class,
       )

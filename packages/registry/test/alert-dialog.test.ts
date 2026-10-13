@@ -96,6 +96,16 @@ describe("AlertDialog", () => {
     expect(cancel()!.offsetWidth).toBe(action()!.offsetWidth);
   });
 
+  it("gives a lone button the whole footer of an sm dialog", async () => {
+    void mountHost().alert({ title: "Done", size: "sm" });
+    await expect.poll(action).not.toBeNull();
+    await settle();
+    const footer = content()!.querySelector<HTMLElement>("[data-slot=alert-dialog-footer]")!;
+    const style = getComputedStyle(footer);
+    const inner = footer.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    expect(Math.abs(action()!.getBoundingClientRect().width - inner)).toBeLessThanOrEqual(1);
+  });
+
   it.each([
     ["sm", "centre"],
     ["md", "start"],
