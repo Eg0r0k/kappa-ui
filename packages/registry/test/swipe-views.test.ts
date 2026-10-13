@@ -122,6 +122,44 @@ it("pairs with Tabs on one model through TabsContent as-child", async () => {
   expect(slot("swipe-views").style.getPropertyValue("--swipe-snap-offset")).toBe("-300px");
 });
 
+it("rings a focused page with the kit's inset ring where the browser shows focus, and with no outline otherwise", async () => {
+  const tab = ref<string | number>("a");
+  const go = (value: string) => () => (tab.value = value);
+  mount(
+    defineComponent({
+      setup: () => () =>
+        h(
+          SwipeViews,
+          {
+            modelValue: tab.value,
+            "onUpdate:modelValue": (value: string | number) => (tab.value = value),
+            style: "width: 300px; height: 200px; --swipe-snap-duration: 0s",
+          },
+          () => [
+            h(SwipeView, { value: "a" }, () => h("button", { type: "button", onClick: go("b") }, "next")),
+            h(SwipeView, { value: "b" }, () => h("button", { type: "button", onClick: go("a") }, "back")),
+          ],
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  await nextFrame();
+  await nextFrame();
+  const [a, b] = views();
+  a!.querySelector("button")!.focus();
+  await userEvent.keyboard("{Enter}");
+  const outline = (page: HTMLElement) => {
+    const style = getComputedStyle(page);
+    return `${style.outlineStyle} ${style.outlineOffset}`;
+  };
+  await expect.poll(() => document.activeElement).toBe(b);
+  expect(outline(b!)).toBe(b!.matches(":focus-visible") ? "solid -3px" : "none 0px");
+  await userEvent.click(b!.querySelector("button")!);
+  await expect.poll(() => document.activeElement).toBe(a);
+  expect(a!.matches(":focus-visible")).toBe(false);
+  expect(outline(a!)).toBe("none 0px");
+});
+
 const lefts = () => views().map(left);
 
 it("stacks the pages: each slides in over the one before and stays once covered", async () => {

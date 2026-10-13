@@ -25,7 +25,7 @@ export const swipeViewsVariants = cva("relative overflow-clip swipe-snap", {
   defaultVariants: { orientation: "horizontal", layout: "row" },
 });
 
-export const swipeViewVariants = cva("shrink-0 swipe-view", {
+export const swipeViewVariants = cva("shrink-0 outline-none swipe-view focus-visible:focus-ring-inset", {
   variants: {
     orientation: { horizontal: "", vertical: "" },
     layout: { row: "", stack: "absolute" },
