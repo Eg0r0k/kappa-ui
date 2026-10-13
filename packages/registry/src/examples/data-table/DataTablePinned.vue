@@ -33,6 +33,6 @@ const columns: DataTableColumn<Row>[] = [
     :column-pinning="{ start: ['product'], end: ['total'] }"
     height="320px"
     sticky
-    class="w-full max-w-lg rounded-lg border"
+    class="w-full max-w-lg rounded-lg border border-border"
   />
 </template>

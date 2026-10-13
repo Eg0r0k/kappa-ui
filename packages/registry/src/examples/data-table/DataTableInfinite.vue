@@ -46,7 +46,7 @@ const columns = helper.columns([
     virtualize
     size="sm"
     :on-load-more="loadMore"
-    class="w-full max-w-lg rounded-lg border"
+    class="w-full max-w-lg rounded-lg border border-border"
   >
     <template #endOfData>
       <p class="py-1 text-center text-body-sm text-muted-foreground">All {{ events.length }} events loaded.</p>

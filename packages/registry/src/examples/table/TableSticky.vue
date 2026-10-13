@@ -11,7 +11,7 @@ const total = rows.reduce((sum, row) => sum + row.total, 0);
 </script>
 
 <template>
-  <ScrollArea class="h-72 w-full max-w-md rounded-lg border">
+  <ScrollArea class="h-72 w-full max-w-md rounded-lg border border-border">
     <Table overflow="visible">
       <TableHeader sticky>
         <TableRow>

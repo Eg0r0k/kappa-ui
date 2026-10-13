@@ -9,7 +9,7 @@ const cell = (product: number, month: number) => ((product + 2) * (month + 5) * 
 </script>
 
 <template>
-  <ScrollArea orientation="both" dir="rtl" class="h-64 w-full max-w-md rounded-lg border">
+  <ScrollArea orientation="both" dir="rtl" class="h-64 w-full max-w-md rounded-lg border border-border">
     <Table overflow="visible">
       <TableHeader sticky>
         <TableRow>

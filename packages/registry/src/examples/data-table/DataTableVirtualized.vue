@@ -42,7 +42,7 @@ const onRowClick = (_event: MouseEvent | KeyboardEvent, row: DataTableRow<Trade>
       size="sm"
       striped
       :on-row-click="onRowClick"
-      class="rounded-lg border"
+      class="rounded-lg border border-border"
     />
     <p class="text-body-sm text-muted-foreground">{{ picked === null ? "Click a row." : `Trade #${picked}` }}</p>
   </div>

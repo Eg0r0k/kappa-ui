@@ -68,7 +68,7 @@ const columns = helper.columns([
       :error="state === 'error'"
       :global-filter="filter"
       :loading-rows="3"
-      class="rounded-lg border"
+      class="rounded-lg border border-border"
     >
       <template #empty>No invoices yet.</template>
       <template #noResults>Nothing matches your search.</template>

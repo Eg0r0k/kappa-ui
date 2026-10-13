@@ -9,7 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/ui/collap
       <Button variant="soft" color="neutral">Monthly report</Button>
     </CollapsibleTrigger>
     <CollapsibleContent>
-      <div class="rounded-md border p-4">A heavy chart would only be mounted while this is open.</div>
+      <div class="rounded-md border border-border p-4">A heavy chart would only be mounted while this is open.</div>
     </CollapsibleContent>
   </Collapsible>
 </template>

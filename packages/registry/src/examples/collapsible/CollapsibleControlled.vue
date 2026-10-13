@@ -17,7 +17,7 @@ const open = ref(true);
         <Button variant="soft" color="neutral">Toggle inside</Button>
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div class="rounded-md border p-4">Both buttons drive the same <code>open</code> ref.</div>
+        <div class="rounded-md border border-border p-4">Both buttons drive the same <code>open</code> ref.</div>
       </CollapsibleContent>
     </Collapsible>
   </div>

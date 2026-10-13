@@ -8,7 +8,7 @@ const rows = Array.from({ length: 10_000 }, (_, index) => `Row ${index}`);
   <ScrollArea
     :virtualize="{ estimateSize: 32 }"
     :items="rows"
-    class="h-64 w-full max-w-sm rounded-lg border"
+    class="h-64 w-full max-w-sm rounded-lg border border-border"
     v-slot="{ item, index }"
   >
     <div class="px-4 text-body-md leading-8">{{ index }} — {{ item }}</div>

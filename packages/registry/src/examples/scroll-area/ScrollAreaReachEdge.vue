@@ -12,7 +12,7 @@ const onReachEdge = ({ edge }: { edge: ScrollAreaEdge }) => {
 
 <template>
   <div class="flex w-full max-w-sm flex-col gap-3">
-    <ScrollArea class="h-48 rounded-lg border" :edge-offset="24" @reach-edge="onReachEdge">
+    <ScrollArea class="h-48 rounded-lg border border-border" :edge-offset="24" @reach-edge="onReachEdge">
       <div class="flex flex-col gap-1 p-4">
         <p v-for="index in 30" :key="index" class="text-body-md">Line {{ index }}</p>
       </div>

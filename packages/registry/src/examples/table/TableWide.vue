@@ -10,7 +10,7 @@ const rows = Array.from({ length: 6 }, (_, row) => ({
 </script>
 
 <template>
-  <Table class="w-full max-w-md rounded-lg border">
+  <Table class="w-full max-w-md rounded-lg border border-border">
     <TableHeader>
       <TableRow>
         <TableHead v-for="column in columns" :key="column" class="min-w-24">{{ column }}</TableHead>

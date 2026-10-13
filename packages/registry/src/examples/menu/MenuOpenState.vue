@@ -11,7 +11,7 @@ const messages = [
 </script>
 
 <template>
-  <ul class="flex w-full max-w-sm flex-col rounded-xl border p-1">
+  <ul class="flex w-full max-w-sm flex-col rounded-xl border border-border p-1">
     <li
       v-for="message in messages"
       :key="message.from"

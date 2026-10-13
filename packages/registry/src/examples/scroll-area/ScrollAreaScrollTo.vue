@@ -19,7 +19,7 @@ const area = shallowRef<ScrollAreaApi | null>(null);
       ref="area"
       :virtualize="{ estimateSize: 32 }"
       :items="rows"
-      class="h-64 rounded-lg border"
+      class="h-64 rounded-lg border border-border"
       v-slot="{ item, index }"
     >
       <div class="px-4 text-body-md leading-8">{{ index }} — {{ item }}</div>

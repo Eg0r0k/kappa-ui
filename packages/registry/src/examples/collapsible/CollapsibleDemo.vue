@@ -17,10 +17,12 @@ defineOptions({ inheritAttrs: false });
         </Button>
       </CollapsibleTrigger>
     </div>
-    <div class="rounded-md border px-4 py-2 font-mono text-body-sm">unovue/reka-ui</div>
+    <div class="rounded-md border border-border px-4 py-2 font-mono text-body-sm">unovue/reka-ui</div>
     <CollapsibleContent class="flex flex-col gap-2">
-      <div class="rounded-md border px-4 py-2 font-mono text-body-sm">unovue/shadcn-vue</div>
-      <div class="rounded-md border px-4 py-2 font-mono text-body-sm">material-components/material-web</div>
+      <div class="rounded-md border border-border px-4 py-2 font-mono text-body-sm">unovue/shadcn-vue</div>
+      <div class="rounded-md border border-border px-4 py-2 font-mono text-body-sm">
+        material-components/material-web
+      </div>
     </CollapsibleContent>
   </Collapsible>
 </template>

@@ -3,7 +3,7 @@ import { ScrollArea } from "@/ui/scroll-area";
 </script>
 
 <template>
-  <ScrollArea orientation="horizontal" class="h-44 w-full max-w-md rounded-lg border">
+  <ScrollArea orientation="horizontal" class="h-44 w-full max-w-md rounded-lg border border-border">
     <div class="flex w-max gap-3 p-4">
       <div
         v-for="index in 12"

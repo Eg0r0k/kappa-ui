@@ -8,7 +8,7 @@ import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
       <SplitterPanel
         :default-size="35"
         :min-size="20"
-        class="flex items-center justify-center rounded-lg border bg-card text-body-md"
+        class="flex items-center justify-center rounded-lg border border-border bg-card text-body-md"
       >
         Sidebar
       </SplitterPanel>
@@ -16,7 +16,7 @@ import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
       <SplitterPanel
         :default-size="65"
         :min-size="30"
-        class="flex items-center justify-center rounded-lg border bg-card text-body-md"
+        class="flex items-center justify-center rounded-lg border border-border bg-card text-body-md"
       >
         Main
       </SplitterPanel>

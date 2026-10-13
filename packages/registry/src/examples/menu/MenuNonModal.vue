@@ -21,7 +21,7 @@ const files = [
 </script>
 
 <template>
-  <ul class="flex h-56 w-full max-w-sm flex-col overflow-y-auto rounded-xl border p-1">
+  <ul class="flex h-56 w-full max-w-sm flex-col overflow-y-auto rounded-xl border border-border p-1">
     <li
       v-for="file in files"
       :key="file"

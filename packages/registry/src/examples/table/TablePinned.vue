@@ -10,7 +10,7 @@ const yearOf = (product: number) => months.reduce((sum, _, month) => sum + cell(
 </script>
 
 <template>
-  <ScrollArea orientation="both" class="h-80 w-full max-w-lg rounded-lg border">
+  <ScrollArea orientation="both" class="h-80 w-full max-w-lg rounded-lg border border-border">
     <Table overflow="visible">
       <TableHeader sticky>
         <TableRow>

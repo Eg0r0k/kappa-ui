@@ -25,7 +25,7 @@ const groups = [
 </script>
 
 <template>
-  <Table class="w-full max-w-lg rounded-lg border">
+  <Table class="w-full max-w-lg rounded-lg border border-border">
     <TableHeader>
       <TableRow>
         <TableHead>Name</TableHead>

@@ -9,9 +9,9 @@ const columns = Array.from({ length: 10_000 }, (_, index) => `Column ${index}`);
     orientation="horizontal"
     :virtualize="{ estimateSize: 140 }"
     :items="columns"
-    class="h-32 w-full max-w-md rounded-lg border"
+    class="h-32 w-full max-w-md rounded-lg border border-border"
     v-slot="{ item }"
   >
-    <div class="grid h-full w-[140px] place-items-center border-e text-body-md">{{ item }}</div>
+    <div class="grid h-full w-[140px] place-items-center border-e border-border text-body-md">{{ item }}</div>
   </ScrollArea>
 </template>

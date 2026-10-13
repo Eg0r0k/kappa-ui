@@ -18,7 +18,7 @@ const open = ref(false);
         enter-from-class="translate-y-2 opacity-0"
         leave-to-class="translate-y-2 opacity-0"
       >
-        <div v-if="open" role="status" class="rounded-lg border bg-background px-4 py-3">
+        <div v-if="open" role="status" class="rounded-lg border border-border bg-background px-4 py-3">
           <p class="text-title-sm">Changes saved</p>
           <p class="text-body-sm text-muted-foreground">Your project is up to date.</p>
         </div>

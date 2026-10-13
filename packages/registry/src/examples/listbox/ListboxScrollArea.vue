@@ -37,7 +37,7 @@ const language = ref("English");
 </script>
 
 <template>
-  <ScrollArea class="h-64 w-56 rounded-xl border bg-card">
+  <ScrollArea class="h-64 w-56 rounded-xl border border-border bg-card">
     <Listbox v-model="language" variant="ghost" aria-label="Language" class="p-1">
       <ListboxItem v-for="item in languages" :key="item" :value="item">{{ item }}</ListboxItem>
     </Listbox>

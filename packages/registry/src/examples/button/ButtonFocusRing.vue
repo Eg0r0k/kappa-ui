@@ -4,10 +4,10 @@ import { Button } from "@/ui/button";
 
 <template>
   <div class="flex flex-wrap gap-6">
-    <div class="overflow-hidden rounded-lg border">
+    <div class="overflow-hidden rounded-lg border border-border">
       <Button class="rounded-none">Outward, clipped</Button>
     </div>
-    <div class="overflow-hidden rounded-lg border">
+    <div class="overflow-hidden rounded-lg border border-border">
       <Button focus-ring="inward" class="rounded-none">Inward, visible</Button>
     </div>
   </div>

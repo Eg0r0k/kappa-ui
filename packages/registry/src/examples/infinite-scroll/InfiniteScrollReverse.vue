@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <ScrollArea ref="area" class="h-72 w-full max-w-sm rounded-lg border">
+  <ScrollArea ref="area" class="h-72 w-full max-w-sm rounded-lg border border-border">
     <InfiniteScroll :directions="['top']" :disabled="!ready" :on-load="load" class="p-2">
       <p v-for="message in messages" :key="message.id" class="px-2 text-body-md leading-8">{{ message.text }}</p>
       <template #end>Start of the conversation.</template>

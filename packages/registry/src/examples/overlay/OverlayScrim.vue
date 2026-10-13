@@ -9,7 +9,7 @@ const count = ref(0);
 </script>
 
 <template>
-  <div class="relative flex h-56 w-full max-w-md flex-col gap-3 rounded-xl border p-4">
+  <div class="relative flex h-56 w-full max-w-md flex-col gap-3 rounded-xl border border-border p-4">
     <div class="flex gap-3">
       <Select default-value="grid">
         <SelectTrigger class="w-36" aria-label="Layout">

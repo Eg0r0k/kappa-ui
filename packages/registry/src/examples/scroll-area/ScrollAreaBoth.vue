@@ -7,7 +7,7 @@ const rows = Array.from({ length: 12 }, (_, row) =>
 </script>
 
 <template>
-  <ScrollArea orientation="both" class="h-64 w-full max-w-md rounded-lg border">
+  <ScrollArea orientation="both" class="h-64 w-full max-w-md rounded-lg border border-border">
     <div class="grid w-max grid-cols-[repeat(12,6rem)] gap-2 p-4">
       <template v-for="(row, index) in rows" :key="index">
         <div

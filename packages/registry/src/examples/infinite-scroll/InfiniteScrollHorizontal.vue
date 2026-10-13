@@ -14,7 +14,7 @@ const load = async ({ index }: { index: number }) => {
 </script>
 
 <template>
-  <ScrollArea orientation="horizontal" class="h-44 w-full max-w-md rounded-lg border">
+  <ScrollArea orientation="horizontal" class="h-44 w-full max-w-md rounded-lg border border-border">
     <InfiniteScroll :directions="['end']" :on-load="load" class="gap-3 p-4">
       <div
         v-for="card in cards"

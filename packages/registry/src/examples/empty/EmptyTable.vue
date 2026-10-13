@@ -22,7 +22,7 @@ const columns = helper.columns([
     :data="invoices"
     :columns="columns"
     :get-row-id="(row) => row.id"
-    class="w-full max-w-xl rounded-lg border"
+    class="w-full max-w-xl rounded-lg border border-border"
   >
     <template #empty>
       <Empty size="sm" class="p-0 text-foreground">

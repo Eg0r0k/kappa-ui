@@ -31,9 +31,9 @@ const tour = useTour<Step>([
 <template>
   <div class="flex w-full max-w-md flex-col items-center gap-6">
     <ol class="grid w-full grid-cols-3 gap-2 text-center text-label-md">
-      <li ref="first" class="rounded-lg border p-3">Plan</li>
-      <li ref="second" class="rounded-lg border p-3">Team</li>
-      <li ref="third" class="rounded-lg border p-3">Repository</li>
+      <li ref="first" class="rounded-lg border border-border p-3">Plan</li>
+      <li ref="second" class="rounded-lg border border-border p-3">Team</li>
+      <li ref="third" class="rounded-lg border border-border p-3">Repository</li>
     </ol>
     <Button variant="outline" color="neutral" @click="tour.start()">Start</Button>
 

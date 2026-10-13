@@ -4,7 +4,7 @@ import { Menu, MenuItem, MenuSeparator, MenuShortcut } from "@/ui/menu";
 
 <template>
   <div
-    class="flex h-36 w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-body-md text-muted-foreground select-none"
+    class="flex h-36 w-full max-w-xs items-center justify-center rounded-xl border border-border border-dashed text-body-md text-muted-foreground select-none"
   >
     Right-click or long-press here
     <Menu context-menu class="w-52">

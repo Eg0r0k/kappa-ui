@@ -43,7 +43,7 @@ const rowPinning = ref<RowPinningState>({ top: ["7"], bottom: [] });
     height="320px"
     sticky
     sortable
-    class="w-full max-w-lg rounded-lg border"
+    class="w-full max-w-lg rounded-lg border border-border"
   >
     <template #cell-pin="{ row }">
       <Button

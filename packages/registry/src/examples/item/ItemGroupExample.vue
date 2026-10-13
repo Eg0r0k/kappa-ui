@@ -27,7 +27,7 @@ const initials = (name: string) =>
 </script>
 
 <template>
-  <ItemGroup class="w-full max-w-md rounded-xl border">
+  <ItemGroup class="w-full max-w-md rounded-xl border border-border">
     <template v-for="(person, index) in people" :key="person.email">
       <ItemSeparator v-if="index > 0" />
       <Item size="sm">

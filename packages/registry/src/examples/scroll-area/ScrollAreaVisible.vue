@@ -3,7 +3,7 @@ import { ScrollArea } from "@/ui/scroll-area";
 </script>
 
 <template>
-  <ScrollArea :visible="true" class="h-64 w-full max-w-sm rounded-lg border">
+  <ScrollArea :visible="true" class="h-64 w-full max-w-sm rounded-lg border border-border">
     <div class="p-4">
       <p v-for="index in 30" :key="index" class="text-body-md leading-7">Always visible. Line {{ index }}</p>
     </div>

@@ -9,7 +9,7 @@ const color = ref("Blue");
 
 <template>
   <div
-    class="flex h-40 w-full max-w-xs cursor-pointer items-center justify-center rounded-xl border text-body-md text-muted-foreground select-none"
+    class="flex h-40 w-full max-w-xs cursor-pointer items-center justify-center rounded-xl border border-border text-body-md text-muted-foreground select-none"
   >
     Click anywhere · {{ color }}
     <Menu touch-position class="w-36">

@@ -18,7 +18,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/ui/collap
       </Button>
     </CollapsibleTrigger>
     <CollapsibleContent>
-      <div class="rounded-md border p-4">The chevron turns half a round while this is open.</div>
+      <div class="rounded-md border border-border p-4">The chevron turns half a round while this is open.</div>
     </CollapsibleContent>
   </Collapsible>
 </template>

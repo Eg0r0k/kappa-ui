@@ -3,7 +3,7 @@ import { Table, TableBody, TableEmpty, TableHead, TableHeader, TableRow } from "
 </script>
 
 <template>
-  <Table class="w-full max-w-md rounded-lg border">
+  <Table class="w-full max-w-md rounded-lg border border-border">
     <TableHeader>
       <TableRow>
         <TableHead>Name</TableHead>

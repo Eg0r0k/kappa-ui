@@ -3,7 +3,7 @@ import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
 </script>
 
 <template>
-  <div class="h-64 w-full max-w-xl overflow-hidden rounded-lg border">
+  <div class="h-64 w-full max-w-xl overflow-hidden rounded-lg border border-border">
     <Splitter>
       <SplitterPanel :default-size="30" class="flex items-center justify-center text-body-md">Fixed</SplitterPanel>
       <SplitterHandle disabled />

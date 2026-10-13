@@ -58,7 +58,7 @@ const rows = Array.from({ length: 200 }, (_, index) => ({
         <ToggleGroupItem value="off">Plain</ToggleGroupItem>
       </ToggleGroup>
     </div>
-    <ScrollArea orientation="both" class="h-96 rounded-lg border">
+    <ScrollArea orientation="both" class="h-96 rounded-lg border border-border">
       <Table overflow="visible" :size="size" :striped="striped">
         <TableHeader sticky>
           <TableRow>

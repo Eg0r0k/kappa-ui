@@ -17,7 +17,7 @@ const pick = (event: MouseEvent) => {
 
 <template>
   <div class="flex w-full max-w-sm flex-col gap-2">
-    <div class="rounded-xl border" @contextmenu="pick">
+    <div class="rounded-xl border border-border" @contextmenu="pick">
       <ScrollArea :items="files" :virtualize="{ estimateSize: 36 }" class="h-64">
         <template #default="{ item, index }">
           <div :data-index="index" class="flex h-9 items-center px-3 text-body-md select-none hover:bg-muted">

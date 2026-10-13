@@ -26,7 +26,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <ScrollArea ref="area" class="h-72 w-full max-w-sm rounded-lg border">
+  <ScrollArea ref="area" class="h-72 w-full max-w-sm rounded-lg border border-border">
     <InfiniteScroll :directions="['top', 'bottom']" :disabled="!ready" :on-load="load" class="p-2 font-mono">
       <p v-for="line in lines" :key="line" class="px-2 text-body-sm leading-6">line {{ line }}</p>
       <template #end="{ direction }">{{ direction === "top" ? "Oldest entry." : "Newest entry." }}</template>

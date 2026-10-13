@@ -21,7 +21,11 @@ const rows = Array.from({ length: 300 }, (_, index) => `report-${String(index + 
     </CollapsibleTrigger>
     <CollapsibleContent>
       <ul class="flex flex-col gap-1">
-        <li v-for="row in rows" :key="row" class="flex items-center gap-2 rounded-md border px-3 py-1.5 text-body-sm">
+        <li
+          v-for="row in rows"
+          :key="row"
+          class="flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-body-sm"
+        >
           <File class="size-4 shrink-0 text-muted-foreground" />
           {{ row }}
         </li>

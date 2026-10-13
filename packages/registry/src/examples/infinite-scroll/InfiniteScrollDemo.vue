@@ -14,7 +14,7 @@ const load = async ({ index }: { index: number }) => {
 </script>
 
 <template>
-  <ScrollArea class="h-72 w-full max-w-sm rounded-lg border">
+  <ScrollArea class="h-72 w-full max-w-sm rounded-lg border border-border">
     <InfiniteScroll :on-load="load" class="p-2">
       <p v-for="item in items" :key="item" class="px-2 text-body-md leading-8">Item {{ item }}</p>
       <template #end>That's all.</template>

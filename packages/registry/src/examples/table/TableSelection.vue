@@ -28,7 +28,7 @@ const onKeydown = (event: KeyboardEvent, id: number) => {
 </script>
 
 <template>
-  <Table class="w-full max-w-md rounded-lg border">
+  <Table class="w-full max-w-md rounded-lg border border-border">
     <TableHeader>
       <TableRow>
         <TableHead class="w-10" />

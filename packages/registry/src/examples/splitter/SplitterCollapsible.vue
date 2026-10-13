@@ -6,7 +6,7 @@ import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
 </script>
 
 <template>
-  <div class="h-64 w-full max-w-xl overflow-hidden rounded-lg border">
+  <div class="h-64 w-full max-w-xl overflow-hidden rounded-lg border border-border">
     <Splitter>
       <SplitterPanel
         v-slot="{ isCollapsed, collapse, expand }"

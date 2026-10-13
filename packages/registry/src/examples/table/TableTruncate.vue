@@ -24,7 +24,7 @@ const issues = [
 </script>
 
 <template>
-  <Table layout="fixed" class="w-full max-w-lg rounded-lg border">
+  <Table layout="fixed" class="w-full max-w-lg rounded-lg border border-border">
     <TableHeader>
       <TableRow>
         <TableHead class="w-24">Key</TableHead>

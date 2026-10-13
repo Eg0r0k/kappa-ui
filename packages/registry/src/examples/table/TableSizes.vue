@@ -24,7 +24,7 @@ const people = [
     <ToggleGroup type="single" variant="outline" size="sm" :model-value="size" @update:model-value="setSize">
       <ToggleGroupItem v-for="option in sizes" :key="option" :value="option">{{ option }}</ToggleGroupItem>
     </ToggleGroup>
-    <Table :size="size" striped class="rounded-lg border">
+    <Table :size="size" striped class="rounded-lg border border-border">
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>

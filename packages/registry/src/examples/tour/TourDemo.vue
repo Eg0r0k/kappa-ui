@@ -38,7 +38,7 @@ const tour = useTour<Step>([
 
 <template>
   <div class="flex w-full max-w-lg flex-col gap-6">
-    <div class="flex items-center gap-2 rounded-xl border p-2">
+    <div class="flex items-center gap-2 rounded-xl border border-border p-2">
       <Button id="tour-demo-new" size="sm">
         <FilePlus data-icon="inline-start" />
         New
