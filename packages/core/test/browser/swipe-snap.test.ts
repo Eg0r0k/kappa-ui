@@ -67,6 +67,13 @@ it("writes the active point as a negative offset and its index as the position",
   expect(element.style.getPropertyValue("--swipe-snap-position")).toBe("1");
 });
 
+it("clamps an active index past the last point to the last point", async () => {
+  const { element, index, offset } = await host({ points: [0, 300, 600], active: 5 });
+  expect(index.value).toBe(2);
+  expect(offset()).toBe("-600px");
+  expect(element.style.getPropertyValue("--swipe-snap-position")).toBe("2");
+});
+
 it("springs back from a slow drag under half the way", async () => {
   const { element, index, offset } = await host();
   await drag(element, [250, 100], [150, 100], 4, 80);

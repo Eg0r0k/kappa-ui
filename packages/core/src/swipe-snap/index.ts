@@ -48,6 +48,7 @@ export const useSwipeSnap = (
   const points = () => toValue(options.points);
   const last = () => points().length - 1;
   const pointOf = (index: number) => points()[index] ?? 0;
+  const clamp = (index: number) => Math.max(0, Math.min(index, last()));
   const sequential = () => toValue(options.sequential ?? true);
   const mirrored = () => toValue(options.axis ?? "x") === "x" && toValue(options.rtl ?? false);
   const towards = (): DragSide => {
@@ -55,6 +56,7 @@ export const useSwipeSnap = (
     return mirrored() ? "left" : "right";
   };
 
+  if (last() >= 0 && active.value !== clamp(active.value)) active.value = clamp(active.value);
   const offset = ref(-pointOf(active.value));
   const dragging = ref(false);
   const settling = ref(false);
@@ -112,7 +114,7 @@ export const useSwipeSnap = (
   };
 
   const settle = (index: number, animate = true) => {
-    const clamped = Math.max(0, Math.min(index, last()));
+    const clamped = clamp(index);
     if (active.value !== clamped) active.value = clamped;
     if (animate) glide(-pointOf(clamped));
     else jump(-pointOf(clamped));
