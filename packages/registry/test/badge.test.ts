@@ -76,6 +76,31 @@ describe("Badge touch target", () => {
   });
 });
 
+describe("Badge square touch target", () => {
+  it("reserves side room too with the wrapper touch target, so neighbouring areas stay apart", () => {
+    mount(
+      {
+        render: () =>
+          h(
+            "div",
+            { class: "flex gap-1" },
+            [1, 2].map((n) => h(Badge, { square: true, size: "xs", touchTarget: "wrapper" }, () => String(n))),
+          ),
+      },
+      { attachTo: document.body },
+    );
+    const [first, second] = [...document.querySelectorAll<HTMLElement>("[data-slot=badge]")];
+    const area = (badge: HTMLElement) => {
+      const box = badge.getBoundingClientRect();
+      const after = getComputedStyle(badge, "::after");
+      const width = Number.parseFloat(after.width);
+      return { start: box.left + box.width / 2 - width / 2, end: box.left + box.width / 2 + width / 2 };
+    };
+    expect(getComputedStyle(first!).marginLeft).toBe("16px");
+    expect(area(first!).end).toBeLessThanOrEqual(area(second!).start);
+  });
+});
+
 describe("Badge colour", () => {
   it("draws a colour the user declares on [data-slot][data-color]", () => {
     const style = document.createElement("style");
