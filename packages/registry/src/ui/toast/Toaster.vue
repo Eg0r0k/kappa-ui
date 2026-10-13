@@ -103,6 +103,7 @@ const place = (toast: Toast) => {
     <ToastPortal :to="portalTarget ?? undefined">
       <ToastViewport
         :hotkey="props.hotkey"
+        :dir="dir"
         data-slot="toaster"
         :data-side="side"
         :data-align="align"

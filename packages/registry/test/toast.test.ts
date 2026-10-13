@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { Star } from "@lucide/vue";
+import { ConfigProvider } from "reka-ui";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
@@ -260,5 +261,36 @@ describe("Toaster", () => {
     await wait(300);
     expect(undo).toHaveBeenCalledTimes(1);
     expect(open.value).toBe(true);
+  });
+  it("takes its side and its swipe from the ConfigProvider direction", async () => {
+    const toaster = createToaster();
+    const wrapper = mount(
+      defineComponent(() => () => h(ConfigProvider, { dir: "rtl" }, () => h(Toaster, { position: "bottom-end" }))),
+      { attachTo: document.body, global: { plugins: [toaster] } },
+    );
+    wrappers.push(wrapper);
+    toaster.add({ title: "Saved", duration: 60000 });
+    await shown(1);
+    await animations();
+    const box = viewport().getBoundingClientRect();
+    expect(viewport().getAttribute("dir")).toBe("rtl");
+    expect(box.left).toBeLessThan(document.documentElement.clientWidth - box.right);
+    expect(toasts()[0]!.dataset.swipeDirection).toBe("left");
+  });
+
+  it("reads no direction from the document without a ConfigProvider", async () => {
+    document.documentElement.dir = "rtl";
+    try {
+      const toaster = render({ position: "bottom-end" });
+      toaster.add({ title: "Saved", duration: 60000 });
+      await shown(1);
+      await animations();
+      const box = viewport().getBoundingClientRect();
+      expect(viewport().getAttribute("dir")).toBe("ltr");
+      expect(box.left).toBeGreaterThan(document.documentElement.clientWidth - box.right);
+      expect(toasts()[0]!.dataset.swipeDirection).toBe("right");
+    } finally {
+      document.documentElement.removeAttribute("dir");
+    }
   });
 });
