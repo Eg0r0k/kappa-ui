@@ -23,6 +23,7 @@ const isBooked = (date: DateValue) => fullyBooked.includes(date.toString());
       v-model="appointment"
       :min-value="now"
       :max-value="now.add({ months: 2 })"
+      :default-placeholder="now"
       :is-date-disabled="isClosed"
       :is-date-unavailable="isBooked"
       locale="en-US"

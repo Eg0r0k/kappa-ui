@@ -62,6 +62,7 @@ const submit: SubmitHandler<typeof Delivery> = ({ date }) => {
           :model-value="toDate(field.input)"
           :name="field.props.name"
           :min-value="now.add({ days: 1 })"
+          :default-placeholder="now"
           :is-date-disabled="(date: DateValue) => isWeekend(date, 'en-US')"
           locale="en-US"
           @update:model-value="(value?: DateValue) => (field.input = value?.toString() ?? '')"

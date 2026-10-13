@@ -5,9 +5,11 @@ import type { Component } from "vue";
 
 import CalendarDatePicker from "@/examples/calendar/CalendarDatePicker.vue";
 import CalendarForm from "@/examples/calendar/CalendarForm.vue";
+import CalendarMinMax from "@/examples/calendar/CalendarMinMax.vue";
 import CalendarMonthYearSelect from "@/examples/calendar/CalendarMonthYearSelect.vue";
 import RangeCalendarDatePicker from "@/examples/range-calendar/RangeCalendarDatePicker.vue";
 import RangeCalendarForm from "@/examples/range-calendar/RangeCalendarForm.vue";
+import RangeCalendarMaximumDays from "@/examples/range-calendar/RangeCalendarMaximumDays.vue";
 
 let unmount: (() => void) | undefined;
 afterEach(() => {
@@ -116,5 +118,17 @@ describe("month and year select", () => {
       .not.toBeNull();
     expect(document.body.textContent).toContain("May 17, 1990");
     expect(heading().querySelector("[aria-label=Year]")!.textContent).toContain("1985");
+  });
+});
+
+describe("pinned dates", () => {
+  it.each([
+    ["CalendarMinMax", CalendarMinMax, "calendar"],
+    ["RangeCalendarMaximumDays", RangeCalendarMaximumDays, "range-calendar"],
+  ] as const)("shows %s on October 2026 whatever today is", (_, component, slot) => {
+    vi.useFakeTimers({ toFake: ["Date"], shouldAdvanceTime: true, advanceTimeDelta: 1 });
+    vi.setSystemTime(new Date("2026-12-15T12:00:00Z"));
+    render(component);
+    expect(text(q(`[data-slot=${slot}-heading]`))).toBe("October 2026");
   });
 });

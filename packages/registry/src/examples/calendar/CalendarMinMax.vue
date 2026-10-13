@@ -18,6 +18,7 @@ const date = shallowRef<DateValue | undefined>();
       v-model="date"
       :min-value="opens"
       :max-value="closes"
+      :default-placeholder="opens"
       calendar-label="Booking date"
       class="rounded-xl border border-border p-3"
     />

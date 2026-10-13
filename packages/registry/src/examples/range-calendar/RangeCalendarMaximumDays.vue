@@ -25,6 +25,7 @@ const nights = computed(() =>
     <RangeCalendar
       v-model="stay"
       :min-value="opens"
+      :default-placeholder="opens"
       :maximum-days="7"
       :is-date-unavailable="isBooked"
       :allow-non-contiguous-ranges="acrossBooked"

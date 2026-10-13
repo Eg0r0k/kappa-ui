@@ -28,6 +28,7 @@ const submit = (event: SubmitEvent) => {
       <DateRangePicker
         name="stay"
         :min-value="now"
+        :default-placeholder="now"
         :maximum-days="14"
         :is-date-unavailable="isSoldOut"
         :number-of-months="2"

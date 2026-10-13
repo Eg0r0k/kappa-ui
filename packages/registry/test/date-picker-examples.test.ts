@@ -1,11 +1,12 @@
 import { mount } from "@vue/test-utils";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import type { Component } from "vue";
 
 import DatePickerBirthday from "@/examples/date-picker/DatePickerBirthday.vue";
 import DatePickerForm from "@/examples/date-picker/DatePickerForm.vue";
 import DatePickerPresets from "@/examples/date-picker/DatePickerPresets.vue";
+import DatePickerUnavailable from "@/examples/date-picker/DatePickerUnavailable.vue";
 import DateRangePickerButton from "@/examples/date-picker/DateRangePickerButton.vue";
 import DateRangePickerForm from "@/examples/date-picker/DateRangePickerForm.vue";
 
@@ -15,6 +16,7 @@ let unmount: (() => void) | undefined;
 afterEach(() => {
   unmount?.();
   unmount = undefined;
+  vi.useRealTimers();
 });
 
 const render = (component: Component) => {
@@ -112,5 +114,19 @@ describe("range", () => {
     await expect.poll(() => content()).toBeNull();
     q("button[type=submit]").click();
     await expect.poll(() => document.body.textContent).toContain("Checking 2026-10-20 to 2026-10-24…");
+  });
+});
+
+describe("pinned dates", () => {
+  it.each([
+    ["DatePickerForm", DatePickerForm, "calendar"],
+    ["DatePickerUnavailable", DatePickerUnavailable, "calendar"],
+    ["DateRangePickerForm", DateRangePickerForm, "range-calendar"],
+  ] as const)("opens %s on October 2026 whatever today is", async (_, component, slot) => {
+    vi.useFakeTimers({ toFake: ["Date"], shouldAdvanceTime: true, advanceTimeDelta: 1 });
+    vi.setSystemTime(new Date("2026-11-15T12:00:00Z"));
+    render(component);
+    await open();
+    expect(text(q(`[data-slot=${slot}-heading]`))).toMatch(/^October .*2026$/);
   });
 });
