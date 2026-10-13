@@ -201,6 +201,17 @@ describe("Toaster", () => {
     expect(getComputedStyle(bar).animationPlayState).toBe("paused");
   });
 
+  it("takes its width, inset and spacing from a class", async () => {
+    const toaster = render({ class: "w-96 bottom-24 [--toast-gap:1rem]" });
+    toaster.add({ title: "Saved" });
+    await shown(1);
+    await animations();
+    const style = getComputedStyle(viewport());
+    expect(style.width).toBe("384px");
+    expect(style.bottom).toBe("96px");
+    expect(style.getPropertyValue("--toast-gap").trim()).toBe("1rem");
+  });
+
   it("keeps a toast's action clickable under a modal dialog", async () => {
     const toaster = createToaster();
     const undo = vi.fn();
