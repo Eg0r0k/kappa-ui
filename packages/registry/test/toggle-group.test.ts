@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { h, nextTick } from "vue";
 
 import { ToggleGroup, ToggleGroupItem } from "@/ui/toggle-group";
@@ -20,8 +21,12 @@ const render = (props: Record<string, unknown>, items: Record<string, unknown>[]
   };
 };
 
+// Vue skips a listener for events dispatched in the millisecond it was attached
+const afterMount = () => new Promise((resolve) => setTimeout(resolve, 2));
+
 it("keeps one item on in single mode", async () => {
   const { items } = render({ type: "single" });
+  await afterMount();
   items[0]!.click();
   await nextTick();
   items[1]!.click();
@@ -31,6 +36,7 @@ it("keeps one item on in single mode", async () => {
 
 it("keeps several items on in multiple mode", async () => {
   const { items } = render({ type: "multiple" });
+  await afterMount();
   items[0]!.click();
   await nextTick();
   items[2]!.click();
@@ -77,4 +83,19 @@ it("stacks vertically", () => {
   const { root, items } = render({ type: "single", orientation: "vertical", variant: "outline" });
   expect(getComputedStyle(root).flexDirection).toBe("column");
   expect(getComputedStyle(items[0]!).borderBottomLeftRadius).toBe("0px");
+});
+
+it("keeps an aria-disabled item from changing the value by click, Enter or Space", async () => {
+  const updates: unknown[] = [];
+  const { items } = render({ type: "single", "onUpdate:modelValue": (value: unknown) => updates.push(value) }, [
+    { "aria-disabled": "true" },
+    {},
+  ]);
+  await userEvent.click(items[0]!, { force: true });
+  items[0]!.focus();
+  await userEvent.keyboard("{Enter}");
+  await userEvent.keyboard(" ");
+  await nextTick();
+  expect(updates).toEqual([]);
+  expect(items[0]!.getAttribute("aria-pressed")).toBe("false");
 });

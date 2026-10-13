@@ -4,7 +4,7 @@ import type { HTMLAttributes } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { type ButtonColor, type ButtonSize, type ButtonVariants, buttonVariants } from ".";
+import { type ButtonColor, type ButtonSize, type ButtonVariants, buttonVariants, swallowWhenDisabled } from ".";
 
 interface Props extends PrimitiveProps {
   variant?: ButtonVariants["variant"];
@@ -22,12 +22,6 @@ const props = withDefaults(defineProps<Props>(), {
   color: "primary",
   size: "md",
 });
-
-const swallowWhenDisabled = (event: MouseEvent) => {
-  if ((event.currentTarget as HTMLElement).getAttribute("aria-disabled") !== "true") return;
-  event.preventDefault();
-  event.stopImmediatePropagation();
-};
 </script>
 
 <template>

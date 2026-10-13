@@ -4,6 +4,12 @@ export { default as Button } from "./Button.vue";
 
 export type ButtonColor = "primary" | "neutral" | "destructive" | "success" | "warning" | "info";
 
+export const swallowWhenDisabled = (event: MouseEvent) => {
+  if ((event.currentTarget as HTMLElement).getAttribute("aria-disabled") !== "true") return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+};
+
 export const buttonVariants = cva(
   `
     relative cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control-md

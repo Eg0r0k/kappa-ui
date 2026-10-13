@@ -4,7 +4,13 @@ import { type HTMLAttributes, computed } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { type ButtonColor, type ButtonSize, type ButtonVariants, buttonVariants } from "@/ui/button";
+import {
+  type ButtonColor,
+  type ButtonSize,
+  type ButtonVariants,
+  buttonVariants,
+  swallowWhenDisabled,
+} from "@/ui/button";
 import { type ToggleVariants, toggleVariants } from ".";
 
 defineOptions({ inheritAttrs: false });
@@ -59,6 +65,7 @@ const forwarded = useForwardPropsEmits(delegated, emits);
         )
       "
       v-bind="$attrs"
+      @click.capture="swallowWhenDisabled"
     >
       <slot v-bind="slotProps" />
     </Primitive>

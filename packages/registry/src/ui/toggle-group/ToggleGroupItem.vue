@@ -4,7 +4,7 @@ import { type HTMLAttributes, computed } from "vue";
 
 import vRipple from "@/lib/ripple";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/ui/button";
+import { buttonVariants, swallowWhenDisabled } from "@/ui/button";
 import { toggleVariants } from "@/ui/toggle";
 import { type ToggleGroupStyle, injectToggleGroupStyle } from ".";
 
@@ -59,6 +59,7 @@ const forwarded = useForwardProps(delegated);
         )
       "
       v-bind="$attrs"
+      @click.capture="swallowWhenDisabled"
     >
       <slot v-bind="slotProps" />
     </Primitive>

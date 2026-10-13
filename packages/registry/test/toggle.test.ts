@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { type VNode, h, nextTick } from "vue";
 
 import { Button } from "@/ui/button";
@@ -18,6 +19,9 @@ const visibleShadows = (shadow: string) =>
         .map((layer) => layer.trim())
         .filter((layer) => !layer.startsWith("rgba(0, 0, 0, 0)") && !/ 0px 0px 0px 0px/.test(layer));
 
+// Vue skips a listener for events dispatched in the millisecond it was attached
+const afterMount = () => new Promise((resolve) => setTimeout(resolve, 2));
+
 const look = (element: HTMLElement) => {
   const style = getComputedStyle(element);
   return { background: style.backgroundColor, color: style.color, shadow: visibleShadows(style.boxShadow) };
@@ -31,6 +35,7 @@ it("is a button that toggles aria-pressed and data-state", async () => {
   expect(toggle!.dataset.slot).toBe("toggle");
   expect(toggle!.getAttribute("aria-pressed")).toBe("false");
   expect(toggle!.dataset.state).toBe("off");
+  await afterMount();
   toggle!.click();
   await nextTick();
   expect(toggle!.getAttribute("aria-pressed")).toBe("true");
@@ -41,6 +46,7 @@ it("is a button that toggles aria-pressed and data-state", async () => {
 it("lets attributes passed in win over its own, so a wrapper can name its data-slot", async () => {
   const [toggle] = render(() => [h(Toggle, { "aria-label": "Bold", "data-slot": "editor-toggle" }, () => "B")]);
   expect(toggle!.dataset.slot).toBe("editor-toggle");
+  await afterMount();
   toggle!.click();
   await nextTick();
   expect(toggle!.dataset.state).toBe("on");
@@ -84,4 +90,22 @@ it("keeps the disabled colours while on", () => {
     h(Button, { variant: "solid", color: "primary", disabled: true }, () => "A"),
   ]);
   expect(look(on!)).toEqual(look(disabled!));
+});
+
+it("refuses click, Enter and Space while aria-disabled, like Button", async () => {
+  const updates: unknown[] = [];
+  const [toggle] = render(() => [
+    h(
+      Toggle,
+      { "aria-disabled": "true", "aria-label": "Bold", "onUpdate:modelValue": (value: unknown) => updates.push(value) },
+      () => "B",
+    ),
+  ]);
+  await userEvent.click(toggle!, { force: true });
+  toggle!.focus();
+  await userEvent.keyboard("{Enter}");
+  await userEvent.keyboard(" ");
+  await nextTick();
+  expect(updates).toEqual([]);
+  expect(toggle!.getAttribute("aria-pressed")).toBe("false");
 });
