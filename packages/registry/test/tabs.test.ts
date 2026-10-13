@@ -108,6 +108,25 @@ it("keeps the pill thumb on the triggers when a class changes the list's padding
   await expect.poll(() => offset("left")).toBe(0);
 });
 
+it("stretches horizontal pill triggers unless a class says flex-none", () => {
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h("div", { style: "width: 600px" }, [
+          h(Tabs, { defaultValue: "a" }, () =>
+            h(TabsList, { class: "w-full" }, () => [
+              h(TabsTrigger, { value: "a", class: "flex-none" }, () => "Alpha"),
+              h(TabsTrigger, { value: "b" }, () => "Beta"),
+            ]),
+          ),
+        ]),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  expect(triggers().map((trigger) => getComputedStyle(trigger).flexGrow)).toEqual(["0", "1"]);
+});
+
 it("sizes triggers from the list and defaults to a medium pill", () => {
   renderTabs();
   expect(list().dataset.variant).toBe("pill");

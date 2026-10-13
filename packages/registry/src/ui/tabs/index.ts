@@ -19,14 +19,14 @@ const pillInnerRadius = "rounded-(--tabs-trigger-radius)";
 
 export const tabsListVariants = cva(
   `
-    group/tabs-list relative isolate inline-flex w-fit shrink-0 items-center
+    group/tabs-list relative isolate inline-flex w-fit shrink-0 items-center [--tabs-trigger-flex:none]
     aria-[orientation=vertical]:flex-col aria-[orientation=vertical]:items-stretch
     aria-[orientation=vertical]:self-start
   `,
   {
     variants: {
       variant: {
-        pill: "rounded-outset-(--tabs-trigger-radius)/1 bg-muted p-1",
+        pill: "rounded-outset-(--tabs-trigger-radius)/1 bg-muted p-1 aria-[orientation=horizontal]:[--tabs-trigger-flex:1]",
         line: "border-border aria-[orientation=horizontal]:border-b aria-[orientation=vertical]:border-e",
       },
       size: sizes,
@@ -72,15 +72,14 @@ export const tabsIndicatorVariants = cva(
 );
 
 export const tabsTrigger = `
-  relative z-1 inline-flex h-(--tabs-trigger-height) shrink-0 items-center justify-center gap-(--tabs-trigger-gap)
-  rounded-(--tabs-trigger-radius) px-(--tabs-trigger-px) whitespace-nowrap text-muted-foreground outline-none
-  transition-colors duration-short-4 ease-standard
+  relative z-1 inline-flex h-(--tabs-trigger-height) flex-[var(--tabs-trigger-flex)] items-center justify-center
+  gap-(--tabs-trigger-gap) rounded-(--tabs-trigger-radius) px-(--tabs-trigger-px) whitespace-nowrap
+  text-muted-foreground outline-none transition-colors duration-short-4 ease-standard
   hover:text-foreground
   focus-visible:focus-ring
   data-[state=active]:text-foreground
   data-disabled:pointer-events-none data-disabled:text-foreground/(--disabled-opacity)
   data-[orientation=vertical]:justify-start
-  data-[orientation=horizontal]:group-data-[variant=pill]/tabs-list:flex-1
   [&_svg]:pointer-events-none [&_svg]:shrink-0
   icon-size-(--tabs-icon)
 `;
