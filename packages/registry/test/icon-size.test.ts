@@ -32,12 +32,12 @@ describe("icon-size", () => {
     expect(iconWidth({ class: "icon-size-(--probe) [--probe:1.375rem]" })).toBe(22);
   });
 
-  it("follows a group size variant", () => {
+  it("follows a size the parent sets through a variable", () => {
     mount(
       { render: () => h(Item, { size: "lg" }, () => h(ItemMedia, { variant: "icon" }, () => icon())) },
       { attachTo: document.body },
     );
-    expect(document.querySelector("svg")!.getBoundingClientRect().width).toBe(20);
+    expect(document.querySelector("svg")!.getBoundingClientRect().width).toBe(18);
   });
 
   it("merges in cn like any other utility", () => {
