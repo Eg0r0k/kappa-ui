@@ -127,6 +127,21 @@ describe("Alert", () => {
     expect(getComputedStyle(close).color).toBe(getComputedStyle(alert).color);
   });
 
+  it.each([
+    ["4px", ""],
+    ["16px", "mt-4"],
+    ["0px", "mt-0"],
+  ])("spaces the description %s under the title with class '%s'", (margin, className) => {
+    mount(
+      {
+        render: () =>
+          h(Alert, null, () => [h(AlertTitle, () => "Title"), h(AlertDescription, { class: className }, () => "Text")]),
+      },
+      { attachTo: document.body },
+    );
+    expect(getComputedStyle(document.querySelector("[data-slot=alert-description]")!).marginTop).toBe(margin);
+  });
+
   it("leaves Enter in a form to the form's own submit button", async () => {
     const onSubmit = vi.fn((event: Event) => event.preventDefault());
     mount(

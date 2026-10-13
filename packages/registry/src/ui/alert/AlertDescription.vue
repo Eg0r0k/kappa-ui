@@ -12,9 +12,9 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
     :class="
       cn(
         `
-          col-start-2 min-w-0 text-body-md opacity-90
+          col-start-2 mt-(--alert-description-gap,0px) min-w-0 text-body-md opacity-90
           group-data-[orientation=horizontal]/alert:row-start-3
-          [[data-slot=alert-title]+&]:mt-1
+          [[data-slot=alert-title]+&]:[--alert-description-gap:--spacing(1)]
         `,
         props.class,
       )
