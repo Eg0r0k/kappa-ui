@@ -285,6 +285,21 @@ it("keeps a nested drag that refused a finger off once the outer drag owns it", 
   expect(log).toEqual(["outer start", "outer release"]);
 });
 
+it("reports each touch move's own velocity and direction", async () => {
+  const moves: DragMove[] = [];
+  const { element } = host({ onMove: (move) => moves.push(move) });
+  await wait(30);
+  touch("touchstart", element, 100, 100);
+  for (const y of [130, 160, 140]) {
+    await wait(30);
+    touch("touchmove", element, 100, y);
+  }
+  await wait(30);
+  touch("touchend", element, 100, 140);
+  expect(moves.map((move) => move.direction)).toEqual([1, 1, -1]);
+  expect(Math.sign(moves.at(-1)!.velocity)).toBe(-1);
+});
+
 it("keeps following the first finger when a second one lands on the element mid-drag", async () => {
   const moves: number[] = [];
   const { element, releases, cancels } = host({ onMove: (move) => moves.push(move.movement) });

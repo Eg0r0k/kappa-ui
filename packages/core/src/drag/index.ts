@@ -283,9 +283,16 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     claimed.add(event);
     if (event.cancelable) event.preventDefault();
     const movement = rubberbandIfOutOfBounds(along(track, point) - track.origin, track.min, track.max, 0.15);
+    const sample = track.samples.at(-1);
     track.samples.push([event.timeStamp, movement]);
-    track.last = touchMove(track, point, event, movement);
-    options.onMove(track.last);
+    const move = touchMove(track, point, event, movement);
+    if (sample) {
+      const elapsed = event.timeStamp - sample[0];
+      move.velocity = elapsed > 0 ? (movement - sample[1]) / elapsed : (track.last?.velocity ?? 0);
+      move.direction = Math.sign(movement - sample[1]) || (track.last?.direction ?? move.direction);
+    }
+    track.last = move;
+    options.onMove(move);
   };
 
   const onTouchEnd = (event: TouchEvent) => {
