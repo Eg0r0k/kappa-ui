@@ -49,6 +49,7 @@ interface TouchTrack {
   decided?: "drag" | "cancel";
   waited?: boolean;
   last?: DragMove;
+  previous?: Event;
 }
 
 const isMouse = (event: Event) =>
@@ -272,6 +273,11 @@ export const useDrag = (target: Ref<HTMLElement | null | undefined>, options: Us
     const track = touch;
     const point = [...event.touches].find((candidate) => candidate.identifier === track?.id);
     if (!track || !point || track.decided === "cancel") return;
+    if (!track.decided && track.previous && claimed.has(track.previous)) {
+      track.decided = "cancel";
+      return;
+    }
+    track.previous = event;
     if (!track.decided && event.touches.length === 1) decide(track, point, event);
     if (track.decided !== "drag") return;
     claimed.add(event);

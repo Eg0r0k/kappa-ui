@@ -242,6 +242,49 @@ it("gives a nested finger gesture to the innermost drag and keeps the outer one 
   expect(log).toEqual(["inner"]);
 });
 
+it("keeps a nested drag that refused a finger off once the outer drag owns it", async () => {
+  const log: string[] = [];
+  mount(
+    defineComponent({
+      setup: () => {
+        const outer = ref<HTMLElement>();
+        const child = ref<HTMLElement>();
+        useDrag(outer, {
+          towards: "right",
+          onStart: () => log.push("outer start"),
+          onMove: () => {},
+          onRelease: () => log.push("outer release"),
+        });
+        useDrag(child, {
+          towards: "right",
+          canStart: (move) => move.direction < 0,
+          onStart: () => log.push("inner start"),
+          onMove: () => {},
+          onRelease: () => log.push("inner release"),
+        });
+        return () =>
+          h(
+            "div",
+            { ref: outer, style: "position: fixed; left: 0; top: 0; width: 300px; height: 300px" },
+            h("div", { ref: child, "data-test": "inner", style: "width: 300px; height: 100px" }),
+          );
+      },
+    }),
+    { attachTo: document.body },
+  );
+  await wait(30);
+  const inner = document.querySelector<HTMLElement>("[data-test=inner]")!;
+  touch("touchstart", inner, 150, 50);
+  for (const x of [170, 200, 230, 180, 130, 100]) {
+    await wait(30);
+    touch("touchmove", inner, x, 50);
+  }
+  await wait(30);
+  touch("touchend", inner, 100, 50);
+  await wait(30);
+  expect(log).toEqual(["outer start", "outer release"]);
+});
+
 it("keeps following the first finger when a second one lands on the element mid-drag", async () => {
   const moves: number[] = [];
   const { element, releases, cancels } = host({ onMove: (move) => moves.push(move.movement) });
