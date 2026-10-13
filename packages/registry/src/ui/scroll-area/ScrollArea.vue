@@ -289,8 +289,10 @@ const getScroll = (): ScrollAreaScrollInfo => ({
   horizontalContainerInnerSize: trackHorizontal.value,
 });
 
+const scrollTarget = () => (isExternalScroll.value ? externalEl.value : viewportRef.value);
+
 const setScrollPosition = (axis: ScrollAreaAxis, offset: number, duration?: number) => {
-  const el = viewportRef.value;
+  const el = scrollTarget();
   if (el === null) return;
 
   if (axis === "vertical") setVerticalScrollPosition(el, offset, duration);
@@ -298,7 +300,7 @@ const setScrollPosition = (axis: ScrollAreaAxis, offset: number, duration?: numb
 };
 
 const api: ScrollAreaApi = {
-  getScrollTarget: () => viewportRef.value,
+  getScrollTarget: scrollTarget,
   getScroll,
   getScrollPosition: () => ({
     top: positionVertical.value,
@@ -310,7 +312,7 @@ const api: ScrollAreaApi = {
   }),
   setScrollPosition,
   setScrollPercentage: (axis, percentage, duration) => {
-    const el = viewportRef.value;
+    const el = scrollTarget();
     if (el === null) return;
 
     const travel = axis === "vertical" ? el.scrollHeight - el.clientHeight : el.scrollWidth - el.clientWidth;
@@ -353,7 +355,7 @@ const queueScrollEmit = () => {
 };
 
 const store: ScrollAreaStore = {
-  getScrollTarget: () => viewportRef.value,
+  getScrollTarget: scrollTarget,
   vertical: { thumbHidden: thumbHiddenVertical, thumbStyle: thumbStyleVertical },
   horizontal: { thumbHidden: thumbHiddenHorizontal, thumbStyle: thumbStyleHorizontal },
   onBarPointerdown,

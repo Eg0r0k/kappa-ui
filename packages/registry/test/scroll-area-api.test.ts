@@ -136,3 +136,29 @@ it("scrolls to the end of content that changed since the last measurement", asyn
   await vi.waitFor(() => expect(viewport.scrollTop).toBe(2100));
   wrapper.unmount();
 });
+
+it("addresses the external scroller in external-scroll mode", async () => {
+  const scroller = document.body.appendChild(document.createElement("div"));
+  scroller.style.cssText = "height: 300px; width: 400px; overflow: auto";
+  const wrapper = mount(ScrollArea, {
+    attachTo: scroller,
+    props: {
+      virtualize: { estimateSize: 30, getScrollElement: () => scroller },
+      items: Array.from({ length: 1000 }, (_, index) => index),
+    },
+    slots: { default: () => h("div", { style: "height: 30px" }) },
+  });
+  const api = apiOf(wrapper as unknown as ReturnType<typeof mountArea>);
+  await vi.waitFor(() =>
+    expect(wrapper.element.querySelectorAll("[data-slot=scroll-area-item]").length).toBeGreaterThan(0),
+  );
+
+  expect(api.getScrollTarget()).toBe(scroller);
+  api.setScrollPosition("vertical", 500);
+  expect(scroller.scrollTop).toBe(500);
+  api.setScrollPercentage("vertical", 1);
+  expect(scroller.scrollTop).toBe(scroller.scrollHeight - scroller.clientHeight);
+
+  wrapper.unmount();
+  scroller.remove();
+});
