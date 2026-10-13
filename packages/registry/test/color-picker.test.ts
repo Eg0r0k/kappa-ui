@@ -212,6 +212,38 @@ it("follows a controlled model from outside", async () => {
   expect(swatches()[1]!.getAttribute("aria-selected")).toBe("true");
 });
 
+it("follows an outside model back to the colour it last wrote", async () => {
+  const value = ref("#3b82f6");
+  const wrapper = mount(
+    defineComponent({
+      setup: () => () =>
+        h(
+          ColorPicker,
+          {
+            modelValue: value.value,
+            "onUpdate:modelValue": (next?: string) => (value.value = next ?? ""),
+            class: "w-64",
+          },
+          parts,
+        ),
+    }),
+    { attachTo: document.body },
+  );
+  unmount = () => wrapper.unmount();
+  await nextTick();
+  await userEvent.click(swatches()[1]!);
+  await nextTick();
+  const written = value.value;
+  value.value = "#ef4444";
+  await nextTick();
+  await nextTick();
+  expect(input().value).toBe("#ef4444");
+  value.value = written;
+  await nextTick();
+  await nextTick();
+  expect(input().value).toBe(written);
+});
+
 it("disables every part", async () => {
   await render({ disabled: true });
   expect(root().dataset.disabled).toBe("");

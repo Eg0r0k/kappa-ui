@@ -31,20 +31,19 @@ const parse = (value: string | undefined) =>
   value !== undefined && isValidColor(value) ? convertToHsb(parseColor(value)) : undefined;
 
 const color = ref<Color>(parse(model.value) ?? parse(props.defaultValue) ?? parse("#ffffff")!);
-let written: string | undefined;
+const sync = (next: string | undefined) => {
+  if (next === undefined || next === colorToString(color.value, props.format)) return;
+  const parsed = parse(next);
+  if (parsed) color.value = parsed;
+};
 
 const setColor = (next: Color) => {
   color.value = convertToHsb(next);
-  written = colorToString(next, props.format);
-  model.value = written;
+  model.value = colorToString(next, props.format);
 };
 if (model.value === undefined) setColor(color.value);
 
-watch(model, (next) => {
-  if (next === undefined || next === written) return;
-  const parsed = parse(next);
-  if (parsed) color.value = parsed;
-});
+watch(model, sync);
 watch(
   () => props.format,
   () => setColor(color.value),
