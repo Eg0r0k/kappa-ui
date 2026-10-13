@@ -19,6 +19,13 @@ watch(context.isEditing, (editing) => {
   if (!editing) context.inputValue.value = context.modelValue.value;
 });
 
+const keepFormUnsubmitted = (event: KeyboardEvent) => {
+  const mode = context.submitMode.value;
+  if ((mode === "enter" || mode === "both") && !event.shiftKey && !event.metaKey && !event.isComposing) {
+    event.preventDefault();
+  }
+};
+
 const length = computed(() =>
   Math.max(1, (context.inputValue.value ?? "").length, (context.placeholder.value?.edit ?? "").length),
 );
@@ -26,5 +33,11 @@ const length = computed(() =>
 
 <template>
   <!-- size sizes the field where field-sizing is missing; Reka's own width is the 20-character default -->
-  <EditableInput v-bind="delegated" data-slot="editable-input" :size="length" :class="cn(editableInput, props.class)" />
+  <EditableInput
+    v-bind="delegated"
+    data-slot="editable-input"
+    :size="length"
+    :class="cn(editableInput, props.class)"
+    @keydown.enter="keepFormUnsubmitted"
+  />
 </template>

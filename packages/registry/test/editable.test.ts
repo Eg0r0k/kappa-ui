@@ -98,6 +98,42 @@ it.each(["{Enter}", "{Escape}"])("gives focus back to the preview after %s", asy
   expect(editing()).toBe(false);
 });
 
+it("saves on Enter without submitting the form it sits in", async () => {
+  let submits = 0;
+  const saved: unknown[] = [];
+  const wrapper = mount(
+    {
+      render: () =>
+        h(
+          "form",
+          {
+            onSubmit: (event: Event) => {
+              event.preventDefault();
+              submits++;
+            },
+          },
+          [
+            h(
+              Editable,
+              { defaultValue: "a", submitMode: "enter", onSubmit: (value: unknown) => saved.push(value) },
+              () => h(EditableArea, () => [h(EditablePreview), h(EditableInput)]),
+            ),
+            h("button", { type: "submit" }, "Save"),
+          ],
+        ),
+    },
+    { attachTo: document.body },
+  );
+  wrappers.push(wrapper);
+  await userEvent.click(slot("editable-preview"));
+  await settle();
+  await userEvent.type(input(), "b");
+  await userEvent.keyboard("{Enter}");
+  await settle();
+  expect(saved).toEqual(["ab"]);
+  expect(submits).toBe(0);
+});
+
 it("waits for a double click with activation-mode dblclick", async () => {
   render({ activationMode: "dblclick" });
   await userEvent.click(slot("editable-preview"));
