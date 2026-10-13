@@ -269,6 +269,43 @@ describe("calendar", () => {
     expect(document.activeElement).toBe(day("2026-10-06"));
   });
 
+  it.each([
+    ["with force-mount", true, 250],
+    ["when it reopens during its exit", false, 0],
+  ] as const)("opens on the value's month again after paging away %s", async (_, forceMount, closedFor) => {
+    const errors: unknown[] = [];
+    const opened = shallowRef(true);
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            DatePicker,
+            {
+              defaultValue: oct6,
+              locale: "en-US",
+              open: opened.value,
+              "onUpdate:open": (value: boolean) => (opened.value = value),
+            },
+            () => [h(DatePickerInput), h(DatePickerContent, { forceMount }, () => h(DatePickerCalendar))],
+          ),
+      }),
+      { attachTo: document.body, global: { config: { errorHandler: (error) => void errors.push(error) } } },
+    );
+    unmount = () => wrapper.unmount();
+    await expect.poll(() => content()).not.toBeNull();
+    await userEvent.click(next());
+    expect(heading()).toBe("November 2026");
+    opened.value = false;
+    await nextTick();
+    await new Promise((resolve) => setTimeout(resolve, closedFor));
+    opened.value = true;
+    await nextTick();
+    await settle();
+    expect(errors).toEqual([]);
+    expect(heading()).toBe("October 2026");
+    expect(all("[data-slot=calendar-cell-trigger]")).toHaveLength(42);
+  });
+
   it("keeps the page when the parent passes an equal date as a new object (reka-ui#2960)", async () => {
     const value = bound(oct6);
     await open();

@@ -2,7 +2,7 @@
 import type { DateValue } from "@internationalized/date";
 import { useId } from "reka-ui";
 import type { Grid, WeekStartsOn } from "reka-ui/date";
-import type { HTMLAttributes } from "vue";
+import { type HTMLAttributes, shallowRef, watch } from "vue";
 
 import { Calendar, type CalendarColor, type CalendarSize } from "@/ui/calendar";
 import { injectDatePickerContext, injectDatePickerState, useCalendarSize } from "./picker";
@@ -49,12 +49,19 @@ const picker = injectDatePickerContext();
 const state = injectDatePickerState();
 const size = useCalendarSize(() => props.size, picker);
 
+// A fresh calendar on each open: a mounted Reka root breaks when the picker clears its placeholder.
+const opens = shallowRef(0);
+watch(picker.open, (open) => {
+  if (open) opens.value += 1;
+});
+
 // In a Field the hidden input of the field already holds the field's id.
 const id = useId(undefined, "date-picker-calendar");
 </script>
 
 <template>
   <Calendar
+    :key="opens"
     v-bind="{ ...state.calendar.value, ...$attrs }"
     :id="id"
     :model-value="state.model.value"

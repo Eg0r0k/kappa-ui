@@ -10,6 +10,7 @@ import {
   DateRangePicker,
   DateRangePickerCalendar,
   DateRangePickerContent,
+  DateRangePickerInput,
   DateRangePickerTrigger,
   DateRangePickerValue,
 } from "@/ui/date-range-picker";
@@ -128,6 +129,44 @@ describe("calendar", () => {
     const copy = q('[data-slot=range-calendar-cell-trigger][data-value="2026-11-01"][data-outside-view]');
     expect(style(copy).visibility).toBe("hidden");
     expect(style(copy.closest("[data-slot=range-calendar-cell]")!).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  });
+
+  it("opens on the range's month again after paging away with force-mount", async () => {
+    const errors: unknown[] = [];
+    const opened = shallowRef(true);
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            DateRangePicker,
+            {
+              defaultValue: { start: d(6), end: d(8) },
+              locale: "en-US",
+              open: opened.value,
+              "onUpdate:open": (value: boolean) => (opened.value = value),
+            },
+            () => [
+              h(DateRangePickerInput),
+              h(DateRangePickerContent, { forceMount: true }, () => h(DateRangePickerCalendar)),
+            ],
+          ),
+      }),
+      { attachTo: document.body, global: { config: { errorHandler: (error) => void errors.push(error) } } },
+    );
+    unmount = () => wrapper.unmount();
+    const heading = () => q("[data-slot=range-calendar-heading]").textContent!.trim();
+    await expect.poll(() => content()).not.toBeNull();
+    await userEvent.click(q("[data-slot=range-calendar-next-button]"));
+    expect(heading()).toBe("November 2026");
+    opened.value = false;
+    await nextTick();
+    await settle();
+    opened.value = true;
+    await nextTick();
+    await settle();
+    expect(errors).toEqual([]);
+    expect(heading()).toBe("October 2026");
+    expect(all("[data-slot=range-calendar-cell-trigger]")).toHaveLength(42);
   });
 
   it("restores the last range when Escape interrupts a pick", async () => {

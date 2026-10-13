@@ -2,7 +2,7 @@
 import type { DateValue } from "@internationalized/date";
 import { type DateRange, useId } from "reka-ui";
 import type { Grid, WeekStartsOn } from "reka-ui/date";
-import type { HTMLAttributes } from "vue";
+import { type HTMLAttributes, shallowRef, watch } from "vue";
 
 import type { CalendarColor, CalendarSize } from "@/ui/calendar";
 import { RangeCalendar } from "@/ui/range-calendar";
@@ -56,12 +56,19 @@ const picker = injectDatePickerContext();
 const state = injectDateRangePickerState();
 const size = useCalendarSize(() => props.size, picker);
 
+// A fresh calendar on each open: a mounted Reka root breaks when the picker clears its placeholder.
+const opens = shallowRef(0);
+watch(picker.open, (open) => {
+  if (open) opens.value += 1;
+});
+
 // In a Field the hidden input of the field already holds the field's id.
 const id = useId(undefined, "date-range-picker-calendar");
 </script>
 
 <template>
   <RangeCalendar
+    :key="opens"
     v-bind="{ ...state.calendar.value, ...$attrs }"
     :id="id"
     :model-value="state.model.value"
