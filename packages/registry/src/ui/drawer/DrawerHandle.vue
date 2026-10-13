@@ -20,5 +20,7 @@ const delegated = computed(() => {
     v-bind="delegated"
     data-slot="drawer-handle"
     :class="cn(drawerHandleVariants({ side: context.side.value }), props.class)"
-  />
+  >
+    <slot />
+  </DrawerHandle>
 </template>

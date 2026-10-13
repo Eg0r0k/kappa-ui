@@ -12,6 +12,7 @@ import {
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
+  DrawerHandle,
   DrawerHeader,
   DrawerIndent,
   DrawerSwipeArea,
@@ -109,6 +110,16 @@ it("renders every part with its data-slot and the side on the content", async ()
   expect(getComputedStyle(slot("drawer-content")!).bottom).toBe("0px");
   expect(getComputedStyle(slot("drawer-content")!).touchAction).toBe("pan-x");
   expect(slot("drawer-swipe-area")).not.toBeNull();
+});
+
+it("renders the handle's as-child element with its behaviour", async () => {
+  render({}, { showHandle: false }, () =>
+    h(DrawerHandle, { asChild: true }, () => h("button", { class: "my-handle" }, "Handle")),
+  );
+  await settle();
+  const handle = document.querySelector<HTMLElement>(".my-handle");
+  expect(handle?.dataset.slot).toBe("drawer-handle");
+  expect(handle?.hasAttribute("data-drawer-handle")).toBe(true);
 });
 
 it("keeps the swipe area rendered on both sides of a close", async () => {
