@@ -19,6 +19,8 @@ const within = (group: Record<string, unknown>, items: Record<string, unknown>[]
     { attachTo: document.body },
   ).get("[data-slot=item-group]").element as HTMLElement;
 
+const shiftY = (translate: string) => (translate === "none" ? 0 : parseFloat(translate.split(" ")[1] ?? "0"));
+
 const borderColor = () => {
   const probe = document.createElement("div");
   probe.style.cssText = "border: 1px solid var(--border)";
@@ -82,7 +84,31 @@ describe("Item", () => {
       h(ItemContent, () => [h(ItemTitle, () => "Title"), h(ItemDescription, () => "Description")]),
     ]);
 
-    expect(getComputedStyle(item.querySelector("[data-slot=item-media]")!).alignSelf).toBe("flex-start");
+    const style = getComputedStyle(item.querySelector("[data-slot=item-media]")!);
+    expect(style.alignSelf).toBe("flex-start");
+    expect(shiftY(style.translate)).toBe(2);
+  });
+
+  it("lets a class on the media centre it beside a description", () => {
+    const item = render({}, () => [
+      h(ItemMedia, { variant: "icon", class: "self-center translate-y-0" }),
+      h(ItemContent, () => [h(ItemTitle, () => "Title"), h(ItemDescription, () => "Description")]),
+    ]);
+
+    const style = getComputedStyle(item.querySelector("[data-slot=item-media]")!);
+    expect(style.alignSelf).toBe("center");
+    expect(shiftY(style.translate)).toBe(0);
+  });
+
+  it("leaves media to the item's own alignment without a description", () => {
+    const item = render({ class: "items-start" }, () => [
+      h(ItemMedia, { variant: "icon" }),
+      h(ItemContent, () => h(ItemTitle, () => "Title")),
+    ]);
+
+    const style = getComputedStyle(item.querySelector("[data-slot=item-media]")!);
+    expect(style.alignSelf).toBe("auto");
+    expect(shiftY(style.translate)).toBe(0);
   });
 
   it("gives a link item a state layer", () => {

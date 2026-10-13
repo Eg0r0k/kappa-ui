@@ -21,6 +21,8 @@ export const itemVariants = cva(
   `
     group/item relative flex flex-wrap items-center border border-transparent outline-none transition-colors
     duration-short-4 ease-standard
+    has-data-[slot=item-description]:[--item-media-align:flex-start]
+    has-data-[slot=item-description]:[--item-media-shift:--spacing(0.5)]
     focus-visible:focus-ring
     [a&]:cursor-pointer [a&]:state-layer
     [button&]:cursor-pointer [button&]:state-layer [button&]:text-start
@@ -52,8 +54,8 @@ export const itemVariants = cva(
 
 export const itemMediaVariants = cva(
   `
-    flex shrink-0 items-center justify-center gap-2
-    group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start
+    flex shrink-0 items-center justify-center gap-2 translate-y-[var(--item-media-shift,0)]
+    [align-self:var(--item-media-align,auto)]
     [&_svg]:pointer-events-none
   `,
   {
