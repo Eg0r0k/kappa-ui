@@ -1987,6 +1987,9 @@
 
 @utility shimmer-reverse {
   animation-direction: reverse;
+  &:dir(rtl) {
+    animation-direction: normal;
+  }
 }
 
 @utility shimmer-none {

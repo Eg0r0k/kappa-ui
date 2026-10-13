@@ -22,10 +22,11 @@ describe("shimmer", () => {
     expect(style.animationIterationCount).toBe("infinite");
   });
 
-  it("plays once, reverses, and runs the other way in right-to-left text", () => {
+  it("plays once, reverses, and runs the other way in right-to-left text, where reverse flips it back", () => {
     expect(getComputedStyle(render("shimmer shimmer-once")).animationIterationCount).toBe("1");
     expect(getComputedStyle(render("shimmer shimmer-reverse")).animationDirection).toBe("reverse");
     expect(getComputedStyle(render("shimmer", "rtl")).animationDirection).toBe("reverse");
+    expect(getComputedStyle(render("shimmer shimmer-reverse", "rtl")).animationDirection).toBe("normal");
     expect(getComputedStyle(render("shimmer")).animationDirection).toBe("normal");
   });
 
