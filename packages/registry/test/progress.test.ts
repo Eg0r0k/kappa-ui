@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { ConfigProvider } from "reka-ui";
 import { describe, expect, it } from "vitest";
+import { cdp } from "vitest/browser";
 import { h, nextTick } from "vue";
 
 import { Progress, ProgressLabel, ProgressValue } from "@/ui/progress";
@@ -48,10 +49,13 @@ describe("Progress", () => {
     expect(getComputedStyle(render({ animation }).indicator).animationName).toBe(name);
   });
 
-  it("mirrors the carousels in rtl and turns them for vertical bars", () => {
+  it("mirrors the carousels and the swing in rtl and turns them for vertical bars", () => {
     expect(getComputedStyle(render({}, {}, "rtl").indicator).animationName).toBe("kappa-progress-carousel-rtl");
     expect(getComputedStyle(render({ animation: "carousel-inverse" }, {}, "rtl").indicator).animationName).toBe(
       "kappa-progress-carousel-inverse-rtl",
+    );
+    expect(getComputedStyle(render({ animation: "swing" }, {}, "rtl").indicator).animationName).toBe(
+      "kappa-progress-swing-rtl",
     );
     expect(getComputedStyle(render({ orientation: "vertical" }).indicator).animationName).toBe(
       "kappa-progress-carousel-vertical",
@@ -59,6 +63,40 @@ describe("Progress", () => {
     expect(getComputedStyle(render({ orientation: "vertical", animation: "swing" }).indicator).animationName).toBe(
       "kappa-progress-swing-vertical",
     );
+  });
+
+  it.each([
+    ["swing", 0],
+    ["swing", 1000],
+    ["elastic", 0],
+  ] as const)("places the %s bar at %ims in rtl where ltr has it, mirrored", (animation, time) => {
+    const offsets = (dir: "ltr" | "rtl") => {
+      const { track, indicator } = render({ animation }, {}, dir);
+      const [running] = indicator.getAnimations();
+      running!.pause();
+      running!.currentTime = time;
+      const box = track.getBoundingClientRect();
+      const bar = indicator.getBoundingClientRect();
+      return { start: bar.left - box.left, end: box.right - bar.right };
+    };
+    const ltr = offsets("ltr");
+    const rtl = offsets("rtl");
+    expect(rtl.start).toBeCloseTo(ltr.end, 0);
+    expect(rtl.end).toBeCloseTo(ltr.start, 0);
+  });
+
+  it("pulses instead of sliding under reduced motion, in rtl too", async () => {
+    await cdp().send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
+    try {
+      expect(matchMedia("(prefers-reduced-motion: reduce)").matches).toBe(true);
+      for (const animation of ["carousel", "carousel-inverse", "swing", "elastic"]) {
+        for (const dir of ["ltr", "rtl"] as const) {
+          expect(getComputedStyle(render({ animation }, {}, dir).indicator).animationName).toBe("kappa-progress-pulse");
+        }
+      }
+    } finally {
+      await cdp().send("Emulation.setEmulatedMedia", { features: [] });
+    }
   });
 
   it("stops animating once there is a value", () => {

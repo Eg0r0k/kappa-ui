@@ -1780,6 +1780,20 @@
   }
 }
 
+@keyframes kappa-progress-swing-rtl {
+  0%,
+  100% {
+    width: 50%;
+  }
+  0%,
+  100% {
+    transform: translateX(25%);
+  }
+  50% {
+    transform: translateX(-125%);
+  }
+}
+
 @keyframes kappa-progress-swing-vertical {
   0%,
   100% {
@@ -1798,11 +1812,11 @@
   0%,
   100% {
     width: 50%;
-    left: 25%;
+    inset-inline-start: 25%;
   }
   50% {
     width: 100%;
-    left: 0;
+    inset-inline-start: 0;
   }
 }
 
@@ -1830,7 +1844,10 @@
     animation-name: kappa-progress-carousel-rtl;
   }
   @media (prefers-reduced-motion: reduce) {
-    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    &,
+    &:dir(rtl) {
+      animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
   }
 }
 
@@ -1847,7 +1864,10 @@
     animation-name: kappa-progress-carousel-inverse-rtl;
   }
   @media (prefers-reduced-motion: reduce) {
-    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    &,
+    &:dir(rtl) {
+      animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
   }
 }
 
@@ -1860,8 +1880,14 @@
 
 @utility animate-progress-swing {
   animation: kappa-progress-swing 2s var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) infinite;
+  &:dir(rtl) {
+    animation-name: kappa-progress-swing-rtl;
+  }
   @media (prefers-reduced-motion: reduce) {
-    animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    &,
+    &:dir(rtl) {
+      animation: kappa-progress-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
   }
 }
 
