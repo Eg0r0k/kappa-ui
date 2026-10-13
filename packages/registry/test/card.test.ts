@@ -100,4 +100,25 @@ describe("Card parts", () => {
     expect(getComputedStyle(part("content")).paddingLeft).toBe("0px");
     expect(getComputedStyle(part("header")).paddingLeft).toBe("24px");
   });
+
+  it("draws a header or footer border in --border", () => {
+    mount(
+      {
+        render: () =>
+          h(Card, () => [
+            h(CardHeader, { class: "border-b" }, () => h(CardTitle, () => "Title")),
+            h(CardContent, () => "Content"),
+            h(CardFooter, { class: "border-t" }, () => "Footer"),
+          ]),
+      },
+      { attachTo: document.body },
+    );
+    const probe = document.createElement("div");
+    probe.style.cssText = "border: 1px solid var(--border)";
+    document.body.append(probe);
+    const border = getComputedStyle(probe).borderTopColor;
+    expect(border).not.toBe(getComputedStyle(part("header")).color);
+    expect(getComputedStyle(part("header")).borderBottomColor).toBe(border);
+    expect(getComputedStyle(part("footer")).borderTopColor).toBe(border);
+  });
 });

@@ -9,7 +9,9 @@ const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 <template>
   <div
     data-slot="card-footer"
-    :class="cn('flex items-center gap-2 px-(--card-spacing) [.border-t]:pt-(--card-spacing)', props.class)"
+    :class="
+      cn('flex items-center gap-2 border-border px-(--card-spacing) [.border-t]:pt-(--card-spacing)', props.class)
+    "
   >
     <slot />
   </div>
