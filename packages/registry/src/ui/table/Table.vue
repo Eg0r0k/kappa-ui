@@ -17,13 +17,18 @@ const props = withDefaults(
 </script>
 
 <template>
-  <div data-slot="table-container" :data-overflow="props.overflow" :class="cn(tableStyles.container, props.class)">
+  <div
+    data-slot="table-container"
+    :data-overflow="props.overflow"
+    :data-size="props.size"
+    :class="cn(tableStyles.container, tableStyles.root, tableSize[props.size], props.class)"
+  >
     <table
       data-slot="table"
       :data-layout="props.layout"
       :data-size="props.size"
       :data-striped="props.striped ? '' : undefined"
-      :class="cn(tableStyles.table, tableSize[props.size])"
+      :class="tableStyles.table"
     >
       <slot />
     </table>

@@ -647,6 +647,7 @@ const scrollerAttrs = computed(() =>
         :aria-busy="props.loading ? 'true' : undefined"
         :class="
           cn(
+            tableStyles.root,
             tableStyles.table,
             tableSize[props.size],
             !props.hoverable && '[--table-hover-bg:transparent]',

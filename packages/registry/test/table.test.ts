@@ -108,6 +108,14 @@ it("sets the row height from size", () => {
   expect(qa("[data-slot=table]").map((table) => table.dataset.size)).toEqual(["xs", "sm", "md", "lg", "xl"]);
 });
 
+it("lets a class on Table set the row height and the text size", () => {
+  render(() =>
+    h(Table, { class: "[--table-row-h:3.75rem] text-body-sm" }, () => h(TableBody, () => rows({ rows: 1 }))),
+  );
+  expect(q("[data-slot=table-row]").getBoundingClientRect().height).toBe(60);
+  expect(getComputedStyle(q("[data-slot=table-cell]")).fontSize).toBe("12px");
+});
+
 it("tightens the cell padding at xs and keeps 8px in a table that sets none", () => {
   render(() => [
     h(Table, { size: "xs" }, () => h(TableBody, () => rows({ rows: 1, columns: 1 }))),
