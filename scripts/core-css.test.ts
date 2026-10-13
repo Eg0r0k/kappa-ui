@@ -144,6 +144,24 @@ test('core compiles with kappa tokens, and the tokens win over the fallbacks', a
   assert.match(css, /:root \{[^}]*--state-hover: 8%;/)
 })
 
+test('tokens give the radius roles next to a plain shadcn theme, without the theme item', async () => {
+  const compiler = await compile(withTokens, { base: repoRoot, loadStylesheet })
+  const css = compiler.build([
+    'rounded-control-md',
+    'rounded-surface-lg',
+    'rounded-item-md',
+    'rounded-inset-surface-md/1',
+  ])
+
+  assert.match(block(css, '.rounded-control-md'), /border-radius: var\(--control-radius, var\(--radius\)\);/)
+  assert.match(
+    block(css, '.rounded-surface-lg'),
+    /border-radius: calc\(var\(--surface-radius, var\(--radius\)\) \* 1\.8\);/,
+  )
+  assert.match(block(css, '.rounded-item-md'), /border-radius: var\(--item-radius, var\(--radius\)\);/)
+  assert.match(block(css, '.rounded-inset-surface-md\\/1'), /--surface-radius/)
+})
+
 // Kappa's own names: the :root variables and @theme names tokens.css declares.
 const kappaTokens = new Set([...tokensSource.matchAll(/^\s*(--[\w-]+):/gm)].map(([, name]) => name))
 
