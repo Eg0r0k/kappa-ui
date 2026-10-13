@@ -119,6 +119,7 @@ provideProgressContext({
   <Primitive
     :as="props.as"
     data-slot="progress"
+    :dir="dir"
     :data-color="props.color"
     :data-orientation="props.orientation"
     :data-size="props.size"

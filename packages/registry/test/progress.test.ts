@@ -120,6 +120,25 @@ describe("Progress", () => {
     );
   });
 
+  it("takes its direction from ConfigProvider alone, for the fill and the animation", () => {
+    const place = (wrap: (child: () => unknown) => unknown, props: Record<string, unknown> = {}) => {
+      document.body.innerHTML = "";
+      mount({ render: () => wrap(() => h(Progress, props)) }, { attachTo: document.body });
+      return document.querySelector<HTMLElement>("[data-slot=progress]")!;
+    };
+    const provided = (child: () => unknown) => h(ConfigProvider, { dir: "rtl" }, child);
+    const text = (child: () => unknown) => h("div", { dir: "rtl" }, [child()]);
+    const indicator = (root: HTMLElement) => root.querySelector<HTMLElement>("[data-slot=progress-indicator]")!;
+
+    expect(place(provided).getAttribute("dir")).toBe("rtl");
+    expect(getComputedStyle(indicator(place(provided))).animationName).toBe("kappa-progress-carousel-rtl");
+    expect(indicator(place(provided, { modelValue: 40 })).style.transform).toBe("translateX(60%)");
+
+    expect(place(text).getAttribute("dir")).toBe("ltr");
+    expect(getComputedStyle(indicator(place(text))).animationName).toBe("kappa-progress-carousel");
+    expect(indicator(place(text, { modelValue: 40 })).style.transform).toBe("translateX(-60%)");
+  });
+
   it("clamps a value past max for the bar and leaves the model alone", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const updates: unknown[] = [];
