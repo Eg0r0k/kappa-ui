@@ -173,6 +173,40 @@ it("shows previous and next only when the row count is unknown", () => {
   expect(bar.querySelector("[data-slot=pagination-link]")).toBeNull();
 });
 
+it.each([
+  ["arrives", undefined],
+  ["changes", 0],
+] as const)("pages by a server row count that %s after mount", async (_, initial) => {
+  vi.spyOn(console, "warn").mockImplementation(() => undefined);
+  const count = ref<number | undefined>(initial);
+  const page = ref(0);
+  mount(
+    defineComponent({
+      render: () =>
+        h(AnyTable, {
+          data: people.slice(page.value * 10, page.value * 10 + 10),
+          columns,
+          getRowId: (row: Person) => row.id,
+          paginate: { pageSize: 10 },
+          manual: { pagination: true },
+          rowCount: count.value,
+          "onUpdate:pagination": (value: { pageIndex: number }) => (page.value = value.pageIndex),
+        }),
+    }),
+    { attachTo: document.body },
+  );
+  const bar = () => document.querySelector<HTMLElement>("[data-slot=data-table-pagination]")!;
+  const range = () => bar().querySelector("p")!.textContent!.trim();
+  count.value = 95;
+  await nextTick();
+  await nextTick();
+  expect(range()).toBe("1–10 of 95");
+  await userEvent.click(bar().querySelector<HTMLElement>("[data-slot=pagination-next]")!);
+  await nextTick();
+  await nextTick();
+  expect(range()).toBe("11–20 of 95");
+});
+
 it("shows the empty, no-results and loading states", () => {
   const empty = render({ data: [] });
   expect(document.querySelector("[data-slot=table-empty]")?.textContent?.trim()).toBe("No data");

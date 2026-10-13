@@ -192,7 +192,12 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     if (count === undefined) warnOnce("rowCount", "manual pagination needs rowCount; the page count is unknown (-1).");
     return count !== undefined && count >= 0 ? count : undefined;
   });
-  const pageCount = computed(() => (manual.value.pagination && rowCount.value === undefined ? -1 : undefined));
+  const pageCount = computed(() => {
+    if (!manual.value.pagination) return undefined;
+    if (rowCount.value === undefined) return -1;
+    const size = slices.pagination.get().pageSize;
+    return size === Infinity ? Math.min(1, rowCount.value) : Math.ceil(rowCount.value / size);
+  });
 
   const table = useTable<DataTableFeatures, T>({
     ...tableOptions.value,
@@ -223,8 +228,12 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     groupedColumnMode: "reorder",
     enableRowPinning: true,
     keepPinnedRows: true,
-    rowCount: rowCount.value,
-    pageCount: pageCount.value,
+    get rowCount() {
+      return rowCount.value;
+    },
+    get pageCount() {
+      return pageCount.value;
+    },
     autoResetExpanded: tableOptions.value.autoResetExpanded ?? false,
     autoResetPageIndex: computed(() => tableOptions.value.autoResetPageIndex ?? !manual.value.pagination),
     initialState: initial.value,
@@ -295,17 +304,6 @@ export const useDataTable = <T extends RowData>(options: UseDataTableOptions<T>)
     () => tableOptions.value,
     (next) => table.setOptions((previous) => ({ ...previous, ...next })),
   );
-
-  watch([rowCount, pageCount], ([count, pages]) => {
-    table.setOptions((previous) => {
-      const { rowCount: _count, pageCount: _pages, ...rest } = previous;
-      return {
-        ...rest,
-        ...(count === undefined ? {} : { rowCount: count }),
-        ...(pages === undefined ? {} : { pageCount: pages }),
-      };
-    });
-  });
 
   return { table, rows, topRows, bottomRows, filtered, selection, expanding };
 };
