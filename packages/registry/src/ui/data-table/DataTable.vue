@@ -356,7 +356,7 @@ const findScroller = (): InfiniteScrollTarget | null => {
   const explicit = virtualOptions.value.getScrollElement?.() ?? scrollTarget();
   if (explicit !== null) return explicit;
   for (
-    let node = tableRef.value?.parentElement ?? null;
+    let node = tableRef.value?.parentElement?.parentElement ?? null;
     node !== null && node !== document.body;
     node = node.parentElement
   ) {

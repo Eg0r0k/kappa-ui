@@ -142,3 +142,25 @@ it("loads nothing while failing and resumes once the error clears", async () => 
   t.extra.value = { error: null };
   await vi.waitFor(() => expect(t.calls).toEqual([1]));
 });
+
+it("loads nothing without a height while the end of the page is far away", async () => {
+  const calls: number[] = [];
+  mount(
+    defineComponent({
+      render: () => [
+        h(AnyTable, {
+          columns,
+          getRowId: (row: Item) => row.id,
+          data: make(5),
+          onLoadMore: async ({ index }: { index: number }) => {
+            calls.push(index);
+          },
+        }),
+        h("div", { style: "height: 5000px" }),
+      ],
+    }),
+    { attachTo: document.body },
+  );
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  expect(calls).toEqual([]);
+});
