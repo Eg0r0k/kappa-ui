@@ -27,6 +27,8 @@ const props = withDefaults(defineProps<SwipeItemProps>(), {
 
 const state = defineModel<SwipeState>("state", { default: "closed" });
 
+const TABBABLE = "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
+
 const root = injectSwipeRootContext(null);
 const dir = useDirection();
 const sign = computed<1 | -1>(() => (dir.value === "rtl" ? -1 : 1));
@@ -57,7 +59,23 @@ const settle = (next: SwipeState) => {
   state.value = next;
 };
 
-const close = () => settle("closed");
+let returnFocus: HTMLElement | undefined;
+
+const onFocusin = (event: FocusEvent) => {
+  if (event.target instanceof HTMLElement && content.value?.contains(event.target)) returnFocus = event.target;
+};
+
+const restoreFocus = () => {
+  const focused = document.activeElement;
+  if (!element.value?.contains(focused) || content.value?.contains(focused)) return;
+  const target = returnFocus?.isConnected ? returnFocus : content.value?.querySelector<HTMLElement>(TABBABLE);
+  target?.focus({ preventScroll: true });
+};
+
+const close = () => {
+  restoreFocus();
+  settle("closed");
+};
 
 const open = (side: SwipeSide) => settle(side);
 
@@ -244,6 +262,7 @@ defineExpose({ open, close });
     :data-dragging="dragging ? '' : undefined"
     :style="style"
     @keydown="onKeydown"
+    @focusin="onFocusin"
   >
     <slot />
   </Primitive>

@@ -269,6 +269,25 @@ it("moves with the arrow keys", async () => {
   expect(item().dataset.state).toBe("start");
 });
 
+it("gives focus back to the row after an action runs or Escape closes it from the keyboard", async () => {
+  const { clicks } = await setup();
+  button("body").focus();
+  await userEvent.keyboard("{ArrowLeft}");
+  button("flag").focus();
+  await userEvent.keyboard("{Enter}");
+  await nextTick();
+  expect(clicks).toEqual(["flag"]);
+  expect(item().dataset.state).toBe("closed");
+  expect(document.activeElement).toBe(button("body"));
+
+  await userEvent.keyboard("{ArrowLeft}");
+  button("flag").focus();
+  await userEvent.keyboard("{Escape}");
+  await nextTick();
+  expect(item().dataset.state).toBe("closed");
+  expect(document.activeElement).toBe(button("body"));
+});
+
 it("mirrors the gesture and the arrow keys in right-to-left", async () => {
   const clicks: string[] = [];
   await host(() =>
