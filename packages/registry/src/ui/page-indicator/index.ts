@@ -61,13 +61,15 @@ export const pageIndicatorVariants = cva(
 
 export const pageIndicatorItemVariants = cva(
   `
-    relative shrink-0 rounded-full bg-tone/25 outline-none transition-[--page-indicator-length,background-color]
-    duration-short-4 ease-standard [--page-indicator-fill:0]
+    relative shrink-0 rounded-full bg-tone/25 outline-none
+    transition-[--page-indicator-length,background-color,box-shadow] duration-short-4 ease-standard
+    [--page-indicator-fill:0] [--page-indicator-halo:calc(var(--page-indicator-gap)/2)]
     before:absolute before:start-0 before:top-0 before:rounded-full before:bg-tone
     data-[state=active]:[--page-indicator-fill:clamp(0,var(--page-indicator-progress,1),1)]
     focus-visible:focus-ring
     enabled:cursor-pointer
-    enabled:hover:bg-tone/40
+    enabled:hover:ring-(length:--page-indicator-halo) enabled:hover:ring-tone/(--state-hover)
+    enabled:active:ring-(length:--page-indicator-halo) enabled:active:ring-tone/(--state-pressed)
     motion-reduce:transition-none
   `,
   {
@@ -95,7 +97,7 @@ export const pageIndicatorItemVariants = cva(
         false: "",
       },
       touchTarget: {
-        none: "",
+        none: "enabled:after:absolute enabled:after:-inset-(--page-indicator-halo) enabled:after:content-['']",
         expand: "touch-target",
         wrapper: "touch-target-wrapper",
       },

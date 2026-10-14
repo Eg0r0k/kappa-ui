@@ -337,3 +337,14 @@ it("keeps the dots after a moving pill in place while it eases", async () => {
   expect(widths.some((width) => width > 8 && width < 24)).toBe(true);
   expect([...new Set(lefts)]).toEqual([start]);
 });
+
+it("reaches half the gap past each dot and lights that area on hover", async () => {
+  render();
+  const [first] = all();
+  const after = getComputedStyle(first!, "::after");
+  expect([after.top, after.left]).toEqual(["-4px", "-4px"]);
+  expect(getComputedStyle(first!).boxShadow).toBe("none");
+
+  await userEvent.hover(first!);
+  expect(getComputedStyle(first!).boxShadow).toContain("0px 0px 0px 4px");
+});
