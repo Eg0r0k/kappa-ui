@@ -1,0 +1,802 @@
+{
+  "accordion": {
+    "desktop": {
+      "width": 512,
+      "height": 214
+    },
+    "phone": {
+      "width": 310,
+      "height": 214
+    }
+  },
+  "alert": {
+    "desktop": {
+      "width": 576,
+      "height": 76
+    },
+    "phone": {
+      "width": 310,
+      "height": 96
+    }
+  },
+  "alert-dialog": {
+    "desktop": {
+      "width": 114,
+      "height": 36
+    },
+    "phone": {
+      "width": 114,
+      "height": 36
+    }
+  },
+  "aspect-ratio": {
+    "desktop": {
+      "width": 512,
+      "height": 238
+    },
+    "phone": {
+      "width": 310,
+      "height": 148
+    }
+  },
+  "avatar": {
+    "desktop": {
+      "width": 152,
+      "height": 40
+    },
+    "phone": {
+      "width": 152,
+      "height": 40
+    }
+  },
+  "badge": {
+    "desktop": {
+      "width": 158,
+      "height": 24
+    },
+    "phone": {
+      "width": 158,
+      "height": 24
+    }
+  },
+  "banner": {
+    "desktop": {
+      "width": 660,
+      "height": 48
+    },
+    "phone": {
+      "width": 310,
+      "height": 92
+    }
+  },
+  "breadcrumb": {
+    "desktop": {
+      "width": 324,
+      "height": 20
+    },
+    "phone": {
+      "width": 300,
+      "height": 20
+    }
+  },
+  "button": {
+    "desktop": {
+      "width": 76,
+      "height": 36
+    },
+    "phone": {
+      "width": 76,
+      "height": 36
+    }
+  },
+  "button-group": {
+    "desktop": {
+      "width": 300,
+      "height": 36
+    },
+    "phone": {
+      "width": 300,
+      "height": 36
+    }
+  },
+  "calendar": {
+    "desktop": {
+      "width": 278,
+      "height": 350
+    },
+    "phone": {
+      "width": 278,
+      "height": 350
+    }
+  },
+  "card": {
+    "desktop": {
+      "width": 384,
+      "height": 262
+    },
+    "phone": {
+      "width": 310,
+      "height": 262
+    }
+  },
+  "checkbox": {
+    "desktop": {
+      "width": 226,
+      "height": 20
+    },
+    "phone": {
+      "width": 226,
+      "height": 20
+    }
+  },
+  "choice-group": {
+    "desktop": {
+      "width": 660,
+      "height": 302
+    },
+    "phone": {
+      "width": 310,
+      "height": 342
+    }
+  },
+  "collapsible": {
+    "desktop": {
+      "width": 384,
+      "height": 162
+    },
+    "phone": {
+      "width": 310,
+      "height": 162
+    }
+  },
+  "color-picker": {
+    "desktop": {
+      "width": 256,
+      "height": 342
+    },
+    "phone": {
+      "width": 256,
+      "height": 342
+    }
+  },
+  "combobox": {
+    "desktop": {
+      "width": 224,
+      "height": 36
+    },
+    "phone": {
+      "width": 224,
+      "height": 36
+    }
+  },
+  "command": {
+    "desktop": {
+      "width": 448,
+      "height": 346
+    },
+    "phone": {
+      "width": 310,
+      "height": 346
+    }
+  },
+  "data-table": {
+    "desktop": {
+      "width": 512,
+      "height": 264
+    },
+    "phone": {
+      "width": 420,
+      "height": 264
+    }
+  },
+  "data-tree": {
+    "desktop": {
+      "width": 320,
+      "height": 326
+    },
+    "phone": {
+      "width": 310,
+      "height": 326
+    }
+  },
+  "date-picker": {
+    "desktop": {
+      "width": 240,
+      "height": 88
+    },
+    "phone": {
+      "width": 240,
+      "height": 88
+    }
+  },
+  "date-range-picker": {
+    "desktop": {
+      "width": 320,
+      "height": 88
+    },
+    "phone": {
+      "width": 310,
+      "height": 88
+    }
+  },
+  "dialog": {
+    "desktop": {
+      "width": 106,
+      "height": 36
+    },
+    "phone": {
+      "width": 106,
+      "height": 36
+    }
+  },
+  "drawer": {
+    "desktop": {
+      "width": 106,
+      "height": 36
+    },
+    "phone": {
+      "width": 106,
+      "height": 36
+    }
+  },
+  "drawer-menu": {
+    "desktop": {
+      "width": 100,
+      "height": 36
+    },
+    "phone": {
+      "width": 100,
+      "height": 36
+    }
+  },
+  "editable": {
+    "desktop": {
+      "width": 156,
+      "height": 32
+    },
+    "phone": {
+      "width": 156,
+      "height": 32
+    }
+  },
+  "empty": {
+    "desktop": {
+      "width": 576,
+      "height": 300
+    },
+    "phone": {
+      "width": 310,
+      "height": 320
+    }
+  },
+  "error-state": {
+    "desktop": {
+      "width": 576,
+      "height": 244
+    },
+    "phone": {
+      "width": 310,
+      "height": 264
+    }
+  },
+  "field": {
+    "desktop": {
+      "width": 384,
+      "height": 276
+    },
+    "phone": {
+      "width": 310,
+      "height": 276
+    }
+  },
+  "file-upload": {
+    "desktop": {
+      "width": 448,
+      "height": 138
+    },
+    "phone": {
+      "width": 310,
+      "height": 138
+    }
+  },
+  "hover-card": {
+    "desktop": {
+      "width": 106,
+      "height": 36
+    },
+    "phone": {
+      "width": 106,
+      "height": 36
+    }
+  },
+  "image": {
+    "desktop": {
+      "width": 448,
+      "height": 299
+    },
+    "phone": {
+      "width": 310,
+      "height": 207
+    }
+  },
+  "infinite-scroll": {
+    "desktop": {
+      "width": 384,
+      "height": 288
+    },
+    "phone": {
+      "width": 310,
+      "height": 288
+    }
+  },
+  "inner-loading": {
+    "desktop": {
+      "width": 384,
+      "height": 326
+    },
+    "phone": {
+      "width": 310,
+      "height": 326
+    }
+  },
+  "input": {
+    "desktop": {
+      "width": 320,
+      "height": 36
+    },
+    "phone": {
+      "width": 310,
+      "height": 36
+    }
+  },
+  "input-date": {
+    "desktop": {
+      "width": 320,
+      "height": 88
+    },
+    "phone": {
+      "width": 310,
+      "height": 88
+    }
+  },
+  "input-floating": {
+    "desktop": {
+      "width": 320,
+      "height": 201
+    },
+    "phone": {
+      "width": 310,
+      "height": 201
+    }
+  },
+  "input-group": {
+    "desktop": {
+      "width": 384,
+      "height": 36
+    },
+    "phone": {
+      "width": 310,
+      "height": 36
+    }
+  },
+  "input-number": {
+    "desktop": {
+      "width": 160,
+      "height": 36
+    },
+    "phone": {
+      "width": 160,
+      "height": 36
+    }
+  },
+  "input-time": {
+    "desktop": {
+      "width": 320,
+      "height": 88
+    },
+    "phone": {
+      "width": 310,
+      "height": 88
+    }
+  },
+  "item": {
+    "desktop": {
+      "width": 448,
+      "height": 140
+    },
+    "phone": {
+      "width": 310,
+      "height": 160
+    }
+  },
+  "kbd": {
+    "desktop": {
+      "width": 242,
+      "height": 97
+    },
+    "phone": {
+      "width": 242,
+      "height": 97
+    }
+  },
+  "label": {
+    "desktop": {
+      "width": 320,
+      "height": 64
+    },
+    "phone": {
+      "width": 310,
+      "height": 64
+    }
+  },
+  "listbox": {
+    "desktop": {
+      "width": 224,
+      "height": 198
+    },
+    "phone": {
+      "width": 224,
+      "height": 198
+    }
+  },
+  "marker": {
+    "desktop": {
+      "width": 384,
+      "height": 176
+    },
+    "phone": {
+      "width": 310,
+      "height": 176
+    }
+  },
+  "marquee": {
+    "desktop": {
+      "width": 660,
+      "height": 40
+    },
+    "phone": {
+      "width": 310,
+      "height": 40
+    }
+  },
+  "menu": {
+    "desktop": {
+      "width": 58,
+      "height": 36
+    },
+    "phone": {
+      "width": 58,
+      "height": 36
+    }
+  },
+  "menubar": {
+    "desktop": {
+      "width": 252,
+      "height": 46
+    },
+    "phone": {
+      "width": 252,
+      "height": 46
+    }
+  },
+  "navigation-menu": {
+    "desktop": {
+      "width": 596,
+      "height": 276
+    },
+    "phone": {
+      "width": 408,
+      "height": 276
+    }
+  },
+  "page-indicator": {
+    "desktop": {
+      "width": 384,
+      "height": 184
+    },
+    "phone": {
+      "width": 310,
+      "height": 184
+    }
+  },
+  "pagination": {
+    "desktop": {
+      "width": 660,
+      "height": 36
+    },
+    "phone": {
+      "width": 478,
+      "height": 36
+    }
+  },
+  "pin-input": {
+    "desktop": {
+      "width": 280,
+      "height": 64
+    },
+    "phone": {
+      "width": 280,
+      "height": 64
+    }
+  },
+  "popover": {
+    "desktop": {
+      "width": 112,
+      "height": 36
+    },
+    "phone": {
+      "width": 112,
+      "height": 36
+    }
+  },
+  "progress": {
+    "desktop": {
+      "width": 384,
+      "height": 8
+    },
+    "phone": {
+      "width": 310,
+      "height": 8
+    }
+  },
+  "radio-group": {
+    "desktop": {
+      "width": 118,
+      "height": 84
+    },
+    "phone": {
+      "width": 118,
+      "height": 84
+    }
+  },
+  "range-calendar": {
+    "desktop": {
+      "width": 546,
+      "height": 322
+    },
+    "phone": {
+      "width": 292,
+      "height": 590
+    }
+  },
+  "rating": {
+    "desktop": {
+      "width": 202,
+      "height": 88
+    },
+    "phone": {
+      "width": 202,
+      "height": 88
+    }
+  },
+  "scroll-area": {
+    "desktop": {
+      "width": 384,
+      "height": 256
+    },
+    "phone": {
+      "width": 310,
+      "height": 256
+    }
+  },
+  "select": {
+    "desktop": {
+      "width": 192,
+      "height": 36
+    },
+    "phone": {
+      "width": 192,
+      "height": 36
+    }
+  },
+  "separator": {
+    "desktop": {
+      "width": 384,
+      "height": 97
+    },
+    "phone": {
+      "width": 310,
+      "height": 97
+    }
+  },
+  "skeleton": {
+    "desktop": {
+      "width": 304,
+      "height": 48
+    },
+    "phone": {
+      "width": 304,
+      "height": 48
+    }
+  },
+  "slider": {
+    "desktop": {
+      "width": 320,
+      "height": 16
+    },
+    "phone": {
+      "width": 310,
+      "height": 16
+    }
+  },
+  "spinner": {
+    "desktop": {
+      "width": 120,
+      "height": 32
+    },
+    "phone": {
+      "width": 120,
+      "height": 32
+    }
+  },
+  "splitter": {
+    "desktop": {
+      "width": 576,
+      "height": 256
+    },
+    "phone": {
+      "width": 310,
+      "height": 256
+    }
+  },
+  "stepper": {
+    "desktop": {
+      "width": 660,
+      "height": 84
+    },
+    "phone": {
+      "width": 310,
+      "height": 100
+    }
+  },
+  "swipe-actions": {
+    "desktop": {
+      "width": 384,
+      "height": 214
+    },
+    "phone": {
+      "width": 310,
+      "height": 214
+    }
+  },
+  "swipe-views": {
+    "desktop": {
+      "width": 384,
+      "height": 327
+    },
+    "phone": {
+      "width": 310,
+      "height": 327
+    }
+  },
+  "switch": {
+    "desktop": {
+      "width": 146,
+      "height": 24
+    },
+    "phone": {
+      "width": 146,
+      "height": 24
+    }
+  },
+  "table": {
+    "desktop": {
+      "width": 660,
+      "height": 340
+    },
+    "phone": {
+      "width": 356,
+      "height": 340
+    }
+  },
+  "tabs": {
+    "desktop": {
+      "width": 384,
+      "height": 264
+    },
+    "phone": {
+      "width": 310,
+      "height": 264
+    }
+  },
+  "tags-input": {
+    "desktop": {
+      "width": 384,
+      "height": 36
+    },
+    "phone": {
+      "width": 310,
+      "height": 36
+    }
+  },
+  "textarea": {
+    "desktop": {
+      "width": 384,
+      "height": 84
+    },
+    "phone": {
+      "width": 310,
+      "height": 84
+    }
+  },
+  "timeline": {
+    "desktop": {
+      "width": 384,
+      "height": 320
+    },
+    "phone": {
+      "width": 310,
+      "height": 368
+    }
+  },
+  "toast": {
+    "desktop": {
+      "width": 108,
+      "height": 36
+    },
+    "phone": {
+      "width": 108,
+      "height": 36
+    }
+  },
+  "toggle": {
+    "desktop": {
+      "width": 36,
+      "height": 36
+    },
+    "phone": {
+      "width": 36,
+      "height": 36
+    }
+  },
+  "toggle-group": {
+    "desktop": {
+      "width": 106,
+      "height": 36
+    },
+    "phone": {
+      "width": 106,
+      "height": 36
+    }
+  },
+  "toolbar": {
+    "desktop": {
+      "width": 468,
+      "height": 42
+    },
+    "phone": {
+      "width": 468,
+      "height": 42
+    }
+  },
+  "tooltip": {
+    "desktop": {
+      "width": 74,
+      "height": 36
+    },
+    "phone": {
+      "width": 74,
+      "height": 36
+    }
+  },
+  "tour": {
+    "desktop": {
+      "width": 512,
+      "height": 110
+    },
+    "phone": {
+      "width": 310,
+      "height": 110
+    }
+  },
+  "tree": {
+    "desktop": {
+      "width": 320,
+      "height": 388
+    },
+    "phone": {
+      "width": 310,
+      "height": 388
+    }
+  }
+}

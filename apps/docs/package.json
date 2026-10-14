@@ -7,11 +7,14 @@
     "postinstall": "nuxt prepare",
     "api:build": "node scripts/build-api.ts",
     "changelog:build": "node scripts/build-changelog.ts",
-    "dev": "pnpm api:build && pnpm changelog:build && nuxt dev",
-    "build": "pnpm api:build && pnpm changelog:build && nuxt generate && node scripts/check-output.ts",
+    "canvas:build": "node scripts/build-canvas.ts",
+    "canvas:measure": "node scripts/measure-canvas.ts",
+    "canvas:check": "node scripts/check-canvas.ts",
+    "dev": "pnpm api:build && pnpm changelog:build && pnpm canvas:build && nuxt dev",
+    "build": "pnpm api:build && pnpm changelog:build && pnpm canvas:build && nuxt generate && node scripts/check-output.ts",
     "preview": "nuxt preview",
-    "typecheck": "pnpm api:build && pnpm changelog:build && nuxt typecheck && vue-tsc --noEmit -p tsconfig.scripts.json",
-    "test": "pnpm api:build && pnpm changelog:build && vitest run"
+    "typecheck": "pnpm api:build && pnpm changelog:build && pnpm canvas:build && nuxt typecheck && vue-tsc --noEmit -p tsconfig.scripts.json",
+    "test": "pnpm api:build && pnpm changelog:build && pnpm canvas:build && vitest run"
   },
   "dependencies": {
     "@fontsource-variable/geologica": "^5.3.0",

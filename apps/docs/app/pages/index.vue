@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import CommandLine from '~/components/CommandLine.vue'
+import HomeCanvas from '~/components/home/canvas/HomeCanvas.vue'
 import HomeFooter from '~/components/home/HomeFooter.vue'
 import HomeLede from '~/components/home/HomeLede.vue'
-import HomeShowcase from '~/components/home/HomeShowcase.vue'
-import StyleSwitcher from '~/components/home/StyleSwitcher.vue'
-import { type ShowcaseStyleKey, showcaseCss, showcaseFontUrl } from '~/lib/showcase-styles'
 import { COMPONENTS_PATH } from '~/lib/sidebar'
 import { Button } from '@/ui/button'
 
@@ -13,14 +11,8 @@ const description = 'Vue components on Reka UI and Tailwind CSS v4. The CLI copi
 
 const { siteUrl } = useRuntimeConfig().public
 const command = `npx shadcn-vue@latest init --preset ${siteUrl}/r/init.json`
-const styleKey = ref<ShowcaseStyleKey>('kappa')
 
 useSeoMeta({ title: 'kappa-ui', description })
-
-useHead({
-  style: [{ key: 'showcase-styles', innerHTML: showcaseCss() }],
-  link: [{ key: 'showcase-fonts', rel: 'stylesheet', href: showcaseFontUrl() }],
-})
 
 defineOgImage('KappaDocs', { title, description })
 </script>
@@ -35,7 +27,6 @@ defineOgImage('KappaDocs', { title, description })
           <span class="block text-muted-foreground">Your UI library has opinions. About your UI.</span>
           <span class="block">{{ title }}</span>
         </h1>
-        <StyleSwitcher v-model="styleKey" />
         <HomeLede />
         <div class="flex flex-wrap gap-3">
           <Button as-child size="lg">
@@ -47,7 +38,7 @@ defineOgImage('KappaDocs', { title, description })
         </div>
         <CommandLine :command="command" class="max-w-xl" />
       </div>
-      <HomeShowcase :style-key="styleKey" />
+      <HomeCanvas />
     </section>
     <HomeFooter />
   </main>
