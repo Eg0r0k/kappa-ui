@@ -10,12 +10,14 @@ import {
   MenuSubContent,
   MenuSubTrigger,
 } from "@/ui/menu";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
   <Button variant="outline" color="neutral">
     Edit
-    <Menu class="w-56">
+    <Menu class="w-56" v-bind="$attrs">
       <MenuLabel>Clipboard</MenuLabel>
       <MenuItem>
         Cut

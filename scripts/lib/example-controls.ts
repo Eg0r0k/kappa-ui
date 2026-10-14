@@ -25,6 +25,21 @@ const MARKED_TAG = new RegExp(
 
 export const markedTags = (source: string) => [...source.matchAll(MARKED_TAG)].map((match) => match[1]!)
 
+const kebab = (name: string) => name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+
+// the value the marked tag sets for a prop in the example itself, static attributes only
+export const markedValue = (source: string, prop: string): ControlValue | undefined => {
+  const at = source.indexOf(MARKER_ATTRIBUTE)
+  if (at === -1) return undefined
+  const tag = source.slice(source.lastIndexOf('<', at), source.indexOf('>', at))
+  for (const name of new Set([prop, kebab(prop)])) {
+    const quoted = new RegExp(`\\s${name}="([^"]*)"`).exec(tag)
+    if (quoted) return quoted[1]
+    if (new RegExp(`\\s${name}(?=[\\s/>])`).test(tag)) return true
+  }
+  return undefined
+}
+
 const literal = (member: string): ControlValue[] => {
   if (member === 'true') return [true]
   if (member === 'false') return [false]
@@ -60,6 +75,7 @@ const controlOf = (
   component: string,
   props: readonly MetaProp[],
   entry: ControlEntry,
+  explicit: ControlValue | undefined,
 ): { control?: ExampleControl; errors: string[] } => {
   if (typeof entry === 'object' && 'attribute' in entry) {
     return { control: { prop: entry.attribute, values: [false, true], default: false }, errors: [] }
@@ -74,7 +90,7 @@ const controlOf = (
   if (unknown.length > 0) {
     return { errors: unknown.map((value) => `${example}: ${component}.${name} has no value "${String(value)}"`) }
   }
-  const declared = parsedDefault(prop.default)
+  const declared = explicit !== undefined && values.includes(explicit) ? explicit : parsedDefault(prop.default)
   const fallback = values.includes(false) ? false : values.includes('md') ? 'md' : values[0]!
   const value = values.includes(declared as ControlValue) ? (declared as ControlValue) : fallback
   if (!narrowed.includes(value)) {
@@ -106,7 +122,10 @@ export const resolveExampleControls = async (input: ResolveInput) => {
       continue
     }
     const { props } = input.getMeta(uiFile)
-    const resolved = entries.map((entry) => controlOf(item.name, component, props, entry))
+    const resolved = entries.map((entry) => {
+      const name = typeof entry === 'string' ? entry : 'prop' in entry ? entry.prop : entry.attribute
+      return controlOf(item.name, component, props, entry, markedValue(source, name))
+    })
     errors.push(...resolved.flatMap((result) => result.errors))
     controls[item.name] = {
       component,

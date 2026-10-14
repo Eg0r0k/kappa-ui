@@ -134,3 +134,20 @@ test('skips items without controls', async () => {
   assert.deepEqual(controls, {})
   assert.deepEqual(errors, [])
 })
+
+test('takes the default from what the marked tag sets, so a narrowed list may leave out the prop default', async () => {
+  const { controls, errors } = await resolve(
+    [{ prop: 'size', values: ['sm', 'lg'] }, 'disabled'],
+    '<Button size="lg" disabled v-bind="$attrs">Button</Button>',
+  )
+  assert.deepEqual(errors, [])
+  assert.deepEqual(controls['button-demo']?.controls, [
+    { prop: 'size', values: ['sm', 'lg'], default: 'lg' },
+    { prop: 'disabled', values: [false, true], default: true },
+  ])
+})
+
+test('ignores a bound attribute on the marked tag', async () => {
+  const { controls } = await resolve(['size'], '<Button :size="size" v-bind="$attrs">Button</Button>')
+  assert.equal(controls['button-demo']?.controls[0]?.default, 'md')
+})

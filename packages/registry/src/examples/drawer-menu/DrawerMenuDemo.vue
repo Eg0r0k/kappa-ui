@@ -4,6 +4,8 @@ import { Copy, FolderOpen, Pencil, Trash2 } from "@lucide/vue";
 import { Button } from "@/ui/button";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/ui/drawer";
 import { DrawerMenu, DrawerMenuItem, DrawerMenuSeparator } from "@/ui/drawer-menu";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
@@ -16,7 +18,7 @@ import { DrawerMenu, DrawerMenuItem, DrawerMenuSeparator } from "@/ui/drawer-men
         <DrawerTitle>report.pdf</DrawerTitle>
         <DrawerDescription>2.4 MB, edited today</DrawerDescription>
       </DrawerHeader>
-      <DrawerMenu>
+      <DrawerMenu v-bind="$attrs">
         <DrawerMenuItem><FolderOpen /> Open</DrawerMenuItem>
         <DrawerMenuItem><Pencil /> Rename</DrawerMenuItem>
         <DrawerMenuItem><Copy /> Duplicate</DrawerMenuItem>

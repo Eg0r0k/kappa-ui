@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
@@ -8,7 +10,7 @@ import { Splitter, SplitterHandle, SplitterPanel } from "@/ui/splitter";
       <SplitterPanel :default-size="25" :min-size="15" class="flex items-center justify-center text-body-md">
         Left
       </SplitterPanel>
-      <SplitterHandle />
+      <SplitterHandle v-bind="$attrs" />
       <SplitterPanel :default-size="50" :min-size="30" class="flex items-center justify-center text-body-md">
         Main
       </SplitterPanel>

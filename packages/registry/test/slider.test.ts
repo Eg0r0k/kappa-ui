@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { defineComponent, h, nextTick, ref } from "vue";
 
-import SliderStates from "@/examples/slider/SliderStates.vue";
 import SliderTouchTarget from "@/examples/slider/SliderTouchTarget.vue";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/ui/field";
 import { Slider, SliderHandle, SliderRange, SliderThumb, SliderTrack } from "@/ui/slider";
@@ -151,19 +150,33 @@ describe("Slider", () => {
     wrapper.unmount();
   });
 
-  it("clears the states example's error once the budget is back under 80%", async () => {
-    const wrapper = mount(SliderStates, { attachTo: document.body });
+  it("clears a field's error once the budget is back under 80%", async () => {
+    const budget = ref(85);
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Field, { invalid: budget.value > 80 }, () => [
+            h(FieldLabel, () => "Budget"),
+            h(Slider, {
+              modelValue: budget.value,
+              "onUpdate:modelValue": (next: unknown) => (budget.value = next as number),
+            }),
+            budget.value > 80 ? h(FieldError, { errors: "Keep the budget under 80%." }) : null,
+          ]),
+      }),
+      { attachTo: document.body },
+    );
     await nextTick();
-    const budget = () => thumbs(wrapper).at(-1)!;
+    const thumb = () => thumbs(wrapper).at(-1)!;
 
-    expect(budget().attributes("aria-invalid")).toBe("true");
+    expect(thumb().attributes("aria-invalid")).toBe("true");
     expect(wrapper.find("[data-slot=field-error]").exists()).toBe(true);
 
-    (budget().element as HTMLElement).focus();
+    (thumb().element as HTMLElement).focus();
     await userEvent.keyboard("{PageDown}");
     await nextTick();
-    expect(budget().attributes("aria-valuenow")).toBe("75");
-    expect(budget().attributes("aria-invalid")).not.toBe("true");
+    expect(thumb().attributes("aria-valuenow")).toBe("75");
+    expect(thumb().attributes("aria-invalid")).not.toBe("true");
     expect(wrapper.find("[data-slot=field-error]").exists()).toBe(false);
     wrapper.unmount();
   });

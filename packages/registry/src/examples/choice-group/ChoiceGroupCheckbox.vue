@@ -17,6 +17,8 @@ const channels = [
   { value: "push", label: "Push", description: "Right away, on this device." },
   { value: "sms", label: "SMS", description: "Only for security alerts." },
 ];
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
@@ -49,7 +51,13 @@ const channels = [
         </Button>
       </div>
     </div>
-    <CheckboxGroup v-model="selected" :variant="variant" :orientation="orientation" aria-label="Notification channels">
+    <CheckboxGroup
+      v-model="selected"
+      :variant="variant"
+      :orientation="orientation"
+      aria-label="Notification channels"
+      v-bind="$attrs"
+    >
       <Field v-for="channel in channels" :key="channel.value" orientation="horizontal">
         <Checkbox :value="channel.value" />
         <FieldContent>
