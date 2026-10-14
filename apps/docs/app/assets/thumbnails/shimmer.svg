@@ -1,10 +1,55 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect opacity="0.35" x="72" y="88" width="176" height="10" rx="5" style="fill:var(--muted-foreground)"/>
-<rect opacity="0.35" x="72" y="108" width="120" height="8" rx="4" style="fill:var(--muted-foreground)"/>
-<rect opacity="0.35" x="128" y="88" width="16" height="10" style="fill:var(--foreground)"/>
-<rect opacity="0.7" x="144" y="88" width="16" height="10" style="fill:var(--foreground)"/>
-<rect opacity="0.35" x="160" y="88" width="16" height="10" style="fill:var(--foreground)"/>
-<rect opacity="0.35" x="120" y="108" width="16" height="8" style="fill:var(--foreground)"/>
-<rect opacity="0.7" x="136" y="108" width="16" height="8" style="fill:var(--foreground)"/>
-<rect opacity="0.35" x="152" y="108" width="16" height="8" style="fill:var(--foreground)"/>
+<g clip-path="url(#shimmer-1)">
+<rect opacity="0.35" x="72" y="76" width="176" height="10" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.01" x="133.5" y="68" width="3" height="26" transform="rotate(20 133.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.0586737" x="136.5" y="68" width="3" height="26" transform="rotate(20 136.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.145806" x="139.5" y="68" width="3" height="26" transform="rotate(20 139.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.240621" x="142.5" y="68" width="3" height="26" transform="rotate(20 142.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.313013" x="145.5" y="68" width="3" height="26" transform="rotate(20 145.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.34" x="148.5" y="68" width="3" height="26" transform="rotate(20 148.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.313013" x="151.5" y="68" width="3" height="26" transform="rotate(20 151.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.240621" x="154.5" y="68" width="3" height="26" transform="rotate(20 154.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.145806" x="157.5" y="68" width="3" height="26" transform="rotate(20 157.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.0586737" x="160.5" y="68" width="3" height="26" transform="rotate(20 160.5 68)" style="fill:var(--background)"/>
+<rect opacity="0.01" x="163.5" y="68" width="3" height="26" transform="rotate(20 163.5 68)" style="fill:var(--background)"/>
+</g>
+<g clip-path="url(#shimmer-2)">
+<rect opacity="0.35" x="72" y="96" width="120" height="10" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.01" x="140.7" y="88" width="3" height="26" transform="rotate(20 140.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.0586737" x="143.7" y="88" width="3" height="26" transform="rotate(20 143.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.145806" x="146.7" y="88" width="3" height="26" transform="rotate(20 146.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.240621" x="149.7" y="88" width="3" height="26" transform="rotate(20 149.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.313013" x="152.7" y="88" width="3" height="26" transform="rotate(20 152.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.34" x="155.7" y="88" width="3" height="26" transform="rotate(20 155.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.313013" x="158.7" y="88" width="3" height="26" transform="rotate(20 158.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.240621" x="161.7" y="88" width="3" height="26" transform="rotate(20 161.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.145806" x="164.7" y="88" width="3" height="26" transform="rotate(20 164.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.0586737" x="167.7" y="88" width="3" height="26" transform="rotate(20 167.7 88)" style="fill:var(--background)"/>
+<rect opacity="0.01" x="170.7" y="88" width="3" height="26" transform="rotate(20 170.7 88)" style="fill:var(--background)"/>
+</g>
+<g clip-path="url(#shimmer-3)">
+<rect opacity="0.35" x="72" y="116" width="144" height="10" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.01" x="147.9" y="108" width="3" height="26" transform="rotate(20 147.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.0586737" x="150.9" y="108" width="3" height="26" transform="rotate(20 150.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.145806" x="153.9" y="108" width="3" height="26" transform="rotate(20 153.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.240621" x="156.9" y="108" width="3" height="26" transform="rotate(20 156.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.313013" x="159.9" y="108" width="3" height="26" transform="rotate(20 159.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.34" x="162.9" y="108" width="3" height="26" transform="rotate(20 162.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.313013" x="165.9" y="108" width="3" height="26" transform="rotate(20 165.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.240621" x="168.9" y="108" width="3" height="26" transform="rotate(20 168.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.145806" x="171.9" y="108" width="3" height="26" transform="rotate(20 171.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.0586737" x="174.9" y="108" width="3" height="26" transform="rotate(20 174.9 108)" style="fill:var(--background)"/>
+<rect opacity="0.01" x="177.9" y="108" width="3" height="26" transform="rotate(20 177.9 108)" style="fill:var(--background)"/>
+</g>
+<defs>
+<clipPath id="shimmer-1">
+<rect x="72" y="76" width="176" height="10" rx="5"/>
+</clipPath>
+<clipPath id="shimmer-2">
+<rect x="72" y="96" width="120" height="10" rx="5"/>
+</clipPath>
+<clipPath id="shimmer-3">
+<rect x="72" y="116" width="144" height="10" rx="5"/>
+</clipPath>
+</defs>
 </svg>

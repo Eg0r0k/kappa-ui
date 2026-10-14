@@ -1,11 +1,18 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect opacity="0.15" x="-20" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
-<rect opacity="0.6" x="56" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
-<rect x="132" y="72" width="56" height="56" rx="12" style="fill:var(--primary)"/>
-<rect opacity="0.6" x="208" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
-<rect opacity="0.15" x="284" y="72" width="56" height="56" rx="12" style="fill:var(--muted-foreground)"/>
-<path d="M154 92L166 100L154 108V92Z" style="fill:var(--primary-foreground)"/>
-<path d="M136 152L148 160L136 168" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
-<path d="M160 152L172 160L160 168" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
-<path d="M184 152L196 160L184 168" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<g clip-path="url(#marquee-1)">
+<path opacity="0.15" d="M-20 80C-20 75.5817 -16.4183 72 -12 72H28C32.4183 72 36 75.5817 36 80V120C36 124.418 32.4183 128 28 128H-12C-16.4183 128 -20 124.418 -20 120V80Z" style="fill:var(--muted-foreground)"/>
+<path opacity="0.6" d="M56 80C56 75.5817 59.5817 72 64 72H104C108.418 72 112 75.5817 112 80V120C112 124.418 108.418 128 104 128H64C59.5817 128 56 124.418 56 120V80Z" style="fill:var(--muted-foreground)"/>
+<path opacity="0.6" d="M208 80C208 75.5817 211.582 72 216 72H256C260.418 72 264 75.5817 264 80V120C264 124.418 260.418 128 256 128H216C211.582 128 208 124.418 208 120V80Z" style="fill:var(--muted-foreground)"/>
+<path opacity="0.15" d="M284 80C284 75.5817 287.582 72 292 72H332C336.418 72 340 75.5817 340 80V120C340 124.418 336.418 128 332 128H292C287.582 128 284 124.418 284 120V80Z" style="fill:var(--muted-foreground)"/>
+<path d="M132 80C132 75.5817 135.582 72 140 72H180C184.418 72 188 75.5817 188 80V120C188 124.418 184.418 128 180 128H140C135.582 128 132 124.418 132 120V80Z" style="fill:var(--primary)"/>
+<path d="M156 92L168 100L156 108V92Z" style="fill:var(--primary-foreground)"/>
+<path d="M139.529 155.529C139.789 155.268 140.211 155.268 140.471 155.529L144.471 159.529C144.732 159.789 144.732 160.211 144.471 160.471L140.471 164.471C140.211 164.732 139.789 164.732 139.529 164.471C139.268 164.211 139.268 163.789 139.529 163.529L143.057 160L139.529 156.471C139.268 156.211 139.268 155.789 139.529 155.529Z" style="fill:var(--muted-foreground)"/>
+<path d="M163.529 155.529C163.789 155.268 164.211 155.268 164.471 155.529L168.471 159.529C168.732 159.789 168.732 160.211 168.471 160.471L164.471 164.471C164.211 164.732 163.789 164.732 163.529 164.471C163.268 164.211 163.268 163.789 163.529 163.529L167.057 160L163.529 156.471C163.268 156.211 163.268 155.789 163.529 155.529Z" style="fill:var(--muted-foreground)"/>
+<path d="M187.529 155.529C187.789 155.268 188.211 155.268 188.471 155.529L192.471 159.529C192.732 159.789 192.732 160.211 192.471 160.471L188.471 164.471C188.211 164.732 187.789 164.732 187.529 164.471C187.268 164.211 187.268 163.789 187.529 163.529L191.057 160L187.529 156.471C187.268 156.211 187.268 155.789 187.529 155.529Z" style="fill:var(--muted-foreground)"/>
+</g>
+<defs>
+<clipPath id="marquee-1">
+<rect width="320" height="200"/>
+</clipPath>
+</defs>
 </svg>

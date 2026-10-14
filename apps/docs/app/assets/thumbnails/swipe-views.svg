@@ -1,23 +1,23 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="96.5" y="20.5" width="127" height="159" rx="11.5" style="fill:var(--background);stroke:var(--border)"/>
+<path d="M107.2 20.5H212.8C218.709 20.5 223.5 25.2907 223.5 31.2002V168.8C223.5 174.709 218.709 179.5 212.8 179.5H107.2C101.291 179.5 96.5 174.709 96.5 168.8V31.2002C96.5 25.2907 101.291 20.5 107.2 20.5Z" style="fill:var(--background);stroke:var(--border)"/>
 <g clip-path="url(#swipe-views-1)">
-<rect x="76" y="36" width="96" height="56" rx="8" style="fill:var(--muted)"/>
+<path d="M76 44C76 39.5817 79.5817 36 84 36H164C168.418 36 172 39.5817 172 44V84C172 88.4183 168.418 92 164 92H84C79.5817 92 76 88.4183 76 84V44Z" style="fill:var(--muted)"/>
 <rect opacity="0.8" x="76" y="104" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
 <rect opacity="0.45" x="76" y="118" width="96" height="6" rx="3" style="fill:var(--muted-foreground)"/>
 <rect opacity="0.45" x="76" y="130" width="60" height="6" rx="3" style="fill:var(--muted-foreground)"/>
 <rect x="184" y="21" width="120" height="158" style="fill:var(--muted)"/>
-<rect x="196" y="36" width="96" height="56" rx="8" style="fill:var(--primary)"/>
+<rect x="184" y="21" width="1" height="158" style="fill:var(--border)"/>
+<path d="M196 44C196 39.5817 199.582 36 204 36H284C288.418 36 292 39.5817 292 44V84C292 88.4183 288.418 92 284 92H204C199.582 92 196 88.4183 196 84V44Z" style="fill:var(--primary)"/>
 <rect opacity="0.8" x="196" y="104" width="72" height="6" rx="3" style="fill:var(--foreground)"/>
 <rect opacity="0.45" x="196" y="118" width="96" height="6" rx="3" style="fill:var(--muted-foreground)"/>
-<path d="M184.5 21V179" style="stroke:var(--border)"/>
 </g>
 <rect x="142" y="158" width="16" height="6" rx="3" style="fill:var(--primary)"/>
 <circle opacity="0.4" cx="167" cy="161" r="3" style="fill:var(--muted-foreground)"/>
 <circle opacity="0.4" cx="179" cy="161" r="3" style="fill:var(--muted-foreground)"/>
-<path d="M264 100H242M242 100L249 93M242 100L249 107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--muted-foreground)"/>
+<path d="M252.352 92.9352C252.71 92.5773 253.29 92.5773 253.648 92.9352C254.006 93.2932 254.006 93.8735 253.648 94.2315L248.796 99.0833H259.417C259.923 99.0833 260.333 99.4938 260.333 100C260.333 100.506 259.923 100.917 259.417 100.917H248.796L253.648 105.769C254.006 106.127 254.006 106.707 253.648 107.065C253.29 107.423 252.71 107.423 252.352 107.065L245.935 100.648C245.907 100.62 245.881 100.589 245.857 100.558C245.845 100.541 245.832 100.525 245.821 100.508C245.797 100.472 245.776 100.435 245.758 100.397C245.738 100.355 245.72 100.312 245.706 100.267C245.701 100.251 245.698 100.236 245.694 100.22C245.677 100.15 245.667 100.076 245.667 100C245.667 99.927 245.676 99.856 245.692 99.7879C245.696 99.769 245.7 99.75 245.706 99.7315C245.72 99.6868 245.738 99.6441 245.758 99.6026C245.776 99.5661 245.795 99.5304 245.818 99.496C245.852 99.4441 245.891 99.3957 245.935 99.3519L252.352 92.9352Z" style="fill:var(--muted-foreground)"/>
 <defs>
 <clipPath id="swipe-views-1">
-<rect x="97" y="21" width="126" height="158" rx="11"/>
+<path d="M97 32.2C97 26.0144 102.014 21 108.2 21H211.8C217.986 21 223 26.0144 223 32.2V167.8C223 173.986 217.986 179 211.8 179H108.2C102.014 179 97 173.986 97 167.8V32.2Z"/>
 </clipPath>
 </defs>
 </svg>

@@ -1,10 +1,11 @@
 <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="40.5" y="44.5" width="239" height="31" rx="7.5" style="fill:var(--background);stroke:var(--border)"/>
+<path d="M48 44.5H272C276.142 44.5 279.5 47.8579 279.5 52V68C279.5 72.1421 276.142 75.5 272 75.5H48C43.8579 75.5 40.5 72.1421 40.5 68V52C40.5 47.8579 43.8579 44.5 48 44.5Z" style="fill:var(--background);stroke:var(--border)"/>
 <rect opacity="0.45" x="56" y="57" width="88" height="6" rx="3" style="fill:var(--muted-foreground)"/>
-<rect x="41" y="85" width="238" height="30" rx="7" style="fill:var(--background);stroke:var(--primary)" stroke-width="2"/>
+<path d="M48 85H272C275.866 85 279 88.134 279 92V108C279 111.866 275.866 115 272 115H48C44.134 115 41 111.866 41 108V92C41 88.134 44.134 85 48 85Z" stroke-width="2" style="fill:var(--background);stroke:var(--primary)"/>
 <rect opacity="0.8" x="56" y="97" width="104" height="6" rx="3" style="fill:var(--foreground)"/>
 <rect x="164" y="92" width="2" height="16" style="fill:var(--primary)"/>
-<path d="M40 132C40 127.582 43.5817 124 48 124H272C276.418 124 280 127.582 280 132V156H40V132Z" style="fill:var(--muted)"/>
+<path d="M40 132C40 127.582 43.5817 124 48 124H272C276.418 124 280 127.582 280 132V148C280 152.418 276.418 156 272 156H48C43.5817 156 40 152.418 40 148V132Z" style="fill:var(--muted)"/>
+<rect x="40" y="140" width="240" height="16" style="fill:var(--muted)"/>
 <rect x="40" y="155" width="240" height="1" style="fill:var(--border)"/>
 <rect opacity="0.45" x="56" y="137" width="72" height="6" rx="3" style="fill:var(--muted-foreground)"/>
 </svg>

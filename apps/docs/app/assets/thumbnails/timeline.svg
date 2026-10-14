@@ -2,17 +2,17 @@
 <rect x="79" y="56" width="2" height="34" rx="1" style="fill:var(--primary)"/>
 <rect opacity="0.25" x="79" y="114" width="2" height="34" rx="1" style="fill:var(--muted-foreground)"/>
 <circle cx="80" cy="42" r="12" style="fill:var(--primary)"/>
-<path d="M75.5 42.5L78.5 45.5L84.5 38.5" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--primary-foreground)"/>
+<path d="M76 42.3333L78.6667 45L84 39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--primary-foreground)"/>
 <circle cx="80" cy="100" r="12" style="fill:var(--primary)"/>
 <circle cx="80" cy="100" r="4" style="fill:var(--primary-foreground)"/>
-<circle cx="80" cy="158" r="11" stroke-width="2" style="fill:var(--background);stroke:var(--border)"/>
-<rect opacity="0.45" x="108" y="30" width="36" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
+<circle cx="80" cy="158" r="10" stroke-width="2" style="fill:var(--background);stroke:var(--border)"/>
+<rect opacity="0.22" x="108" y="30" width="36" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
 <rect opacity="0.8" x="108" y="40" width="96" height="6" rx="3" style="fill:var(--foreground)"/>
 <rect opacity="0.45" x="108" y="51" width="140" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
-<rect opacity="0.45" x="108" y="88" width="36" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.22" x="108" y="88" width="36" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
 <rect opacity="0.8" x="108" y="98" width="80" height="6" rx="3" style="fill:var(--foreground)"/>
 <rect opacity="0.45" x="108" y="109" width="120" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
-<rect opacity="0.45" x="108" y="146" width="36" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
+<rect opacity="0.22" x="108" y="146" width="36" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
 <rect opacity="0.8" x="108" y="156" width="104" height="6" rx="3" style="fill:var(--foreground)"/>
 <rect opacity="0.45" x="108" y="167" width="128" height="5" rx="2.5" style="fill:var(--muted-foreground)"/>
 </svg>
