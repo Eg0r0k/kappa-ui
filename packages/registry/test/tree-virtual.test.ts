@@ -22,6 +22,13 @@ const folders = (count: number, files: number): File[] =>
     children: Array.from({ length: files }, (_, j) => ({ path: `folder-${i}/file-${j}`, name: `file ${j}.ts` })),
   }));
 
+// userEvent types a key at a time; under a loaded full run the gaps outgrow the typeahead window
+const typeahead = (text: string) => {
+  for (const key of text) {
+    document.activeElement!.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+  }
+};
+
 const frames = async (count = 3) => {
   for (let i = 0; i < count; i++) await new Promise((resolve) => requestAnimationFrame(resolve));
   await nextTick();
@@ -114,7 +121,7 @@ describe("Tree virtualize", () => {
     await frames();
     expect(focusedKey()).toBe("folder-0");
 
-    await userEvent.keyboard("Folder 0042");
+    typeahead("Folder 0042");
     await frames();
     expect(focusedKey()).toBe("folder-42");
   });
