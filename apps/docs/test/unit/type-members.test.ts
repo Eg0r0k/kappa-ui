@@ -18,9 +18,11 @@ describe('typeMembers', () => {
       'setScrollPosition',
       'setScrollPercentage',
       'scrollTo',
+      'scrollToColumn',
       'reset',
       'refresh',
       'virtualizer',
+      'columnVirtualizer',
     ])
     expect(members.find((member) => member.name === 'reset')?.type).toBe('() => void')
   }, 30_000)
