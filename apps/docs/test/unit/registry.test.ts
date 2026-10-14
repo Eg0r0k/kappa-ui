@@ -1,3 +1,5 @@
+import { readdirSync } from 'node:fs'
+
 import { describe, expect, it } from 'vitest'
 
 import {
@@ -87,8 +89,15 @@ describe('resolveInstallFilename', () => {
 })
 
 describe('registryItems', () => {
-  it('reads the real manifest', () => {
-    expect(registryItems.filter(isExample).length).toBe(509)
+  it('reads the real manifest: one example entry per file under src/examples, and nothing else', () => {
+    const dir = new URL('../../../../packages/registry/src/examples/', import.meta.url)
+    const onDisk = readdirSync(dir, { recursive: true, encoding: 'utf8' })
+      .filter((file) => /\.(vue|ts)$/.test(file))
+      .map((file) => `src/examples/${file.replaceAll('\\', '/')}`)
+      .sort()
+    const listed = registryItems.filter(isExample).flatMap((item) => item.files.map((file) => file.path))
+    expect(listed.length).toBeGreaterThan(0)
+    expect([...listed].sort()).toEqual(onDisk)
   })
 })
 
