@@ -167,7 +167,7 @@ it("draws borders on cells and drops the last body row's, one tbody per row incl
   expect(getComputedStyle(q("tbody [data-slot=table-row]")).borderBottomWidth).toBe("0px");
 });
 
-it("sticks the header to a ScrollArea viewport with overflow visible, and not with the clipping container", async () => {
+it("sticks the header to a ScrollArea viewport, the default overflow turning visible inside one", async () => {
   render(() =>
     area({ style: "height: 150px; width: 400px" }, () =>
       h(Table, { overflow: "visible" }, () => [
@@ -197,12 +197,12 @@ it("sticks the header to a ScrollArea viewport with overflow visible, and not wi
       ]),
     ),
   );
-  const clippedViewport = q("[data-slot=scroll-area-viewport]");
-  clippedViewport.scrollTop = 300;
-  await vi.waitFor(() => expect(clippedViewport.scrollTop).toBe(300));
-  expect(q("[data-slot=table-header]").getBoundingClientRect().top).toBeLessThan(
-    clippedViewport.getBoundingClientRect().top,
-  );
+  const defaultViewport = q("[data-slot=scroll-area-viewport]");
+  expect(q("[data-slot=table-container]").dataset.overflow).toBe("x");
+  expect(getComputedStyle(q("[data-slot=table-container]")).overflowX).toBe("visible");
+  defaultViewport.scrollTop = 300;
+  await vi.waitFor(() => expect(defaultViewport.scrollTop).toBe(300));
+  expect(q("[data-slot=table-header]").getBoundingClientRect().top).toBe(defaultViewport.getBoundingClientRect().top);
 });
 
 it("offsets a page-sticky header and footer by --table-sticky-top and --table-sticky-bottom", async () => {

@@ -4,6 +4,7 @@ import { h, type VNode } from "vue";
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/ui/card";
 import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/table";
 
 const render = (node: () => VNode | VNode[]) => mount({ render: node }, { attachTo: document.body });
 
@@ -194,6 +195,43 @@ it("keeps the margins of its content inside the measured size", async () => {
   await vi.waitFor(() => expect((partsOf(el).viewport as HTMLElement).scrollHeight).toBe(160));
   expect(heightOf(el)).toBe(160);
   expect(heightOf(el.querySelector("[data-slot=scroll-area-content]")!)).toBe(160);
+});
+
+it("sticks a Table header to the viewport, and scrolls a wide table on both axes", async () => {
+  const table = (columns: number) =>
+    h(Table, () => [
+      h(TableHeader, { sticky: true }, () =>
+        h(TableRow, () =>
+          Array.from({ length: columns }, (_, index) =>
+            h(TableHead, { key: index, style: "width: 160px; min-width: 160px" }, `h${index}`),
+          ),
+        ),
+      ),
+      h(TableBody, () =>
+        Array.from({ length: 30 }, (_, row) =>
+          h(TableRow, { key: row }, () =>
+            Array.from({ length: columns }, (_, index) => h(TableCell, { key: index }, `r${row}c${index}`)),
+          ),
+        ),
+      ),
+    ]);
+  render(() => [
+    area({ class: "h-64 w-[28rem]", "data-test": "narrow" }, () => table(2)),
+    area({ orientation: "both", class: "h-64 w-[28rem]", "data-test": "wide" }, () => table(6)),
+  ]);
+
+  for (const name of ["narrow", "wide"]) {
+    const el = root(name);
+    const { viewport } = partsOf(el);
+    viewport.scrollTop = 200;
+    await vi.waitFor(() => expect(viewport.scrollTop).toBe(200));
+    const head = el.querySelector("[data-slot=table-header]")!;
+    expect(head.getBoundingClientRect().top - viewport.getBoundingClientRect().top).toBe(0);
+  }
+
+  const wide = partsOf(root("wide")).viewport;
+  expect(wide.scrollWidth).toBeGreaterThan(wide.clientWidth);
+  await vi.waitFor(() => expect(root("wide").hasAttribute("data-overflow-x-end")).toBe(true));
 });
 
 const big = Array.from({ length: 5000 }, (_, index) => index);

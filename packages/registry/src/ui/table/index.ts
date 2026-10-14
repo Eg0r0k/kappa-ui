@@ -37,7 +37,8 @@ export const tableSize: Record<TableSize, string> = {
 };
 
 export const tableStyles = {
-  container: "relative w-full data-[overflow=x]:overflow-x-auto data-[overflow=visible]:overflow-visible",
+  container:
+    "relative w-full data-[overflow=x]:overflow-x-auto data-[overflow=visible]:overflow-visible in-data-[slot=scroll-area-viewport]:data-[overflow=x]:overflow-visible",
   root: "text-body-md [--table-row-bg:transparent] [--table-cell-py:--spacing(2)] [--table-hover-bg:color-mix(in_oklab,--theme(--color-foreground)_var(--state-hover),transparent)] [--table-selected-bg:color-mix(in_oklab,--theme(--color-primary)_var(--state-selected),transparent)] [--table-stripe-bg:color-mix(in_oklab,--theme(--color-muted)_50%,transparent)]",
   table:
     "w-full caption-bottom border-separate border-spacing-0 data-[layout=fixed]:table-fixed data-striped:[&_tbody:not([data-parity])>tr:nth-child(even):not([data-parity]):not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tr[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)] data-striped:[&_tbody[data-parity=even]:not([data-state=selected]):not(:hover)]:[--table-row-bg:var(--table-stripe-bg)]",
