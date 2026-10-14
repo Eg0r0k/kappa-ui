@@ -37,6 +37,11 @@ describe('categories', () => {
     expect(order).toEqual([...order].sort((a, b) => a - b))
   })
 
+  it('gives every page a number of its own', () => {
+    const numbers = pages.map((file) => file.split('.')[0])
+    expect(numbers.filter((number, index) => numbers.indexOf(number) !== index)).toEqual([])
+  })
+
   it('takes a frontmatter category over the item one', () => {
     expect(pageCategory({ category: 'utilities', component: 'button' })).toBe('utilities')
     expect(pageCategory({ component: 'button' })).toBe('actions')
