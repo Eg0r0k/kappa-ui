@@ -9,7 +9,7 @@ import {
   textControlInnerText,
   textControlRadius,
   textControlText,
-} from "@/ui/input";
+} from "@/lib/text-control";
 
 export { default as InputNumber } from "./InputNumber.vue";
 export { default as InputNumberDecrement } from "./InputNumberDecrement.vue";

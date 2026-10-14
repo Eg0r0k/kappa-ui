@@ -53,6 +53,24 @@
       ]
     },
     {
+      "name": "text-control",
+      "type": "registry:lib",
+      "title": "Text Control",
+      "description": "The frame text fields share: base text styles, the outline, soft, filled, ghost and subtle variants for a field or for a frame around one, and the padding, radius and text size of each size.",
+      "categories": [
+        "utilities"
+      ],
+      "registryDependencies": [
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/lib/text-control.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "standard-schema",
       "type": "registry:lib",
       "title": "Standard Schema for VeeValidate",
@@ -1989,7 +2007,8 @@
       "registryDependencies": [
         "utils",
         "tokens",
-        "field-context"
+        "field-context",
+        "text-control"
       ],
       "files": [
         {
@@ -2018,7 +2037,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input"
+        "text-control"
       ],
       "files": [
         {
@@ -2066,7 +2085,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input",
+        "text-control",
         "button",
         "textarea"
       ],
@@ -2118,7 +2137,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input",
+        "text-control",
         "button"
       ],
       "files": [
@@ -2161,7 +2180,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input",
+        "text-control",
         "input-group",
         "spinner"
       ],
@@ -2201,7 +2220,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input",
+        "text-control",
         "input-group",
         "spinner"
       ],
@@ -2244,7 +2263,7 @@
         "tokens",
         "field-context",
         "button",
-        "input",
+        "text-control",
         "input-group",
         "input-date",
         "popover",
@@ -2346,7 +2365,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input",
+        "text-control",
         "badge",
         "ripple"
       ],
@@ -2521,7 +2540,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input"
+        "text-control"
       ],
       "files": [
         {
@@ -3512,7 +3531,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input",
+        "text-control",
         "popover",
         "menu",
         "ripple"
@@ -12448,7 +12467,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input"
+        "text-control"
       ],
       "files": [
         {
@@ -14138,7 +14157,7 @@
         "utils",
         "tokens",
         "field-context",
-        "input",
+        "text-control",
         "popover",
         "menu",
         "ripple"

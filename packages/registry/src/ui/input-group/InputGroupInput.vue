@@ -2,7 +2,7 @@
 import { type HTMLAttributes, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
-import { textControlBase, textControlInnerText } from "@/ui/input";
+import { textControlBase, textControlInnerText } from "@/lib/text-control";
 import { cn } from "@/lib/utils";
 
 defineOptions({ inheritAttrs: false });

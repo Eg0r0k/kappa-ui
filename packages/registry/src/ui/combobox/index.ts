@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { createContext } from "reka-ui";
 import type { ComputedRef, Ref } from "vue";
 
-import { type TextControlSize, textControlBase, textControlFrameVariant, textControlRadius } from "@/ui/input";
+import { type TextControlSize, textControlBase, textControlFrameVariant, textControlRadius } from "@/lib/text-control";
 
 export { default as Combobox } from "./Combobox.vue";
 export { default as ComboboxAnchor } from "./ComboboxAnchor.vue";

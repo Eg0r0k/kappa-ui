@@ -14,7 +14,7 @@ import {
 } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
-import type { TextControlSize, TextControlVariant } from "@/ui/input";
+import type { TextControlSize, TextControlVariant } from "@/lib/text-control";
 
 export type DatePickerSize = TextControlSize;
 export type DatePickerVariant = TextControlVariant;

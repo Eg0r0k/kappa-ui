@@ -3,8 +3,9 @@ import { useForwardExpose } from "reka-ui";
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
+import type { TextControlSize } from "@/lib/text-control";
 import { cn } from "@/lib/utils";
-import { type InputVariants, type TextControlSize, inputVariants } from ".";
+import { type InputVariants, inputVariants } from ".";
 
 defineOptions({ inheritAttrs: false });
 

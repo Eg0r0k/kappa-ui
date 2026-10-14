@@ -2,8 +2,8 @@
 import { ComboboxAnchor, type ComboboxAnchorProps, useForwardProps } from "reka-ui";
 import { type HTMLAttributes, computed, watchEffect } from "vue";
 
+import type { TextControlSize, TextControlVariant } from "@/lib/text-control";
 import { cn } from "@/lib/utils";
-import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { comboboxAnchorVariants, injectComboboxSize, provideComboboxAnchorContext } from ".";
 
 const props = withDefaults(

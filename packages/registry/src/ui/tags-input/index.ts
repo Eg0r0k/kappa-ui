@@ -2,7 +2,6 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { createContext } from "reka-ui";
 import type { ComputedRef } from "vue";
 
-import type { BadgeVariants } from "@/ui/badge";
 import {
   type TextControlSize,
   type TextControlVariant,
@@ -11,7 +10,8 @@ import {
   textControlInnerText,
   textControlRadius,
   textControlText,
-} from "@/ui/input";
+} from "@/lib/text-control";
+import type { BadgeVariants } from "@/ui/badge";
 
 export { default as TagsInput } from "./TagsInput.vue";
 export { default as TagsInputInput } from "./TagsInputInput.vue";

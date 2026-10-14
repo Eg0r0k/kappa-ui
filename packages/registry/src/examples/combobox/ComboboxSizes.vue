@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TextControlSize } from "@/lib/text-control";
 import {
   Combobox,
   ComboboxAnchor,
@@ -9,7 +10,6 @@ import {
   ComboboxTrigger,
   ComboboxViewport,
 } from "@/ui/combobox";
-import type { TextControlSize } from "@/ui/input";
 
 const sizes: TextControlSize[] = ["xs", "sm", "md", "lg", "xl"];
 const languages = ["English", "Deutsch", "Suomi"];

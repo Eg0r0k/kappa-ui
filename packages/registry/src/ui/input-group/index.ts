@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { createContext } from "reka-ui";
 import type { ComputedRef } from "vue";
 
-import { textControlFrameVariant, textControlRadius, textControlText } from "@/ui/input";
+import { textControlFrameVariant, textControlRadius, textControlText } from "@/lib/text-control";
 
 export { default as InputGroup } from "./InputGroup.vue";
 export { default as InputGroupAddon } from "./InputGroupAddon.vue";

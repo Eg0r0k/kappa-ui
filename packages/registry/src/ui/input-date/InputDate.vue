@@ -3,8 +3,8 @@ import { DateFieldInput, DateFieldRoot, type DateFieldRootProps, type DateValue,
 import { type HTMLAttributes, computed, shallowRef, useAttrs, watch } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
+import type { TextControlSize, TextControlVariant } from "@/lib/text-control";
 import { cn } from "@/lib/utils";
-import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { injectInputGroupContext } from "@/ui/input-group";
 import { Spinner } from "@/ui/spinner";
 import { inputDateGroupedVariants, inputDateSegment, inputDateVariants } from ".";

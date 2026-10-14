@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority";
 
-import { textControlFrameVariant, textControlRadius } from "@/ui/input";
+import { textControlFrameVariant, textControlRadius } from "@/lib/text-control";
 
 export { default as InputDate } from "./InputDate.vue";
 export { default as InputDateRange } from "./InputDateRange.vue";

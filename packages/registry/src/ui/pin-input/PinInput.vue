@@ -3,8 +3,8 @@ import { PinInputRoot, type PinInputRootEmits, type PinInputRootProps, useForwar
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
+import type { TextControlSize, TextControlVariant } from "@/lib/text-control";
 import { cn } from "@/lib/utils";
-import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { pinInputVariants, providePinInputStyle } from ".";
 
 defineOptions({ inheritAttrs: false });

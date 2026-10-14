@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { createContext } from "reka-ui";
 import type { Ref } from "vue";
 
-import { textControlBase, textControlRadius, textControlSize, textControlVariant } from "@/ui/input";
+import { textControlBase, textControlRadius, textControlSize, textControlVariant } from "@/lib/text-control";
 
 export { default as Select } from "./Select.vue";
 export { default as SelectContent } from "./SelectContent.vue";

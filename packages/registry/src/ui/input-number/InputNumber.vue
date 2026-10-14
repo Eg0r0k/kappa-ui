@@ -3,8 +3,8 @@ import { NumberFieldRoot, type NumberFieldRootEmits, type NumberFieldRootProps, 
 import { type HTMLAttributes, computed, useAttrs } from "vue";
 
 import { useFieldControl } from "@/lib/field-context";
+import type { TextControlSize, TextControlVariant } from "@/lib/text-control";
 import { cn } from "@/lib/utils";
-import type { TextControlSize, TextControlVariant } from "@/ui/input";
 import { type InputNumberOrientation, inputNumberVariants, provideInputNumberContext } from ".";
 
 defineOptions({ inheritAttrs: false });
