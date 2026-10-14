@@ -46,10 +46,10 @@ const render = async (
 ) => {
   const { "onUpdate:modelValue": onUpdate, ...rest } = props as {
     modelValue?: string;
-    "onUpdate:modelValue"?: (value: string) => void;
+    "onUpdate:modelValue"?: (value: string | undefined) => void;
   };
   const model = ref("modelValue" in props ? rest.modelValue : "#3b82f6");
-  const update = (value: string) => {
+  const update = (value: string | undefined) => {
     model.value = value;
     onUpdate?.(value);
   };
@@ -255,12 +255,16 @@ it("follows an outside model back to the colour it last wrote", async () => {
 });
 
 it("snaps back to the model when the parent turns an update down", async () => {
-  const updates: string[] = [];
+  const updates: (string | undefined)[] = [];
   const wrapper = mount(
     () =>
       h(
         ColorPicker,
-        { modelValue: "#3b82f6", "onUpdate:modelValue": (value: string) => updates.push(value), class: "w-64" },
+        {
+          modelValue: "#3b82f6",
+          "onUpdate:modelValue": (value: string | undefined) => updates.push(value),
+          class: "w-64",
+        },
         parts,
       ),
     { attachTo: document.body },

@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { ConfigProvider } from "reka-ui";
 import { describe, expect, it, vi } from "vitest";
 import { cdp } from "vitest/browser";
-import { h, nextTick } from "vue";
+import { h, nextTick, type VNode } from "vue";
 
 import { Progress, ProgressLabel, ProgressValue } from "@/ui/progress";
 
@@ -121,13 +121,13 @@ describe("Progress", () => {
   });
 
   it("takes its direction from ConfigProvider alone, for the fill and the animation", () => {
-    const place = (wrap: (child: () => unknown) => unknown, props: Record<string, unknown> = {}) => {
+    const place = (wrap: (child: () => VNode) => VNode, props: Record<string, unknown> = {}) => {
       document.body.innerHTML = "";
       mount({ render: () => wrap(() => h(Progress, props)) }, { attachTo: document.body });
       return document.querySelector<HTMLElement>("[data-slot=progress]")!;
     };
-    const provided = (child: () => unknown) => h(ConfigProvider, { dir: "rtl" }, child);
-    const text = (child: () => unknown) => h("div", { dir: "rtl" }, [child()]);
+    const provided = (child: () => VNode) => h(ConfigProvider, { dir: "rtl" }, child);
+    const text = (child: () => VNode) => h("div", { dir: "rtl" }, [child()]);
     const indicator = (root: HTMLElement) => root.querySelector<HTMLElement>("[data-slot=progress-indicator]")!;
 
     expect(place(provided).getAttribute("dir")).toBe("rtl");
