@@ -1,0 +1,71 @@
+diff --git a/dist/NavigationMenu/NavigationMenuViewport.js b/dist/NavigationMenu/NavigationMenuViewport.js
+index ef207dd3137613ef7fbf724988ba259e25905175..4d1f14f0f1879f186f3b5b5686c99eac2e9534e6 100644
+--- a/dist/NavigationMenu/NavigationMenuViewport.js
++++ b/dist/NavigationMenu/NavigationMenuViewport.js
+@@ -52,13 +52,31 @@ var NavigationMenuViewport_vue_vue_type_script_setup_true_lang_default = /* @__P
+ 		}, { immediate: true });
+ 		function updatePosition() {
+ 			if (content.value && activeTrigger.value && rootNavigationMenu.value) {
+-				const bodyWidth = document.documentElement.offsetWidth;
+-				const bodyHeight = document.documentElement.offsetHeight;
++				let boundary = {
++					left: 0,
++					top: 0,
++					right: document.documentElement.offsetWidth,
++					bottom: document.documentElement.offsetHeight
++				};
++				for (let el = rootNavigationMenu.value.parentElement; el && el !== document.body; el = el.parentElement) {
++					const style = getComputedStyle(el);
++					if (/paint|strict|content/.test(style.contain) || style.overflowX !== "visible" || style.overflowY !== "visible") {
++						boundary = el.getBoundingClientRect();
++						break;
++					}
++				}
+ 				const rootRect = rootNavigationMenu.value.getBoundingClientRect();
+-				const rect = activeTrigger.value.getBoundingClientRect();
++				const k = rootRect.width / (rootNavigationMenu.value.offsetWidth || rootRect.width) || 1;
++				const screen = activeTrigger.value.getBoundingClientRect();
++				const rect = {
++					left: screen.left,
++					top: screen.top,
++					width: screen.width / k,
++					height: screen.height / k
++				};
+ 				const { offsetWidth, offsetHeight } = content.value;
+-				const startPositionLeft = rect.left - rootRect.left;
+-				const startPositionTop = rect.top - rootRect.top;
++				const startPositionLeft = (rect.left - rootRect.left) / k;
++				const startPositionTop = (rect.top - rootRect.top) / k;
+ 				let posLeft = null;
+ 				let posTop = null;
+ 				switch (props.align) {
+@@ -75,17 +93,19 @@ var NavigationMenuViewport_vue_vue_type_script_setup_true_lang_default = /* @__P
+ 						posTop = startPositionTop - offsetHeight / 2 + rect.height / 2;
+ 				}
+ 				const screenOffset = 10;
+-				if (posLeft + rootRect.left < screenOffset) posLeft = screenOffset - rootRect.left;
+-				const rightOffset = posLeft + rootRect.left + offsetWidth;
+-				if (rightOffset > bodyWidth - screenOffset) {
+-					posLeft -= rightOffset - bodyWidth + screenOffset;
+-					if (posLeft < screenOffset - rootRect.left) posLeft = screenOffset - rootRect.left;
++				const minLeft = (boundary.left + screenOffset - rootRect.left) / k;
++				if (posLeft < minLeft) posLeft = minLeft;
++				const rightOffset = rootRect.left + (posLeft + offsetWidth) * k;
++				if (rightOffset > boundary.right - screenOffset) {
++					posLeft -= (rightOffset - boundary.right + screenOffset) / k;
++					if (posLeft < minLeft) posLeft = minLeft;
+ 				}
+-				if (posTop + rootRect.top < screenOffset) posTop = screenOffset - rootRect.top;
+-				const bottomOffset = posTop + rootRect.top + offsetHeight;
+-				if (bottomOffset > bodyHeight - screenOffset) {
+-					posTop -= bottomOffset - bodyHeight + screenOffset;
+-					if (posTop < screenOffset - rootRect.top) posTop = screenOffset - rootRect.top;
++				const minTop = (boundary.top + screenOffset - rootRect.top) / k;
++				if (posTop < minTop) posTop = minTop;
++				const bottomOffset = rootRect.top + (posTop + offsetHeight) * k;
++				if (bottomOffset > boundary.bottom - screenOffset) {
++					posTop -= (bottomOffset - boundary.bottom + screenOffset) / k;
++					if (posTop < minTop) posTop = minTop;
+ 				}
+ 				posLeft = Math.round(posLeft);
+ 				posTop = Math.round(posTop);
