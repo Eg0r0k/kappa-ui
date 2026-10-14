@@ -1,5 +1,13 @@
 # @kappa-ui/registry
 
+## 0.22.1
+
+### Patch Changes
+
+- [`9398d0f`](https://github.com/Eg0r0k/kappa-ui/commit/9398d0f5234c5e0daac84398a0ad1ed17eca72e5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Item: a long title or description no longer pushes the content under the media or past the row's edge. `ItemContent` can shrink (`min-w-0`) and `ItemTitle` stops at its column (`max-w-full`), so `line-clamp-1` on the title, or a `truncate` span inside it, cuts the text with an ellipsis.
+
+- [`20b5be9`](https://github.com/Eg0r0k/kappa-ui/commit/20b5be9378a39d725cfcc01896dce6a4c6f97455) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - PageIndicator: each page's pressable area now reaches half the gap past its dot, so the row has no dead space between pages, and a hover or a press lights that area up as a halo, as on Checkbox; the dot itself no longer darkens on hover. `touchTarget` still grows the area to 48px.
+
 ## 0.22.0
 
 ### Minor Changes
