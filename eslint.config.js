@@ -77,7 +77,7 @@ export default defineConfig([
     '^kappa-',
   ]),
   tailwind(
-    ['packages/registry/src/ui/**/*.{ts,vue}'],
+    ['packages/registry/src/ui/**/*.{ts,vue}', 'packages/registry/src/lib/text-control.ts'],
     './packages/registry/test/setup.css',
     './packages/registry/',
     ['^kappa-'],

@@ -69,7 +69,7 @@ test('accepts theme tokens and hook classes in a registry component', async () =
   )
 })
 
-test('rejects an unknown Tailwind class in a string constant of a registry component', async () => {
+test('rejects an unknown Tailwind class in a string constant of a registry component or of text-control', async () => {
   const unknown = (code: string, file: string) => errors(code, file, 'better-tailwindcss/no-unknown-classes')
   assert.equal(
     (await unknown('export const probe = "flex text-body-xxl";\n', 'packages/registry/src/ui/probe/index.ts')).length,
@@ -77,6 +77,10 @@ test('rejects an unknown Tailwind class in a string constant of a registry compo
   )
   assert.equal(
     (await unknown(sfc('const probe = `flex text-body-xxl`;'), 'packages/registry/src/ui/probe/Probe.vue')).length,
+    1,
+  )
+  assert.equal(
+    (await unknown('export const probe = "flex text-body-xxl";\n', 'packages/registry/src/lib/text-control.ts')).length,
     1,
   )
 })
