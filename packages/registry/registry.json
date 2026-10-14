@@ -4726,6 +4726,25 @@
       ]
     },
     {
+      "name": "scroll-area-card-body",
+      "type": "registry:block",
+      "title": "Scroll area in a card",
+      "description": "A card body that grows with its content up to max-h-48 and then scrolls.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/scroll-area/ScrollAreaCardBody.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "scroll-area-horizontal",
       "type": "registry:block",
       "title": "Horizontal scroll area",
