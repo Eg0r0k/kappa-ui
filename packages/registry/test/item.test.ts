@@ -218,3 +218,44 @@ describe("Item parts", () => {
     expect(width(media("xl", "image", "size-14"))).toBe(56);
   });
 });
+
+describe("Item long text", () => {
+  const LONG = "A title long enough to run past a narrow row several times over, and then some more";
+
+  const narrow = (title: () => unknown) =>
+    mount(
+      {
+        render: () =>
+          h("div", { style: "width: 240px" }, [
+            h(Item, { variant: "outline" }, () => [
+              h(ItemMedia, { variant: "icon" }, () => h("svg")),
+              h(ItemContent, () => [title(), h(ItemDescription, () => LONG)]),
+              h("div", { "data-slot": "item-actions" }, "Go"),
+            ]),
+          ]),
+      },
+      { attachTo: document.body },
+    );
+
+  const edges = (wrapper: ReturnType<typeof narrow>) => {
+    const box = (slot: string) => wrapper.get(`[data-slot=${slot}]`).element.getBoundingClientRect();
+    return { item: box("item"), media: box("item-media"), content: box("item-content"), title: box("item-title") };
+  };
+
+  it("keeps the content beside the media and inside the row", () => {
+    const { item, media, content, title } = edges(narrow(() => h(ItemTitle, { class: "line-clamp-1" }, () => LONG)));
+
+    expect(Math.abs(content.top - media.top)).toBeLessThan(8);
+    expect(content.right).toBeLessThanOrEqual(item.right);
+    expect(title.right).toBeLessThanOrEqual(content.right);
+  });
+
+  it("lets a truncate span inside the title shrink to the column", () => {
+    const wrapper = narrow(() => h(ItemTitle, () => h("span", { class: "truncate" }, LONG)));
+    const { content, title } = edges(wrapper);
+    const span = wrapper.get("[data-slot=item-title] span").element;
+
+    expect(title.right).toBeLessThanOrEqual(content.right);
+    expect(span.scrollWidth).toBeGreaterThan(span.clientWidth);
+  });
+});
