@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 
-import { oklchToRgba, parseColor, withAlpha } from './color.ts'
+import { isColor, oklchToRgba, parseColor, withAlpha } from './color.ts'
 
 const hexOf = ({ r, g, b }: { r: number; g: number; b: number }) =>
   `#${[r, g, b]
@@ -47,6 +47,11 @@ test('reads transparent and rejects other syntaxes', () => {
   assert.deepEqual(parseColor('transparent').rgba, { r: 0, g: 0, b: 0, a: 0 })
   assert.throws(() => parseColor('#fff'), /Unsupported colour: #fff/)
   assert.throws(() => parseColor('oklch(from var(--brand) 0.48 c h)'), /Unsupported colour/)
+})
+
+test('leaves relative colours out of the colour tokens', () => {
+  assert.equal(isColor('oklch(0.5 0.1 200)'), true)
+  assert.equal(isColor('oklch(from currentColor l c h / calc(alpha * 0.2))'), false)
 })
 
 test('scales alpha', () => {

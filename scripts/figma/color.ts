@@ -49,7 +49,8 @@ export const oklchToRgba = (l: number, c: number, h: number, alpha = 1): Convert
 
 const numberOf = (value: string, percent: string | undefined) => Number(value) / (percent ? 100 : 1)
 
-export const isColor = (value: string) => value === 'transparent' || value.startsWith('oklch(')
+export const isColor = (value: string) =>
+  value === 'transparent' || (value.startsWith('oklch(') && !value.startsWith('oklch(from '))
 
 export const parseColor = (value: string): Converted => {
   if (value === 'transparent') return { rgba: { r: 0, g: 0, b: 0, a: 0 }, mapped: false }
