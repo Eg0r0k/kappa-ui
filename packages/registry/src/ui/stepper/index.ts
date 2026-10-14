@@ -45,7 +45,7 @@ export const stepperItemVariants = cva(
   "group/stepper-item flex gap-(--stepper-gap) data-disabled:pointer-events-none",
   {
     variants: {
-      orientation: { horizontal: "items-center", vertical: "flex-col items-start" },
+      orientation: { horizontal: "items-center", vertical: "relative items-start" },
     },
     defaultVariants: { orientation: "horizontal" },
   },
@@ -83,6 +83,8 @@ export const stepperSeparator = `
   data-[orientation=horizontal]:[--stepper-separator-w:auto]
   data-[orientation=vertical]:[--stepper-separator-h:auto]
   data-[orientation=vertical]:[--stepper-separator-w:var(--stepper-separator)]
-  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:min-h-6
-  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:ms-[calc(--spacing(1)+(var(--stepper-indicator)-var(--stepper-separator))/2)]
+  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:absolute
+  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:start-[calc(--spacing(1)+(var(--stepper-indicator)-var(--stepper-separator))/2)]
+  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:top-[calc(--spacing(1)+var(--stepper-indicator)+--spacing(1))]
+  [:where([data-slot=stepper-item][data-orientation=vertical]>&)]:bottom-[calc(-1*var(--stepper-gap))]
 `;

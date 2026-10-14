@@ -2,4 +2,4 @@
 "@kappa-ui/registry": patch
 ---
 
-A vertical `Stepper` draws its separators in flow: each item becomes a column, the trigger a row with the indicator first, and a `StepperSeparator` placed straight in the item runs down from under the indicator, at least 24px long, where it used to stretch across the row and come out 0px tall. `min-h-*` and `ms-*` on the separator lengthen and move it. A vertical layout of your own that sets the item's children side by side needs `flex-row` on `StepperItem` now. Horizontal steppers are unchanged.
+A vertical `Stepper` draws its separators as a rail: a `StepperSeparator` placed straight in a `StepperItem` runs beside the step from 4px under the indicator to 4px above the next one, where it used to stretch across the row and come out 0px tall. The vertical trigger is a row with the indicator first. The rail spans `--stepper-gap`, the space between steps, and `start-*`, `top-*` and `bottom-*` on the separator move it. `stepperItem` and `stepperTrigger` are now `stepperItemVariants` and `stepperTriggerVariants`, which take the `orientation`. Horizontal steppers are unchanged.

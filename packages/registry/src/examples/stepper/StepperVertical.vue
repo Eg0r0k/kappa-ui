@@ -25,7 +25,7 @@ const steps = [
 </script>
 
 <template>
-  <Stepper orientation="vertical" class="mx-auto w-full max-w-md">
+  <Stepper orientation="vertical" class="mx-auto w-full max-w-md [--stepper-gap:--spacing(10)]">
     <StepperItem v-for="item in steps" :key="item.step" v-slot="{ state }" :step="item.step" class="w-full">
       <div class="flex items-start gap-6">
         <StepperTrigger as-child>
@@ -57,7 +57,7 @@ const steps = [
       </div>
       <StepperSeparator
         v-if="item.step < steps.length"
-        class="ms-[calc((var(--control-height-md)-var(--stepper-separator))/2)] group-data-[state=completed]/stepper-item:bg-primary"
+        class="start-[calc((var(--control-height-md)-var(--stepper-separator))/2)] bottom-[calc(--spacing(1)-var(--stepper-gap))] group-data-[state=completed]/stepper-item:bg-primary"
       />
     </StepperItem>
   </Stepper>
