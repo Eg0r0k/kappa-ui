@@ -1,5 +1,65 @@
 # @kappa-ui/core
 
+## 0.16.0
+
+### Minor Changes
+
+- [`95b68d3`](https://github.com/Eg0r0k/kappa-ui/commit/95b68d3ecaa3b70275e69fa6e48f61665c1741d4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Breaking: the focus ring's colour hook is `--focus-ring-color`, no longer `--color-ring`. `focus-ring` and `focus-ring-inset` read `var(--focus-ring-color, --theme(--color-ring))`, so a `.dark` island (or any subtree that sets `--ring`) rings its controls in its own `--ring`; a class such as `[--color-ring:currentColor]` copied from the kit now has no effect and becomes `[--focus-ring-color:currentColor]`. `tone-control`, `AlertClose`, `BannerClose` and the `ChoiceGroup` cards set the new variable.
+
+### Patch Changes
+
+- [`b827f85`](https://github.com/Eg0r0k/kappa-ui/commit/b827f85dab7838398e6e19195da23e0a13cd7412) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - An open `AccordionContent` no longer clips its content: the accordion keyframes clip while the panel's height animates, as Collapsible's do, and the part drops its permanent `overflow-hidden`, so a focus ring or a shadow inside an open answer shows in full.
+
+- [`f29a239`](https://github.com/Eg0r0k/kappa-ui/commit/f29a23978917de695c9aee640ece2f8f4ae68d1e) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A row of a disabled `RadioGroup` or `CheckboxGroup`, or of a group inside a disabled `FieldSet`, looks disabled: `choice-row` drops its hover tint and shows a `not-allowed` cursor when the row's checkbox or radio is disabled, not only when its `Field` is, and `FieldLabel` dims beside a disabled checkbox or radio.
+
+- [`b3cd937`](https://github.com/Eg0r0k/kappa-ui/commit/b3cd9377b09056f6491a3c440d45e77dad3e3512) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Components follow `.dark` through tokens only. The `Tabs` pill fills with the new `--tabs-pill` token (the page background, and `--input` at 30% under `.dark`) instead of `dark:bg-input/30`, and `shimmer` takes its brighter dark highlight from a `.dark` value of `--shimmer-color` instead of `@variant dark`. Both now switch with the `.dark` class even in a project whose own `dark` variant is something else.
+
+- [`97fc92b`](https://github.com/Eg0r0k/kappa-ui/commit/97fc92bc2ac170fa33efdfea882f0bc78e26f70d) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `useDrag` on touch: a nested drag that refused a finger (its `canStart` said no) no longer starts later in the same gesture once an outer drag owns it, so a Swipe Actions row inside a Swipe Views page and the page no longer move together on a back-and-forth swipe.
+
+- [`03cf21f`](https://github.com/Eg0r0k/kappa-ui/commit/03cf21f3a127b262656336a7033088a9de340675) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `useDrag` on touch reports each move's own `velocity` and `direction` in `onMove`, as the pointer path does, instead of a velocity of 0 and the direction from the start of the gesture.
+
+- [`36aba2b`](https://github.com/Eg0r0k/kappa-ui/commit/36aba2b775c25c05e1178b77848be76cbad31cf6) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `DrawerMenu as-child` makes the child the menu root: the child gets the root's attributes (`data-slot`, classes, `dir`, the height variable and the back keys), its own content becomes the root panel, and the submenu panels render inside it. Before, the attributes landed on the root panel and the submenus sat outside the child.
+
+- [`ee25b0f`](https://github.com/Eg0r0k/kappa-ui/commit/ee25b0f48614cc718835b2d99dc122130b7de6b6) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The modal scrim's hold renders a comment instead of a hidden `<span>`, and `PopoverContent`, `DatePickerContent` and `Menu` put it after their slot: `PopoverContent as-child` renders the consumer's element as the panel instead of moving the panel's role, classes and `data-slot` onto the hidden span, and a panel's first element child is the consumer's again.
+
+- [`c2b5813`](https://github.com/Eg0r0k/kappa-ui/commit/c2b5813ac526a7a95fed662ef825884896f6efda) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Progress in a right-to-left document: the `swing` and `elastic` animations stay inside the track, mirrored, instead of sliding off its edge, and under reduced motion the `carousel` and `carousel-inverse` animations pulse like the others instead of sliding.
+
+- [`7b34963`](https://github.com/Eg0r0k/kappa-ui/commit/7b34963fe065078838db3c2cdb409fdf281867a5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The corner role tokens (`--radius-control-*`, `--radius-surface-*`, `--radius-item-*`) move from the `theme` item to the `tokens` item, which every component brings. A project that skipped init and kept its own shadcn theme now gets `rounded-control-*`, `rounded-surface-*` and `rounded-item-*` (and the `rounded-inset-*`/`rounded-outset-*` forms on them) instead of square corners. They scale from your `--radius` and the optional `--control-radius`, `--surface-radius` and `--item-radius` knobs, as before.
+
+- [`0b689cc`](https://github.com/Eg0r0k/kappa-ui/commit/0b689cced404489a8c6e0a9fc02a5eea47a4f1e5) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `v-ripple` measures its host in the host's own CSS pixels: under a scaled ancestor (`transform: scale()`, such as a zoomed canvas or the page behind an open `DrawerIndent`), a wave now starts under the pointer and is sized for the host instead of starting at the scaled point and growing from the shrunken rect. A keyboard wave is centred the same way.
+
+- [`30fcc19`](https://github.com/Eg0r0k/kappa-ui/commit/30fcc19b97ad9d8215649aec2f874eaee3f6ea73) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `v-ripple` waits Material Web's 150 ms before rippling under a touch, so a finger that lands on a row to start a scroll no longer flashes a wave; a quick tap still ripples on release. A secondary mouse button no longer ripples.
+
+- [`1fe3cec`](https://github.com/Eg0r0k/kappa-ui/commit/1fe3cec756b2d9c5d782e90db3cec7962af15934) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `shimmer-reverse` flips the sweep in right-to-left text too: there the shimmer already runs reversed, and the class now turns it back to normal instead of leaving it as is.
+
+- [`26880d8`](https://github.com/Eg0r0k/kappa-ui/commit/26880d816b5c31816fcfc160b2a6ccfd06ccbd1d) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `state-layer` no longer tints a natively disabled element or one marked `data-disabled` under the mouse or on press, only an `aria-disabled` one as before; a disabled `Item as="button"` stays flat.
+
+- [`129bc1d`](https://github.com/Eg0r0k/kappa-ui/commit/129bc1dd4da9bd24b6834b239e55277b8ade11ea) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - SwipeActions: when an action runs from the keyboard or Escape closes the row while focus is in a strip, focus goes back to the element last focused in the row's content (or its first focusable element) instead of dropping to `<body>` as the strip turns inert.
+
+- [`8329332`](https://github.com/Eg0r0k/kappa-ui/commit/8329332f78ec917c5235ce525c15e8a11c3d2b18) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - SwipeActions: an arrow key that a widget inside the row already handled (a ToggleGroup or other roving-focus group calls `preventDefault`) no longer opens or closes the row.
+
+- [`a435c72`](https://github.com/Eg0r0k/kappa-ui/commit/a435c721a7881075514817e3a093c63bf79588e8) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `SwipeItem` takes a `dir` prop and renders its direction (the prop, else `ConfigProvider`) as the row's `dir`, so the drag, the arrow keys and the strips' placement agree: before, in `<html dir="rtl">` without a `ConfigProvider`, a drag revealed the empty side and the open strip sat outside the row. Such an app now gets left-to-right rows (strips do not swap); set `dir="rtl"` on the row or wrap the app in `ConfigProvider dir="rtl"`.
+
+- [`1960479`](https://github.com/Eg0r0k/kappa-ui/commit/1960479fbd84330168eaed32152af9cd63414e1e) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A `SwipeItem` rendered open on the server (`v-model:state` restored to `start` or `end`) no longer crashes the render by adding its outside-press and Escape listeners to a `document` that does not exist there; the hydrated row adds them on the client.
+
+- [`1ebc3d6`](https://github.com/Eg0r0k/kappa-ui/commit/1ebc3d6e101f6125032a792e14148aa926d8d0a9) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `useSwipeSnap` clamps an `active` index outside its points when it starts, so `active` 5 over three points rests on the last one instead of writing an offset of 0 and a position of 5.
+
+- [`76d453f`](https://github.com/Eg0r0k/kappa-ui/commit/76d453f7de0980c67cf8781dcfb6da3d954cef1d) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A disabled SwipeViews marks its swipe areas `data-disabled`, so the registry's strips stop catching taps over the page's edge; the root context gains `disabled`.
+
+- [`895afdc`](https://github.com/Eg0r0k/kappa-ui/commit/895afdcc072b3ebf571e342078822ed86e770d01) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - SwipeViews: when the page holding focus turns inert after a page change (a button in it that moves to the next page, say), focus moves to the new page itself instead of dropping to `<body>`. The page gets `tabindex="-1"` if it has none, and nothing inside it is focused, so no virtual keyboard opens after a swipe.
+
+- [`50250ec`](https://github.com/Eg0r0k/kappa-ui/commit/50250ec24b684549f9c0911f3638123568e23617) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - SwipeViews renders its state on the server: pages register during setup, so the server HTML marks the page in `v-model` `active` and the others `inert`, and each page places itself by index (in percent of its own size) until the root has measured the pages in the browser, so the first paint shows the model's page instead of the first one, or the last one in the stack layout. Hydration matches the server HTML. `--swipe-snap-offset`, `--swipe-view-offset` and `--swipe-view-stack` are registered as `<length-percentage>`; the root context gains `resolved`, `measured` and `resort`, and a registered page's `element` is set once it mounts.
+
+- [`70d1620`](https://github.com/Eg0r0k/kappa-ui/commit/70d162063997d100a21e5e343b185d7fbfe26f34) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Colours written inside arbitrary values and variables now resolve where the element sits, so a `.dark` island (or any subtree that sets a token) gets its own: the filled Input, InputGroup and DatePicker underline, the Table hover, selected and stripe tints, the disabled Slider and Rating fills and the ColorPicker checkerboard read `--theme(--color-x)` instead of `var(--color-x)`, which Tailwind resolves once on `:root`. The ripple wave reads `--state-pressed` where it is pressed (the `ripple` item no longer pins `--kappa-ripple-opacity` on `:root`), so a subtree that changes `--state-pressed` changes the wave as well as the state layer.
+
+- [`4892a23`](https://github.com/Eg0r0k/kappa-ui/commit/4892a23c0c96bc049ed16cccfc5ca3517711ae3d) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - A toast that is already closed when it first renders (closed by `max` in the same tick it was added, or added and removed in one tick) is dropped and its `onClose` runs, instead of staying in `toasts` until the toaster unmounts.
+
+- [`5c0a1ae`](https://github.com/Eg0r0k/kappa-ui/commit/5c0a1ae2e5990d660725f91fb1e789232c13e00a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Closing the last toast with the mouse no longer leaves the toaster paused: the next toast's progress bar runs, and in Firefox its timer starts and it closes on time. `ToastRecordRoot` clears Reka's paused flag when the last toast unmounts, and `Toaster` clears its own when its list empties.
+
+- [`6b26bf7`](https://github.com/Eg0r0k/kappa-ui/commit/6b26bf7e73f7cd765734d6a8f868e926098bc22d) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `useTour` follows the page while a tour is open: a string target that mounts after its step opened (a route or a `v-if` section) anchors the panel once it appears, and a target removed mid-step centres the panel instead of pinning it to the viewport's top-left corner.
+
+- [`49f6278`](https://github.com/Eg0r0k/kappa-ui/commit/49f6278ecf177c4d584801394c80dfe6203fdeb4) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - `useTour` returns `loop`, and `TourNext` reads "Next" rather than "Finish" on the last step of a looping tour, where pressing it goes back to the first step.
+
 ## 0.15.1
 
 ### Patch Changes
