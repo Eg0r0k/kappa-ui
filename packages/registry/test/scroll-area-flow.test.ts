@@ -115,6 +115,18 @@ it("takes the free height of a flex column without min-h-0", async () => {
   await expectScrolls(root("area"), 240);
 });
 
+it("hugs short content and takes the rest of a flex column capped by max-h", async () => {
+  const capped = (name: string, count: number) =>
+    h("div", { class: "flex max-h-80 w-80 flex-col" }, [
+      h("div", { class: "shrink-0", style: "height: 40px" }, "Header"),
+      area({ class: "flex-1", "data-test": name }, () => lines(count)),
+      h("div", { class: "shrink-0", style: "height: 40px" }, "Footer"),
+    ]);
+  render(() => [capped("short", 5), capped("long", 40)]);
+  await expectFits(root("short"), 100);
+  await expectScrolls(root("long"), 240);
+});
+
 it("takes the height of a 1fr grid row with no size of its own", async () => {
   render(() =>
     h("div", { class: "grid h-80 w-80 grid-rows-[auto_1fr_auto]" }, [
