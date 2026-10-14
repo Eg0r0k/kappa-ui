@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
-import { h, type VNode } from "vue";
+import { type Component, h, type VNode } from "vue";
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/ui/card";
 import { ScrollArea, type ScrollAreaApi } from "@/ui/scroll-area";
@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 const render = (node: () => VNode | VNode[]) => mount({ render: node }, { attachTo: document.body });
 
 const area = (props: Record<string, unknown>, slot: (scope: never) => unknown) =>
-  h(ScrollArea, { visible: true, ...props }, { default: slot });
+  h(ScrollArea as Component, { visible: true, ...props }, { default: slot });
 
 const lines = (count: number, height = 20) =>
   Array.from({ length: count }, (_, index) => h("div", { key: index, style: `height: ${height}px` }));
