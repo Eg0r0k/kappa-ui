@@ -115,7 +115,7 @@ defineExpose({ update })
         :height="height"
         preserveAspectRatio="none"
         aria-hidden="true"
-        class="block cursor-crosshair touch-none overflow-hidden rounded-[calc(var(--radius)*0.4)]"
+        class="block cursor-crosshair touch-none overflow-hidden rounded-inset-surface-sm/1.5"
         @pointerdown="onDown"
         @pointermove="onMove"
         @pointerup="onUp"
