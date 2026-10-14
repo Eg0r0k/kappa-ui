@@ -20,12 +20,12 @@ const members = Array.from({ length: 40 }, (_, index) => `Member ${index + 1}`);
     <DialogTrigger as-child>
       <Button variant="outline" color="neutral">Show members</Button>
     </DialogTrigger>
-    <DialogContent class="h-screen">
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>Members</DialogTitle>
         <DialogDescription>Everyone with access to this project.</DialogDescription>
       </DialogHeader>
-      <ScrollArea class="min-h-0 flex-1">
+      <ScrollArea class="flex-1">
         <ul class="flex flex-col gap-2 px-6 text-body-md">
           <li v-for="member in members" :key="member">{{ member }}</li>
         </ul>
