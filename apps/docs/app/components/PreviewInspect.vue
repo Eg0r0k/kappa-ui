@@ -88,7 +88,7 @@ const hasText = (element: Element) =>
 let swatch: CanvasRenderingContext2D | null | undefined
 // the canvas normalises any colour the page can express to #rrggbb, or rgba() when it has alpha
 const hex = (color: string) => {
-  swatch ??= document.createElement('canvas').getContext(' 2d'.trim())
+  swatch ??= document.createElement('canvas').getContext('2d')
   if (!swatch) return color
   swatch.fillStyle = color
   return swatch.fillStyle
