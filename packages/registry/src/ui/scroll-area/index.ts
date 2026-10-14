@@ -86,7 +86,7 @@ export const resolveVirtualizeOptions = (
 
 const warned = new Set<string>();
 
-const isDev = () => (import.meta as { env?: { DEV?: boolean } }).env?.DEV === true;
+export const isDev = () => (import.meta as { env?: { DEV?: boolean } }).env?.DEV === true;
 
 export const warnOnce = (key: string, message: string) => {
   if (!isDev() || warned.has(key)) return;

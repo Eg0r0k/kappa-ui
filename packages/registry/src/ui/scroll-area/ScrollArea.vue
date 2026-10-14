@@ -40,6 +40,7 @@ import {
   getPercentage,
   getThumbSize,
   getThumbStart,
+  isDev,
   resolveVirtualCount,
   resolveVirtualizeOptions,
   scrollAreaInjectionKey,
@@ -68,7 +69,11 @@ const props = withDefaults(defineProps<ScrollAreaProps<T>>(), {
 });
 
 const isHorizontal = computed(() => props.orientation === "horizontal");
-const contentSize = { vertical: "min-h-full w-full", horizontal: "h-full min-w-full", both: "min-h-full min-w-full" };
+const contentSize = {
+  vertical: "min-h-full w-full",
+  horizontal: "h-full w-fit min-w-full",
+  both: "min-h-full w-fit min-w-full",
+};
 const scrollsX = computed(() => props.orientation !== "vertical");
 const scrollsY = computed(() => props.orientation !== "horizontal");
 
@@ -447,6 +452,21 @@ const virtual = useVirtualScroll({
   },
 });
 
+const warnUnbounded = () => {
+  const el = viewportRef.value;
+  if (!isDev() || el === null || virtualCount.value === 0 || isExternalScroll.value) return;
+
+  const client = isHorizontal.value ? el.clientWidth : el.clientHeight;
+  const scroll = isHorizontal.value ? el.scrollWidth : el.scrollHeight;
+  const screen = isHorizontal.value ? window.innerWidth : window.innerHeight;
+
+  if (client > 0 && client === scroll && virtual.virtualizer.value.getTotalSize() > screen) {
+    warnOnce("virtualize-unbounded", "virtualize needs a bounded height or width");
+  }
+};
+
+watch(virtualCount, warnUnbounded, { flush: "post" });
+
 const virtualData = computed(() => {
   const { from, size } = virtual.window.value;
   if (size === 0) return [];
@@ -561,6 +581,7 @@ onMounted(() => {
   updateScrollSize();
   updateScroll();
   syncExternalEl();
+  warnUnbounded();
 
   containerObserver = new ResizeObserver(updateContainer);
   contentObserver = new ResizeObserver(updateScrollSize);
@@ -614,8 +635,8 @@ onBeforeUnmount(() => {
     :data-orientation="props.orientation"
     :class="
       cn(
-        'relative isolate flow-root',
-        isExternalScroll ? 'overflow-visible' : 'overflow-clip [contain:size]',
+        'relative isolate grid min-h-0 min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[minmax(0,1fr)]',
+        isExternalScroll ? 'overflow-visible' : 'overflow-clip',
         props.class,
       )
     "
@@ -627,7 +648,7 @@ onBeforeUnmount(() => {
       data-slot="scroll-area-viewport"
       :class="
         cn(
-          'scrollbar-hidden relative size-full rounded-[inherit] outline-none focus-visible:focus-ring-inset',
+          'scrollbar-hidden relative min-h-0 min-w-0 rounded-[inherit] outline-none focus-visible:focus-ring-inset',
           isExternalScroll
             ? 'overflow-visible'
             : props.orientation === 'both'
@@ -644,7 +665,7 @@ onBeforeUnmount(() => {
         ref="contentRef"
         data-slot="scroll-area-content"
         :data-active="active ? '' : undefined"
-        :class="cn(contentSize[props.orientation], isExternalScroll ? 'relative' : 'absolute')"
+        :class="cn('relative flow-root', contentSize[props.orientation])"
       >
         <div v-if="props.virtualize" data-slot="scroll-area-virtual" :style="virtual.containerStyle.value">
           <div
