@@ -41,6 +41,8 @@ Run from the repo root:
 
 Run `pnpm test` before opening a PR. A change users will notice, in `packages/core` or in a component, needs a changeset: run `pnpm changeset`, pick the packages, and describe the change for the changelog. Docs-only changes do not. Merging the "version packages" PR that the release workflow keeps open publishes `@kappa-ui/core` and deploys the site.
 
+Adding a component touches the manifest, examples, tests, a docs page, API descriptions, a thumbnail and a changeset: [CONTRIBUTING.md](CONTRIBUTING.md) lists every step and the check that catches a missed one.
+
 ## License
 
 MIT © 2026 Eg0r0k. Code adapted from Material Web (Apache-2.0) and Quasar (MIT) is listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
