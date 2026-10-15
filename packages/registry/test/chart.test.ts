@@ -2,6 +2,7 @@ import { Donut } from "@unovis/ts";
 import { VisArea, VisAxis, VisDonut, VisSingleContainer, VisXYContainer } from "@unovis/vue";
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { type Component, defineComponent, h, nextTick } from "vue";
 
 import {
@@ -13,6 +14,7 @@ import {
   ChartTooltipContent,
   chartColors,
   useChart,
+  useChartSeries,
 } from "@/ui/chart";
 
 import { pointer, wait } from "./pointer";
@@ -166,7 +168,7 @@ it("mounts the slot lazily when it is below the viewport", async () => {
   expect(root().querySelector("[data-vis-xy-container]")).not.toBeNull();
 });
 
-it.skip("re-renders the legend when the config changes", async () => {
+it("re-renders the legend when the config changes", async () => {
   const wrapper = mount(
     defineComponent({
       props: { config: { type: Object, required: true } },
@@ -412,4 +414,83 @@ it("lists a pie row by nameKey from component events", async () => {
       .querySelector<HTMLElement>("[data-slot=chart-tooltip-indicator]")!
       .style.getPropertyValue("--chart-indicator"),
   ).toBe("var(--chart-1)");
+});
+
+it("renders one legend item per config key with its colour", () => {
+  mount(ChartContainer, { props: { config }, attachTo: document.body, slots: { default: () => h(ChartLegend) } });
+  const items = document.querySelectorAll<HTMLElement>("[data-slot=chart-legend-item]");
+  expect(items).toHaveLength(2);
+  expect(items[0]!.textContent?.trim()).toBe("Desktop");
+  expect(items[0]!.tagName).toBe("DIV");
+  expect(
+    items[0]!.querySelector<HTMLElement>("[data-slot=chart-legend-swatch]")!.style.getPropertyValue("--chart-swatch"),
+  ).toBe("var(--chart-1)");
+  expect(items[0]!.dataset.state).toBe("visible");
+});
+
+it("toggles a series from the legend, with the keyboard, and reports it through v-model:hidden", async () => {
+  const hidden: string[][] = [];
+  mount(
+    defineComponent(
+      () => () =>
+        h(ChartContainer, { config, "onUpdate:hidden": (keys: string[]) => hidden.push(keys) }, () =>
+          h(ChartLegend, { toggle: true }),
+        ),
+    ),
+    { attachTo: document.body },
+  );
+  const items = document.querySelectorAll<HTMLButtonElement>("[data-slot=chart-legend-item]");
+  expect(items[0]!.tagName).toBe("BUTTON");
+  expect(items[0]!.getAttribute("aria-pressed")).toBe("true");
+  await userEvent.click(items[0]!);
+  expect(items[0]!.getAttribute("aria-pressed")).toBe("false");
+  expect(items[0]!.dataset.state).toBe("hidden");
+  expect(hidden.at(-1)).toEqual(["desktop"]);
+  items[1]!.focus();
+  await userEvent.keyboard("{Enter}");
+  expect(hidden.at(-1)).toEqual(["desktop", "mobile"]);
+  await userEvent.keyboard("{Enter}");
+  expect(hidden.at(-1)).toEqual(["desktop"]);
+});
+
+it("keeps the colours of the remaining series when one is hidden", async () => {
+  const Series = defineComponent({
+    setup: () => {
+      const series = useChartSeries<Row>(keys);
+      return () =>
+        h(VisXYContainer, { data: rows, duration: 0 }, () => [
+          h(VisArea, { x, y: series.y.value, color: series.color }),
+        ]);
+    },
+  });
+  mount(
+    defineComponent(
+      () => () =>
+        h(ChartContainer, { config, class: "aspect-auto h-[200px] w-[400px]" }, () => [
+          h(Series),
+          h(ChartLegend, { toggle: true }),
+        ]),
+    ),
+    { attachTo: document.body },
+  );
+  await settle();
+  const fills = () =>
+    [...root().querySelectorAll<SVGPathElement>("svg path")].map((path) => path.style.fill).filter(Boolean);
+  expect(fills()).toEqual(["var(--color-mobile)", "var(--color-desktop)"]);
+  await userEvent.click(document.querySelector<HTMLElement>("[data-slot=chart-legend-item]")!);
+  await settle();
+  expect(fills()).toEqual(["var(--color-mobile)", "var(--color-desktop)"]);
+  const [mobile, desktop] = [...root().querySelectorAll<SVGPathElement>("svg path")].filter((path) => path.style.fill);
+  const flat = (d: string) => new Set(d.match(/-?[\d.]+(?:e-?\d+)?/g)?.filter((_, i) => i % 2 === 1)).size === 1;
+  expect(mobile!.getAttribute("d") ?? "").not.toSatisfy(flat);
+  expect(desktop!.getAttribute("d") ?? "").toSatisfy(flat);
+});
+
+it("names a legend item by its key when the config gives no label", () => {
+  mount(ChartContainer, {
+    props: { config: { desktop: { color: "var(--chart-1)" } } },
+    attachTo: document.body,
+    slots: { default: () => h(ChartLegend) },
+  });
+  expect(document.querySelector("[data-slot=chart-legend-item]")!.textContent?.trim()).toBe("desktop");
 });
