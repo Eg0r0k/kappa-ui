@@ -272,6 +272,20 @@ it("positions the tooltip in layout pixels under a scaled ancestor", async () =>
   expect(Math.abs(translateX - (layoutX + 12))).toBeLessThanOrEqual(1);
 });
 
+it("keeps the tooltip beside the pointer in a right-to-left page", async () => {
+  mount(
+    defineComponent(() => () => h("div", { dir: "rtl" }, [h(AreaChart())])),
+    { attachTo: document.body },
+  );
+  await settle();
+  hover(0.1);
+  await settle();
+  const chart = root().getBoundingClientRect();
+  const box = tooltip().getBoundingClientRect();
+  expect(box.left).toBeGreaterThan(chart.left + chart.width * 0.1);
+  expect(box.right).toBeLessThanOrEqual(chart.right);
+});
+
 it("scrubs with a touch pointer", async () => {
   mount(AreaChart(), { attachTo: document.body });
   await settle();

@@ -39,7 +39,7 @@ const style = computed(() => {
     aria-hidden="true"
     :class="
       cn(
-        'pointer-events-none absolute start-0 top-0 z-10 w-max',
+        'pointer-events-none absolute top-0 left-0 z-10 w-max',
         open
           ? 'opacity-100 transition-opacity duration-short-2 ease-standard motion-reduce:transition-none'
           : 'invisible opacity-0',
