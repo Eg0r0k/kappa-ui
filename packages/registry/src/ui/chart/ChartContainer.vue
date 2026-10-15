@@ -50,24 +50,26 @@ const colorStyle = computed(() =>
   ),
 );
 
-watch(
-  () => Object.keys(props.config),
-  (keys) => {
-    if (!isDev()) return;
-    for (const key of keys) {
-      if (VARIABLE_NAME.test(key)) continue;
-      console.warn(`[Chart] config key "${key}" cannot name a CSS variable, so --color-${key} will not resolve.`);
-    }
-  },
-  { immediate: true },
-);
+if (isDev()) {
+  watch(
+    () => Object.keys(props.config),
+    (keys) => {
+      for (const key of keys) {
+        if (VARIABLE_NAME.test(key)) continue;
+        console.warn(`[Chart] config key "${key}" cannot name a CSS variable, so --color-${key} will not resolve.`);
+      }
+    },
+    { immediate: true },
+  );
+}
 
 const pointer = shallowRef<ChartPointer>();
 const track = (event: PointerEvent) => {
   const box = root.value!.getBoundingClientRect();
+  const scale = box.width > 0 ? root.value!.offsetWidth / box.width : 1;
   pointer.value = {
-    x: event.clientX - box.left,
-    y: event.clientY - box.top,
+    x: (event.clientX - box.left) * scale,
+    y: (event.clientY - box.top) * scale,
     type: event.pointerType,
     down: event.buttons > 0,
   };
@@ -88,8 +90,12 @@ const leave = () => {
 };
 
 const unwrap = (datum: unknown): ChartDatum =>
-  (datum !== null && typeof datum === "object" && "data" in datum
-    ? (datum as { data: unknown }).data
+  (datum !== null &&
+  typeof datum === "object" &&
+  "data" in datum &&
+  typeof datum.data === "object" &&
+  datum.data !== null
+    ? datum.data
     : datum) as ChartDatum;
 const events = (selector: string): ChartEvents => ({
   [selector]: {

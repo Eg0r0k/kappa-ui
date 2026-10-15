@@ -1,11 +1,21 @@
-import { VisArea, VisAxis, VisXYContainer } from "@unovis/vue";
+import { Donut } from "@unovis/ts";
+import { VisArea, VisAxis, VisDonut, VisSingleContainer, VisXYContainer } from "@unovis/vue";
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
-import { defineComponent, h } from "vue";
+import { type Component, defineComponent, h, nextTick } from "vue";
 
-import { type ChartConfig, ChartContainer, ChartLegend, chartColors } from "@/ui/chart";
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartCrosshair,
+  ChartLegend,
+  ChartTooltip,
+  ChartTooltipContent,
+  chartColors,
+  useChart,
+} from "@/ui/chart";
 
-import { wait } from "./pointer";
+import { pointer, wait } from "./pointer";
 
 type Row = { month: Date; desktop: number; mobile: number };
 const rows: Row[] = [
@@ -24,6 +34,49 @@ const y = [(d: Row) => d.desktop, (d: Row) => d.mobile];
 const color = chartColors(keys);
 
 const root = () => document.querySelector<HTMLElement>("[data-slot=chart]")!;
+const tooltip = () => document.querySelector<HTMLElement>("[data-slot=chart-tooltip]")!;
+const svg = () => root().querySelector("svg")!;
+const visible = (el: HTMLElement) => getComputedStyle(el).visibility === "visible";
+const hover = (fx: number, fy = 0.5) => {
+  const box = svg().getBoundingClientRect();
+  const clientX = box.left + box.width * fx;
+  const clientY = box.top + box.height * fy;
+  svg().dispatchEvent(new MouseEvent("mousemove", { clientX, clientY, bubbles: true }));
+  root().dispatchEvent(new PointerEvent("pointermove", { clientX, clientY, pointerType: "mouse", bubbles: true }));
+};
+
+type Options = {
+  data?: Row[];
+  renders?: { count: number };
+  content?: Record<string, unknown>;
+  slots?: Record<string, (props: never) => unknown>;
+  container?: Record<string, unknown>;
+  legend?: Record<string, unknown>;
+};
+
+const AreaChart = (options: Options = {}) =>
+  defineComponent({
+    setup: () => () =>
+      h(ChartContainer, { config, class: "aspect-auto h-[200px] w-[400px]", ...options.container }, () => [
+        h(
+          VisXYContainer,
+          {
+            data: options.data ?? rows,
+            duration: 0,
+            onRenderComplete: () => {
+              if (options.renders) options.renders.count++;
+            },
+          },
+          () => [
+            h(VisArea, { x, y, color }),
+            h(VisAxis, { type: "x", x }),
+            h(ChartCrosshair as Component, { x, y, color }),
+          ],
+        ),
+        h(ChartTooltip, () => h(ChartTooltipContent, options.content ?? {}, options.slots)),
+        h(ChartLegend, options.legend ?? {}),
+      ]),
+  });
 
 const settle = () => wait(150);
 
@@ -124,4 +177,227 @@ it.skip("re-renders the legend when the config changes", async () => {
   expect(document.querySelectorAll("[data-slot=chart-legend-item]")).toHaveLength(2);
   await wrapper.setProps({ config: { ...config, tablet: { label: "Tablet", color: "var(--chart-3)" } } });
   expect(document.querySelectorAll("[data-slot=chart-legend-item]")).toHaveLength(3);
+});
+
+it("shows the hovered datum in the tooltip from the crosshair, zero included", async () => {
+  mount(AreaChart(), { attachTo: document.body });
+  await settle();
+  hover(0.36);
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(tooltip().textContent).toContain("Desktop");
+  expect(tooltip().textContent).toContain("305");
+  hover(0.66);
+  await settle();
+  expect(tooltip().textContent).toContain("Mobile");
+  expect(tooltip().textContent).toMatch(/Mobile\s*0\b/);
+});
+
+it("mounts, hovers and changes data without a console warning", async () => {
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  const wrapper = mount(
+    defineComponent({
+      props: { data: { type: Array, required: true } },
+      setup: (props) => () =>
+        h(ChartContainer, { config, class: "aspect-auto h-[200px] w-[400px]" }, () => [
+          h(VisXYContainer, { data: props.data as Row[], duration: 0 }, () => [
+            h(VisArea, { x, y, color }),
+            h(ChartCrosshair as Component, { x, color }),
+          ]),
+          h(ChartTooltip, () => h(ChartTooltipContent)),
+        ]),
+    }),
+    { props: { data: rows }, attachTo: document.body },
+  );
+  await settle();
+  hover(0.36);
+  await settle();
+  await wrapper.setProps({ data: rows.slice(1) });
+  await settle();
+  expect(warn).not.toHaveBeenCalled();
+});
+
+it("hides the tooltip when the pointer leaves", async () => {
+  mount(AreaChart(), { attachTo: document.body });
+  await settle();
+  hover(0.36);
+  await settle();
+  root().dispatchEvent(new PointerEvent("pointerleave", { pointerType: "mouse" }));
+  svg().dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
+  await nextTick();
+  expect(visible(tooltip())).toBe(false);
+});
+
+it("does not re-render the chart while the pointer moves", async () => {
+  const renders = { count: 0 };
+  mount(AreaChart({ renders }), { attachTo: document.body });
+  await settle();
+  const before = renders.count;
+  for (let i = 0; i < 20; i++) {
+    hover(0.1 + i * 0.04);
+    await wait(20);
+  }
+  expect(renders.count).toBe(before);
+});
+
+it("positions the tooltip by transform inside the chart and flips at the right edge", async () => {
+  mount(AreaChart(), { attachTo: document.body });
+  await settle();
+  hover(0.1);
+  await settle();
+  expect(tooltip().style.transform).toMatch(/^translate3d\(/);
+  const chart = root().getBoundingClientRect();
+  const left = tooltip().getBoundingClientRect();
+  expect(left.left).toBeGreaterThan(chart.left + chart.width * 0.1);
+  hover(0.95);
+  await settle();
+  const right = tooltip().getBoundingClientRect();
+  expect(right.right).toBeLessThanOrEqual(chart.right);
+  expect(right.right).toBeLessThan(chart.left + chart.width * 0.95);
+});
+
+it("positions the tooltip in layout pixels under a scaled ancestor", async () => {
+  mount(
+    defineComponent(() => () => h("div", { style: "transform: scale(0.5); transform-origin: 0 0" }, [h(AreaChart())])),
+    { attachTo: document.body },
+  );
+  await settle();
+  hover(0.36);
+  await settle();
+  const chart = root().getBoundingClientRect();
+  const plot = svg().getBoundingClientRect();
+  const layoutX = ((plot.left + plot.width * 0.36 - chart.left) * root().offsetWidth) / chart.width;
+  const translateX = Number(/^translate3d\((-?[\d.]+)px/.exec(tooltip().style.transform)![1]);
+  expect(visible(tooltip())).toBe(true);
+  expect(Math.abs(translateX - (layoutX + 12))).toBeLessThanOrEqual(1);
+});
+
+it("scrubs with a touch pointer", async () => {
+  mount(AreaChart(), { attachTo: document.body });
+  await settle();
+  const box = svg().getBoundingClientRect();
+  pointer("pointerdown", root(), box.left + box.width * 0.36, box.top + box.height / 2);
+  await wait(30);
+  pointer("pointermove", root(), box.left + box.width * 0.4, box.top + box.height / 2);
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(tooltip().textContent).toContain("305");
+  pointer("pointerup", root(), box.left + box.width * 0.4, box.top + box.height / 2);
+  await settle();
+  expect(visible(tooltip())).toBe(false);
+});
+
+it("scrubs to the touched point under a scaled ancestor", async () => {
+  mount(
+    defineComponent(() => () => h("div", { style: "transform: scale(0.5); transform-origin: 0 0" }, [h(AreaChart())])),
+    { attachTo: document.body },
+  );
+  await settle();
+  const box = svg().getBoundingClientRect();
+  pointer("pointerdown", root(), box.left + box.width * 0.36, box.top + box.height / 2);
+  await wait(30);
+  pointer("pointermove", root(), box.left + box.width * 0.4, box.top + box.height / 2);
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(tooltip().textContent).toContain("305");
+});
+
+it("keeps the crosshair between sparse points", async () => {
+  const sparse = [rows[0]!, rows[3]!];
+  mount(AreaChart({ data: sparse }), { attachTo: document.body });
+  await settle();
+  hover(0.5);
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+});
+
+it("hands the raw x to the label formatter", async () => {
+  mount(
+    AreaChart({ content: { labelFormatter: (value: unknown) => (value instanceof Date ? "a date" : "not a date") } }),
+    {
+      attachTo: document.body,
+    },
+  );
+  await settle();
+  hover(0.36);
+  await settle();
+  expect(tooltip().textContent).toContain("a date");
+});
+
+it("takes the title from a config key through labelKey and hides it with hideLabel", async () => {
+  mount(AreaChart({ content: { labelKey: "desktop" } }), { attachTo: document.body });
+  await settle();
+  hover(0.36);
+  await settle();
+  expect(tooltip().querySelector(".font-medium")!.textContent).toBe("Desktop");
+  document.body.innerHTML = "";
+  mount(AreaChart({ content: { hideLabel: true } }), { attachTo: document.body });
+  await settle();
+  hover(0.36);
+  await settle();
+  expect(tooltip().textContent).not.toMatch(/2024/);
+});
+
+it("renders a custom item through the item slot", async () => {
+  mount(
+    AreaChart({
+      slots: { item: ({ item }: { item: { label: string; value: number } }) => h("b", `${item.label}=${item.value}`) },
+    }),
+    { attachTo: document.body },
+  );
+  await settle();
+  hover(0.36);
+  await settle();
+  expect(tooltip().querySelectorAll("b")).toHaveLength(2);
+  expect(tooltip().textContent).toContain("Desktop=305");
+});
+
+it("lists a pie row by nameKey from component events", async () => {
+  type Slice = { browser: string; visitors: number };
+  const slices: Slice[] = [
+    { browser: "chrome", visitors: 275 },
+    { browser: "safari", visitors: 200 },
+  ];
+  const pie = {
+    visitors: { label: "Visitors" },
+    chrome: { label: "Chrome", color: "var(--chart-1)" },
+    safari: { label: "Safari", color: "var(--chart-2)" },
+  } satisfies ChartConfig;
+  const value = (d: Slice) => d.visitors;
+  const Pie = defineComponent({
+    setup: () => {
+      const SegmentsWithEvents = defineComponent({
+        setup: () => {
+          const { events } = useChart();
+          const segmentEvents = events(Donut.selectors.segment);
+          return () =>
+            h(VisSingleContainer, { data: slices, duration: 0 }, () =>
+              h(VisDonut, { value, color: (d: Slice) => `var(--color-${d.browser})`, events: segmentEvents }),
+            );
+        },
+      });
+      return () =>
+        h(ChartContainer, { config: pie, class: "aspect-square h-[240px] w-[240px]" }, () => [
+          h(SegmentsWithEvents),
+          h(ChartTooltip, () => h(ChartTooltipContent, { nameKey: "browser", hideLabel: true })),
+        ]);
+    },
+  });
+  mount(Pie, { attachTo: document.body });
+  await wait(700);
+  const segment = root().querySelector<SVGPathElement>(`.${Donut.selectors.segment}`)!;
+  const box = segment.getBoundingClientRect();
+  const clientX = box.left + box.width / 2;
+  const clientY = box.top + box.height / 2;
+  root().dispatchEvent(new PointerEvent("pointermove", { clientX, clientY, pointerType: "mouse", bubbles: true }));
+  segment.dispatchEvent(new PointerEvent("pointermove", { clientX, clientY, pointerType: "mouse", bubbles: true }));
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(tooltip().textContent).toContain("Chrome");
+  expect(tooltip().textContent).toContain("275");
+  expect(
+    tooltip()
+      .querySelector<HTMLElement>("[data-slot=chart-tooltip-indicator]")!
+      .style.getPropertyValue("--chart-indicator"),
+  ).toBe("var(--chart-1)");
 });

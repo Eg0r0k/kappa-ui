@@ -14,6 +14,15 @@ export type ChartItemConfig = {
   theme?: { light: string; dark: string };
 };
 
+export type ChartTooltipRow = {
+  key: string;
+  name: string;
+  label: string | Component;
+  value: unknown;
+  color?: string;
+  icon?: Component;
+};
+
 export type ChartConfig = Record<string, ChartItemConfig>;
 
 export type ChartDatum = Record<string, unknown>;
