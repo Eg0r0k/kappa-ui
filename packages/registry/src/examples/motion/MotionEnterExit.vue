@@ -14,7 +14,7 @@ const open = ref(false);
     <div class="h-20 w-full">
       <Transition
         enter-active-class="transition duration-medium-2 ease-emphasized-decelerate motion-reduce:transition-none"
-        leave-active-class="transition duration-short-3 ease-emphasized-accelerate motion-reduce:transition-none"
+        leave-active-class="transition duration-short-3 ease-standard-decelerate motion-reduce:transition-none"
         enter-from-class="translate-y-2 opacity-0"
         leave-to-class="translate-y-2 opacity-0"
       >

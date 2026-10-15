@@ -200,7 +200,7 @@ const place = (toast: Toast) => {
 
     &[data-state="closed"] {
       animation: kappa-toast-out var(--transition-duration-short-4, 200ms)
-        var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
+        var(--ease-standard-decelerate, cubic-bezier(0, 0, 0, 1)) forwards;
     }
 
     &[data-swipe-direction="right"] {
@@ -226,7 +226,7 @@ const place = (toast: Toast) => {
 
     &[data-swipe="end"] {
       animation: kappa-toast-swipe-out var(--transition-duration-short-4, 200ms)
-        var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
+        var(--ease-standard-decelerate, cubic-bezier(0, 0, 0, 1)) forwards;
     }
   }
 

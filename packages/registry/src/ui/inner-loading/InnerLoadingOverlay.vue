@@ -16,7 +16,7 @@ const { loading } = injectInnerLoadingContext();
   <Transition
     enter-active-class="transition-opacity duration-short-4 ease-emphasized-decelerate motion-reduce:transition-none"
     enter-from-class="opacity-0"
-    leave-active-class="transition-opacity duration-short-2 ease-emphasized-accelerate motion-reduce:transition-none"
+    leave-active-class="transition-opacity duration-short-2 ease-standard-decelerate motion-reduce:transition-none"
     leave-to-class="opacity-0"
   >
     <div

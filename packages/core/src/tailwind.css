@@ -534,7 +534,7 @@
   }
   &[data-state="closed"] {
     animation: kappa-overlay-out var(--transition-duration-short-2, 100ms)
-      var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
+      var(--ease-standard-decelerate, cubic-bezier(0, 0, 0, 1)) forwards;
   }
   &[data-state="closed"][data-instant] {
     animation-duration: 0s;
@@ -581,7 +581,7 @@
 
 @utility animate-accordion-up {
   animation: kappa-accordion-up var(--transition-duration-short-4, 200ms)
-    var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15));
+    var(--ease-standard-decelerate, cubic-bezier(0, 0, 0, 1));
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
@@ -619,7 +619,7 @@
 
 @utility animate-collapsible-up {
   animation: kappa-collapsible-up var(--transition-duration-short-4, 200ms)
-    var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15));
+    var(--ease-standard-decelerate, cubic-bezier(0, 0, 0, 1));
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
@@ -748,7 +748,7 @@
   }
   &[data-state="closed"] {
     animation: var(--drawer-out) var(--transition-duration-short-4, 200ms)
-      var(--ease-emphasized-accelerate, cubic-bezier(0.3, 0, 0.8, 0.15)) forwards;
+      var(--ease-standard-decelerate, cubic-bezier(0, 0, 0, 1)) forwards;
   }
   &[data-swiping] {
     transition: none;
