@@ -326,16 +326,14 @@ it("keeps the crosshair between sparse points", async () => {
 });
 
 it("hands the raw x to the label formatter", async () => {
-  mount(
-    AreaChart({ content: { labelFormatter: (value: unknown) => (value instanceof Date ? "a date" : "not a date") } }),
-    {
-      attachTo: document.body,
-    },
-  );
+  mount(AreaChart({ content: { labelFormatter: (value: unknown) => (value instanceof Date ? "DATE" : "OTHER") } }), {
+    attachTo: document.body,
+  });
   await settle();
   hover(0.36);
   await settle();
-  expect(tooltip().textContent).toContain("a date");
+  expect(tooltip().textContent).toContain("DATE");
+  expect(tooltip().textContent).not.toContain("OTHER");
 });
 
 it("takes the title from a config key through labelKey and hides it with hideLabel", async () => {
