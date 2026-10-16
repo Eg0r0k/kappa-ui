@@ -1,5 +1,21 @@
 # @kappa-ui/registry
 
+## 0.23.0
+
+### Minor Changes
+
+- [`8f6aab4`](https://github.com/Eg0r0k/kappa-ui/commit/8f6aab4f0ec8e6793c3108c629c77d4e558cbf0a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - New `Chart`: charts on Unovis. `ChartContainer` turns a config into series colours (`--color-<key>`, `light-dark()` pairs) and maps Unovis' variables onto the theme; `ChartCrosshair` reports the hovered point with no trailing line; `ChartTooltip` and `ChartTooltipContent` are Vue components positioned beside the pointer, with slots, zero values shown and a finger supported; `ChartLegend` can hide a series. Five `--chart-*` tokens ship with the `tokens` item, light and dark, validated for colour-vision separation in both modes, so `add @kappa-ui/chart` brings them into a project set up before this release. The theme's `:root` now sets `color-scheme: light`.
+
+- [`330cdd2`](https://github.com/Eg0r0k/kappa-ui/commit/330cdd22a3f9bab867c0bbcf5ae1c1f98e164274) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Breaking: an `id` on `Field` or `FieldSet` lands on the field's root element, so a link to it scrolls to the field. The control's `id` moved to a prop of its own, `controlId` on `Field`; the label still follows it. `<Field id="email">` that was meant for the input becomes `<Field control-id="email">`. `FieldSet` has no `controlId`: its legend names the group, and the `id` it used to take never reached the group.
+
+- [`44fdc9a`](https://github.com/Eg0r0k/kappa-ui/commit/44fdc9a051aa53f74002ee41b050cbfbaff74242) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - ScrollArea: `virtualize` takes `getItemKey`, `anchorTo` and `followOnAppend` from TanStack Virtual. With `getItemKey`, rows are keyed by item instead of index, so a row keeps its element and measured size when rows arrive above it. `anchorTo: 'end'` keeps the first visible row in place as rows are added or removed at either end. `followOnAppend` makes a view at the end follow appended rows: a chat that loads older messages above and new ones below. The new `setScrollPositionSilently(axis, offset)` jumps without emitting `scroll`, `reachEdge` or `virtualScroll`, for restoring a saved position. Both setters now hold in `onMounted` on a virtual list, which TanStack used to scroll back to the top when it attached to the viewport a tick later. `useInfiniteScroll` with a ScrollArea API as its target no longer shifts a list anchored to the end a second time after loading above it.
+
+### Patch Changes
+
+- [`bc6008b`](https://github.com/Eg0r0k/kappa-ui/commit/bc6008bf50d492cb0490e21311bdbb0cec3d8661) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Exits now use the decelerating curve, like entrances. Collapsible, Accordion, the overlay surfaces (Popover, Select, Menu, Tooltip), Drawer, Toast and InnerLoading used to close on `--ease-emphasized-accelerate`, which holds still for most of its duration and then snaps shut; closing on `--ease-standard-decelerate` starts at once and settles gently, so the same duration feels faster. The tokens themselves are unchanged.
+- Updated dependencies [[`bc6008b`](https://github.com/Eg0r0k/kappa-ui/commit/bc6008bf50d492cb0490e21311bdbb0cec3d8661), [`0107e40`](https://github.com/Eg0r0k/kappa-ui/commit/0107e40c9f08e57f3042bd796e294d090128997c)]:
+  - @kappa-ui/core@0.17.0
+
 ## 0.22.1
 
 ### Patch Changes

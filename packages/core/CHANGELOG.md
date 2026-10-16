@@ -1,5 +1,15 @@
 # @kappa-ui/core
 
+## 0.17.0
+
+### Minor Changes
+
+- [`0107e40`](https://github.com/Eg0r0k/kappa-ui/commit/0107e40c9f08e57f3042bd796e294d090128997c) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - The scrollbar's space is kept only while an overlay locks scrolling, as Base UI does, instead of on every page. `@kappa-ui/core/tailwind.css` no longer sets `html { scrollbar-gutter: stable }`, so a page too short to scroll no longer shows an empty strip along its edge on Windows. Dialog, Drawer, Select, Menu, Popover and DatePicker set `scrollbar-gutter: stable` on `<html>` while the page is locked and it would otherwise scroll, and remove it afterwards; a gutter your stylesheet already reserves is left alone. Keep `ConfigProvider` with `:scroll-body="false"`. Want the old always-on gutter? Add `html { scrollbar-gutter: stable; }` to your stylesheet.
+
+### Patch Changes
+
+- [`bc6008b`](https://github.com/Eg0r0k/kappa-ui/commit/bc6008bf50d492cb0490e21311bdbb0cec3d8661) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Exits now use the decelerating curve, like entrances. Collapsible, Accordion, the overlay surfaces (Popover, Select, Menu, Tooltip), Drawer, Toast and InnerLoading used to close on `--ease-emphasized-accelerate`, which holds still for most of its duration and then snaps shut; closing on `--ease-standard-decelerate` starts at once and settles gently, so the same duration feels faster. The tokens themselves are unchanged.
+
 ## 0.16.0
 
 ### Minor Changes
