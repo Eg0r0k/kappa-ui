@@ -10,6 +10,8 @@ import {
   toValue,
 } from "vue";
 
+import { useScrollLockGutter } from "./scroll-lock-gutter";
+
 export const useModalScrim = (options: {
   open: MaybeRefOrGetter<boolean>;
   modal: MaybeRefOrGetter<boolean>;
@@ -17,6 +19,8 @@ export const useModalScrim = (options: {
 }) => {
   const layers = ref(0);
   const pressing = ref(false);
+
+  useScrollLockGutter();
 
   const ModalScrimHold = defineComponent({
     name: "ModalScrimHold",

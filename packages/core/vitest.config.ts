@@ -43,6 +43,23 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          name: "scrollbars",
+          include: ["test/scrollbars/**/*.test.ts"],
+          setupFiles: ["./test/setup.ts"],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({
+              launchOptions: { ignoreDefaultArgs: ["--hide-scrollbars"] },
+              contextOptions: { timezoneId: "UTC", locale: "en-US" },
+            }),
+            instances: [{ browser: "chromium" }],
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: "touch",
           include: ["test/touch/**/*.test.ts"],
           setupFiles: ["./test/setup.ts"],

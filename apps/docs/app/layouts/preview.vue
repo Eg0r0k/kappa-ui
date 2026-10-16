@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  htmlAttrs: { style: 'scrollbar-gutter: auto; overflow: hidden' },
+  htmlAttrs: { style: 'overflow: hidden' },
   bodyAttrs: { class: 'bg-card text-foreground' },
 })
 </script>

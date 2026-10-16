@@ -6,10 +6,6 @@
 /* Copyright (c) 2023 unovue. MIT License: https://github.com/unovue/shadcn-vue/blob/dev/LICENSE */
 
 @layer base {
-  html {
-    scrollbar-gutter: stable;
-  }
-
   [data-slot][data-color],
   [data-slot][data-state="on"][data-active-color],
   [data-slot][aria-pressed="true"][data-active-color] {

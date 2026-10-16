@@ -2,6 +2,7 @@
 import { DialogOverlay, type DialogOverlayProps } from "reka-ui";
 import { type ComponentPublicInstance, nextTick, ref, watch, watchEffect } from "vue";
 
+import { useScrollLockGutter } from "../overlay/scroll-lock-gutter";
 import { injectDrawerRootContext } from "./context";
 
 const props = defineProps<DialogOverlayProps>();
@@ -9,6 +10,8 @@ const context = injectDrawerRootContext();
 
 const instance = ref<ComponentPublicInstance>();
 const element = ref<HTMLElement>();
+
+useScrollLockGutter();
 
 // Presence recreates the element on every open while this instance stays.
 watch(
