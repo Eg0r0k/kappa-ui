@@ -24,7 +24,7 @@ The short version for any change: run `pnpm test` before opening a PR, and recor
 ## 2. Manifest: `packages/registry/registry.json`
 
 - [ ] One `registry:ui` item with `name`, `title`, `description`, `categories`, `dependencies`, `registryDependencies` and `files`. Titles and descriptions are English and reach the catalogue and the CLI.
-- [ ] `categories` holds exactly one catalogue category: `actions`, `text-input`, `choice`, `forms`, `overlays`, `navigation`, `data-display`, `layout`, `feedback` or `utilities` (the list is `apps/docs/app/lib/categories.ts`). The docs page, the sidebar and the catalogue card take it from here. _Caught by `apps/docs/test/unit/categories.test.ts`._
+- [ ] `categories` holds exactly one catalogue category: `actions`, `text-input`, `choice`, `forms`, `overlays`, `navigation`, `data-display`, `charts`, `layout`, `feedback` or `utilities` (the list is `apps/docs/app/lib/categories.ts`). The docs page, the sidebar and the catalogue card take it from here. _Caught by `apps/docs/test/unit/categories.test.ts`._
 - [ ] `dependencies` lists every package the files import (`vue` is implicit). `@kappa-ui/core` and `reka-ui` go in without a version; the build stamps them. _Caught by `pnpm registry:build`._
 - [ ] `registryDependencies` lists `utils`, `tokens`, and every item whose files are reached through an `@/` import (`button`, `choice-group`, `text-control`, …). _Caught by `pnpm registry:build`._
 - [ ] `pnpm registry:build` passes. It validates the manifest and writes `apps/docs/public/r/*.json`.
@@ -34,6 +34,7 @@ The short version for any change: run `pnpm test` before opening a PR, and recor
 - [ ] `<Name>Demo.vue` is the overview: its item is named `<item>-demo` and the component page shows it first. Each further example demonstrates one thing and gets its own file.
 - [ ] Every example is a manifest item: `type: "registry:block"`, `categories: ["example"]`, `registryDependencies` naming the item it demonstrates (plus any other item it uses), `dependencies` for packages such as `@lucide/vue`. The CLI publishes it as `components/examples/<dir>/<File>.vue`. _Caught by `pnpm registry:build` and `packages/registry/test/examples.test.ts`._
 - [ ] The demo gets the props console: `defineOptions({ inheritAttrs: false })` in its script, `v-bind="$attrs"` on the demonstrated root, and `meta.demo.controls` on its manifest item listing the props to expose (a prop name takes its values from the API meta; `{ prop, values }` sets them by hand; `{ attribute }` adds a native attribute). _Caught by `pnpm registry:build` and `pnpm --filter @kappa-ui/docs test`._
+- [ ] A chart example composes Unovis parts inside `ChartContainer` and keeps every accessor, formatter and `svgDefs` as a constant in `<script setup>`: an inline arrow re-renders the whole chart on each parent render. Dates are `new Date(y, m, d)`. Gallery pages under `content/docs/3.charts/` list their examples in one `::example-grid{names="…"}`, which mounts cells lazily.
 - [ ] Every example mounts without a Vue warning. _Caught by `packages/registry/test/examples.test.ts`; `apps/docs/test/unit/registry.test.ts` checks that the manifest lists exactly the files under `src/examples`._
 
 ## 4. Tests: `packages/registry/test/<item>.test.ts`
@@ -45,6 +46,7 @@ The short version for any change: run `pnpm test` before opening a PR, and recor
 ## 5. Docs page: `apps/docs/content/docs/2.components/<nn>.<slug>.md`
 
 - [ ] Frontmatter: `title`, `description` (full sentences, a space after every full stop) and `component: <item>`. The category and the catalogue card come from the manifest item; a page with no item sets `category:` instead.
+- [ ] A gallery page (charts) lives under its own content directory (`3.charts/`) and merges into the category group of the same key; component pages come first in the group, then guides.
 - [ ] Number the page inside its category's block and shift the neighbours with `git mv` (ErrorState moved pages 55 to 84 down by one). _Group order and a number used twice are caught by `categories.test.ts`._
 - [ ] Sections in the order the other pages use: `::component-preview{name="<item>-demo"}`, a sentence pointing at the **Props** menu, Installation (`::install-tabs{name="<item>"}`), Usage with imports as `@/components/ui/<item>` (the consumer's alias, not `@/ui`), a list of the parts, Examples (one `::component-preview` each), API Reference (`::api-reference{parts="A,B,C"}`), Data attributes (`::data-slots`), Keyboard (`::keyboard-table`), Accessibility. _Imports are caught by `content-imports.test.ts`, example names by `apps/docs/test/unit/examples.test.ts`._
 - [ ] `apps/docs/api/<part>.yml` for every `.vue` under `src/ui/<item>/`: `component`, `file`, and a description for each prop, emit, slot and exposed member. Leave out empty sections. _Caught by `pnpm --filter @kappa-ui/docs api:build`, which runs before `dev`, `build`, `typecheck` and `test`._
