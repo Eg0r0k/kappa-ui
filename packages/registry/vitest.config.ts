@@ -49,6 +49,7 @@ export default defineConfig({
             "test/scroll-area-virtual-grid.test.ts",
             "test/data-table-geometry.test.ts",
             "test/swipe-views.test.ts",
+            "test/scroll-area-keep-alive.test.ts",
           ],
         },
         {
