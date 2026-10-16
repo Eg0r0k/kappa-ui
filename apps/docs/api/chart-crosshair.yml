@@ -14,10 +14,10 @@ props:
   snapToData:
     description: Snap the line to the nearest point. On by default.
   hideWhenFarFromPointer:
-    description: Hide the crosshair when the pointer is more than 100px from a point. Off by default, so sparse data keeps its tooltip.
+    description: Hide the crosshair, and with it the tooltip, when the pointer is more than 100px from a point. Off by default, so a sparse series keeps its crosshair between points.
   strokeColor:
-    description: The line colour. `--border` by default.
+    description: "The outline colour of the circles, per series; `--background` by default through `--vis-crosshair-circle-stroke-color`. The line takes `--vis-crosshair-line-stroke-color`, `--border` by default."
   strokeWidth:
-    description: The line width.
+    description: "The outline width of the circles, per series; `2px` by default through `--vis-crosshair-circle-stroke-width`. The line takes `--vis-crosshair-line-stroke-width`."
   circleRadius:
     description: Radius of the circle on each series; `0` hides them, which bars want.

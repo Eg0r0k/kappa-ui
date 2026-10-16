@@ -17,6 +17,7 @@ const props = defineProps<{
   name: string
   height?: string
   align?: 'center' | 'start'
+  compact?: boolean
   class?: HTMLAttributes['class']
 }>()
 
@@ -47,20 +48,26 @@ const codeId = useId()
 const { controls, values, changed, reset } = useExampleProps(() => props.name)
 const hasChanges = computed(() => Object.keys(changed.value).length > 0)
 
+const alignment = () => {
+  if (props.compact) return 'items-stretch'
+  return props.align === 'start' ? 'items-start' : 'items-center-safe'
+}
+
 const canvas = computed(() =>
   cn(
     `
       flex min-h-72 justify-center-safe p-10 transition-opacity duration-medium-2 ease-standard
       motion-reduce:transition-none
     `,
-    props.align === 'start' ? 'items-start' : 'items-center-safe',
+    props.compact && 'min-h-0 p-3',
+    alignment(),
     loaded.value ? 'opacity-100' : 'opacity-0',
   ),
 )
 </script>
 
 <template>
-  <div :data-example="slug" class="not-prose my-6 scroll-mt-20 max-md:scroll-mt-30">
+  <div :data-example="slug" :class="cn('not-prose my-6 scroll-mt-20 max-md:scroll-mt-30', props.compact && 'my-0')">
     <div data-slot="example" class="rounded-surface-md border bg-muted/40 p-1">
       <div class="mb-1 flex h-9 items-center gap-2 ps-2.5 pe-0.5">
         <span class="min-w-0 flex-1 truncate text-body-sm text-muted-foreground">{{ label }}</span>

@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import ExampleGridCell from '~/components/ExampleGridCell.vue'
+import { splitNames } from '~/lib/examples'
 
 const props = defineProps<{ names: string }>()
 
-const names = computed(() =>
-  props.names
-    .split(',')
-    .map((name) => name.trim())
-    .filter(Boolean),
-)
+const names = computed(() => splitNames(props.names))
 </script>
 
 <template>
-  <div data-slot="example-grid" class="not-prose my-6 grid gap-6 md:grid-cols-2 [&_[data-example]]:my-0">
-    <ExampleGridCell v-for="name in names" :key="name" :name="name" />
+  <div data-slot="example-grid" class="not-prose my-6 @container">
+    <div class="grid gap-6 @3xl:grid-cols-2">
+      <ExampleGridCell v-for="(name, index) in names" :key="name" :name="name" :eager="index < 2" />
+    </div>
   </div>
 </template>

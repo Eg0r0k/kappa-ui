@@ -2,15 +2,17 @@ const PREVIEW = /^::(?:component-preview|example-grid)\{([^}]*)\}/gm
 const NAME = /\bname="([^"]+)"/
 const NAMES = /\bnames="([^"]+)"/
 
+export const splitNames = (names: string) =>
+  names
+    .split(',')
+    .map((name) => name.trim())
+    .filter(Boolean)
+
 export const pageExamples = (markdown: string) =>
   [...markdown.matchAll(PREVIEW)].flatMap((match) => {
     const attributes = match[1] ?? ''
     const names = NAMES.exec(attributes)?.[1]
-    if (names)
-      return names
-        .split(',')
-        .map((name) => name.trim())
-        .filter(Boolean)
+    if (names) return splitNames(names)
     const name = NAME.exec(attributes)?.[1]
     return name ? [name] : []
   })

@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
 
-import { exampleLabel, exampleSlug, overviewExample, pageExamples, pageSlugOf } from '~/lib/examples'
+import { exampleLabel, exampleSlug, overviewExample, pageExamples, pageSlugOf, splitNames } from '~/lib/examples'
 import { findItem, isExample } from '~/lib/registry'
 
 const contentDir = new URL('../../content/docs/', import.meta.url)
@@ -53,6 +53,17 @@ describe('pageExamples', () => {
       return slugs.filter((slug, index) => slugs.indexOf(slug) !== index).map((slug) => `${file}: ${slug}`)
     })
     expect(offenders).toEqual([])
+  })
+})
+
+describe('splitNames', () => {
+  it('splits on commas, trims each name and drops empty ones', () => {
+    expect(splitNames(' chart-tooltip-default ,chart-tooltip-icons,, ,chart-tooltip-advanced, ')).toEqual([
+      'chart-tooltip-default',
+      'chart-tooltip-icons',
+      'chart-tooltip-advanced',
+    ])
+    expect(splitNames('')).toEqual([])
   })
 })
 

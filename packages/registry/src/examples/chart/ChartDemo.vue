@@ -36,11 +36,12 @@ const series = useChartSeries<Month>(keys, hidden);
 const x = (_d: Month, i: number) => i;
 const ticks = data.map((_d, i) => i);
 const monthOf = (i: unknown) => data[Number(i)]?.month.slice(0, 3) ?? "";
+const padding = { left: 24, right: 24 };
 </script>
 
 <template>
-  <ChartContainer v-model:hidden="hidden" :config="config" class="min-h-50 w-full max-w-xl" v-bind="$attrs">
-    <VisXYContainer :data="data" :padding="{ left: 24, right: 24 }">
+  <ChartContainer v-model:hidden="hidden" :config="config" class="w-full max-w-xl" v-bind="$attrs">
+    <VisXYContainer :data="data" :padding="padding">
       <VisGroupedBar
         :x="x"
         :y="series.y.value"
@@ -49,7 +50,15 @@ const monthOf = (i: unknown) => data[Number(i)]?.month.slice(0, 3) ?? "";
         :group-padding="0.3"
         :bar-min-height="0"
       />
-      <VisAxis type="x" :x="x" :tick-values="ticks" :tick-format="monthOf" :tick-line="false" :domain-line="false" />
+      <VisAxis
+        type="x"
+        :x="x"
+        :tick-values="ticks"
+        :tick-format="monthOf"
+        :tick-line="false"
+        :domain-line="false"
+        :grid-line="false"
+      />
       <ChartCrosshair :x="x" :color="series.color" :circle-radius="0" />
     </VisXYContainer>
     <ChartTooltip>
