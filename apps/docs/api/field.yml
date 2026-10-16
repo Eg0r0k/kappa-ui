@@ -1,8 +1,8 @@
 component: Field
 file: ui/field/Field.vue
 props:
-  id:
-    description: The control's `id`. Generated when omitted; set it here rather than on the control, so the label follows.
+  controlId:
+    description: The control's `id`. Generated when omitted; set it here rather than on the control, so the label follows. An `id` on `Field` stays on its root.
   invalid:
     description: Marks the control `aria-invalid` and colours the label. Pass whatever your form library reports.
   disabled:

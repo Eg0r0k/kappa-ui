@@ -6,6 +6,7 @@ import { ColorPicker, ColorPickerArea } from "@/ui/color-picker";
 import { Field, FieldDescription, FieldError, FieldLabel, FieldSet } from "@/ui/field";
 import { Input } from "@/ui/input";
 import { InputFloating } from "@/ui/input-floating";
+import { Radio, RadioGroup } from "@/ui/radio-group";
 import { Rating, RatingItem } from "@/ui/rating";
 import { Slider } from "@/ui/slider";
 
@@ -114,12 +115,37 @@ describe("Field", () => {
     expect(document.querySelector("[data-slot=color-picker]")!.hasAttribute("data-disabled")).toBe(true);
   });
 
-  it("uses the id given to the field", () => {
-    const wrapper = mountField({ field: { id: "email" } });
+  it("gives the control the controlId and keeps its own id on the root", () => {
+    const wrapper = mountField({ field: { id: "contact", controlId: "email" } });
 
+    expect(wrapper.get("[data-slot=field]").attributes("id")).toBe("contact");
     expect(wrapper.get("input").attributes("id")).toBe("email");
     expect(wrapper.get("label").attributes("for")).toBe("email");
     expect(wrapper.find("[data-slot=field-description]").exists()).toBe(false);
+    wrapper.unmount();
+  });
+
+  it("puts an id given to the field on the root, so it works as an anchor", () => {
+    const wrapper = mountField({ field: { id: "contact" } });
+    const input = wrapper.get("input");
+
+    expect(document.getElementById("contact")).toBe(wrapper.get("[data-slot=field]").element);
+    expect(input.attributes("id")).toBeTruthy();
+    expect(input.attributes("id")).not.toBe("contact");
+    expect(wrapper.get("label").attributes("for")).toBe(input.attributes("id"));
+    wrapper.unmount();
+  });
+
+  it("puts an id given to the fieldset on the fieldset", () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(FieldSet, { id: "size" }, () => [h(RadioGroup, { defaultValue: "s" }, () => h(Radio, { value: "s" }))]),
+      }),
+      { attachTo: document.body },
+    );
+
+    expect(document.getElementById("size")).toBe(wrapper.get("fieldset").element);
     wrapper.unmount();
   });
 

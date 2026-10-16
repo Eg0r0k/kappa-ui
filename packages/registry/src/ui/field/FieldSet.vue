@@ -6,14 +6,13 @@ import { injectFieldContext, provideFieldContext } from "@/lib/field-context";
 import { cn } from "@/lib/utils";
 
 const props = defineProps<{
-  id?: string;
   invalid?: boolean;
   disabled?: boolean;
   required?: boolean;
   class?: HTMLAttributes["class"];
 }>();
 
-const id = useId(props.id, "fieldset");
+const id = useId(undefined, "fieldset");
 const parent = injectFieldContext(null);
 
 provideFieldContext({

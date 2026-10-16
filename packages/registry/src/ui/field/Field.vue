@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { type FieldVariants, fieldVariants } from ".";
 
 const props = defineProps<{
-  id?: string;
+  controlId?: string;
   invalid?: boolean;
   disabled?: boolean;
   required?: boolean;
@@ -15,7 +15,7 @@ const props = defineProps<{
   class?: HTMLAttributes["class"];
 }>();
 
-const id = useId(props.id, "field");
+const id = useId(props.controlId, "field");
 const parent = injectFieldContext(null);
 
 provideFieldContext({
