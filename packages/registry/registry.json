@@ -12672,6 +12672,72 @@
       ]
     },
     {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Charts on Unovis: a container that turns a config into series colours, a crosshair that reports the hovered point, a tooltip that is a real Vue component, and a legend that can hide a series.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [
+        "@unovis/ts",
+        "@unovis/vue",
+        "reka-ui",
+        "@vueuse/core"
+      ],
+      "registryDependencies": [
+        "utils",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "src/ui/chart/ChartContainer.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/chart/ChartCrosshair.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/chart/ChartTooltip.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/chart/ChartTooltipContent.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/chart/ChartLegend.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/ui/chart/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chart-demo",
+      "type": "registry:block",
+      "title": "Chart demo",
+      "description": "Desktop and mobile visitors per month as grouped bars, with a crosshair tooltip and a legend that hides a series.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartDemo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "color-picker",
       "type": "registry:ui",
       "title": "Color Picker",

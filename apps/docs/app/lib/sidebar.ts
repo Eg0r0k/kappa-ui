@@ -42,8 +42,8 @@ const categoryGroups = (nav: readonly NavNode[], guides: readonly SidebarGroup[]
       title: category.title as string,
       section: 'components' as const,
       pages: [
-        ...(guides.find((guide) => guide.key === category.key)?.pages ?? []),
         ...pages.filter((page) => pageCategory(page) === category.key),
+        ...(guides.find((guide) => guide.key === category.key)?.pages ?? []),
       ],
     }))
     .filter((group) => group.pages.length > 0)

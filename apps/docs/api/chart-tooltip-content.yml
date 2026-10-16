@@ -1,0 +1,20 @@
+component: ChartTooltipContent
+file: ui/chart/ChartTooltipContent.vue
+props:
+  hideLabel:
+    description: Leaves the title out.
+  hideIndicator:
+    description: Leaves the colour mark out of every row.
+  indicator:
+    description: "The colour mark: a `dot`, a vertical `line` or a `dashed` line."
+  nameKey:
+    description: "A field of the datum that names the series, for a pie: with `nameKey=\"browser\"` the row `{ browser: \"chrome\", visitors: 275 }` reads the label and colour of `config.chrome`."
+  labelKey:
+    description: "A config key whose label is the title, or a field of the datum whose value, looked up in the config, names the title."
+  labelFormatter:
+    description: Formats the title from the raw x value (a `Date` stays a `Date`) and the datum.
+  valueFormatter:
+    description: Formats a row's value from the value, its key and the datum. `toLocaleString()` by default.
+slots:
+  label: "The title, with `label`."
+  item: "One row, with `item` (`key`, `name`, `label`, `value`, `color`, `icon`), its `index` and the `datum`."

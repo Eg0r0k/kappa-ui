@@ -8,6 +8,7 @@ export const categories = [
   { key: 'overlays', title: 'Overlays' },
   { key: 'navigation', title: 'Navigation' },
   { key: 'data-display', title: 'Data display' },
+  { key: 'charts', title: 'Charts' },
   { key: 'layout', title: 'Layout & scroll' },
   { key: 'feedback', title: 'Feedback' },
   { key: 'utilities', title: 'Utilities' },
