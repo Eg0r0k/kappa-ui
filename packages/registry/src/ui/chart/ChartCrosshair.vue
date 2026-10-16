@@ -61,7 +61,7 @@ const xOf = (datum: Datum, index: number, fallback?: number | Date) => {
 };
 
 const onCrosshairMove = (x?: number | Date, datum?: Datum, index?: number) => {
-  if (datum === undefined) {
+  if (x === undefined || datum === undefined) {
     if (forceShowAt.value === undefined) clearActive();
     return;
   }

@@ -39,10 +39,13 @@ const style = computed(() => {
     aria-hidden="true"
     :class="
       cn(
-        'pointer-events-none absolute top-0 left-0 z-10 w-max',
-        open
-          ? 'opacity-100 transition-opacity duration-short-2 ease-standard motion-reduce:transition-none'
-          : 'invisible opacity-0',
+        `
+          pointer-events-none absolute top-0 left-0 z-10 w-max
+          data-[state=closed]:invisible data-[state=closed]:opacity-0
+          data-[state=open]:opacity-100 data-[state=open]:transition-opacity data-[state=open]:duration-short-2
+          data-[state=open]:ease-standard
+          motion-reduce:transition-none
+        `,
         props.class,
       )
     "

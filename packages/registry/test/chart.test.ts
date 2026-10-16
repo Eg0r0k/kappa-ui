@@ -1,4 +1,4 @@
-import { Donut } from "@unovis/ts";
+import { Crosshair, Donut } from "@unovis/ts";
 import { VisArea, VisAxis, VisDonut, VisSingleContainer, VisXYContainer } from "@unovis/vue";
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
@@ -38,6 +38,9 @@ const color = chartColors(keys);
 const root = () => document.querySelector<HTMLElement>("[data-slot=chart]")!;
 const tooltip = () => document.querySelector<HTMLElement>("[data-slot=chart-tooltip]")!;
 const svg = () => root().querySelector("svg")!;
+const legend = () => document.querySelector<HTMLElement>("[data-slot=chart-legend]")!;
+const crosshairOpacity = () =>
+  getComputedStyle(root().querySelector(`svg .${Crosshair.selectors.line}`)!.parentElement!).opacity;
 const visible = (el: HTMLElement) => getComputedStyle(el).visibility === "visible";
 const hover = (fx: number, fy = 0.5) => {
   const box = svg().getBoundingClientRect();
@@ -53,6 +56,7 @@ type Options = {
   content?: Record<string, unknown>;
   slots?: Record<string, (props: never) => unknown>;
   container?: Record<string, unknown>;
+  crosshair?: Record<string, unknown>;
   legend?: Record<string, unknown>;
 };
 
@@ -72,7 +76,7 @@ const AreaChart = (options: Options = {}) =>
           () => [
             h(VisArea, { x, y, color }),
             h(VisAxis, { type: "x", x }),
-            h(ChartCrosshair as Component, { x, y, color }),
+            h(ChartCrosshair as Component, { x, y, color, ...options.crosshair }),
           ],
         ),
         h(ChartTooltip, () => h(ChartTooltipContent, options.content ?? {}, options.slots)),
@@ -115,6 +119,55 @@ it("keeps the chart's aspect ratio by default and lets the Unovis container fill
   await settle();
   expect(root().getBoundingClientRect().height).toBe(180);
   expect(root().querySelector<HTMLElement>("[data-vis-xy-container]")!.getBoundingClientRect().height).toBe(180);
+});
+
+it("fits a legend inside a root of fixed height", async () => {
+  mount(
+    defineComponent(
+      () => () =>
+        h(ChartContainer, { config, class: "aspect-auto h-[200px] w-[400px]" }, () => [
+          h(VisXYContainer, { data: rows, duration: 0 }, () => h(VisArea, { x, y, color })),
+          h(ChartLegend),
+        ]),
+    ),
+    { attachTo: document.body },
+  );
+  await settle();
+  const box = root().getBoundingClientRect();
+  expect(svg().getBoundingClientRect().top).toBeGreaterThanOrEqual(box.top);
+  expect(legend().getBoundingClientRect().bottom).toBeLessThanOrEqual(box.bottom);
+  expect(box.height).toBe(200);
+});
+
+it("keeps its aspect ratio with a legend inside", async () => {
+  mount(
+    defineComponent(
+      () => () =>
+        h("div", { style: "width:320px" }, [
+          h(ChartContainer, { config }, () => [
+            h(VisXYContainer, { data: rows, duration: 0 }, () => h(VisArea, { x, y, color })),
+            h(ChartLegend),
+          ]),
+        ]),
+    ),
+    { attachTo: document.body },
+  );
+  await settle();
+  const box = root().getBoundingClientRect();
+  expect(box.height).toBe(180);
+  expect(legend().getBoundingClientRect().bottom).toBeLessThanOrEqual(box.bottom);
+});
+
+it("lets a class on the container override a Unovis variable", () => {
+  const strokeWidth = () => getComputedStyle(root()).getPropertyValue("--vis-donut-segment-stroke-width").trim();
+  mount(ChartContainer, { props: { config }, attachTo: document.body });
+  expect(strokeWidth()).toBe("2px");
+  document.body.innerHTML = "";
+  mount(ChartContainer, {
+    props: { config, class: "[--vis-donut-segment-stroke-width:0px]" },
+    attachTo: document.body,
+  });
+  expect(strokeWidth()).toBe("0px");
 });
 
 it("labels the root for assistive technology only when asked", () => {
@@ -325,6 +378,17 @@ it("keeps the crosshair between sparse points", async () => {
   hover(0.5);
   await settle();
   expect(visible(tooltip())).toBe(true);
+  expect(crosshairOpacity()).toBe("1");
+});
+
+it("closes the tooltip when the crosshair hides far from a point", async () => {
+  const sparse = [rows[0]!, rows[3]!];
+  mount(AreaChart({ data: sparse, crosshair: { hideWhenFarFromPointer: true } }), { attachTo: document.body });
+  await settle();
+  hover(0.5);
+  await settle();
+  expect(crosshairOpacity()).toBe("0");
+  expect(visible(tooltip())).toBe(false);
 });
 
 it("hands the raw x to the label formatter", async () => {

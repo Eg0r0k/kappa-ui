@@ -163,37 +163,40 @@ provideChartContext({
 </template>
 
 <style scoped>
-.kappa-chart {
-  --vis-font-family: var(--font-sans);
-  --vis-axis-font-family: var(--font-sans);
-  --vis-axis-tick-color: var(--border);
-  --vis-axis-tick-label-color: var(--muted-foreground);
-  --vis-axis-tick-label-font-size: var(--typescale-body-sm-size);
-  --vis-axis-label-color: var(--muted-foreground);
-  --vis-axis-label-font-size: var(--typescale-body-sm-size);
-  --vis-axis-grid-color: var(--border);
-  --vis-axis-domain-color: var(--border);
-  --vis-crosshair-line-stroke-color: var(--border);
-  --vis-crosshair-circle-stroke-color: var(--background);
-  --vis-crosshair-circle-stroke-width: 2px;
-  --vis-donut-background-color: var(--muted);
-  --vis-donut-segment-stroke-color: var(--background);
-  --vis-donut-segment-stroke-width: 2px;
-  --vis-donut-central-label-text-color: var(--foreground);
-  --vis-donut-central-label-font-family: var(--font-sans);
-  --vis-donut-central-sub-label-text-color: var(--muted-foreground);
-  --vis-donut-central-sub-label-font-family: var(--font-sans);
-  --vis-radial-bar-background-color: var(--muted);
-  --vis-radial-bar-bar-stroke-color: var(--background);
-  --vis-radial-bar-bar-stroke-width: 2px;
-  --vis-radial-bar-central-label-text-color: var(--foreground);
-  --vis-radial-bar-central-sub-label-text-color: var(--muted-foreground);
-  touch-action: pan-y;
-}
+@layer components {
+  .kappa-chart {
+    --vis-font-family: var(--font-sans);
+    --vis-axis-font-family: var(--font-sans);
+    --vis-axis-tick-color: var(--border);
+    --vis-axis-tick-label-color: var(--muted-foreground);
+    --vis-axis-tick-label-font-size: var(--typescale-body-sm-size);
+    --vis-axis-label-color: var(--muted-foreground);
+    --vis-axis-label-font-size: var(--typescale-body-sm-size);
+    --vis-axis-grid-color: var(--border);
+    --vis-axis-domain-color: var(--border);
+    --vis-crosshair-line-stroke-color: var(--border);
+    --vis-crosshair-circle-stroke-color: var(--background);
+    --vis-crosshair-circle-stroke-width: 2px;
+    --vis-donut-background-color: var(--muted);
+    --vis-donut-segment-stroke-color: var(--background);
+    --vis-donut-segment-stroke-width: 2px;
+    --vis-donut-central-label-text-color: var(--foreground);
+    --vis-donut-central-label-font-family: var(--font-sans);
+    --vis-donut-central-sub-label-text-color: var(--muted-foreground);
+    --vis-donut-central-sub-label-font-family: var(--font-sans);
+    --vis-radial-bar-background-color: var(--muted);
+    --vis-radial-bar-bar-stroke-color: var(--background);
+    --vis-radial-bar-bar-stroke-width: 2px;
+    --vis-radial-bar-central-label-text-color: var(--foreground);
+    --vis-radial-bar-central-sub-label-text-color: var(--muted-foreground);
+    touch-action: pan-y;
+  }
 
-.kappa-chart :deep([data-vis-xy-container]),
-.kappa-chart :deep([data-vis-single-container]) {
-  width: 100%;
-  height: 100%;
+  .kappa-chart :deep([data-vis-xy-container]),
+  .kappa-chart :deep([data-vis-single-container]) {
+    width: 100%;
+    flex: 1 1 0;
+    min-height: 0;
+  }
 }
 </style>
