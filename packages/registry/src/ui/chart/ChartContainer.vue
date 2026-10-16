@@ -145,7 +145,12 @@ provideChartContext({
     :data-chart="id"
     :role="props.label === undefined ? undefined : 'group'"
     :aria-label="props.label"
-    :class="cn('kappa-chart relative flex aspect-video w-full flex-col justify-center text-body-sm', props.class)"
+    :class="
+      cn(
+        'kappa-chart relative flex aspect-video w-full flex-col justify-center text-body-sm contain-inline-size',
+        props.class,
+      )
+    "
     :style="colorStyle"
     @pointermove.passive="track"
     @pointerdown.passive="track"

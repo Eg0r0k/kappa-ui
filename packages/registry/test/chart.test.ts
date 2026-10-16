@@ -493,6 +493,25 @@ it("reads the hidden keys from a ref it is given, outside any container", () => 
   expect(series.visible.value).toEqual(["mobile"]);
 });
 
+it("takes its width from the parent and never widens a parent that fits its content", async () => {
+  mount(
+    defineComponent(
+      () => () =>
+        h("div", { class: "flex w-[600px]" }, [
+          h("div", { class: "w-fit" }, [
+            h("div", { class: "h-4 w-[240px]" }),
+            h(ChartContainer, { config, class: "aspect-auto h-[200px] w-full" }, () =>
+              h(VisXYContainer, { data: rows, duration: 0 }, () => [h(VisArea, { x, y, color })]),
+            ),
+          ]),
+        ]),
+    ),
+    { attachTo: document.body },
+  );
+  await settle();
+  expect(root().getBoundingClientRect().width).toBe(240);
+});
+
 it("names a legend item by its key when the config gives no label", () => {
   mount(ChartContainer, {
     props: { config: { desktop: { color: "var(--chart-1)" } } },

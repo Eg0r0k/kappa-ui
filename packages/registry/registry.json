@@ -12738,6 +12738,205 @@
       ]
     },
     {
+      "name": "chart-tooltip-default",
+      "type": "registry:block",
+      "title": "Tooltip - Default",
+      "description": "Default tooltip with ChartTooltipContent.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipDefault.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-indicator-line",
+      "type": "registry:block",
+      "title": "Tooltip - Line Indicator",
+      "description": "Tooltip with line indicator.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipIndicatorLine.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-indicator-none",
+      "type": "registry:block",
+      "title": "Tooltip - No Indicator",
+      "description": "Tooltip with no indicator.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipIndicatorNone.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-label-custom",
+      "type": "registry:block",
+      "title": "Tooltip - Custom label",
+      "description": "Tooltip with custom label from chartConfig.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipLabelCustom.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-label-formatter",
+      "type": "registry:block",
+      "title": "Tooltip - Label Formatter",
+      "description": "Tooltip with label formatter.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipLabelFormatter.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-label-none",
+      "type": "registry:block",
+      "title": "Tooltip - No Label",
+      "description": "Tooltip with no label.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipLabelNone.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-formatter",
+      "type": "registry:block",
+      "title": "Tooltip - Formatter",
+      "description": "Tooltip with custom formatter.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipFormatter.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-icons",
+      "type": "registry:block",
+      "title": "Tooltip - Icons",
+      "description": "Tooltip with icons.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipIcons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-tooltip-advanced",
+      "type": "registry:block",
+      "title": "Tooltip - Advanced",
+      "description": "Tooltip with custom formatter and total.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartTooltipAdvanced.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "color-picker",
       "type": "registry:ui",
       "title": "Color Picker",
