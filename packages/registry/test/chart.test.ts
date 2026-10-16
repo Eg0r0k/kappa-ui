@@ -16,6 +16,7 @@ import {
   useChart,
   useChartSeries,
 } from "@/ui/chart";
+import containerSource from "@/ui/chart/ChartContainer.vue?raw";
 
 import { pointer, wait } from "./pointer";
 
@@ -76,7 +77,7 @@ const AreaChart = (options: Options = {}) =>
           () => [
             h(VisArea, { x, y, color }),
             h(VisAxis, { type: "x", x }),
-            h(ChartCrosshair as Component, { x, y, color, ...options.crosshair }),
+            h(ChartCrosshair as Component, { x, yStacked: y, color, ...options.crosshair }),
           ],
         ),
         h(ChartTooltip, () => h(ChartTooltipContent, options.content ?? {}, options.slots)),
@@ -170,6 +171,18 @@ it("lets a class on the container override a Unovis variable", () => {
   expect(strokeWidth()).toBe("0px");
 });
 
+it("styles Unovis through the chart root, its data attributes and --vis- variables only", () => {
+  const style = containerSource.slice(containerSource.indexOf("<style"));
+  expect(style).not.toMatch(/\.css-|unovis-/);
+  expect(new Set(style.match(/(?<![\w-])\.-?[a-z_][\w-]*/gi))).toEqual(new Set([".kappa-chart"]));
+  const deep = [...style.matchAll(/:deep\(([^)]*)\)/g)].map((match) => match[1]);
+  expect(deep.length).toBeGreaterThan(0);
+  for (const selector of deep) expect(selector).toMatch(/^\[data-vis-[\w-]+\]$/);
+  const variables = [...style.matchAll(/^\s*(--[\w-]+):/gm)].map((match) => match[1]);
+  expect(variables.length).toBeGreaterThan(0);
+  for (const name of variables) expect(name).toMatch(/^--vis-/);
+});
+
 it("labels the root for assistive technology only when asked", () => {
   mount(ChartContainer, { props: { config, label: "Visitors by month" }, attachTo: document.body });
   expect(root().getAttribute("role")).toBe("group");
@@ -248,6 +261,15 @@ it("shows the hovered datum in the tooltip from the crosshair, zero included", a
   expect(tooltip().textContent).toMatch(/Mobile\s*0\b/);
 });
 
+it("fills a series with the token its config colour names", async () => {
+  mount(AreaChart(), { attachTo: document.body });
+  await settle();
+  const path = [...root().querySelectorAll<SVGPathElement>("svg path")].find(
+    (element) => element.style.fill === "var(--color-desktop)",
+  )!;
+  expect(getComputedStyle(path).fill).toMatch(/^oklch\(/);
+});
+
 it("mounts, hovers and changes data without a console warning", async () => {
   const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
   const wrapper = mount(
@@ -288,6 +310,7 @@ it("does not re-render the chart while the pointer moves", async () => {
   mount(AreaChart({ renders }), { attachTo: document.body });
   await settle();
   const before = renders.count;
+  expect(before).toBeGreaterThan(0);
   for (let i = 0; i < 20; i++) {
     hover(0.1 + i * 0.04);
     await wait(20);
@@ -351,9 +374,11 @@ it("scrubs with a touch pointer", async () => {
   await settle();
   expect(visible(tooltip())).toBe(true);
   expect(tooltip().textContent).toContain("305");
+  expect(crosshairOpacity()).toBe("1");
   pointer("pointerup", root(), box.left + box.width * 0.4, box.top + box.height / 2);
   await settle();
   expect(visible(tooltip())).toBe(false);
+  expect(crosshairOpacity()).toBe("0");
 });
 
 it("scrubs to the touched point under a scaled ancestor", async () => {
@@ -369,6 +394,11 @@ it("scrubs to the touched point under a scaled ancestor", async () => {
   await settle();
   expect(visible(tooltip())).toBe(true);
   expect(tooltip().textContent).toContain("305");
+  expect(crosshairOpacity()).toBe("1");
+  pointer("pointerup", root(), box.left + box.width * 0.4, box.top + box.height / 2);
+  await settle();
+  expect(visible(tooltip())).toBe(false);
+  expect(crosshairOpacity()).toBe("0");
 });
 
 it("keeps the crosshair between sparse points", async () => {
@@ -413,6 +443,8 @@ it("takes the title from a config key through labelKey and hides it with hideLab
   await settle();
   hover(0.36);
   await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(tooltip().textContent).toContain("305");
   expect(tooltip().textContent).not.toMatch(/2024/);
 });
 
@@ -515,6 +547,53 @@ it("toggles a series from the legend, with the keyboard, and reports it through 
   expect(hidden.at(-1)).toEqual(["desktop", "mobile"]);
   await userEvent.keyboard("{Enter}");
   expect(hidden.at(-1)).toEqual(["desktop"]);
+});
+
+it("follows a bound v-model:hidden and emits the next keys", async () => {
+  const hidden = ref<string[]>(["desktop"]);
+  const emitted: string[][] = [];
+  mount(
+    defineComponent(
+      () => () =>
+        h(
+          ChartContainer,
+          {
+            config,
+            hidden: hidden.value,
+            "onUpdate:hidden": (keys: string[]) => {
+              emitted.push(keys);
+              hidden.value = keys;
+            },
+          },
+          () => h(ChartLegend, { toggle: true }),
+        ),
+    ),
+    { attachTo: document.body },
+  );
+  const items = document.querySelectorAll<HTMLButtonElement>("[data-slot=chart-legend-item]");
+  const states = () => [...items].map((item) => [item.getAttribute("aria-pressed"), item.dataset.state]);
+  expect(states()).toEqual([
+    ["false", "hidden"],
+    ["true", "visible"],
+  ]);
+  await userEvent.click(items[0]!);
+  expect(emitted).toEqual([[]]);
+  expect(states()).toEqual([
+    ["true", "visible"],
+    ["true", "visible"],
+  ]);
+  hidden.value = ["mobile"];
+  await nextTick();
+  expect(states()).toEqual([
+    ["true", "visible"],
+    ["false", "hidden"],
+  ]);
+  await userEvent.click(items[0]!);
+  expect(emitted.at(-1)).toEqual(["mobile", "desktop"]);
+  expect(states()).toEqual([
+    ["false", "hidden"],
+    ["false", "hidden"],
+  ]);
 });
 
 it("keeps the colours of the remaining series when one is hidden", async () => {
