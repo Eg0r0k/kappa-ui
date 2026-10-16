@@ -68,8 +68,10 @@ export type ChartSeries<Datum> = {
   visible: ComputedRef<string[]>;
 };
 
-export const useChartSeries = <Datum extends ChartDatum>(keys: readonly string[]): ChartSeries<Datum> => {
-  const { hidden } = useChart();
+export const useChartSeries = <Datum extends ChartDatum>(
+  keys: readonly string[],
+  hidden: Ref<string[]> = useChart().hidden,
+): ChartSeries<Datum> => {
   const visible = computed(() => keys.filter((key) => !hidden.value.includes(key)));
   const y = computed(() =>
     keys.map((key) => (hidden.value.includes(key) ? () => null : (datum: Datum) => datum[key] as number)),

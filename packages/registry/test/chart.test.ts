@@ -3,7 +3,7 @@ import { VisArea, VisAxis, VisDonut, VisSingleContainer, VisXYContainer } from "
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { type Component, defineComponent, h, nextTick } from "vue";
+import { type Component, defineComponent, h, nextTick, ref } from "vue";
 
 import {
   type ChartConfig,
@@ -484,6 +484,13 @@ it("keeps the colours of the remaining series when one is hidden", async () => {
   const flat = (d: string) => new Set(d.match(/-?[\d.]+(?:e-?\d+)?/g)?.filter((_, i) => i % 2 === 1)).size === 1;
   expect(mobile!.getAttribute("d") ?? "").not.toSatisfy(flat);
   expect(desktop!.getAttribute("d") ?? "").toSatisfy(flat);
+});
+
+it("reads the hidden keys from a ref it is given, outside any container", () => {
+  const series = useChartSeries<Row>(keys, ref(["desktop"]));
+  expect(series.y.value[0]!(rows[1]!)).toBeNull();
+  expect(series.y.value[1]!(rows[1]!)).toBe(200);
+  expect(series.visible.value).toEqual(["mobile"]);
 });
 
 it("names a legend item by its key when the config gives no label", () => {
