@@ -1,0 +1,4 @@
+component: ChartTooltip
+file: ui/chart/ChartTooltip.vue
+slots:
+  default: "The content, usually `ChartTooltipContent`. Receives the hovered `datum`, its `x` and `index`."

@@ -14,6 +14,8 @@ export default defineConfig({
       "reka-ui/date",
       "vue/server-renderer",
       "@vueuse/core",
+      "@unovis/vue",
+      "@unovis/ts",
       "vee-validate",
       "zod",
     ],

@@ -1,5 +1,6 @@
 :root {
   --radius: 0.5rem;
+  color-scheme: light;
   --brand: oklch(0.48 0.2 262);
   --background: oklch(0.98 0 0);
   --foreground: oklch(0.145 0 0);

@@ -15,6 +15,11 @@
   --info: oklch(0.79 0.17 256);
   --info-foreground: oklch(0.26 0.065 261);
   --info-text: oklch(0.52 0.144 266);
+  --chart-1: oklch(0.55 0.19 262);
+  --chart-2: oklch(0.62 0.14 175);
+  --chart-3: oklch(0.7 0.17 55);
+  --chart-4: oklch(0.6 0.2 340);
+  --chart-5: oklch(0.45 0.2 300);
   --typescale-display-lg-size: 3.5625rem;
   --typescale-display-lg-line-height: 4rem;
   --typescale-display-lg-weight: 400;
@@ -104,6 +109,11 @@
   --info: oklch(0.87 0.144 256);
   --info-foreground: oklch(0.25 0.065 261);
   --info-text: oklch(0.8 0.144 256);
+  --chart-1: oklch(0.66 0.17 262);
+  --chart-2: oklch(0.66 0.13 175);
+  --chart-3: oklch(0.66 0.15 55);
+  --chart-4: oklch(0.66 0.18 340);
+  --chart-5: oklch(0.55 0.17 300);
   --scrim: oklch(0 0 0 / 60%);
   --tabs-pill: color-mix(in oklab, var(--input) 30%, transparent);
   --shimmer-color: oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4));
@@ -137,6 +147,11 @@
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
   --color-info-text: var(--info-text);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
   --ease-standard-decelerate: cubic-bezier(0, 0, 0, 1);

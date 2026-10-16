@@ -1,0 +1,16 @@
+<svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect opacity="0.25" x="48" y="148" width="224" height="1" style="fill:var(--muted-foreground)"/>
+<rect x="60" y="92" width="18" height="56" rx="3" style="fill:var(--primary)"/>
+<rect opacity="0.35" x="82" y="112" width="18" height="36" rx="3" style="fill:var(--primary)"/>
+<rect x="116" y="60" width="18" height="88" rx="3" style="fill:var(--primary)"/>
+<rect opacity="0.35" x="138" y="84" width="18" height="64" rx="3" style="fill:var(--primary)"/>
+<rect x="172" y="104" width="18" height="44" rx="3" style="fill:var(--primary)"/>
+<rect opacity="0.35" x="194" y="76" width="18" height="72" rx="3" style="fill:var(--primary)"/>
+<rect x="228" y="72" width="18" height="76" rx="3" style="fill:var(--primary)"/>
+<rect opacity="0.35" x="250" y="120" width="18" height="28" rx="3" style="fill:var(--primary)"/>
+<rect x="150" y="34" width="72" height="30" rx="6" style="fill:var(--popover)" stroke="var(--border)"/>
+<rect x="158" y="42" width="6" height="6" rx="1.5" style="fill:var(--primary)"/>
+<rect opacity="0.8" x="168" y="43" width="28" height="4" rx="2" style="fill:var(--foreground)"/>
+<rect x="158" y="52" width="6" height="6" rx="1.5" style="fill:var(--primary)" opacity="0.35"/>
+<rect opacity="0.45" x="168" y="53" width="20" height="4" rx="2" style="fill:var(--muted-foreground)"/>
+</svg>

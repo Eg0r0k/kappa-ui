@@ -1,0 +1,7 @@
+component: ChartLegend
+file: ui/chart/ChartLegend.vue
+props:
+  hideIcon:
+    description: Leaves the swatch or icon out.
+  toggle:
+    description: Makes every item a button that hides or shows its series, with `aria-pressed`. The hidden keys go to the container's `v-model:hidden`.

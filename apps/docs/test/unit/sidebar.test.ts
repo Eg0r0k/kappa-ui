@@ -3,11 +3,13 @@ import { describe, expect, it } from 'vitest'
 import {
   bestMatch,
   CHANGELOG_PATH,
+  COMPONENTS_PATH,
   componentGroups,
   filterGroups,
   groupOf,
   highlight,
   modKey,
+  type NavNode,
   navigablePages,
   neighbours,
   pageId,
@@ -77,6 +79,22 @@ describe('sidebarGroups', () => {
       ['utilities', ['/docs/components/press-scale']],
       ['project', [CHANGELOG_PATH]],
     ])
+  })
+
+  it('lists component pages before the guides of the same category', () => {
+    const withGuide: NavNode[] = [
+      ...nav.map((node) =>
+        node.path === COMPONENTS_PATH
+          ? {
+              ...node,
+              children: [...node.children, { title: 'Chart', path: '/docs/components/chart', category: 'charts' }],
+            }
+          : node,
+      ),
+      { title: 'Charts', path: '/docs/charts', children: [{ title: 'Area', path: '/docs/charts/area' }] },
+    ]
+    const charts = sidebarGroups(withGuide).find((group) => group.key === 'charts')!
+    expect(charts.pages.map((page) => page.path)).toEqual(['/docs/components/chart', '/docs/charts/area'])
   })
 })
 

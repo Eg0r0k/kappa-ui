@@ -1,0 +1,15 @@
+component: ChartContainer
+file: ui/chart/ChartContainer.vue
+props:
+  config:
+    description: "The series: each key maps to a `label`, an optional `icon`, and a `color` or a `theme: { light, dark }` pair. The root gets `--color-<key>` for each, so Unovis accessors can return `\"var(--color-desktop)\"`. A key must be a valid CSS identifier."
+  label:
+    description: "An accessible name for the chart. Sets `role=\"group\"` and `aria-label` on the root; without it the root is a plain `div`."
+  hidden:
+    description: "`v-model:hidden`, the keys of the series hidden through the legend. Left unbound the container keeps the state itself."
+  lazy:
+    description: Mounts the slot, and with it Unovis, only once the root comes within 200px of the viewport. The root keeps its height meanwhile.
+emits:
+  update:hidden: "The hidden series keys after a legend toggle."
+slots:
+  default: "The Unovis container with its components, plus `ChartTooltip` and `ChartLegend`. Receives the chart `id`."

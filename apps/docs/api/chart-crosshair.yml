@@ -1,0 +1,23 @@
+component: ChartCrosshair
+file: ui/chart/ChartCrosshair.vue
+props:
+  x:
+    description: "The x accessor, as on the chart's components; the tooltip reports its value as `x`. Unovis takes the crosshair's accessors all or none, so pass `x` together with `y` or `yStacked`, or leave those out: the crosshair then snaps through the chart's components, as the examples do."
+  y:
+    description: "The y accessors for the circles, one per series. Passed together with `x`, or left out with `yStacked` so the crosshair takes them from the chart's components."
+  yStacked:
+    description: "The stacked y accessors, for stacked areas and bars. Like `y`, passed together with `x` or not at all."
+  color:
+    description: The circle colour per series, usually `chartColors(keys)`.
+  duration:
+    description: Animation of the line in milliseconds. `0` by default, so the line keeps up with the pointer.
+  snapToData:
+    description: Snap the line to the nearest point. On by default.
+  hideWhenFarFromPointer:
+    description: Hide the crosshair, and with it the tooltip, when the pointer is more than 100px from a point. Off by default, so a sparse series keeps its crosshair between points.
+  strokeColor:
+    description: "The outline colour of the circles, per series; `--background` by default through `--vis-crosshair-circle-stroke-color`. The line takes `--vis-crosshair-line-stroke-color`, `--border` by default."
+  strokeWidth:
+    description: "The outline width of the circles, per series; `2px` by default through `--vis-crosshair-circle-stroke-width`. The line takes `--vis-crosshair-line-stroke-width`."
+  circleRadius:
+    description: Radius of the circle on each series; `0` hides them, which bars want.

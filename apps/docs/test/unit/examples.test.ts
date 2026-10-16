@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
 
-import { exampleLabel, exampleSlug, overviewExample, pageExamples, pageSlugOf } from '~/lib/examples'
+import { exampleLabel, exampleSlug, overviewExample, pageExamples, pageSlugOf, splitNames } from '~/lib/examples'
 import { findItem, isExample } from '~/lib/registry'
 
 const contentDir = new URL('../../content/docs/', import.meta.url)
@@ -30,6 +30,11 @@ describe('pageExamples', () => {
     expect(pageExamples(markdown)).toEqual(['button-demo', 'button-sizes'])
   })
 
+  it('lists the examples of an example grid', () => {
+    const markdown = ['::example-grid{names="chart-tooltip-default, chart-tooltip-icons"}', '::'].join('\n')
+    expect(pageExamples(markdown)).toEqual(['chart-tooltip-default', 'chart-tooltip-icons'])
+  })
+
   it('names only example items on every real page', () => {
     const offenders = contentFiles.flatMap((file) =>
       examplesOf(file)
@@ -48,6 +53,17 @@ describe('pageExamples', () => {
       return slugs.filter((slug, index) => slugs.indexOf(slug) !== index).map((slug) => `${file}: ${slug}`)
     })
     expect(offenders).toEqual([])
+  })
+})
+
+describe('splitNames', () => {
+  it('splits on commas, trims each name and drops empty ones', () => {
+    expect(splitNames(' chart-tooltip-default ,chart-tooltip-icons,, ,chart-tooltip-advanced, ')).toEqual([
+      'chart-tooltip-default',
+      'chart-tooltip-icons',
+      'chart-tooltip-advanced',
+    ])
+    expect(splitNames('')).toEqual([])
   })
 })
 
@@ -83,5 +99,11 @@ describe('exampleLabel', () => {
     expect(exampleLabel('Button group demo', 'Button Group')).toBe('Demo')
     expect(exampleLabel('Input group demo', 'Button')).toBe('Input group demo')
     expect(exampleLabel('Button', 'Button')).toBe('Button')
+  })
+
+  it('drops the dash that separates the page title from the rest', () => {
+    expect(exampleLabel('Tooltip - Default', 'Tooltip')).toBe('Default')
+    expect(exampleLabel('Tooltip - custom label', 'Tooltip')).toBe('Custom label')
+    expect(exampleLabel('Tooltip -', 'Tooltip')).toBe('Tooltip -')
   })
 })

@@ -1,9 +1,19 @@
-const PREVIEW = /^::component-preview\{([^}]*)\}/gm
+const PREVIEW = /^::(?:component-preview|example-grid)\{([^}]*)\}/gm
 const NAME = /\bname="([^"]+)"/
+const NAMES = /\bnames="([^"]+)"/
+
+export const splitNames = (names: string) =>
+  names
+    .split(',')
+    .map((name) => name.trim())
+    .filter(Boolean)
 
 export const pageExamples = (markdown: string) =>
   [...markdown.matchAll(PREVIEW)].flatMap((match) => {
-    const name = NAME.exec(match[1] ?? '')?.[1]
+    const attributes = match[1] ?? ''
+    const names = NAMES.exec(attributes)?.[1]
+    if (names) return splitNames(names)
+    const name = NAME.exec(attributes)?.[1]
     return name ? [name] : []
   })
 
@@ -17,7 +27,8 @@ export const pageSlugOf = (path: string) => path.replace(/\/+$/, '').split('/').
 
 export const exampleLabel = (title: string, pageTitle: string) => {
   const prefix = `${pageTitle.toLowerCase()} `
-  if (!title.toLowerCase().startsWith(prefix) || title.length === prefix.length) return title
-  const rest = title.slice(prefix.length)
+  if (!title.toLowerCase().startsWith(prefix)) return title
+  const rest = title.slice(prefix.length).replace(/^[-–—]\s*/, '')
+  if (!rest) return title
   return rest.charAt(0).toUpperCase() + rest.slice(1)
 }

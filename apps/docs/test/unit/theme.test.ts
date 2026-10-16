@@ -269,6 +269,16 @@ describe('theme', () => {
       warningChroma: chromaRange.min,
     })
   })
+
+  it('ships five chart tokens in both modes and exposes them to Tailwind', () => {
+    for (const n of [1, 2, 3, 4, 5]) {
+      expect(staticToken(':root', `chart-${n}`, tokens), `light chart-${n}`).toMatch(/^oklch\(/)
+      expect(staticToken('.dark', `chart-${n}`, tokens), `dark chart-${n}`).toMatch(/^oklch\(/)
+      expect(tokens).toContain(`--color-chart-${n}: var(--chart-${n});`)
+    }
+    expect(source).not.toContain('--chart-')
+    expect(source).toMatch(/:root \{[^}]*color-scheme: light;/)
+  })
 })
 
 it('keeps the role radii on Auto by default and writes only the ones set', () => {
