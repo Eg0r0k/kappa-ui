@@ -39,7 +39,7 @@ const items = computed(() =>
             data-[state=hidden]:text-muted-foreground
             [&>svg]:size-3 [&>svg]:text-muted-foreground
           `,
-          props.toggle && 'focus-ring cursor-pointer rounded-control-xs',
+          props.toggle && 'cursor-pointer rounded-control-xs focus-visible:focus-ring',
         )
       "
       @click="props.toggle && toggleSeries(entry.key)"
