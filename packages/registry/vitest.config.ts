@@ -50,6 +50,7 @@ export default defineConfig({
             "test/data-table-geometry.test.ts",
             "test/swipe-views.test.ts",
             "test/scroll-area-keep-alive.test.ts",
+            "test/scroll-area-keys.test.ts",
           ],
         },
         {

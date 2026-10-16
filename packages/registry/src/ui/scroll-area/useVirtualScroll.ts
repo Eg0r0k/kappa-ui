@@ -19,6 +19,7 @@ import {
   getVisibleIndex,
   type ResolvedVirtualizeColumns,
   type ResolvedVirtualizeOptions,
+  type ScrollAreaItemKey,
   type ScrollAreaVirtualEdge,
   type ScrollAreaVirtualInfo,
   toVirtualDirection,
@@ -36,8 +37,10 @@ export type UseVirtualScrollOptions = {
   onScroll: (info: ScrollAreaVirtualInfo) => void;
 };
 
+type VirtualRow = VirtualItem & { key: ScrollAreaItemKey };
+
 export type UseVirtualScrollReturn = {
-  slices: ComputedRef<VirtualSlice[]>;
+  slices: ComputedRef<VirtualRow[]>;
   window: ComputedRef<{ from: number; size: number }>;
   containerStyle: ComputedRef<CSSProperties>;
   itemStyle: (slice: VirtualSlice) => CSSProperties;
@@ -57,9 +60,25 @@ export type UseVirtualScrollReturn = {
 const toElement = (el: Element | ComponentPublicInstance | null) =>
   el instanceof Element ? el : ((el?.$el as Element | null) ?? null);
 
+const sameKeys = (a: readonly ScrollAreaItemKey[], b: readonly ScrollAreaItemKey[]) =>
+  a.length === b.length && a.every((key, index) => key === b[index]);
+
 export const useVirtualScroll = (options: UseVirtualScrollOptions): UseVirtualScrollReturn => {
   const grid = computed(() => options.columns.value !== undefined);
   const scrollElement = () => options.options.value.getScrollElement?.() ?? options.scrollEl.value;
+
+  // TanStack reads the keys again only when getItemKey changes, so a reorder at the same length needs a new function.
+  const itemKeys = computed<ScrollAreaItemKey[] | undefined>((previous) => {
+    const getKey = options.options.value.getItemKey;
+    if (getKey === undefined) return undefined;
+    const keys = Array.from({ length: options.count.value }, (_, index) => getKey(index));
+    return previous !== undefined && sameKeys(previous, keys) ? previous : keys;
+  });
+
+  const getItemKey = computed(() => {
+    const keys = itemKeys.value;
+    return keys === undefined ? undefined : (index: number) => keys[index] ?? index;
+  });
 
   const virtualizer = useVirtualizer<HTMLElement, Element>(
     computed(() => ({
@@ -72,6 +91,9 @@ export const useVirtualScroll = (options: UseVirtualScrollOptions): UseVirtualSc
       isRtl: options.isRtl.value,
       enabled: options.count.value > 0,
       estimateSize: (index: number) => options.options.value.estimateSize(index),
+      getItemKey: getItemKey.value,
+      anchorTo: options.options.value.anchorTo,
+      followOnAppend: options.options.value.followOnAppend,
       getScrollElement: scrollElement,
     })),
   );
@@ -101,7 +123,7 @@ export const useVirtualScroll = (options: UseVirtualScrollOptions): UseVirtualSc
     }),
   );
 
-  const slices = computed(() => virtualizer.value.getVirtualItems());
+  const slices = computed(() => virtualizer.value.getVirtualItems() as VirtualRow[]);
   const columnSlices = computed(() => (grid.value ? columnVirtualizer.value.getVirtualItems() : []));
 
   const visibleIndex = computed(() => getVisibleIndex(slices.value, virtualizer.value.scrollOffset ?? 0));

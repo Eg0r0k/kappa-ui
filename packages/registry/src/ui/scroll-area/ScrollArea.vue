@@ -299,12 +299,40 @@ const getScroll = (): ScrollAreaScrollInfo => ({
 
 const scrollTarget = () => (isExternalScroll.value ? externalEl.value : viewportRef.value);
 
+// TanStack scrolls the viewport to its own offset when it attaches, a tick after mount.
+const holdVirtualOffset = (axis: ScrollAreaAxis, offset: number) => {
+  const virtualizer = virtual.virtualizer.value;
+  const virtualAxis = isHorizontal.value ? "horizontal" : "vertical";
+  if (props.virtualize && axis === virtualAxis && virtualizer.scrollElement === null) virtualizer.scrollOffset = offset;
+};
+
 const setScrollPosition = (axis: ScrollAreaAxis, offset: number, duration?: number) => {
   const el = scrollTarget();
   if (el === null) return;
 
   if (axis === "vertical") setVerticalScrollPosition(el, offset, duration);
   else setHorizontalScrollPosition(el, getHorizontalPosition(offset, isRtl.value), duration);
+  if (!duration) holdVirtualOffset(axis, offset);
+};
+
+let silent = false;
+let silentFrame: number | null = null;
+
+const setScrollPositionSilently = (axis: ScrollAreaAxis, offset: number) => {
+  const el = scrollTarget();
+  if (el === null) return;
+
+  silent = true;
+  if (silentFrame !== null) cancelAnimationFrame(silentFrame);
+  if (axis === "vertical") el.scrollTop = offset;
+  else el.scrollLeft = getHorizontalPosition(offset, isRtl.value);
+  holdVirtualOffset(axis, offset);
+  updateScroll();
+  // the scroll event of this write, and the watchers it triggers, run before the next frame's callbacks
+  silentFrame = requestAnimationFrame(() => {
+    silentFrame = null;
+    silent = false;
+  });
 };
 
 const api: ScrollAreaApi = {
@@ -319,6 +347,7 @@ const api: ScrollAreaApi = {
     left: percentageHorizontal.value,
   }),
   setScrollPosition,
+  setScrollPositionSilently,
   setScrollPercentage: (axis, percentage, duration) => {
     const el = scrollTarget();
     if (el === null) return;
@@ -351,6 +380,7 @@ const edgeZones = computed(() => {
 });
 
 watch(edgeZones, (zones, previous) => {
+  if (silent) return;
   for (const edge of ["top", "bottom", "start", "end"] as const) {
     if (zones[edge] && !previous[edge]) emit("reachEdge", { edge, ref: api });
   }
@@ -383,7 +413,17 @@ const virtualCount = computed(() =>
   props.virtualize ? resolveVirtualCount(props.items.length, props.itemsSize, props.itemsFn !== undefined) : 0,
 );
 
-const virtualizeKeys = ["estimateSize", "overscan", "lanes", "gap", "scrollMargin", "getScrollElement"] as const;
+const virtualizeKeys = [
+  "estimateSize",
+  "overscan",
+  "lanes",
+  "gap",
+  "scrollMargin",
+  "getScrollElement",
+  "getItemKey",
+  "anchorTo",
+  "followOnAppend",
+] as const;
 const columnKeys = ["count", "estimateSize", "overscan", "gap"] as const;
 let resolvedFrom: ScrollAreaProps<T>["virtualize"];
 
@@ -448,6 +488,7 @@ const virtual = useVirtualScroll({
   crossSize: computed(() => (isExternalScroll.value ? (externalEl.value?.clientHeight ?? 0) : containerVertical.value)),
   isRtl,
   onScroll: (info: ScrollAreaVirtualInfo) => {
+    if (silent) return;
     emit("virtualScroll", { ...info, ref: api });
   },
 });
@@ -568,7 +609,7 @@ const updateScroll = () => {
     changed = true;
   }
 
-  if (changed) startTimer();
+  if (changed && !silent) startTimer();
 };
 
 let containerObserver: ResizeObserver | null = null;
@@ -620,6 +661,7 @@ onBeforeUnmount(() => {
   if (showTimer !== null) clearTimeout(showTimer);
   if (hoverTimer !== null) clearTimeout(hoverTimer);
   if (emitTimer !== null) clearTimeout(emitTimer);
+  if (silentFrame !== null) cancelAnimationFrame(silentFrame);
 });
 </script>
 
@@ -670,7 +712,7 @@ onBeforeUnmount(() => {
         <div v-if="props.virtualize" data-slot="scroll-area-virtual" :style="virtual.containerStyle.value">
           <div
             v-for="slice in virtual.slices.value"
-            :key="slice.index"
+            :key="slice.key"
             :ref="virtual.measureRef"
             data-slot="scroll-area-item"
             :data-index="slice.index"
@@ -679,7 +721,7 @@ onBeforeUnmount(() => {
             <template v-if="virtual.grid.value">
               <div
                 v-for="column in virtual.columnSlices.value"
-                :key="`${slice.index}:${column.index}`"
+                :key="`${slice.key}:${column.index}`"
                 :ref="virtual.measureCellRef"
                 data-slot="scroll-area-cell"
                 :data-index="column.index"

@@ -143,6 +143,12 @@ export const useInfiniteScroll = (options: UseInfiniteScrollOptions): UseInfinit
     return anchor ? (findScrollParent(anchor) ?? window) : window;
   };
 
+  // A virtual list anchored to the end keeps its rows in place by itself.
+  const anchorsItself = () => {
+    const given = toValue(options.target);
+    return Boolean(given && isApi(given) && given.virtualizer.options.anchorTo === "end");
+  };
+
   const load = async (direction: InfiniteDirection) => {
     const current = target;
     if (current === null) return;
@@ -177,7 +183,7 @@ export const useInfiniteScroll = (options: UseInfiniteScrollOptions): UseInfinit
         restore();
         return;
       }
-      shiftBy(current, direction, readAxis(current, horizontal).size - before);
+      if (!anchorsItself()) shiftBy(current, direction, readAxis(current, horizontal).size - before);
     }
     restore();
     if (result !== "stop" && (toValue(options.initialFill) ?? true)) poll();

@@ -383,7 +383,7 @@
       "categories": [
         "layout"
       ],
-      "docs": "The root is contain: size, so it takes no height from its content by default. Give it an explicit height (h-72, or any other value) or it collapses to nothing.\n\nPut padding on a wrapper inside the slot, not on the root's class. The bars are positioned against the root while the geometry that drives them is measured from the scrolling viewport inside it, so padding on the root shifts the bars out of alignment with the content they represent. A border on the root is fine — only padding shifts them.\n\nSet virtualize and pass items to render long lists. The default slot then receives { item, index } and is rendered once per row in the rendered window, which is the visible rows plus a small overscan buffer. Without virtualize the slot renders once and its scope carries no item.\n\norientation sets the axis: vertical (default), horizontal, or both. It sets the viewport's overflow, the virtualized axis (both virtualizes the vertical one) and which bars render, so content that must scroll sideways needs orientation=\"horizontal\" or \"both\". virtualize also accepts an options object: estimateSize, overscan, lanes, gap, scrollMargin, getScrollElement and columns. With orientation=\"both\", columns ({ count, estimateSize, overscan, gap }) virtualizes the columns as well, and the slot is rendered once per visible cell with { item, index, column }; rows without columns are not measured sideways.\n\nInfiniteScroll and useInfiniteScroll load more content as the scroll nears an edge; see the Infinite Scroll page.",
+      "docs": "The root is contain: size, so it takes no height from its content by default. Give it an explicit height (h-72, or any other value) or it collapses to nothing.\n\nPut padding on a wrapper inside the slot, not on the root's class. The bars are positioned against the root while the geometry that drives them is measured from the scrolling viewport inside it, so padding on the root shifts the bars out of alignment with the content they represent. A border on the root is fine — only padding shifts them.\n\nSet virtualize and pass items to render long lists. The default slot then receives { item, index } and is rendered once per row in the rendered window, which is the visible rows plus a small overscan buffer. Without virtualize the slot renders once and its scope carries no item.\n\norientation sets the axis: vertical (default), horizontal, or both. It sets the viewport's overflow, the virtualized axis (both virtualizes the vertical one) and which bars render, so content that must scroll sideways needs orientation=\"horizontal\" or \"both\". virtualize also accepts an options object: estimateSize, overscan, lanes, gap, scrollMargin, getScrollElement, columns, getItemKey, anchorTo and followOnAppend. getItemKey keys the rows, so a row keeps its element and measured size when rows arrive above it; anchorTo: \"end\" keeps the first visible row in place when rows are added or removed at either end, and followOnAppend follows rows appended while the view is at the end. With orientation=\"both\", columns ({ count, estimateSize, overscan, gap }) virtualizes the columns as well, and the slot is rendered once per visible cell with { item, index, column }; rows without columns are not measured sideways.\n\nInfiniteScroll and useInfiniteScroll load more content as the scroll nears an edge; see the Infinite Scroll page.",
       "dependencies": [
         "@tanstack/vue-virtual"
       ],
@@ -4930,6 +4930,25 @@
       "files": [
         {
           "path": "src/examples/scroll-area/ScrollAreaScrollTo.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area-anchor",
+      "type": "registry:block",
+      "title": "Scroll area, keys and anchoring",
+      "description": "A chat list that keeps its place when older messages load above and follows new ones at the end.",
+      "categories": [
+        "example"
+      ],
+      "registryDependencies": [
+        "scroll-area",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/examples/scroll-area/ScrollAreaAnchor.vue",
           "type": "registry:component"
         }
       ]

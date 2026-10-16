@@ -31,6 +31,9 @@ props:
       scrollMargin: The list's offset from the start of an external scroll element.
       getScrollElement: Returns an ancestor to scroll instead of the component's own viewport. Must return the element at mount.
       columns: "Virtualizes columns as well as rows, with `orientation=\"both\"` only: `{ count, estimateSize?, overscan?, gap? }`. `estimateSize` is a column's width in pixels or a function of its index, 120 by default, and widens to the widest rendered cell; `overscan` is 2 and `gap` 0 by default."
+      getItemKey: "Returns the key of the item at an index. Rows are keyed by it instead of their index, so a row keeps its element and measured size when rows arrive above it."
+      anchorTo: "`start` (default) or `end`. With `end`, the first visible row stays in place, by key, when rows are added or removed at either end, and a view at the end stays there while the last row grows."
+      followOnAppend: "With `anchorTo: 'end'`, a view at the end follows rows appended below it: `true` jumps, `'smooth'` animates. Off by default."
   items:
     description: The list to virtualize. The default slot renders once per item in the rendered window.
   itemsSize:
@@ -49,6 +52,7 @@ exposed:
   getScrollPosition: Returns `{ top, left }` in pixels. `left` counts from the right edge under `dir="rtl"`.
   getScrollPercentage: Returns `{ top, left }` as fractions from 0 to 1.
   setScrollPosition: Scrolls an axis to an offset in pixels, animated over `duration` milliseconds when given.
+  setScrollPositionSilently: Sets an axis to an offset in pixels at once, without emitting `scroll`, `reachEdge` or `virtualScroll` for that move or showing the bar. Native scroll listeners still see it.
   setScrollPercentage: Scrolls an axis to a fraction from 0 to 1, animated over `duration` milliseconds when given.
   scrollTo: Scrolls a virtualized list to an item. `edge` is `start`, `center` or `end`; omit it to leave a visible item where it is.
   scrollToColumn: Scrolls a virtual grid to a column, with the same `edge` as `scrollTo`. Does nothing without `virtualize.columns`.

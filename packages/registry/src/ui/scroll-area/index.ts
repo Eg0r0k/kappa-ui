@@ -29,6 +29,8 @@ export type ScrollAreaVirtualizeColumns = {
   gap?: number;
 };
 
+export type ScrollAreaItemKey = string | number;
+
 export type ScrollAreaVirtualizeOptions = {
   estimateSize?: number | ((index: number) => number);
   overscan?: number;
@@ -37,6 +39,9 @@ export type ScrollAreaVirtualizeOptions = {
   scrollMargin?: number;
   getScrollElement?: () => HTMLElement | null;
   columns?: ScrollAreaVirtualizeColumns;
+  getItemKey?: (index: number) => ScrollAreaItemKey;
+  anchorTo?: "start" | "end";
+  followOnAppend?: boolean | ScrollBehavior;
 };
 
 export type ResolvedVirtualizeColumns = {
@@ -54,6 +59,9 @@ export type ResolvedVirtualizeOptions = {
   scrollMargin: number;
   getScrollElement?: () => HTMLElement | null;
   columns?: ResolvedVirtualizeColumns;
+  getItemKey?: (index: number) => ScrollAreaItemKey;
+  anchorTo: "start" | "end";
+  followOnAppend: boolean | ScrollBehavior;
 };
 
 const toSizeFn = (size: number | ((index: number) => number)) => (typeof size === "function" ? size : () => size);
@@ -81,6 +89,9 @@ export const resolveVirtualizeOptions = (
     scrollMargin: given.scrollMargin ?? 0,
     getScrollElement: given.getScrollElement,
     columns: resolveColumns(given.columns),
+    getItemKey: given.getItemKey,
+    anchorTo: given.anchorTo ?? "start",
+    followOnAppend: given.followOnAppend ?? false,
   };
 };
 
@@ -113,6 +124,7 @@ export type ScrollAreaApi = {
   getScrollPosition: () => { top: number; left: number };
   getScrollPercentage: () => { top: number; left: number };
   setScrollPosition: (axis: ScrollAreaAxis, offset: number, duration?: number) => void;
+  setScrollPositionSilently: (axis: ScrollAreaAxis, offset: number) => void;
   setScrollPercentage: (axis: ScrollAreaAxis, percentage: number, duration?: number) => void;
   scrollTo: (index: number, edge?: ScrollAreaVirtualEdge) => void;
   scrollToColumn: (index: number, edge?: ScrollAreaVirtualEdge) => void;
