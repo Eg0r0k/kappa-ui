@@ -174,6 +174,7 @@ provideChartContext({
     --vis-axis-label-font-size: var(--typescale-body-sm-size);
     --vis-axis-grid-color: var(--border);
     --vis-axis-domain-color: var(--border);
+    --vis-area-hover-fill-opacity: var(--vis-area-fill-opacity);
     --vis-crosshair-line-stroke-color: var(--border);
     --vis-crosshair-circle-stroke-color: var(--background);
     --vis-crosshair-circle-stroke-width: 2px;

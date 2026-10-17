@@ -189,6 +189,14 @@ it("lets a class on the container override a Unovis variable", () => {
   expect(strokeWidth()).toBe("0px");
 });
 
+it("keeps an area's fill opacity under the pointer", () => {
+  mount(ChartContainer, {
+    props: { config, class: "[--vis-area-fill-opacity:0.4]" },
+    attachTo: document.body,
+  });
+  expect(getComputedStyle(root()).getPropertyValue("--vis-area-hover-fill-opacity").trim()).toBe("0.4");
+});
+
 it("styles Unovis through the chart root, its data attributes and --vis- variables only", () => {
   const style = containerSource.slice(containerSource.indexOf("<style"));
   expect(style).not.toMatch(/\.css-|unovis-/);

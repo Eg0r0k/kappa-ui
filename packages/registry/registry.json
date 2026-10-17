@@ -12956,6 +12956,240 @@
       ]
     },
     {
+      "name": "chart-area-default",
+      "type": "registry:block",
+      "title": "Area Chart",
+      "description": "A simple area chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaDefault.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-linear",
+      "type": "registry:block",
+      "title": "Area Chart - Linear",
+      "description": "A linear area chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@unovis/ts",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaLinear.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-step",
+      "type": "registry:block",
+      "title": "Area Chart - Step",
+      "description": "A step area chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@unovis/ts",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaStep.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-legend",
+      "type": "registry:block",
+      "title": "Area Chart - Legend",
+      "description": "An area chart with a legend.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaLegend.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-stacked",
+      "type": "registry:block",
+      "title": "Area Chart - Stacked",
+      "description": "A stacked area chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaStacked.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-stacked-expand",
+      "type": "registry:block",
+      "title": "Area Chart - Stacked Expanded",
+      "description": "A stacked area chart with expand stacking.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaStackedExpand.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-icons",
+      "type": "registry:block",
+      "title": "Area Chart - Icons",
+      "description": "An area chart with icons.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaIcons.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-gradient",
+      "type": "registry:block",
+      "title": "Area Chart - Gradient",
+      "description": "An area chart with gradient fill.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaGradient.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-axes",
+      "type": "registry:block",
+      "title": "Area Chart - Axes",
+      "description": "An area chart with axes.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaAxes.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-area-interactive",
+      "type": "registry:block",
+      "title": "Area Chart - Interactive",
+      "description": "An interactive area chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "reka-ui"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card",
+        "select"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartAreaInteractive.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "color-picker",
       "type": "registry:ui",
       "title": "Color Picker",
