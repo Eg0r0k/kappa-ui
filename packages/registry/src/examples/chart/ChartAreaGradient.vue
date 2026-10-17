@@ -59,7 +59,7 @@ const hide = () => "";
     <CardContent>
       <ChartContainer :config="config" class="w-full [--vis-area-fill-opacity:0.4]">
         <VisXYContainer :data="data" :svg-defs="svgDefs">
-          <VisArea :x="x" :y="y" :color="fill" :line-color="color" line />
+          <VisArea :x="x" :y="y" :color="fill" :line-color="color" :line-width="1" line />
           <VisAxis
             type="x"
             :x="x"

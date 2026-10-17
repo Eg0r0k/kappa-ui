@@ -45,7 +45,7 @@ const hide = () => "";
     <CardContent>
       <ChartContainer :config="config" class="w-full [--vis-area-fill-opacity:0.4]">
         <VisXYContainer :data="data">
-          <VisArea :x="x" :y="y" :color="color" :curve-type="CurveType.Step" line />
+          <VisArea :x="x" :y="y" :color="color" :curve-type="CurveType.Step" :line-width="1" line />
           <VisAxis
             type="x"
             :x="x"

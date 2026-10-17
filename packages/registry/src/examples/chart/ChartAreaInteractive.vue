@@ -171,7 +171,7 @@ const hide = () => "";
     <CardContent class="px-2 pt-4 sm:px-6 sm:pt-6">
       <ChartContainer :config="config" class="aspect-auto h-62.5 w-full [--vis-area-fill-opacity:0.6]">
         <VisXYContainer :data="filtered" :svg-defs="svgDefs">
-          <VisArea :x="x" :y="y" :color="fill" :line-color="color" line />
+          <VisArea :x="x" :y="y" :color="fill" :line-color="color" :line-width="1" line />
           <VisAxis
             type="x"
             :x="x"

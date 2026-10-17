@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TrendingUp } from "@lucide/vue";
-import { Direction, Orientation } from "@unovis/ts";
+import { Direction, Orientation, StackedBar } from "@unovis/ts";
 import { VisAxis, VisStackedBar, VisXYContainer } from "@unovis/vue";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/card";
-import { type ChartConfig, ChartContainer } from "@/ui/chart";
+import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/ui/chart";
 
 type Browser = { browser: "chrome" | "safari" | "firefox" | "edge" | "other"; visitors: number; fill: string };
 
@@ -33,6 +33,7 @@ const browserOf = (i: unknown) => {
   const browser = data[Number(i)]?.browser;
   return browser ? config[browser].label : "";
 };
+const bar = StackedBar.selectors.bar;
 </script>
 
 <template>
@@ -43,23 +44,29 @@ const browserOf = (i: unknown) => {
     </CardHeader>
     <CardContent>
       <ChartContainer :config="config" class="w-full">
-        <VisXYContainer :data="data" :y-direction="Direction.South">
-          <VisStackedBar
-            :x="category"
-            :y="value"
-            :color="color"
-            :orientation="Orientation.Horizontal"
-            :rounded-corners="5"
-          />
-          <VisAxis
-            type="y"
-            :tick-values="ticks"
-            :tick-format="browserOf"
-            :tick-line="false"
-            :domain-line="false"
-            :grid-line="false"
-          />
-        </VisXYContainer>
+        <template #default="{ events }">
+          <VisXYContainer :data="data" :y-direction="Direction.South">
+            <VisStackedBar
+              :x="category"
+              :y="value"
+              :color="color"
+              :orientation="Orientation.Horizontal"
+              :rounded-corners="5"
+              :events="events(bar)"
+            />
+            <VisAxis
+              type="y"
+              :tick-values="ticks"
+              :tick-format="browserOf"
+              :tick-line="false"
+              :domain-line="false"
+              :grid-line="false"
+            />
+          </VisXYContainer>
+          <ChartTooltip>
+            <ChartTooltipContent name-key="browser" hide-label />
+          </ChartTooltip>
+        </template>
       </ChartContainer>
     </CardContent>
     <CardFooter>

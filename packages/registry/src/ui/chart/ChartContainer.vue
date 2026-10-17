@@ -97,13 +97,18 @@ const unwrap = (datum: unknown): ChartDatum =>
   datum.data !== null
     ? datum.data
     : datum) as ChartDatum;
-const events = (selector: string): ChartEvents => ({
+const eventsBySelector = new Map<string, ChartEvents>();
+const createEvents = (selector: string): ChartEvents => ({
   [selector]: {
     pointermove: (datum, _event, index) => setActive({ datum: unwrap(datum), index }),
     pointerdown: (datum, _event, index) => setActive({ datum: unwrap(datum), index }),
     pointerout: clearActive,
   },
 });
+const events = (selector: string): ChartEvents => {
+  if (!eventsBySelector.has(selector)) eventsBySelector.set(selector, createEvents(selector));
+  return eventsBySelector.get(selector)!;
+};
 
 const size = shallowRef({ width: 0, height: 0 });
 useResizeObserver(root, () => {
@@ -158,7 +163,7 @@ provideChartContext({
     @pointerleave="leave"
     @pointercancel="leave"
   >
-    <slot v-if="ready" :id="id" />
+    <slot v-if="ready" :id="id" :events="events" />
   </div>
 </template>
 

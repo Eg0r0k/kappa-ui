@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TrendingUp } from "@lucide/vue";
-import { Direction, Orientation } from "@unovis/ts";
+import { Direction, Orientation, StackedBar } from "@unovis/ts";
 import { VisAxis, VisStackedBar, VisXYContainer, VisXYLabels } from "@unovis/vue";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/card";
-import { type ChartConfig, ChartContainer, chartColors } from "@/ui/chart";
+import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent, chartColors } from "@/ui/chart";
 
 type Month = { month: string; desktop: number; mobile: number };
 
@@ -19,7 +19,6 @@ const data: Month[] = [
 
 const config = {
   desktop: { label: "Desktop", color: "var(--chart-2)" },
-  mobile: { label: "Mobile", color: "var(--chart-2)" },
   label: { color: "var(--background)" },
 } satisfies ChartConfig;
 
@@ -32,6 +31,7 @@ const monthLabel = (d: Month) => leftAligned(d.month);
 const valueLabel = (d: Month) => leftAligned(d.desktop);
 const padding = { right: 32 };
 const hide = () => "";
+const bar = StackedBar.selectors.bar;
 </script>
 
 <template>
@@ -42,35 +42,48 @@ const hide = () => "";
     </CardHeader>
     <CardContent>
       <ChartContainer :config="config" class="w-full">
-        <VisXYContainer :data="data" :padding="padding" :y-direction="Direction.South">
-          <VisStackedBar
-            :x="category"
-            :y="value"
-            :color="color"
-            :orientation="Orientation.Horizontal"
-            :rounded-corners="4"
-            :bar-padding="0.05"
-          />
-          <VisXYLabels
-            :x="start"
-            :y="category"
-            :label="monthLabel"
-            color="var(--color-label)"
-            background-color="transparent"
-            :label-font-size="12"
-            :clustering="false"
-          />
-          <VisXYLabels
-            :x="value"
-            :y="category"
-            :label="valueLabel"
-            color="var(--foreground)"
-            background-color="transparent"
-            :label-font-size="12"
-            :clustering="false"
-          />
-          <VisAxis type="x" :num-ticks="2" :tick-format="hide" :tick-size="0" :tick-padding="0" :domain-line="false" />
-        </VisXYContainer>
+        <template #default="{ events }">
+          <VisXYContainer :data="data" :padding="padding" :y-direction="Direction.South">
+            <VisStackedBar
+              :x="category"
+              :y="value"
+              :color="color"
+              :orientation="Orientation.Horizontal"
+              :rounded-corners="4"
+              :bar-padding="0.05"
+              :events="events(bar)"
+            />
+            <VisXYLabels
+              :x="start"
+              :y="category"
+              :label="monthLabel"
+              color="var(--color-label)"
+              background-color="transparent"
+              :label-font-size="12"
+              :clustering="false"
+            />
+            <VisXYLabels
+              :x="value"
+              :y="category"
+              :label="valueLabel"
+              color="var(--foreground)"
+              background-color="transparent"
+              :label-font-size="12"
+              :clustering="false"
+            />
+            <VisAxis
+              type="x"
+              :num-ticks="2"
+              :tick-format="hide"
+              :tick-size="0"
+              :tick-padding="0"
+              :domain-line="false"
+            />
+          </VisXYContainer>
+          <ChartTooltip>
+            <ChartTooltipContent indicator="line" label-key="month" />
+          </ChartTooltip>
+        </template>
       </ChartContainer>
     </CardContent>
     <CardFooter>

@@ -33,6 +33,8 @@ const y = [(d: Month) => d.mobile, (d: Month) => d.desktop];
 const color = chartColors(["mobile", "desktop"]);
 const ticks = data.map((_d, i) => i);
 const monthOf = (i: unknown) => data[Number(i)]?.month.slice(0, 3) ?? "";
+const yTicks = [0, 300, 600];
+const yDomain: [number, number] = [0, 600];
 </script>
 
 <template>
@@ -43,8 +45,8 @@ const monthOf = (i: unknown) => data[Number(i)]?.month.slice(0, 3) ?? "";
     </CardHeader>
     <CardContent>
       <ChartContainer :config="config" class="w-full [--vis-area-fill-opacity:0.4]">
-        <VisXYContainer :data="data">
-          <VisArea :x="x" :y="y" :color="color" line />
+        <VisXYContainer :data="data" :y-domain="yDomain">
+          <VisArea :x="x" :y="y" :color="color" :line-width="1" line />
           <VisAxis
             type="x"
             :x="x"
@@ -54,7 +56,7 @@ const monthOf = (i: unknown) => data[Number(i)]?.month.slice(0, 3) ?? "";
             :domain-line="false"
             :grid-line="false"
           />
-          <VisAxis type="y" :num-ticks="3" :tick-line="false" :domain-line="false" />
+          <VisAxis type="y" :tick-values="yTicks" :tick-line="false" :domain-line="false" />
           <ChartCrosshair :x="x" :y-stacked="y" :color="color" />
         </VisXYContainer>
         <ChartTooltip>

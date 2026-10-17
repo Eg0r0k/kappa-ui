@@ -12,4 +12,4 @@ props:
 emits:
   update:hidden: "The hidden series keys after a legend toggle."
 slots:
-  default: "The Unovis container with its components, plus `ChartTooltip` and `ChartLegend`. Receives the chart `id`."
+  default: "The Unovis container with its components, plus `ChartTooltip` and `ChartLegend`. Receives the chart `id` and `events(selector)`, which returns a Unovis `events` object that sets the tooltip's datum when the pointer or a finger is on a mark of that selector; the same object comes back for the same selector."

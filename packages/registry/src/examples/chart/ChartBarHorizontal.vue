@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TrendingUp } from "@lucide/vue";
-import { Direction, Orientation } from "@unovis/ts";
+import { Direction, Orientation, StackedBar } from "@unovis/ts";
 import { VisAxis, VisStackedBar, VisXYContainer } from "@unovis/vue";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/card";
-import { type ChartConfig, ChartContainer, chartColors } from "@/ui/chart";
+import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent, chartColors } from "@/ui/chart";
 
 type Month = { month: string; desktop: number };
 
@@ -26,6 +26,7 @@ const value = (d: Month) => d.desktop;
 const color = chartColors(["desktop"]);
 const ticks = data.map((_d, i) => i);
 const monthOf = (i: unknown) => data[Number(i)]?.month.slice(0, 3) ?? "";
+const bar = StackedBar.selectors.bar;
 </script>
 
 <template>
@@ -36,24 +37,30 @@ const monthOf = (i: unknown) => data[Number(i)]?.month.slice(0, 3) ?? "";
     </CardHeader>
     <CardContent>
       <ChartContainer :config="config" class="w-full">
-        <VisXYContainer :data="data" :y-direction="Direction.South">
-          <VisStackedBar
-            :x="category"
-            :y="value"
-            :color="color"
-            :orientation="Orientation.Horizontal"
-            :rounded-corners="5"
-            :bar-padding="0.05"
-          />
-          <VisAxis
-            type="y"
-            :tick-values="ticks"
-            :tick-format="monthOf"
-            :tick-line="false"
-            :domain-line="false"
-            :grid-line="false"
-          />
-        </VisXYContainer>
+        <template #default="{ events }">
+          <VisXYContainer :data="data" :y-direction="Direction.South">
+            <VisStackedBar
+              :x="category"
+              :y="value"
+              :color="color"
+              :orientation="Orientation.Horizontal"
+              :rounded-corners="5"
+              :bar-padding="0.05"
+              :events="events(bar)"
+            />
+            <VisAxis
+              type="y"
+              :tick-values="ticks"
+              :tick-format="monthOf"
+              :tick-line="false"
+              :domain-line="false"
+              :grid-line="false"
+            />
+          </VisXYContainer>
+          <ChartTooltip>
+            <ChartTooltipContent hide-label />
+          </ChartTooltip>
+        </template>
       </ChartContainer>
     </CardContent>
     <CardFooter>

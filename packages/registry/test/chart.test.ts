@@ -1,12 +1,13 @@
-import { Crosshair, Donut } from "@unovis/ts";
-import { VisArea, VisAxis, VisDonut, VisSingleContainer, VisXYContainer } from "@unovis/vue";
+import { Area, Crosshair, Donut, Orientation, StackedBar } from "@unovis/ts";
+import { VisArea, VisAxis, VisDonut, VisSingleContainer, VisStackedBar, VisXYContainer } from "@unovis/vue";
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
-import { userEvent } from "vitest/browser";
+import { cdp, userEvent } from "vitest/browser";
 import { type Component, defineComponent, h, nextTick, ref } from "vue";
 
 import {
   type ChartConfig,
+  type ChartEvents,
   ChartContainer,
   ChartCrosshair,
   ChartLegend,
@@ -189,12 +190,22 @@ it("lets a class on the container override a Unovis variable", () => {
   expect(strokeWidth()).toBe("0px");
 });
 
-it("keeps an area's fill opacity under the pointer", () => {
-  mount(ChartContainer, {
-    props: { config, class: "[--vis-area-fill-opacity:0.4]" },
-    attachTo: document.body,
-  });
-  expect(getComputedStyle(root()).getPropertyValue("--vis-area-hover-fill-opacity").trim()).toBe("0.4");
+it("keeps an area's fill opacity under the pointer", async () => {
+  mount(
+    defineComponent(
+      () => () =>
+        h(ChartContainer, { config, class: "aspect-auto h-[200px] w-[400px] [--vis-area-fill-opacity:0.4]" }, () =>
+          h(VisXYContainer, { data: rows, duration: 0 }, () => h(VisArea, { x, y: y[0], color })),
+        ),
+    ),
+    { attachTo: document.body },
+  );
+  await settle();
+  const path = root().querySelector<SVGPathElement>(`.${Area.selectors.area}`)!;
+  await userEvent.hover(path);
+  expect(path.matches(":hover")).toBe(true);
+  expect(getComputedStyle(path).fillOpacity).toBe("0.4");
+  await userEvent.unhover(path);
 });
 
 it("styles Unovis through the chart root, its data attributes and --vis- variables only", () => {
@@ -318,6 +329,23 @@ it("mounts, hovers and changes data without a console warning", async () => {
   await wrapper.setProps({ data: rows.slice(1) });
   await settle();
   expect(warn).not.toHaveBeenCalled();
+});
+
+it("fades the tooltip in on opacity alone, and not at all under reduced motion", async () => {
+  mount(AreaChart(), { attachTo: document.body });
+  await settle();
+  hover(0.36);
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(getComputedStyle(tooltip()).transitionProperty).toBe("opacity");
+  expect(getComputedStyle(tooltip()).transitionDuration).not.toBe("0s");
+  await cdp().send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
+  try {
+    expect(matchMedia("(prefers-reduced-motion: reduce)").matches).toBe(true);
+    expect(getComputedStyle(tooltip()).transitionDuration).toBe("0s");
+  } finally {
+    await cdp().send("Emulation.setEmulatedMedia", { features: [] });
+  }
 });
 
 it("hides the tooltip when the pointer leaves", async () => {
@@ -536,6 +564,64 @@ it("lists a pie row by nameKey from component events", async () => {
       .querySelector<HTMLElement>("[data-slot=chart-tooltip-indicator]")!
       .style.getPropertyValue("--chart-indicator"),
   ).toBe("var(--chart-1)");
+});
+
+it("feeds the tooltip from the events its slot hands out, to a mouse and a finger", async () => {
+  const category = (_d: Row, i: number) => i;
+  const value = (d: Row) => d.desktop;
+  const label = ref<string>();
+  const handed: ChartEvents[] = [];
+  mount(
+    defineComponent(
+      () => () =>
+        h(
+          ChartContainer,
+          { config, label: label.value, class: "aspect-auto h-[200px] w-[400px]" },
+          {
+            default: ({ events }: { events: (selector: string) => ChartEvents }) => {
+              handed.push(events(StackedBar.selectors.bar));
+              return [
+                h(VisXYContainer, { data: rows, duration: 0 }, () =>
+                  h(VisStackedBar, {
+                    x: category,
+                    y: value,
+                    color,
+                    orientation: Orientation.Horizontal,
+                    events: events(StackedBar.selectors.bar),
+                  }),
+                ),
+                h(ChartTooltip, () => h(ChartTooltipContent, { hideLabel: true })),
+              ];
+            },
+          },
+        ),
+    ),
+    { attachTo: document.body },
+  );
+  label.value = "Desktop visitors";
+  await wait(700);
+  expect(handed.length).toBeGreaterThan(1);
+  expect(new Set(handed).size).toBe(1);
+  const bars = root().querySelectorAll<SVGPathElement>(`.${StackedBar.selectors.bar}`);
+  const centre = (bar: Element) => {
+    const box = bar.getBoundingClientRect();
+    return [box.left + box.width / 2, box.top + box.height / 2] as const;
+  };
+  pointer("pointermove", bars[1]!, ...centre(bars[1]!), "mouse");
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(tooltip().textContent).toMatch(/Desktop\s*305(?!\d)/);
+  bars[1]!.dispatchEvent(new PointerEvent("pointerout", { pointerType: "mouse", bubbles: true }));
+  await nextTick();
+  expect(visible(tooltip())).toBe(false);
+  pointer("pointerdown", bars[2]!, ...centre(bars[2]!));
+  await settle();
+  expect(visible(tooltip())).toBe(true);
+  expect(tooltip().textContent).toMatch(/Desktop\s*237(?!\d)/);
+  pointer("pointerup", bars[2]!, ...centre(bars[2]!));
+  bars[2]!.dispatchEvent(new PointerEvent("pointerout", { pointerType: "touch", bubbles: true }));
+  await nextTick();
+  expect(visible(tooltip())).toBe(false);
 });
 
 it("renders one legend item per config key with its colour", () => {
