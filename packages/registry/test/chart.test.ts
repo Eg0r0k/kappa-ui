@@ -140,6 +140,24 @@ it("fits a legend inside a root of fixed height", async () => {
   expect(box.height).toBe(200);
 });
 
+it("keeps a natural height when the root sets none", async () => {
+  mount(
+    defineComponent(
+      () => () =>
+        h(ChartContainer, { config, class: "aspect-auto" }, () => [
+          h(VisXYContainer, { data: rows, duration: 0, height: 200 }, () => h(VisArea, { x, y, color })),
+          h(ChartLegend),
+        ]),
+    ),
+    { attachTo: document.body },
+  );
+  await nextTick();
+  await settle();
+  const container = root().querySelector<HTMLElement>("[data-vis-xy-container]")!;
+  expect(container.offsetHeight).toBe(200);
+  expect(legend().getBoundingClientRect().top).toBeGreaterThanOrEqual(container.getBoundingClientRect().bottom);
+});
+
 it("keeps its aspect ratio with a legend inside", async () => {
   mount(
     defineComponent(

@@ -189,13 +189,14 @@ provideChartContext({
     --vis-radial-bar-bar-stroke-width: 2px;
     --vis-radial-bar-central-label-text-color: var(--foreground);
     --vis-radial-bar-central-sub-label-text-color: var(--muted-foreground);
+    min-height: 0;
     touch-action: pan-y;
   }
 
   .kappa-chart :deep([data-vis-xy-container]),
   .kappa-chart :deep([data-vis-single-container]) {
     width: 100%;
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-height: 0;
   }
 }

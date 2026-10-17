@@ -9,7 +9,7 @@ const names = computed(() => splitNames(props.names))
 
 <template>
   <div data-slot="example-grid" class="not-prose my-6 @container">
-    <div class="grid gap-6 @3xl:grid-cols-2">
+    <div class="grid gap-6">
       <ExampleGridCell v-for="(name, index) in names" :key="name" :name="name" :eager="index < 2" />
     </div>
   </div>
