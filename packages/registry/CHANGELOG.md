@@ -1,5 +1,15 @@
 # @kappa-ui/registry
 
+## 0.24.0
+
+### Minor Changes
+
+- [`409c999`](https://github.com/Eg0r0k/kappa-ui/commit/409c9997c26d538af9e4273ccaeaf1f36cd0f75a) Thanks [@Eg0r0k](https://github.com/Eg0r0k)! - Chart galleries: thirty examples in the Area, Bar and Line galleries, each a registry block ported from shadcn's charts.
+  
+  `ChartContainer` hands `events` to its default slot, so a chart the crosshair cannot follow (a pie, a horizontal bar) feeds the tooltip from Unovis events in its own template; `events(selector)` returns the same object for the same selector, so the chart does not re-render on every parent render.
+  
+  Fixes: a hovered area keeps its fill opacity instead of turning opaque; a root with no height keeps the chart's natural height instead of collapsing; the tooltip neither fades nor slides after the pointer under reduced motion.
+
 ## 0.23.0
 
 ### Minor Changes
