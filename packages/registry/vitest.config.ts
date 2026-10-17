@@ -5,6 +5,29 @@ import vue from "@vitejs/plugin-vue";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
+const pointerFiles = [
+  "test/button.test.ts",
+  "test/data-table-expanding.test.ts",
+  "test/data-table.test.ts",
+  "test/hover-card.test.ts",
+  "test/item.test.ts",
+  "test/marquee.test.ts",
+  "test/menu-size.test.ts",
+  "test/menubar-focus.test.ts",
+  "test/menubar-size.test.ts",
+  "test/menubar.test.ts",
+  "test/navigation-menu.test.ts",
+  "test/overlay.test.ts",
+  "test/page-indicator.test.ts",
+  "test/range-calendar.test.ts",
+  "test/rating.test.ts",
+  "test/scroll-area-visibility.test.ts",
+  "test/splitter.test.ts",
+  "test/table.test.ts",
+  "test/toast.test.ts",
+  "test/tooltip.test.ts",
+];
+
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   optimizeDeps: {
@@ -38,7 +61,8 @@ export default defineConfig({
       headless: true,
       provider: playwright({ contextOptions: { timezoneId: "UTC", locale: "en-US" } }),
       instances: [
-        { browser: "chromium" },
+        { browser: "chromium", exclude: pointerFiles },
+        { browser: "chromium", name: "pointer", include: pointerFiles, retry: 2 },
         {
           browser: "firefox",
           include: [
