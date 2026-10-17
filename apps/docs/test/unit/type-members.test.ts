@@ -16,6 +16,7 @@ describe('typeMembers', () => {
       'getScrollPosition',
       'getScrollPercentage',
       'setScrollPosition',
+      'setScrollPositionSilently',
       'setScrollPercentage',
       'scrollTo',
       'scrollToColumn',

@@ -246,7 +246,7 @@ const real = { tokens: core('tokens.css'), theme: core('theme.css'), tailwind: c
 test('reads the real core sources', () => {
   const { payload, gamutMapped } = tokensOf(real, light)
   const count = (collection: string) => payload.variables.filter((item) => item.collection === collection).length
-  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [35, 47, 29, 20])
+  assert.deepEqual([count('Color'), count('Tone'), count('Radius'), count('Size')], [40, 47, 29, 20])
   assert.equal(payload.textStyles.length, 15)
   assert.equal(payload.effectStyles.length, 7)
   const tones = payload.variables.filter((item) => item.collection === 'Tone')
@@ -256,10 +256,11 @@ test('reads the real core sources', () => {
     ['primary', 'neutral', 'destructive', 'success', 'warning', 'info', 'control', 'invalid'],
   )
   assert.deepEqual(variable(payload.variables, 'Tone/neutral/soft').value, { alias: 'Color/secondary' })
-  assert.deepEqual(gamutMapped, ['Color/success-foreground', 'Color/warning-text', 'Color/info'])
+  assert.deepEqual(gamutMapped, ['Color/success-foreground', 'Color/warning-text', 'Color/info', 'Color/chart-2'])
   assert.deepEqual(tokensOf(real, { theme: 'dark', prune: false }).gamutMapped, [
     'Color/warning-foreground',
     'Color/info',
     'Color/info-text',
+    'Color/chart-2',
   ])
 })
