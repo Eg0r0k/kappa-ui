@@ -56,7 +56,7 @@ const hide = () => "";
             :y="y"
             :label="label"
             color="var(--foreground)"
-            background-color="transparent"
+            background-color="none"
             :label-font-size="12"
             :clustering="false"
           />
@@ -70,7 +70,7 @@ const hide = () => "";
             :grid-line="false"
           />
           <VisAxis type="y" :num-ticks="2" :tick-format="hide" :tick-size="0" :tick-padding="0" :domain-line="false" />
-          <ChartCrosshair :x="x" :y="y" :color="color" :circle-radius="0" />
+          <ChartCrosshair :x="x" :y="y" :color="color" :circle-radius="6" />
         </VisXYContainer>
         <ChartTooltip>
           <ChartTooltipContent indicator="line" label-key="month" />

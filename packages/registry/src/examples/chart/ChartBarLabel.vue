@@ -54,7 +54,7 @@ const hide = () => "";
             :y="y"
             :label="label"
             color="var(--foreground)"
-            background-color="transparent"
+            background-color="none"
             :label-font-size="12"
             :clustering="false"
           />

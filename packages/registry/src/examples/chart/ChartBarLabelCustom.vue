@@ -60,7 +60,7 @@ const bar = StackedBar.selectors.bar;
               :y="category"
               :label="monthLabel"
               color="var(--color-label)"
-              background-color="transparent"
+              background-color="none"
               :label-font-size="12"
               :clustering="false"
             />
@@ -69,7 +69,7 @@ const bar = StackedBar.selectors.bar;
               :y="category"
               :label="valueLabel"
               color="var(--foreground)"
-              background-color="transparent"
+              background-color="none"
               :label-font-size="12"
               :clustering="false"
             />

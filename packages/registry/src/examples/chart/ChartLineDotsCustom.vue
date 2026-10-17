@@ -57,7 +57,7 @@ const hide = () => "";
             :grid-line="false"
           />
           <VisAxis type="y" :num-ticks="2" :tick-format="hide" :tick-size="0" :tick-padding="0" :domain-line="false" />
-          <ChartCrosshair :x="x" :y="y" :color="color" :circle-radius="0" />
+          <ChartCrosshair :x="x" :y="y" :color="color" />
         </VisXYContainer>
         <ChartTooltip>
           <ChartTooltipContent hide-label />

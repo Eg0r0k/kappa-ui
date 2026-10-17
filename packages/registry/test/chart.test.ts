@@ -1,5 +1,13 @@
 import { Area, Crosshair, Donut, Orientation, StackedBar } from "@unovis/ts";
-import { VisArea, VisAxis, VisDonut, VisSingleContainer, VisStackedBar, VisXYContainer } from "@unovis/vue";
+import {
+  VisArea,
+  VisAxis,
+  VisDonut,
+  VisSingleContainer,
+  VisStackedBar,
+  VisXYContainer,
+  VisXYLabels,
+} from "@unovis/vue";
 import { mount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
 import { cdp, userEvent } from "vitest/browser";
@@ -569,6 +577,7 @@ it("lists a pie row by nameKey from component events", async () => {
 it("feeds the tooltip from the events its slot hands out, to a mouse and a finger", async () => {
   const category = (_d: Row, i: number) => i;
   const value = (d: Row) => d.desktop;
+  const valueLabel = (d: Row) => `<tspan x="0" dx="8" text-anchor="start">${d.desktop}</tspan>`;
   const label = ref<string>();
   const handed: ChartEvents[] = [];
   mount(
@@ -581,7 +590,7 @@ it("feeds the tooltip from the events its slot hands out, to a mouse and a finge
             default: ({ events }: { events: (selector: string) => ChartEvents }) => {
               handed.push(events(StackedBar.selectors.bar));
               return [
-                h(VisXYContainer, { data: rows, duration: 0 }, () =>
+                h(VisXYContainer, { data: rows, duration: 0 }, () => [
                   h(VisStackedBar, {
                     x: category,
                     y: value,
@@ -589,7 +598,8 @@ it("feeds the tooltip from the events its slot hands out, to a mouse and a finge
                     orientation: Orientation.Horizontal,
                     events: events(StackedBar.selectors.bar),
                   }),
-                ),
+                  h(VisXYLabels, { x: category, y: value, label: valueLabel, backgroundColor: "none" }),
+                ]),
                 h(ChartTooltip, () => h(ChartTooltipContent, { hideLabel: true })),
               ];
             },
@@ -607,6 +617,7 @@ it("feeds the tooltip from the events its slot hands out, to a mouse and a finge
     const box = bar.getBoundingClientRect();
     return [box.left + box.width / 2, box.top + box.height / 2] as const;
   };
+  expect(document.elementFromPoint(...centre(bars[1]!))?.classList.contains(StackedBar.selectors.bar)).toBe(true);
   pointer("pointermove", bars[1]!, ...centre(bars[1]!), "mouse");
   await settle();
   expect(visible(tooltip())).toBe(true);

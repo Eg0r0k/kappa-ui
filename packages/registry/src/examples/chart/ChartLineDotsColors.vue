@@ -52,7 +52,7 @@ const hide = () => "";
           <VisLine :x="x" :y="y" :color="color" :line-width="2" />
           <VisScatter :x="x" :y="y" :color="fill" :stroke-color="fill" :stroke-width="1" :size="10" />
           <VisAxis type="y" :num-ticks="2" :tick-format="hide" :tick-size="0" :tick-padding="0" :domain-line="false" />
-          <ChartCrosshair :x="x" :y="y" :color="fill" :circle-radius="0" />
+          <ChartCrosshair :x="x" :y="y" :color="fill" />
         </VisXYContainer>
         <ChartTooltip>
           <ChartTooltipContent indicator="line" name-key="browser" hide-label />

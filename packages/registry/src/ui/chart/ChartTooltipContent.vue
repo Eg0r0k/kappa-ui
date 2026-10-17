@@ -127,7 +127,7 @@ const formatValue = (row: ChartTooltipRow) => {
           />
           <div :class="cn('flex flex-1 justify-between leading-none', nested ? 'items-end' : 'items-center')">
             <div class="grid gap-1.5">
-              <div v-if="nested" class="font-medium">{{ label }}</div>
+              <div v-if="nested && label !== undefined && label !== ''" class="font-medium">{{ label }}</div>
               <span class="text-muted-foreground">
                 <component :is="row.label" v-if="typeof row.label !== 'string'" />
                 <template v-else>{{ row.label }}</template>
