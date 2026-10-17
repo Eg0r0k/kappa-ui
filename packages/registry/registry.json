@@ -13422,6 +13422,237 @@
       ]
     },
     {
+      "name": "chart-line-default",
+      "type": "registry:block",
+      "title": "Line Chart",
+      "description": "A line chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineDefault.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-linear",
+      "type": "registry:block",
+      "title": "Line Chart - Linear",
+      "description": "A linear line chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@unovis/ts",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineLinear.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-step",
+      "type": "registry:block",
+      "title": "Line Chart - Step",
+      "description": "A line chart with step.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@unovis/ts",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineStep.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-multiple",
+      "type": "registry:block",
+      "title": "Line Chart - Multiple",
+      "description": "A multiple line chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineMultiple.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-dots",
+      "type": "registry:block",
+      "title": "Line Chart - Dots",
+      "description": "A line chart with dots.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineDots.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-dots-custom",
+      "type": "registry:block",
+      "title": "Line Chart - Custom Dots",
+      "description": "A line chart with custom dots, drawn as hollow rings.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineDotsCustom.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-dots-colors",
+      "type": "registry:block",
+      "title": "Line Chart - Dots Colors",
+      "description": "A line chart with dots and colors.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineDotsColors.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-label",
+      "type": "registry:block",
+      "title": "Line Chart - Label",
+      "description": "A line chart with a label.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineLabel.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-label-custom",
+      "type": "registry:block",
+      "title": "Line Chart - Custom Label",
+      "description": "A line chart with a custom label.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue",
+        "@lucide/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineLabelCustom.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chart-line-interactive",
+      "type": "registry:block",
+      "title": "Line Chart - Interactive",
+      "description": "An interactive line chart.",
+      "categories": [
+        "example"
+      ],
+      "dependencies": [
+        "@unovis/vue"
+      ],
+      "registryDependencies": [
+        "chart",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/examples/chart/ChartLineInteractive.vue",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "color-picker",
       "type": "registry:ui",
       "title": "Color Picker",
