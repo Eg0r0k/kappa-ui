@@ -44,7 +44,10 @@ const hide = () => "";
       <CardDescription>Showing total visitors for the last 6 months</CardDescription>
     </CardHeader>
     <CardContent>
-      <ChartContainer :config="config" class="w-full [--vis-area-fill-opacity:0.4]">
+      <ChartContainer
+        :config="config"
+        class="w-full [--vis-area-fill-opacity:0.4] [--vis-crosshair-line-stroke-width:0]"
+      >
         <VisXYContainer :data="data">
           <VisArea :x="x" :y="y" :color="color" :line-width="1" line />
           <VisAxis

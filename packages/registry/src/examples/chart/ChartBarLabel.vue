@@ -13,6 +13,7 @@ import {
 } from "@/ui/chart";
 
 type Month = { month: string; desktop: number };
+type Row = Month & { index: number };
 
 const data: Month[] = [
   { month: "January", desktop: 186 },
@@ -27,7 +28,8 @@ const config = {
   desktop: { label: "Desktop", color: "var(--chart-1)" },
 } satisfies ChartConfig;
 
-const x = (d: Month) => data.findIndex((row) => row.month === d.month);
+const rows: Row[] = data.map((row, index) => ({ ...row, index }));
+const x = (d: Row) => d.index;
 const y = (d: Month) => d.desktop;
 const color = chartColors(["desktop"]);
 const label = (d: Month) => `<tspan dy="-16">${d.desktop}</tspan>`;
@@ -44,8 +46,8 @@ const hide = () => "";
       <CardDescription>January - June 2024</CardDescription>
     </CardHeader>
     <CardContent>
-      <ChartContainer :config="config" class="w-full">
-        <VisXYContainer :data="data" :padding="padding">
+      <ChartContainer :config="config" class="w-full [--vis-crosshair-line-stroke-width:0]">
+        <VisXYContainer :data="rows" :padding="padding">
           <VisStackedBar :x="x" :y="y" :color="color" :rounded-corners="8" :bar-padding="0.05" />
           <VisXYLabels
             :x="x"

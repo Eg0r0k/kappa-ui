@@ -43,7 +43,7 @@ const bar = StackedBar.selectors.bar;
       <CardDescription>January - June 2024</CardDescription>
     </CardHeader>
     <CardContent>
-      <ChartContainer :config="config" class="w-full">
+      <ChartContainer :config="config" class="w-full [--vis-crosshair-line-stroke-width:0]">
         <template #default="{ events }">
           <VisXYContainer :data="data" :y-direction="Direction.South">
             <VisStackedBar

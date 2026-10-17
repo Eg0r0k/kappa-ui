@@ -145,7 +145,7 @@ const hide = () => "";
           :key="key"
           type="button"
           :aria-pressed="activeChart === key"
-          class="flex flex-1 flex-col justify-center gap-1 border-t border-border px-6 py-4 text-start even:border-s aria-pressed:bg-muted/50 sm:border-t-0 sm:border-s sm:px-8 sm:py-6"
+          class="flex flex-1 flex-col justify-center gap-1 border-t border-border px-6 py-4 text-start even:border-s outline-none focus-visible:focus-ring-inset aria-pressed:bg-muted/50 sm:border-t-0 sm:border-s sm:px-8 sm:py-6"
           @click="activeChart = key"
         >
           <span class="text-body-sm text-muted-foreground">{{ config[key].label }}</span>

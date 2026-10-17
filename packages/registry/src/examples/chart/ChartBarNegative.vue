@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { type ChartConfig, ChartContainer, ChartCrosshair, ChartTooltip, ChartTooltipContent } from "@/ui/chart";
 
 type Month = { month: string; visitors: number };
+type Row = Month & { index: number };
 
 const data: Month[] = [
   { month: "January", visitors: 186 },
@@ -20,7 +21,8 @@ const config = {
   visitors: { label: "Visitors" },
 } satisfies ChartConfig;
 
-const x = (d: Month) => data.findIndex((row) => row.month === d.month);
+const rows: Row[] = data.map((row, index) => ({ ...row, index }));
+const x = (d: Row) => d.index;
 const y = (d: Month) => d.visitors;
 const color = (d: Month) => (d.visitors > 0 ? "var(--chart-1)" : "var(--chart-2)");
 const label = (d: Month) => `<tspan dy="${d.visitors > 0 ? -10 : 10}">${d.month}</tspan>`;
@@ -37,8 +39,8 @@ const hide = () => "";
       <CardDescription>January - June 2024</CardDescription>
     </CardHeader>
     <CardContent>
-      <ChartContainer :config="config" class="w-full">
-        <VisXYContainer :data="data" :y-domain="yDomain" :padding="padding">
+      <ChartContainer :config="config" class="w-full [--vis-crosshair-line-stroke-width:0]">
+        <VisXYContainer :data="rows" :y-domain="yDomain" :padding="padding">
           <VisStackedBar :x="x" :y="y" :color="color" :rounded-corners="0" :bar-padding="0.05" />
           <VisXYLabels
             :x="x"

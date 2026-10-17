@@ -13,6 +13,7 @@ import {
 } from "@/ui/chart";
 
 type Browser = { browser: "chrome" | "safari" | "firefox" | "edge" | "other"; visitors: number; fill: string };
+type Row = Browser & { index: number };
 
 const data: Browser[] = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -31,7 +32,8 @@ const config = {
   other: { label: "Other", color: "var(--chart-5)" },
 } satisfies ChartConfig;
 
-const x = (d: Browser) => data.findIndex((row) => row.browser === d.browser);
+const rows: Row[] = data.map((row, index) => ({ ...row, index }));
+const x = (d: Row) => d.index;
 const y = (d: Browser) => d.visitors;
 const color = chartColors(["visitors"]);
 const label = (d: Browser) => `<tspan dy="-16">${config[d.browser].label}</tspan>`;
@@ -48,7 +50,7 @@ const hide = () => "";
     </CardHeader>
     <CardContent>
       <ChartContainer :config="config" class="w-full [--vis-crosshair-line-stroke-width:0]">
-        <VisXYContainer :data="data" :y-domain="yDomain" :padding="padding">
+        <VisXYContainer :data="rows" :y-domain="yDomain" :padding="padding">
           <VisLine :x="x" :y="y" :color="color" :line-width="2" />
           <VisScatter :x="x" :y="y" :color="color" :size="8" />
           <VisXYLabels

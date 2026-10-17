@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent, chartColors } from "@/ui/chart";
 
 type Month = { month: string; desktop: number; mobile: number };
+type Row = Month & { index: number };
 
 const data: Month[] = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -22,7 +23,8 @@ const config = {
   label: { color: "var(--background)" },
 } satisfies ChartConfig;
 
-const category = (d: Month) => data.findIndex((row) => row.month === d.month);
+const rows: Row[] = data.map((row, index) => ({ ...row, index }));
+const category = (d: Row) => d.index;
 const value = (d: Month) => d.desktop;
 const color = chartColors(["desktop"]);
 const start = () => 0;
@@ -41,9 +43,9 @@ const bar = StackedBar.selectors.bar;
       <CardDescription>January - June 2024</CardDescription>
     </CardHeader>
     <CardContent>
-      <ChartContainer :config="config" class="w-full">
+      <ChartContainer :config="config" class="w-full [--vis-crosshair-line-stroke-width:0]">
         <template #default="{ events }">
-          <VisXYContainer :data="data" :padding="padding" :y-direction="Direction.South">
+          <VisXYContainer :data="rows" :padding="padding" :y-direction="Direction.South">
             <VisStackedBar
               :x="category"
               :y="value"

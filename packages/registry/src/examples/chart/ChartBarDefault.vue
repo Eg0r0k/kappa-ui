@@ -42,7 +42,7 @@ const hide = () => "";
       <CardDescription>January - June 2024</CardDescription>
     </CardHeader>
     <CardContent>
-      <ChartContainer :config="config" class="w-full">
+      <ChartContainer :config="config" class="w-full [--vis-crosshair-line-stroke-width:0]">
         <VisXYContainer :data="data">
           <VisStackedBar :x="x" :y="y" :color="color" :rounded-corners="8" :bar-padding="0.05" />
           <VisAxis
