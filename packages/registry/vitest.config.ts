@@ -3,7 +3,7 @@ import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import { playwright } from "@vitest/browser-playwright";
-import { defineConfig } from "vitest/config";
+import { defaultExclude, defineConfig } from "vitest/config";
 
 const pointerFiles = [
   "test/button.test.ts",
@@ -61,7 +61,7 @@ export default defineConfig({
       headless: true,
       provider: playwright({ contextOptions: { timezoneId: "UTC", locale: "en-US" } }),
       instances: [
-        { browser: "chromium", exclude: pointerFiles },
+        { browser: "chromium", exclude: [...defaultExclude, ...pointerFiles] },
         { browser: "chromium", name: "pointer", include: pointerFiles, retry: 2 },
         {
           browser: "firefox",
