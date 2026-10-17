@@ -97,13 +97,18 @@ const unwrap = (datum: unknown): ChartDatum =>
   datum.data !== null
     ? datum.data
     : datum) as ChartDatum;
-const events = (selector: string): ChartEvents => ({
+const eventsBySelector = new Map<string, ChartEvents>();
+const createEvents = (selector: string): ChartEvents => ({
   [selector]: {
     pointermove: (datum, _event, index) => setActive({ datum: unwrap(datum), index }),
     pointerdown: (datum, _event, index) => setActive({ datum: unwrap(datum), index }),
     pointerout: clearActive,
   },
 });
+const events = (selector: string): ChartEvents => {
+  if (!eventsBySelector.has(selector)) eventsBySelector.set(selector, createEvents(selector));
+  return eventsBySelector.get(selector)!;
+};
 
 const size = shallowRef({ width: 0, height: 0 });
 useResizeObserver(root, () => {
@@ -158,7 +163,7 @@ provideChartContext({
     @pointerleave="leave"
     @pointercancel="leave"
   >
-    <slot v-if="ready" :id="id" />
+    <slot v-if="ready" :id="id" :events="events" />
   </div>
 </template>
 
@@ -174,6 +179,7 @@ provideChartContext({
     --vis-axis-label-font-size: var(--typescale-body-sm-size);
     --vis-axis-grid-color: var(--border);
     --vis-axis-domain-color: var(--border);
+    --vis-area-hover-fill-opacity: var(--vis-area-fill-opacity);
     --vis-crosshair-line-stroke-color: var(--border);
     --vis-crosshair-circle-stroke-color: var(--background);
     --vis-crosshair-circle-stroke-width: 2px;
@@ -189,13 +195,14 @@ provideChartContext({
     --vis-radial-bar-bar-stroke-width: 2px;
     --vis-radial-bar-central-label-text-color: var(--foreground);
     --vis-radial-bar-central-sub-label-text-color: var(--muted-foreground);
+    min-height: 0;
     touch-action: pan-y;
   }
 
   .kappa-chart :deep([data-vis-xy-container]),
   .kappa-chart :deep([data-vis-single-container]) {
     width: 100%;
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-height: 0;
   }
 }

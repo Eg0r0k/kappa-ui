@@ -42,9 +42,9 @@ const style = computed(() => {
         `
           pointer-events-none absolute top-0 left-0 z-10 w-max
           data-[state=closed]:invisible data-[state=closed]:opacity-0
-          data-[state=open]:opacity-100 data-[state=open]:transition-opacity data-[state=open]:duration-short-2
-          data-[state=open]:ease-standard
-          motion-reduce:transition-none
+          data-[state=open]:opacity-100
+          motion-safe:data-[state=open]:transition-opacity motion-safe:data-[state=open]:duration-short-2
+          motion-safe:data-[state=open]:ease-standard
         `,
         props.class,
       )

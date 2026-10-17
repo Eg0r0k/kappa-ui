@@ -7,3 +7,4 @@ apps/docs/public/r
 apps/docs/app/generated
 **/.vitest
 apps/docs/app/assets/css/registry.css
+.superpowers
