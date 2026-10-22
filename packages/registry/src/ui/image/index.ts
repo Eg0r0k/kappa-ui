@@ -1,10 +1,16 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { createContext } from "reka-ui";
+import type { Ref } from "vue";
 
 export { default as Image } from "./Image.vue";
 export { default as ImageError } from "./ImageError.vue";
 export { default as ImageLoading } from "./ImageLoading.vue";
 
 export type ImageState = "idle" | "loading" | "loaded" | "error";
+
+// An ImageError inside counts itself here, so the root can hide the broken img
+// only when there is a layer to show instead.
+export const [injectImageContext, provideImageContext] = createContext<{ errorLayers: Ref<number> }>("Image");
 
 export type ImageSource = {
   srcset: string;
@@ -16,7 +22,7 @@ export type ImageSource = {
 };
 
 export const imageImgVariants = cva(
-  "absolute inset-0 size-full group-data-[state=error]/image:group-has-[>[data-slot=image-error]]/image:invisible",
+  "absolute inset-0 size-full group-data-[state=error]/image:group-data-error-layer/image:invisible",
   {
     variants: {
       fit: {

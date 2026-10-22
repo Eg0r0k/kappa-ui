@@ -44,8 +44,8 @@ const step = (direction: 1 | -1) => {
 </script>
 
 <template>
-  <div class="group/fade relative w-full max-w-md">
-    <ScrollArea ref="area" orientation="horizontal" :scrollbar="false" class="scroll-fade-overlay-x h-12">
+  <div class="relative w-full max-w-md">
+    <ScrollArea ref="area" orientation="horizontal" :scrollbar="false" class="peer/area scroll-fade-overlay-x h-12">
       <div class="flex h-full w-max items-center gap-2 px-1">
         <Badge v-for="category in categories" :key="category" variant="outline" color="neutral" size="lg">
           {{ category }}
@@ -58,7 +58,7 @@ const step = (direction: 1 | -1) => {
       size="icon-sm"
       aria-label="Scroll back"
       data-test="back"
-      class="absolute -inset-s-3 top-1/2 z-30 hidden -translate-y-1/2 rounded-full group-has-data-overflow-x-start/fade:inline-flex"
+      class="absolute -inset-s-3 top-1/2 z-30 hidden -translate-y-1/2 rounded-full peer-data-overflow-x-start/area:inline-flex"
       @click="step(-1)"
     >
       <ChevronLeft class="rtl:rotate-180" />
@@ -69,7 +69,7 @@ const step = (direction: 1 | -1) => {
       size="icon-sm"
       aria-label="Scroll forward"
       data-test="forward"
-      class="absolute -inset-e-3 top-1/2 z-30 hidden -translate-y-1/2 rounded-full group-has-data-overflow-x-end/fade:inline-flex"
+      class="absolute -inset-e-3 top-1/2 z-30 hidden -translate-y-1/2 rounded-full peer-data-overflow-x-end/area:inline-flex"
       @click="step(1)"
     >
       <ChevronRight class="rtl:rotate-180" />

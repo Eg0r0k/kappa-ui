@@ -94,3 +94,20 @@ it("draws a focused filled Input's underline in the primary of a .dark island", 
   expect(getComputedStyle(control).boxShadow).toContain(primary("dark"));
   wrapper.unmount();
 });
+
+describe("InputFloating outline notch", () => {
+  const legend = () => document.querySelector("[data-slot=input-floating] legend")!;
+
+  it("stays closed while the label rests, and opens on focus and for a value", async () => {
+    const wrapper = mount(InputFloating, { props: { label: "Email", variant: "outline" }, attachTo: document.body });
+    expect(getComputedStyle(legend()).maxWidth).toBe("0px");
+
+    (document.querySelector("[data-slot=input-floating-input]") as HTMLInputElement).focus();
+    expect(getComputedStyle(legend()).maxWidth).not.toBe("0px");
+    (document.activeElement as HTMLElement).blur();
+
+    await wrapper.setProps({ modelValue: "me@example.com" });
+    expect(getComputedStyle(legend()).maxWidth).not.toBe("0px");
+    wrapper.unmount();
+  });
+});

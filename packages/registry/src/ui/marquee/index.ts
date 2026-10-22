@@ -29,7 +29,7 @@ export type MarqueeVariants = VariantProps<typeof marqueeVariants>;
 export const marqueeContentVariants = cva(
   `
     flex shrink-0 items-center justify-around gap-(--marquee-gap) backface-hidden
-    group-has-[:focus-visible]/marquee:[animation:none]
+    group-data-focus-visible/marquee:[animation:none]
   `,
   {
     variants: {

@@ -2,8 +2,10 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import { defineComponent, h, nextTick, ref } from "vue";
 
+import { Checkbox } from "@/ui/checkbox";
+
 import { ColorPicker, ColorPickerArea } from "@/ui/color-picker";
-import { Field, FieldDescription, FieldError, FieldLabel, FieldSet } from "@/ui/field";
+import { Field, FieldContent, FieldDescription, FieldError, FieldLabel, FieldSet } from "@/ui/field";
 import { Input } from "@/ui/input";
 import { InputFloating } from "@/ui/input-floating";
 import { Radio, RadioGroup } from "@/ui/radio-group";
@@ -250,5 +252,30 @@ describe("Input", () => {
     expect(wrapper.find("label").exists()).toBe(false);
     expect(wrapper.attributes("label")).toBe("Email");
     wrapper.unmount();
+  });
+});
+
+describe("FieldLabel beside a choice", () => {
+  const labelColor = (disabled: boolean, wrapLabel: boolean) => {
+    const wrapper = mount(
+      defineComponent(
+        () => () =>
+          h(Field, { orientation: "horizontal" }, () => [
+            h(Checkbox, { disabled }),
+            wrapLabel ? h(FieldContent, () => h(FieldLabel, () => "Email")) : h(FieldLabel, () => "Email"),
+          ]),
+      ),
+      { attachTo: document.body },
+    );
+    const color = getComputedStyle(document.querySelector("[data-slot=field-label]")!).color;
+    wrapper.unmount();
+    return color;
+  };
+
+  it.each([
+    ["next to it", false],
+    ["inside FieldContent", true],
+  ])("dims when the checkbox %s is disabled", (_, wrapLabel) => {
+    expect(labelColor(true, wrapLabel)).not.toBe(labelColor(false, wrapLabel));
   });
 });

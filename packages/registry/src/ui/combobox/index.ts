@@ -76,7 +76,7 @@ export const comboboxCancel = `
   state-layer relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full p-0.5
   text-muted-foreground outline-none
   peer-placeholder-shown/combobox-input:hidden
-  group-has-[>input:disabled]/combobox-anchor:hidden
+  peer-disabled/combobox-input:hidden
   last:me-[calc(var(--control-padding)-var(--spacing)*0.5)]
   [&_svg]:pointer-events-none
   icon-size-[calc(var(--control-icon)-var(--spacing)*0.5)]

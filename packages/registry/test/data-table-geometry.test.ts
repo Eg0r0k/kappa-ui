@@ -480,3 +480,13 @@ it("renders a deterministic window on the server", async () => {
   expect(count).toBeLessThan(40);
   expect(html).toContain('aria-rowcount="10001"');
 });
+
+it("drops the bottom border of the row right above the pinned bottom rows, which draw their own", async () => {
+  const t = render({ data: make(5), rowPinning: { top: [], bottom: ["r4"] } });
+  await t.settle();
+  const lastCenterCell = t.groups().at(-1)!.querySelector("td")!;
+  const firstCenterCell = t.groups()[0]!.querySelector("td")!;
+  expect(t.groups().at(-1)!.dataset.index).toBe("3");
+  expect(getComputedStyle(firstCenterCell).borderBottomWidth).toBe("1px");
+  expect(getComputedStyle(lastCenterCell).borderBottomWidth).toBe("0px");
+});

@@ -325,13 +325,15 @@
     &:active::before {
       opacity: var(--state-pressed, 12%);
     }
-    &:is([data-disabled], :has(:is([data-slot="checkbox"], [data-slot="radio"]):disabled)) {
-      &::before {
-        display: none;
-      }
-      & [data-slot="field-label"] {
-        cursor: not-allowed;
-      }
+    &:is([data-disabled], :has(:is([data-slot="checkbox"], [data-slot="radio"]):disabled))::before {
+      display: none;
+    }
+    /* The label reads the control as a sibling: a :has() on the row for a rule
+       aimed at its label would restyle whole subtrees on DOM changes. */
+    &[data-disabled] [data-slot="field-label"],
+    & :is([data-slot="checkbox"], [data-slot="radio"]):disabled ~ [data-slot="field-label"],
+    & :is([data-slot="checkbox"], [data-slot="radio"]):disabled ~ * [data-slot="field-label"] {
+      cursor: not-allowed;
     }
     &:has([data-state="checked"]) {
       background-color: color-mix(in oklab, --theme(--color-primary) var(--state-selected, 8%), transparent);

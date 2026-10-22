@@ -314,3 +314,17 @@ describe("Combobox control tokens", () => {
     expect(px(item.paddingInlineStart)).toBe(sentinel.padding[size]);
   });
 });
+
+it("hides the clear button while the input is disabled", async () => {
+  controlled("Banana", { disabled: true }, () => [
+    h(ComboboxAnchor, () => [
+      h(ComboboxInput, { "aria-label": "Fruit", placeholder: "Pick a fruit" }),
+      h(ComboboxCancel),
+      h(ComboboxTrigger),
+    ]),
+    list(),
+  ]);
+  await expect.poll(() => input().value).toBe("Banana");
+  expect(input().disabled).toBe(true);
+  expect(getComputedStyle(document.querySelector("[data-slot=combobox-cancel]")!).display).toBe("none");
+});

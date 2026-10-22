@@ -13,7 +13,7 @@ const { titleId } = injectTourContext();
   <h2
     :id="titleId"
     data-slot="tour-title"
-    :class="cn('text-title-sm group-has-data-[slot=tour-close]/tour:pe-8', props.class)"
+    :class="cn('text-title-sm has-[~[data-slot=tour-close]]:pe-8 [[data-slot=tour-close]~&]:pe-8', props.class)"
   >
     <slot />
   </h2>

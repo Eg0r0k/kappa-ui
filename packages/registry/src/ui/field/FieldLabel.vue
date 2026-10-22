@@ -27,7 +27,9 @@ onBeforeUnmount(() => {
         `
           group-data-disabled/field:text-foreground/(--disabled-opacity)
           group-data-disabled/fieldset:text-foreground/(--disabled-opacity)
-          group-has-[[data-slot=checkbox]:disabled,[data-slot=radio]:disabled]/field:text-foreground/(--disabled-opacity)
+          [:is([data-slot=checkbox],[data-slot=radio]):disabled~&]:text-foreground/(--disabled-opacity)
+          [:is([data-slot=checkbox],[data-slot=radio]):disabled~*_&]:text-foreground/(--disabled-opacity)
+          has-[~:is([data-slot=checkbox],[data-slot=radio]):disabled]:text-foreground/(--disabled-opacity)
           group-data-invalid/field:text-destructive
         `,
         props.class,
