@@ -88,6 +88,7 @@ export const useSwipeSnap = (
   };
 
   const jump = (next: number) => {
+    if (next === offset.value && !settling.value) return;
     offset.value = next;
     rest();
     const node = target.value;

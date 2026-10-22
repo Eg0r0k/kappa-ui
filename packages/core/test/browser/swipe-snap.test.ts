@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { type MaybeRefOrGetter, type VNodeChild, defineComponent, h, nextTick, ref } from "vue";
 
 import { type UseSwipeSnapReturn, useSwipeSnap } from "../../src/swipe-snap";
@@ -334,4 +334,25 @@ it("keeps a duration set inline on the element through an instant move", async (
   element.style.setProperty("--swipe-snap-duration", "50ms");
   snap.snapTo(2, { animate: false });
   expect(element.style.getPropertyValue("--swipe-snap-duration")).toBe("50ms");
+});
+
+// An instant move flushes styles so its zero duration takes effect before the
+// old one comes back. Nothing to cut short means nothing to flush: a list of
+// views re-measured at rest would otherwise recalculate a whole subtree.
+it("reads no computed style when new points leave the offset where it is", async () => {
+  const points = ref([0, 300, 600]);
+  const { offset } = await host({ points, active: 0 });
+  const reads = vi.spyOn(window, "getComputedStyle");
+  points.value = [0, 200, 400];
+  await nextTick();
+  expect(offset()).toBe("0px");
+  expect(reads).not.toHaveBeenCalled();
+});
+
+it("reads no computed style for an instant move to where it already is", async () => {
+  const { snap, offset } = await host({ active: 1 });
+  const reads = vi.spyOn(window, "getComputedStyle");
+  snap.snapTo(1, { animate: false });
+  expect(offset()).toBe("-300px");
+  expect(reads).not.toHaveBeenCalled();
 });
