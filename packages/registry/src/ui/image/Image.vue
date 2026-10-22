@@ -6,7 +6,7 @@
 import { computed, type HTMLAttributes, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from "vue";
 
 import { cn } from "@/lib/utils";
-import { type ImageFit, imageImgVariants, type ImageSource, type ImageState } from ".";
+import { type ImageFit, imageImgVariants, type ImageSource, type ImageState, provideImageContext } from ".";
 
 const props = withDefaults(
   defineProps<{
@@ -37,6 +37,8 @@ const img = useTemplateRef<HTMLImageElement>("img");
 defineExpose({ imgEl: img });
 
 const state = ref<ImageState>("idle");
+const errorLayers = ref(0);
+provideImageContext({ errorLayers });
 const naturalRatio = ref<number>();
 
 const hasSource = computed(() => Boolean(props.src || props.srcset));
@@ -145,6 +147,7 @@ const imgAttrs = computed(() => ({
   <div
     data-slot="image"
     :data-state="state"
+    :data-error-layer="errorLayers > 0 || undefined"
     :style="{ '--image-ratio': aspectRatio, '--image-width': props.width ? `${props.width}px` : '100%' }"
     :class="
       cn('group/image relative block aspect-(--image-ratio) w-(--image-width) max-w-full overflow-hidden', props.class)

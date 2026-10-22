@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { ImageOff } from "@lucide/vue";
-import type { HTMLAttributes } from "vue";
+import { type HTMLAttributes, onBeforeUnmount } from "vue";
 
 import { cn } from "@/lib/utils";
-import { imageLayer } from ".";
+import { imageLayer, injectImageContext } from ".";
 
 const props = defineProps<{ class?: HTMLAttributes["class"] }>();
+
+const image = injectImageContext(null);
+if (image) {
+  image.errorLayers.value++;
+  onBeforeUnmount(() => image.errorLayers.value--);
+}
 </script>
 
 <template>

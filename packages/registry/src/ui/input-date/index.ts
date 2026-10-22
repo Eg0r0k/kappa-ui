@@ -1,6 +1,7 @@
 import { type VariantProps, cva } from "class-variance-authority";
 
 import { textControlFrameVariant, textControlRadius } from "@/lib/text-control";
+import { inputGroupControlInset } from "@/ui/input-group";
 
 export { default as InputDate } from "./InputDate.vue";
 export { default as InputDateRange } from "./InputDateRange.vue";
@@ -31,6 +32,7 @@ export const inputDateGroupedVariants = cva(
     flex h-full min-w-0 flex-1 items-center px-(--input-group-padding) text-body-lg text-foreground
     icon-size-(--input-group-icon)
     md:text-body-md
+    ${inputGroupControlInset}
   `,
   {
     variants: {

@@ -32,6 +32,17 @@ const untab = () => {
   }
 };
 
+// Keyboard focus on an item stops the scroll, so the item holds still while it
+// has the ring. Set on the element at once, not through a render, and not with
+// a :has() over the copies.
+const onFocusin = (event: FocusEvent) => {
+  const visible = event.target instanceof Element && event.target.matches(":focus-visible");
+  (event.currentTarget as HTMLElement).toggleAttribute("data-focus-visible", visible);
+};
+const onFocusout = (event: FocusEvent) => {
+  (event.currentTarget as HTMLElement).removeAttribute("data-focus-visible");
+};
+
 onMounted(untab);
 useMutationObserver(currentElement, untab, { childList: true, subtree: true });
 </script>
@@ -43,6 +54,8 @@ useMutationObserver(currentElement, untab, { childList: true, subtree: true });
     data-slot="marquee"
     :data-orientation="props.orientation"
     :class="cn(marqueeVariants({ orientation: props.orientation, fade: props.fade }), props.class)"
+    @focusin="onFocusin"
+    @focusout="onFocusout"
   >
     <div
       v-for="copy in props.repeat"

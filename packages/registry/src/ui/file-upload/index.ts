@@ -224,8 +224,8 @@ export const fileUploadDropzoneVariants = cva(
     ease-standard
     focus-visible:focus-ring
     not-data-invalid:focus-visible:border-primary
-    group-has-[[data-slot=file-upload-input]:focus]/file-upload:focus-ring
-    not-data-invalid:group-has-[[data-slot=file-upload-input]:focus]/file-upload:border-primary
+    group-data-input-focus/file-upload:focus-ring
+    not-data-invalid:group-data-input-focus/file-upload:border-primary
     data-dragging:border-primary data-dragging:bg-primary/(--state-pressed)
     data-invalid:not-data-dragging:border-destructive
     data-disabled:cursor-not-allowed data-disabled:text-foreground/(--disabled-opacity)

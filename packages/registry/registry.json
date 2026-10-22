@@ -1846,7 +1846,8 @@
       ],
       "dependencies": [
         "class-variance-authority",
-        "@lucide/vue"
+        "@lucide/vue",
+        "reka-ui"
       ],
       "registryDependencies": [
         "utils",

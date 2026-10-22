@@ -96,7 +96,7 @@ export const ratingItemVariants = cva(
 export const ratingEmptyIconClass = `
   pointer-events-none absolute inset-0 m-auto flex size-(--rating-size) items-center justify-center rounded-full
   text-(--rating-empty) icon-size-(--rating-size)
-  group-has-focus-visible/rating-item:focus-ring
+  has-[~:focus-visible]:focus-ring
 `;
 
 export const ratingIndicatorClass = `

@@ -82,6 +82,9 @@ const files = computed<File[]>(() => {
 
 const isDisabled = computed(() => Boolean(control.disabled.value));
 const nativeInvalid = ref(false);
+// The browser focuses the hidden input to point a validation message at it;
+// the zones show that focus through the root.
+const inputFocused = ref(false);
 const invalid = computed(() => control.invalid.value ?? (nativeInvalid.value || undefined));
 const isInvalid = computed(() => invalid.value === true || invalid.value === "true");
 const triggerId = computed(() => control.id.value ?? fallbackId);
@@ -271,6 +274,7 @@ defineExpose({ open, clear, addFiles, removeFile, inputRef: input });
     :data-invalid="isInvalid ? '' : undefined"
     :data-dragging="dragging ? '' : undefined"
     :data-empty="files.length === 0 ? '' : undefined"
+    :data-input-focus="inputFocused ? '' : undefined"
     :class="cn('group/file-upload', fileUploadVariants({ size: props.size }), props.class)"
     @paste="onPaste"
   >
@@ -290,6 +294,8 @@ defineExpose({ open, clear, addFiles, removeFile, inputRef: input });
       class="peer pointer-events-none sr-only start-1/2 bottom-0"
       @change="onChange"
       @invalid="nativeInvalid = true"
+      @focus="inputFocused = true"
+      @blur="inputFocused = false"
     />
     <slot
       :files="files"

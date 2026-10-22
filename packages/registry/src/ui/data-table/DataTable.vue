@@ -472,6 +472,15 @@ const segments = computed(() =>
   ),
 );
 
+// The body right above the pinned bottom rows. Its last row drops its bottom
+// border there, since the pinned rows draw a top one.
+const beforePinned = computed(() => {
+  if (bottomRows.value.length === 0) return null;
+  if (showEnd("bottom")) return "end";
+  if (loadState("bottom").loading) return "loading";
+  return segments.value.at(-1)?.key ?? null;
+});
+
 const skeletonRows = computed(() => {
   if (failed.value || !props.loading || props.data.length > 0) return 0;
   if (props.loadingRows !== undefined) return props.loadingRows;
@@ -770,7 +779,13 @@ const scrollerAttrs = computed(() =>
             </tr>
           </tbody>
           <template v-for="segment in segments" :key="segment.key">
-            <tbody v-if="segment.type === 'gap'" data-slot="table-spacer" aria-hidden="true" :class="props.ui?.spacer">
+            <tbody
+              v-if="segment.type === 'gap'"
+              data-slot="table-spacer"
+              aria-hidden="true"
+              :data-before-pinned="beforePinned === segment.key || undefined"
+              :class="props.ui?.spacer"
+            >
               <tr :style="{ height: `${segment.size}px` }">
                 <td :colspan="columnCount" class="p-0" />
               </tr>
@@ -780,6 +795,7 @@ const scrollerAttrs = computed(() =>
               :ref="virtual.measureRow"
               data-slot="table-row-group"
               :data-index="segment.index"
+              :data-before-pinned="beforePinned === segment.key || undefined"
               :data-parity="props.striped ? (segment.index % 2 === 0 ? 'odd' : 'even') : undefined"
               :data-state="selectAll.isSelected(segment.row) ? 'selected' : undefined"
               :data-expanded="segment.row.getIsExpanded() ? '' : undefined"
@@ -813,6 +829,7 @@ const scrollerAttrs = computed(() =>
             data-slot="table-loading-more"
             data-direction="bottom"
             aria-hidden="true"
+            :data-before-pinned="beforePinned === 'loading' || undefined"
             :class="props.ui?.loadingMore"
           >
             <tr>
@@ -827,6 +844,7 @@ const scrollerAttrs = computed(() =>
             v-if="showEnd('bottom')"
             data-slot="table-end-of-data"
             data-direction="bottom"
+            :data-before-pinned="beforePinned === 'end' || undefined"
             :class="props.ui?.endOfData"
           >
             <tr>

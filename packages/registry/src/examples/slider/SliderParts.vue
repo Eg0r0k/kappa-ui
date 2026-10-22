@@ -12,7 +12,7 @@ const position = ref(35);
       <SliderRange />
     </SliderTrack>
     <SliderThumb>
-      <SliderHandle class="scale-0 group-hover/slider:scale-100 group-has-focus-visible/slider:scale-100" />
+      <SliderHandle class="scale-0 group-hover/slider:scale-100 in-focus-visible:scale-100" />
     </SliderThumb>
   </Slider>
 </template>
